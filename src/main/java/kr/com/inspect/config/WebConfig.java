@@ -16,7 +16,8 @@ public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitial
 		return new Class[] { 
 							ElasticConfig.class, 
 							MongoConfig.class,
-							PostgreConfig.class
+							PostgreConfig.class,
+							WebSecurityConfig.class
 							};
 	}
 

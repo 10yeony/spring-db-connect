@@ -21,8 +21,8 @@ public interface PostgreMapper {
 			"VALUES(#{id}, #{category},#{title},#{company},#{content});")
 	public void insertValue(Sound sound);
 	
-	@Select("SELECT id FROM audio.user_info WHERE id = #{id};")
-	public String readAccount(String id);
+	//@Select("SELECT id FROM audio.user_info WHERE id = #{id};")
+	//public String readAccount(String id);
 	
 	@Select("SELECT id FROM audio.metadata WHERE creator = #{creator} AND title = #{title};")
 	public int getMetadataId(Map map); 
