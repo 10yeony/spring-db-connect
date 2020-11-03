@@ -1,17 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder"%>
-<%@ page import="org.springframework.security.core.Authentication"%>
-
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>스프링 프레임워크를 통한 DB 연동</title>
 </head>
 <body>
-
+<h2>스프링 프레임워크를 통한 DB 연동</h2>
+<a href="elasticPage">Elasticsearch</a><br/>
+<a href="mongoPage">MongoDB</a><br/>
+<a href="postgrePage">PostgreSQL</a><br/>
+<a href="reportPage">보고서 파일 생성</a><br/>
 </body>
 </html>
