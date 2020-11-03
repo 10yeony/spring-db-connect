@@ -1,6 +1,8 @@
 package kr.com.inspect.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +50,21 @@ public class ReportController {
 	public String writeReport(HttpServletRequest request, 
 										Model model,
 										@PathVariable String format) {
-		list = postgreDao.getTable();
+		// list = postgreDao.getTable();
+
+		list = new ArrayList<Sound>();
+
+		Sound sound = new Sound();
+		sound.setId("테스트1");
+		sound.setCompany("테스트2");
+		sound.setCategory("테스트3");
+		sound.setContent("테스트4");
+		sound.setTitle("테스트5");
+		list.add(sound);
+		list.add(sound);
+
+		System.out.println(list.get(0).getId());
+
 		String root = request.getSession().getServletContext().getRealPath("/");
 		String path = root + "reports" + s;
 		String url = "";
