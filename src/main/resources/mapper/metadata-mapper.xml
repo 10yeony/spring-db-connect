@@ -1,0 +1,12 @@
+<mapper namespace="metadata_mapper">
+  <resultMap id="metadata-program" type="kr.com.inspect.dto.Metadata">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_date" jdbcType="DATE" property="orderDate" />
+    <collection property="details" ofType="examples.joins.OrderDetail">
+      <id column="order_id" jdbcType="INTEGER" property="orderId"/>
+      <id column="line_number" jdbcType="INTEGER" property="lineNumber"/>
+      <result column="description" jdbcType="VARCHAR" property="description"/>
+      <result column="quantity" jdbcType="INTEGER" property="quantity"/>
+    </collection>
+  </resultMap>
+</mapper>
