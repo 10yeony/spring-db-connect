@@ -14,12 +14,14 @@
 	if (msg == null || msg.equals("")) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
 		try {
 			Object principal = auth.getPrincipal();
 			if (principal instanceof Account)
 				System.out.println(" Accout 객체 맞음 !! ");
 			else
 				System.out.println(" Accout 객체 아님.. " + principal.getClass().toString());
+
 			if (principal != null && principal instanceof Account) {
 				name = ((Account) principal).getUsername();
 				System.out.println(" Account에서 가지고온 이름 ! : " + name);

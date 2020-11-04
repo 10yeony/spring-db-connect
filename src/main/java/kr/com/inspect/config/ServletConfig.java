@@ -3,13 +3,17 @@ package kr.com.inspect.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 
 @Configuration
@@ -24,7 +28,33 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/reports/pptx/**").addResourceLocations("/reports/pptx/");
 		registry.addResourceHandler("/json/**").addResourceLocations("/json/");
 	}
-	  
+	 
+	/*
+	 * INDEX페이지 지정.
+	 */
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addRedirectViewController("/", "/goHome");
+		registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+	}
+	
+	/**
+	 * 언어 변경을 위한 인터셉터를 생성한다.
+	 */
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+	    LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+	    interceptor.setParamName("lang");
+	    return interceptor;
+	}
+
+	/**
+	 * 인터셉터를 등록한다.
+	 */
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+	    registry.addInterceptor(localeChangeInterceptor());
+	}
 	/* 뷰 영역 설정 */
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 	    InternalResourceViewResolver bean = new InternalResourceViewResolver();
