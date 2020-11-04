@@ -8,9 +8,9 @@
 </head>
 <body>
 <h2>Report</h2>
-<a href="report/hwp">hwp 파일 생성</a><br/>
 <a href="report/docx">docx 파일 생성</a><br/>
 <a href="report/xlsx">xlsx 파일 생성</a><br/>
-<a href="report/pptx">pptx 파일 생성</a><br/>
+<%--<a href="report/hwp">hwp 파일 생성</a><br/>--%>
+<%--<a href="report/pptx">pptx 파일 생성</a><br/>--%>
 </body>
 </html>

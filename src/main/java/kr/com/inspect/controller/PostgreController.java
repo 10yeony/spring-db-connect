@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import kr.com.inspect.dto.Metadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,8 +65,8 @@ public class PostgreController {
 	/* PostgreSQL 특정 테이블 가져오기 */
 	@GetMapping("/getPostgreTable")
 	public String getPostgreTable(Model model) {
-		List<Sound> soundList = postgreDao.getTable();
-		model.addAttribute("result", soundList);
+		List<Metadata> metadata = postgreDao.getTable();
+		model.addAttribute("result", metadata);
 		return "postgreSQL/getTable";
 	}
 }

@@ -59,6 +59,9 @@ public interface PostgreMapper {
 			"VALUES(#{id}, #{standard}, #{eojeol}, #{end}, #{isDialect}, #{begin}, #{utterance_id});")
 	public void insertIntoEojeolList(EojeolList eojeolList);
 	
-	@Select("SELECT * FROM audiolist")
-	public List<Sound> getTable();
+	@Select("SELECT * FROM audio.metadata")
+	public List<Metadata> getTable();
+
+	@Select("SELECT * FROM audio.utterance WHERE id = #{metadataId}")
+	public List<Utterance> getUtterance(String metadataId);
 }
