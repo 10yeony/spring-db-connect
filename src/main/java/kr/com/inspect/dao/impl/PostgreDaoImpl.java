@@ -135,9 +135,7 @@ public class PostgreDaoImpl implements PostgreDao {
 			/* 확장자가 xlsx인 파일을 읽는다 */
 		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
 		    	String fullPath = path + file.getName();
-		    	System.out.println(fullPath);
 		    	List<Program> list = xlsxParsing.setProgramList(fullPath);
-		    	System.out.println(list);
 		    	for(int i=0; i<list.size(); i++) {
 		    		if(postgreMapper.getProgramByFileNum(list.get(i).getFile_num()) == null) {
 		    			check = true;
@@ -155,7 +153,6 @@ public class PostgreDaoImpl implements PostgreDao {
 	
 	public List<Metadata> getMetadataAndProgram(){
 		List<Metadata> list = sqlSession.selectList(ns+"getMetadataAndProgram");
-		System.out.println(list);
 		return list;
 	}
 }
