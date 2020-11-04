@@ -14,39 +14,19 @@ import kr.com.inspect.mapper.PostgreMapper;
 public class LoginDaoImpl implements LoginDao{
 	
 	@Autowired
-	SqlSession sqlSession;
+	private PostgreMapper postgreMapper;
 
 	@Override
 	public int insertuser(User user) {
 		int result = 0;
-		LoginDao mapper = sqlSession.getMapper(LoginDao.class);
-
-		try {
-			result = mapper.insertuser(user);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return result;
-		}
-
+		result = postgreMapper.insertuser(user);
 		return result;
 	}
 
 	@Override
 	public User login(User user) {
 		User result=null;
-		
-		LoginDao mapper=sqlSession.getMapper(LoginDao.class);
-	
-		try {
-			result=mapper.login(user);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return result;
-		}
+		result = postgreMapper.login(user);
 		return result;
 	}
-
-
 }

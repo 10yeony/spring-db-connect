@@ -3,7 +3,7 @@ package kr.com.inspect.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.com.inspect.dao.impl.LoginDaoImpl;
+import kr.com.inspect.dao.LoginDao;
 import kr.com.inspect.dto.User;
 
 
@@ -11,12 +11,12 @@ import kr.com.inspect.dto.User;
 public class Loginservice {
 
 	@Autowired
-	LoginDaoImpl logindaoimpl;
+	LoginDao logindao;
 
 	public int insertUser(User user) {
-		return logindaoimpl.insertuser(user);
+		return logindao.insertuser(user);
 	}
 	public User loginUser(User user){
-		return logindaoimpl.login(user);
+		return logindao.login(user);
 	}
 }
