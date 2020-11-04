@@ -1,12 +1,45 @@
-<mapper namespace="metadata_mapper">
-  <resultMap id="metadata-program" type="kr.com.inspect.dto.Metadata">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="order_date" jdbcType="DATE" property="orderDate" />
-    <collection property="details" ofType="examples.joins.OrderDetail">
-      <id column="order_id" jdbcType="INTEGER" property="orderId"/>
-      <id column="line_number" jdbcType="INTEGER" property="lineNumber"/>
-      <result column="description" jdbcType="VARCHAR" property="description"/>
-      <result column="quantity" jdbcType="INTEGER" property="quantity"/>
-    </collection>
-  </resultMap>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MetadataMapper">
+	<resultMap id="metadataAndProgram" type="kr.com.inspect.dto.Metadata">
+   		<id column="metadata_id" property="id" />
+    	<result column="creator" property="creator" />
+    	<result column="annotation_level" property="annotation_level" />
+    	<result column="metadata_year" property="year" />
+    	<result column="sampling" property="sampling" />
+    	<result column="metadata_title" property="title" />
+    	<result column="category" property="category" />
+    	<result column="distributor" property="distributor" />
+    	<result column="relation" property="relation" />
+    	<collection property="program" javaType="kr.com.inspect.dto.Program">
+      		<id column="program_id" property="id"/>
+      		<result column="file_num" property="file_num"/>
+      		<result column="program_title" property="title"/>
+      		<result column="subtitle" property="subtitle"/>
+			<result column="running_time" property="running_time"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getMetadataAndProgram" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
+  		SELECT
+  			m.id metadata_id,
+  			m.creator creator,
+  			m.annotation_level annotation_level,
+  			m.year metadata_year,
+  			m.sampling sampling,
+  			m.title metadata_title,
+  			m.category category,
+  			m.distributor distributor,
+  			m.relation relation,
+  			p.id program_id,
+  			p.file_num file_num,
+  			p.title program_title,
+  			p.subtitle subtitle,
+  			p.running_time running_time
+  		FROM
+  			audio.metadata m
+  		LEFT JOIN audio.program p ON
+  			m.title = p.file_num;
+	</select>
 </mapper>

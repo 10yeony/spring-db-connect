@@ -26,40 +26,49 @@ public interface PostgreMapper {
 	@Select("SELECT userid, pwd FROM audio.user WHERE userid = userid AND pwd = pwd")
 	public User login(User user);
 	
+	/* 테스트용 데이터 입력(엘라스틱서치와의 연동 확인용) */
 	@Insert("INSERT INTO public.audiolist"+
 			"(id, category,title,company,content)"+
 			"VALUES(#{id}, #{category},#{title},#{company},#{content});")
 	public void insertValue(Sound sound);
 	
+	/* file_num으로 프로그램 데이터를 받아옴(중복 등록 방지를 위함) */
 	@Select("SELECT * FROM audio.program WHERE file_num = #{file_num};")
 	public Program getProgramByFileNum(String file_num);
 	
+	/* creator와 title로 auto increment된 metadata id를 받아옴(다른 테이블의 외래키 입력을 위함) */
 	@Select("SELECT id FROM audio.metadata WHERE creator = #{creator} AND title = #{title};")
 	public int getMetadataId(Map map); 
 	
+	/* creator, title로 metadata id가 존재하는지 확인함(중복 등록 방지) */
+	@Select("SELECT id FROM audio.metadata WHERE creator = #{creator} AND title = #{title};")
+	public String isExistMetadataId(Map map); 
+	
+	/* program 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.program"+
 			"(id, file_num, title, subtitle, running_time)"+
 			"VALUES(#{id}, #{file_num}, #{title}, #{subtitle}, #{running_time})")
 	public void insertIntoProgram(Program program);
 	
-	@Select("SELECT id FROM audio.metadata WHERE creator = #{creator} AND title = #{title};")
-	public String isExistMetadataId(Map map); 
-	
+	/* metadata 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.metadata"+
 			"(creator, annotation_level, year, sampling, title, category, distributor, relation)"+
 			"VALUES(#{creator}, #{annotation_level}, #{year}, #{sampling}, #{title}, #{category}, #{distributor}, #{relation});")
 	public void insertIntoMetadata(Metadata metadata);
 	
+	/* speaker 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.speaker"+
 			"(no, shortcut, occupation, sex, name, age, metadata_id)"+
 			"VALUES(#{no}, #{shortcut}, #{occupation}, #{sex}, #{name}, #{age}, #{metadata_id});")
 	public void insertIntoSpeaker(Speaker speaker);
 	
+	/* utterance 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.utterance"+
 			"(id, note, standard_form, form, speaker_no, start, finish, metadata_id)"+
 			"VALUES(#{id}, #{note}, #{standard_form}, #{form}, #{speaker_no}, #{start}, #{end}, #{metadata_id});")
 	public void insertIntoUtterance(Utterance utterance);
 	
+	/* eojeolList 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.eojeolList"+
 			"(id, standard, eojeol, finish, isDialect, begin, utterance_id)"+
 			"VALUES(#{id}, #{standard}, #{eojeol}, #{end}, #{isDialect}, #{begin}, #{utterance_id});")

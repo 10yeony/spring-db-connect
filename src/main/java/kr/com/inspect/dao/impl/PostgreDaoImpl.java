@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.ibatis.session.SqlSession;
 import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ import kr.com.inspect.parser.XlsxParsing;
 public class PostgreDaoImpl implements PostgreDao {
 	@Autowired
 	private PostgreMapper postgreMapper;
+	
+	@Autowired
+	private SqlSession sqlSession;
+	private final String ns = "MetadataMapper.";
 	
 	@Autowired
 	private ElasticDao elasticDao;
@@ -146,5 +151,11 @@ public class PostgreDaoImpl implements PostgreDao {
 		}else { //모두 중복된 데이터일 경우
 			return false; 
 		}
+	}
+	
+	public List<Metadata> getMetadataAndProgram(){
+		List<Metadata> list = sqlSession.selectList(ns+"getMetadataAndProgram");
+		System.out.println(list);
+		return list;
 	}
 }
