@@ -193,6 +193,9 @@ $RECYCLE.BIN/
 *.ogv 
 *.mov
 
+### Except for *.xlsx, *.docx, *.hwp, *.pptx in report directory ###
+src/main/webapp/reports
+
 ### Except for *.json & *.xlsx in input dirctory ###
 src/main/webapp/input/json/*.json
 src/main/webapp/input/xlsx/*.xlsx
