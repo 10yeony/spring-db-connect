@@ -13,11 +13,13 @@
 <table border="1" width="1500">
 	<tr>
 		<th>Id</th>
+		<th>Title</th>
+		<th>Subtitle</th>
 		<th>Creator</th>
 		<th>Annotation Level</th>
 		<th>Year</th>
 		<th>Sampling</th>
-		<th>Title</th>
+		<th>File_num</th>
 		<th>Category</th>
 		<th>Distributor</th>
 		<th>Relation</th>
@@ -25,11 +27,13 @@
 	<c:forEach items="${result}" var="item">
 		<tr>
 			<td>${item.id}</td>
+			<td>${item.program.title}</td>
+			<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
 			<td>${item.creator}</td>
 			<td>${item.annotation_level}</td>
 			<td>${item.year}</td>
 			<td>${item.sampling}</td>
-			<td><a href="getUtteranceTable/${item.id}">${item.title}</a></td>
+			<td>${item.title}</td>
 			<td>${item.category}</td>
 			<td>${item.distributor}</td>
 			<td>${item.relation}</td>

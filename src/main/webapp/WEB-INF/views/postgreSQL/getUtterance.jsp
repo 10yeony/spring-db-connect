@@ -6,11 +6,11 @@
     <title>Utterance</title>
 </head>
 <body>
-<%--<h2>creator : ${metadata.creator}, Title : ${metadata.title}</h2><br/>--%>
-<table border="1">
-    <tr width="100"><th>Id</th><th>Form</th></tr>
-    <c:forEach items="${result}" var="item" varStatus="status">
-        <tr width="1000">
+<h2>Title : ${metadata.title},  creator : ${metadata.creator}</h2><br/>
+<table border="1" width="1500">
+    <tr><th>Id</th><th>Form</th></tr>
+    <c:forEach items="${utterances}" var="item" varStatus="status">
+        <tr>
             <td>${status.count}</td>
             <td>${item.form}</td>
         </tr>

@@ -80,6 +80,10 @@ public interface PostgreMapper {
 	@Select("SELECT * FROM audio.metadata")
 	public List<Metadata> getTable();
 
+	/* id를 이용해서 metadata 데이터 가져오기 */
+	@Select("SELECT * FROM audio.metadata WHERE id = #{id}")
+	public Metadata getTableUsingId(Integer id);
+
 	/* metadata_id 를 이용하여 utterance 데이터 가져오기 */
 	@Select("SELECT * FROM audio.utterance WHERE metadata_id = #{metadataId} ORDER BY start")
 	public List<Utterance> getUtteranceTableUsingMetadataId(Integer metadataId);
