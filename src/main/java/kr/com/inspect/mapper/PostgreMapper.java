@@ -23,7 +23,7 @@ public interface PostgreMapper {
 			"values(#{userid},#{pwd});")
 	public int insertuser(User user);
 	
-	@Select("SELECT userid, pwd FROM audio.user WHERE userid = #{userid} AND pwd = #{pwd}")
+	@Select("SELECT userid, pwd FROM audio.user WHERE userid = userid AND pwd = pwd")
 	public User login(User user);
 	
 	@Insert("INSERT INTO public.audiolist"+
