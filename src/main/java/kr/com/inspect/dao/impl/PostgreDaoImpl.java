@@ -35,8 +35,13 @@ public class PostgreDaoImpl implements PostgreDao {
 	private XlsxParsing xlsxParsing = new XlsxParsing();
 	
 	@Override
-	public List<Sound> getTable() {
+	public List<Metadata> getTable() {
 		return postgreMapper.getTable();
+	}
+
+	@Override
+	public List<Utterance> getUtteranceTableUsingMetadataId(Integer metadataId) {
+		return postgreMapper.getUtteranceTableUsingMetadataId(metadataId);
 	}
 
 	@Override

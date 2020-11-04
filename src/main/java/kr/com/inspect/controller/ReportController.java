@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import kr.com.inspect.dto.Metadata;
+import org.apache.lucene.util.packed.DirectMonotonicReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,7 @@ public class ReportController {
 	/* PostgreSQL */
 	@Autowired 
 	private PostgreDao postgreDao;
-	private List<Sound>  list;
+	private List<Metadata>  list;
 	
 	/* 파일 생성 */
 	@Autowired
@@ -49,6 +51,7 @@ public class ReportController {
 										Model model,
 										@PathVariable String format) {
 		list = postgreDao.getTable();
+
 		String root = request.getSession().getServletContext().getRealPath("/");
 		String path = root + "reports" + s;
 		String url = "";
@@ -56,7 +59,7 @@ public class ReportController {
 		switch(format) {
 			case ("hwp"): //한글 파일
 				path += "hwp" + s;
-				hwpReport.writeHwp(path, list);
+				// hwpReport.writeHwp(path, list);
 				url = "report/hwpReport";
 				break;
 			case ("docx"): //docx 파일
@@ -71,7 +74,7 @@ public class ReportController {
 				break;
 			case ("pptx"): //pptx 파일 
 				path += "pptx" + s;
-				pptxReport.writePptx(path, list);
+				// pptxReport.writePptx(path, list);
 				url = "report/pptxReport";
 				break;
 			default:

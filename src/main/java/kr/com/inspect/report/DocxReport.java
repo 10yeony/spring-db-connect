@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import kr.com.inspect.dto.Metadata;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -33,7 +34,19 @@ public class DocxReport {
 	@Value("${table.column4}")
 	private String column4;
 
-	public void writeDocx(String path, List<Sound> list) {
+	@Value("${table.column5}")
+	private String column5;
+
+	@Value("${table.column6}")
+	private String column6;
+
+	@Value("${table.column7}")
+	private String column7;
+
+	@Value("${table.column8}")
+	private String column8;
+
+	public void writeDocx(String path, List<Metadata> list) {
 		String docxFileName =
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())
 						+ "_log.docx";
@@ -58,7 +71,7 @@ public class DocxReport {
 		r1.addBreak();
 
 
-		XWPFTable table = doc.createTable(list.size()+1, 5);
+		XWPFTable table = doc.createTable(list.size()+1, 9);
 
 		/* 헤더 정보 구성 */
 		table.getRow(0).getCell(0).setText(column0);
@@ -66,15 +79,23 @@ public class DocxReport {
 		table.getRow(0).getCell(2).setText(column2);
 		table.getRow(0).getCell(3).setText(column3);
 		table.getRow(0).getCell(4).setText(column4);
+		table.getRow(0).getCell(5).setText(column5);
+		table.getRow(0).getCell(6).setText(column6);
+		table.getRow(0).getCell(7).setText(column7);
+		table.getRow(0).getCell(8).setText(column8);
 
-		Sound vo;
+		Metadata metadata;
 		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
-			vo = list.get(rowIdx);
-			table.getRow(rowIdx+1).getCell(0).setText(vo.getId());
-			table.getRow(rowIdx+1).getCell(1).setText(vo.getCategory());
-			table.getRow(rowIdx+1).getCell(2).setText(vo.getTitle());
-			table.getRow(rowIdx+1).getCell(3).setText(vo.getCompany());
-			table.getRow(rowIdx+1).getCell(4).setText(vo.getContent());
+			metadata = list.get(rowIdx);
+			table.getRow(rowIdx+1).getCell(0).setText(Integer.toString(metadata.getId()));
+			table.getRow(rowIdx+1).getCell(1).setText(metadata.getCreator());
+			table.getRow(rowIdx+1).getCell(2).setText(metadata.getAnnotation_level());
+			table.getRow(rowIdx+1).getCell(3).setText(metadata.getYear());
+			table.getRow(rowIdx+1).getCell(4).setText(metadata.getSampling());
+			table.getRow(rowIdx+1).getCell(5).setText(metadata.getTitle());
+			table.getRow(rowIdx+1).getCell(6).setText(metadata.getCategory());
+			table.getRow(rowIdx+1).getCell(7).setText(metadata.getDistributor());
+			table.getRow(rowIdx+1).getCell(8).setText(metadata.getRelation());
 		}
 
 		// 입력된 내용 파일로 쓰기
@@ -97,5 +118,9 @@ public class DocxReport {
 				//e.printStackTrace();
 			}
 		}
+	}
+
+	public String is_Null(String str){
+		return (str == "") ? " " : str;
 	}
 }

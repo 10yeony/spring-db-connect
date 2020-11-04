@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import kr.com.inspect.dto.Metadata;
+import org.apache.lucene.util.packed.DirectMonotonicReader;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -39,7 +41,18 @@ public class XlsxReport {
 	@Value("${table.column4}")
 	private String column4;
 
-	public void writeXlsx(String path, List<Sound> list) {
+	@Value("${table.column5}")
+	private String column5;
+
+	@Value("${table.column6}")
+	private String column6;
+
+	@Value("${table.column7}")
+	private String column7;
+
+	@Value("${table.column8}")
+	private String column8;
+	public void writeXlsx(String path, List<Metadata> list) {
 		String xlsxFileName =
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())
 						+ "_log.xlsx"; //파일명
@@ -71,22 +84,38 @@ public class XlsxReport {
 		cell.setCellValue(column3);
 		cell = row.createCell(4);
 		cell.setCellValue(column4);
+		cell = row.createCell(5);
+		cell.setCellValue(column5);
+		cell = row.createCell(6);
+		cell.setCellValue(column6);
+		cell = row.createCell(7);
+		cell.setCellValue(column7);
+		cell = row.createCell(8);
+		cell.setCellValue(column8);
 
 		// 리스트의 size 만큼 row를 생성
-		Sound vo;
+		Metadata metadata;
 		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
-			vo = list.get(rowIdx);
+			metadata = list.get(rowIdx);
 			row = sheet.createRow(rowIdx+5); //행 생성
 			cell = row.createCell(0);
-			cell.setCellValue(vo.getId());
+			cell.setCellValue(metadata.getId());
 			cell = row.createCell(1);
-			cell.setCellValue(vo.getCategory());
+			cell.setCellValue(metadata.getCreator());
 			cell = row.createCell(2);
-			cell.setCellValue(vo.getTitle());
+			cell.setCellValue(metadata.getAnnotation_level());
 			cell = row.createCell(3);
-			cell.setCellValue(vo.getCompany());
+			cell.setCellValue(metadata.getYear());
 			cell = row.createCell(4);
-			cell.setCellValue(vo.getContent());
+			cell.setCellValue(metadata.getSampling());
+			cell = row.createCell(5);
+			cell.setCellValue(metadata.getTitle());
+			cell = row.createCell(6);
+			cell.setCellValue(metadata.getCategory());
+			cell = row.createCell(7);
+			cell.setCellValue(metadata.getDistributor());
+			cell = row.createCell(8);
+			cell.setCellValue(metadata.getRelation());
 		}
 
 		// 입력된 내용 파일로 쓰기
