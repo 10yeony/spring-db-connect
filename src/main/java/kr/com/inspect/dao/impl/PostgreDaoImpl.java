@@ -40,6 +40,11 @@ public class PostgreDaoImpl implements PostgreDao {
 	}
 
 	@Override
+	public Metadata getTableUsingId(Integer id){
+		return postgreMapper.getTableUsingId(id);
+	}
+
+	@Override
 	public List<Utterance> getUtteranceTableUsingMetadataId(Integer metadataId) {
 		return postgreMapper.getUtteranceTableUsingMetadataId(metadataId);
 	}

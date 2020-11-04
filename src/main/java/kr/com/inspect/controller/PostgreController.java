@@ -71,12 +71,14 @@ public class PostgreController {
 		model.addAttribute("result", metadata);
 		return "postgreSQL/getTable";
 	}
+
 	/* Utterance 테이블 가져오기 */
 	@GetMapping("/getUtteranceTable/{format}")
 	public String getUtteranceTable(Model model,@PathVariable Integer format){
 		List<Utterance> utterances = postgreDao.getUtteranceTableUsingMetadataId(format);
-//		List<>;
-		model.addAttribute("result",utterances);
+ 		Metadata metadata = postgreDao.getTableUsingId(format);
+		model.addAttribute("utterances",utterances);
+		model.addAttribute("metadata",metadata);
 		return "postgreSQL/getUtterance";
 	}
 }
