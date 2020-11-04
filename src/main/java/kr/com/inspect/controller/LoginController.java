@@ -19,12 +19,13 @@ public class LoginController {
 	public String loginUser(User user, Model model, HttpSession session) {
 
 		User result = loginservice.loginUser(user);
+		System.out.println(result);
 
 		if (result == null) {
 			model.addAttribute("message", "ID나PW가 틀립니다.");
-			return "index";
+			return "wrong";
 		} else {
-			session.setAttribute("loginId", result.getId());
+			session.setAttribute("loginId", result.getUserid());
 			return "navigator";
 		}
 

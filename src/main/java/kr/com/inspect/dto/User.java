@@ -2,33 +2,24 @@ package kr.com.inspect.dto;
 
 public class User {
 	
-	private String id;
-	private String nick;
-	private String pw;
-	public String getId() {
-		return id;
+	private String userid;
+	private String pwd;
+	public String getUserid() {
+		return userid;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
-	public String getNick() {
-		return nick;
+	public String getPwd() {
+		return pwd;
 	}
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
-	public String getPw() {
-		return pw;
-	}
-	public void setPw(String pw) {
-		this.pw = pw;
-	}
-	public User(String id, String nick, String pw) {
-		super();
-		this.id = id;
-		this.nick = nick;
-		this.pw = pw;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "User [userid=" + userid + ", pwd=" + pwd + "]";
+	}
+
 }

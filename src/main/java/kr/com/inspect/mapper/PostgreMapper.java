@@ -19,11 +19,11 @@ import kr.com.inspect.dto.Utterance;
 public interface PostgreMapper {
 	
 	@Insert("insert into audio.user"+
-			"(id, nick, pw)"+
-			"values(#{id},#{nick},#{pw});")
+			"(userid, pwd)"+
+			"values(#{userid},#{pwd});")
 	public int insertuser(User user);
 	
-	@Select("SELECT id FROM audio.user WHERE id = #{id} AND pw = #{pw};")
+	@Select("SELECT userid, pwd FROM audio.user WHERE userid = #{userid} AND pwd = #{pwd}")
 	public User login(User user);
 	
 	@Insert("INSERT INTO public.audiolist"+

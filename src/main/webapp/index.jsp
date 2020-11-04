@@ -17,8 +17,6 @@
 		PW:<input type="password" name="pw"><br>
 		<input type="submit" value="login">
 	</form>
-	
-	<form action="" method=""></form>
 
 </body>
 </html>
