@@ -18,11 +18,13 @@ import kr.com.inspect.dto.Utterance;
 @Mapper
 public interface PostgreMapper {
 	
+	//회원가입
 	@Insert("insert into audio.user"+
 			"(userid, pwd)"+
 			"values(#{userid},#{pwd});")
 	public int insertuser(User user);
 	
+	//로그인
 	@Select("SELECT userid, pwd FROM audio.user WHERE userid = userid AND pwd = pwd")
 	public User login(User user);
 	
