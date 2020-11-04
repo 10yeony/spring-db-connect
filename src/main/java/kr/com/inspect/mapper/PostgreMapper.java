@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Program;
 import kr.com.inspect.dto.Sound;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.User;
@@ -30,11 +31,16 @@ public interface PostgreMapper {
 			"VALUES(#{id}, #{category},#{title},#{company},#{content});")
 	public void insertValue(Sound sound);
 	
-	//@Select("SELECT id FROM audio.user_info WHERE id = #{id};")
-	//public String readAccount(String id);
+	@Select("SELECT * FROM audio.program WHERE file_num = #{file_num};")
+	public Program getProgramByFileNum(String file_num);
 	
 	@Select("SELECT id FROM audio.metadata WHERE creator = #{creator} AND title = #{title};")
 	public int getMetadataId(Map map); 
+	
+	@Insert("INSERT INTO audio.program"+
+			"(id, file_num, title, subtitle, running_time)"+
+			"VALUES(#{id}, #{file_num}, #{title}, #{subtitle}, #{running_time})")
+	public void insertIntoProgram(Program program);
 	
 	@Select("SELECT id FROM audio.metadata WHERE creator = #{creator} AND title = #{title};")
 	public String isExistMetadataId(Map map); 

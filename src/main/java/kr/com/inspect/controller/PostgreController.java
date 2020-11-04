@@ -36,16 +36,29 @@ public class PostgreController {
 		return "postgreSQL/insertElasticIndex";
 	}
 	
-	/* JSON 파일을 PostgreSQL 특정 테이블에 넣기 */
+	/* JSON 파일을 PostgreSQL 특정 테이블에 넣기
+	   (metadata, speaker, utterance, eojeolList) */
 	@GetMapping("/insertJSONIntoPostgre")
 	public String insertJSONObject(HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("/");
-		String path = root + "json" + s + "test" + s;
+		String path = root + "input" + s + "json" + s;
 		boolean flag = postgreDao.insertJSONObject(path);
 		if(flag == true) {
 			return "postgreSQL/insertJSON";
 		}
-		return "postgreSQL/insertFailJSON";
+		return "postgreSQL/insertJSONFail";
+	}
+	
+	/* xlsx 파일을 PostgreSQL 특정 테이블(program)에 넣기 */
+	@GetMapping("/insertXlsxIntoPostgre")
+	public String insertXlsxTable(HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("/");
+		String path = root + "input" + s + "xlsx" + s;
+		boolean flag = postgreDao.insertXlsxTable(path);
+		if(flag == true) {
+			return "postgreSQL/insertXlsx";
+		}
+		return "postgreSQL/insertXlsxFail";
 	}
 	
 	/* PostgreSQL 특정 테이블 가져오기 */

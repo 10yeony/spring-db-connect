@@ -10,4 +10,5 @@ public interface PostgreDao {
 	public List<Sound> getTable();
 	public void insertElasticIndex(String index);
 	public boolean insertJSONObject(String path);
+	public boolean insertXlsxTable(String path);
 }
