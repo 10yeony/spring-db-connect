@@ -41,11 +41,3 @@ CREATE TABLE audio.eojeolList (
 	begin integer,
 	utterance_id text REFERENCES audio.utterance ON DELETE CASCADE
 );
-
-CREATE TABLE audio.program (
-	id integer PRIMARY KEY,
-	file_num text,
-	title text,
-	subtitle text,
-	running_time text
-);

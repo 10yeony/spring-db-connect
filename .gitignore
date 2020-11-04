@@ -79,7 +79,6 @@ config.properties
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 *.iml
-.idea/
 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -175,27 +174,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/git,java,maven,windows,eclipse
-
-### audio format ###
-*.wav
-*.mp3
-
-### video format ###
-*.mkv 
-*.avi 
-*.mp4 
-*.mpg 
-*.flv 
-*.wmv 
-*.asf 
-*.asx 
-*.ogm 
-*.ogv 
-*.mov
-
-### Except for *.json & *.xlsx in input dirctory ###
-src/main/webapp/input/json/*.json
-src/main/webapp/input/xlsx/*.xlsx
 
 ### DB Info ###
 src/main/resources/db.properties

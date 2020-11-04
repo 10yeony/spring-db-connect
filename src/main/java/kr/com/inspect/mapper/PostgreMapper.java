@@ -9,35 +9,35 @@ import org.apache.ibatis.annotations.Select;
 
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Program;
 import kr.com.inspect.dto.Sound;
 import kr.com.inspect.dto.Speaker;
+import kr.com.inspect.dto.User;
 import kr.com.inspect.dto.Utterance;
 
 @Mapper
 public interface PostgreMapper {
+	
+	@Insert("insert into audio.user"+
+			"(id, nick, pw)"+
+			"values(#{id},#{nick},#{pw});")
+	public int insertuser(User user);
+	
+	@Select("SELECT id FROM audio.user WHERE id = #{id} AND pw = #{pw};")
+	public User login(User user);
 	
 	@Insert("INSERT INTO public.audiolist"+
 			"(id, category,title,company,content)"+
 			"VALUES(#{id}, #{category},#{title},#{company},#{content});")
 	public void insertValue(Sound sound);
 	
-	@Select("SELECT id FROM audio.user_info WHERE id = #{id};")
-	public String readAccount(String id);
-	
-	@Select("SELECT * FROM audio.program WHERE file_num = #{file_num};")
-	public Program getProgramByFileNum(String file_num);
+	//@Select("SELECT id FROM audio.user_info WHERE id = #{id};")
+	//public String readAccount(String id);
 	
 	@Select("SELECT id FROM audio.metadata WHERE creator = #{creator} AND title = #{title};")
 	public int getMetadataId(Map map); 
 	
 	@Select("SELECT id FROM audio.metadata WHERE creator = #{creator} AND title = #{title};")
 	public String isExistMetadataId(Map map); 
-	
-	@Insert("INSERT INTO audio.program"+
-			"(id, file_num, title, subtitle, running_time)"+
-			"VALUES(#{id}, #{file_num}, #{title}, #{subtitle}, #{running_time})")
-	public void insertIntoProgram(Program program);
 	
 	@Insert("INSERT INTO audio.metadata"+
 			"(creator, annotation_level, year, sampling, title, category, distributor, relation)"+

@@ -15,13 +15,11 @@ import kr.com.inspect.dao.ElasticDao;
 import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Program;
 import kr.com.inspect.dto.Sound;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.mapper.PostgreMapper;
 import kr.com.inspect.parser.JsonParsing;
-import kr.com.inspect.parser.XlsxParsing;
 
 @Repository
 public class PostgreDaoImpl implements PostgreDao {
@@ -30,9 +28,6 @@ public class PostgreDaoImpl implements PostgreDao {
 	
 	@Autowired
 	private ElasticDao elasticDao;
-	
-	private JsonParsing jsonParsing = new JsonParsing();
-	private XlsxParsing xlsxParsing = new XlsxParsing();
 	
 	@Override
 	public List<Sound> getTable() {
@@ -68,8 +63,10 @@ public class PostgreDaoImpl implements PostgreDao {
 			/* 확장자가 json인 파일을 읽는다 */
 		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
 		    	String fullPath = path + file.getName();
+			   System.out.println(fullPath);
 		    	
 		    	/* json 파일을 읽어서 객체로 파싱 */
+				JsonParsing jsonParsing = new JsonParsing();
 				JSONObject obj = jsonParsing.getJSONObject(fullPath);
 				
 				/* metadata 테이블 입력 */
@@ -106,34 +103,6 @@ public class PostgreDaoImpl implements PostgreDao {
 						}
 					}
 				}
-		    }
-		}
-		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
-			return true;
-		}else { //모두 중복된 데이터일 경우
-			return false; 
-		}
-	}
-
-	@Override
-	public boolean insertXlsxTable(String path) {
-		File dir = new File(path);
-		File[] fileList = dir.listFiles();
-		boolean check = false;
-		
-		for(File file : fileList){
-			/* 확장자가 xlsx인 파일을 읽는다 */
-		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
-		    	String fullPath = path + file.getName();
-		    	System.out.println(fullPath);
-		    	List<Program> list = xlsxParsing.setProgramList(fullPath);
-		    	System.out.println(list);
-		    	for(int i=0; i<list.size(); i++) {
-		    		if(postgreMapper.getProgramByFileNum(list.get(i).getFile_num()) == null) {
-		    			check = true;
-		    			postgreMapper.insertIntoProgram(list.get(i));
-		    		}
-		    	}
 		    }
 		}
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
