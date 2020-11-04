@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -38,6 +39,24 @@ public class LoginController {
 		return "index";
 	}
 
+	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
+	public String insertUser(User user, Model model) {
+
+		int result = loginservice.insertUser(user);
+
+		if (result == 0) {
+			model.addAttribute("message", "같은 아이디가 있습니다.");
+			return "insert";
+		}
+
+		return "index";
+	}
+	
+	@GetMapping("/insert")
+	public String moveToElasticPage() {
+		return "/insert";
+	}
+
 	/*
 	 * @RequestMapping(value = "/test", method = RequestMethod.GET) public String
 	 * test(User user, Model model, HttpSession session) { //로그인 값을 계속 가지고 있는
@@ -47,16 +66,5 @@ public class LoginController {
 	 * 
 	 * return "main"; }
 	 */
-	
-	/*
-	 * @RequestMapping(value = "/insertUser", method = RequestMethod.POST) public
-	 * String insertUser(User user, Model model) {
-	 * 
-	 * int result = loginservice.insertUser(user);
-	 * 
-	 * if (result == 0) { model.addAttribute("message", "같은 아이디가 있습니다."); return
-	 * "index"; }
-	 * 
-	 * return "login"; }
-	 */
+
 }

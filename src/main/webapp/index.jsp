@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+	pageEncoding="EUC-KR"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,14 +9,17 @@
 </head>
 <body>
 
-<h1>로그인</h1>
-	
+	<h1>로그인</h1>
+
 	<form action="loginUser" method="post">
-	<font color="red">${message}</font>
-		ID:<input type="text" name="userid"><br>
-		PW:<input type="password" name="pwd"><br>
+		<font color="red">${message}</font> ID:<input type="text"
+			name="userid"><br> PW:<input type="password" name="pwd"><br>
 		<input type="submit" value="login">
 	</form>
+
+	<h2>회원가입</h2>
+	<a href="insert">회원가입</a>
+	<br />
 
 </body>
 </html>

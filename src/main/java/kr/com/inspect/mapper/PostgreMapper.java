@@ -25,7 +25,7 @@ public interface PostgreMapper {
 	public int insertuser(User user);
 	
 	//로그인
-	@Select("SELECT *, pwd FROM audio.user WHERE userid = #{userid} AND pwd = #{pwd}")
+	@Select("SELECT userid, pwd FROM audio.user WHERE userid = #{userid} AND pwd = #{pwd}")
 	public User login(User user);
 	
 	@Insert("INSERT INTO public.audiolist"+
