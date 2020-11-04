@@ -67,7 +67,7 @@ public class PostgreController {
 	/* PostgreSQL 특정 테이블 가져오기 */
 	@GetMapping("/getPostgreTable")
 	public String getPostgreTable(Model model) {
-		List<Metadata> metadata = postgreDao.getTable();
+		List<Metadata> metadata = postgreDao.getMetadataAndProgram();
 		model.addAttribute("result", metadata);
 		return "postgreSQL/getTable";
 	}
