@@ -28,12 +28,12 @@
 		<tr>
 			<td>${item.id}</td>
 			<td>${item.program.title}</td>
-			<td>${item.program.subtitle}</td>
+			<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
 			<td>${item.creator}</td>
 			<td>${item.annotation_level}</td>
 			<td>${item.year}</td>
 			<td>${item.sampling}</td>
-			<td><a href="getUtteranceTable/${item.id}">${item.title}</a></td>
+			<td>${item.title}</td>
 			<td>${item.category}</td>
 			<td>${item.distributor}</td>
 			<td>${item.relation}</td>
