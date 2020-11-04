@@ -14,4 +14,5 @@ public interface PostgreDao {
 	public void insertElasticIndex(String index);
 	public boolean insertJSONObject(String path);
 	public boolean insertXlsxTable(String path);
+	public List<Metadata> getMetadataAndProgram();
 }

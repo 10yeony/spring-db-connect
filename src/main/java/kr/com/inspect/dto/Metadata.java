@@ -12,13 +12,13 @@ public class Metadata {
 	private String category;
 	private String distributor;
 	private String relation;
-	private List<Program> program;
+	private Program program;
 	private List<Speaker> speaker;
 	private List<Utterance> utterance;
 	
 	public Metadata() {}
 	public Metadata(int id, String creator, String annotation_level, String year, String sampling, String title,
-			String category, String distributor, String relation, List<Program> program, List<Speaker> speaker,
+			String category, String distributor, String relation, Program program, List<Speaker> speaker,
 			List<Utterance> utterance) {
 		super();
 		this.id = id;
@@ -89,10 +89,10 @@ public class Metadata {
 	public void setRelation(String relation) {
 		this.relation = relation;
 	}
-	public List<Program> getProgram() {
+	public Program getProgram() {
 		return program;
 	}
-	public void setProgram(List<Program> program) {
+	public void setProgram(Program program) {
 		this.program = program;
 	}
 	public List<Speaker> getSpeaker() {
