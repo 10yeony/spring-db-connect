@@ -49,3 +49,9 @@ CREATE TABLE audio.program (
 	subtitle text,
 	running_time text
 );
+
+CREATE TABLE audio.user (
+	id text PRIMARY KEY,
+	nick text,
+	pw text
+);
