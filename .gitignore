@@ -196,6 +196,7 @@ $RECYCLE.BIN/
 ### Except for *.json & *.xlsx in input dirctory ###
 src/main/webapp/input/json/*.json
 src/main/webapp/input/xlsx/*.xlsx
+src/main/webapp/input/xlsx/*.xlsx#
 
 ### DB Info ###
 src/main/resources/db.properties

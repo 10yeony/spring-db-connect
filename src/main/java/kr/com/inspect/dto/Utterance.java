@@ -12,10 +12,11 @@ public class Utterance {
 	private double end;
 	private int metadata_id; //foreign key
 	private List<EojeolList> eojoelList;
+	private List<Speaker> speaker;
 	
 	public Utterance() {}
 	public Utterance(String id, String note, String standard_form, String form, String speaker_no, double start,
-			double end, int metadata_id, List<EojeolList> eojoelList) {
+			double end, int metadata_id, List<EojeolList> eojoelList, List<Speaker> speaker) {
 		super();
 		this.id = id;
 		this.note = note;
@@ -26,6 +27,7 @@ public class Utterance {
 		this.end = end;
 		this.metadata_id = metadata_id;
 		this.eojoelList = eojoelList;
+		this.speaker = speaker;
 	}
 	
 	public String getId() {
@@ -82,11 +84,17 @@ public class Utterance {
 	public void setEojoelList(List<EojeolList> eojoelList) {
 		this.eojoelList = eojoelList;
 	}
+	public List<Speaker> getSpeaker() {
+		return speaker;
+	}
+	public void setSpeaker(List<Speaker> speaker) {
+		this.speaker = speaker;
+	}
 	
 	@Override
 	public String toString() {
 		return "Utterance [id=" + id + ", note=" + note + ", standard_form=" + standard_form + ", form=" + form
 				+ ", speaker_no=" + speaker_no + ", start=" + start + ", end=" + end + ", metadata_id=" + metadata_id
-				+ ", eojoelList=" + eojoelList + "]";
+				+ ", eojoelList=" + eojoelList + ", speaker=" + speaker + "]";
 	}
 }
