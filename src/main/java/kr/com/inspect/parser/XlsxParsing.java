@@ -1,165 +1,105 @@
 package kr.com.inspect.parser;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import kr.com.inspect.dao.PostgreDao;
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Speaker;
-import kr.com.inspect.dto.Utterance;
+import kr.com.inspect.dto.Program;
 
 public class XlsxParsing {
-	@Autowired
-	private PostgreDao postgreDao;
 	
-	/* JSON 파일을 읽어 JSON객체로 파싱 */
-	public JSONObject getJSONObject(String fullPath) {
-		JSONParser parser = new JSONParser();
-	    Object obj = null;
-		try {
-			obj = parser.parse(new FileReader(fullPath));
-		} catch (FileNotFoundException e) {
-			//e.printStackTrace();
-		} catch (IOException e) {
-			//e.printStackTrace();
-		} catch (ParseException e) {
-			//e.printStackTrace();
-		}
-	    return (JSONObject) obj;
-	}
-	
-	/* Metadata 파싱 */
-	public Metadata setMetadata(JSONObject obj) {
-		Map map = new HashMap();
-		Metadata metadata = new Metadata();
-		map = (Map) obj.get("metadata");
-		//primary key는 auto increment
-		metadata.setCreator(map.get("creator").toString());
-		metadata.setAnnotation_level(map.get("annotation_level").toString());
-		metadata.setYear(map.get("year").toString());
-		metadata.setSampling(map.get("sampling").toString());
-		metadata.setTitle(map.get("title").toString());
-		metadata.setCategory(map.get("category").toString());
-		metadata.setDistributor(map.get("distributor").toString());
-		map = (Map) obj.get("setting");
-		metadata.setRelation(map.get("relation").toString());
+	/* Excel 파일을 읽어서 List<Program>에 파싱 */
+	public List<Program> setProgramList(String fullPath) {
+		// 반환할 객체를 생성
+		List<Program> list = new ArrayList<Program>();
 		
-		return metadata;
-	}
-	
-	/* Speaker 파싱 */
-	public List<Speaker> setSpeaker(JSONObject obj, int metadata_id){
-		List<Speaker> speakerList = new ArrayList<>();
-		JSONArray arr = (JSONArray) obj.get("speaker");
-		for(int i=0; i<arr.size(); i++) {
-			Map element = (Map)arr.get(i);
-			Speaker speaker = new Speaker();
-		    //primary key는 auto increment
-			if(!ObjectUtils.isEmpty(element.get("no"))) {
-				speaker.setNo(Integer.parseInt(element.get("no").toString()));
+		FileInputStream fis = null;
+		XSSFWorkbook workbook = null;
+		
+		try {
+			
+			fis= new FileInputStream(fullPath);
+			// HSSFWorkbook은 엑셀파일 전체 내용을 담고 있는 객체
+			workbook = new XSSFWorkbook(fis);
+			
+			// 탐색에 사용할 Sheet, Row, Cell 객체
+			XSSFSheet curSheet;
+			XSSFRow   curRow;
+			XSSFCell  curCell;
+			Program program;
+			
+			curSheet = workbook.getSheetAt(0);
+			// row 탐색 for문
+				for(int rowIndex=0; rowIndex < curSheet.getPhysicalNumberOfRows()-1; rowIndex++) {
+					// row 0은 헤더정보이기 때문에 무시
+					if(rowIndex != 0) {
+						// 현재 row 반환
+						curRow = curSheet.getRow(rowIndex);
+						program = new Program();
+						String value;
+						
+						// row의 두번째 cell값이 비어있지 않은 경우 만 cell탐색
+						if(curRow.getCell(1).getStringCellValue() != null) {							
+							for(int cellIndex=0;cellIndex<curRow.getPhysicalNumberOfCells(); cellIndex++) {
+								curCell = curRow.getCell(cellIndex);
+								
+								switch (cellIndex) {
+									case 0: // 아이디
+										program.setId((int)curCell.getNumericCellValue());
+										break;
+										
+									case 1: // 파일번호
+										program.setFile_num(curCell.getStringCellValue());
+										break;
+										
+									case 2: // 프로그램명
+										program.setTitle(curCell.getStringCellValue());
+										break;
+										
+									case 3: // 부제
+										program.setSubtitle(curCell.getStringCellValue());
+										break;
+										
+									case 4: // 방송시간
+										Date time = curCell.getDateCellValue();
+										String timeString = new SimpleDateFormat("mm:ss").format(time);
+										program.setRunning_time("0:"+timeString);
+										break;
+		
+									default:
+										break;
+								}
+							}
+							// cell 탐색 이후 vo 추가
+							list.add(program);
+						}
+					}
+				}
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				// 사용한 자원은 finally에서 해제
+				if(workbook!= null) workbook.close();
+				if(fis!= null) fis.close();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			if(!ObjectUtils.isEmpty(element.get("shortcut"))) {
-				speaker.setShortcut(Integer.parseInt(element.get("shortcut").toString()));
-			}
-			if(!ObjectUtils.isEmpty(element.get("occupation"))) {
-				speaker.setOccupation(element.get("occupation").toString());
-			}
-			if(!ObjectUtils.isEmpty(element.get("sex"))) {
-				speaker.setSex(element.get("sex").toString());
-			}
-			if(!ObjectUtils.isEmpty(element.get("name"))) {
-				speaker.setName(element.get("name").toString());
-			}
-			if(!ObjectUtils.isEmpty(element.get("age"))) {
-				speaker.setAge(Integer.parseInt(element.get("age").toString()));
-			}
-			speaker.setMetadata_id(metadata_id); //foreign key
-		    speakerList.add(speaker);
 		}
-		return speakerList;
-	}
-	
-	/* Utterance 파싱 */
-	public List<Utterance> setUtterance(JSONObject obj, int metadata_id){
-		List<Utterance> utteranceList = new ArrayList<>();
-		JSONArray arr = (JSONArray) obj.get("utterance");
-		for(int i=0; i<arr.size(); i++) {
-			Map element = (Map)arr.get(i);
-		    Utterance utterance = new Utterance();
-		    String id = null;
-		    if(!ObjectUtils.isEmpty(element.get("id"))) {
-		    	id = element.get("id").toString(); //primary key
-		    	utterance.setId(id); 
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("note"))) {
-		    	utterance.setNote(element.get("note").toString());
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("standard_form"))) {
-		    	utterance.setStandard_form(element.get("standard_form").toString());
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("form"))) {
-		    	utterance.setForm(element.get("form").toString());
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("speaker_id"))) {
-		    	utterance.setSpeaker_no(element.get("speaker_id").toString());
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("start"))) {
-		    	utterance.setStart(Double.parseDouble(element.get("start").toString()));
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("end"))) {
-		    	utterance.setEnd(Double.parseDouble(element.get("end").toString()));
-		    }
-		    utterance.setMetadata_id(metadata_id); //foreign key
-		    
-		    JSONArray eojoelArr = (JSONArray)element.get("eojeolList");
-		    utterance.setEojoelList(setEojeolList(eojoelArr, id)); //EojeolList 목록 추가
-		    utteranceList.add(utterance);
-		}
-		System.out.println(utteranceList);
-		return utteranceList;
-	}
-	
-	/* EojeolList 파싱 */
-	public List<EojeolList> setEojeolList(JSONArray arr, String utterance_id){
-		List<EojeolList> eojeolListList = new ArrayList<>();
-		for(int i=0; i<arr.size(); i++) {
-			Map element = (Map)arr.get(i);
-		    EojeolList eojeolList = new EojeolList();
-		    if(!ObjectUtils.isEmpty(element.get("id"))) {
-		    	eojeolList.setId(element.get("id").toString()); //primary key
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("standard"))) {
-		    	eojeolList.setStandard(element.get("standard").toString());
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("Eojeol"))) {
-		    	eojeolList.setEojeol(element.get("Eojeol").toString());
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("end"))) {
-		    	eojeolList.setEnd(Integer.parseInt(element.get("end").toString()));
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("isDialect"))) {
-		    	eojeolList.setDialect(Boolean.parseBoolean(element.get("isDialect").toString()));
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("begin"))) {
-		    	eojeolList.setBegin(Integer.parseInt(element.get("begin").toString()));
-		    }
-		    eojeolList.setUtterance_id(utterance_id); //foreign key
-		    eojeolListList.add(eojeolList);
-		}
-		System.out.println(eojeolListList);
-		return eojeolListList;
+		return list;
 	}
 }
