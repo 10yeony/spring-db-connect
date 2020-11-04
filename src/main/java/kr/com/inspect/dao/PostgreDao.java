@@ -10,6 +10,7 @@ import kr.com.inspect.dto.Sound;
 
 public interface PostgreDao {
 	public List<Metadata> getTable();
+	public Metadata getTableUsingId(Integer id);
 	public List<Utterance> getUtteranceTableUsingMetadataId(Integer metadataId);
 	public void insertElasticIndex(String index);
 	public boolean insertJSONObject(String path);
