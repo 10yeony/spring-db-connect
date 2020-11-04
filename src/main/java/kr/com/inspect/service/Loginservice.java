@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.LoginDao;
+import kr.com.inspect.dao.impl.LoginDaoImpl;
 import kr.com.inspect.dto.User;
 
 
@@ -11,12 +12,12 @@ import kr.com.inspect.dto.User;
 public class Loginservice {
 
 	@Autowired
-	LoginDao logindao;
+	LoginDaoImpl logindaoimpl;
 
 	public int insertUser(User user) {
-		return logindao.insertuser(user);
+		return logindaoimpl.insertuser(user);
 	}
 	public User loginUser(User user){
-		return logindao.login(user);
+		return logindaoimpl.login(user);
 	}
 }

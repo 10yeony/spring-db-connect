@@ -51,7 +51,6 @@ CREATE TABLE audio.program (
 );
 
 CREATE TABLE audio.user (
-	id text PRIMARY KEY,
-	nick text,
-	pw text
+	userid text PRIMARY KEY,
+	pwd text
 );
