@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Utterance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.dto.Sound;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class PostgreController {
@@ -68,5 +70,14 @@ public class PostgreController {
 		List<Metadata> metadata = postgreDao.getTable();
 		model.addAttribute("result", metadata);
 		return "postgreSQL/getTable";
+	}
+
+	/* Utterance 테이블 가져오기 */
+	@GetMapping("/getUtteranceTable/{format}")
+	public String getUtteranceTable(Model model,@PathVariable Integer format){
+		List<Utterance> utterances = postgreDao.getUtteranceTableUsingMetadataId(format);
+//		List<>;
+		model.addAttribute("result",utterances);
+		return "postgreSQL/getUtterance";
 	}
 }

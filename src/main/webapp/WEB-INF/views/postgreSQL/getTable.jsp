@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>PostgreSQL 특정 컬렉션 가져오기</title>
+<title>PostgreSQL Metadata 가져오기</title>
 </head>
 <body>
 <h2>PostgreSQL MetaData 가져오기</h2><br/>
@@ -29,7 +29,7 @@
 			<td>${item.annotation_level}</td>
 			<td>${item.year}</td>
 			<td>${item.sampling}</td>
-			<td>${item.title}</td>
+			<td><a href="getUtteranceTable/${item.id}">${item.title}</a></td>
 			<td>${item.category}</td>
 			<td>${item.distributor}</td>
 			<td>${item.relation}</td>

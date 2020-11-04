@@ -62,6 +62,6 @@ public interface PostgreMapper {
 	@Select("SELECT * FROM audio.metadata")
 	public List<Metadata> getTable();
 
-	@Select("SELECT * FROM audio.utterance WHERE id = #{metadataId}")
-	public List<Utterance> getUtterance(String metadataId);
+	@Select("SELECT * FROM audio.utterance WHERE metadata_id = #{metadataId} ORDER BY start")
+	public List<Utterance> getUtteranceTableUsingMetadataId(Integer metadataId);
 }

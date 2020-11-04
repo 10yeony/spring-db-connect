@@ -40,6 +40,11 @@ public class PostgreDaoImpl implements PostgreDao {
 	}
 
 	@Override
+	public List<Utterance> getUtteranceTableUsingMetadataId(Integer metadataId) {
+		return postgreMapper.getUtteranceTableUsingMetadataId(metadataId);
+	}
+
+	@Override
 	public void insertElasticIndex(String index) {
 		// 인덱스를 통해 엘라스틱서치에서 데이터를 받아옴
 		SearchHit[] searchHits = elasticDao.getIndex(index);
