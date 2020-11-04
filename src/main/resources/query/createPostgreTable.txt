@@ -1,3 +1,5 @@
+# PostgreSQL 테이블 생성
+
 CREATE TABLE audio.metadata (
     id SERIAL PRIMARY KEY,
     creator text,

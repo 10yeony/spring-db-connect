@@ -1,17 +1,13 @@
 package kr.com.inspect.report;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import kr.com.inspect.dto.Metadata;
-import org.apache.lucene.util.packed.DirectMonotonicReader;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -21,10 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import kr.com.inspect.dto.Sound;
-
 @Service
-@PropertySource(value = "classpath:report.properties")
+@PropertySource(value = "classpath:properties/report.properties")
 public class XlsxReport {
 	@Value("${table.column0}")
 	private String column0;

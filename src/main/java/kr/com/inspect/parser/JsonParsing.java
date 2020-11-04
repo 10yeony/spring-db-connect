@@ -128,7 +128,6 @@ public class JsonParsing {
 		    utterance.setEojoelList(setEojeolList(eojoelArr, id)); //EojeolList 목록 추가
 		    utteranceList.add(utterance);
 		}
-		System.out.println(utteranceList);
 		return utteranceList;
 	}
 	
@@ -159,7 +158,6 @@ public class JsonParsing {
 		    eojeolList.setUtterance_id(utterance_id); //foreign key
 		    eojeolListList.add(eojeolList);
 		}
-		System.out.println(eojeolListList);
 		return eojeolListList;
 	}
 }

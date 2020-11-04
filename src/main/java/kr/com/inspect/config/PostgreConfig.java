@@ -17,7 +17,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@PropertySource(value = "classpath:db.properties")
+@PropertySource(value = "classpath:properties/db.properties")
 @MapperScan(value = {"kr.com.inspect.mapper"})
 @EnableTransactionManagement
 public class PostgreConfig {

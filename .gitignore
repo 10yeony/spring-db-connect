@@ -199,4 +199,4 @@ src/main/webapp/input/xlsx/*.xlsx
 src/main/webapp/input/xlsx/*.xlsx#
 
 ### DB Info ###
-src/main/resources/db.properties
+src/main/resources/properties/db.properties

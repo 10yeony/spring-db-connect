@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import com.mongodb.MongoClient;
 
 @Configuration
-@PropertySource(value = "classpath:db.properties")
+@PropertySource(value = "classpath:properties/db.properties")
 public class MongoConfig {
 	
 	@Value("${mongoDB.hostname}") 

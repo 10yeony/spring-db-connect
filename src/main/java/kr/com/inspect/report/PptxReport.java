@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import kr.com.inspect.dto.Sound;
 
 @Service
-@PropertySource(value = "classpath:report.properties") 
+@PropertySource(value = "classpath:properties/report.properties") 
 public class PptxReport {
 	@Value("${table.column0}") 
 	private String column0;

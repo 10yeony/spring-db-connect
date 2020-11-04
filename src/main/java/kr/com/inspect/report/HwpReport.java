@@ -18,7 +18,7 @@ import kr.dogfoot.hwplib.tool.blankfilemaker.BlankFileMaker;
 import kr.dogfoot.hwplib.writer.HWPWriter;
 
 @Service
-@PropertySource(value = "classpath:report.properties") 
+@PropertySource(value = "classpath:properties/report.properties") 
 public class HwpReport {
 	@Value("${table.column0}") 
 	private String column0;

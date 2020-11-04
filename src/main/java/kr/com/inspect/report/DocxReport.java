@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import kr.com.inspect.dto.Sound;
 
 @Service
-@PropertySource(value = "classpath:report.properties")
+@PropertySource(value = "classpath:properties/report.properties")
 public class DocxReport {
 	@Value("${table.column0}")
 	private String column0;
