@@ -77,21 +77,27 @@ public class XlsxReport {
 		cell = row.createCell(0);
 		cell.setCellValue(column0);
 		cell = row.createCell(1);
-		cell.setCellValue(column1);
+		cell.setCellValue("title");
 		cell = row.createCell(2);
-		cell.setCellValue(column2);
+		cell.setCellValue("subtitle");
 		cell = row.createCell(3);
-		cell.setCellValue(column3);
+		cell.setCellValue(column1);
 		cell = row.createCell(4);
-		cell.setCellValue(column4);
+		cell.setCellValue(column2);
 		cell = row.createCell(5);
-		cell.setCellValue(column5);
+		cell.setCellValue(column3);
 		cell = row.createCell(6);
-		cell.setCellValue(column6);
+		cell.setCellValue(column4);
 		cell = row.createCell(7);
-		cell.setCellValue(column7);
+		cell.setCellValue("file_num");
 		cell = row.createCell(8);
+		cell.setCellValue(column6);
+		cell = row.createCell(9);
+		cell.setCellValue(column7);
+		cell = row.createCell(10);
 		cell.setCellValue(column8);
+		cell = row.createCell(11);
+		cell.setCellValue("running_time");
 
 		// 리스트의 size 만큼 row를 생성
 		Metadata metadata;
@@ -101,21 +107,27 @@ public class XlsxReport {
 			cell = row.createCell(0);
 			cell.setCellValue(metadata.getId());
 			cell = row.createCell(1);
-			cell.setCellValue(metadata.getCreator());
+			cell.setCellValue(metadata.getProgram().getTitle());
 			cell = row.createCell(2);
-			cell.setCellValue(metadata.getAnnotation_level());
+			cell.setCellValue(metadata.getProgram().getSubtitle());
 			cell = row.createCell(3);
-			cell.setCellValue(metadata.getYear());
+			cell.setCellValue(metadata.getCreator());
 			cell = row.createCell(4);
-			cell.setCellValue(metadata.getSampling());
+			cell.setCellValue(metadata.getAnnotation_level());
 			cell = row.createCell(5);
-			cell.setCellValue(metadata.getTitle());
+			cell.setCellValue(metadata.getYear());
 			cell = row.createCell(6);
-			cell.setCellValue(metadata.getCategory());
+			cell.setCellValue(metadata.getSampling());
 			cell = row.createCell(7);
-			cell.setCellValue(metadata.getDistributor());
+			cell.setCellValue(metadata.getTitle());
 			cell = row.createCell(8);
+			cell.setCellValue(metadata.getCategory());
+			cell = row.createCell(9);
+			cell.setCellValue(metadata.getDistributor());
+			cell = row.createCell(10);
 			cell.setCellValue(metadata.getRelation());
+			cell = row.createCell(11);
+			cell.setCellValue(metadata.getProgram().getRunning_time());
 		}
 
 		// 입력된 내용 파일로 쓰기

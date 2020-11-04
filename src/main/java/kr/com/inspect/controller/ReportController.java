@@ -50,8 +50,8 @@ public class ReportController {
 	public String writeReport(HttpServletRequest request, 
 										Model model,
 										@PathVariable String format) {
-		list = postgreDao.getTable();
-
+		list = postgreDao.getMetadataAndProgram();
+		System.out.println(list.toArray());
 		String root = request.getSession().getServletContext().getRealPath("/");
 		String path = root + "reports" + s;
 		String url = "";
