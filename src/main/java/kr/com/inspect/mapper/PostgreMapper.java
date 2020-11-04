@@ -25,7 +25,7 @@ public interface PostgreMapper {
 	public int insertuser(User user);
 	
 	//로그인
-	@Select("SELECT userid, pwd FROM audio.user WHERE userid = userid AND pwd = pwd")
+	@Select("SELECT *, pwd FROM audio.user WHERE userid = #{userid} AND pwd = #{pwd}")
 	public User login(User user);
 	
 	@Insert("INSERT INTO public.audiolist"+
@@ -66,10 +66,12 @@ public interface PostgreMapper {
 			"(id, standard, eojeol, finish, isDialect, begin, utterance_id)"+
 			"VALUES(#{id}, #{standard}, #{eojeol}, #{end}, #{isDialect}, #{begin}, #{utterance_id});")
 	public void insertIntoEojeolList(EojeolList eojeolList);
-	
+
+	/* metadata 테이블 가져오기 */
 	@Select("SELECT * FROM audio.metadata")
 	public List<Metadata> getTable();
 
+	/* metadata_id 를 이용하여 utterance 데이터 가져오기 */
 	@Select("SELECT * FROM audio.utterance WHERE metadata_id = #{metadataId} ORDER BY start")
 	public List<Utterance> getUtteranceTableUsingMetadataId(Integer metadataId);
 }

@@ -13,8 +13,8 @@
 	
 	<form action="loginUser" method="post">
 	<font color="red">${message}</font>
-		ID:<input type="text" name="id"><br>
-		PW:<input type="password" name="pw"><br>
+		ID:<input type="text" name="userid"><br>
+		PW:<input type="password" name="pwd"><br>
 		<input type="submit" value="login">
 	</form>
 
