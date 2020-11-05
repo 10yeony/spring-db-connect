@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
          pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -38,7 +37,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
-        <!-- 이 부분만 바꿔주면 됩니다 -->
+       <!-- 이 부분만 바꿔주면 됩니다 -->
         <div id="content">
             <!-- 툴바 include -->
             <%@ include file="../include/toolbar.jsp"%>
@@ -52,7 +51,7 @@
 
                 <!-- Page Body -->
                 <div>
-                    <h3>MongoDB에 JSON 데이터가 성공적으로 등록되었습니다.</h3>
+                   <h3>MongoDB에 JSON 데이터가 성공적으로 등록되었습니다.</h3>
                 </div>
 
             </div>

@@ -8,11 +8,11 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="navigator.jsp">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">SDTM<sup>2</sup></div>
     </a>
 
     <!-- Divider -->
@@ -41,7 +41,7 @@
         </a>
         <div id="elasticSearch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/getElasticIndex">특정 인덱스 불러오기</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getElasticIndex">특정 인덱스 불러오기</a>
             </div>
         </div>
     </li>
@@ -54,9 +54,9 @@
         </a>
         <div id="mongoDB" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/insertElasticIndexIntoMongo">Elasticsearch 인덱스 저장</a>
-                <a class="collapse-item" href="/insertJSONData">JSON 파일 저장</a>
-                <a class="collapse-item" href="/getMongoCollection">특정 컬렉션 가져오기</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoMongo">Elasticsearch 인덱스 저장</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONData">JSON 파일 저장</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getMongoCollection">특정 컬렉션 가져오기</a>
             </div>
         </div>
     </li>
@@ -70,10 +70,10 @@
         <div id="postgreSQL" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="/insertElasticIndexIntoPostgre">Elasticsearch 인덱스 저장</a>
-                <a class="collapse-item" href="/insertJSONIntoPostgre">JSON 저장</a>
-                <a class="collapse-item" href="/insertXlsxIntoPostgre">xlsx 저장</a>
-                <a class="collapse-item" href="/getMetadataAndProgram">Metadata 목록</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoPostgre">Elasticsearch 인덱스 저장</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONIntoPostgre">JSON 저장</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">xlsx 저장</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">Metadata 목록</a>
             </div>
         </div>
     </li>
@@ -86,8 +86,8 @@
         </a>
         <div id="report" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/report/docx">docx 파일</a>
-                <a class="collapse-item" href="/report/xlsx">xlsx 파일</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/report/docx">docx 파일</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/report/xlsx">xlsx 파일</a>
             </div>
         </div>
     </li>
