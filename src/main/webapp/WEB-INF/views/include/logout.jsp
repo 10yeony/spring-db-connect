@@ -21,10 +21,9 @@
 			<div class="modal-footer">
 				<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 
-				<form action="logout" method="get">
+				<form action="${pageContext.request.contextPath}/logout" method="get">
 					<input type="submit" value="Logout" class="btn btn-primary">
 				</form>
-
 
 			</div>
 		</div>
