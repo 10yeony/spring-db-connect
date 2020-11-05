@@ -4,6 +4,7 @@ import java.util.List;
 
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
+import org.apache.ibatis.annotations.Param;
 import org.json.simple.JSONObject;
 
 import kr.com.inspect.dto.Sound;
@@ -20,4 +21,7 @@ public interface PostgreDao {
 	
 	/* Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
 	public List<Metadata> getMetadataAndProgram();
+
+	/* metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
+	public Metadata getMetadataAndProgramUsingId(Integer metaId);
 }

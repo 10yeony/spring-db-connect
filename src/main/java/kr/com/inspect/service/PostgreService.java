@@ -4,6 +4,7 @@ import java.util.List;
 
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
+import org.apache.ibatis.annotations.Param;
 
 public interface PostgreService {
 	/* 엘라스틱 서치에서 받아온 인덱스를 PostgreSQL에 넣음(테스트) */
@@ -26,4 +27,7 @@ public interface PostgreService {
 	
 	/* Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
 	public List<Metadata> getMetadataAndProgram();
+
+	/* metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
+	public Metadata getMetadataAndProgramUsingId(Integer metaId);
 }

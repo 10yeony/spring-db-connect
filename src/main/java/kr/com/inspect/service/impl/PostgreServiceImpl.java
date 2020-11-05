@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.ibatis.annotations.Param;
 import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,5 +166,10 @@ public class PostgreServiceImpl implements PostgreService {
 	/* Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
 	public List<Metadata> getMetadataAndProgram(){
 		return postgreDao.getMetadataAndProgram();
+	}
+
+	/* metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
+	public Metadata getMetadataAndProgramUsingId(Integer metaId){
+		return postgreDao.getMetadataAndProgramUsingId(metaId);
 	}
 }

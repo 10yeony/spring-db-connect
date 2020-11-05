@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Select;
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Program;
-import kr.com.inspect.dto.Sound;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.User;
 import kr.com.inspect.dto.Utterance;
@@ -46,5 +45,5 @@ public interface PostgreSelectMapper {
 
 	/* metadata_id 를 이용하여 utterance 데이터 가져오기 */
 	@Select("SELECT * FROM audio.utterance WHERE metadata_id = #{metadataId} ORDER BY start")
-	public List<Utterance> getUtteranceByMetadataId(Integer metadataId);
+	public List<Utterance> getUtteranceByMetadataId(Integer id);
 }

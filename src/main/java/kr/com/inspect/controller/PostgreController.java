@@ -67,7 +67,7 @@ public class PostgreController {
 	@GetMapping("/getUtteranceTable/{format}")
 	public String getUtteranceTable(Model model, @PathVariable Integer format){
 		List<Utterance> utterances = postgreService.getUtteranceByMetadataId(format);
- 		Metadata metadata = postgreService.getMetadataById(format);
+ 		Metadata metadata = postgreService.getMetadataAndProgramUsingId(format);
 		model.addAttribute("utterances",utterances);
 		model.addAttribute("metadata",metadata);
 		return "postgreSQL/getUtterance";

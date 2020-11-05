@@ -42,4 +42,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   		LEFT JOIN audio.program p ON
   			m.title = p.file_num;
 	</select>
+
+	<select id="getMetadataAndProgramUsingId" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram" parameterType="Integer">
+		SELECT
+			m.id metadata_id,
+			m.creator creator,
+			m.annotation_level annotation_level,
+			m.year metadata_year,
+			m.sampling sampling,
+			m.title metadata_title,
+			m.category category,
+			m.distributor distributor,
+			m.relation relation,
+			p.id program_id,
+			p.file_num file_num,
+			p.title program_title,
+			p.subtitle subtitle,
+			p.running_time running_time
+		FROM
+			audio.metadata m
+		LEFT JOIN audio.program p ON
+			m.title = p.file_num
+		WHERE m.id = #{metaId};
+	</select>
 </mapper>

@@ -44,7 +44,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h4>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, FileNum : ${metadata.title}, creator : ${metadata.creator}</h4>
+                    <h5>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, FileNum : ${metadata.title}, creator : ${metadata.creator}</h5>
                 </div>
 
                 <!-- Page Body -->

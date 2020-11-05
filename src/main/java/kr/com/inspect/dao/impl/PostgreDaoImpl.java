@@ -2,6 +2,7 @@ package kr.com.inspect.dao.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,6 +46,13 @@ public class PostgreDaoImpl implements PostgreDao {
 	@Override
 	public List<Metadata> getMetadataAndProgram(){
 		List<Metadata> list = sqlSession.selectList(ns+"getMetadataAndProgram");
+		return list;
+	}
+
+	/* metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
+	@Override
+	public Metadata getMetadataAndProgramUsingId(Integer metaId){
+		Metadata list = sqlSession.selectOne(ns+"getMetadataAndProgramUsingId",metaId);
 		return list;
 	}
 }
