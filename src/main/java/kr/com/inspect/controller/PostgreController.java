@@ -63,14 +63,6 @@ public class PostgreController {
 		return "postgreSQL/insertXlsxFail";
 	}
 	
-	/* PostgreSQL 특정 테이블 가져오기 */
-	@GetMapping("/getPostgreTable")
-	public String getPostgreTable(Model model) {
-		List<Metadata> metadata = postgreService.getMetadataAndProgram();
-		model.addAttribute("result", metadata);
-		return "postgreSQL/getTable";
-	}
-
 	/* Utterance 테이블 가져오기 */
 	@GetMapping("/getUtteranceTable/{format}")
 	public String getUtteranceTable(Model model, @PathVariable Integer format){
@@ -84,8 +76,8 @@ public class PostgreController {
 	/* Metadata & Program 조인해서 가져오기 */
 	@GetMapping("/getMetadataAndProgram")
 	public String getMetadataAndProgram(Model model) {
-		List<Metadata> list = postgreService.getMetadataAndProgram();
-		model.addAttribute(list);
+		List<Metadata> metadata = postgreService.getMetadataAndProgram();
+		model.addAttribute("result", metadata);
 		return "postgreSQL/getTable";
 	}
 }

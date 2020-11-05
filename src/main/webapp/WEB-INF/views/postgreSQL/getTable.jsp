@@ -12,7 +12,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>SB Admin 2 - Dashboard</title>
+	<title>Metadata Table</title>
 
 	<!-- Custom fonts for this template-->
 	<link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,7 +44,12 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<table border="1" width="1500">
+					<h3>Metadata Table</h3>
+				</div>
+
+				<!-- Page Body -->
+				<div class="card shadow mb-4">
+					<table border="1">
 						<tr>
 							<th>Id</th>
 							<th>Title</th>
@@ -75,6 +80,7 @@
 						</c:forEach>
 					</table>
 				</div>
+
 
 			</div>
 			<!-- /.container-fluid -->

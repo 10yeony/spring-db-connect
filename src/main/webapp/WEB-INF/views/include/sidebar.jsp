@@ -20,7 +20,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -41,7 +41,7 @@
         </a>
         <div id="elasticSearch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="getElasticIndex">특정 인덱스 데이터 모두 불러오기</a>
+                <a class="collapse-item" href="/getElasticIndex">특정 인덱스 불러오기</a>
             </div>
         </div>
     </li>
@@ -54,9 +54,9 @@
         </a>
         <div id="mongoDB" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="insertElasticIndexIntoMongo">Elasticsearch 인덱스 저장</a>
-                <a class="collapse-item" href="insertJSONData">JSON 파일 저장</a>
-                <a class="collapse-item" href="getMongoCollection">특정 컬렉션 가져오기</a>
+                <a class="collapse-item" href="/insertElasticIndexIntoMongo">Elasticsearch 인덱스 저장</a>
+                <a class="collapse-item" href="/insertJSONData">JSON 파일 저장</a>
+                <a class="collapse-item" href="/getMongoCollection">특정 컬렉션 가져오기</a>
             </div>
         </div>
     </li>
@@ -70,11 +70,10 @@
         <div id="postgreSQL" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="insertElasticIndexIntoPostgre">Elasticsearch 인덱스 저장</a>
-                <a class="collapse-item" href="insertJSONIntoPostgre">JSON 저장</a>
-                <a class="collapse-item" href="insertXlsxIntoPostgre">xlsx 저장</a>
-                <a class="collapse-item" href="getPostgreTable">특정 컬렉션 가져오기</a>
-                <a class="collapse-item" href="getMetadataAndProgram">조인 테스트</a>
+                <a class="collapse-item" href="/insertElasticIndexIntoPostgre">Elasticsearch 인덱스 저장</a>
+                <a class="collapse-item" href="/insertJSONIntoPostgre">JSON 저장</a>
+                <a class="collapse-item" href="/insertXlsxIntoPostgre">xlsx 저장</a>
+                <a class="collapse-item" href="/getMetadataAndProgram">Metadata 목록</a>
             </div>
         </div>
     </li>
