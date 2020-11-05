@@ -1,11 +1,12 @@
 package kr.com.inspect.controller;
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
 
 @Controller
+@PropertySource(value = "classpath:properties/directory.properties")
 public class PostgreController {
 	@Autowired
 	private PostgreService postgreService;
@@ -23,7 +25,11 @@ public class PostgreController {
 	//엘라스틱서치
 	private String index = "audiolist";
 	
-	private String s = File.separator;
+	@Value("${input.json.directory}")
+	private String jsonPath;
+	
+	@Value("${input.xlsx.directory}")
+	private String xlsxPath;
 	
 	/* 엘라스틱서치 특정 인덱스를 PostgreSQL 특정 테이블에 넣기 */
 	@GetMapping("/insertElasticIndexIntoPostgre")
@@ -36,9 +42,7 @@ public class PostgreController {
 	   (metadata, speaker, utterance, eojeolList) */
 	@GetMapping("/insertJSONIntoPostgre")
 	public String insertJSONObject(HttpServletRequest request) {
-		String root = request.getSession().getServletContext().getRealPath("/");
-		String path = root + "input" + s + "json" + s;
-		boolean flag = postgreService.insertJSONObject(path);
+		boolean flag = postgreService.insertJSONObject(jsonPath);
 		if(flag == true) {
 			return "postgreSQL/insertJSON";
 		}
@@ -48,9 +52,7 @@ public class PostgreController {
 	/* xlsx 파일을 PostgreSQL 특정 테이블(program)에 넣기 */
 	@GetMapping("/insertXlsxIntoPostgre")
 	public String insertXlsxTable(HttpServletRequest request) {
-		String root = request.getSession().getServletContext().getRealPath("/");
-		String path = root + "input" + s + "xlsx" + s;
-		boolean flag = postgreService.insertXlsxTable(path);
+		boolean flag = postgreService.insertXlsxTable(xlsxPath);
 		if(flag == true) {
 			return "postgreSQL/insertXlsx";
 		}

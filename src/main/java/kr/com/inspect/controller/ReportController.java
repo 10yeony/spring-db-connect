@@ -1,11 +1,12 @@
 package kr.com.inspect.controller;
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import kr.com.inspect.report.XlsxReport;
 import kr.com.inspect.service.PostgreService;
 
 @Controller
+@PropertySource(value = "classpath:properties/directory.properties")
 public class ReportController {
 	/* PostgreSQL */
 	@Autowired 
@@ -38,7 +40,17 @@ public class ReportController {
 	@Autowired
 	private PptxReport pptxReport;
 	
-	private String s = File.separator; //파일 구분
+	@Value("${report.docx.directory}")
+	private String docxPath;
+	
+	@Value("${report.xlsx.directory}")
+	private String xlsxPath;
+	
+	@Value("${report.hwp.directory}")
+	private String hwpPath;
+	
+	@Value("${report.pptx.directory}")
+	private String pptxPath;
 	
 	/* 보고서 작성 */
 	@GetMapping("/report/{format}")
@@ -46,30 +58,23 @@ public class ReportController {
 										Model model,
 										@PathVariable String format) {
 		list = postgreService.getMetadataAndProgram();
-		System.out.println(list.toArray());
-		String root = request.getSession().getServletContext().getRealPath("/");
-		String path = root + "reports" + s;
 		String url = "";
 		
 		switch(format) {
 			case ("hwp"): //한글 파일
-				path += "hwp" + s;
-				// hwpReport.writeHwp(path, list);
+				// hwpReport.writeHwp(hwpPath, list);
 				url = "report/hwpReport";
 				break;
 			case ("docx"): //docx 파일
-				path += "docx" + s;
-				docxReport.writeDocx(path, list);
+				docxReport.writeDocx(docxPath, list);
 				url = "report/docxReport";
 				break;
 			case ("xlsx"): //xlsx 파일
-				path += "xlsx" + s;
-				xlsxReport.writeXlsx(path, list);
+				xlsxReport.writeXlsx(xlsxPath, list);
 				url = "report/xlsxReport";
 				break;
 			case ("pptx"): //pptx 파일 
-				path += "pptx" + s;
-				// pptxReport.writePptx(path, list);
+				// pptxReport.writePptx(pptxPath, list);
 				url = "report/pptxReport";
 				break;
 			default:
