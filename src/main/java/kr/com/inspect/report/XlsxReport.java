@@ -46,6 +46,8 @@ public class XlsxReport {
 
 	@Value("${table.column8}")
 	private String column8;
+	
+	/* xlsx 보고서 작성 */
 	public void writeXlsx(String path, List<Metadata> list) {
 		String xlsxFileName =
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())

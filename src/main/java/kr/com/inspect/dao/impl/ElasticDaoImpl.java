@@ -42,9 +42,7 @@ public class ElasticDaoImpl implements ElasticDao {
         }catch (IOException e){
             System.out.println("search error");
         }
-        
-        SearchHit[] searchHits = searchResponse.getHits().getHits();
-        
-        return searchHits;
+      SearchHit[] searchHits = searchResponse.getHits().getHits();
+      return searchHits;
 	}
 }

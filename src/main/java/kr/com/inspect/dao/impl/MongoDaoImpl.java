@@ -1,10 +1,11 @@
 package kr.com.inspect.dao.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
-import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,18 +15,15 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import kr.com.inspect.dao.ElasticDao;
 import kr.com.inspect.dao.MongoDao;
 import kr.com.inspect.parser.JsonParsing;
 
 @Repository
-@SuppressWarnings("deprecation")
 public class MongoDaoImpl implements MongoDao {
 	@Autowired
 	private MongoClient mongoClient;
 	
-	@Autowired
-	private ElasticDao elasticDao;
+	private JsonParsing jsonParsing = new JsonParsing();
 	
 	/* 자원 회수 */
 	@Override
@@ -33,43 +31,40 @@ public class MongoDaoImpl implements MongoDao {
 		mongoClient.close();
 	}
 	
-	/* 몽고DB에 엘라스틱서치에서 받아온 인덱스 데이터를 입력하기 */
+	/* 몽고DB에서 해당되는 database의 collection 객체인 MongoCollection<Document> 만들기 */
 	@Override
-	public void insertElasticIndex(String database, String col, String index) {
-		// 인덱스를 통해 엘라스틱서치에서 데이터를 받아옴
-		SearchHit[] searchHits = elasticDao.getIndex(index);
-		
+	public MongoCollection<Document> makeMongoCollection(String database, String col) {
 		MongoDatabase DB = mongoClient.getDatabase(database);
 		MongoCollection<Document> collection = DB.getCollection(col);
+		return collection;
+	}
+	
+	/* 특정 경로에 있는 JSON 파일들을 읽어서 몽고DB에 넣기 */
+	@Override
+	public void insertJSONData(String database, String col, String path) {
+		File dir = new File(path);
+		File[] fileList = dir.listFiles();
+		boolean check = false;
+		MongoCollection<Document> collection = makeMongoCollection(database, col);
 		
-		for(SearchHit hit: searchHits) {
-			String json = hit.getSourceAsString();
-			Document document = Document.parse(json);
-			//document.put("_id", hit.getId());
-			collection.insertOne(document);
+		for(File file : fileList){
+			/* 확장자가 json인 파일을 읽는다 */
+		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
+		    	String fullPath = path + file.getName();
+				JSONObject jo = jsonParsing.getJSONObject(fullPath);
+				String json = jo.toString();
+				Document document = Document.parse(json);
+				collection.insertOne(document);
+		    }
 		}
 	}
 	
-	/* 몽고DB에 JSON 데이터를 입력하기 */
-	@Override
-	public void insertJSONData(String database, String col, String fullPath) {
-		MongoDatabase DB = mongoClient.getDatabase(database);
-		MongoCollection<Document> collection = DB.getCollection(col);
-		
-		JsonParsing jsonParsing = new JsonParsing();
-        JSONObject jo = jsonParsing.getJSONObject(fullPath);
-        String json = jo.toString();
-        Document document = Document.parse(json);
-        collection.insertOne(document);
-	}
-	
-	/* 몽고DB 해당 컬렉션 다 가져오기 */
+	/* 몽고DB에서 해당되는 database의 collection 데이터를 모두 가져오기 */
 	@Override
 	public List<Document> getCollection(String database, String col){
 		List<Document> list = new ArrayList<>();
-		MongoDatabase mDB = mongoClient.getDatabase(database);
-		MongoCollection<Document> mCollection = mDB.getCollection(col);
-		FindIterable<Document> documents = mCollection.find();
+		MongoCollection<Document> collection = makeMongoCollection(database, col);
+		FindIterable<Document> documents = collection.find();
 		for (Document doc : documents){
 			list.add(doc);
         }

@@ -1,6 +1,7 @@
 package kr.com.inspect.controller;
 
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,19 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.com.inspect.dto.User;
-import kr.com.inspect.service.Loginservice;
+import kr.com.inspect.service.LoginService;
 
 @Controller
 public class LoginController {
 	@Autowired
-	Loginservice loginservice;
+	private LoginService loginService;
 
+	/* 로그인 */
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
 	public String loginUser(User user, Model model, HttpSession session) {
-
-		User result = loginservice.loginUser(user);
-		System.out.println(result);
-
+		User result = loginService.loginUser(user);
 		if (result == null) {
 			model.addAttribute("message", "ID나PW가 틀립니다.");
 			return "wrong";
@@ -29,9 +28,9 @@ public class LoginController {
 			session.setAttribute("loginId", result.getUserid());
 			return "navigator";
 		}
-
 	}
 
+	/* 로그아웃 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(User user, Model model, HttpSession session) {
 		session.invalidate();
@@ -39,19 +38,18 @@ public class LoginController {
 		return "index";
 	}
 
+	/* 회원가입 */
 	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
 	public String insertUser(User user, Model model) {
-
-		int result = loginservice.insertUser(user);
-
+		int result = loginService.insertUser(user);
 		if (result == 0) {
 			model.addAttribute("message", "같은 아이디가 있습니다.");
 			return "insert";
 		}
-
 		return "index";
 	}
 	
+	/* 회원가입 페이지 이동 */
 	@GetMapping("/insert")
 	public String moveToElasticPage() {
 		return "/insert";

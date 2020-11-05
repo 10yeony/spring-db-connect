@@ -46,6 +46,7 @@ public class DocxReport {
 	@Value("${table.column8}")
 	private String column8;
 
+	/* docx 보고서 작성 */
 	public void writeDocx(String path, List<Metadata> list) {
 		String docxFileName =
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())

@@ -5,21 +5,20 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Utterance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import kr.com.inspect.dao.PostgreDao;
-import kr.com.inspect.dto.Sound;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Utterance;
+import kr.com.inspect.service.PostgreService;
 
 @Controller
 public class PostgreController {
 	@Autowired
-	private PostgreDao postgreDao;
+	private PostgreService postgreService;
 	
 	//엘라스틱서치
 	private String index = "audiolist";
@@ -35,7 +34,7 @@ public class PostgreController {
 	/* 엘라스틱서치 특정 인덱스를 PostgreSQL 특정 테이블에 넣기 */
 	@GetMapping("/insertElasticIndexIntoPostgre")
 	public String insertElasticIndexIntoPostgre() {
-		postgreDao.insertElasticIndex(index);
+		postgreService.insertElasticIndex(index);
 		return "postgreSQL/insertElasticIndex";
 	}
 	
@@ -45,7 +44,7 @@ public class PostgreController {
 	public String insertJSONObject(HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("/");
 		String path = root + "input" + s + "json" + s;
-		boolean flag = postgreDao.insertJSONObject(path);
+		boolean flag = postgreService.insertJSONObject(path);
 		if(flag == true) {
 			return "postgreSQL/insertJSON";
 		}
@@ -57,7 +56,7 @@ public class PostgreController {
 	public String insertXlsxTable(HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("/");
 		String path = root + "input" + s + "xlsx" + s;
-		boolean flag = postgreDao.insertXlsxTable(path);
+		boolean flag = postgreService.insertXlsxTable(path);
 		if(flag == true) {
 			return "postgreSQL/insertXlsx";
 		}
@@ -67,16 +66,16 @@ public class PostgreController {
 	/* PostgreSQL 특정 테이블 가져오기 */
 	@GetMapping("/getPostgreTable")
 	public String getPostgreTable(Model model) {
-		List<Metadata> metadata = postgreDao.getMetadataAndProgram();
+		List<Metadata> metadata = postgreService.getMetadataAndProgram();
 		model.addAttribute("result", metadata);
 		return "postgreSQL/getTable";
 	}
 
 	/* Utterance 테이블 가져오기 */
 	@GetMapping("/getUtteranceTable/{format}")
-	public String getUtteranceTable(Model model,@PathVariable Integer format){
-		List<Utterance> utterances = postgreDao.getUtteranceTableUsingMetadataId(format);
- 		Metadata metadata = postgreDao.getTableUsingId(format);
+	public String getUtteranceTable(Model model, @PathVariable Integer format){
+		List<Utterance> utterances = postgreService.getUtteranceByMetadataId(format);
+ 		Metadata metadata = postgreService.getMetadataById(format);
 		model.addAttribute("utterances",utterances);
 		model.addAttribute("metadata",metadata);
 		return "postgreSQL/getUtterance";
@@ -85,7 +84,7 @@ public class PostgreController {
 	/* Metadata & Program 조인해서 가져오기 */
 	@GetMapping("/getMetadataAndProgram")
 	public String getMetadataAndProgram(Model model) {
-		List<Metadata> list = postgreDao.getMetadataAndProgram();
+		List<Metadata> list = postgreService.getMetadataAndProgram();
 		model.addAttribute(list);
 		return "postgreSQL/getTable";
 	}

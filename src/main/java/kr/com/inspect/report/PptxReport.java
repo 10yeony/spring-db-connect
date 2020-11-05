@@ -39,6 +39,7 @@ public class PptxReport {
 	@Value("${table.column4}") 
 	private String column4;
 	
+	/* pptx 보고서 작성 */
 	public void writePptx(String path, List<Sound> list) {
 		String pptxFileName = 
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) 

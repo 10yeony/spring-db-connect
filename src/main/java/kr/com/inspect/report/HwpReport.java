@@ -35,6 +35,7 @@ public class HwpReport {
 	@Value("${table.column4}") 
 	private String column4;
 	
+	/* hwp 보고서 작성 */
 	public void writeHwp(String path, List<Sound> list) {
 		String hwpFileName = 
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) 
