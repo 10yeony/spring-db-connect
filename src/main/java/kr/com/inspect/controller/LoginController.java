@@ -30,6 +30,10 @@ public class LoginController {
 		}
 	}
 
+	/* Navigator로 이동 */
+	@GetMapping("/goNavi")
+	public String goNavi(){return "/navigator";}
+
 	/* 로그아웃 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(User user, Model model, HttpSession session) {
