@@ -54,7 +54,7 @@
 
 		<!-- Heading -->
 		<div class="sidebar-heading">
-			Interface
+			List
 		</div>
 
 		<!-- Nav Item - Pages Collapse Menu -->
@@ -65,7 +65,7 @@
 			</a>
 			<div id="elasticSearch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
-					<a class="collapse-item" href="buttons.html">특정 인덱스 데이터 모두 불러오기</a>
+					<a class="collapse-item" href="getElasticIndex">특정 인덱스 데이터 모두 불러오기</a>
 				</div>
 			</div>
 		</li>
@@ -78,9 +78,9 @@
 			</a>
 			<div id="mongoDB" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
-					<a class="collapse-item" href="utilities-color.html">Elasticsearch 인덱스 저장</a>
-					<a class="collapse-item" href="utilities-border.html">JSON 파일 저장</a>
-					<a class="collapse-item" href="utilities-animation.html">특정 컬렉션 가져오기</a>
+					<a class="collapse-item" href="insertElasticIndexIntoMongo">Elasticsearch 인덱스 저장</a>
+					<a class="collapse-item" href="insertJSONData">JSON 파일 저장</a>
+					<a class="collapse-item" href="getMongoCollection">특정 컬렉션 가져오기</a>
 				</div>
 			</div>
 		</li>
@@ -94,11 +94,11 @@
 			<div id="postgreSQL" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Login Screens:</h6>
-					<a class="collapse-item" href="login.html">Elasticsearch 인덱스 저장</a>
-					<a class="collapse-item" href="register.html">JSON 저장</a>
-					<a class="collapse-item" href="forgot-password.html">xlsx 저장</a>
-					<a class="collapse-item" href="404.html">특정 컬렉션 가져오기</a>
-					<a class="collapse-item" href="blank.html">조인 테스트</a>
+					<a class="collapse-item" href="insertElasticIndexIntoPostgre">Elasticsearch 인덱스 저장</a>
+					<a class="collapse-item" href="insertJSONIntoPostgre">JSON 저장</a>
+					<a class="collapse-item" href="insertXlsxIntoPostgre">xlsx 저장</a>
+					<a class="collapse-item" href="getPostgreTable">특정 컬렉션 가져오기</a>
+					<a class="collapse-item" href="getMetadataAndProgram">조인 테스트</a>
 				</div>
 			</div>
 		</li>
@@ -111,8 +111,8 @@
 			</a>
 			<div id="report" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
-					<a class="collapse-item" href="login.html">docx 파일</a>
-					<a class="collapse-item" href="register.html">xlsx 파일</a>
+					<a class="collapse-item" href="report/docx">docx 파일</a>
+					<a class="collapse-item" href="report/xlsx">xlsx 파일</a>
 				</div>
 			</div>
 		</li>
