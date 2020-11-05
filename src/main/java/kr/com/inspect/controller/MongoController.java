@@ -27,12 +27,6 @@ public class MongoController {
 	
 	private String s = File.separator;
 	
-	/* 몽고DB 페이지 이동 */
-	@GetMapping("/mongoPage")
-	public String moveToElasticPage() {
-		return "mongoDB/mongoPage";
-	}
-	
 	/* 몽고DB 컬렉션에 엘라스틱서치에서 받아온 인덱스 데이터를 입력하기 */
 	@GetMapping("/insertElasticIndexIntoMongo")
 	public String insertElasticIndexIntoMongo() {

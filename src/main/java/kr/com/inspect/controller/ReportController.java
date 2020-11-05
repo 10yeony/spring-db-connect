@@ -40,12 +40,6 @@ public class ReportController {
 	
 	private String s = File.separator; //파일 구분
 	
-	/* 보고서 페이지 이동 */
-	@GetMapping("/reportPage")
-	public String moveToReportPage() {
-		return "report/reportPage";
-	}
-	
 	/* 보고서 작성 */
 	@GetMapping("/report/{format}")
 	public String writeReport(HttpServletRequest request, 

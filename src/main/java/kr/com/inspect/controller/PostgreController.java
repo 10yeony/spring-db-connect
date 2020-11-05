@@ -25,12 +25,6 @@ public class PostgreController {
 	
 	private String s = File.separator;
 	
-	/* PostgreSQL 페이지 이동 */
-	@GetMapping("/postgrePage")
-	public String moveToElasticPage() {
-		return "postgreSQL/postgrePage";
-	}
-	
 	/* 엘라스틱서치 특정 인덱스를 PostgreSQL 특정 테이블에 넣기 */
 	@GetMapping("/insertElasticIndexIntoPostgre")
 	public String insertElasticIndexIntoPostgre() {

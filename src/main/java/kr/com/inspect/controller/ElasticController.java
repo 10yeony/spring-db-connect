@@ -15,13 +15,7 @@ public class ElasticController {
 	
 	//엘라스틱서치
 	private String index = "audiolist";
-	
-	/* 엘라스틱서치 페이지 이동 */
-	@GetMapping("/elasticPage")
-	public String moveToElasticPage() {
-		return "elasticsearch/elasticPage";
-	}
-	
+
 	/* 엘라스틱서치에서 해당되는 인덱스에 있는 데이터 모두 가져오기 */
 	@GetMapping("/getElasticIndex")
 	public String getElasticIndex(Model model) {
