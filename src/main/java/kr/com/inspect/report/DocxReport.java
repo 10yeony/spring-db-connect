@@ -72,21 +72,16 @@ public class DocxReport {
 		r1.addBreak();
 
 
-		XWPFTable table = doc.createTable(list.size()+1, 12);
+		XWPFTable table = doc.createTable(list.size()+1, 7);
 
 		/* 헤더 정보 구성 */
 		table.getRow(0).getCell(0).setText(column0);
 		table.getRow(0).getCell(1).setText("title");
 		table.getRow(0).getCell(2).setText("subtitle");
 		table.getRow(0).getCell(3).setText(column1);
-		table.getRow(0).getCell(4).setText(column2);
-		table.getRow(0).getCell(5).setText(column3);
-		table.getRow(0).getCell(6).setText(column4);
-		table.getRow(0).getCell(7).setText("file_num");
-		table.getRow(0).getCell(8).setText(column6);
-		table.getRow(0).getCell(9).setText(column7);
-		table.getRow(0).getCell(10).setText(column8);
-		table.getRow(0).getCell(11).setText("running_time");
+		table.getRow(0).getCell(4).setText(column3);
+		table.getRow(0).getCell(5).setText("file_num");
+		table.getRow(0).getCell(6).setText("running_time");
 
 		Metadata metadata;
 		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
@@ -95,14 +90,9 @@ public class DocxReport {
 			table.getRow(rowIdx+1).getCell(1).setText(metadata.getProgram().getTitle());
 			table.getRow(rowIdx+1).getCell(2).setText(metadata.getProgram().getSubtitle());
 			table.getRow(rowIdx+1).getCell(3).setText(metadata.getCreator());
-			table.getRow(rowIdx+1).getCell(4).setText(metadata.getAnnotation_level());
-			table.getRow(rowIdx+1).getCell(5).setText(metadata.getYear());
-			table.getRow(rowIdx+1).getCell(6).setText(metadata.getSampling());
-			table.getRow(rowIdx+1).getCell(7).setText(metadata.getTitle());
-			table.getRow(rowIdx+1).getCell(8).setText(metadata.getCategory());
-			table.getRow(rowIdx+1).getCell(9).setText(metadata.getDistributor());
-			table.getRow(rowIdx+1).getCell(10).setText(metadata.getRelation());
-			table.getRow(rowIdx+1).getCell(11).setText(metadata.getProgram().getRunning_time());
+			table.getRow(rowIdx+1).getCell(4).setText(metadata.getYear());
+			table.getRow(rowIdx+1).getCell(5).setText(metadata.getTitle());
+			table.getRow(rowIdx+1).getCell(6).setText(metadata.getProgram().getRunning_time());
 		}
 
 		// 입력된 내용 파일로 쓰기
