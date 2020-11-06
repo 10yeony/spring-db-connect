@@ -35,10 +35,8 @@ public class LoginDaoImpl implements LoginDao{
 	
 	/* 아이디 중복확인 */
 	@Override
-	public int IdChk(User user) throws Exception {
-		int result = 0;
-		result = postgreSelectMapper.IdChk(user);
-		return result;
+	public User IdCheck(String id) {
+		return null;
 	}
 	
 }

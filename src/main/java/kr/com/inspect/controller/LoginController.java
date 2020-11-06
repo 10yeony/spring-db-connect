@@ -1,40 +1,70 @@
 package kr.com.inspect.controller;
 
+import java.text.ParseException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.com.inspect.dao.LoginDao;
+import kr.com.inspect.dao.impl.LoginDaoImpl;
 import kr.com.inspect.dto.User;
+import kr.com.inspect.mapper.PostgreSelectMapper;
 import kr.com.inspect.service.LoginService;
 
 @Controller
 public class LoginController {
+
+	/*
+	 * @Autowired private LoginDao logindao;
+	 * 
+	 * @Autowired private LoginDaoImpl logindaoimpl;
+	 */
+
 	@Autowired
 	private LoginService loginService;
+
+	@Autowired
+	private PostgreSelectMapper postgreSelectMapper;
 
 	/* 회원가입 */
 	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
 	public String insertUser(User user, Model model) {
-		
+
 		int result = loginService.insertUser(user);
 		if (result == 0) {
-			model.addAttribute("message", "같은 아이디가 있습니다.");
-			return "wrong";
+			model.addAttribute("msg", "Same Id");
+			model.addAttribute("url", "/");
+			return "insertdirect";
 		}
 		return "index";
 	}
-	
-	/* 아이디 중복 체크 */
-	@RequestMapping(value = "/IdChk", method = RequestMethod.POST)
-	public int IdChk(User user) throws Exception {
-		int result = loginService.IdChk(user);
-		return result;
-	}
+
+	/*
+	 * 아이디 중복 체크
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value = "/IdCheck", produces = "text/plane") public String
+	 * IdCheck(@RequestBody String paramData) throws ParseException {
+	 * 
+	 * String ID = paramData.trim(); System.out.println(ID); LoginDao logindao =
+	 * postgreSelectMapper.IdCheck(ID); LoginDaoImpl logindaoimple =
+	 * logindao.IdCheck(ID);
+	 * 
+	 * if (logindaoimple != null) { return "-1"; } else
+	 * 
+	 * { System.out.println("null"); return "0"; } }
+	 */
+
 	/* 로그인 */
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
 	public String loginUser(User user, Model model, HttpSession session) throws Exception {
@@ -42,8 +72,9 @@ public class LoginController {
 			User result = loginService.loginUser(user);
 			session.setAttribute("loginId", result.getUserid());
 		} catch (NullPointerException e) {
-			model.addAttribute("msg", "The user id or password is incorrect.                                  Please re-enter your Id and Password");
-			model.addAttribute("url","/");
+			model.addAttribute("msg",
+					"The user id or password is incorrect.                                  Please re-enter your Id and Password");
+			model.addAttribute("url", "/");
 			return "redirect";
 		}
 		return "navigator";
@@ -62,8 +93,6 @@ public class LoginController {
 		// session.setAttribute("loginId",null); 으로 해줘도 된다.
 		return "index";
 	}
-
-
 
 	/* 회원가입 페이지 이동 */
 	@GetMapping("/insert")

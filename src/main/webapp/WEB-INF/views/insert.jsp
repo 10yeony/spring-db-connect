@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,41 +37,47 @@
 			<div class="card-body p-0">
 				<!-- Nested Row within Card Body -->
 				<div class="row">
-					<div class="col-lg-5 d-none d-lg-block"><image src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg" width="450" height="450"></image></div>
+					<div class="col-lg-5 d-none d-lg-block">
+						<image
+							src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg"
+							width="450" height="450"></image>
+					</div>
 					<div class="col-lg-7">
 						<div class="p-5">
 							<div class="text-center">
 								<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 							</div>
-							<form action="insertUser" method="post">
-								<div class="form-group row"></div>
-								<div class="form-group">
-									<input type="text" class="form-control form-control-user"
-										name="userid" placeholder="User ID">
-										
-								</div>
-								
-								<div class="form-group">
-									<input type="password" class="form-control form-control-user"
-										name="pwd" placeholder="Password">
-								</div>
 
+							<form action="insertUser" method="post" name="insert">
+								<div class="form-group">
+									<input type="text" class="form-control" name="userid"
+										placeholder="User ID" required>
+									<div class="check_font" id="id_check"></div>
+								</div>
+								<!-- <button id="duplicate_check" type="button" onclick="check();">중복체크</button> -->
+								<!-- <div class="col-sm-4 mb-3 mb-sm-0">
+										<input type="submit" value="Check Account"
+											class="form-control form-control-user">
+									</div> -->
+								<div class="form-group">
+									<input type="password" class="form-control" name="pwd"
+										placeholder="Password" required>
+								</div>
 								<div class="form-group">
 									<input type="submit" value="Register Account"
 										class="form-control form-control-user">
 								</div>
+								<hr>
+								<div class="text-center">
+									<a class="small" href="index.jsp">Already have an account?
+										Login!</a>
+								</div>
 							</form>
-							<hr>
-							<div class="text-center">
-								<a class="small" href="index.jsp">Already have an account?
-									Login!</a>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 	<!-- Bootstrap core JavaScript-->
@@ -85,7 +93,94 @@
 	<!-- Custom scripts for all pages-->
 	<script
 		src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
+	<!-- <script>
+		// 아이디 유효성 검사(1 = 중복 / 0 != 중복)
+		$("#userid")
+				.blur(
+						function() {
+							// id = "id_reg" / name = "userId"
+							var user_id = $('#userid').val();
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/user/idCheck?userId='
+												+ user_id,
+										type : 'get',
+										success : function(data) {
+											console.log("1 = 중복o / 0 = 중복x : "
+													+ data);
 
+											if (data == 1) {
+												// 1 : 아이디가 중복되는 문구
+												$("#id_check").text(
+														"사용중인 아이디입니다 :p");
+												$("#id_check").css("color",
+														"red");
+												$("#reg_submit").attr(
+														"disabled", true);
+											} else {
+
+												if (idJ.test(user_id)) {
+													// 0 : 아이디 길이 / 문자열 검사
+													$("#id_check").text("");
+													$("#reg_submit").attr(
+															"disabled", false);
+
+												} else if (user_id == "") {
+
+													$('#id_check').text(
+															'아이디를 입력해주세요 :)');
+													$('#id_check').css('color',
+															'red');
+													$("#reg_submit").attr(
+															"disabled", true);
+
+												} else {
+
+													$('#id_check')
+															.text(
+																	"아이디는 소문자와 숫자 4~12자리만 가능합니다 :) :)");
+													$('#id_check').css('color',
+															'red');
+													$("#reg_submit").attr(
+															"disabled", true);
+												}
+
+											}
+										},
+										error : function() {
+											console.log("실패");
+										}
+									});
+						});
+	</script> -->
+	<script>
+function check(){
+	id = $("#userid").val();
+	
+	$.ajax({
+	    url: 'IDCheck',
+	    type: 'POST',
+	    dataType: 'text', //서버로부터 내가 받는 데이터의 타입
+	    contentType : 'text/plane; charset=utf-8;',//내가 서버로 보내는 데이터의 타입
+	    data: id ,
+
+	    success: function(data){
+	         if(data == 0){
+	         console.log("아이디 없음");
+	         alert("사용하실 수 있는 아이디입니다.");
+	         }else{
+	         	console.log("아이디 있음");
+	         	alert("중복된 아이디가 존재합니다.");
+	         }
+	    },
+	    error: function (){        
+	                      
+	    }
+	  });
+
+
+}
+</script>
 </body>
 
 </html>
