@@ -61,7 +61,7 @@
                             <tr>
                                 <td>${status.count}</td>
                                 <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}개</a></td>
-                                <td>${item.eojeol_count}</td>
+                                <td>${item.eojeol_count}개</td>
                             </tr>
                         </c:forEach>
                     </table>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -12,7 +12,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Get Collection</title>
+	<title>Metadata Table</title>
 
 	<!-- Custom fonts for this template-->
 	<link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,7 +44,7 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h3>MongoDB 특정 컬렉션 가져오기</h3>
+					<h3>한국어 강의 데이터 목록</h3>
 				</div>
 
 				<!-- Page Body -->
@@ -52,20 +52,27 @@
 					<table border="1">
 						<tr>
 							<th>Id</th>
+							<th>Title</th>
+							<th>Subtitle</th>
 							<th>Creator</th>
-							<th>year</th>
+							<th>Year</th>
 							<th>File_num</th>
+							<th>Sentence_count<th>
 						</tr>
 						<c:forEach items="${result}" var="item">
 							<tr>
-								<td>${item._id}</td>
-								<td>${item.metadata.creator}</td>
-								<td>${item.metadata.year}</td>
-								<td>${item.metadata.title}</td>
+								<td>${item.id}</td>
+								<td>${item.program.title}</td>
+								<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
+								<td>${item.creator}</td>
+								<td>${item.year}</td>
+								<td>${item.title}</td>
+								<td>${item.sentence_count}개</td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
+
 
 			</div>
 			<!-- /.container-fluid -->
