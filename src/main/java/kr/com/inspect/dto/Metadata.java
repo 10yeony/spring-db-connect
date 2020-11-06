@@ -12,14 +12,16 @@ public class Metadata {
 	private String category;
 	private String distributor;
 	private String relation;
+	private int sentenceCount;
+	private int eojoelCount;
 	private Program program;
 	private List<Speaker> speaker;
 	private List<Utterance> utterance;
 	
 	public Metadata() {}
 	public Metadata(int id, String creator, String annotation_level, String year, String sampling, String title,
-			String category, String distributor, String relation, Program program, List<Speaker> speaker,
-			List<Utterance> utterance) {
+			String category, String distributor, String relation, int sentenceCount, int eojoelCount, Program program,
+			List<Speaker> speaker, List<Utterance> utterance) {
 		super();
 		this.id = id;
 		this.creator = creator;
@@ -30,6 +32,8 @@ public class Metadata {
 		this.category = category;
 		this.distributor = distributor;
 		this.relation = relation;
+		this.sentenceCount = sentenceCount;
+		this.eojoelCount = eojoelCount;
 		this.program = program;
 		this.speaker = speaker;
 		this.utterance = utterance;
@@ -89,6 +93,18 @@ public class Metadata {
 	public void setRelation(String relation) {
 		this.relation = relation;
 	}
+	public int getSentenceCount() {
+		return sentenceCount;
+	}
+	public void setSentenceCount(int sentenceCount) {
+		this.sentenceCount = sentenceCount;
+	}
+	public int getEojoelCount() {
+		return eojoelCount;
+	}
+	public void setEojoelCount(int eojoelCount) {
+		this.eojoelCount = eojoelCount;
+	}
 	public Program getProgram() {
 		return program;
 	}
@@ -112,7 +128,7 @@ public class Metadata {
 	public String toString() {
 		return "Metadata [id=" + id + ", creator=" + creator + ", annotation_level=" + annotation_level + ", year="
 				+ year + ", sampling=" + sampling + ", title=" + title + ", category=" + category + ", distributor="
-				+ distributor + ", relation=" + relation + ", program=" + program + ", speaker=" + speaker
-				+ ", utterance=" + utterance + "]";
+				+ distributor + ", relation=" + relation + ", sentenceCount=" + sentenceCount + ", eojoelCount="
+				+ eojoelCount + ", program=" + program + ", speaker=" + speaker + ", utterance=" + utterance + "]";
 	}
 }
