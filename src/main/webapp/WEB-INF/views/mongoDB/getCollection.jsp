@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-		 pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -46,7 +44,7 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h3>MongoDB 특정 컬렉션</h3>
+					<h3>MongoDB 특정 컬렉션 가져오기</h3>
 				</div>
 
 				<!-- Page Body -->
