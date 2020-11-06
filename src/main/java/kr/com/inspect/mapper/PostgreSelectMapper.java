@@ -25,7 +25,7 @@ public interface PostgreSelectMapper {
 	
 	//아이디 중복 체크
 	@Select("SELECT COUNT(*) FROM audio.user WHERE userid = #{userid}")
-	public int IdChk(User user) throws Exception;
+	public int IdChk(String userid);
 	
 	/* file_num으로 프로그램 데이터를 받아옴(중복 등록 방지를 위함) */
 	@Select("SELECT * FROM audio.program WHERE file_num = #{file_num};")

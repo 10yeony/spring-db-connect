@@ -10,5 +10,5 @@ public interface LoginService {
 	public User loginUser(User user); 
 	
 	/* 아이디 중복 체크 */
-	public int IdChk(User user) throws Exception;
+	public int IdChk(String userid);
 }

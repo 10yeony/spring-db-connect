@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,28 +37,33 @@
 			<div class="card-body p-0">
 				<!-- Nested Row within Card Body -->
 				<div class="row">
-					<div class="col-lg-5 d-none d-lg-block"><image src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg" width="450" height="450"></image></div>
+					<div class="col-lg-5 d-none d-lg-block">
+						<image
+							src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg"
+							width="450" height="450"></image>
+					</div>
 					<div class="col-lg-7">
 						<div class="p-5">
 							<div class="text-center">
 								<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 							</div>
 							<form action="insertUser" method="post" name="insert">
-								
-								<div class="form-group row">
-								<div class="col-sm-7 mb-3 mb-sm-0">
-									<input type="text" class="form-control form-control-user"
-										name="userid" placeholder="User ID" required>
-								</div>
-								
-								<div class="col-sm-4 mb-3 mb-sm-0">
-									<input type="submit" value="Check Account"
-										class="form-control form-control-user">
-								</div>
-								</div>
-								
+
 								<div class="form-group">
-									<input type="password" class="form-control form-control-user"
+									
+										<input type="text" class="form-control"
+											name="userid" placeholder="User ID" required>
+										<div class="check_font" id="id_check"></div>
+									
+							
+									<!-- <div class="col-sm-4 mb-3 mb-sm-0">
+										<input type="submit" value="Check Account"
+											class="form-control form-control-user">
+									</div> -->
+								</div>
+
+								<div class="form-group">
+									<input type="password" class="form-control"
 										name="pwd" placeholder="Password" required>
 								</div>
 
@@ -91,7 +98,66 @@
 	<!-- Custom scripts for all pages-->
 	<script
 		src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
+	<script>
+		// 아이디 유효성 검사(1 = 중복 / 0 != 중복)
+		$("#userid")
+				.blur(
+						function() {
+							// id = "id_reg" / name = "userId"
+							var user_id = $('#userid').val();
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/user/idCheck?userId='
+												+ user_id,
+										type : 'get',
+										success : function(data) {
+											console.log("1 = 중복o / 0 = 중복x : "
+													+ data);
 
+											if (data == 1) {
+												// 1 : 아이디가 중복되는 문구
+												$("#id_check").text(
+														"사용중인 아이디입니다 :p");
+												$("#id_check").css("color",
+														"red");
+												$("#reg_submit").attr(
+														"disabled", true);
+											} else {
+
+												if (idJ.test(user_id)) {
+													// 0 : 아이디 길이 / 문자열 검사
+													$("#id_check").text("");
+													$("#reg_submit").attr(
+															"disabled", false);
+
+												} else if (user_id == "") {
+
+													$('#id_check').text(
+															'아이디를 입력해주세요 :)');
+													$('#id_check').css('color',
+															'red');
+													$("#reg_submit").attr(
+															"disabled", true);
+
+												} else {
+
+													$('#id_check')
+															.text(
+																	"아이디는 소문자와 숫자 4~12자리만 가능합니다 :) :)");
+													$('#id_check').css('color',
+															'red');
+													$("#reg_submit").attr(
+															"disabled", true);
+												}
+
+											}
+										},
+										error : function() {
+											console.log("실패");
+										}
+									});
+						});
+	</script>
 </body>
 
 </html>

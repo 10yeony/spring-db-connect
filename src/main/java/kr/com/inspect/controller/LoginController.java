@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.com.inspect.dto.User;
 import kr.com.inspect.service.LoginService;
@@ -31,10 +33,11 @@ public class LoginController {
 	}
 	
 	/* 아이디 중복 체크 */
-	@RequestMapping(value = "/IdChk", method = RequestMethod.POST)
-	public int IdChk(User user) throws Exception {
-		int result = loginService.IdChk(user);
-		return result;
+	@RequestMapping(value = "/IdChk", method = RequestMethod.GET)
+	@ResponseBody
+	public int IdChk(@RequestParam("userid") String userid) {
+		
+		return loginService.IdChk(userid);
 	}
 	
 	/* 로그인 */

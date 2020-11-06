@@ -10,5 +10,5 @@ public interface LoginDao {
 	public User login(User user);
 
 	/* 아이디 중복확인 */
-	public int IdChk(User user) throws Exception;
+	public int IdChk(String userid);
 }
