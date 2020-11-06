@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -28,16 +28,16 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!-- »çÀÌµå¹Ù include-->
+    <!-- ì‚¬ì´ë“œë°” include-->
     <%@ include file="../include/sidebar.jsp"%>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
-        <!-- ÀÌ ºÎºÐ¸¸ ¹Ù²ãÁÖ¸é µË´Ï´Ù -->
+        <!-- ì´ ë¶€ë¶„ë§Œ ë°”ê¿”ì£¼ë©´ ë©ë‹ˆë‹¤ -->
         <div id="content">
-            <!-- Åø¹Ù include -->
+            <!-- íˆ´ë°” include -->
             <%@ include file="../include/toolbar.jsp"%>
             <!-- Begin Page Content -->
             <div class="container-fluid">
@@ -85,7 +85,7 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- ·Î±×¾Æ¿ô °æ°íÃ¢ include-->
+<!-- ë¡œê·¸ì•„ì›ƒ ê²½ê³ ì°½ include-->
 <%@ include file="../include/logout.jsp"%>
 
 <!-- Bootstrap core JavaScript-->
