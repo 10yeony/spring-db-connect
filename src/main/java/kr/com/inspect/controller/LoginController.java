@@ -31,7 +31,7 @@ public class LoginController {
 	}
 
 	/* Navigator로 이동 */
-	@GetMapping("/goNavi")
+	@GetMapping("/home")
 	public String goNavi(){return "/navigator";}
 
 	/* 로그아웃 */
