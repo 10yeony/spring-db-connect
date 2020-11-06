@@ -50,21 +50,21 @@
 							<form action="insertUser" method="post" name="insert">
 
 								<div class="form-group">
-									
-										<input type="text" class="form-control"
-											name="userid" placeholder="User ID" required>
-										<div class="check_font" id="id_check"></div>
-									
-							
-									<!-- <div class="col-sm-4 mb-3 mb-sm-0">
+
+									<input type="text" class="form-control" name="userid"
+										placeholder="User ID" required>
+									<div class="check_font" id="id_check"></div>
+								</div>
+
+								<!-- <div class="col-sm-4 mb-3 mb-sm-0">
 										<input type="submit" value="Check Account"
 											class="form-control form-control-user">
 									</div> -->
-								</div>
+
 
 								<div class="form-group">
-									<input type="password" class="form-control"
-										name="pwd" placeholder="Password" required>
+									<input type="password" class="form-control" name="pwd"
+										placeholder="Password" required>
 								</div>
 
 								<div class="form-group">
