@@ -1,3 +1,5 @@
+<%@ page import="kr.com.inspect.dto.EojeolList" %>
+<%@ page import="kr.com.inspect.dto.Utterance" %>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
          pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -44,7 +46,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h5>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, FileNum : ${metadata.title}, creator : ${metadata.creator}</h5>
+                    <h5>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, creator : ${metadata.creator}</h5>
                 </div>
 
                 <!-- Page Body -->
@@ -98,6 +100,7 @@
 <!-- Page level custom scripts -->
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
+
 </body>
 
 </html>
