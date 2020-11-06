@@ -147,7 +147,7 @@ public class JsonParsing {
 		    	eojeolList.setEojeol(element.get("Eojeol").toString());
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("end"))) {
-		    	eojeolList.setEnd(Integer.parseInt(element.get("end").toString()));
+		    	eojeolList.setFinish(Integer.parseInt(element.get("end").toString()));
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("isDialect"))) {
 		    	eojeolList.setDialect(Boolean.parseBoolean(element.get("isDialect").toString()));

@@ -2,6 +2,7 @@ package kr.com.inspect.dao.impl;
 
 import java.util.List;
 
+import kr.com.inspect.dto.EojeolList;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,8 @@ public class PostgreDaoImpl implements PostgreDao {
 	
 	/* metadataId로 해당되는 Utterance 테이블을 가져옴 */
 	@Override
-	public List<Utterance> getUtteranceByMetadataId(Integer metadataId) {
-		return postgreSelectMapper.getUtteranceByMetadataId(metadataId);
+	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId) {
+		return postgreSelectMapper.getUtteranceUsingMetadataId(metadataId);
 	}
 	
 	/* Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
@@ -54,5 +55,10 @@ public class PostgreDaoImpl implements PostgreDao {
 	public Metadata getMetadataAndProgramUsingId(Integer metaId){
 		Metadata list = sqlSession.selectOne(ns+"getMetadataAndProgramUsingId",metaId);
 		return list;
+	}
+
+	/* utterance_id 를 이용하여 eojeollist 데이터 가져오기 */
+	public List<EojeolList> getEojeolListUsingUtteranceId(String id){
+		return postgreSelectMapper.getEojeolListUsingUtteranceId(id);
 	}
 }

@@ -44,7 +44,7 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h3>Metadata Table</h3>
+					<h3>한국어 강의 데이터 목록</h3>
 				</div>
 
 				<!-- Page Body -->
@@ -55,13 +55,8 @@
 							<th>Title</th>
 							<th>Subtitle</th>
 							<th>Creator</th>
-							<th>Annotation Level</th>
 							<th>Year</th>
-							<th>Sampling</th>
 							<th>File_num</th>
-							<th>Category</th>
-							<th>Distributor</th>
-							<th>Relation</th>
 						</tr>
 						<c:forEach items="${result}" var="item">
 							<tr>
@@ -69,13 +64,8 @@
 								<td>${item.program.title}</td>
 								<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
 								<td>${item.creator}</td>
-								<td>${item.annotation_level}</td>
 								<td>${item.year}</td>
-								<td>${item.sampling}</td>
 								<td>${item.title}</td>
-								<td>${item.category}</td>
-								<td>${item.distributor}</td>
-								<td>${item.relation}</td>
 							</tr>
 						</c:forEach>
 					</table>
