@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page session="true"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -43,7 +46,11 @@
 					<div class="card-body p-0">
 						<!-- Nested Row within Card Body -->
 						<div class="row">
-							<div class="col-lg-6 d-none d-lg-block"><image src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg" width="450" height="450"></image></div>
+							<div class="col-lg-6 d-none d-lg-block">
+								<image
+									src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg"
+									width="450" height="450"></image>
+							</div>
 							<div class="col-lg-6">
 								<div class="p-5">
 									<div class="text-center">
@@ -58,6 +65,7 @@
 											<input type="password" class="form-control form-control-user"
 												name="pwd" placeholder="Password">
 										</div>
+										
 										<div class="form-group">
 											<div class="custom-control custom-checkbox small">
 												<input type="checkbox" class="custom-control-input"
@@ -102,6 +110,10 @@
 	<!-- Custom scripts for all pages-->
 	<script
 		src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
 
 </body>
 

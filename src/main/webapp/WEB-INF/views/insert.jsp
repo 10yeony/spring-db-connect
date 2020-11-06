@@ -46,8 +46,9 @@
 								<div class="form-group">
 									<input type="text" class="form-control form-control-user"
 										name="userid" placeholder="User ID">
+										
 								</div>
-
+								
 								<div class="form-group">
 									<input type="password" class="form-control form-control-user"
 										name="pwd" placeholder="Password">

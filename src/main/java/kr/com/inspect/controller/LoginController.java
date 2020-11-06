@@ -17,22 +17,43 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 
+	/* 회원가입 */
+	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
+	public String insertUser(User user, Model model) {
+		
+		int result = loginService.insertUser(user);
+		if (result == 0) {
+			model.addAttribute("message", "같은 아이디가 있습니다.");
+			return "wrong";
+		}
+		return "index";
+	}
+	
+	/* 아이디 중복 체크 */
+	@RequestMapping(value = "/IdChk", method = RequestMethod.POST)
+	public int IdChk(User user) throws Exception {
+		int result = loginService.IdChk(user);
+		return result;
+	}
 	/* 로그인 */
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-	public String loginUser(User user, Model model, HttpSession session) {
-		User result = loginService.loginUser(user);
-		if (result == null) {
-			model.addAttribute("message", "ID나PW가 틀립니다.");
-			return "wrong";
-		} else {
+	public String loginUser(User user, Model model, HttpSession session) throws Exception {
+		try {
+			User result = loginService.loginUser(user);
 			session.setAttribute("loginId", result.getUserid());
-			return "navigator";
+		} catch (NullPointerException e) {
+			model.addAttribute("msg", "The user id or password is incorrect.                                  Please re-enter your Id and Password");
+			model.addAttribute("url","/");
+			return "redirect";
 		}
+		return "navigator";
 	}
 
 	/* Navigator로 이동 */
 	@GetMapping("/goNavi")
-	public String goNavi(){return "/navigator";}
+	public String goNavi() {
+		return "/navigator";
+	}
 
 	/* 로그아웃 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -42,17 +63,8 @@ public class LoginController {
 		return "index";
 	}
 
-	/* 회원가입 */
-	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
-	public String insertUser(User user, Model model) {
-		int result = loginService.insertUser(user);
-		if (result == 0) {
-			model.addAttribute("message", "같은 아이디가 있습니다.");
-			return "insert";
-		}
-		return "index";
-	}
-	
+
+
 	/* 회원가입 페이지 이동 */
 	@GetMapping("/insert")
 	public String moveToElasticPage() {
