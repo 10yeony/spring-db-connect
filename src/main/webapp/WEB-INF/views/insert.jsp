@@ -26,7 +26,7 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
-
+<script src="${pageContext.request.contextPath}/resources/jQuery/jquery-3.5.1.min.js"></script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -51,10 +51,11 @@
 							<form action="insertUser" method="post" name="insert">
 								<div class="form-group">
 									<input type="text" class="form-control" name="userid"
-										placeholder="User ID" required>
+										id="userid" placeholder="User ID" required>
+										<input type="button" class="form-control" id="check" value="중복체크">
 									<div class="check_font" id="id_check"></div>
 								</div>
-								<!-- <button id="duplicate_check" type="button" onclick="check();">중복체크</button> -->
+								
 								<!-- <div class="col-sm-4 mb-3 mb-sm-0">
 										<input type="submit" value="Check Account"
 											class="form-control form-control-user">
@@ -93,94 +94,90 @@
 	<!-- Custom scripts for all pages-->
 	<script
 		src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
-	<!-- <script>
-		// 아이디 유효성 검사(1 = 중복 / 0 != 중복)
-		$("#userid")
-				.blur(
-						function() {
-							// id = "id_reg" / name = "userId"
-							var user_id = $('#userid').val();
-							$
-									.ajax({
-										url : '${pageContext.request.contextPath}/user/idCheck?userId='
-												+ user_id,
-										type : 'get',
-										success : function(data) {
-											console.log("1 = 중복o / 0 = 중복x : "
-													+ data);
 
-											if (data == 1) {
-												// 1 : 아이디가 중복되는 문구
-												$("#id_check").text(
-														"사용중인 아이디입니다 :p");
-												$("#id_check").css("color",
-														"red");
-												$("#reg_submit").attr(
-														"disabled", true);
-											} else {
-
-												if (idJ.test(user_id)) {
-													// 0 : 아이디 길이 / 문자열 검사
-													$("#id_check").text("");
-													$("#reg_submit").attr(
-															"disabled", false);
-
-												} else if (user_id == "") {
-
-													$('#id_check').text(
-															'아이디를 입력해주세요 :)');
-													$('#id_check').css('color',
-															'red');
-													$("#reg_submit").attr(
-															"disabled", true);
-
-												} else {
-
-													$('#id_check')
-															.text(
-																	"아이디는 소문자와 숫자 4~12자리만 가능합니다 :) :)");
-													$('#id_check').css('color',
-															'red');
-													$("#reg_submit").attr(
-															"disabled", true);
-												}
-
-											}
-										},
-										error : function() {
-											console.log("실패");
-										}
-									});
-						});
-	</script> -->
-	<script>
-function check(){
-	id = $("#userid").val();
-	
-	$.ajax({
-	    url: 'IDCheck',
-	    type: 'POST',
-	    dataType: 'text', //서버로부터 내가 받는 데이터의 타입
-	    contentType : 'text/plane; charset=utf-8;',//내가 서버로 보내는 데이터의 타입
-	    data: id ,
-
-	    success: function(data){
-	         if(data == 0){
-	         console.log("아이디 없음");
-	         alert("사용하실 수 있는 아이디입니다.");
-	         }else{
-	         	console.log("아이디 있음");
-	         	alert("중복된 아이디가 존재합니다.");
-	         }
-	    },
-	    error: function (){        
-	                      
-	    }
-	  });
-
-
-}
-</script>
 </body>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function(e) {
 
+						var idx = false;
+
+						$('#signUp')
+								.click(
+										function() {
+											if ($.trim($('#userId').val()) == '') {
+												alert("아이디 입력.");
+												$('#userId').focus();
+												return;
+											} else if ($.trim($('#passwd')
+													.val()) == '') {
+												alert("패스워드 입력.");
+												$('#passwd').focus();
+												return;
+											}
+											//패스워드 확인
+											else if ($('#passwd').val() != $(
+													'#passwdCheck').val()) {
+												alert('패스워드가 다릅니다.');
+												$('#passwd').focus();
+												return;
+											}
+
+											if (idx == false) {
+												alert("아이디 중복체크를 해주세요.");
+												return;
+											} else {
+												$('#signFrm').submit();
+											}
+										});
+
+						$('#check')
+								.click(
+										function() {
+											$
+													.ajax({
+														url : "${pageContext.request.contextPath}/idCheck.do",
+														type : "GET",
+														data : {
+															"userId" : $(
+																	'#userId')
+																	.val()
+														},
+														success : function(data) {
+															if (data == 0
+																	&& $
+																			.trim($(
+																					'#userId')
+																					.val()) != '') {
+																idx = true;
+																$('#userId')
+																		.attr(
+																				"readonly",
+																				true);
+																var html = "<tr><td colspan='3' style='color: green'>사용가능</td></tr>";
+																$('#idCheck')
+																		.empty();
+																$('#idCheck')
+																		.append(
+																				html);
+															} else {
+
+																var html = "<tr><td colspan='3' style='color: red'>사용불가능한 아이디 입니다.</td></tr>";
+																$('#idCheck')
+																		.empty();
+																$('#idCheck')
+																		.append(
+																				html);
+															}
+														},
+														error : function() {
+															alert("서버에러");
+														}
+													});
+
+										});
+
+					});
+</script>
 </html>
