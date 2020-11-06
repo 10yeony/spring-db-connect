@@ -30,16 +30,16 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!-- �ъ�대��諛� include-->
+    <!-- 사이드바 include-->
     <%@ include file="../include/sidebar.jsp"%>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
-        <!-- �� 遺�遺�留� 諛�轅�二쇰㈃ �⑸���� -->
+        <!-- 이 부분만 바꿔주면 됩니다. -->
         <div id="content">
-            <!-- �대� include -->
+            <!-- 툴바 include -->
             <%@ include file="../include/toolbar.jsp"%>
             <!-- Begin Page Content -->
             <div class="container-fluid">
@@ -81,7 +81,7 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- 濡�洹몄���� 寃쎄�李� include-->
+<!-- 로그아웃 include-->
 <%@ include file="../include/logout.jsp"%>
 
 <!-- Bootstrap core JavaScript-->

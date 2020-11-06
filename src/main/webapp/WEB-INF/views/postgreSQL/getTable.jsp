@@ -44,7 +44,7 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h3>гя╠╧╬Н ╟╜юг ╣╔юлем ╦Я╥о</h3>
+					<h3>М∙°Й╣╜Л√╢ Й╟∙Л²≤ К█╟Л²╢М└╟ К╙╘К║²</h3>
 				</div>
 
 				<!-- Page Body -->
