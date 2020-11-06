@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -28,28 +28,28 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!-- ªÁ¿ÃµÂπŸ include-->
+    <!-- ÏÇ¨Ïù¥ÎìúÎ∞î include-->
     <%@ include file="../include/sidebar.jsp"%>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
-        <!-- ¿Ã ∫Œ∫–∏∏ πŸ≤„¡÷∏È µÀ¥œ¥Ÿ -->
+        <!-- Ïù¥ Î∂ÄÎ∂ÑÎßå Î∞îÍøîÏ£ºÎ©¥ Îê©ÎãàÎã§ -->
         <div id="content">
-            <!-- ≈¯πŸ include -->
+            <!-- Ìà¥Î∞î include -->
             <%@ include file="../include/toolbar.jsp"%>
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h3>(µÓ∑œ º∫∞¯)</h3>
+                    <h3>(Îì±Î°ù ÏÑ±Í≥µ)</h3>
                 </div>
 
                 <!-- Page Body -->
                 <div>
-                    <h4>PostgreSQLø° Elasticsearch ¿Œµ¶Ω∫ ¿˙¿Â º∫∞¯«ﬂΩ¿¥œ¥Ÿ.</h4>
+                    <h4>PostgreSQLÏóê Elasticsearch Ïù∏Îç±Ïä§ Ï†ÄÏû• ÏÑ±Í≥µÌñàÏäµÎãàÎã§.</h4>
                 </div>
 
             </div>
@@ -71,7 +71,7 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- ∑Œ±◊æ∆øÙ ∞Ê∞Ì√¢ include-->
+<!-- Î°úÍ∑∏ÏïÑÏõÉ Í≤ΩÍ≥†Ï∞Ω include-->
 <%@ include file="../include/logout.jsp"%>
 
 <!-- Bootstrap core JavaScript-->

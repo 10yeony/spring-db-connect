@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -41,7 +41,7 @@
         </a>
         <div id="elasticSearch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getElasticIndex">Æ¯Á¤ ÀÎµ¦½º ºÒ·¯¿À±â</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getElasticIndex">íŠ¹ì • ì¸ë±ìŠ¤ ë¶ˆëŸ¬ì˜¤ê¸°</a>
             </div>
         </div>
     </li>
@@ -54,9 +54,9 @@
         </a>
         <div id="mongoDB" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoMongo">Elasticsearch ÀÎµ¦½º ÀúÀå</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONData">JSON ÆÄÀÏ ÀúÀå</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getMongoCollection">Æ¯Á¤ ÄÃ·º¼Ç °¡Á®¿À±â</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoMongo">Elasticsearch ì¸ë±ìŠ¤ ì €ìž¥</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONData">JSON íŒŒì¼ ì €ìž¥</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getMongoCollection">íŠ¹ì • ì»¬ë ‰ì…˜ ê°€ì ¸ì˜¤ê¸°</a>
             </div>
         </div>
     </li>
@@ -70,10 +70,10 @@
         <div id="postgreSQL" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoPostgre">Elasticsearch ÀÎµ¦½º ÀúÀå</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONIntoPostgre">JSON ÀúÀå</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">xlsx ÀúÀå</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">Metadata ¸ñ·Ï</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoPostgre">Elasticsearch ì¸ë±ìŠ¤ ì €ìž¥</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONIntoPostgre">JSON ì €ìž¥</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">xlsx ì €ìž¥</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">Metadata ëª©ë¡</a>
             </div>
         </div>
     </li>
@@ -82,12 +82,12 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#report" aria-expanded="true" aria-controls="report">
             <i class="fas fa-fw fa-folder"></i>
-            <span>º¸°í¼­ ÆÄÀÏ »ý¼º</span>
+            <span>ë³´ê³ ì„œ íŒŒì¼ ìƒì„±</span>
         </a>
         <div id="report" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="${pageContext.request.contextPath}/report/docx">docx ÆÄÀÏ</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/report/xlsx">xlsx ÆÄÀÏ</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/report/docx">docx íŒŒì¼</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/report/xlsx">xlsx íŒŒì¼</a>
             </div>
         </div>
     </li>

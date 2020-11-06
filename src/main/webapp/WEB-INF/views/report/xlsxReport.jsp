@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -28,28 +28,28 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!-- ���̵�� include-->
+    <!-- 사이드바 include-->
     <%@ include file="../include/sidebar.jsp"%>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
-        <!-- �� �κи� �ٲ��ָ� �˴ϴ� -->
+        <!-- 이 부분만 바꿔주면 됩니다 -->
         <div id="content">
-            <!-- ���� include -->
+            <!-- 툴바 include -->
             <%@ include file="../include/toolbar.jsp"%>
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h3>(���� ���� �Ϸ�)</h3>
+                    <h3>(파일 생성 완료)</h3>
                 </div>
 
                 <!-- Page Body -->
                 <div>
-                    <h4>Xlsx ���� ������ �����߽��ϴ�.</h4>
+                    <h4>Xlsx 파일 생성을 성공했습니다.</h4>
                 </div>
 
             </div>
@@ -71,7 +71,7 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- �α׾ƿ� ���â include-->
+<!-- 로그아웃 경고창 include-->
 <%@ include file="../include/logout.jsp"%>
 
 <!-- Bootstrap core JavaScript-->
