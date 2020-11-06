@@ -47,12 +47,14 @@
 							<div class="text-center">
 								<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 							</div>
+
 							<form action="insertUser" method="post" name="insert">
 								<div class="form-group">
 									<input type="text" class="form-control" name="userid"
 										placeholder="User ID" required>
 									<div class="check_font" id="id_check"></div>
 								</div>
+								<!-- <button id="duplicate_check" type="button" onclick="check();">중복체크</button> -->
 								<!-- <div class="col-sm-4 mb-3 mb-sm-0">
 										<input type="submit" value="Check Account"
 											class="form-control form-control-user">
@@ -91,7 +93,7 @@
 	<!-- Custom scripts for all pages-->
 	<script
 		src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
-	<script>
+	<!-- <script>
 		// 아이디 유효성 검사(1 = 중복 / 0 != 중복)
 		$("#userid")
 				.blur(
@@ -150,7 +152,35 @@
 										}
 									});
 						});
-	</script>
+	</script> -->
+	<script>
+function check(){
+	id = $("#userid").val();
+	
+	$.ajax({
+	    url: 'IDCheck',
+	    type: 'POST',
+	    dataType: 'text', //서버로부터 내가 받는 데이터의 타입
+	    contentType : 'text/plane; charset=utf-8;',//내가 서버로 보내는 데이터의 타입
+	    data: id ,
+
+	    success: function(data){
+	         if(data == 0){
+	         console.log("아이디 없음");
+	         alert("사용하실 수 있는 아이디입니다.");
+	         }else{
+	         	console.log("아이디 있음");
+	         	alert("중복된 아이디가 존재합니다.");
+	         }
+	    },
+	    error: function (){        
+	                      
+	    }
+	  });
+
+
+}
+</script>
 </body>
 
 </html>

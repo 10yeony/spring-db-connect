@@ -65,7 +65,7 @@
 											<input type="password" class="form-control form-control-user"
 												name="pwd" placeholder="Password">
 										</div>
-										
+
 										<div class="form-group">
 											<div class="custom-control custom-checkbox small">
 												<input type="checkbox" class="custom-control-input"
