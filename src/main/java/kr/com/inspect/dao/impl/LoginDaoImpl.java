@@ -32,4 +32,13 @@ public class LoginDaoImpl implements LoginDao{
 		result = postgreSelectMapper.login(user);
 		return result;
 	}
+	
+	/* 아이디 중복확인 */
+	@Override
+	public int IdChk(User user) throws Exception {
+		int result = 0;
+		result = postgreSelectMapper.IdChk(user);
+		return result;
+	}
+	
 }

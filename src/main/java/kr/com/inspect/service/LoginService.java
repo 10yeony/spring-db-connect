@@ -8,4 +8,7 @@ public interface LoginService {
 	
 	/* 로그인 */
 	public User loginUser(User user); 
+	
+	/* 아이디 중복 체크 */
+	public int IdChk(User user) throws Exception;
 }
