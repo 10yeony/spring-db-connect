@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
     	<result column="category" property="category" />
     	<result column="distributor" property="distributor" />
     	<result column="relation" property="relation" />
+    	<result column="sentence_count" property="sentenceCount" />
     	<collection property="program" javaType="kr.com.inspect.dto.Program">
       		<id column="program_id" property="id"/>
       		<result column="file_num" property="file_num"/>
@@ -36,11 +37,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   			p.file_num file_num,
   			p.title program_title,
   			p.subtitle subtitle,
-  			p.running_time running_time
+  			p.running_time running_time,
+			ut.sentence_count sentence_count
   		FROM
   			audio.metadata m
-  		LEFT JOIN audio.program p ON
-  			m.title = p.file_num;
+  		LEFT JOIN audio.program p 
+		ON
+  			m.title = p.file_num
+		LEFT JOIN 
+			(SELECT metadata_id, COUNT(form) sentence_count
+				FROM audio.utterance
+				GROUP BY metadata_id) ut
+		ON
+			m.id = ut.metadata_id;
 	</select>
 
 	<select id="getMetadataAndProgramUsingId" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram" parameterType="Integer">

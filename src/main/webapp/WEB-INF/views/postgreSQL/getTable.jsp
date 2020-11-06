@@ -57,6 +57,7 @@
 							<th>Creator</th>
 							<th>Year</th>
 							<th>File_num</th>
+							<th>Sentence_count<th>
 						</tr>
 						<c:forEach items="${result}" var="item">
 							<tr>
@@ -66,6 +67,7 @@
 								<td>${item.creator}</td>
 								<td>${item.year}</td>
 								<td>${item.title}</td>
+								<td>${item.sentenceCount}개</td>
 							</tr>
 						</c:forEach>
 					</table>
