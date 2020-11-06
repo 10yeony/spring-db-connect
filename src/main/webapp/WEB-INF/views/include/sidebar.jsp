@@ -33,18 +33,18 @@
         List
     </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#elasticSearch" aria-expanded="true" aria-controls="elasticSearch">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Elasticsearch</span>
-        </a>
-        <div id="elasticSearch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getElasticIndex">특정 인덱스 불러오기</a>
-            </div>
-        </div>
-    </li>
+<%--    <!-- Nav Item - Pages Collapse Menu -->--%>
+<%--    <li class="nav-item">--%>
+<%--        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#elasticSearch" aria-expanded="true" aria-controls="elasticSearch">--%>
+<%--            <i class="fas fa-fw fa-folder"></i>--%>
+<%--            <span>Elasticsearch</span>--%>
+<%--        </a>--%>
+<%--        <div id="elasticSearch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">--%>
+<%--            <div class="bg-white py-2 collapse-inner rounded">--%>
+<%--                <a class="collapse-item" href="${pageContext.request.contextPath}/getElasticIndex">특정 인덱스 불러오기</a>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </li>--%>
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
@@ -54,7 +54,7 @@
         </a>
         <div id="mongoDB" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoMongo">Elasticsearch 인덱스 저장</a>
+<%--                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoMongo">Elasticsearch 인덱스 저장</a>--%>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONData">JSON 파일 저장</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/getMongoCollection">특정 컬렉션 가져오기</a>
             </div>
@@ -70,7 +70,7 @@
         <div id="postgreSQL" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoPostgre">Elasticsearch 인덱스 저장</a>
+<%--                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoPostgre">Elasticsearch 인덱스 저장</a>--%>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONIntoPostgre">JSON 저장</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">xlsx 저장</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">Metadata 목록</a>
