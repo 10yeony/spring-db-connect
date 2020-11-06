@@ -22,8 +22,6 @@ import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
 
 public class JsonParsing {
-	@Autowired
-	private PostgreDao postgreDao;
 	
 	/* JSON 파일을 읽어 JSON객체로 파싱 */
 	public JSONObject getJSONObject(String fullPath) {
