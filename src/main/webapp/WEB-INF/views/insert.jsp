@@ -26,7 +26,8 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/jQuery/jquery-3.5.1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -47,15 +48,19 @@
 							<div class="text-center">
 								<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 							</div>
-
 							<form action="insertUser" method="post" name="insert">
-								<div class="form-group">
-									<input type="text" class="form-control" name="userid"
-										id="userid" placeholder="User ID" required>
-										<input type="button" class="form-control" id="check" value="중복체크">
-									<div class="check_font" id="id_check"></div>
-								</div>
-								
+								<table>
+									<tbody>
+										<div class="form-group">
+											<input type="text" class="form-control" name="userid"
+												id="userid" placeholder="User ID" required> <input
+												type="button" class="form-control" id="check" value="중복체크">
+										</div>
+										<tr>
+											<td colspan=3 id="idCheck"></td>
+										</tr>
+									</tbody>
+								</table>
 								<!-- <div class="col-sm-4 mb-3 mb-sm-0">
 										<input type="submit" value="Check Account"
 											class="form-control form-control-user">
@@ -95,6 +100,7 @@
 	<script
 		src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
 
+
 </body>
 <script type="text/javascript">
 	$(document)
@@ -103,41 +109,12 @@
 
 						var idx = false;
 
-						$('#signUp')
-								.click(
-										function() {
-											if ($.trim($('#userId').val()) == '') {
-												alert("아이디 입력.");
-												$('#userId').focus();
-												return;
-											} else if ($.trim($('#passwd')
-													.val()) == '') {
-												alert("패스워드 입력.");
-												$('#passwd').focus();
-												return;
-											}
-											//패스워드 확인
-											else if ($('#passwd').val() != $(
-													'#passwdCheck').val()) {
-												alert('패스워드가 다릅니다.');
-												$('#passwd').focus();
-												return;
-											}
-
-											if (idx == false) {
-												alert("아이디 중복체크를 해주세요.");
-												return;
-											} else {
-												$('#signFrm').submit();
-											}
-										});
-
 						$('#check')
 								.click(
 										function() {
 											$
 													.ajax({
-														url : "${pageContext.request.contextPath}/idCheck.do",
+														url : "${pageContext.request.contextPath}/IdCheck.do",
 														type : "GET",
 														data : {
 															"userId" : $(
@@ -171,8 +148,18 @@
 																				html);
 															}
 														},
-														error : function() {
-															alert("서버에러");
+														error : function(
+																request,
+																status, error) {
+															alert("code:"
+																	+ request.status
+																	+ "\n"
+																	+ "message:"
+																	+ request.responseText
+																	+ "\n"
+																	+ "error:"
+																	+ error
+																	+ "서버에러");
 														}
 													});
 
