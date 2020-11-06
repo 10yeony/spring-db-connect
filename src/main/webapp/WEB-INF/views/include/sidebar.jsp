@@ -8,7 +8,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/home">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/goNavi">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -20,7 +20,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="${pageContext.request.contextPath}/home">
+        <a class="nav-link" href="${pageContext.request.contextPath}/goNavi">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -73,7 +73,7 @@
 <%--                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoPostgre">Elasticsearch 인덱스 저장</a>--%>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONIntoPostgre">JSON 저장</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">xlsx 저장</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">Metadata 목록</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">한국어 강의 데이터 목록</a>
             </div>
         </div>
     </li>
