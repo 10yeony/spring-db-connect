@@ -52,11 +52,16 @@
                 <!-- Page Body -->
                 <div class="card sahadow mb-4">
                     <table border="1">
-                        <tr><th>Id</th><th>Form</th></tr>
+                        <tr>
+                        	<th>Id</th>
+                        	<th>Form</th>
+                        	<th>Eojeol_count</th>
+                        </tr>
                         <c:forEach items="${utterances}" var="item" varStatus="status">
                             <tr>
                                 <td>${status.count}</td>
-                                <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
+                                <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}개</a></td>
+                                <td>${item.eojeol_count}</td>
                             </tr>
                         </c:forEach>
                     </table>

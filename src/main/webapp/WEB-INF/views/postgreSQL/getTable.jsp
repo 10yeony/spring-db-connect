@@ -67,7 +67,7 @@
 								<td>${item.creator}</td>
 								<td>${item.year}</td>
 								<td>${item.title}</td>
-								<td>${item.sentenceCount}개</td>
+								<td>${item.sentence_count}개</td>
 							</tr>
 						</c:forEach>
 					</table>

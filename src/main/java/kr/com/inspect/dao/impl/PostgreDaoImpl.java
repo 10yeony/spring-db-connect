@@ -24,7 +24,8 @@ public class PostgreDaoImpl implements PostgreDao {
 	
 	@Autowired
 	private SqlSession sqlSession;
-	private final String ns = "MetadataMapper.";
+	private final String metaNs = "MetadataMapper.";
+	private final String utterNs = "UtteranceMapper.";
 	
 	/* PostgreSQL에서 Metadata 테이블을 모두 가지고 옴 */
 	@Override
@@ -40,20 +41,20 @@ public class PostgreDaoImpl implements PostgreDao {
 	/* metadataId로 해당되는 Utterance 테이블을 가져옴 */
 	@Override
 	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId) {
-		return postgreSelectMapper.getUtteranceUsingMetadataId(metadataId);
+		return sqlSession.selectList(utterNs+"getUtteranceByMetadataId", metadataId);
 	}
 	
 	/* Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
 	@Override
 	public List<Metadata> getMetadataAndProgram(){
-		List<Metadata> list = sqlSession.selectList(ns+"getMetadataAndProgram");
+		List<Metadata> list = sqlSession.selectList(metaNs+"getMetadataAndProgram");
 		return list;
 	}
 
 	/* metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
 	@Override
 	public Metadata getMetadataAndProgramUsingId(Integer metaId){
-		Metadata list = sqlSession.selectOne(ns+"getMetadataAndProgramUsingId",metaId);
+		Metadata list = sqlSession.selectOne(metaNs+"getMetadataAndProgramUsingId",metaId);
 		return list;
 	}
 
