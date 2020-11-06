@@ -23,8 +23,9 @@ public class LoginController {
 		
 		int result = loginService.insertUser(user);
 		if (result == 0) {
-			model.addAttribute("message", "같은 아이디가 있습니다.");
-			return "wrong";
+			model.addAttribute("msg", "Same Id");
+			model.addAttribute("url","/");
+			return "insertdirect";
 		}
 		return "index";
 	}
@@ -35,6 +36,7 @@ public class LoginController {
 		int result = loginService.IdChk(user);
 		return result;
 	}
+	
 	/* 로그인 */
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
 	public String loginUser(User user, Model model, HttpSession session) throws Exception {

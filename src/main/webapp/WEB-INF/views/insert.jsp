@@ -41,17 +41,23 @@
 							<div class="text-center">
 								<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 							</div>
-							<form action="insertUser" method="post">
-								<div class="form-group row"></div>
-								<div class="form-group">
+							<form action="insertUser" method="post" name="insert">
+								
+								<div class="form-group row">
+								<div class="col-sm-7 mb-3 mb-sm-0">
 									<input type="text" class="form-control form-control-user"
-										name="userid" placeholder="User ID">
-										
+										name="userid" placeholder="User ID" required>
+								</div>
+								
+								<div class="col-sm-4 mb-3 mb-sm-0">
+									<input type="submit" value="Check Account"
+										class="form-control form-control-user">
+								</div>
 								</div>
 								
 								<div class="form-group">
 									<input type="password" class="form-control form-control-user"
-										name="pwd" placeholder="Password">
+										name="pwd" placeholder="Password" required>
 								</div>
 
 								<div class="form-group">
