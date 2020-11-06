@@ -38,7 +38,7 @@ public class XlsxReport {
 	@Value("${table.column5}")
 	private String column5;
 
-	@Value("${table.column6}")
+	@Value("${tabl.e.column6}")
 	private String column6;
 
 	@Value("${table.column7}")
@@ -79,20 +79,10 @@ public class XlsxReport {
 		cell = row.createCell(3);
 		cell.setCellValue(column1);
 		cell = row.createCell(4);
-		cell.setCellValue(column2);
-		cell = row.createCell(5);
 		cell.setCellValue(column3);
-		cell = row.createCell(6);
-		cell.setCellValue(column4);
-		cell = row.createCell(7);
+		cell = row.createCell(5);
 		cell.setCellValue("file_num");
-		cell = row.createCell(8);
-		cell.setCellValue(column6);
-		cell = row.createCell(9);
-		cell.setCellValue(column7);
-		cell = row.createCell(10);
-		cell.setCellValue(column8);
-		cell = row.createCell(11);
+		cell = row.createCell(6);
 		cell.setCellValue("running_time");
 
 		// 리스트의 size 만큼 row를 생성
@@ -109,20 +99,10 @@ public class XlsxReport {
 			cell = row.createCell(3);
 			cell.setCellValue(metadata.getCreator());
 			cell = row.createCell(4);
-			cell.setCellValue(metadata.getAnnotation_level());
-			cell = row.createCell(5);
 			cell.setCellValue(metadata.getYear());
-			cell = row.createCell(6);
-			cell.setCellValue(metadata.getSampling());
-			cell = row.createCell(7);
+			cell = row.createCell(5);
 			cell.setCellValue(metadata.getTitle());
-			cell = row.createCell(8);
-			cell.setCellValue(metadata.getCategory());
-			cell = row.createCell(9);
-			cell.setCellValue(metadata.getDistributor());
-			cell = row.createCell(10);
-			cell.setCellValue(metadata.getRelation());
-			cell = row.createCell(11);
+			cell = row.createCell(6);
 			cell.setCellValue(metadata.getProgram().getRunning_time());
 		}
 
