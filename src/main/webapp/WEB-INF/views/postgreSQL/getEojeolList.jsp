@@ -44,17 +44,24 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h5>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, FileNum : ${metadata.title}, creator : ${metadata.creator}</h5>
+                    <h5>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, creator : ${metadata.creator}</h5>
                 </div>
 
                 <!-- Page Body -->
                 <div class="card sahadow mb-4">
                     <table border="1">
-                        <tr><th>Id</th><th>Form</th></tr>
-                        <c:forEach items="${utterances}" var="item" varStatus="status">
+                        <tr>
+                            <th>Id</th>
+                            <th>Standard</th>
+                            <th>begin</th>
+                            <th>end</th>
+                        </tr>
+                        <c:forEach items="${eojeollist}" var="item" varStatus="status">
                             <tr>
                                 <td>${status.count}</td>
-                                <td><a href="/getEojeolList/${item.id}">${item.form}</a></td>
+                                <td>${item.standard}</td>
+                                <td>${item.begin}</td>
+                                <td>${item.finish}</td>
                             </tr>
                         </c:forEach>
                     </table>

@@ -73,7 +73,7 @@
                 <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoPostgre">Elasticsearch 인덱스 저장</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONIntoPostgre">JSON 저장</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">xlsx 저장</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">Metadata 목록</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">한국어 강의 데이터 목록</a>
             </div>
         </div>
     </li>

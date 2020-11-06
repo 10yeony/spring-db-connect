@@ -44,6 +44,10 @@ public interface PostgreSelectMapper {
 	public Metadata getMetadataById(Integer id);
 
 	/* metadata_id 를 이용하여 utterance 데이터 가져오기 */
-	@Select("SELECT * FROM audio.utterance WHERE metadata_id = #{metadataId} ORDER BY start")
-	public List<Utterance> getUtteranceByMetadataId(Integer id);
+	@Select("SELECT * FROM audio.utterance WHERE metadata_id = #{id} ORDER BY start")
+	public List<Utterance> getUtteranceUsingMetadataId(Integer id);
+
+	/* utterance_id 를 이용하여 eojeollist 데이터 가져오기 */
+	@Select("SELECT * FROM audio.eojeollist WHERE utterance_id = #{id} ORDER BY begin")
+	public List<EojeolList> getEojeolListUsingUtteranceId(String id);
 }

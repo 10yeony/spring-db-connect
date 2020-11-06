@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import kr.com.inspect.dto.EojeolList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -62,11 +63,19 @@ public class PostgreController {
 	/* Utterance 테이블 가져오기 */
 	@GetMapping("/getUtteranceTable/{format}")
 	public String getUtteranceTable(Model model, @PathVariable Integer format){
-		List<Utterance> utterances = postgreService.getUtteranceByMetadataId(format);
+		List<Utterance> utterances = postgreService.getUtteranceUsingMetadataId(format);
  		Metadata metadata = postgreService.getMetadataAndProgramUsingId(format);
 		model.addAttribute("utterances",utterances);
 		model.addAttribute("metadata",metadata);
 		return "postgreSQL/getUtterance";
+	}
+
+	/* EojeolList 테이블 가져오기 */
+	@GetMapping("/getEojeolList/{format}")
+	public String getEojeolList(Model model, @PathVariable String format){
+		List<EojeolList> eojeolLists = postgreService.getEojeolListUsingUtteranceId(format);
+		model.addAttribute("eojeollist",eojeolLists);
+		return "postgreSQL/getEojeolList";
 	}
 	
 	/* Metadata & Program 조인해서 가져오기 */

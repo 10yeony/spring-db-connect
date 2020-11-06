@@ -74,8 +74,13 @@ public class PostgreServiceImpl implements PostgreService {
 	}
 	
 	/* metadataId로 해당되는 Utterance 테이블을 가져옴 */
-	public List<Utterance> getUtteranceByMetadataId(Integer metadataId){
-		return postgreDao.getUtteranceByMetadataId(metadataId);
+	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId){
+		return postgreDao.getUtteranceUsingMetadataId(metadataId);
+	}
+
+	/* utterance_id 를 이용하여 eojeollist 데이터 가져오기 */
+	public List<EojeolList> getEojeolListUsingUtteranceId(String id){
+		return postgreDao.getEojeolListUsingUtteranceId(id);
 	}
 	
 	/* 특정 경로에 있는 JSON 파일들을 읽어서 PostgreSQL에 넣음 */

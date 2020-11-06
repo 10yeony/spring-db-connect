@@ -4,19 +4,19 @@ public class EojeolList {
 	private String id; //primary key
 	private String standard;
 	private String eojeol;
-	private int end;
+	private int finish;
 	private boolean isDialect;
 	private int begin;
 	private String utterance_id; //foreign key
 	
 	public EojeolList() {}
-	public EojeolList(String id, String standard, String eojeol, int end, boolean isDialect, int begin,
+	public EojeolList(String id, String standard, String eojeol, int finish, boolean isDialect, int begin,
 			String utterance_id) {
 		super();
 		this.id = id;
 		this.standard = standard;
 		this.eojeol = eojeol;
-		this.end = end;
+		this.finish = finish;
 		this.isDialect = isDialect;
 		this.begin = begin;
 		this.utterance_id = utterance_id;
@@ -40,11 +40,11 @@ public class EojeolList {
 	public void setEojeol(String eojeol) {
 		this.eojeol = eojeol;
 	}
-	public int getEnd() {
-		return end;
+	public int getFinish() {
+		return finish;
 	}
-	public void setEnd(int end) {
-		this.end = end;
+	public void setFinish(int finish) {
+		this.finish = finish;
 	}
 	public boolean isDialect() {
 		return isDialect;
@@ -67,7 +67,7 @@ public class EojeolList {
 	
 	@Override
 	public String toString() {
-		return "EojeolList [id=" + id + ", standard=" + standard + ", eojeol=" + eojeol + ", end=" + end
+		return "EojeolList [id=" + id + ", standard=" + standard + ", eojeol=" + eojeol + ", finish=" + finish
 				+ ", isDialect=" + isDialect + ", begin=" + begin + ", utterance_id=" + utterance_id + "]";
 	}
 }
