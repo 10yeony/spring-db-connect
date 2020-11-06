@@ -24,7 +24,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 	
 	/* 아이디 중복 체크 */
-	public User IdCheck(String id) {
-		return logindao.IdCheck(id);
+	public int IdCheck(String userid) {
+		return logindao.IdCheck(userid);
 	}
 }

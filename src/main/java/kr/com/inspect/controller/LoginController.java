@@ -2,6 +2,7 @@ package kr.com.inspect.controller;
 
 import java.text.ParseException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,9 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 
-	@Autowired
-	private PostgreSelectMapper postgreSelectMapper;
+	/*
+	 * @Autowired private PostgreSelectMapper postgreSelectMapper;
+	 */
 
 	/* 회원가입 */
 	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
@@ -48,22 +50,16 @@ public class LoginController {
 		return "index";
 	}
 
-	/*
-	 * 아이디 중복 체크
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value = "/IdCheck", produces = "text/plane") public String
-	 * IdCheck(@RequestBody String paramData) throws ParseException {
-	 * 
-	 * String ID = paramData.trim(); System.out.println(ID); LoginDao logindao =
-	 * postgreSelectMapper.IdCheck(ID); LoginDaoImpl logindaoimple =
-	 * logindao.IdCheck(ID);
-	 * 
-	 * if (logindaoimple != null) { return "-1"; } else
-	 * 
-	 * { System.out.println("null"); return "0"; } }
-	 */
+	/* 아이디 중복 체크 */
+
+	@ResponseBody
+	@RequestMapping(value = "/IdCheck.do", method = RequestMethod.GET, produces = "application/text; charset=utf8")
+	public String IdCheck(HttpServletRequest request) {
+
+		String userid = request.getParameter("userid");
+		int result = loginService.IdCheck(userid);
+		return Integer.toString(result);
+	}
 
 	/* 로그인 */
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
