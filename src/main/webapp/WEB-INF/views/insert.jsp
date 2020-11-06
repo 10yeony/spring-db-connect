@@ -48,41 +48,34 @@
 								<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 							</div>
 							<form action="insertUser" method="post" name="insert">
-
 								<div class="form-group">
-
 									<input type="text" class="form-control" name="userid"
 										placeholder="User ID" required>
 									<div class="check_font" id="id_check"></div>
 								</div>
-
 								<!-- <div class="col-sm-4 mb-3 mb-sm-0">
 										<input type="submit" value="Check Account"
 											class="form-control form-control-user">
 									</div> -->
-
-
 								<div class="form-group">
 									<input type="password" class="form-control" name="pwd"
 										placeholder="Password" required>
 								</div>
-
 								<div class="form-group">
 									<input type="submit" value="Register Account"
 										class="form-control form-control-user">
 								</div>
+								<hr>
+								<div class="text-center">
+									<a class="small" href="index.jsp">Already have an account?
+										Login!</a>
+								</div>
 							</form>
-							<hr>
-							<div class="text-center">
-								<a class="small" href="index.jsp">Already have an account?
-									Login!</a>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 	<!-- Bootstrap core JavaScript-->
