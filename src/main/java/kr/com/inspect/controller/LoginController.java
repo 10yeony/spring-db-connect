@@ -69,7 +69,7 @@ public class LoginController {
 			session.setAttribute("loginId", result.getUserid());
 		} catch (NullPointerException e) {
 			model.addAttribute("msg",
-					"The user id or password is incorrect.                                  Please re-enter your Id and Password");
+					"아이디 또는 비밀번호가 옳지 않습니다.");
 			model.addAttribute("url", "/");
 			return "redirect";
 		}
