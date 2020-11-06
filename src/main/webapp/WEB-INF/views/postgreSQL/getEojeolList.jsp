@@ -44,14 +44,13 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h5>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, creator : ${metadata.creator}</h5>
                 </div>
 
                 <!-- Page Body -->
                 <div class="card sahadow mb-4">
                     <table border="1">
                         <tr>
-                            <th>Id</th>
+                            <th width="50">Id</th>
                             <th>Standard</th>
                             <th>begin</th>
                             <th>end</th>

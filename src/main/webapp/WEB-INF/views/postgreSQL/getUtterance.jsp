@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="kr.com.inspect.dto.EojeolList" %>
+<%@ page import="kr.com.inspect.dto.Utterance" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -28,23 +30,23 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!-- 사이드바 include-->
+    <!-- �ъ�대��諛� include-->
     <%@ include file="../include/sidebar.jsp"%>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
-        <!-- 이 부분만 바꿔주면 됩니다 -->
+        <!-- �� 遺�遺�留� 諛�轅�二쇰㈃ �⑸���� -->
         <div id="content">
-            <!-- 툴바 include -->
+            <!-- �대� include -->
             <%@ include file="../include/toolbar.jsp"%>
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h5>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, FileNum : ${metadata.title}, creator : ${metadata.creator}</h5>
+                    <h5>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, creator : ${metadata.creator}</h5>
                 </div>
 
                 <!-- Page Body -->
@@ -79,7 +81,7 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- 로그아웃 경고창 include-->
+<!-- 濡�洹몄���� 寃쎄�李� include-->
 <%@ include file="../include/logout.jsp"%>
 
 <!-- Bootstrap core JavaScript-->
@@ -98,6 +100,7 @@
 <!-- Page level custom scripts -->
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
+
 </body>
 
 </html>
