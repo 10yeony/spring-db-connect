@@ -3,16 +3,13 @@ package kr.com.inspect.mapper;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Program;
-import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.User;
-import kr.com.inspect.dto.Utterance;
 
 @Mapper
 public interface PostgreSelectMapper {
