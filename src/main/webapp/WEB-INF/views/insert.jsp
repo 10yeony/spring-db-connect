@@ -117,18 +117,18 @@
 														url : "${pageContext.request.contextPath}/IdCheck.do",
 														type : "GET",
 														data : {
-															"userId" : $(
-																	'#userId')
+															"userid" : $(
+																	'#userid')
 																	.val()
 														},
 														success : function(data) {
 															if (data == 0
 																	&& $
 																			.trim($(
-																					'#userId')
+																					'#userid')
 																					.val()) != '') {
 																idx = true;
-																$('#userId')
+																$('#userid')
 																		.attr(
 																				"readonly",
 																				true);
