@@ -117,8 +117,8 @@ public class JsonParsing {
 		    if(!ObjectUtils.isEmpty(element.get("start"))) {
 		    	utterance.setStart(Double.parseDouble(element.get("start").toString()));
 		    }
-		    if(!ObjectUtils.isEmpty(element.get("end"))) {
-		    	utterance.setEnd(Double.parseDouble(element.get("end").toString()));
+		    if(!ObjectUtils.isEmpty(element.get("finish"))) {
+		    	utterance.setFinish(Double.parseDouble(element.get("finish").toString()));
 		    }
 		    utterance.setMetadata_id(metadata_id); //foreign key
 		    
@@ -144,8 +144,8 @@ public class JsonParsing {
 		    if(!ObjectUtils.isEmpty(element.get("Eojeol"))) {
 		    	eojeolList.setEojeol(element.get("Eojeol").toString());
 		    }
-		    if(!ObjectUtils.isEmpty(element.get("end"))) {
-		    	eojeolList.setFinish(Integer.parseInt(element.get("end").toString()));
+		    if(!ObjectUtils.isEmpty(element.get("finish"))) {
+		    	eojeolList.setFinish(Integer.parseInt(element.get("finish").toString()));
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("isDialect"))) {
 		    	eojeolList.setDialect(Boolean.parseBoolean(element.get("isDialect").toString()));

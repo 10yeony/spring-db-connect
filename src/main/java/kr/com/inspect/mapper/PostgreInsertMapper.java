@@ -48,12 +48,12 @@ public interface PostgreInsertMapper {
 	/* utterance 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.utterance"+
 			"(id, note, standard_form, form, speaker_no, start, finish, metadata_id)"+
-			"VALUES(#{id}, #{note}, #{standard_form}, #{form}, #{speaker_no}, #{start}, #{end}, #{metadata_id});")
+			"VALUES(#{id}, #{note}, #{standard_form}, #{form}, #{speaker_no}, #{start}, #{finish}, #{metadata_id});")
 	public void insertIntoUtterance(Utterance utterance);
 	
 	/* eojeolList 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.eojeolList"+
 			"(id, standard, eojeol, finish, isDialect, begin, utterance_id)"+
-			"VALUES(#{id}, #{standard}, #{eojeol}, #{end}, #{isDialect}, #{begin}, #{utterance_id});")
+			"VALUES(#{id}, #{standard}, #{eojeol}, #{finish}, #{isDialect}, #{begin}, #{utterance_id});")
 	public void insertIntoEojeolList(EojeolList eojeolList);
 }
