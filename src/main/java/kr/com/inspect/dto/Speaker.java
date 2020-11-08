@@ -1,13 +1,14 @@
 package kr.com.inspect.dto;
 
+/* Speaker 테이블(한 강의에서 말하는 발화자 목록) */
 public class Speaker {
 	private int id; //primary key, auto increment
-	private int no;
+	private int no; //한 강의에서 발화자 번호
 	private int shortcut;
 	private String occupation;
-	private String sex;
-	private String name;
-	private int age;
+	private String sex; //성별
+	private String name; //이름
+	private int age; //나이
 	private int metadata_id; //foreign key
 	
 	public Speaker() {}

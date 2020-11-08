@@ -2,20 +2,21 @@ package kr.com.inspect.dto;
 
 import java.util.List;
 
+/* Metadata 테이블(한 강의에 대한 전반적인 정보를 담고 있는 테이블) */
 public class Metadata {
 	private int id; //primary key, auto increment
-	private String creator;
+	private String creator; //스크립트 작성자
 	private String annotation_level;
-	private String year;
+	private String year; //제작년도
 	private String sampling;
-	private String title;
+	private String title; //파일이름
 	private String category;
 	private String distributor;
 	private String relation;
-	private int sentence_count;
-	private Program program;
-	private List<Speaker> speaker;
-	private List<Utterance> utterance;
+	private int sentence_count; //문장 개수(COUNT 함수로 가져와서 조인함)
+	private Program program; //Program 테이블
+	private List<Speaker> speaker; //Speaker 테이블
+	private List<Utterance> utterance; //Utterance 테이블
 	
 	public Metadata() {}
 	public Metadata(int id, String creator, String annotation_level, String year, String sampling, String title,

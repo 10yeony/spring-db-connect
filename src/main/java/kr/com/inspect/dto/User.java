@@ -1,9 +1,9 @@
 package kr.com.inspect.dto;
 
+/* User 테이블(회원 로그인, 회원가입 관련) */
 public class User {
-
-	private String userid;
-	private String pwd;
+	private String userid; //사용자 아이디
+	private String pwd; //비밀번호
 
 	public String getUserid() {
 		return userid;

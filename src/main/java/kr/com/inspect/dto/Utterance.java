@@ -2,18 +2,19 @@ package kr.com.inspect.dto;
 
 import java.util.List;
 
+/* Utterance 테이블(한 강의당 문장 모음) */
 public class Utterance {
-	private String id; //primary key
+	private String id; //primary key, 문장을 구분하기 위한 uuid 형식의 아이디
 	private String note;
-	private String standard_form;
-	private String form;
-	private String speaker_no;
-	private double start;
-	private double finish;
-	private int eojeol_count;
+	private String standard_form; //표준어 문장
+	private String form; //문장(방언일 경우 standard_form과 다름)
+	private String speaker_no; //발화자 번호
+	private double start; //시작 시간
+	private double finish; //끝나는 시간
+	private int eojeol_count; //어절 개수(COUNT 함수로 가져와서 조인함)
 	private int metadata_id; //foreign key
-	private List<EojeolList> eojoelList;
-	private List<Speaker> speaker;
+	private List<EojeolList> eojoelList; //EojeolList 테이블
+	private List<Speaker> speaker; //Speaker 테이블
 	
 	public Utterance() {}
 	public Utterance(String id, String note, String standard_form, String form, String speaker_no, double start,
