@@ -46,9 +46,14 @@ public class MongoController {
 	}
 	
 	/* 특정 경로에 있는 JSON 파일들을 읽어서 몽고DB에 넣기 */
-	@GetMapping("/insertJSONData")
+	@GetMapping("/insertJSONIntoMongo")
 	public String insertJSONData(HttpServletRequest request) {
-		mongoService.insertJSONData(database, col, jsonPath);
-		return "mongoDB/insertJSONData";
+		boolean flag = mongoService.insertJSONData(database, col, jsonPath);
+		if(flag == true) {
+			return "mongoDB/insertJSON";
+		}else {
+			return "mongoDB/insertJSONFail";
+		}
+		
 	}
 }

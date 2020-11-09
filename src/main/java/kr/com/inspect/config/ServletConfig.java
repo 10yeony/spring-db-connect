@@ -1,5 +1,6 @@
 package kr.com.inspect.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +18,24 @@ import org.springframework.web.servlet.view.script.ScriptTemplateViewResolver;
 @EnableWebMvc
 @ComponentScan(basePackages = {"kr.com.inspect"})
 public class ServletConfig implements WebMvcConfigurer {
+	@Value("${report.docx.directory}")
+	private String docxPath;
+	
+	@Value("${report.xlsx.directory}")
+	private String xlsxPath;
+	
+	@Value("${report.hwp.directory}")
+	private String hwpPath;
+	
+	@Value("${report.pptx.directory}")
+	private String pptxPath;
+	
 	/* 정적 자원 관리 */
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/reports/hwp/**").addResourceLocations("/reports/hwp/");
-		registry.addResourceHandler("/reports/docx/**").addResourceLocations("/reports/docx/");
-		registry.addResourceHandler("/reports/xlsx/**").addResourceLocations("/reports/xlsx/");
-		registry.addResourceHandler("/reports/pptx/**").addResourceLocations("/reports/pptx/");
-		registry.addResourceHandler("/json/**").addResourceLocations("/json/");
-		registry.addResourceHandler("/resource/**").addResourceLocations("/resource/");
+		registry.addResourceHandler("/reports/hwp/**").addResourceLocations(hwpPath);
+		registry.addResourceHandler("/reports/docx/**").addResourceLocations(docxPath);
+		registry.addResourceHandler("/reports/xlsx/**").addResourceLocations(xlsxPath);
+		registry.addResourceHandler("/reports/pptx/**").addResourceLocations(pptxPath);
 	}
 	  
 	/* 뷰 영역 설정 */
