@@ -46,8 +46,8 @@ public interface PostgreInsertMapper {
 	
 	/* eojeolList 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.eojeolList"+
-			"(id, standard, eojeol, finish, isDialect, begin, utterance_id)"+
-			"VALUES(#{id}, #{standard}, #{eojeol}, #{finish}, #{isDialect}, #{begin}, #{utterance_id});")
+			"(id, standard, eojeol, finish, isDialect, begin, utterance_id, metadata_id)"+
+			"VALUES(#{id}, #{standard}, #{eojeol}, #{finish}, #{isDialect}, #{begin}, #{utterance_id}, #{metadata_id});")
 	public void insertIntoEojeolList(EojeolList eojeolList);
 
 	/* JsonLog 테이블에 데이터를 입력함 */

@@ -57,7 +57,8 @@
 							<th>Creator</th>
 							<th>Year</th>
 							<th>File_num</th>
-							<th>Sentence_count<th>
+							<th>Sentence_count</th>
+							<th>Eojeol_total</th>
 						</tr>
 						<c:forEach items="${result}" var="item">
 							<tr>
@@ -68,6 +69,7 @@
 								<td>${item.year}</td>
 								<td>${item.title}</td>
 								<td>${item.sentence_count}개</td>
+								<td>${item.eojeol_total}개</td>
 							</tr>
 						</c:forEach>
 					</table>

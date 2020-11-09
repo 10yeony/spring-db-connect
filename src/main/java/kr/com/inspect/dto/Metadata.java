@@ -14,13 +14,14 @@ public class Metadata {
 	private String distributor;
 	private String relation;
 	private int sentence_count; //문장 개수(COUNT 함수로 가져와서 조인함)
+	private int eojeol_total; //어절 개(COUNT 함수로 가져와서 조인함)
 	private Program program; //Program 테이블
 	private List<Speaker> speaker; //Speaker 테이블
 	private List<Utterance> utterance; //Utterance 테이블
 	
 	public Metadata() {}
 	public Metadata(int id, String creator, String annotation_level, String year, String sampling, String title,
-			String category, String distributor, String relation, int sentence_count, Program program,
+			String category, String distributor, String relation, int sentence_count, int eojeol_total, Program program,
 			List<Speaker> speaker, List<Utterance> utterance) {
 		super();
 		this.id = id;
@@ -33,6 +34,7 @@ public class Metadata {
 		this.distributor = distributor;
 		this.relation = relation;
 		this.sentence_count = sentence_count;
+		this.eojeol_total = eojeol_total;
 		this.program = program;
 		this.speaker = speaker;
 		this.utterance = utterance;
@@ -98,6 +100,12 @@ public class Metadata {
 	public void setSentence_count(int sentence_count) {
 		this.sentence_count = sentence_count;
 	}
+	public int getEojeol_total() {
+		return eojeol_total;
+	}
+	public void setEojeol_total(int eojeol_total) {
+		this.eojeol_total = eojeol_total;
+	}
 	public Program getProgram() {
 		return program;
 	}
@@ -121,7 +129,7 @@ public class Metadata {
 	public String toString() {
 		return "Metadata [id=" + id + ", creator=" + creator + ", annotation_level=" + annotation_level + ", year="
 				+ year + ", sampling=" + sampling + ", title=" + title + ", category=" + category + ", distributor="
-				+ distributor + ", relation=" + relation + ", sentence_count=" + sentence_count + ", program=" + program
-				+ ", speaker=" + speaker + ", utterance=" + utterance + "]";
+				+ distributor + ", relation=" + relation + ", sentence_count=" + sentence_count + ", eojeol_total="
+				+ eojeol_total + ", program=" + program + ", speaker=" + speaker + ", utterance=" + utterance + "]";
 	}
 }

@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
     	<result column="distributor" property="distributor" />
     	<result column="relation" property="relation" />
     	<result column="sentence_count" property="sentence_count" />
+    	<result column="eojeol_total" property="eojeol_total" />
     	<collection property="program" javaType="kr.com.inspect.dto.Program">
       		<id column="program_id" property="id"/>
       		<result column="file_num" property="file_num"/>
@@ -39,7 +40,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   			p.title program_title,
   			p.subtitle subtitle,
   			p.running_time running_time,
-			ut.sentence_count sentence_count
+			ut.sentence_count sentence_count,
+			eo.eojeol_total eojeol_total
   		FROM
   			audio.metadata m
   		LEFT JOIN audio.program p 
@@ -50,32 +52,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				FROM audio.utterance
 				GROUP BY metadata_id) ut
 		ON
-			m.id = ut.metadata_id;
+			m.id = ut.metadata_id
+		LEFT JOIN 
+			(SELECT metadata_id, COUNT(standard) eojeol_total
+				FROM audio.eojeolList
+				GROUP BY metadata_id) eo
+		ON
+			m.id = eo.metadata_id;
 	</select>
 
 	<!-- Metadata와 Program을 조인한 것을 id로 가져옴 -->
 	<select id="getMetadataAndProgramUsingId" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram" parameterType="Integer">
 		SELECT
-			m.id metadata_id,
-			m.creator creator,
-			m.annotation_level annotation_level,
-			m.year metadata_year,
-			m.sampling sampling,
-			m.title metadata_title,
-			m.category category,
-			m.distributor distributor,
-			m.relation relation,
-			p.id program_id,
-			p.file_num file_num,
-			p.title program_title,
-			p.subtitle subtitle,
-			p.running_time running_time
-		FROM
-			audio.metadata m
-		LEFT JOIN 
-			audio.program p 
+  			m.id metadata_id,
+  			m.creator creator,
+  			m.annotation_level annotation_level,
+  			m.year metadata_year,
+  			m.sampling sampling,
+  			m.title metadata_title,
+  			m.category category,
+  			m.distributor distributor,
+  			m.relation relation,
+  			p.id program_id,
+  			p.file_num file_num,
+  			p.title program_title,
+  			p.subtitle subtitle,
+  			p.running_time running_time,
+			ut.sentence_count sentence_count,
+			eo.eojeol_total eojeol_total
+  		FROM
+  			audio.metadata m
+  		LEFT JOIN audio.program p 
 		ON
-			m.title = p.file_num
+  			m.title = p.file_num
+		LEFT JOIN 
+			(SELECT metadata_id, COUNT(form) sentence_count
+				FROM audio.utterance
+				GROUP BY metadata_id) ut
+		ON
+			m.id = ut.metadata_id
+		LEFT JOIN 
+			(SELECT metadata_id, COUNT(standard) eojeol_total
+				FROM audio.eojeolList
+				GROUP BY metadata_id) eo
+		ON
+			m.id = eo.metadata_id
 		WHERE 
 			m.id = #{metaId};
 	</select>
