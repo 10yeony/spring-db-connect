@@ -38,8 +38,8 @@ public class MongoServiceImpl implements MongoService {
 	
 	/* 특정 경로에 있는 JSON 파일들을 읽어서 몽고DB에 넣기 */
 	@Override
-	public void insertJSONData(String database, String col, String fullPath) {
-		mongoDao.insertJSONData(database, col, fullPath);
+	public boolean insertJSONData(String database, String col, String fullPath) {
+		return mongoDao.insertJSONData(database, col, fullPath);
 	}
 	
 	/* 몽고DB에서 해당되는 database의 collection 데이터를 모두 가져오기 */

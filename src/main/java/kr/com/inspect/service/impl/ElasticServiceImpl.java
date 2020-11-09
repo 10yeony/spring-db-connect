@@ -17,4 +17,10 @@ public class ElasticServiceImpl implements ElasticService {
 	public SearchHit[] getIndex(String index) {
 		return elasticDao.getIndex(index);
 	}
+
+	/* 특정 경로에 있는 JSON 파일들을 읽어서 엘라스틱서치에 넣기 */
+	@Override
+	public boolean insertJSON(String index, String path) {
+		return elasticDao.insertJSON(index, path);
+	}
 }

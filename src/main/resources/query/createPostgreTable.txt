@@ -41,7 +41,8 @@ CREATE TABLE audio.eojeolList (
 	finish integer,
 	isDialect boolean,
 	begin integer,
-	utterance_id text REFERENCES audio.utterance ON DELETE CASCADE
+	utterance_id text REFERENCES audio.utterance ON DELETE CASCADE, 
+	metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
 );
 
 CREATE TABLE audio.program (

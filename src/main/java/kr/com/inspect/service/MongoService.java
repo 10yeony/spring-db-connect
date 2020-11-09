@@ -9,7 +9,7 @@ public interface MongoService {
 	public void insertElasticIndex(String database, String col, String index);
 	
 	/* 특정 경로에 있는 JSON 파일들을 읽어서 몽고DB에 넣기 */
-	public void insertJSONData(String database, String col, String fullPath);
+	public boolean insertJSONData(String database, String col, String fullPath);
 	
 	/* 몽고DB에서 해당되는 database의 collection 데이터를 모두 가져오기 */
 	public List<Document> getCollection(String database, String col);
