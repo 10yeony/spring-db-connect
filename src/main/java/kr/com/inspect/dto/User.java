@@ -2,8 +2,17 @@ package kr.com.inspect.dto;
 
 /* User 테이블(회원 로그인, 회원가입 관련) */
 public class User {
-	private String userid; //사용자 아이디
-	private String pwd; //비밀번호
+	private String userid; // 사용자 아이디
+	private String pwd; // 비밀번호
+	private boolean useCookie; // 쿠키 사용
+
+	public boolean isUseCookie() {
+		return useCookie;
+	}
+
+	public void setUseCookie(boolean useCookie) {
+		this.useCookie = useCookie;
+	}
 
 	public String getUserid() {
 		return userid;
