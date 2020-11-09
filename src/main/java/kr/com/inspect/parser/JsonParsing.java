@@ -97,10 +97,10 @@ public class JsonParsing {
 		for(int i=0; i<arr.size(); i++) {
 			Map element = (Map)arr.get(i);
 		    Utterance utterance = new Utterance();
-		    String id = null;
+		    String utterance_id = null;
 		    if(!ObjectUtils.isEmpty(element.get("id"))) {
-		    	id = element.get("id").toString(); //primary key
-		    	utterance.setId(id); 
+		    	utterance_id = element.get("id").toString(); //primary key
+		    	utterance.setId(utterance_id); 
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("note"))) {
 		    	utterance.setNote(element.get("note").toString());
@@ -123,14 +123,14 @@ public class JsonParsing {
 		    utterance.setMetadata_id(metadata_id); //foreign key
 		    
 		    JSONArray eojoelArr = (JSONArray)element.get("eojeolList");
-		    utterance.setEojoelList(setEojeolList(eojoelArr, id)); //EojeolList 목록 추가
+		    utterance.setEojoelList(setEojeolList(eojoelArr, utterance_id, metadata_id)); //EojeolList 목록 추가
 		    utteranceList.add(utterance);
 		}
 		return utteranceList;
 	}
 	
 	/* EojeolList 파싱 */
-	public List<EojeolList> setEojeolList(JSONArray arr, String utterance_id){
+	public List<EojeolList> setEojeolList(JSONArray arr, String utterance_id, int metadata_id){
 		List<EojeolList> eojeolListList = new ArrayList<>();
 		for(int i=0; i<arr.size(); i++) {
 			Map element = (Map)arr.get(i);
@@ -154,6 +154,7 @@ public class JsonParsing {
 		    	eojeolList.setBegin(Integer.parseInt(element.get("begin").toString()));
 		    }
 		    eojeolList.setUtterance_id(utterance_id); //foreign key
+		    eojeolList.setMetadata_id(metadata_id); //foreign key
 		    eojeolListList.add(eojeolList);
 		}
 		return eojeolListList;
