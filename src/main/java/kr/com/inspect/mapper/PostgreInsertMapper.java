@@ -1,15 +1,8 @@
 package kr.com.inspect.mapper;
 
+import kr.com.inspect.dto.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Program;
-import kr.com.inspect.dto.Sound;
-import kr.com.inspect.dto.Speaker;
-import kr.com.inspect.dto.User;
-import kr.com.inspect.dto.Utterance;
 
 @Mapper
 public interface PostgreInsertMapper {
@@ -56,4 +49,10 @@ public interface PostgreInsertMapper {
 			"(id, standard, eojeol, finish, isDialect, begin, utterance_id)"+
 			"VALUES(#{id}, #{standard}, #{eojeol}, #{finish}, #{isDialect}, #{begin}, #{utterance_id});")
 	public void insertIntoEojeolList(EojeolList eojeolList);
+
+	/* JsonLog 테이블에 데이터를 입력함 */
+	@Insert("INSERT INTO audio.jsonlog"+
+			"(title, start, finish, elapsed)"+
+			"VALUES(#{title}, #{start}, #{finish}, #{elapsed});")
+	public void insertIntoJsonLog(JsonLog jsonLog);
 }

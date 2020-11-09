@@ -1,10 +1,13 @@
 package kr.com.inspect.service.impl;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.com.inspect.dto.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.annotations.Param;
 import org.elasticsearch.search.SearchHit;
@@ -14,12 +17,6 @@ import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.ElasticDao;
 import kr.com.inspect.dao.PostgreDao;
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Program;
-import kr.com.inspect.dto.Sound;
-import kr.com.inspect.dto.Speaker;
-import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.mapper.PostgreInsertMapper;
 import kr.com.inspect.mapper.PostgreSelectMapper;
 import kr.com.inspect.parser.JsonParsing;
@@ -94,13 +91,22 @@ public class PostgreServiceImpl implements PostgreService {
 			/* 확장자가 json인 파일을 읽는다 */
 		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
 		    	String fullPath = path + file.getName();
-		    	
+
+				JsonLog jsonLog = new JsonLog();
+
+				/* jsonLog 테이블 시작시간 측정 */
+		    	jsonLog.setStart(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+				long startTime = System.currentTimeMillis();
+
 		    	/* json 파일을 읽어서 객체로 파싱 */
 				JSONObject obj = jsonParsing.getJSONObject(fullPath);
 				
 				/* metadata 테이블 입력 */
 				Metadata metadata  = jsonParsing.setMetadata(obj);
-				
+
+				/* jsonLog 테이블 파일명 입력 */
+				jsonLog.setTitle(metadata.getTitle());
+
 				/* metadata_id를 가져옴(creator, title) */
 				Map map = new HashMap();
 				map.put("creator", metadata.getCreator());
@@ -112,7 +118,7 @@ public class PostgreServiceImpl implements PostgreService {
 					
 					/* metadata 테이블 입력 */
 					postgreInsertMapper.insertIntoMetadata(metadata); 
-					
+
 					/* auto increment로 등록된 id를 가져옴 */
 					int metadata_id = postgreSelectMapper.getMetadataId(map);
 					
@@ -131,6 +137,18 @@ public class PostgreServiceImpl implements PostgreService {
 							postgreInsertMapper.insertIntoEojeolList(eojeolList); //eojeolList 입력
 						}
 					}
+
+					/* jsonLog 테이블 종료시간 측정 */
+					jsonLog.setFinish(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+					long endTime = System.currentTimeMillis();
+
+					/* jsonLog 테이블 소요시간 입력 */
+					int elapsed = (int)((endTime-startTime)/1000.0);
+					int min = elapsed/60;
+					int sec = elapsed - min*60;
+					jsonLog.setElapsed(""+min+":"+sec);
+
+					postgreInsertMapper.insertIntoJsonLog(jsonLog);
 				}
 		    }
 		}

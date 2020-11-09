@@ -56,3 +56,11 @@ CREATE TABLE audio.user (
 	userid text PRIMARY KEY,
 	pwd text
 );
+
+CREATE TABLE audio.jsonLog (
+    id SERIAL PRIMARY KEY,
+    title text,
+    start text,
+    finish text,
+    elapsed text
+);
