@@ -43,16 +43,23 @@ public class LoginController {
 	}
 
 	/* 로그인 */
-	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/loginUser", method = { RequestMethod.POST, RequestMethod.GET })
 	public String loginUser(User user, Model model, HttpSession session) throws Exception {
 		try {
+			if (session.getAttribute("loginId") != null) {
+				session.removeAttribute("loginId");
+			}
 			User result = loginService.loginUser(user);
 			session.setAttribute("loginId", result.getUserid());
+			if (user.getUserid().equals("admin")) {
+				return "navigator02";
+			}
 		} catch (NullPointerException e) {
 			model.addAttribute("msg", "아이디 또는 비밀번호가 옳지 않습니다.");
 			model.addAttribute("url", "/");
 			return "redirect";
 		}
+
 		return "navigator";
 	}
 
