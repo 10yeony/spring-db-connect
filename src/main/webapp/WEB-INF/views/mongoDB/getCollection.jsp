@@ -44,7 +44,7 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h3>MongoDB 특정 컬렉션 가져오기</h3>
+					<h3>MongoDB 데이터 목록</h3>
 				</div>
 
 				<!-- Page Body -->

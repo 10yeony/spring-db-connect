@@ -56,7 +56,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
 <%--                <a class="collapse-item" href="${pageContext.request.contextPath}/insertElasticIndexIntoMongo">Elasticsearch 인덱스 저장</a>--%>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/insertJSONData">JSON 파일 저장</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getMongoCollection">특정 컬렉션 가져오기</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getMongoCollection">데이터 목록</a>
             </div>
         </div>
     </li>
