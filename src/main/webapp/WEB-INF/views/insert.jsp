@@ -106,9 +106,7 @@
 	$(document)
 			.ready(
 					function(e) {
-
 						var idx = false;
-
 						$('#check')
 								.click(
 										function() {
