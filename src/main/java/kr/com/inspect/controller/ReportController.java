@@ -3,6 +3,7 @@ package kr.com.inspect.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +55,8 @@ public class ReportController {
 	
 	/* 보고서 작성 */
 	@GetMapping("/report/{format}")
-	public String writeReport(HttpServletRequest request, 
+	public String writeReport(HttpServletRequest request,
+							  HttpServletResponse response,
 										Model model,
 										@PathVariable String format) {
 		list = postgreService.getMetadataAndProgram();
@@ -66,11 +68,11 @@ public class ReportController {
 				url = "report/hwpReport";
 				break;
 			case ("docx"): //docx 파일
-				docxReport.writeDocx(docxPath, list);
+				docxReport.writeDocx(response, docxPath, list);
 				url = "report/docxReport";
 				break;
 			case ("xlsx"): //xlsx 파일
-				xlsxReport.writeXlsx(xlsxPath, list);
+				xlsxReport.writeXlsx(response, xlsxPath, list);
 				url = "report/xlsxReport";
 				break;
 			case ("pptx"): //pptx 파일 

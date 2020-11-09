@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dto.Sound;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class DocxReport {
@@ -47,7 +49,7 @@ public class DocxReport {
 	private String column8;
 
 	/* docx 보고서 작성 */
-	public void writeDocx(String path, List<Metadata> list) {
+	public void writeDocx(HttpServletResponse response, String path, List<Metadata> list) {
 		String docxFileName =
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())
 						+ "_log.docx";
@@ -103,6 +105,12 @@ public class DocxReport {
 		try {
 			fos = new FileOutputStream(file);
 			doc.write(fos);
+
+			response.setHeader("Content-Disposition", "attachment;filename="+docxFileName);
+			response.setContentType("application/octet-stream; charset=utf-8");
+			doc.write(response.getOutputStream());
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
 		} catch (IOException e) {
