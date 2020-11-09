@@ -197,9 +197,11 @@ $RECYCLE.BIN/
 src/main/webapp/reports
 
 ### Except for *.json & *.xlsx in input dirctory ###
-src/main/webapp/input/json/*.json
-src/main/webapp/input/xlsx/*.xlsx
-src/main/webapp/input/xlsx/*.xlsx#
+src/main/webapp/input/json/*
+src/main/webapp/input/xlsx/*
+!src/main/webapp/input/json/.gitkeep
+!src/main/webapp/input/xlsx/.gitkeep
 
-### DB Info ###
+### DB & Directory Info ###
 src/main/resources/properties/db.properties
+src/main/resources/properties/directory.properties

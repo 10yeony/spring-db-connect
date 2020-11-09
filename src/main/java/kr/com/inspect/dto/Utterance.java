@@ -2,22 +2,23 @@ package kr.com.inspect.dto;
 
 import java.util.List;
 
+/* Utterance 테이블(한 강의당 문장 모음) */
 public class Utterance {
-	private String id; //primary key
+	private String id; //primary key, 문장을 구분하기 위한 uuid 형식의 아이디
 	private String note;
-	private String standard_form;
-	private String form;
-	private String speaker_no;
-	private double start;
-	private double end;
-	private int eojeol_count;
+	private String standard_form; //표준어 문장
+	private String form; //문장(방언일 경우 standard_form과 다름)
+	private String speaker_no; //발화자 번호
+	private double start; //시작 시간
+	private double finish; //끝나는 시간
+	private int eojeol_count; //어절 개수(COUNT 함수로 가져와서 조인함)
 	private int metadata_id; //foreign key
-	private List<EojeolList> eojoelList;
-	private List<Speaker> speaker;
+	private List<EojeolList> eojoelList; //EojeolList 테이블
+	private List<Speaker> speaker; //Speaker 테이블
 	
 	public Utterance() {}
 	public Utterance(String id, String note, String standard_form, String form, String speaker_no, double start,
-			double end, int eojeol_count, int metadata_id, List<EojeolList> eojoelList, List<Speaker> speaker) {
+			double finish, int eojeol_count, int metadata_id, List<EojeolList> eojoelList, List<Speaker> speaker) {
 		super();
 		this.id = id;
 		this.note = note;
@@ -25,7 +26,7 @@ public class Utterance {
 		this.form = form;
 		this.speaker_no = speaker_no;
 		this.start = start;
-		this.end = end;
+		this.finish = finish;
 		this.eojeol_count = eojeol_count;
 		this.metadata_id = metadata_id;
 		this.eojoelList = eojoelList;
@@ -68,11 +69,11 @@ public class Utterance {
 	public void setStart(double start) {
 		this.start = start;
 	}
-	public double getEnd() {
-		return end;
+	public double getFinish() {
+		return finish;
 	}
-	public void setEnd(double end) {
-		this.end = end;
+	public void setFinish(double finish) {
+		this.finish = finish;
 	}
 	public int getEojeol_count() {
 		return eojeol_count;
@@ -102,7 +103,8 @@ public class Utterance {
 	@Override
 	public String toString() {
 		return "Utterance [id=" + id + ", note=" + note + ", standard_form=" + standard_form + ", form=" + form
-				+ ", speaker_no=" + speaker_no + ", start=" + start + ", end=" + end + ", eojeol_count=" + eojeol_count
-				+ ", metadata_id=" + metadata_id + ", eojoelList=" + eojoelList + ", speaker=" + speaker + "]";
+				+ ", speaker_no=" + speaker_no + ", start=" + start + ", finish=" + finish + ", eojeol_count="
+				+ eojeol_count + ", metadata_id=" + metadata_id + ", eojoelList=" + eojoelList + ", speaker=" + speaker
+				+ "]";
 	}
 }

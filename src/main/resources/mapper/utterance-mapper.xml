@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
     	<result column="form" property="form" />
     	<result column="speaker_no" property="speaker_no" />
     	<result column="start" property="start" />
-    	<result column="finish" property="end" />
+    	<result column="finish" property="finish" />
     	<result column="eojeol_count" property="eojeol_count" />
 	</resultMap>
 	

@@ -1,12 +1,13 @@
 package kr.com.inspect.dto;
 
+/* EojeolList 테이블(한 문장을 띄어쓰기 단위로 쪼개낸 어절 모음) */
 public class EojeolList {
-	private String id; //primary key
-	private String standard;
-	private String eojeol;
-	private int finish;
-	private boolean isDialect;
-	private int begin;
+	private String id; //primary key, 어절을 구분하기 위한 uuid 형식의 아이디
+	private String standard; //표준어 어절
+	private String eojeol; //어절(방언일 경우 standard와 다름)
+	private boolean isDialect; //방언이면 true, 아니면 false
+	private int begin; //문장에서 해당 어절이 시작되는 위치
+	private int finish; //문장에서 해당 어절이 끝나는 위치
 	private String utterance_id; //foreign key
 	
 	public EojeolList() {}

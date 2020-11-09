@@ -1,11 +1,12 @@
 package kr.com.inspect.dto;
 
+/* Program 테이블(전체 강의 프로그램 목록)  */
 public class Program {
-	private int id;
-	private String file_num;
-	private String title;
-	private String subtitle;
-	private String running_time;
+	private int id; //순번
+	private String file_num; //파일이름
+	private String title; //제목
+	private String subtitle; //부제
+	private String running_time; //방송시간
 	
 	public Program() {}
 	public Program(int id, String file_num, String title, String subtitle, String running_time) {
