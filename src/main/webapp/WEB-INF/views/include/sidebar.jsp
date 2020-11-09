@@ -33,18 +33,18 @@
         List
     </div>
 
-<%--    <!-- Nav Item - Pages Collapse Menu -->--%>
-<%--    <li class="nav-item">--%>
-<%--        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#elasticSearch" aria-expanded="true" aria-controls="elasticSearch">--%>
-<%--            <i class="fas fa-fw fa-folder"></i>--%>
-<%--            <span>Elasticsearch</span>--%>
-<%--        </a>--%>
-<%--        <div id="elasticSearch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">--%>
-<%--            <div class="bg-white py-2 collapse-inner rounded">--%>
-<%--                <a class="collapse-item" href="${pageContext.request.contextPath}/getElasticIndex">특정 인덱스 불러오기</a>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
+	<!-- Nav Item - Pages Collapse Menu -->
+   <%-- <li class="nav-item">
+       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#elasticSearch" aria-expanded="true" aria-controls="elasticSearch">
+           <i class="fas fa-fw fa-folder"></i>
+           <span>Elasticsearch</span>
+       </a>
+       <div id="elasticSearch" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+           <div class="bg-white py-2 collapse-inner rounded">
+               <a class="collapse-item" href="${pageContext.request.contextPath}/getElasticIndex">특정 인덱스 불러오기</a>
+           </div>
+       </div>
+   </li> --%>
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
