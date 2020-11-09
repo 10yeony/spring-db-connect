@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import kr.com.inspect.dto.EojeolList;
+import kr.com.inspect.dto.JsonLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -84,5 +85,14 @@ public class PostgreController {
 		List<Metadata> metadata = postgreService.getMetadataAndProgram();
 		model.addAttribute("result", metadata);
 		return "postgreSQL/getTable";
+	}
+
+	/* JsonLog 테이블 가져오기 */
+	@GetMapping("/getJsonLog")
+	public String getJsonLog(Model model){
+		List<JsonLog> jsonLogs = postgreService.getJsonLog();
+		model.addAttribute("jsonLog",jsonLogs);
+
+		return "postgreSQL/getJsonLog";
 	}
 }

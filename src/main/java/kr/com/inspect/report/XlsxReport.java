@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class XlsxReport {
@@ -48,7 +50,7 @@ public class XlsxReport {
 	private String column8;
 	
 	/* xlsx 보고서 작성 */
-	public void writeXlsx(String path, List<Metadata> list) {
+	public void writeXlsx(HttpServletResponse response, String path, List<Metadata> list) {
 		String xlsxFileName =
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())
 						+ "_log.xlsx"; //파일명
@@ -111,9 +113,17 @@ public class XlsxReport {
 		File file = new File(fullPath);
 		FileOutputStream fos = null;
 
+
 		try {
 			fos = new FileOutputStream(fullPath);
 			workbook.write(fos);
+
+			response.setHeader("Content-Disposition", "attachment;filename="+xlsxFileName);
+			response.setContentType("application/octet-stream; charset=utf-8");
+			response.setContentType("application/vnd.ms-excel");
+			workbook.write(response.getOutputStream());
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

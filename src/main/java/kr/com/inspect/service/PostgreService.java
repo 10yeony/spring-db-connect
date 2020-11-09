@@ -3,6 +3,7 @@ package kr.com.inspect.service;
 import java.util.List;
 
 import kr.com.inspect.dto.EojeolList;
+import kr.com.inspect.dto.JsonLog;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
 import org.apache.ibatis.annotations.Param;
@@ -35,4 +36,7 @@ public interface PostgreService {
 
 	/* utterance_id 를 이용하여 eojeollist 데이터 가져오기 */
 	public List<EojeolList> getEojeolListUsingUtteranceId(String id);
+
+	/* JsonLog 테이블을 모두 가져옴 */
+	public List<JsonLog> getJsonLog();
 }

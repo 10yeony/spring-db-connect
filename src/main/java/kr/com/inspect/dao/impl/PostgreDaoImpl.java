@@ -3,6 +3,7 @@ package kr.com.inspect.dao.impl;
 import java.util.List;
 
 import kr.com.inspect.dto.EojeolList;
+import kr.com.inspect.dto.JsonLog;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,10 @@ public class PostgreDaoImpl implements PostgreDao {
 	/* utterance_id 를 이용하여 eojeollist 데이터 가져오기 */
 	public List<EojeolList> getEojeolListUsingUtteranceId(String id){
 		return postgreSelectMapper.getEojeolListUsingUtteranceId(id);
+	}
+
+	/* JsonLog 테이블을 모두 가져옴 */
+	public List<JsonLog> getJsonLog(){
+		return postgreSelectMapper.getJsonLog();
 	}
 }
