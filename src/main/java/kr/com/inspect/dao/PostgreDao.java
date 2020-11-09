@@ -2,13 +2,9 @@ package kr.com.inspect.dao;
 
 import java.util.List;
 
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Utterance;
+import kr.com.inspect.dto.*;
 import org.apache.ibatis.annotations.Param;
 import org.json.simple.JSONObject;
-
-import kr.com.inspect.dto.Sound;
 
 public interface PostgreDao {
 	/* Metadata 테이블을 모두 가지고 옴 */
@@ -28,4 +24,7 @@ public interface PostgreDao {
 
 	/* utterance_id 를 이용하여 eojeollist 데이터 가져오기 */
 	public List<EojeolList> getEojeolListUsingUtteranceId(String id);
+
+	/* JsonLog 테이블을 모두 가져옴 */
+	public List<JsonLog> getJsonLog();
 }

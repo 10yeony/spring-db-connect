@@ -3,13 +3,9 @@ package kr.com.inspect.mapper;
 import java.util.List;
 import java.util.Map;
 
+import kr.com.inspect.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Program;
-import kr.com.inspect.dto.User;
 
 @Mapper
 public interface PostgreSelectMapper {
@@ -63,4 +59,9 @@ public interface PostgreSelectMapper {
 				+ "WHERE utterance_id = #{id} "
 				+ "ORDER BY begin")
 	public List<EojeolList> getEojeolListUsingUtteranceId(String id);
+
+	/* jsonLog 테이블 가져오기 */
+	@Select("SELECT * "
+			+ "FROM audio.jsonlog")
+	public List<JsonLog> getJsonLog();
 }

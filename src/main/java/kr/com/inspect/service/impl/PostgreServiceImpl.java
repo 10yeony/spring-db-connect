@@ -64,6 +64,9 @@ public class PostgreServiceImpl implements PostgreService {
 	public List<Metadata> getMetadata(){
 		return postgreDao.getMetadata();
 	}
+
+	/* JsonLog 테이블을 모두 가져옴 */
+	public List<JsonLog> getJsonLog(){ return postgreDao.getJsonLog();	}
 	
 	/* id로 해당되는 Metadata 테이블을 가져옴 */
 	public Metadata getMetadataById(Integer id) {
