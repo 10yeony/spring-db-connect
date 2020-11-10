@@ -24,8 +24,7 @@
 		<span
 			class="mr-2 d-none d-lg-inline text-gray-600 small">
 			<h5>${sessionScope.loginId}님 환영합니다.</h5></span>
-			<img class="img-profile rounded-circle"
-			src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+		<i class="fas fa-sign-out-alt" style="font-size:20px"></i>
 	</a> <!-- Dropdown - User Information -->
 		<div
 			class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

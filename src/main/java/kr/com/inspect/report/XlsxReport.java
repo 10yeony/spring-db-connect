@@ -53,9 +53,9 @@ public class XlsxReport {
 	/* xlsx 한국어 강의 목록 리스트 작성 */
 	public void writeXlsxMetadata(HttpServletResponse response, String path, List<Metadata> list) {
 		String xlsxFileName =
-				"Metadata_"+
+				"강의목록_"+
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
-						+ "_log.xlsx"; //파일명
+						+ ".xlsx"; //파일명
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
 		XSSFWorkbook workbook = new XSSFWorkbook(); //워크북
@@ -135,9 +135,9 @@ public class XlsxReport {
 	/* xlsx utterance 리스트 작성 */
 	public void writeXlsxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata) {
 		String xlsxFileName =
-				"Utterance_"+
+				metadata.getTitle()+ "_" +
 						new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
-						+ "_log.xlsx"; //파일명
+						+ ".xlsx"; //파일명
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
 		XSSFWorkbook workbook = new XSSFWorkbook(); //워크북
