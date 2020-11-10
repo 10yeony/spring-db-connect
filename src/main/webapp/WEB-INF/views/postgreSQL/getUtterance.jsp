@@ -48,8 +48,10 @@
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h5>${metadata.program.title} - ${metadata.program.subtitle}, creator : ${metadata.creator}</h5>
                     <div>
-                        <button type="submit" onclick="location.href='${pageContext.request.contextPath}/utterance/docx/${metadata.id}'">워드파일</button>
-                        <button type="submit" onclick="location.href='${pageContext.request.contextPath}/utterance/xlsx/${metadata.id}'">엑셀파일</button>
+                        <a href="${pageContext.request.contextPath}/utterance/docx/${metadata.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Word</a>
+                        <a href="${pageContext.request.contextPath}/utterance/xlsx/${metadata.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Excel</a>
                     </div>
                 </div>
 
