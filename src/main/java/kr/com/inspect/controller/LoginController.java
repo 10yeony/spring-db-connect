@@ -76,7 +76,7 @@ public class LoginController {
 	public String logout(User user, Model model, HttpSession session) {
 		session.invalidate();
 		// session.setAttribute("loginId",null); 으로 해줘도 된다.
-		return "index";
+		return "redirect:index.jsp";
 	}
 
 	/* 회원가입 페이지 이동 */
