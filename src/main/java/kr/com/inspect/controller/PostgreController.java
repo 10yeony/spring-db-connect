@@ -60,6 +60,13 @@ public class PostgreController {
 		}
 		return "postgreSQL/insertXlsxFail";
 	}
+
+	/* xlsx 파일을 PostgreSQL 특정 테이블(program)에 넣기 */
+	@GetMapping("/insertIntoPostgre")
+	public String insertPostgres(HttpServletRequest request) {
+
+		return "postgreSQL/insertPostgres";
+	}
 	
 	/* Utterance 테이블 가져오기 */
 	@GetMapping("/getUtteranceTable/{format}")
