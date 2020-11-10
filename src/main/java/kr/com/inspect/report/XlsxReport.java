@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Utterance;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -49,10 +50,11 @@ public class XlsxReport {
 	@Value("${table.column8}")
 	private String column8;
 	
-	/* xlsx 보고서 작성 */
-	public void writeXlsx(HttpServletResponse response, String path, List<Metadata> list) {
+	/* xlsx 한국어 강의 목록 리스트 작성 */
+	public void writeXlsxMetadata(HttpServletResponse response, String path, List<Metadata> list) {
 		String xlsxFileName =
-				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())
+				"Metadata_"+
+				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
 						+ "_log.xlsx"; //파일명
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
@@ -66,7 +68,7 @@ public class XlsxReport {
 
 		row = sheet.createRow(2);
 		cell = row.createCell(0);
-		cell.setCellValue("제목");
+		cell.setCellValue("한국어 강의 목록 리스트");
 		sheet.addMergedRegion(new CellRangeAddress(2,2,0,1));
 
 
@@ -118,6 +120,69 @@ public class XlsxReport {
 			fos = new FileOutputStream(fullPath);
 			workbook.write(fos);
 
+			/* 사용자 컴퓨터에 다운로드 */
+			response.setHeader("Content-Disposition", "attachment;filename="+xlsxFileName);
+			response.setContentType("application/octet-stream; charset=utf-8");
+			response.setContentType("application/vnd.ms-excel");
+			workbook.write(response.getOutputStream());
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/* xlsx utterance 리스트 작성 */
+	public void writeXlsxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata) {
+		String xlsxFileName =
+				"Utterance_"+
+						new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
+						+ "_log.xlsx"; //파일명
+		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+		XSSFWorkbook workbook = new XSSFWorkbook(); //워크북
+		XSSFSheet sheet = workbook.createSheet(); //워크시트
+		XSSFRow row = sheet.createRow(0); //행
+		XSSFCell cell; //셀
+		cell = row.createCell(0);
+		cell.setCellValue("날짜 : " + day);
+		sheet.addMergedRegion(new CellRangeAddress(0,0,0,1));
+
+		row = sheet.createRow(2);
+		cell = row.createCell(0);
+		cell.setCellValue(metadata.getProgram().getTitle()+"  "+metadata.getProgram().getSubtitle());
+		sheet.addMergedRegion(new CellRangeAddress(2,2,0,1));
+
+
+		row = sheet.createRow(4);
+		/* 헤더 정보 구성 */
+		cell = row.createCell(0);
+		cell.setCellValue(column0);
+		cell = row.createCell(1);
+		cell.setCellValue("title");
+
+		// 리스트의 size 만큼 row를 생성
+		Utterance utterance;
+		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
+			utterance = list.get(rowIdx);
+			row = sheet.createRow(rowIdx+5); //행 생성
+			cell = row.createCell(0);
+			cell.setCellValue(Integer.toString(rowIdx+1));
+			cell = row.createCell(1);
+			cell.setCellValue(utterance.getForm());
+		}
+
+		// 입력된 내용 파일로 쓰기
+		String fullPath = path + xlsxFileName;
+		File file = new File(fullPath);
+		FileOutputStream fos = null;
+
+
+		try {
+			fos = new FileOutputStream(fullPath);
+			workbook.write(fos);
+
+			/* 사용자 컴퓨터에 다운로드 */
 			response.setHeader("Content-Disposition", "attachment;filename="+xlsxFileName);
 			response.setContentType("application/octet-stream; charset=utf-8");
 			response.setContentType("application/vnd.ms-excel");

@@ -46,7 +46,11 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h5>Title : ${metadata.program.title}, SubTitle : ${metadata.program.subtitle}, creator : ${metadata.creator}</h5>
+                    <h5>${metadata.program.title} - ${metadata.program.subtitle}, creator : ${metadata.creator}</h5>
+                    <div>
+                        <button type="submit" onclick="location.href='${pageContext.request.contextPath}/utterance/docx/${metadata.id}'">워드파일</button>
+                        <button type="submit" onclick="location.href='${pageContext.request.contextPath}/utterance/xlsx/${metadata.id}'">엑셀파일</button>
+                    </div>
                 </div>
 
                 <!-- Page Body -->

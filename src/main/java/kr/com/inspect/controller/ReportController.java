@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.com.inspect.dto.Utterance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -26,8 +27,10 @@ public class ReportController {
 	/* PostgreSQL */
 	@Autowired 
 	private PostgreService postgreService;
-	private List<Metadata>  list;
-	
+	private List<Metadata>  metadata;
+	private List<Utterance>  utterances;
+	private Metadata meta;
+
 	/* 파일 생성 */
 	@Autowired
 	private HwpReport hwpReport;
@@ -53,13 +56,13 @@ public class ReportController {
 	@Value("${report.pptx.directory}")
 	private String pptxPath;
 	
-	/* 보고서 작성 */
-	@GetMapping("/report/{format}")
-	public String writeReport(HttpServletRequest request,
+	/* 한국어 강의 목록 리스트 파일로 출력 */
+	@GetMapping("/metadata/{format}")
+	public String writeMetadata(HttpServletRequest request,
 							  HttpServletResponse response,
 										Model model,
 										@PathVariable String format) {
-		list = postgreService.getMetadataAndProgram();
+		metadata = postgreService.getMetadataAndProgram();
 		String url = "";
 		
 		switch(format) {
@@ -68,11 +71,11 @@ public class ReportController {
 				url = "report/hwpReport";
 				break;
 			case ("docx"): //docx 파일
-				docxReport.writeDocx(response, docxPath, list);
+				docxReport.writeDocxMetadata(response, docxPath, metadata);
 				url = "report/docxReport";
 				break;
 			case ("xlsx"): //xlsx 파일
-				xlsxReport.writeXlsx(response, xlsxPath, list);
+				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata);
 				url = "report/xlsxReport";
 				break;
 			case ("pptx"): //pptx 파일 
@@ -83,5 +86,31 @@ public class ReportController {
 				break;
 		}
 		return url;
+	}
+
+	/* utterance 리스트 docx 파일로 출력 */
+	@GetMapping("/utterance/docx/{format}")
+	public void writeUtteranceDocx(HttpServletRequest request,
+							  HttpServletResponse response,
+							  Model model,
+							  @PathVariable Integer format) {
+		meta = postgreService.getMetadataAndProgramUsingId(format);
+		utterances = postgreService.getUtteranceUsingMetadataId(format);
+		String url = "";
+
+		docxReport.writeDocxUtterance(response, docxPath, utterances, meta);
+	}
+
+	/* utterance 리스트 xlsx 파일로 출력 */
+	@GetMapping("/utterance/xlsx/{format}")
+	public void writeUtteranceXlsx(HttpServletRequest request,
+							   HttpServletResponse response,
+							   Model model,
+							   @PathVariable Integer format) {
+		meta = postgreService.getMetadataAndProgramUsingId(format);
+		utterances = postgreService.getUtteranceUsingMetadataId(format);
+		String url = "";
+
+		xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta);
 	}
 }

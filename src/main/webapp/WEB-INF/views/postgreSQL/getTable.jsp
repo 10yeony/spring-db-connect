@@ -45,6 +45,10 @@
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
 					<h3>한국어 강의 데이터 목록</h3>
+					<div>
+					<button type="submit" onclick="location.href='${pageContext.request.contextPath}/metadata/docx'">워드파일</button>
+					<button type="submit" onclick="location.href='${pageContext.request.contextPath}/metadata/xlsx'">엑셀파일</button>
+					</div>
 				</div>
 
 				<!-- Page Body -->

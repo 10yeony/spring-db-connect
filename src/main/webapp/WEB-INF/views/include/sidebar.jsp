@@ -79,19 +79,19 @@
         </div>
     </li>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#report" aria-expanded="true" aria-controls="report">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>보고서 파일 생성</span>
-        </a>
-        <div id="report" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="${pageContext.request.contextPath}/report/docx">docx 파일</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/report/xlsx">xlsx 파일</a>
-            </div>
-        </div>
-    </li>
+<%--    <!-- Nav Item - Pages Collapse Menu -->--%>
+<%--    <li class="nav-item">--%>
+<%--        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#report" aria-expanded="true" aria-controls="report">--%>
+<%--            <i class="fas fa-fw fa-folder"></i>--%>
+<%--            <span>보고서 파일 생성</span>--%>
+<%--        </a>--%>
+<%--        <div id="report" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">--%>
+<%--            <div class="bg-white py-2 collapse-inner rounded">--%>
+<%--                <a class="collapse-item" href="${pageContext.request.contextPath}/report/docx">docx 파일</a>--%>
+<%--                <a class="collapse-item" href="${pageContext.request.contextPath}/report/xlsx">xlsx 파일</a>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </li>--%>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
