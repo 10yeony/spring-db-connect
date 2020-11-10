@@ -36,6 +36,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/reports/docx/**").addResourceLocations(docxPath);
 		registry.addResourceHandler("/reports/xlsx/**").addResourceLocations(xlsxPath);
 		registry.addResourceHandler("/reports/pptx/**").addResourceLocations(pptxPath);
+		registry.addResourceHandler("/resource/**").addResourceLocations("/resource/");
 	}
 	  
 	/* 뷰 영역 설정 */
