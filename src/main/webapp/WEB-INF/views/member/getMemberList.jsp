@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Insert ES Index</title>
+    <title>Member List</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,13 +44,14 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h3>(등록 성공)</h3>
+                    <h1 class="h3 mb-2 text-gray-800">회원 목록</h1>
                 </div>
 
                 <!-- Page Body -->
-                <div>
-                    <h4>PostgreSQL에 Elasticsearch 인덱스 저장 성공했습니다.</h4>
+                <div class="card shadow mb-4">
+
                 </div>
+
 
             </div>
             <!-- /.container-fluid -->
