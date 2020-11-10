@@ -58,7 +58,7 @@ public class ReportController {
 	
 	/* 한국어 강의 목록 리스트 파일로 출력 */
 	@GetMapping("/metadata/{format}")
-	public String writeMetadata(HttpServletRequest request,
+	public void writeMetadata(HttpServletRequest request,
 							  HttpServletResponse response,
 										Model model,
 										@PathVariable String format) {
@@ -85,7 +85,6 @@ public class ReportController {
 			default:
 				break;
 		}
-		return url;
 	}
 
 	/* utterance 리스트 docx 파일로 출력 */

@@ -52,9 +52,9 @@ public class DocxReport {
 	/* docx 한국어 강의 목록 리스트 작성 */
 	public void writeDocxMetadata(HttpServletResponse response, String path, List<Metadata> list) {
 		String docxFileName =
-				"Metadata_"+
+				"강의목록_"+
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
-						+ "_log.docx";
+						+ ".docx";
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
 		XWPFDocument doc = new XWPFDocument();
@@ -131,9 +131,9 @@ public class DocxReport {
 	/* docx utterance 리스트 작성 */
 	public void writeDocxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata) {
 		String docxFileName =
-				"Utterance_"+
+				metadata.getTitle()+ "_" +
 						new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
-						+ "_log.docx";
+						+ ".docx";
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
 		XWPFDocument doc = new XWPFDocument();

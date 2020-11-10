@@ -23,16 +23,14 @@ public class LoginController {
 	public String insertUser(User user, Model model) {
 
 		int result = loginService.insertUser(user);
-		if (result == 0) {
-			model.addAttribute("msg", "Same Id");
-			model.addAttribute("url", "/");
+		if (result == 1) {
+			model.addAttribute("msg", "회원가입 완료! 로그인해주세요.");
 			return "insertdirect";
 		}
 		return "index";
 	}
 
 	/* 아이디 중복 체크 */
-
 	@ResponseBody
 	@RequestMapping(value = "/IdCheck.do", method = RequestMethod.GET, produces = "application/text; charset=utf8")
 	public String IdCheck(HttpServletRequest request) {
@@ -64,9 +62,12 @@ public class LoginController {
 	}
 
 	/* Navigator로 이동 */
-	@GetMapping("/goNavi")
-	public String goNavi() {
-		return "/navigator";
+	@GetMapping("/dashboard")
+	public String goNavi(HttpSession session) {
+		if(session.getAttribute("loginId").equals("admin"))
+			return "navigator02";
+		else
+			return "navigator";
 	}
 
 	/* 로그아웃 */
