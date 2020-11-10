@@ -28,6 +28,8 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
+    <!--  -->
+
     <!-- 사이드바 include-->
     <%@ include file="../include/sidebar.jsp"%>
 
@@ -44,7 +46,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h3>데이터 입력</h3>
+                    <h1 class="h3 mb-2 text-gray-800">데이터 입력</h1>
                 </div>
 
                 <!-- Page Body -->
@@ -55,6 +57,8 @@
                             <h6 class="m-0 font-weight-bold text-primary">한국어 강의 Json 파일 업로드</h6>
                         </div>
                         <div class="card-body">
+                            업로드 부분
+                            <hr>
                             <a href="${pageContext.request.contextPath}/insertJSONIntoPostgre">json 파일 업로드</a>
                         </div>
                     </div>
@@ -65,6 +69,8 @@
                             <h6 class="m-0 font-weight-bold text-primary">강의 프로그램 Excel 파일 업로드</h6>
                         </div>
                         <div class="card-body">
+                            업로드 부분
+                            <hr>
                             <a href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">Excel 파일 업로드</a>
                         </div>
                     </div>

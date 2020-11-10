@@ -44,7 +44,7 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h3>한국어 강의 데이터 목록</h3>
+					<h1 class="h3 mb-2 text-gray-800">한국어 강의 데이터 목록</h1>
 					<div>
 						<a href="${pageContext.request.contextPath}/metadata/docx" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 								class="fas fa-download fa-sm text-white-50"></i> Word</a>

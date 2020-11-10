@@ -61,7 +61,7 @@ public class PostgreController {
 		return "postgreSQL/insertXlsxFail";
 	}
 
-	/* xlsx 파일을 PostgreSQL 특정 테이블(program)에 넣기 */
+	/* 데이터 입력 페이지로 이동 */
 	@GetMapping("/insertIntoPostgre")
 	public String insertPostgres(HttpServletRequest request) {
 
