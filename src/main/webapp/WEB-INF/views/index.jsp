@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -43,7 +43,11 @@
 					<div class="card-body p-0">
 						<!-- Nested Row within Card Body -->
 						<div class="row">
-							<div class="col-lg-6 d-none d-lg-block"><image src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg" width="450" height="450"></image></div>
+							<div class="col-lg-6 d-none d-lg-block">
+								<image
+									src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg"
+									width="450" height="450"></image>
+							</div>
 							<div class="col-lg-6">
 								<div class="p-5">
 									<div class="text-center">
@@ -88,7 +92,7 @@
 	</div>
 
 	<!-- Bootstrap core JavaScript-->
-
+	
 
 	<script
 		src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>

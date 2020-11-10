@@ -70,7 +70,8 @@
 											<div class="custom-control custom-checkbox small">
 												<input type="checkbox" class="custom-control-input"
 													id="customCheck"> <label
-													class="custom-control-label" for="customCheck">Auto Login</label>
+													class="custom-control-label" for="customCheck">Auto
+													Login</label>
 											</div>
 										</div>
 										<div class="form-group">
@@ -80,7 +81,7 @@
 									</form>
 									<hr>
 									<div class="text-center">
-										<a class="small" href="insert">Create an Account!</a>
+										<a class="small" href="register">Create an Account!</a>
 									</div>
 								</div>
 							</div>
@@ -95,7 +96,6 @@
 	</div>
 
 	<!-- Bootstrap core JavaScript-->
-
 
 	<script
 		src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
