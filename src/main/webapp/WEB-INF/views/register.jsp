@@ -48,10 +48,11 @@
 							<div class="text-center">
 								<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 							</div>
-							<form action="insertUser" method="post" name="insert">
+							<form action="registerUser" method="post" name="register">
 								<table>
 									<tbody>
 										<div class="form-group">
+										
 											<input type="text" class="form-control" name="userid"
 												id="userid" placeholder="User ID" required> <input
 												type="button" class="form-control" id="check" value="중복체크">

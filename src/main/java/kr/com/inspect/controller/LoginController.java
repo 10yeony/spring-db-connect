@@ -19,11 +19,11 @@ public class LoginController {
 	private LoginService loginService;
 
 	/* 회원가입 */
-	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
-	public String insertUser(User user, Model model) {
+	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+	public String registerUser(User user, Model model) {
 
 		int result = loginService.insertUser(user);
-		if (result == 0) {
+		if (result == 1) {
 			model.addAttribute("msg", "Same Id");
 			model.addAttribute("url", "/");
 			return "insertdirect";
@@ -78,9 +78,9 @@ public class LoginController {
 	}
 
 	/* 회원가입 페이지 이동 */
-	@GetMapping("/insert")
+	@GetMapping("/register")
 	public String moveToElasticPage() {
-		return "/insert";
+		return "/register";
 	}
 
 	/*
