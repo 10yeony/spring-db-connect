@@ -23,7 +23,7 @@ public class LoginController {
 	public String insertUser(User user, Model model) {
 
 		int result = loginService.insertUser(user);
-		if (result == 1) {
+		if (result == 0) {
 			model.addAttribute("msg", "회원가입 완료! 로그인해주세요.");
 			model.addAttribute("url", "/");
 			return "registerdirect";
