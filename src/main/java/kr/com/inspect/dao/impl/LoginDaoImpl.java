@@ -1,43 +1,40 @@
 package kr.com.inspect.dao.impl;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.LoginDao;
-import kr.com.inspect.dto.User;
-import kr.com.inspect.mapper.PostgreInsertMapper;
-import kr.com.inspect.mapper.PostgreSelectMapper;
+import kr.com.inspect.dto.Member;
 
 @Repository
 public class LoginDaoImpl implements LoginDao{
 	
 	@Autowired
-	private PostgreInsertMapper postgreInsertMapper;
-	
-	@Autowired
-	private PostgreSelectMapper postgreSelectMapper;
+	private SqlSession sqlSession;
+	private final String memberNs = "MemberMapper.";
 
 	/* 회원가입 */
 	@Override
-	public int insertuser(User user) {
+	public int registerMember(Member member) {
 		int result = 0;
-		result = postgreInsertMapper.insertUser(user);
+		result = sqlSession.insert(memberNs+"registerMember", member);
 		return result;
 	}
 	
 	/* 로그인 */
 	@Override
-	public User login(User user) {
-		User result = null;
-		result = postgreSelectMapper.login(user);
+	public Member login(Member member) {
+		Member result = null;
+		result = sqlSession.selectOne(memberNs+"login", member);
 		return result;
 	}
 	
 	/* 아이디 중복확인 */
 	@Override
-	public int IdCheck(String userid) {
+	public int IdCheck(String member_id) {
 		int result = 0;
-		result = postgreSelectMapper.IdCheck(userid);
+		result = sqlSession.selectOne(memberNs+"idCheck", member_id);
 		return result;
 	}
 	

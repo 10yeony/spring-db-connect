@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Insert ES Index</title>
+    <title>Insert Into Postgres</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,6 +27,8 @@
 
 <!-- Page Wrapper -->
 <div id="wrapper">
+
+    <!--  -->
 
     <!-- 사이드바 include-->
     <%@ include file="../include/sidebar.jsp"%>
@@ -44,12 +46,34 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h3>(등록 성공)</h3>
+                    <h1 class="h3 mb-2 text-gray-800">데이터 입력</h1>
                 </div>
 
                 <!-- Page Body -->
                 <div>
-                    <h4>PostgreSQL에 Elasticsearch 인덱스 저장 성공했습니다.</h4>
+                    <!-- Json 파일 업로드 -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">한국어 강의 Json 파일 업로드</h6>
+                        </div>
+                        <div class="card-body">
+                            업로드 부분
+                            <hr>
+                            <a href="${pageContext.request.contextPath}/insertJSONIntoPostgre">json 파일 업로드</a>
+                        </div>
+                    </div>
+
+                    <!-- Excel 파일 업로드 -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">강의 프로그램 Excel 파일 업로드</h6>
+                        </div>
+                        <div class="card-body">
+                            업로드 부분
+                            <hr>
+                            <a href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">Excel 파일 업로드</a>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -70,9 +94,6 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
-<!-- 로그아웃 경고창 include-->
-<%@ include file="../include/logout.jsp"%>
 
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>

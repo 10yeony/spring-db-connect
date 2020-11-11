@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 메타데이터 관련 쿼리 -->
 <mapper namespace="MetadataMapper">
 	<resultMap id="metadataAndProgram" type="kr.com.inspect.dto.Metadata">
    		<id column="metadata_id" property="id" />
@@ -22,6 +23,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			<result column="running_time" property="running_time"/>
 		</collection>
 	</resultMap>
+	
+	<!-- metadata 테이블에 데이터를 입력함 -->
+	<insert id="insertIntoMetadata" parameterType="kr.com.inspect.dto.Metadata">
+		INSERT INTO audio.metadata
+			(creator, annotation_level, year, sampling, title, category, distributor, relation)
+			VALUES(#{creator}, #{annotation_level}, #{year}, #{sampling}, #{title}, #{category}, #{distributor}, #{relation});
+	</insert>
+	
+	<!-- creator와 title로 auto increment된 metadata id를 받아옴(다른 테이블의 외래키 입력을 위함) -->
+	<select id="getMetadataId" parameterType="map" resultType="int">
+		SELECT 
+			id 
+		FROM 
+			audio.metadata 
+		WHERE 
+			creator = #{creator} AND title = #{title};
+	</select>
+	
+	<!-- creator, title로 metadata id가 존재하는지 확인함(중복 등록 방지) -->
+	<select id="isExistMetadataId" parameterType="map" resultType="string">
+		SELECT 
+			id
+		FROM 
+			audio.metadata
+		WHERE 
+			creator = #{creator} AND title = #{title};
+	</select>
+
+	<!-- metadata 테이블 가져오기 -->
+	<select id="getMetadata" resultType="kr.com.inspect.dto.Metadata">
+		SELECT * 
+		FROM 
+			audio.metadata;
+	</select>
+
+	<!-- id를 이용해서 metadata 데이터 가져오기 -->
+	<select id="getMetadataById" parameterType="int" resultType="kr.com.inspect.dto.Metadata">
+		SELECT * 
+		FROM 
+			audio.metadata
+		WHERE 
+			id = #{id};
+	</select>
 	
 	<!-- Metadata와 Program을 조인해서 가져옴 -->
 	<select id="getMetadataAndProgram" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">

@@ -53,9 +53,9 @@ CREATE TABLE audio.program (
 	running_time text
 );
 
-CREATE TABLE audio.user (
-	userid text PRIMARY KEY,
-	pwd text
+CREATE TABLE audio.member (
+	member_id text PRIMARY KEY,
+	pwd text NOT NULL
 );
 
 CREATE TABLE audio.jsonLog (

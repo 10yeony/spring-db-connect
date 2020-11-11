@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import kr.com.inspect.dto.Sound;
+import kr.com.inspect.dto.Metadata;
 
 @Service
 @PropertySource(value = "classpath:properties/report.properties") 
@@ -40,7 +40,7 @@ public class PptxReport {
 	private String column4;
 	
 	/* pptx 보고서 작성 */
-	public void writePptx(String path, List<Sound> list) {
+	public void writePptx(String path, List<Metadata> list) {
 		String pptxFileName = 
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) 
 				+ "_log.pptx";

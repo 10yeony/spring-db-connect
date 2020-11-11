@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.LoginDao;
-import kr.com.inspect.dto.User;
+import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.LoginService;
 
 
@@ -14,13 +14,13 @@ public class LoginServiceImpl implements LoginService {
 	private LoginDao logindao;
 	
 	/* 회원가입 */
-	public int insertUser(User user) {
-		return logindao.insertuser(user);
+	public int registerMember(Member member) {
+		return logindao.registerMember(member);
 	}
 	
 	/* 로그인 */
-	public User loginUser(User user){
-		return logindao.login(user);
+	public Member loginMember(Member member){
+		return logindao.login(member);
 	}
 	
 	/* 아이디 중복 체크 */

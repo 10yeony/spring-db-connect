@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Utterance Table</title>
+    <title>Member List</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,27 +44,14 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-2 text-gray-800">회원 목록</h1>
                 </div>
 
                 <!-- Page Body -->
-                <div class="card sahadow mb-4">
-                    <table border="1">
-                        <tr>
-                            <th width="50">Id</th>
-                            <th>Standard</th>
-                            <th>begin</th>
-                            <th>end</th>
-                        </tr>
-                        <c:forEach items="${eojeollist}" var="item" varStatus="status">
-                            <tr>
-                                <td>${status.count}</td>
-                                <td>${item.standard}</td>
-                                <td>${item.begin}</td>
-                                <td>${item.finish}</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
+                <div class="card shadow mb-4">
+
                 </div>
+
 
             </div>
             <!-- /.container-fluid -->

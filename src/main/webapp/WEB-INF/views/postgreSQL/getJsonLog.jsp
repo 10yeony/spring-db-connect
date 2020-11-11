@@ -44,7 +44,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h3>Json 파일 관리</h3>
+                    <h1 class="h3 mb-2 text-gray-800">Json 파일 관리</h1>
                 </div>
 
                 <!-- Page Body -->
@@ -88,9 +88,6 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
-<!-- 로그아웃 경고창 include-->
-<%@ include file="../include/logout.jsp"%>
 
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>

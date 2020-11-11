@@ -29,33 +29,33 @@
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 <script 
-	src="${pageContext.request.contextPath}/resource/js/index/register.js"></script>
-<script>
-</script>	
+src="${pageContext.request.contextPath}/resource/js/index/login.js"></script>
 </head>
 
 <body>
 	<div class="text-center">
-		<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+		<h1 class="h4 text-gray-900 mb-4">Welcome To SDTM</h1>
 	</div>
-	<form method="post" id="registerForm" name="register">
+	<form id="loginForm" action="${pageContext.request.contextPath}/loginMember" method="post">
 		<div class="form-group">
-			<input style="display:inline-block; width:63%;" type="text" class="form-control" name="member_id"
-				id="register_member_id" placeholder="Member ID" required> 
-			<input style="display:inline-block; width:35%;" type="button" class="form-control" id="check" value="중복체크">
-			<div style="margin-top:2px;" id="idCheck"></div>
+			<input type="text" class="form-control form-control-user"
+				id="login_member_id" name="member_id" placeholder="Enter ID">
 		</div>
 		
 		<div class="form-group">
-			<input type="password" class="form-control" name="pwd"
-				id="register_pwd" placeholder="Password">
-			<input type="password" class="form-control" name="pwdCheck"
-				id="register_pwd_check"  placeholder="Password Check">
+			<input type="password" class="form-control form-control-user"
+				id="login_pwd" name="pwd" placeholder="Password">
+		</div>
+
+		<div class="form-group">
+			<div class="custom-control custom-checkbox small">
+				<input type="checkbox" class="custom-control-input" id="customCheck"> 
+				<label class="custom-control-label" for="customCheck">Auto Login</label>
+			</div>
 		</div>
 		
 		<div class="form-group">
-			<input type="button" id="register_submit" value="Register Account"
-				class="form-control form-control-user">
+			<input type="submit" value="Login" class="form-control form-control-user">
 		</div>
 	</form>
 </body>

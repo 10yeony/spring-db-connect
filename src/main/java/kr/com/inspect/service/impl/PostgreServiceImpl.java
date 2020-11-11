@@ -9,7 +9,7 @@ import java.util.Map;
 
 import kr.com.inspect.dto.*;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.SqlSession;
 import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.ElasticDao;
 import kr.com.inspect.dao.PostgreDao;
-import kr.com.inspect.mapper.PostgreInsertMapper;
-import kr.com.inspect.mapper.PostgreSelectMapper;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
@@ -32,10 +30,13 @@ public class PostgreServiceImpl implements PostgreService {
 	private PostgreDao postgreDao;
 	
 	@Autowired
-	private PostgreInsertMapper postgreInsertMapper;
-	
-	@Autowired
-	private PostgreSelectMapper postgreSelectMapper;
+	private SqlSession sqlSession;
+	private final String metadataNS = "MetadataMapper.";
+	private final String programNS = "ProgramMapper.";
+	private final String speakerNS = "SpeakerMapper.";
+	private final String utteranceNS = "UtteranceMapper.";
+	private final String eojeolListNS = "EojeolListMapper.";
+	private final String jsonLogNS = "JsonLogMapper.";
 	
 	private JsonParsing jsonParsing = new JsonParsing();
 	private XlsxParsing xlsxParsing = new XlsxParsing();
@@ -45,19 +46,19 @@ public class PostgreServiceImpl implements PostgreService {
 	public void insertElasticIndex(String index) {
 		// 인덱스를 통해 엘라스틱서치에서 데이터를 받아옴
 		SearchHit[] searchHits = elasticDao.getIndex(index);
-		
-		for(SearchHit hit: searchHits) {
-			Map<String, Object> map = hit.getSourceAsMap();
-			
-			Sound sound = new Sound();
-			sound.setId(hit.getId());
-			sound.setCategory((String)map.get("category"));
-			sound.setTitle((String)map.get("title"));
-			sound.setCompany((String)map.get("company"));
-			sound.setContent((String)map.get("content"));
-			
-			postgreInsertMapper.insertTestValue(sound);
-		}
+
+		//테스트용 VO인 Sound를 엘라스틱서치에서 PostgreSQL로 넣음(사용시 수정 필요)
+//		for(SearchHit hit: searchHits) {
+//			Map<String, Object> map = hit.getSourceAsMap();
+//			Sound sound = new Sound();
+//			sound.setId(hit.getId());
+//			sound.setCategory((String)map.get("category"));
+//			sound.setTitle((String)map.get("title"));
+//			sound.setCompany((String)map.get("company"));
+//			sound.setContent((String)map.get("content"));
+//			
+//			postgreInsertMapper.insertTestValue(sound); //PostgreSQL INSERT 쿼리문 필요
+//		}
 	}
 	
 	/* Metadata 테이블을 모두 가지고 옴 */
@@ -114,30 +115,30 @@ public class PostgreServiceImpl implements PostgreService {
 				Map map = new HashMap();
 				map.put("creator", metadata.getCreator());
 				map.put("title", metadata.getTitle());
-				String isExistId = postgreSelectMapper.isExistMetadataId(map);
+				String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
 				
 				if(isExistId == null) { //등록된 데이터가 아닐 경우
 					check = true;
 					
 					/* metadata 테이블 입력 */
-					postgreInsertMapper.insertIntoMetadata(metadata); 
+					sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
 
 					/* auto increment로 등록된 id를 가져옴 */
-					int metadata_id = postgreSelectMapper.getMetadataId(map);
+					int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
 					
 					/* speaker 테이블 입력 */
 					List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
 					for(Speaker speaker : speakerList) {
-						postgreInsertMapper.insertIntoSpeaker(speaker);
+						sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
 					}
 					
 					/* utterance 테이블 입력 */
 					List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
 					for(Utterance utterance : utteranceList) {
-						postgreInsertMapper.insertIntoUtterance(utterance); //utterance 입력
+						sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
 						List<EojeolList> eojeolListList = utterance.getEojoelList();
 						for(EojeolList eojeolList : eojeolListList) {
-							postgreInsertMapper.insertIntoEojeolList(eojeolList); //eojeolList 입력
+							sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
 						}
 					}
 
@@ -151,7 +152,7 @@ public class PostgreServiceImpl implements PostgreService {
 					int sec = elapsed - min*60;
 					jsonLog.setElapsed(""+min+":"+sec);
 
-					postgreInsertMapper.insertIntoJsonLog(jsonLog);
+					sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
 				}
 		    }
 		}
@@ -175,9 +176,9 @@ public class PostgreServiceImpl implements PostgreService {
 		    	String fullPath = path + file.getName();
 		    	List<Program> list = xlsxParsing.setProgramList(fullPath);
 		    	for(int i=0; i<list.size(); i++) {
-		    		if(postgreSelectMapper.getProgramByFileNum(list.get(i).getFile_num()) == null) {
+		    		if(sqlSession.selectOne(programNS+"getProgramByFileNum", list.get(i).getFile_num()) == null) {
 		    			check = true;
-		    			postgreInsertMapper.insertIntoProgram(list.get(i));
+		    			sqlSession.insert(programNS+"programNS", list.get(i));
 		    		}
 		    	}
 		    }

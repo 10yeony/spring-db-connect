@@ -2,14 +2,16 @@ package kr.com.inspect.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import kr.com.inspect.dto.User;
+
+import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.LoginService;
 
 @Controller
@@ -19,64 +21,66 @@ public class LoginController {
 	private LoginService loginService;
 
 	/* 회원가입 */
-	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-	public String insertUser(User user, Model model) {
-
-		int result = loginService.insertUser(user);
-		if (result == 0) {
-			model.addAttribute("msg", "회원가입 완료! 로그인해주세요.");
-			model.addAttribute("url", "/");
-			return "registerdirect";
+	@ResponseBody
+	@RequestMapping(value = "/registerMember", produces = "application/text; charset=utf8")
+	public String registerMember(Member member, Model model) {
+		String msg = "회원가입에 실패하였습니다.";
+		int result = loginService.registerMember(member);
+		if (result == 1) {
+			msg = "회원가입 완료! 로그인해주세요.";
 		}
-		return "index";
+		return msg;
 	}
 
 	/* 아이디 중복 체크 */
 	@ResponseBody
-	@RequestMapping(value = "/IdCheck.do", method = RequestMethod.GET, produces = "application/text; charset=utf8")
+	@PostMapping("/idCheck")
 	public String IdCheck(HttpServletRequest request) {
-
-		String userid = request.getParameter("userid");
-		int result = loginService.IdCheck(userid);
+		String member_id = request.getParameter("member_id");
+		int result = loginService.IdCheck(member_id);
 		return Integer.toString(result);
 	}
-
-	/* 로그인 */
-	@RequestMapping(value = "/loginUser", method = { RequestMethod.POST, RequestMethod.GET })
-	public String loginUser(User user, Model model, HttpSession session) throws Exception {
+	
+	/* 아이디와 비밀번호로 회원 체크 */
+	@ResponseBody
+	@PostMapping("/isMember")
+	public String isMember(Member member, HttpSession session) {
 		try {
 			if (session.getAttribute("loginId") != null) {
 				session.removeAttribute("loginId");
 			}
-			User result = loginService.loginUser(user);
-			session.setAttribute("loginId", result.getUserid());
-			if (user.getUserid().equals("admin")) {
-				return "navigator02";
+			Member result = loginService.loginMember(member);
+			session.setAttribute("loginId", result.getMember_id());
+			String role = result.getMember_id();
+			if(role.equals("admin")) {
+				session.setAttribute("role", "admin");
+				return "admin";
+			}else {
+				session.setAttribute("role", "member");
+				return "member";
 			}
 		} catch (NullPointerException e) {
-			model.addAttribute("msg", "아이디 또는 비밀번호가 옳지 않습니다.");
-			model.addAttribute("url", "/");
-			return "redirect";
+			return "none";
 		}
-
-		return "navigator";
 	}
 
-	/* Navigator로 이동 */
-	@GetMapping("/dashboard")
-	public String goNavi(HttpSession session) {
-		if(session.getAttribute("loginId").equals("admin"))
-			return "navigator02";
-		else
-			return "navigator";
+	/* 로그인 */
+	@RequestMapping("/loginMember")
+	public String loginMember(HttpSession session) throws Exception {
+		if(session.getAttribute("loginId") != null) { //로그인 상태 확인
+			return "/main";
+		}
+		else {
+			return "redirect:index.jsp";
+		}
 	}
 
 	/* 로그아웃 */
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(User user, Model model, HttpSession session) {
-		session.invalidate();
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate(); //모든 세션 초기화
 		// session.setAttribute("loginId",null); 으로 해줘도 된다.
-		return "index";
+		return "redirect:index.jsp";
 	}
 
 	/* 회원가입 페이지 이동 */
@@ -87,7 +91,7 @@ public class LoginController {
 
 	/*
 	 * @RequestMapping(value = "/test", method = RequestMethod.GET) public String
-	 * test(User user, Model model, HttpSession session) { //로그인 값을 계속 가지고 있는
+	 * test(Member member, Model model, HttpSession session) { //로그인 값을 계속 가지고 있는
 	 * Session TEST
 	 * 
 	 * System.out.println((String) session.getAttribute("loginId"));
