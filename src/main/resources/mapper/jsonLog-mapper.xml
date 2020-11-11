@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 발화자 관련 쿼리 -->
+<!-- json 입력 측정 로그 관련 쿼리 -->
 <mapper namespace="JsonLogMapper">
 	<!-- JsonLog 테이블에 데이터를 입력함 -->
 	<insert id="insertIntoJsonLog" parameterType="kr.com.inspect.dto.JsonLog">
