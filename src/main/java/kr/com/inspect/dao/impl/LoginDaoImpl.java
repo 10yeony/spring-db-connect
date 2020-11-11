@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.LoginDao;
 import kr.com.inspect.dto.Member;
-import kr.com.inspect.mapper.PostgreInsertMapper;
-import kr.com.inspect.mapper.PostgreSelectMapper;
 
 @Repository
 public class LoginDaoImpl implements LoginDao{

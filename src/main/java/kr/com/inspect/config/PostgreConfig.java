@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @PropertySource(value = "classpath:properties/db.properties")
-@MapperScan(value = {"kr.com.inspect.mapper"})
 @EnableTransactionManagement
 public class PostgreConfig {
 	
