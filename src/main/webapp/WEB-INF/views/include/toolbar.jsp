@@ -52,3 +52,6 @@
 </ul>
 </nav>
 <!-- End of Topbar -->
+
+<!-- 로그아웃 경고창 include-->
+<%@ include file="logout.jsp"%>
