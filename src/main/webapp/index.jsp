@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page session="true"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -30,18 +30,34 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
-
+<script
+	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
+<script>
+	$(function(){
+		/* 로그인한 상태로 index.jsp로 접근했을 경우 로그인한 메인페이지로 이동 */
+		if('${loginId}' != ''){ 
+			location.href = "${pageContext.request.contextPath}/loginMember";
+		}
+		
+		/* 로그인, 회원가입 메뉴 컨트롤 */
+		$('#goToRegister').click(function(){
+			$('#login').attr('style', 'display:none');
+			$('#register').attr('style', 'display:block');
+		});
+		$('#goToLogin').click(function(){
+			$('#login').attr('style', 'display:block');
+			$('#register').attr('style', 'display:none');
+		});
+	}); //ready
+</script>
 </head>
 
 <body class="bg-gradient-primary">
-
 	<div class="container">
 
 		<!-- Outer Row -->
 		<div class="row justify-content-center">
-
 			<div class="col-xl-10 col-lg-12 col-md-9">
-
 				<div class="card o-hidden border-0 shadow-lg my-5">
 					<div class="card-body p-0">
 						<!-- Nested Row within Card Body -->
@@ -50,50 +66,38 @@
 								<image
 									src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg"
 									width="450" height="450"></image>
-							</div>
+							</div><!-- col-lg-6 d-none d-lg-block -->
 							<div class="col-lg-6">
 								<div class="p-5">
-									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-4">Welcome To SDTM</h1>
-									</div>
-									<form action="loginMember" method="post">
-										<div class="form-group">
-											<input type="text" class="form-control form-control-user"
-												name="member_id" placeholder="Enter ID">
-										</div>
-										<div class="form-group">
-											<input type="password" class="form-control form-control-user"
-												name="pwd" placeholder="Password">
-										</div>
-
-										<div class="form-group">
-											<div class="custom-control custom-checkbox small">
-												<input type="checkbox" class="custom-control-input"
-													id="customCheck"> <label
-													class="custom-control-label" for="customCheck">Auto
-													Login</label>
-											</div>
-										</div>
-										<div class="form-group">
-											<input type="submit" value="Login"
-												class="form-control form-control-user">
-										</div>
-									</form>
-									<hr>
-									<div class="text-center">
-										<a class="small" href="register">Create an Account!</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-		</div>
-
-	</div>
+								
+									<!-- 로그인 -->
+									<article id="login">
+										<%@ include file="/WEB-INF/views/login.jsp"%>
+										<hr>
+										<div class="text-center">
+											<a id="goToRegister" class="small" href="javascript:void(0);">Create an Account!</a>
+										</div><!-- text-center -->
+									</article>
+									
+									<!-- 회원가입 -->
+									<article id="register" style="display:none;">
+										<%@ include file="/WEB-INF/views/register.jsp"%>
+										<hr>
+										<div class="text-center">
+											<a id="goToLogin" class="small" href="javascript:void(0);">Already have an account?
+												Login!</a>
+										</div><!-- text-center -->
+									</article>
+									
+								</div><!-- p-5 -->
+							</div><!-- col-lg-6 -->
+						</div><!-- row -->
+					</div><!-- card-body p-0 -->
+				</div><!-- card o-hidden border-0 shadow-lg my-5 -->
+			</div><!-- col-xl-10 col-lg-12 col-md-9 -->
+		</div><!-- row justify-content-center -->
+		
+	</div><!-- container -->
 
 	<!-- Bootstrap core JavaScript-->
 
@@ -111,8 +115,6 @@
 		src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
 	<script
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-
 
 </body>
 
