@@ -8,17 +8,11 @@ import org.apache.ibatis.annotations.Mapper;
 public interface PostgreInsertMapper {
 	/* PostgreSQL Insert Mapper */
 	
-	//회원가입
-	@Insert("insert into audio.user"+
-			"(userid, pwd)"+
-			"values(#{userid},#{pwd});")
-	public int insertUser(User user);
-	
-	/* 테스트용 데이터 입력(엘라스틱서치와의 연동 확인용) */
-	@Insert("INSERT INTO public.audiolist"+
-			"(id, category,title,company,content)"+
-			"VALUES(#{id}, #{category},#{title},#{company},#{content});")
-	public void insertTestValue(Sound sound); 
+	/* 회원가입 */
+	@Insert("insert into audio.member"+
+			"(member_id, pwd)"+
+			"values(#{member_id},#{pwd});")
+	public int registerMember(Member member);
 
 	/* program 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.program"+

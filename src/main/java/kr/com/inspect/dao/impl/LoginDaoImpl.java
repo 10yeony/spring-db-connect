@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.LoginDao;
-import kr.com.inspect.dto.User;
+import kr.com.inspect.dto.Member;
 import kr.com.inspect.mapper.PostgreInsertMapper;
 import kr.com.inspect.mapper.PostgreSelectMapper;
 
@@ -19,25 +19,25 @@ public class LoginDaoImpl implements LoginDao{
 
 	/* 회원가입 */
 	@Override
-	public int insertuser(User user) {
+	public int registerMember(Member member) {
 		int result = 0;
-		result = postgreInsertMapper.insertUser(user);
+		result = postgreInsertMapper.registerMember(member);
 		return result;
 	}
 	
 	/* 로그인 */
 	@Override
-	public User login(User user) {
-		User result = null;
-		result = postgreSelectMapper.login(user);
+	public Member login(Member member) {
+		Member result = null;
+		result = postgreSelectMapper.login(member);
 		return result;
 	}
 	
 	/* 아이디 중복확인 */
 	@Override
-	public int IdCheck(String userid) {
+	public int IdCheck(String member_id) {
 		int result = 0;
-		result = postgreSelectMapper.IdCheck(userid);
+		result = postgreSelectMapper.IdCheck(member_id);
 		return result;
 	}
 	

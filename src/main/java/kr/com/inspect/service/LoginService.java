@@ -1,14 +1,14 @@
 package kr.com.inspect.service;
 
-import kr.com.inspect.dto.User;
+import kr.com.inspect.dto.Member;
 
 public interface LoginService {
 	/* 회원가입 */
-	public  int insertUser(User user); 
+	public  int registerMember(Member member); 
 	
 	/* 로그인 */
-	public User loginUser(User user); 
+	public Member loginMember(Member member); 
 	
 	/* 아이디 중복 체크 */
-	public int IdCheck(String userid);
+	public int IdCheck(String member_id);
 }

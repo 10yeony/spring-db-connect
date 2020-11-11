@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import kr.com.inspect.dto.User;
+import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.LoginService;
 
 @Controller
@@ -19,10 +19,10 @@ public class LoginController {
 	private LoginService loginService;
 
 	/* 회원가입 */
-	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-	public String insertUser(User user, Model model) {
+	@RequestMapping(value = "/registerMember", method = RequestMethod.POST)
+	public String registerMember(Member member, Model model) {
 
-		int result = loginService.insertUser(user);
+		int result = loginService.registerMember(member);
 		if (result == 1) {
 			model.addAttribute("msg", "회원가입 완료! 로그인해주세요.");
 			model.addAttribute("url", "/");
@@ -35,22 +35,21 @@ public class LoginController {
 	@ResponseBody
 	@RequestMapping(value = "/IdCheck.do", method = RequestMethod.GET, produces = "application/text; charset=utf8")
 	public String IdCheck(HttpServletRequest request) {
-
-		String userid = request.getParameter("userid");
-		int result = loginService.IdCheck(userid);
+		String member_id = request.getParameter("member_id");
+		int result = loginService.IdCheck(member_id);
 		return Integer.toString(result);
 	}
 
 	/* 로그인 */
-	@RequestMapping(value = "/loginUser", method = { RequestMethod.POST, RequestMethod.GET })
-	public String loginUser(User user, Model model, HttpSession session) throws Exception {
+	@RequestMapping(value = "/loginMember", method = { RequestMethod.POST, RequestMethod.GET })
+	public String loginMember(Member member, Model model, HttpSession session) throws Exception {
 		try {
 			if (session.getAttribute("loginId") != null) {
 				session.removeAttribute("loginId");
 			}
-			User result = loginService.loginUser(user);
-			session.setAttribute("loginId", result.getUserid());
-			if (user.getUserid().equals("admin")) {
+			Member result = loginService.loginMember(member);
+			session.setAttribute("loginId", result.getMember_id());
+			if (member.getMember_id().equals("admin")) {
 				return "navigator02";
 			}
 		} catch (NullPointerException e) {
@@ -73,7 +72,7 @@ public class LoginController {
 
 	/* 로그아웃 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(User user, Model model, HttpSession session) {
+	public String logout(HttpSession session) {
 		session.invalidate();
 		// session.setAttribute("loginId",null); 으로 해줘도 된다.
 		return "redirect:index.jsp";
@@ -87,7 +86,7 @@ public class LoginController {
 
 	/*
 	 * @RequestMapping(value = "/test", method = RequestMethod.GET) public String
-	 * test(User user, Model model, HttpSession session) { //로그인 값을 계속 가지고 있는
+	 * test(Member member, Model model, HttpSession session) { //로그인 값을 계속 가지고 있는
 	 * Session TEST
 	 * 
 	 * System.out.println((String) session.getAttribute("loginId"));

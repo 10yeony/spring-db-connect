@@ -56,10 +56,10 @@
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">Welcome To SDTM</h1>
 									</div>
-									<form action="loginUser" method="post">
+									<form action="loginMember" method="post">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user"
-												name="userid" placeholder="Enter ID">
+												name="member_id" placeholder="Enter ID">
 										</div>
 										<div class="form-group">
 											<input type="password" class="form-control form-control-user"

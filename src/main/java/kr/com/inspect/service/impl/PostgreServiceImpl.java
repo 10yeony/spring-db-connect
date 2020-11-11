@@ -45,19 +45,19 @@ public class PostgreServiceImpl implements PostgreService {
 	public void insertElasticIndex(String index) {
 		// 인덱스를 통해 엘라스틱서치에서 데이터를 받아옴
 		SearchHit[] searchHits = elasticDao.getIndex(index);
-		
-		for(SearchHit hit: searchHits) {
-			Map<String, Object> map = hit.getSourceAsMap();
-			
-			Sound sound = new Sound();
-			sound.setId(hit.getId());
-			sound.setCategory((String)map.get("category"));
-			sound.setTitle((String)map.get("title"));
-			sound.setCompany((String)map.get("company"));
-			sound.setContent((String)map.get("content"));
-			
-			postgreInsertMapper.insertTestValue(sound);
-		}
+
+		//테스트용 VO인 Sound를 엘라스틱서치에서 PostgreSQL로 넣음(사용시 수정 필요)
+//		for(SearchHit hit: searchHits) {
+//			Map<String, Object> map = hit.getSourceAsMap();
+//			Sound sound = new Sound();
+//			sound.setId(hit.getId());
+//			sound.setCategory((String)map.get("category"));
+//			sound.setTitle((String)map.get("title"));
+//			sound.setCompany((String)map.get("company"));
+//			sound.setContent((String)map.get("content"));
+//			
+//			postgreInsertMapper.insertTestValue(sound); //PostgreSQL INSERT 쿼리문 필요
+//		}
 	}
 	
 	/* Metadata 테이블을 모두 가지고 옴 */
