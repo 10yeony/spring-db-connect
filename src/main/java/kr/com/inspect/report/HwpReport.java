@@ -1,7 +1,6 @@
 package kr.com.inspect.report;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import kr.com.inspect.dto.Sound;
+import kr.com.inspect.dto.Metadata;
 import kr.dogfoot.hwplib.object.HWPFile;
 import kr.dogfoot.hwplib.object.bodytext.Section;
 import kr.dogfoot.hwplib.object.bodytext.paragraph.Paragraph;
@@ -36,7 +35,7 @@ public class HwpReport {
 	private String column4;
 	
 	/* hwp 보고서 작성 */
-	public void writeHwp(String path, List<Sound> list) {
+	public void writeHwp(String path, List<Metadata> list) {
 		String hwpFileName = 
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) 
 				+ "_log.hwp";
