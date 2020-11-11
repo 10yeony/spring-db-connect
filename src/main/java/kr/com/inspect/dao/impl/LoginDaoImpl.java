@@ -1,5 +1,6 @@
 package kr.com.inspect.dao.impl;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,16 +13,14 @@ import kr.com.inspect.mapper.PostgreSelectMapper;
 public class LoginDaoImpl implements LoginDao{
 	
 	@Autowired
-	private PostgreInsertMapper postgreInsertMapper;
-	
-	@Autowired
-	private PostgreSelectMapper postgreSelectMapper;
+	private SqlSession sqlSession;
+	private final String memberNs = "MemberMapper.";
 
 	/* 회원가입 */
 	@Override
 	public int registerMember(Member member) {
 		int result = 0;
-		result = postgreInsertMapper.registerMember(member);
+		result = sqlSession.insert(memberNs+"registerMember", member);
 		return result;
 	}
 	
@@ -29,7 +28,7 @@ public class LoginDaoImpl implements LoginDao{
 	@Override
 	public Member login(Member member) {
 		Member result = null;
-		result = postgreSelectMapper.login(member);
+		result = sqlSession.selectOne(memberNs+"login", member);
 		return result;
 	}
 	
@@ -37,7 +36,7 @@ public class LoginDaoImpl implements LoginDao{
 	@Override
 	public int IdCheck(String member_id) {
 		int result = 0;
-		result = postgreSelectMapper.IdCheck(member_id);
+		result = sqlSession.selectOne(memberNs+"idCheck", member_id);
 		return result;
 	}
 	

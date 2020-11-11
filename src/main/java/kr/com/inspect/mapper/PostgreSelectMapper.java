@@ -12,18 +12,6 @@ public interface PostgreSelectMapper {
 	/* PostgreSQL Select Mapper (간단한 쿼리)
 	   - join과 같이 ResultMap이 필요한 경우 : 자바가 아닌 xml에서 작업 */
 	
-	//로그인
-	@Select("SELECT member_id, pwd "
-				+ "FROM audio.member "
-				+ "WHERE member_id = #{member_id} AND pwd = #{pwd}")
-	public Member login(Member member);
-	
-	//아이디 중복 체크
-	@Select("SELECT COUNT(*) "
-				+ "FROM audio.member "
-				+ "WHERE member_id = #{member_id}")
-	public int IdCheck(String member_id);
-	
 	/* file_num으로 프로그램 데이터를 받아옴(중복 등록 방지를 위함) */
 	@Select("SELECT * "
 				+ "FROM audio.program "

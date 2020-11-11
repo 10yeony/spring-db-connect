@@ -7,12 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface PostgreInsertMapper {
 	/* PostgreSQL Insert Mapper */
-	
-	/* 회원가입 */
-	@Insert("insert into audio.member"+
-			"(member_id, pwd)"+
-			"values(#{member_id},#{pwd});")
-	public int registerMember(Member member);
 
 	/* program 테이블에 데이터를 입력함 */
 	@Insert("INSERT INTO audio.program"+
