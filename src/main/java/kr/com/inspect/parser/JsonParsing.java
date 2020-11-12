@@ -117,8 +117,8 @@ public class JsonParsing {
 		    if(!ObjectUtils.isEmpty(element.get("start"))) {
 		    	utterance.setStart(Double.parseDouble(element.get("start").toString()));
 		    }
-		    if(!ObjectUtils.isEmpty(element.get("finish"))) {
-		    	utterance.setFinish(Double.parseDouble(element.get("finish").toString()));
+		    if(!ObjectUtils.isEmpty(element.get("end"))) {
+		    	utterance.setFinish(Double.parseDouble(element.get("end").toString()));
 		    }
 		    utterance.setMetadata_id(metadata_id); //foreign key
 		    
