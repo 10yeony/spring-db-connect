@@ -98,5 +98,7 @@ public class LoginController {
 	 * 
 	 * return "main"; }
 	 */
+	
+	//test 잘된다
 
 }
