@@ -3,6 +3,7 @@
 <%@ page import="kr.com.inspect.dto.EojeolList" %>
 <%@ page import="kr.com.inspect.dto.Utterance" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -22,7 +23,6 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -46,7 +46,11 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h5 class="h5 mb-2 text-gray-800">${metadata.program.title} - ${metadata.program.subtitle}, creator : ${metadata.creator}</h5>
+                    <h5 class="h5 mb-2 text-gray-800">
+                    	<span><b>${metadata.program.title} - ${metadata.program.subtitle}</b><br/></span>
+                    	<span><b>running time :</b> ${metadata.program.running_time}<br/></span>
+                    	<span><b>creator :</b> ${metadata.creator}<br/></span>
+                    </h5>
                     <div>
                         <a href="${pageContext.request.contextPath}/utterance/docx/${metadata.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Word</a>
@@ -61,13 +65,17 @@
                         <tr>
                         	<th>Id</th>
                         	<th>Form</th>
+                        	<th>Start</th>
+                        	<th>End</th>
                         	<th>Eojeol_count</th>
                         </tr>
                         <c:forEach items="${utterances}" var="item" varStatus="status">
                             <tr>
                                 <td>${status.count}</td>
                                 <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
-                                <td>${item.eojeol_count}개</td>
+                                <td><fmt:formatNumber value="${item.start}" pattern=".00"/></td>
+                                <td><fmt:formatNumber value="${item.finish}" pattern=".00"/></td>
+                                <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.eojeol_count}개</a></td>
                             </tr>
                         </c:forEach>
                     </table>
