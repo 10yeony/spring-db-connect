@@ -52,9 +52,9 @@
                     	<span><b>creator :</b> ${metadata.creator}<br/></span>
                     </h5>
                     <div>
-                        <a href="${pageContext.request.contextPath}/utterance/docx/${metadata.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="${pageContext.request.contextPath}/utterance/docx/${metadata.id}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Word</a>
-                        <a href="${pageContext.request.contextPath}/utterance/xlsx/${metadata.id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="${pageContext.request.contextPath}/utterance/xlsx/${metadata.id}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Excel</a>
                     </div>
                 </div>

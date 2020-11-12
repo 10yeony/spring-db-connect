@@ -140,7 +140,7 @@ public class DocxReport {
 		XWPFRun r = p.createRun();
 
 		r.setText("날짜 : " + day);
-		r.setFontSize(10);
+		r.setFontSize(9);
 		r.addBreak();r.addBreak();
 
 		XWPFParagraph p1 = doc.createParagraph();
@@ -148,26 +148,39 @@ public class DocxReport {
 		XWPFRun r1 = p1.createRun();
 		r1.setText(metadata.getProgram().getTitle()+"  "+metadata.getProgram().getSubtitle());
 		r1.setBold(true);
-		r1.setFontSize(17);
+		r1.setFontSize(14);
 		r1.addBreak();
-		r1.addBreak();
+		XWPFRun r2 = p1.createRun();
+		r2.setText("running time: " + metadata.getProgram().getRunning_time());
+		r2.addBreak();
+		r2.setText("creator: " + metadata.getCreator());
+		r2.setFontSize(10);
+		r2.addBreak();
 
 
-		XWPFTable table = doc.createTable(list.size()+1, 2);
+		XWPFTable table = doc.createTable(list.size()+1, 4);
 
 		/* 헤더 정보 구성 */
-		table.getRow(0).getCell(0).setWidth("50");
+		table.getRow(0).getCell(0).setWidth("100");
 		table.getRow(0).getCell(0).setText(column0);
-		table.getRow(0).getCell(1).setWidth("600");
+		table.getRow(0).getCell(1).setWidth("1000");
 		table.getRow(0).getCell(1).setText("form");
+		table.getRow(0).getCell(2).setWidth("100");
+		table.getRow(0).getCell(2).setText("start");
+		table.getRow(0).getCell(3).setWidth("100");
+		table.getRow(0).getCell(3).setText("end");
 
 		Utterance utterance;
 		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
 			utterance = list.get(rowIdx);
-			table.getRow(rowIdx+1).getCell(0).setWidth("50");
+			table.getRow(rowIdx+1).getCell(0).setWidth("100");
 			table.getRow(rowIdx+1).getCell(0).setText(Integer.toString(rowIdx+1));
-			table.getRow(rowIdx+1).getCell(1).setWidth("600");
+			table.getRow(rowIdx+1).getCell(1).setWidth("1000");
 			table.getRow(rowIdx+1).getCell(1).setText(utterance.getForm());
+			table.getRow(rowIdx+1).getCell(2).setWidth("100");
+			table.getRow(rowIdx+1).getCell(2).setText(Integer.toString((int)utterance.getStart()));
+			table.getRow(rowIdx+1).getCell(3).setWidth("100");
+			table.getRow(rowIdx+1).getCell(3).setText(Integer.toString((int)utterance.getFinish()));
 		}
 
 		// 입력된 내용 파일로 쓰기
