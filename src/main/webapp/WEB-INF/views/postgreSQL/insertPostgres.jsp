@@ -118,6 +118,16 @@
 
         var formData = new FormData($('#jsonUpload')[0]);
 
+        // 파일 형식 확인
+        for(var item of formData.entries()) {
+            var name = item[1]["name"];
+            if(name.substring(name.length-5, name.length) != '.json'){
+                alert("json 파일을 업로드해주세요.");
+                return;
+            }
+
+        }
+
         $.ajax({
             type:"POST",
             enctype: 'multipart/form-data',
@@ -145,6 +155,16 @@
         var res = '';
 
         var formData = new FormData($('#xlsxUpload')[0]);
+
+        // 파일 형식 확인
+        for(var item of formData.entries()) {
+            var name = item[1]["name"];
+            if(name.substring(name.length-5, name.length) != '.xlsx'){
+                alert("엑셀 파일을 업로드해주세요.");
+                return;
+            }
+
+        }
 
         $.ajax({
             type:"POST",
