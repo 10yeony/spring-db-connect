@@ -1,6 +1,9 @@
 package kr.com.inspect.service.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,9 +23,11 @@ import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class PostgreServiceImpl implements PostgreService {
+public class PostgreServiceImpl implements PostgreService{
 	@Autowired
 	private ElasticDao elasticDao;
 	
@@ -86,11 +91,23 @@ public class PostgreServiceImpl implements PostgreService {
 	
 	/* 특정 경로에 있는 JSON 파일들을 읽어서 PostgreSQL에 넣음 */
 	@Override
-	public boolean insertJSONObject(String path) {
+	public boolean insertJSONObject(String path, List<MultipartFile> jsonFile) throws Exception {
+		String filename;
+		File f;
+
+		/* 서버 디렉토리에 파일 저장 */
+		for(int i=0; i<jsonFile.size(); i++){
+			filename = jsonFile.get(i).getOriginalFilename();
+
+			f = new File(path+filename);
+
+			jsonFile.get(i).transferTo(f);
+		}
+
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
 		boolean check = false;
-		
+
 		for(File file : fileList){
 			/* 확장자가 json인 파일을 읽는다 */
 		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
@@ -104,7 +121,7 @@ public class PostgreServiceImpl implements PostgreService {
 
 		    	/* json 파일을 읽어서 객체로 파싱 */
 				JSONObject obj = jsonParsing.getJSONObject(fullPath);
-				
+
 				/* metadata 테이블 입력 */
 				Metadata metadata  = jsonParsing.setMetadata(obj);
 
@@ -116,22 +133,22 @@ public class PostgreServiceImpl implements PostgreService {
 				map.put("creator", metadata.getCreator());
 				map.put("title", metadata.getTitle());
 				String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
-				
+
 				if(isExistId == null) { //등록된 데이터가 아닐 경우
 					check = true;
-					
+
 					/* metadata 테이블 입력 */
 					sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
 
 					/* auto increment로 등록된 id를 가져옴 */
 					int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
-					
+
 					/* speaker 테이블 입력 */
 					List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
 					for(Speaker speaker : speakerList) {
 						sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
 					}
-					
+
 					/* utterance 테이블 입력 */
 					List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
 					for(Utterance utterance : utteranceList) {
@@ -156,16 +173,41 @@ public class PostgreServiceImpl implements PostgreService {
 				}
 		    }
 		}
+
+		/* 서버 디렉토리에 파일 삭제 */
+		try{
+			while (dir.listFiles().length != 0){
+				File[] folder_list = dir.listFiles();
+
+				for (int j=0; j<folder_list.length; j++){
+					folder_list[j].delete();
+				}
+			}
+		}catch (Exception e){
+		}
+
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return true;
 		}else { //모두 중복된 데이터일 경우
-			return false; 
+			return false;
 		}
 	}
 
 	/* 특정 경로에 있는 xlsx 파일들을 읽어서 PostgreSQL에 넣음 */
 	@Override
-	public boolean insertXlsxTable(String path) {
+	public boolean insertXlsxTable(String path, List<MultipartFile> xlsxFile) throws Exception{
+		String filename;
+		File f;
+
+		/* 서버 디렉토리에 파일 저장 */
+		for(int i=0; i<xlsxFile.size(); i++){
+			filename = xlsxFile.get(i).getOriginalFilename();
+
+			f = new File(path+filename);
+
+			xlsxFile.get(i).transferTo(f);
+		}
+
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
 		boolean check = false;
@@ -183,6 +225,20 @@ public class PostgreServiceImpl implements PostgreService {
 		    	}
 		    }
 		}
+
+		/* 서버 디렉토리에 파일 삭제 */
+		try{
+			while (dir.listFiles().length != 0){
+				File[] folder_list = dir.listFiles();
+
+				for (int j=0; j<folder_list.length; j++){
+					folder_list[j].delete();
+				}
+			}
+		}catch (Exception e){
+		}
+
+
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return true;
 		}else { //모두 중복된 데이터일 경우

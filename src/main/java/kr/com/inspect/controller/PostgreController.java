@@ -1,22 +1,31 @@
 package kr.com.inspect.controller;
 
+import java.io.FileReader;
+import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.JsonLog;
+import kr.com.inspect.parser.JsonParsing;
+import org.apache.lucene.search.suggest.analyzing.FSTUtil;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Controller
 @PropertySource(value = "classpath:properties/directory.properties")
@@ -40,31 +49,34 @@ public class PostgreController {
 		return "postgreSQL/insertElasticIndex";
 	}
 	
-	/* JSON 파일을 PostgreSQL 특정 테이블에 넣기
-	   (metadata, speaker, utterance, eojeolList) */
-	@GetMapping("/insertJSONIntoPostgre")
-	public String insertJSONObject(HttpServletRequest request) {
-		boolean flag = postgreService.insertJSONObject(jsonPath);
-		if(flag == true) {
-			return "postgreSQL/insertJSON";
-		}
-		return "postgreSQL/insertJSONFail";
-	}
-	
-	/* xlsx 파일을 PostgreSQL 특정 테이블(program)에 넣기 */
-	@GetMapping("/insertXlsxIntoPostgre")
-	public String insertXlsxTable(HttpServletRequest request) {
-		boolean flag = postgreService.insertXlsxTable(xlsxPath);
-		if(flag == true) {
-			return "postgreSQL/insertXlsx";
-		}
-		return "postgreSQL/insertXlsxFail";
-	}
-
 	/* 데이터 입력 페이지로 이동 */
 	@GetMapping("/insertIntoPostgre")
 	public String insertPostgres() {
 		return "postgreSQL/insertPostgres";
+	}
+
+	/* json 파일 postgresql 에 업로드 */
+	@RequestMapping(value = "/jsonUpload", method = RequestMethod.POST)
+	@ResponseBody
+	public String jsonUpload (@RequestParam("jsonFile") List<MultipartFile> multipartFile) throws Exception{
+		boolean flag = postgreService.insertJSONObject(jsonPath, multipartFile);
+
+		if(flag == true)
+			return "true";
+		else
+			return "false";
+	}
+
+	/* xlsx 파일 postgresql 에 업로드 */
+	@RequestMapping(value = "/xlsxUpload", method = RequestMethod.POST)
+	@ResponseBody
+	public String xlsxUpload (@RequestParam("xlsxFile") List<MultipartFile> multipartFile) throws Exception{
+		boolean flag = postgreService.insertXlsxTable(xlsxPath, multipartFile);
+
+		if(flag == true)
+			return "true";
+		else
+			return "false";
 	}
 
 	/* 회원정보 가져와서 회원 목록 페이지로 이동 */
