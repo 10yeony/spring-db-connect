@@ -99,6 +99,6 @@ public class LoginController {
 	 * return "main"; }
 	 */
 	
-	//test 잘된다
+	//test 잘된다 cloud confirm
 
 }
