@@ -144,8 +144,8 @@ public class JsonParsing {
 		    if(!ObjectUtils.isEmpty(element.get("Eojeol"))) {
 		    	eojeolList.setEojeol(element.get("Eojeol").toString());
 		    }
-		    if(!ObjectUtils.isEmpty(element.get("finish"))) {
-		    	eojeolList.setFinish(Integer.parseInt(element.get("finish").toString()));
+		    if(!ObjectUtils.isEmpty(element.get("end"))) {
+		    	eojeolList.setFinish(Integer.parseInt(element.get("end").toString()));
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("isDialect"))) {
 		    	eojeolList.setDialect(Boolean.parseBoolean(element.get("isDialect").toString()));
