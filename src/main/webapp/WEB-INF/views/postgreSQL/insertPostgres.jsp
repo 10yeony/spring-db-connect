@@ -57,9 +57,17 @@
                             <h6 class="m-0 font-weight-bold text-primary">한국어 강의 Json 파일 업로드</h6>
                         </div>
                         <div class="card-body">
-                            업로드 부분
-                            <hr>
-                            <a href="${pageContext.request.contextPath}/insertJSONIntoPostgre">json 파일 업로드</a>
+                            <form id="jsonUpload">
+                                <input type="file" id="jsonFile" name="jsonFile" accept="*" multiple>
+                                <hr>
+                                <button type="button" onclick="jsonUpload();" class="btn btn-primary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                    <span class="text">업로드</span>
+                                </button>
+                            </form>
+<%--                            <a href="${pageContext.request.contextPath}/insertJSONIntoPostgre">json 파일 업로드</a>--%>
                         </div>
                     </div>
 
@@ -69,9 +77,17 @@
                             <h6 class="m-0 font-weight-bold text-primary">강의 프로그램 Excel 파일 업로드</h6>
                         </div>
                         <div class="card-body">
-                            업로드 부분
-                            <hr>
-                            <a href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">Excel 파일 업로드</a>
+                            <form id="xlsxUpload">
+                                <input type="file" id="xlsxFile" name="xlsxFile" accept="*" multiple>
+                                <hr>
+                                <button type="button" onclick="xlsxUpload();" class="btn btn-primary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                    <span class="text">업로드</span>
+                                </button>
+                            </form>
+<%--                            <a href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">Excel 파일 업로드</a>--%>
                         </div>
                     </div>
                 </div>
@@ -94,6 +110,65 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+
+<!-- 파일 업로드 함수 -->
+<script>
+    function jsonUpload() {
+        var res = '';
+
+        var formData = new FormData($('#jsonUpload')[0]);
+
+        $.ajax({
+            type:"POST",
+            enctype: 'multipart/form-data',
+            url: "/jsonUpload",
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+
+            success:function (result){
+                res = result;
+                if(res == 'true')
+                    alert("파일을 성공적으로 업로드했습니다.")
+                else if(res == 'false')
+                    alert("이미 업로드한 파일입니다.")
+            },
+            error: function (){
+                alert("에러");
+            }
+        });
+        alert("파일을 업로드 중입니다. 잠시만 기다려주세요.")
+    }
+
+    function xlsxUpload() {
+        var res = '';
+
+        var formData = new FormData($('#xlsxUpload')[0]);
+
+        $.ajax({
+            type:"POST",
+            enctype: 'multipart/form-data',
+            url: "/xlsxUpload",
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+
+            success:function (result){
+                res = result;
+                if(res == 'true')
+                    alert("파일을 성공적으로 업로드했습니다.")
+                else if(res == 'false')
+                    alert("이미 업로드한 파일입니다.")
+            },
+            error: function (){
+                alert("에러");
+            }
+        });
+        alert("파일을 업로드 중입니다. 잠시만 기다려주세요.")
+    }
+</script>
 
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
