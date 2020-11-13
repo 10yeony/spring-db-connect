@@ -97,5 +97,5 @@ public class MemberController {
 	
 	/* 2020-11-13 */
 	//testins
-	//tst
+	//tstsadfasdfasdfas
 }
