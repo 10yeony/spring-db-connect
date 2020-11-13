@@ -113,6 +113,7 @@
 
 <!-- 파일 업로드 함수 -->
 <script>
+    // json 파일 업로드
     function jsonUpload() {
         var res = '';
 
@@ -148,9 +149,10 @@
                 alert("에러");
             }
         });
-        alert("파일을 업로드 중입니다. 잠시만 기다려주세요.")
+        alert("파일을 업로드 중입니다. 잠시만 기다려주세요.");
     }
 
+    // xlsx 파일 업로드
     function xlsxUpload() {
         var res = '';
 

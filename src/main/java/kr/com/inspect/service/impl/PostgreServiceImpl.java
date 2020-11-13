@@ -25,6 +25,7 @@ import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @Service
 public class PostgreServiceImpl implements PostgreService{
