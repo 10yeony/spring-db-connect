@@ -1,11 +1,11 @@
 /* 원본 : https://observablehq.com/@d3/line-chart
    참고 : https://falsy.me/d3-js-%eb%a5%bc-%ec%82%ac%ec%9a%a9%ed%95%98%ec%97%ac-%eb%8d%b0%ec%9d%b4%ed%84%b0-%ec%8b%9c%ea%b0%81%ed%99%94%ed%95%98%ea%b8%b0-5-area-charts-%ea%b7%b8%eb%9d%bc%eb%8d%b0%ec%9d%b4%ec%85%98/ */
 
-const width = 500;
-const height = 300;
-const margin = {top: 40, right: 40, bottom: 40, left: 40};
-const padding = 30;
-const data = [
+const lineWidth1 = 500;
+const lineHeight1 = 300;
+const lineMargin1 = {top: 40, right: 40, bottom: 40, left: 40};
+const linePadding1 = 30;
+const lineData1 = [
   {date: new Date('2018-01-01'), value: 10},
   {date: new Date('2018-01-02'), value: 20},
   {date: new Date('2018-01-03'), value: 30},
@@ -16,45 +16,45 @@ const data = [
   {date: new Date('2018-01-08'), value: 50}
 ];
  
-const x = d3.scaleTime()
-  .domain(d3.extent(data, d => d.date))
-  .range([margin.left + padding, width - padding]);
+const lineX1 = d3.scaleTime()
+  .domain(d3.extent(lineData1, d => d.date))
+  .range([lineMargin1.left + linePadding1, lineWidth1 - linePadding1]);
  
-const y = d3.scaleLinear()
-  .domain([0, d3.max(data, d => d.value)]).nice()
-  .range([height - margin.bottom, margin.top]);
+const lineY1 = d3.scaleLinear()
+  .domain([0, d3.max(lineData1, d => d.value)]).nice()
+  .range([lineHeight1 - lineMargin1.bottom, lineMargin1.top]);
  
-const xAxis = g => g
-  .attr("transform", `translate(0,${height - margin.bottom})`)
-  .call(d3.axisBottom(x).ticks(width / 90).tickSizeOuter(0))
+const lineXAxis1 = g => g
+  .attr("transform", `translate(0,${lineHeight1 - lineMargin1.bottom})`)
+  .call(d3.axisBottom(lineX1).ticks(lineWidth1 / 90).tickSizeOuter(0))
   .call(g => g.select('.domain').remove())
   .call(g => g.selectAll('line').remove());
  
-const yAxis = g => g
-  .attr("transform", `translate(${margin.left},0)`)
-  .call(d3.axisLeft(y))
+const lineYAxis1 = g => g
+  .attr("transform", `translate(${lineMargin1.left},0)`)
+  .call(d3.axisLeft(lineY1))
   .call(g => g.select('.domain').remove())
   .call(g => g.selectAll('line')
-    .attr('x2', width)
+    .attr('x2', lineWidth1)
     .style('stroke', '#ddd'))
  
 const line = d3.line()
   .defined(d => !isNaN(d.value))
-  .x(d => x(d.date))
-  .y(d => y(d.value));
+  .x(d => lineX1(d.date))
+  .y(d => lineY1(d.value));
  
 const area = d3.area()
-  .x(d => x(d.date))
-  .y0(y(0))
-  .y1(d => y(d.value));
+  .x(d => lineX1(d.date))
+  .y0(lineY1(0))
+  .y1(d => lineY1(d.value));
  
-const svg = d3.select('body').append('svg').style('width', width).style('height', height);
+const lineSvg1 = d3.select('#line-svg-area1').append('svg').style('width', lineWidth1).style('height', lineHeight1);
 
-svg.append('g').call(xAxis);
+lineSvg1.append('g').call(lineXAxis1);
 
-svg.append('g').call(yAxis);
+lineSvg1.append('g').call(lineYAxis1);
 
-const grad = svg.append("defs").append("linearGradient")
+const grad = lineSvg1.append("defs").append("linearGradient")
   .attr("id", "grad")
   .attr("x1", "0%")
   .attr("x2", "0%")
@@ -71,14 +71,14 @@ grad.append("stop")
   .style("stop-color", "#7ab8aa")
    .style("stop-opacity", 0.4);
 
-svg.append("path")
-  .datum(data)
+lineSvg1.append("path")
+  .datum(lineData1)
 	.style("fill", "url(#grad)")
   .attr("d", line)
   .attr("d", area);
   
-svg.append("path")
-  .datum(data)
+lineSvg1.append("path")
+  .datum(lineData1)
   .attr("fill", "none")
   .attr("stroke", "#add7a8")
   .attr("stroke-width", 6)
@@ -86,4 +86,4 @@ svg.append("path")
   .attr("stroke-linecap", "round")
   .attr("d", line);
 
-svg.node();
+lineSvg1.node();

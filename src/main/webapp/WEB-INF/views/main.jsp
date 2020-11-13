@@ -19,7 +19,6 @@
 
 	<!-- Custom styles for this template-->
 	<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -42,11 +41,8 @@
 			<div class="container-fluid">
 
 				<!-- Page Heading -->
-				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h1 class="h3 mb-0 text-gray-800">MainPage</h1>
-				</div>
-				<div>
-					<%@ include file="dashboard/sample/bar-chart.jsp"%>
+				<div style="text-align:center;">
+					<%@ include file="dashboard/collection.jsp"%>
 				</div>
 			</div>
 			<!-- /.container-fluid -->
