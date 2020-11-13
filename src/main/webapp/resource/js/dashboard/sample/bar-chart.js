@@ -44,8 +44,8 @@ const yAxis = g => g
   // y축의 구분선의 너비 값을 그래프의 너비값으로 설정하고 구분선의 색을 #f5f5f5 로 합니다.
   // svg의 가로 선은 x 속성의 값의 출발점으로 x2의 값을 끝점으로 선을 그립니다.
  
-const svg = d3.select('#svg-area').append('svg').style('width', width).style('height', height);
-// id 값이 svg-area인 엘리먼트를 찾고 그래프를 그릴 svg엘리먼트를 추가합니다.
+const svg = d3.select('#bar-svg-area1').append('svg').style('width', width).style('height', height);
+// id 값이 bar-svg-area1인 엘리먼트를 찾고 그래프를 그릴 svg엘리먼트를 추가합니다.
  
 svg.append('g').call(xAxis);
 svg.append('g').call(yAxis);
@@ -69,8 +69,8 @@ svg.node();
  
 const rectEl = document.getElementsByTagName('rect');
 // 현재 도큐멘트의 rect 엘리먼트들을 담습니다.
-const tooltop = document.getElementById('tooltip');
-// 미리 html에 만들어 놓은 id값 tooltip의 엘리먼트를 담습니다.
+const tooltop = document.getElementById('bar-tooltip1');
+// 미리 html에 만들어 놓은 id값 bar-tooltip1의 엘리먼트를 담습니다.
  
 for(const el of rectEl) {
   // 도큐멘트의 rect 엘리먼트들에게 마우스 오버 이벤트를 추가합니다.

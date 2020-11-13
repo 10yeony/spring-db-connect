@@ -33,7 +33,7 @@ const pie = d3.pie()
  
 const arcs = pie(data);
  
-const svg = d3.select('body').append('svg').style('width', width).style('height', height)
+const svg = d3.select('#pie-svg-area1').append('svg').style('width', width).style('height', height)
   .attr('text-anchor', 'middle')
   // text-anchor 텍스트의 정렬을 설정합니다 ( start | middle | end | inherit )
   .style('font-size', '12px sans-serif');
