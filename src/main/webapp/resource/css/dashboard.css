@@ -1,8 +1,8 @@
-  #svg-area1 {
+  #bar-svg-area1 {
 	  position: relative;
 	}
 	
-	#tooltip1 {
+	#bar-tooltip1 {
 	  position: absolute;
 	  opacity: 0;
 	  width: 40px;

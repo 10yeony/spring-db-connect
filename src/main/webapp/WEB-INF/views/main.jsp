@@ -48,6 +48,9 @@
 				<div>
 					<%@ include file="dashboard/sample/bar-chart.jsp"%>
 				</div>
+				<div>
+					<%@ include file="dashboard/sample/pie-chart.jsp"%>
+				</div>
 			</div>
 			<!-- /.container-fluid -->
 		</div>
