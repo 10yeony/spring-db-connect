@@ -1,3 +1,17 @@
+  .dashboardBody {
+  	margin: 0 auto;
+  	text-align: center;
+  }
+  
+  .chartTable th, .chartTable td {
+		paddding: 30px;
+		border: 1px solid black;
+	}
+	
+	.inline-block-chart {
+		display : inline-block;
+	}
+  
   #bar-svg-area1 {
 	  position: relative;
 	}
