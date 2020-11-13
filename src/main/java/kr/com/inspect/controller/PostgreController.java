@@ -5,9 +5,6 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import kr.com.inspect.dto.EojeolList;
@@ -29,7 +26,6 @@ import kr.com.inspect.service.PostgreService;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-//@MultipartConfig(fileSizeThreshold = 1024*1024*100,maxFileSize = 1024*1024*100, maxRequestSize = 1024*1024*100)
 @PropertySource(value = "classpath:properties/directory.properties")
 public class PostgreController {
 	@Autowired
