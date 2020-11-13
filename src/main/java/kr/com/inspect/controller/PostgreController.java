@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import kr.com.inspect.dto.EojeolList;
@@ -25,7 +24,6 @@ import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Controller
 @PropertySource(value = "classpath:properties/directory.properties")

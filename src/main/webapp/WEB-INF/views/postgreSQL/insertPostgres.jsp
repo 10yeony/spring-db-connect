@@ -130,6 +130,7 @@
 
 <!-- 파일 업로드 함수 -->
 <script>
+    // json 파일 업로드
     function jsonUpload() {
         var res = '';
 
@@ -166,13 +167,14 @@
                 }
             },
             error: function (){
-                alert("에러");
+                alert("업로드한 파일 용량이 너무 큽니다.");
                 document.getElementById('loadingArea').style.display='none';
             }
         });
         document.getElementById('loadingArea').style.display='block';
     }
 
+    // xlsx 파일 업로드
     function xlsxUpload() {
         var res = '';
 
@@ -182,7 +184,7 @@
         for(var item of formData.entries()) {
             var name = item[1]["name"];
             if(name.substring(name.length-5, name.length) != '.xlsx'){
-                alert("엑셀 파일을 업로드해주세요.");
+                alert("업로드한 파일 용량이 너무 큽니다.");
                 return;
             }
 
@@ -209,7 +211,7 @@
 	                }
             },
             error: function (){
-                alert("에러");
+                alert("업로드한 파일 용량이 너무 큽니다.");
                 document.getElementById('loadingArea').style.display='none';
             }
         });

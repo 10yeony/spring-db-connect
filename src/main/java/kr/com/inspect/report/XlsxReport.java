@@ -83,11 +83,13 @@ public class XlsxReport {
 		cell = row.createCell(3);
 		cell.setCellValue(column1);
 		cell = row.createCell(4);
-		cell.setCellValue(column3);
-		cell = row.createCell(5);
 		cell.setCellValue("file_num");
-		cell = row.createCell(6);
+		cell = row.createCell(5);
 		cell.setCellValue("running_time");
+		cell = row.createCell(6);
+		cell.setCellValue("문장수");
+		cell = row.createCell(7);
+		cell.setCellValue("어절수");
 
 		// 리스트의 size 만큼 row를 생성
 		Metadata metadata;
@@ -103,11 +105,13 @@ public class XlsxReport {
 			cell = row.createCell(3);
 			cell.setCellValue(metadata.getCreator());
 			cell = row.createCell(4);
-			cell.setCellValue(metadata.getYear());
-			cell = row.createCell(5);
 			cell.setCellValue(metadata.getTitle());
-			cell = row.createCell(6);
+			cell = row.createCell(5);
 			cell.setCellValue(metadata.getProgram().getRunning_time());
+			cell = row.createCell(6);
+			cell.setCellValue(Integer.toString(metadata.getSentence_count()));
+			cell = row.createCell(7);
+			cell.setCellValue(Integer.toString(metadata.getEojeol_total()));
 		}
 
 		// 입력된 내용 파일로 쓰기
@@ -148,28 +152,52 @@ public class XlsxReport {
 		cell.setCellValue("날짜 : " + day);
 		sheet.addMergedRegion(new CellRangeAddress(0,0,0,1));
 
+		// 강의명과 부제 출력
 		row = sheet.createRow(2);
 		cell = row.createCell(0);
 		cell.setCellValue(metadata.getProgram().getTitle()+"  "+metadata.getProgram().getSubtitle());
-		sheet.addMergedRegion(new CellRangeAddress(2,2,0,1));
+		sheet.addMergedRegion(new CellRangeAddress(2,2,0,3));
 
+		// running time
+		row = sheet.createRow(3);
+		cell = row.createCell(0);
+		cell.setCellValue("running time: " + metadata.getProgram().getRunning_time());
+		sheet.addMergedRegion(new CellRangeAddress(3,3,0,1));
 
+		// creator
 		row = sheet.createRow(4);
+		cell = row.createCell(0);
+		cell.setCellValue("creator: " + metadata.getCreator());
+		sheet.addMergedRegion(new CellRangeAddress(4,4,0,1));
+
+		row = sheet.createRow(6);
 		/* 헤더 정보 구성 */
 		cell = row.createCell(0);
 		cell.setCellValue(column0);
 		cell = row.createCell(1);
 		cell.setCellValue("title");
+		cell = row.createCell(2);
+		cell.setCellValue("start");
+		cell = row.createCell(3);
+		cell.setCellValue("end");
+		cell = row.createCell(4);
+		cell.setCellValue("어절수");
 
 		// 리스트의 size 만큼 row를 생성
 		Utterance utterance;
 		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
 			utterance = list.get(rowIdx);
-			row = sheet.createRow(rowIdx+5); //행 생성
+			row = sheet.createRow(rowIdx+7); //행 생성
 			cell = row.createCell(0);
 			cell.setCellValue(Integer.toString(rowIdx+1));
 			cell = row.createCell(1);
 			cell.setCellValue(utterance.getForm());
+			cell = row.createCell(2);
+			cell.setCellValue(utterance.getStart());
+			cell = row.createCell(3);
+			cell.setCellValue(utterance.getFinish());
+			cell = row.createCell(4);
+			cell.setCellValue(utterance.getEojeol_count());
 		}
 
 		// 입력된 내용 파일로 쓰기
