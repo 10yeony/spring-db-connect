@@ -50,7 +50,7 @@ public class DocxReport {
 	/* docx 한국어 강의 목록 리스트 작성 */
 	public void writeDocxMetadata(HttpServletResponse response, String path, List<Metadata> list) {
 		String docxFileName =
-				"강의목록_"+
+				"LectureList_"+
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
 						+ ".docx";
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());

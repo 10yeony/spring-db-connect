@@ -53,7 +53,7 @@ public class XlsxReport {
 	/* xlsx 한국어 강의 목록 리스트 작성 */
 	public void writeXlsxMetadata(HttpServletResponse response, String path, List<Metadata> list) {
 		String xlsxFileName =
-				"강의목록_"+
+				"LectureList_"+
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
 						+ ".xlsx"; //파일명
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
