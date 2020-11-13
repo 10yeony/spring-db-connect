@@ -146,7 +146,7 @@
                     alert("이미 업로드한 파일입니다.")
             },
             error: function (){
-                alert("에러");
+                alert("업로드한 파일 용량이 너무 큽니다.");
             }
         });
         alert("파일을 업로드 중입니다. 잠시만 기다려주세요.");
@@ -162,7 +162,7 @@
         for(var item of formData.entries()) {
             var name = item[1]["name"];
             if(name.substring(name.length-5, name.length) != '.xlsx'){
-                alert("엑셀 파일을 업로드해주세요.");
+                alert("업로드한 파일 용량이 너무 큽니다.");
                 return;
             }
 
