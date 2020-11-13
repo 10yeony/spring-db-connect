@@ -13,14 +13,28 @@
     <meta name="author" content="">
 
     <title>Insert Into Postgres</title>
-
+	
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-
+	
+	<!-- w3 css -->
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	
+	<!-- 로딩 이미지 -->
+	<style>
+	.loading{
+	  position:absolute;
+	  top:50%;
+	  left:50%;
+	  width:80px;
+	  height:80px;
+	  margin:-50px 0 0 -50px;
+	}
+	</style>
 </head>
 
 <body id="page-top">
@@ -28,7 +42,10 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!--  -->
+    <!-- 업로드시 로딩 화면 -->
+    <div id="loadingArea" class="w3-modal w3-animate-opacity">
+		<img class="loading" width="100px" src="${pageContext.request.contextPath}/resource/img/loading.gif">
+	</div>
 
     <!-- 사이드바 include-->
     <%@ include file="../include/sidebar.jsp"%>
@@ -139,16 +156,21 @@
 
             success:function (result){
                 res = result;
-                if(res == 'true')
+                if(res == 'true'){
                     alert("파일을 성공적으로 업로드했습니다.")
-                else if(res == 'false')
+                    document.getElementById('loadingArea').style.display='none';
+                }
+                else if(res == 'false'){
                     alert("이미 업로드한 파일입니다.")
+                    document.getElementById('loadingArea').style.display='none';
+                }
             },
             error: function (){
                 alert("에러");
+                document.getElementById('loadingArea').style.display='none';
             }
         });
-        alert("파일을 업로드 중입니다. 잠시만 기다려주세요.")
+        document.getElementById('loadingArea').style.display='block';
     }
 
     function xlsxUpload() {
@@ -177,16 +199,21 @@
 
             success:function (result){
                 res = result;
-                if(res == 'true')
-                    alert("파일을 성공적으로 업로드했습니다.")
-                else if(res == 'false')
-                    alert("이미 업로드한 파일입니다.")
+                if(res == 'true'){
+	                	alert("파일을 성공적으로 업로드했습니다.")
+	                	document.getElementById('loadingArea').style.display='none';
+	                }
+                else if(res == 'false'){
+                		alert("이미 업로드한 파일입니다.")
+                		document.getElementById('loadingArea').style.display='none';
+	                }
             },
             error: function (){
                 alert("에러");
+                document.getElementById('loadingArea').style.display='none';
             }
         });
-        alert("파일을 업로드 중입니다. 잠시만 기다려주세요.")
+        document.getElementById('loadingArea').style.display='block';
     }
 </script>
 
