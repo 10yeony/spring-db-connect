@@ -184,7 +184,7 @@
         for(var item of formData.entries()) {
             var name = item[1]["name"];
             if(name.substring(name.length-5, name.length) != '.xlsx'){
-                alert("업로드한 파일 용량이 너무 큽니다.");
+                alert("엑셀 파일을 업로드해주세요.");
                 return;
             }
 
