@@ -211,7 +211,7 @@ public class PostgreServiceImpl implements PostgreService{
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
 		boolean check = false;
-		
+
 		for(File file : fileList){
 			/* 확장자가 xlsx인 파일을 읽는다 */
 		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
@@ -220,7 +220,7 @@ public class PostgreServiceImpl implements PostgreService{
 		    	for(int i=0; i<list.size(); i++) {
 		    		if(sqlSession.selectOne(programNS+"getProgramByFileNum", list.get(i).getFile_num()) == null) {
 		    			check = true;
-		    			sqlSession.insert(programNS+"programNS", list.get(i));
+		    			sqlSession.insert(programNS+"insertIntoProgram", list.get(i));
 		    		}
 		    	}
 		    }
@@ -242,7 +242,7 @@ public class PostgreServiceImpl implements PostgreService{
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return true;
 		}else { //모두 중복된 데이터일 경우
-			return false; 
+			return false;
 		}
 	}
 	
