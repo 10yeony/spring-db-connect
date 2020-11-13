@@ -131,7 +131,7 @@
         $.ajax({
             type:"POST",
             enctype: 'multipart/form-data',
-            url: "/jsonUpload",
+            url: "${pageContext.request.contextPath}/jsonUpload",
             data: formData,
             processData: false,
             contentType: false,
@@ -169,7 +169,7 @@
         $.ajax({
             type:"POST",
             enctype: 'multipart/form-data',
-            url: "/xlsxUpload",
+            url: "${pageContext.request.contextPath}/xlsxUpload",
             data: formData,
             processData: false,
             contentType: false,
