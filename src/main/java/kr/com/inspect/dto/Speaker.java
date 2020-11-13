@@ -8,11 +8,11 @@ public class Speaker {
 	private String occupation;
 	private String sex; //성별
 	private String name; //이름
-	private int age; //나이
+	private String age; //나이
 	private int metadata_id; //foreign key
 	
 	public Speaker() {}
-	public Speaker(int id, int no, int shortcut, String occupation, String sex, String name, int age, int metadata_id) {
+	public Speaker(int id, int no, int shortcut, String occupation, String sex, String name, String age, int metadata_id) {
 		super();
 		this.id = id;
 		this.no = no;
@@ -60,10 +60,10 @@ public class Speaker {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 	public int getMetadata_id() {

@@ -82,7 +82,7 @@ public class JsonParsing {
 				speaker.setName(element.get("name").toString());
 			}
 			if(!ObjectUtils.isEmpty(element.get("age"))) {
-				speaker.setAge(Integer.parseInt(element.get("age").toString()));
+				speaker.setAge(element.get("age").toString());
 			}
 			speaker.setMetadata_id(metadata_id); //foreign key
 		    speakerList.add(speaker);
