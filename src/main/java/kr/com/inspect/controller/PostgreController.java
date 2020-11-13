@@ -79,12 +79,6 @@ public class PostgreController {
 			return "false";
 	}
 
-	/* 회원정보 가져와서 회원 목록 페이지로 이동 */
-	@GetMapping("/memberList")
-	public String getMember() {
-		return "member/getMemberList";
-	}
-	
 	/* Utterance 테이블 가져오기 */
 	@GetMapping("/getUtteranceTable/{format}")
 	public String getUtteranceTable(Model model, @PathVariable Integer format){

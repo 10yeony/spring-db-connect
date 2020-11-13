@@ -15,7 +15,7 @@ import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.LoginService;
 
 @Controller
-public class LoginController {
+public class MemberController {
 
 	@Autowired
 	private LoginService loginService;
@@ -89,17 +89,11 @@ public class LoginController {
 		return "/register";
 	}
 
-	/*
-	 * @RequestMapping(value = "/test", method = RequestMethod.GET) public String
-	 * test(Member member, Model model, HttpSession session) { //로그인 값을 계속 가지고 있는
-	 * Session TEST
-	 * 
-	 * System.out.println((String) session.getAttribute("loginId"));
-	 * 
-	 * return "main"; }
-	 */
+	/* 회원정보 가져와서 회원 목록 페이지로 이동 */
+	@GetMapping("/memberList")
+	public String getMember() {
+		return "member/getMemberList";
+	}
 	
-	//test 잘된다 cloud confirm
-	//one more
-
+	/* 2020-11-13 */
 }
