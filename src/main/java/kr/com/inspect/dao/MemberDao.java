@@ -18,5 +18,5 @@ public interface MemberDao {
 	public int IdCheck(String member_id);
 	
 	/* id로 가지고 있는 권한들을 가져옴 */
-	public List<String> getAuthority(String memeber_id);
+	public List<String> getAuthorities(String memeber_id);
 }

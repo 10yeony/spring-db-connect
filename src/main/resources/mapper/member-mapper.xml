@@ -6,7 +6,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 공통 SQL : 회원정보를 가져옴 -->
 	<sql id="getMember">
-		SELECT * FROM audio.member 
+		SELECT 
+			* 
+		FROM 
+			audio.member 
 	</sql>
 	
 	<!-- 아이디로 회원정보를 가져옴 -->
@@ -39,4 +42,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			(member_id, pwd)
 			VALUES(#{member_id}, #{pwd});
 	</insert>
+	
+	<!-- 가지고 있는 권한을 가져옴 -->
+	<select id="getAuthorities" parameterType="String" resultType="String">
+		SELECT
+			authority_name 
+		FROM 
+			audio.authority 
+		WHERE 
+			username = #{username};
+   </select>
 </mapper>
