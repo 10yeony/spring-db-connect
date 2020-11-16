@@ -53,9 +53,9 @@ CREATE TABLE audio.program (
 	running_time text
 );
 
-CREATE TABLE audio.user (
-	username text PRIMARY KEY,
-	password text NOT NULL,
+CREATE TABLE audio.member (
+	member_id text PRIMARY KEY,
+	pwd text NOT NULL,
 	isAccountNonExpired boolean,
 	isAccountNonLocked boolean,
 	isCredentialsNonExpired boolean,
