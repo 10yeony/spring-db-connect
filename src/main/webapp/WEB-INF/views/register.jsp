@@ -40,15 +40,15 @@
 	</div>
 	<form method="post" id="registerForm" name="register">
 		<div class="form-group">
-			<input style="display:inline-block; width:63%;" type="text" class="form-control" name="username"
-				id="register_username" placeholder="Member ID" required> 
+			<input style="display:inline-block; width:63%;" type="text" class="form-control" name="member_id"
+				id="register_member_id" placeholder="Member ID" required> 
 			<input style="display:inline-block; width:35%;" type="button" class="form-control" id="idCheck" value="중복체크">
 			<div style="margin-top:2px;" id="isExistId"></div>
 		</div>
 		
 		<div class="form-group">
-			<input type="password" class="form-control" name="password"
-				id="register_password" placeholder="Password">
+			<input type="password" class="form-control" name="pwd"
+				id="register_pwd" placeholder="Password">
 			<input type="password" class="form-control" name="pwdCheck"
 				id="register_pwd_check"  placeholder="Password Check">
 			<div style="margin-top:2px;" id="isSamePwd"></div>

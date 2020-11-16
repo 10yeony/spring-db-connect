@@ -1,6 +1,5 @@
 package kr.com.inspect.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,17 +8,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-import kr.com.inspect.service.UserService;
-
 /* 참고 : https://blog.jiniworld.me/51 */
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
-	@Autowired
-	private UserService userService;
-	
-	
 	/* 프로퍼티에 설정했던 보안 관련 설정을 인메모리에 설정할 수 있도록 함 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -31,11 +24,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 	  http.authorizeRequests()    
 	  	/* /, 와 login, register api 관련 url은 모든 사용자가 사용 */
-	    .antMatchers("/", 
-	    				"/login",
-	    				"/isUser",
-	    				"/loginUser",
-	    				"/register").permitAll()
+	    .antMatchers("/", "/login", "/register").permitAll()
 	    /* /main, /** url은 ROLE_VIEW 권한을 가진 사용자만 접근 */
 	    .antMatchers("/main", "/**").access("hasRole('ROLE_VIEW')")
 	    /* 설정되지 않은 모든 url request는 인가된 사용자만 이용할 수 있도록 합니다 */
@@ -44,7 +33,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
 	  	/* loginPage("/login") 으로 로그인폼페이지 url을 작성. 로그인이 성공했을 시엔 "/main" 로 이동 */
 	    .formLogin().loginPage("/login").defaultSuccessUrl("/main").permitAll()
 	    /* 로그인폼에서 사용자 검증을 할 username, password input name을 설정 */
-	    .usernameParameter("username").passwordParameter("password")
+	    .usernameParameter("member_id").passwordParameter("pwd")
 	  .and()
 	    .logout().permitAll()		
 	  .and()

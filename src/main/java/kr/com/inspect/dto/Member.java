@@ -3,24 +3,24 @@ package kr.com.inspect.dto;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-/* User 테이블(회원 로그인, 회원가입 관련) */
-public class User implements UserDetails {
-	private String username; //사용자 아이디.
-	private String password; //비밀번호.
+/* Member 테이블(회원 로그인, 회원가입 관련) */
+// UserDetails를 implements할 수도 있지만, username, password를 쓰지 않았으므로 여기서는 패스. 
+public class Member {
+	private String member_id; // DB상의 사용자 아이디 컬럼명. 스프링 시큐리티의 username에 해당함.
+	private String pwd; // DB상의 비밀번호 컬럼명. 스프링 시큐리티의 password에 해당함.
 	private boolean isAccountNonExpired; //계정이 만료되지 않았는지를 리턴
 	private boolean isAccountNonLocked; //계정이 잠겨있지 않은지를 리턴
 	private boolean isCredentialsNonExpired; //계정의 패스워드가 만료되지 않았는지를 리턴
 	private boolean isEnabled; //계정이 사용가능한 계정인지를 리턴
 	private Collection<? extends GrantedAuthority> authorities; //계정이 갖고 있는 권한 목록을 리턴
 	
-	public User() {}
-	public User(String username, String password, boolean isAccountNonExpired, boolean isAccountNonLocked,
+	public Member() {}
+	public Member(String member_id, String pwd, boolean isAccountNonExpired, boolean isAccountNonLocked,
 			boolean isCredentialsNonExpired, boolean isEnabled, Collection<? extends GrantedAuthority> authorities) {
 		super();
-		this.username = username;
-		this.password = password;
+		this.member_id = member_id;
+		this.pwd = pwd;
 		this.isAccountNonExpired = isAccountNonExpired;
 		this.isAccountNonLocked = isAccountNonLocked;
 		this.isCredentialsNonExpired = isCredentialsNonExpired;
@@ -28,17 +28,17 @@ public class User implements UserDetails {
 		this.authorities = authorities;
 	}
 	
-	public String getUsername() {
-		return username;
+	public String getMember_id() {
+		return member_id;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
 	}
-	public String getPassword() {
-		return password;
+	public String getPwd() {
+		return pwd;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 	public boolean isAccountNonExpired() {
 		return isAccountNonExpired;
@@ -73,7 +73,7 @@ public class User implements UserDetails {
 	
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", isAccountNonExpired=" + isAccountNonExpired
+		return "Member [member_id=" + member_id + ", pwd=" + pwd + ", isAccountNonExpired=" + isAccountNonExpired
 				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
 				+ ", isEnabled=" + isEnabled + ", authorities=" + authorities + "]";
 	}

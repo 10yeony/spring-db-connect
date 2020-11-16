@@ -10,9 +10,9 @@ $(function() {
 		$.ajax({
 			url : "idCheck",
 			type : "POST",
-			data : { "username" : $('#register_username').val() },
+			data : { "member_id" : $('#register_member_id').val() },
 			success : function(data) {
-				if (data == 0 && $.trim($('#register_username').val()) != '') {
+				if (data == 0 && $.trim($('#register_member_id').val()) != '') {
 					idCheck = true;
 					idOk = true;
 					let html = "<div style='color: green'>사용가능</div>";
@@ -33,7 +33,7 @@ $(function() {
 	}); //click
 	
 	/* id를 새로 입력하면 중복검사를 안 한 것으로 표기 */
-	$('#register_username').keyup(function(){
+	$('#register_member_id').keyup(function(){
 		idCheck = false;
 		let html = "<div style='color: blue'>아이디 중복체크가 필요합니다.</div>";
 		$('#isExistId').empty();
@@ -46,9 +46,9 @@ $(function() {
 	});
 	
 	/* 비밀번호 입력 검사 */
-	$('#register_password').keyup(function(){
-		let password = $('#register_password').val();
-		if(password == ''){
+	$('#register_pwd').keyup(function(){
+		let pwd = $('#register_pwd').val();
+		if(pwd == ''){
 			let html = "<div style='color: blue'>비밀번호를 입력하세요</div>";
 			$('#isSamePwd').empty();
 			$('#isSamePwd').append(html);
@@ -57,10 +57,10 @@ $(function() {
 	
 	/* 비밀번호 일치 검사 */
 	$('#register_pwd_check').keyup(function(){
-		let password = $('#register_password').val();
+		let pwd = $('#register_pwd').val();
 		let pwdCheck = $('#register_pwd_check').val();
-		if(password != ''){
-			if(password != pwdCheck){
+		if(pwd != ''){
+			if(pwd != pwdCheck){
 				let html = "<div style='color: red'>비밀번호가 일치하지 않습니다.</div>";
 				$('#isSamePwd').empty();
 				$('#isSamePwd').append(html);
@@ -74,10 +74,10 @@ $(function() {
 	
 	/* 회원가입 제출 */
 	$('#register_submit').click(function(){
-		let username = $('#register_username').val();
-		let password = $('#register_password').val();
+		let member_id = $('#register_member_id').val();
+		let pwd = $('#register_pwd').val();
 		let pwdCheck = $('#register_pwd_check').val();
-		if(username == '' || password == '' || pwdCheck == ''){
+		if(member_id == '' || pwd == '' || pwdCheck == ''){
 			alert("빈칸을 입력하세요.");
 			return false;
 		}else if(idCheck === false){
@@ -86,12 +86,12 @@ $(function() {
 		}else if(idOk === false){
 			alert("사용불가능한 아이디입니다.");
 			return false;
-		}else if(password != pwdCheck){
+		}else if(pwd != pwdCheck){
 			alert("비밀번호가 일치하지 않습니다.");
 			return false;
 		}
 		$.ajax({
-			url : "registerUser",
+			url : "registerMember",
 			type : "POST",
 			data : $('#registerForm').serialize(),
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',

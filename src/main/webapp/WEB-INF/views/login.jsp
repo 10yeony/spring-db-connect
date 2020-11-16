@@ -36,15 +36,15 @@ src="${pageContext.request.contextPath}/resource/js/index/login.js"></script>
 	<div class="text-center">
 		<h1 class="h4 text-gray-900 mb-4">Welcome To SDTM</h1>
 	</div>
-	<form id="loginForm" action="${pageContext.request.contextPath}/loginUser" method="post">
+	<form id="loginForm" action="${pageContext.request.contextPath}/loginMember" method="post">
 		<div class="form-group">
 			<input type="text" class="form-control form-control-user"
-				id="login_username" name="username" placeholder="Enter ID">
+				id="login_member_id" name="member_id" placeholder="Enter ID">
 		</div>
 		
 		<div class="form-group">
 			<input type="password" class="form-control form-control-user"
-				id="login_password" name="password" placeholder="Password">
+				id="login_pwd" name="pwd" placeholder="Password">
 		</div>
 
 		<div class="form-group">
