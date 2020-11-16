@@ -24,11 +24,11 @@ public class MemberDaoImpl implements MemberDao{
 		return result;
 	}
 	
-	/* 아이디와 비밀번호로 회원정보를 가져옴 */
+	/* 아이디로 회원정보를 가져옴 */
 	@Override
-	public Member getMemberById(Member member) {
+	public Member readMemberById(String member_id) {
 		Member result = null;
-		result = sqlSession.selectOne(memberNs+"getMemberById", member);
+		result = sqlSession.selectOne(memberNs+"getMemberById", member_id);
 		return result;
 	}
 	
@@ -42,7 +42,7 @@ public class MemberDaoImpl implements MemberDao{
 	
 	/* 아이디 중복확인 */
 	@Override
-	public int IdCheck(String member_id) {
+	public int idCheck(String member_id) {
 		int result = 0;
 		result = sqlSession.selectOne(memberNs+"idCheck", member_id);
 		return result;
@@ -50,8 +50,7 @@ public class MemberDaoImpl implements MemberDao{
 
 	/* id로 가지고 있는 권한들을 가져옴 */
 	@Override
-	public List<String> getAuthority(String memeber_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> readAuthorities(String member_id) {
+		return sqlSession.selectList(memberNs+"getAuthorities", member_id);
 	}
 }
