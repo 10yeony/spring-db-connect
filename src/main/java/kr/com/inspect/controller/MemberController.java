@@ -18,14 +18,14 @@ import kr.com.inspect.service.MemberService;
 public class MemberController {
 
 	@Autowired
-	private MemberService loginService;
+	private MemberService memberService;
 
 	/* 회원가입 */
 	@ResponseBody
 	@RequestMapping(value = "/registerMember", produces = "application/text; charset=utf8")
 	public String registerMember(Member member, Model model) {
 		String msg = "회원가입에 실패하였습니다.";
-		int result = loginService.registerMember(member);
+		int result = memberService.registerMember(member);
 		if (result == 1) {
 			msg = "회원가입 완료! 로그인해주세요.";
 		}
@@ -37,7 +37,7 @@ public class MemberController {
 	@PostMapping("/idCheck")
 	public String IdCheck(HttpServletRequest request) {
 		String member_id = request.getParameter("member_id");
-		int result = loginService.IdCheck(member_id);
+		int result = memberService.IdCheck(member_id);
 		return Integer.toString(result);
 	}
 	
@@ -49,7 +49,7 @@ public class MemberController {
 			if (session.getAttribute("loginId") != null) {
 				session.removeAttribute("loginId");
 			}
-			Member result = loginService.loginMember(member);
+			Member result = memberService.loginMember(member);
 			session.setAttribute("loginId", result.getMember_id());
 			String role = result.getMember_id();
 			if(role.equals("admin")) {
