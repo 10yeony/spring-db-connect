@@ -141,8 +141,8 @@ public class JsonParsing {
 		    if(!ObjectUtils.isEmpty(element.get("standard"))) {
 		    	eojeolList.setStandard(element.get("standard").toString());
 		    }
-		    if(!ObjectUtils.isEmpty(element.get("Eojeol"))) {
-		    	eojeolList.setEojeol(element.get("Eojeol").toString());
+		    if(!ObjectUtils.isEmpty(element.get("eojeol"))) {
+		    	eojeolList.setEojeol(element.get("eojeol").toString());
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("end"))) {
 		    	eojeolList.setFinish(Integer.parseInt(element.get("end").toString()));

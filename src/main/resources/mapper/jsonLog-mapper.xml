@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <mapper namespace="JsonLogMapper">
 	<resultMap id="jsonLogAndProgram" type="kr.com.inspect.dto.JsonLog">
    		<id column="id" property="id" />
+   		<result column="metadata_id" property="metadata_id" />
     	<result column="file_num" property="title" />
     	<result column="starting" property="start" />
     	<result column="finish" property="finish" />
@@ -19,14 +20,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- JsonLog 테이블에 데이터를 입력함 -->
 	<insert id="insertIntoJsonLog" parameterType="kr.com.inspect.dto.JsonLog">
 		INSERT INTO audio.jsonlog
-			(title, start, finish, elapsed)
-			VALUES(#{title}, #{start}, #{finish}, #{elapsed});
+			(metadata_id, title, start, finish, elapsed)
+			VALUES(#{metadata_id}, #{title}, #{start}, #{finish}, #{elapsed});
 	</insert>
 	
 	<!-- JsonLog 테이블 가져오기 -->
 	<select id="getJsonLog" resultMap="jsonLogAndProgram" resultType="kr.com.inspect.dto.JsonLog">
   		SELECT
 			j.id id,
+			j.metadata_id metadata_id,
 			j.title file_num,
 			j.start starting,
 			j.finish finish,

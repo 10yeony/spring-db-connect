@@ -3,6 +3,7 @@ package kr.com.inspect.dto;
 /* JsonLog 테이블(json 파일 저장 시간 정보 테이블) */
 public class JsonLog {
     private int id; //primary key
+	private int metadata_id; // metadata id
     private String title; // 파일명
     private String start; // 파일 저장 시작시간
     private String finish; // 파일 저장 종료시간
@@ -10,9 +11,10 @@ public class JsonLog {
     private Program program;
 
     public JsonLog() {}
-    public JsonLog(int id, String title, String start, String finish, String elapsed, Program program) {
+    public JsonLog(int id, int metadata_id, String title, String start, String finish, String elapsed, Program program) {
 		super();
 		this.id = id;
+		this.metadata_id = metadata_id;
 		this.title = title;
 		this.start = start;
 		this.finish = finish;
@@ -27,6 +29,10 @@ public class JsonLog {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public int getMetadata_id(){ return metadata_id; }
+
+	public void setMetadata_id(int metadata_id) { this.metadata_id = metadata_id; }
 
 	public String getTitle() {
 		return title;
@@ -70,7 +76,7 @@ public class JsonLog {
 	
 	@Override
 	public String toString() {
-		return "JsonLog [id=" + id + ", title=" + title + ", start=" + start + ", finish=" + finish + ", elapsed="
+		return "JsonLog [id=" + id + ", metadata_id="+ metadata_id + ", title=" + title + ", start=" + start + ", finish=" + finish + ", elapsed="
 				+ elapsed + ", program=" + program + "]";
 	}
 }

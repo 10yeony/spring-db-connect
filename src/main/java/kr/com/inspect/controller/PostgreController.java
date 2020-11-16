@@ -33,6 +33,12 @@ public class PostgreController {
 	
 	//엘라스틱서치
 	private String index = "audiolist";
+
+	@Value("${input.uploadJson.directory}")
+	private String uploadJsonPath;
+
+	@Value("${input.uploadXlsx.directory}")
+	private String uploadXlsxPath;
 	
 	@Value("${input.json.directory}")
 	private String jsonPath;
@@ -57,7 +63,7 @@ public class PostgreController {
 	@RequestMapping(value = "/jsonUpload", method = RequestMethod.POST)
 	@ResponseBody
 	public String jsonUpload (@RequestParam("jsonFile") List<MultipartFile> multipartFile) throws Exception{
-		boolean flag = postgreService.insertJSONObject(jsonPath, multipartFile);
+		boolean flag = postgreService.insertJSONUpload(uploadJsonPath, multipartFile);
 
 		if(flag == true)
 			return "true";
@@ -69,12 +75,26 @@ public class PostgreController {
 	@RequestMapping(value = "/xlsxUpload", method = RequestMethod.POST)
 	@ResponseBody
 	public String xlsxUpload (@RequestParam("xlsxFile") List<MultipartFile> multipartFile) throws Exception{
-		boolean flag = postgreService.insertXlsxTable(xlsxPath, multipartFile);
+		boolean flag = postgreService.insertXlsxUpload(uploadXlsxPath, multipartFile);
 
 		if(flag == true)
 			return "true";
 		else
 			return "false";
+	}
+
+	/* json파일 서버 디렉토리에서 업로드 */
+	@RequestMapping(value = "/jsonDir", method = RequestMethod.POST)
+	@ResponseBody
+	public String jsonDir () throws Exception{
+		return postgreService.insertJSONDir(jsonPath);
+	}
+
+	/* xlsx파일 서버 디렉토리에서 업로드 */
+	@PostMapping("/xlsxDir")
+	@ResponseBody
+	public String xlsxDir () throws Exception{
+		return postgreService.insertXlsxDir(xlsxPath);
 	}
 
 	/* Utterance 테이블 가져오기 */
