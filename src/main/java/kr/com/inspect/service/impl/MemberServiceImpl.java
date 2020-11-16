@@ -20,7 +20,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	/* 로그인 */
 	public Member loginMember(Member member){
-		return memberDao.login(member);
+		return memberDao.getMemberByIdAndPwd(member);
 	}
 	
 	/* 아이디 중복 체크 */

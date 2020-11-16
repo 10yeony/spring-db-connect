@@ -1,5 +1,7 @@
 package kr.com.inspect.dao.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,11 +24,19 @@ public class MemberDaoImpl implements MemberDao{
 		return result;
 	}
 	
-	/* 로그인 */
+	/* 아이디와 비밀번호로 회원정보를 가져옴 */
 	@Override
-	public Member login(Member member) {
+	public Member getMemberById(Member member) {
 		Member result = null;
-		result = sqlSession.selectOne(memberNs+"login", member);
+		result = sqlSession.selectOne(memberNs+"getMemberById", member);
+		return result;
+	}
+	
+	/* 아이디와 비밀번호로 회원정보를 가져옴(로그인) */
+	@Override
+	public Member getMemberByIdAndPwd(Member member) {
+		Member result = null;
+		result = sqlSession.selectOne(memberNs+"getMemberByIdAndPwd", member);
 		return result;
 	}
 	
@@ -37,5 +47,11 @@ public class MemberDaoImpl implements MemberDao{
 		result = sqlSession.selectOne(memberNs+"idCheck", member_id);
 		return result;
 	}
-	
+
+	/* id로 가지고 있는 권한들을 가져옴 */
+	@Override
+	public List<String> getAuthority(String memeber_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
