@@ -62,4 +62,7 @@ public class PostgreDaoImpl implements PostgreDao {
 	public List<JsonLog> getJsonLog(){
 		return sqlSession.selectList(jsonLogNS+"getJsonLog");
 	}
+
+	/* utterance id로 해당되는 utterance 튜플을 가져옴 */
+	public Utterance getUtteranceUsingId(String id){ return sqlSession.selectOne(utteranceNS+"getUtteranceUsingId", id); }
 }
