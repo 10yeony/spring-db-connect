@@ -35,9 +35,9 @@ public class MemberController {
 	/* 아이디 중복 체크 */
 	@ResponseBody
 	@PostMapping("/idCheck")
-	public String IdCheck(HttpServletRequest request) {
+	public String idCheck(HttpServletRequest request) {
 		String member_id = request.getParameter("member_id");
-		int result = memberService.IdCheck(member_id);
+		int result = memberService.idCheck(member_id);
 		return Integer.toString(result);
 	}
 	
