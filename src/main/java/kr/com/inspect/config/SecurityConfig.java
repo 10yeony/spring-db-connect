@@ -16,7 +16,10 @@ import kr.com.inspect.security.CustomAuthenticationFailureHandler;
 import kr.com.inspect.security.CustomAuthenticationSuccessHandler;
 import kr.com.inspect.service.MemberService;
 
-/* 참고 : https://blog.jiniworld.me/51 */
+/* 참고 : https://blog.jiniworld.me/51 
+        https://cusonar.tistory.com/13?category=607756
+        https://programmer93.tistory.com/42
+*/
 
 /* 기본적인 웹 인증에 대한 부분을 구현 */
 @Configuration
