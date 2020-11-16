@@ -36,7 +36,7 @@
 	$(function(){
 		/* 로그인한 상태로 index.jsp로 접근했을 경우 로그인한 메인페이지로 이동 */
 		if('${loginId}' != ''){ 
-			location.href = "${pageContext.request.contextPath}/loginMember";
+			location.href = "${pageContext.request.contextPath}/loginUser";
 		}
 		
 		/* 로그인, 회원가입 메뉴 컨트롤 */

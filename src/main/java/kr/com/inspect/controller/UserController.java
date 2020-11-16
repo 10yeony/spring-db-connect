@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.com.inspect.dto.Member;
-import kr.com.inspect.service.MemberService;
+import kr.com.inspect.dto.User;
+import kr.com.inspect.service.UserService;
 
 @Controller
-public class MemberController {
+public class UserController {
 
 	@Autowired
-	private MemberService memberService;
+	private UserService userService;
 
 	/* 회원가입 */
 	@ResponseBody
-	@RequestMapping(value = "/registerMember", produces = "application/text; charset=utf8")
-	public String registerMember(Member member, Model model) {
+	@RequestMapping(value = "/registerUser", produces = "application/text; charset=utf8")
+	public String registerUser(User user, Model model) {
 		String msg = "회원가입에 실패하였습니다.";
-		int result = memberService.registerMember(member);
+		int result = userService.registerUser(user);
 		if (result == 1) {
 			msg = "회원가입 완료! 로그인해주세요.";
 		}
@@ -36,22 +36,23 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/idCheck")
 	public String idCheck(HttpServletRequest request) {
-		String member_id = request.getParameter("member_id");
-		int result = memberService.idCheck(member_id);
+		String username = request.getParameter("username");
+		int result = userService.idCheck(username);
 		return Integer.toString(result);
 	}
 	
 	/* 아이디와 비밀번호로 회원 체크 */
 	@ResponseBody
-	@PostMapping("/isMember")
-	public String isMember(Member member, HttpSession session) {
+	@PostMapping("/isUser")
+	public String isUser(User user, HttpSession session) {
+		System.out.println(user);
 		try {
 			if (session.getAttribute("loginId") != null) {
 				session.removeAttribute("loginId");
 			}
-			Member result = memberService.loginMember(member);
-			session.setAttribute("loginId", result.getMember_id());
-			String role = result.getMember_id();
+			User result = userService.loginUser(user);
+			session.setAttribute("loginId", result.getUsername());
+			String role = result.getUsername();
 			if(role.equals("admin")) {
 				session.setAttribute("role", "admin");
 				return "admin";
@@ -65,8 +66,8 @@ public class MemberController {
 	}
 
 	/* 로그인 */
-	@RequestMapping("/loginMember")
-	public String loginMember(HttpSession session) throws Exception {
+	@RequestMapping("/loginUser")
+	public String loginUser(HttpSession session) throws Exception {
 		if(session.getAttribute("loginId") != null) { //로그인 상태 확인
 			return "/main";
 		}
@@ -83,19 +84,9 @@ public class MemberController {
 		return "redirect:index.jsp";
 	}
 
-	/* 회원가입 페이지 이동 */
-	@GetMapping("/register")
-	public String moveToElasticPage() {
-		return "/register";
-	}
-
 	/* 회원정보 가져와서 회원 목록 페이지로 이동 */
 	@GetMapping("/memberList")
-	public String getMember() {
+	public String getAllMember() {
 		return "member/getMemberList";
 	}
-	
-	/* 2020-11-13 */
-	//testins
-	//tstsadfasdfasdfas
 }
