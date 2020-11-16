@@ -161,31 +161,32 @@ public class DocxReport {
 
 
 		XWPFTable table = doc.createTable(list.size()+1, 5);
+		table.setWidth("100%");
 
 		/* 헤더 정보 구성 */
-		table.getRow(0).getCell(0).setWidth("100");
+		table.getRow(0).getCell(0).setWidth("300");
 		table.getRow(0).getCell(0).setText(column0);
-		table.getRow(0).getCell(1).setWidth("1000");
+		table.getRow(0).getCell(1).setWidth("3000");
 		table.getRow(0).getCell(1).setText("form");
-		table.getRow(0).getCell(2).setWidth("100");
+		table.getRow(0).getCell(2).setWidth("300");
 		table.getRow(0).getCell(2).setText("start");
-		table.getRow(0).getCell(3).setWidth("100");
+		table.getRow(0).getCell(3).setWidth("300");
 		table.getRow(0).getCell(3).setText("end");
-		table.getRow(0).getCell(4).setWidth("100");
+		table.getRow(0).getCell(4).setWidth("300");
 		table.getRow(0).getCell(4).setText("어절수");
 
 		Utterance utterance;
 		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
 			utterance = list.get(rowIdx);
-			table.getRow(rowIdx+1).getCell(0).setWidth("100");
+			table.getRow(rowIdx+1).getCell(0).setWidth("300");
 			table.getRow(rowIdx+1).getCell(0).setText(Integer.toString(rowIdx+1));
-			table.getRow(rowIdx+1).getCell(1).setWidth("1000");
+			table.getRow(rowIdx+1).getCell(1).setWidth("3000");
 			table.getRow(rowIdx+1).getCell(1).setText(utterance.getForm());
-			table.getRow(rowIdx+1).getCell(2).setWidth("100");
+			table.getRow(rowIdx+1).getCell(2).setWidth("300");
 			table.getRow(rowIdx+1).getCell(2).setText(Integer.toString((int)utterance.getStart()));
-			table.getRow(rowIdx+1).getCell(3).setWidth("100");
+			table.getRow(rowIdx+1).getCell(3).setWidth("300");
 			table.getRow(rowIdx+1).getCell(3).setText(Integer.toString((int)utterance.getFinish()));
-			table.getRow(rowIdx+1).getCell(4).setWidth("100");
+			table.getRow(rowIdx+1).getCell(4).setWidth("300");
 			table.getRow(rowIdx+1).getCell(4).setText(Integer.toString((int)utterance.getEojeol_count()));
 		}
 
