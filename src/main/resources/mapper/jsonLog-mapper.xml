@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<select id="getJsonLog" resultMap="jsonLogAndProgram" resultType="kr.com.inspect.dto.JsonLog">
   		SELECT
 			j.id id,
-			j.metadata_id,
+			j.metadata_id metadata_id,
 			j.title file_num,
 			j.start starting,
 			j.finish finish,
