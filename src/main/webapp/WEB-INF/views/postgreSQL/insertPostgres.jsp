@@ -77,11 +77,17 @@
                             <form id="jsonUpload">
                                 <input type="file" id="jsonFile" name="jsonFile" accept="*" multiple>
                                 <hr>
-                                <button type="button" onclick="jsonUpload();" class="btn btn-primary btn-icon-split">
+                                <button type="button" onclick="jsonUpload();" class="btn btn-primary btn-icon-split" style="float:left;">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-check"></i>
                                         </span>
                                     <span class="text">업로드</span>
+                                </button>
+                                <button type="button" onclick="jsonDir();" class="btn btn-danger btn-icon-split" style="float:right;">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                    <span class="text">서버 디렉토리에서 업로드</span>
                                 </button>
                             </form>
 <%--                            <a href="${pageContext.request.contextPath}/insertJSONIntoPostgre">json 파일 업로드</a>--%>
@@ -97,11 +103,17 @@
                             <form id="xlsxUpload">
                                 <input type="file" id="xlsxFile" name="xlsxFile" accept="*" multiple>
                                 <hr>
-                                <button type="button" onclick="xlsxUpload();" class="btn btn-primary btn-icon-split">
+                                <button type="button" onclick="xlsxUpload();" class="btn btn-primary btn-icon-split" style="float:left;">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-check"></i>
                                         </span>
                                     <span class="text">업로드</span>
+                                </button>
+                                <button type="button" onclick="xlsxDir();" class="btn btn-danger btn-icon-split" style="float:right;">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                    <span class="text">서버 디렉토리에서 업로드</span>
                                 </button>
                             </form>
 <%--                            <a href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">Excel 파일 업로드</a>--%>
@@ -212,6 +224,68 @@
             },
             error: function (){
                 alert("업로드한 파일 용량이 너무 큽니다.");
+                document.getElementById('loadingArea').style.display='none';
+            }
+        });
+        document.getElementById('loadingArea').style.display='block';
+    }
+
+    // 서버 디렉토리에서 json 업로드
+    function jsonDir(){
+        var res = '';
+
+        $.ajax({
+            type:"POST",
+            url: "${pageContext.request.contextPath}/jsonDir",
+
+            success:function (result){
+                res = result;
+                if(res == 'true'){
+                    alert("파일을 성공적으로 업로드했습니다.")
+                    document.getElementById('loadingArea').style.display='none';
+                }
+                else if(res == 'false'){
+                    alert("이미 업로드한 파일입니다.")
+                    document.getElementById('loadingArea').style.display='none';
+                }
+                else if(res == 'null'){
+                    alert("서버 디렉토리 안에 파일이 존재하지 않습니다.")
+                    document.getElementById('loadingArea').style.display='none';
+                }
+            },
+            error: function (){
+                alert("에러가 발생했습니다.");
+                document.getElementById('loadingArea').style.display='none';
+            }
+        });
+        document.getElementById('loadingArea').style.display='block';
+    }
+
+    // 서버 디렉토리에서 xlsx 업로드
+    function xlsxDir(){
+        var res = '';
+
+        $.ajax({
+            type:"POST",
+            url: "${pageContext.request.contextPath}/xlsxDir",
+
+            success:function (result){
+                res = result;
+                if(res == 'true'){
+                    alert("파일을 성공적으로 업로드했습니다.")
+                    document.getElementById('loadingArea').style.display='none';
+                }
+                else if(res == 'false'){
+                    alert("이미 업로드한 파일입니다.")
+                    document.getElementById('loadingArea').style.display='none';
+                }
+                else if(res == 'null'){
+                    alert("서버 디렉토리 안에 파일이 존재하지 않습니다.")
+                    document.getElementById('loadingArea').style.display='none';
+                }
+            },
+            error: function (){
+                alert("에러가 발생했습니다.");
                 document.getElementById('loadingArea').style.display='none';
             }
         });

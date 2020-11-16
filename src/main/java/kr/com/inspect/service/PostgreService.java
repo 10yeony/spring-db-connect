@@ -25,11 +25,17 @@ public interface PostgreService {
 	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId);
 	
 	/* 특정 경로에 있는 JSON 파일들을 읽어서 PostgreSQL에 넣음 */
-	public boolean insertJSONObject(String path, List<MultipartFile> file) throws Exception;
+	public boolean insertJSONUpload(String path, List<MultipartFile> file) throws Exception;
+
+	/* 서버 디렉토리 안의 json 파일을 PostgreSQL에 넣음 */
+	public String insertJSONDir(String path) throws Exception;
 	
 	/* 특정 경로에 있는 xlsx 파일들을 읽어서 PostgreSQL에 넣음 */
-	public boolean insertXlsxTable(String path, List<MultipartFile> file) throws Exception;
-	
+	public boolean insertXlsxUpload(String path, List<MultipartFile> file) throws Exception;
+
+	/* 서버 디렉토리 안의 xlsx 파일을 PostgreSQL에 넣음 */
+	public String insertXlsxDir(String path) throws Exception;
+
 	/* Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
 	public List<Metadata> getMetadataAndProgram();
 

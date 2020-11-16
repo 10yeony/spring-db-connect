@@ -19,7 +19,7 @@ CREATE TABLE audio.speaker (
 	occupation text,
 	sex text,
 	name text,
-	age integer,
+	age text,
 	metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
 );
 
@@ -63,5 +63,9 @@ CREATE TABLE audio.jsonLog (
     title text,
     start text,
     finish text,
-    elapsed text
+    elapsed text,
+    metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
 );
+
+auto_increment 값 초기화
+truncate table audio.metadata restart identity cascade;

@@ -63,7 +63,7 @@
                         <c:forEach items="${jsonLog}" var="item">
                             <tr>
                                 <td>${item.id}</td>
-                                <td>${item.title}</td>
+                                <td><a href="getUtteranceTable/${item.metadata_id}">${item.title}</a></td>
                                 <td>${item.program.title}</td>
                                 <td>${item.program.subtitle}</td>
                                 <td>${item.program.running_time}</td>

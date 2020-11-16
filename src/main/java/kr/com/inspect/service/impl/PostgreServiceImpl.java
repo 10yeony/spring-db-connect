@@ -90,9 +90,9 @@ public class PostgreServiceImpl implements PostgreService{
 		return postgreDao.getEojeolListUsingUtteranceId(id);
 	}
 	
-	/* 특정 경로에 있는 JSON 파일들을 읽어서 PostgreSQL에 넣음 */
+	/* JSON 파일들을 업로드해서 PostgreSQL에 넣음 */
 	@Override
-	public boolean insertJSONObject(String path, List<MultipartFile> jsonFile) throws Exception {
+	public boolean insertJSONUpload(String path, List<MultipartFile> jsonFile) throws Exception {
 		String filename;
 		File f;
 
@@ -126,9 +126,6 @@ public class PostgreServiceImpl implements PostgreService{
 				/* metadata 테이블 입력 */
 				Metadata metadata  = jsonParsing.setMetadata(obj);
 
-				/* jsonLog 테이블 파일명 입력 */
-				jsonLog.setTitle(metadata.getTitle());
-
 				/* metadata_id를 가져옴(creator, title) */
 				Map map = new HashMap();
 				map.put("creator", metadata.getCreator());
@@ -143,6 +140,10 @@ public class PostgreServiceImpl implements PostgreService{
 
 					/* auto increment로 등록된 id를 가져옴 */
 					int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
+
+					/* jsonLog 테이블에 파일명과 metadata_id 입력 */
+					jsonLog.setTitle(metadata.getTitle());
+					jsonLog.setMetadata_id(metadata_id);
 
 					/* speaker 테이블 입력 */
 					List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
@@ -194,9 +195,93 @@ public class PostgreServiceImpl implements PostgreService{
 		}
 	}
 
-	/* 특정 경로에 있는 xlsx 파일들을 읽어서 PostgreSQL에 넣음 */
+	/* 서버 디렉토리 안의 json 파일을 PostgreSQL에 넣음 */
 	@Override
-	public boolean insertXlsxTable(String path, List<MultipartFile> xlsxFile) throws Exception{
+	public String insertJSONDir(String path) throws Exception {
+		File dir = new File(path);
+		File[] fileList = dir.listFiles();
+		boolean check = false;
+
+		if(fileList.length == 0)
+			return "null";
+
+		for(File file : fileList){
+			/* 확장자가 json인 파일을 읽는다 */
+			if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
+				String fullPath = path + file.getName();
+
+				JsonLog jsonLog = new JsonLog();
+
+				/* jsonLog 테이블 시작시간 측정 */
+				jsonLog.setStart(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+				long startTime = System.currentTimeMillis();
+
+				/* json 파일을 읽어서 객체로 파싱 */
+				JSONObject obj = jsonParsing.getJSONObject(fullPath);
+
+				/* metadata 테이블 입력 */
+				Metadata metadata  = jsonParsing.setMetadata(obj);
+
+				/* metadata_id를 가져옴(creator, title) */
+				Map map = new HashMap();
+				map.put("creator", metadata.getCreator());
+				map.put("title", metadata.getTitle());
+				String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
+
+				if(isExistId == null) { //등록된 데이터가 아닐 경우
+					check = true;
+
+					/* metadata 테이블 입력 */
+					sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
+
+					/* auto increment로 등록된 id를 가져옴 */
+					int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
+
+					/* jsonLog 테이블에 파일명과 metadata_id 입력 */
+					jsonLog.setTitle(metadata.getTitle());
+					jsonLog.setMetadata_id(metadata_id);
+
+					/* speaker 테이블 입력 */
+					List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
+					for(Speaker speaker : speakerList) {
+						sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
+					}
+
+					/* utterance 테이블 입력 */
+					List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
+					for(Utterance utterance : utteranceList) {
+						sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
+						List<EojeolList> eojeolListList = utterance.getEojoelList();
+						for(EojeolList eojeolList : eojeolListList) {
+							sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
+						}
+					}
+
+					/* jsonLog 테이블 종료시간 측정 */
+					jsonLog.setFinish(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+					long endTime = System.currentTimeMillis();
+
+					/* jsonLog 테이블 소요시간 입력 */
+					int elapsed = (int)((endTime-startTime)/1000.0);
+					int min = elapsed/60;
+					int sec = elapsed - min*60;
+					jsonLog.setElapsed(""+min+":"+sec);
+
+					sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
+				}
+			}
+		}
+
+		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
+			return "true";
+		}else { //모두 중복된 데이터일 경우
+			return "false";
+		}
+	}
+
+	/* xlsx 파일들을 업로드해서 PostgreSQL에 넣음 */
+	@Override
+	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile) throws Exception{
 		String filename;
 		File f;
 
@@ -244,6 +329,37 @@ public class PostgreServiceImpl implements PostgreService{
 			return true;
 		}else { //모두 중복된 데이터일 경우
 			return false;
+		}
+	}
+
+	/* 서버 디렉토리 안의 xlsx 파일을 PostgreSQL에 넣음 */
+	@Override
+	public String insertXlsxDir(String path) throws Exception{
+		File dir = new File(path);
+		File[] fileList = dir.listFiles();
+		boolean check = false;
+
+		if(fileList.length == 0)
+			return "null";
+
+		for(File file : fileList){
+			/* 확장자가 xlsx인 파일을 읽는다 */
+			if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
+				String fullPath = path + file.getName();
+				List<Program> list = xlsxParsing.setProgramList(fullPath);
+				for(int i=0; i<list.size(); i++) {
+					if(sqlSession.selectOne(programNS+"getProgramByFileNum", list.get(i).getFile_num()) == null) {
+						check = true;
+						sqlSession.insert(programNS+"insertIntoProgram", list.get(i));
+					}
+				}
+			}
+		}
+
+		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
+			return "true";
+		}else { //모두 중복된 데이터일 경우
+			return "false";
 		}
 	}
 	
