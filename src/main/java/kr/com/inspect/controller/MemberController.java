@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.com.inspect.dto.Member;
-import kr.com.inspect.service.LoginService;
+import kr.com.inspect.service.MemberService;
 
 @Controller
 public class MemberController {
 
 	@Autowired
-	private LoginService loginService;
+	private MemberService loginService;
 
 	/* 회원가입 */
 	@ResponseBody

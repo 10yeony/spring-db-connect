@@ -4,11 +4,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kr.com.inspect.dao.LoginDao;
+import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
 
 @Repository
-public class LoginDaoImpl implements LoginDao{
+public class MemberDaoImpl implements MemberDao{
 	
 	@Autowired
 	private SqlSession sqlSession;

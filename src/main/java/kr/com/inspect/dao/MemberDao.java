@@ -2,7 +2,7 @@ package kr.com.inspect.dao;
 
 import kr.com.inspect.dto.Member;
 
-public interface LoginDao {
+public interface MemberDao {
 	/* 회원가입 */
 	public int registerMember(Member member);
 

@@ -2,7 +2,7 @@ package kr.com.inspect.service;
 
 import kr.com.inspect.dto.Member;
 
-public interface LoginService {
+public interface MemberService {
 	/* 회원가입 */
 	public  int registerMember(Member member); 
 	

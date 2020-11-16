@@ -3,28 +3,28 @@ package kr.com.inspect.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.com.inspect.dao.LoginDao;
+import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
-import kr.com.inspect.service.LoginService;
+import kr.com.inspect.service.MemberService;
 
 
 @Service
-public class LoginServiceImpl implements LoginService {
+public class MemberServiceImpl implements MemberService {
 	@Autowired
-	private LoginDao logindao;
+	private MemberDao memberDao;
 	
 	/* 회원가입 */
 	public int registerMember(Member member) {
-		return logindao.registerMember(member);
+		return memberDao.registerMember(member);
 	}
 	
 	/* 로그인 */
 	public Member loginMember(Member member){
-		return logindao.login(member);
+		return memberDao.login(member);
 	}
 	
 	/* 아이디 중복 체크 */
 	public int IdCheck(String userid) {
-		return logindao.IdCheck(userid);
+		return memberDao.IdCheck(userid);
 	}
 }
