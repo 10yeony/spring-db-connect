@@ -7,14 +7,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.MemberService;
 
-
-@Service
+@Service("memberService")
 public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberDao memberDao;
@@ -37,12 +38,11 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.idCheck(member_id);
 	}
 
-	/* UserDetailsService의 loadUserByUsername 메소드에 해당함.
-	 Spring Security에서 User 정보를 읽을 때 사용함. */
+	/* Spring Security에서 User 정보를 읽을 때 사용함. */
 	@Override
-	public Member loadMemberById(String member_id) throws Exception {
-		Member vo = memberDao.readMemberById(member_id);
-		vo.setAuthorities(getAuthorities(member_id));
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Member vo = memberDao.readMemberById(username);
+		vo.setAuthorities(getAuthorities(username));
 		return vo;
 	}
 

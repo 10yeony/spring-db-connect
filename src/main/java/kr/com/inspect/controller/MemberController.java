@@ -1,9 +1,13 @@
 package kr.com.inspect.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,6 +66,21 @@ public class MemberController {
 		} catch (NullPointerException e) {
 			return "none";
 		}
+	}
+	
+	/* 로그인 */
+	@GetMapping("/login")
+	public String Login(HttpServletRequest request, HttpServletResponse response) {
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response);
+		
+		try {
+			/* 이전 페이지 정보 */
+			request.getSession().setAttribute("prevPage", savedRequest.getRedirectUrl());
+		} catch(NullPointerException e) {
+			request.getSession().setAttribute("prevPage", "/");
+		}
+		return "login";
 	}
 
 	/* 로그인 */

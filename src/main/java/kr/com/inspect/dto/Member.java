@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /* Member 테이블(회원 로그인, 회원가입 관련) */
-// UserDetails를 implements할 수도 있지만, username, password를 쓰지 않았으므로 여기서는 패스. 
 public class Member implements UserDetails {
 	
 	/* 아이디 및 비밀번호 */
