@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</sql>
 	
 	<!-- 아이디로 회원정보를 가져옴 -->
-	<select id="getMemberById" parameterType="kr.com.inspect.dto.Member" resultType="kr.com.inspect.dto.Member">
+	<select id="readMemberById" parameterType="kr.com.inspect.dto.Member" resultType="kr.com.inspect.dto.Member">
 		<include refid="getMember" />
 		WHERE 
 			member_id = #{member_id};
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</insert>
 	
 	<!-- 가지고 있는 권한을 가져옴 -->
-	<select id="getAuthorities" parameterType="String" resultType="String">
+	<select id="readAuthorities" parameterType="String" resultType="String">
 		SELECT
 			authority_name 
 		FROM 

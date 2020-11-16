@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.MemberDao;
@@ -36,22 +38,22 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	/* UserDetailsService의 loadUserByUsername 메소드에 해당함.
-//	 Spring Security에서 User 정보를 읽을 때 사용함. */
-//	@Override
-//	public Member loadMemberById(String member_id) throws Exception {
-//		Member vo = memberDao.readMemberById(member_id);
-//		vo.setAuthorities(getAuthorities(member_id));
-//		return vo;
-//	}
+	 Spring Security에서 User 정보를 읽을 때 사용함. */
+	@Override
+	public Member loadMemberById(String member_id) throws Exception {
+		Member vo = memberDao.readMemberById(member_id);
+		vo.setAuthorities(getAuthorities(member_id));
+		return vo;
+	}
 
 	/* 읽어온 회원정보에 대하여 권한을 부여한 뒤 리턴함 */
-//	@Override
-//	public Collection<GrantedAuthority> getAuthorities(String member_id) {
-//		List<String> string_authorities = memberDao.readAuthorities(member_id);
-//		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-//		for (String authority : string_authorities) {
-//			authorities.add(new SimpleGrantedAuthority(authority));
-//        }
-//		return authorities;
-//	}
+	@Override
+	public Collection<GrantedAuthority> getAuthorities(String member_id) {
+		List<String> string_authorities = memberDao.readAuthorities(member_id);
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		for (String authority : string_authorities) {
+			authorities.add(new SimpleGrantedAuthority(authority));
+        }
+		return authorities;
+	}
 }

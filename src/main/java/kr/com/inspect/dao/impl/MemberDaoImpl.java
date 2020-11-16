@@ -28,7 +28,7 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public Member readMemberById(String member_id) {
 		Member result = null;
-		result = sqlSession.selectOne(memberNs+"getMemberById", member_id);
+		result = sqlSession.selectOne(memberNs+"readMemberById", member_id);
 		return result;
 	}
 	
@@ -51,6 +51,6 @@ public class MemberDaoImpl implements MemberDao{
 	/* id로 가지고 있는 권한들을 가져옴 */
 	@Override
 	public List<String> readAuthorities(String member_id) {
-		return sqlSession.selectList(memberNs+"getAuthorities", member_id);
+		return sqlSession.selectList(memberNs+"readAuthorities", member_id);
 	}
 }
