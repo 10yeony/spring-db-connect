@@ -55,30 +55,38 @@
 
 				<!-- Page Body -->
 				<div class="card shadow mb-4">
-					<table border="1">
-						<tr>
-							<th>Id</th>
-							<th>Title</th>
-							<th>Subtitle</th>
-							<th>Creator</th>
-							<th>Year</th>
-							<th>File_num</th>
-							<th>Sentence_count</th>
-							<th>Eojeol_total</th>
-						</tr>
-						<c:forEach items="${result}" var="item">
-							<tr>
-								<td>${item.id}</td>
-								<td>${item.program.title}</td>
-								<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
-								<td>${item.creator}</td>
-								<td>${item.year}</td>
-								<td>${item.title}</td>
-								<td><a href="getUtteranceTable/${item.id}">${item.sentence_count}개</a></td>
-								<td><a href="getUtteranceTable/${item.id}">${item.eojeol_total}개</a></td>
-							</tr>
-						</c:forEach>
-					</table>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Title</th>
+										<th>Subtitle</th>
+										<th>Creator</th>
+										<th>Year</th>
+										<th>File_num</th>
+										<th>문장 수</th>
+										<th>어절 수</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${result}" var="item">
+										<tr>
+											<td>${item.id}</td>
+											<td>${item.program.title}</td>
+											<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
+											<td>${item.creator}</td>
+											<td>${item.year}</td>
+											<td>${item.title}</td>
+											<td><a href="getUtteranceTable/${item.id}">${item.sentence_count}개</a></td>
+											<td><a href="getUtteranceTable/${item.id}">${item.eojeol_total}개</a></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 
 

@@ -49,30 +49,38 @@
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
-                    <table border="1">
-                        <tr>
-                            <th>Id</th>
-                            <th>파일명</th>
-                            <th>제목</th>
-                            <th>부제</th>
-                            <th>강의 시간</th>
-                            <th>입력 시작 시간</th>
-                            <th>입력 종료 시간</th>
-                            <th>Parsing 및 <br/>DB 입력 소요시간</th>
-                        </tr>
-                        <c:forEach items="${jsonLog}" var="item">
-                            <tr>
-                                <td>${item.id}</td>
-                                <td><a href="getUtteranceTable/${item.metadata_id}">${item.title}</a></td>
-                                <td>${item.program.title}</td>
-                                <td>${item.program.subtitle}</td>
-                                <td>${item.program.running_time}</td>
-                                <td>${item.start}</td>
-                                <td>${item.finish}</td>
-                                <td>${item.elapsed}</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>파일명</th>
+                                        <th>제목</th>
+                                        <th>부제</th>
+                                        <th>강의 시간</th>
+                                        <th>입력 시작 시간</th>
+                                        <th>입력 종료 시간</th>
+                                        <th width="150">Parsing 및 <br/>DB 입력 소요시간</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${jsonLog}" var="item">
+                                        <tr>
+                                            <td>${item.id}</td>
+                                            <td><a href="getUtteranceTable/${item.metadata_id}">${item.title}</a></td>
+                                            <td>${item.program.title}</td>
+                                            <td>${item.program.subtitle}</td>
+                                            <td>${item.program.running_time}</td>
+                                            <td>${item.start}</td>
+                                            <td>${item.finish}</td>
+                                            <td>${item.elapsed}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
 

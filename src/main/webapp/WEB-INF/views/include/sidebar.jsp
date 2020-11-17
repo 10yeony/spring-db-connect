@@ -49,19 +49,19 @@
         </div>
     </li>
 
-<%--    <!-- 회원 관리 메뉴 -->--%>
-<%--    <li class="nav-item">--%>
-<%--        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#memberManage" aria-expanded="true" aria-controls="memberManage">--%>
-<%--            <i class="fas fa-user-friends"></i>--%>
-<%--            <span>회원 관리</span>--%>
-<%--        </a>--%>
-<%--        <div id="memberManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">--%>
-<%--            <div class="bg-white py-2 collapse-inner rounded">--%>
-<%--                <h6 class="collapse-header">Member Management</h6>--%>
-<%--                <a class="collapse-item" href="${pageContext.request.contextPath}/memberList">회원 목록</a>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
+    <!-- 회원 관리 메뉴 -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#memberManage" aria-expanded="true" aria-controls="memberManage">
+            <i class="fas fa-user-friends"></i>
+            <span>회원 관리</span>
+        </a>
+        <div id="memberManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Member Management</h6>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/memberList">회원 목록</a>
+            </div>
+        </div>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
