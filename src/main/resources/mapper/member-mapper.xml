@@ -11,7 +11,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		FROM 
 			audio.member 
 	</sql>
-	
+
+	<!-- 회원정보 가져옴 -->
+	<select id="getMemberTable" resultType="kr.com.inspect.dto.Member">
+		SELECT
+			*
+		FROM
+			audio.member;
+	</select>
+
 	<!-- 아이디로 회원정보를 가져옴 -->
 	<select id="getMemberById" parameterType="kr.com.inspect.dto.Member" resultType="kr.com.inspect.dto.Member">
 		<include refid="getMember" />

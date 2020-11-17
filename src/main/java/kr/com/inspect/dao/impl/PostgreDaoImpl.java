@@ -2,15 +2,12 @@ package kr.com.inspect.dao.impl;
 
 import java.util.List;
 
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.JsonLog;
+import kr.com.inspect.dto.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.PostgreDao;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Utterance;
 
 @Repository
 public class PostgreDaoImpl implements PostgreDao {

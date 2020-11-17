@@ -54,7 +54,7 @@
                 <!-- Page Body -->
                 <div class="card sahadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">${utterance.form}</h6>
+                        <h6 class="m-0 font-weight-bold text-black-50">${utterance.form}</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

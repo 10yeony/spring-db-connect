@@ -1,6 +1,7 @@
 package kr.com.inspect.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import kr.com.inspect.dto.Member;
 
@@ -14,6 +15,9 @@ public interface MemberService {
 	
 	/* 아이디 중복 체크 */
 	public int idCheck(String member_id);
+
+	/* 회원 정보 모두 가지고옴 */
+	public List<Member> getMember();
 	
 	/* Spring Security에서 아이디로 회원 정보를 읽어옴 */
 //	public Member loadMemberById(String member_id) throws Exception;

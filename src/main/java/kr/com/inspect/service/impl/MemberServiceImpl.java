@@ -35,6 +35,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.idCheck(member_id);
 	}
 
+	/* 회원 정보 모두 가지고옴 */
+	@Override
+	public List<Member> getMember() { return memberDao.getMember(); }
+
 	/* UserDetailsService의 loadUserByUsername 메소드에 해당함.
 //	 Spring Security에서 User 정보를 읽을 때 사용함. */
 //	@Override

@@ -53,4 +53,7 @@ public class MemberDaoImpl implements MemberDao{
 	public List<String> readAuthorities(String member_id) {
 		return sqlSession.selectList(memberNs+"getAuthorities", member_id);
 	}
+
+	/* 회원 정보 모두 가지고옴  */
+	public List<Member> getMember(){ return sqlSession.selectList(memberNs+"getMemberTable"); }
 }

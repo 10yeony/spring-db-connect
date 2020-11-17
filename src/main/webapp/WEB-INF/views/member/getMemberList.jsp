@@ -49,7 +49,28 @@
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
-
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>no.</th>
+                                    <th>Id</th>
+                                    <th>pwd</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${user}" var="item" varStatus="status">
+                                    <tr>
+                                        <td>${status.count}</td>
+                                        <td>${item.member_id}</td>
+                                        <td>${item.pwd}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
 
