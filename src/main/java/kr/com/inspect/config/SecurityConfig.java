@@ -2,11 +2,8 @@ package kr.com.inspect.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,12 +14,12 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import kr.com.inspect.service.MemberService;
 
-/* 참고 : https://blog.jiniworld.me/51 
-        https://cusonar.tistory.com/13?category=607756
-        https://programmer93.tistory.com/42
-*/
-
-/* 기본적인 웹 인증에 대한 부분을 구현 */
+/**
+ * 기본적인 웹 인증에 대한 부분을 구현
+ * @author Yeonhee Kim
+ * @version 1.0, 2020-11-18 csrf 관련 설정 수정(Yeonhee Kim)
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
@@ -33,24 +30,27 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	@Qualifier("memberService")
 	private MemberService memberService;
 	
-	/* AuthenticationManagerBuilder에 커스터마이징한 MemberService 적용 */
+	/**
+	 * AuthenticationManagerBuilder에 관련한 설정 적용 <br>
+	 * - UserDetailsService를 구현하여 커스터마이징한 MemberService 적용
+	 * @param auth 인증 매니저를 빌드하는 객체
+	 * @exception Exception 예외
+	 */
 	@Override 
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception { 
 		auth.userDetailsService(memberService)
-			.passwordEncoder(memberService.passwordEncoder()); 
-		
-		auth.authenticationProvider(authenticationProvider());
+			.passwordEncoder(memberService.passwordEncoder()); 		
 	}
 	
-	@Bean
-	public AuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(memberService);
-		authProvider.setPasswordEncoder(memberService.passwordEncoder());
-		return authProvider;
-	}
-	
-	/* Spring Security Filter Chain에 접근하여 url 인증 및 인가 처리 시행 */
+	/**
+	 * Spring Security Filter Chain에 접근하여 url 인증 및 인가 처리 시행
+	 * - 권한별 접근 페이지 설정
+	 * - 로그인 폼과 관련된 설정
+	 * - 로그아웃 설정
+	 * - csrf 공격 방지를 위해 설정
+	 * @param http HttpSecurity 객체
+	 * @exception Exception 예외
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		/* 권한별 접근 페이지 설정 */
@@ -64,8 +64,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	    http.formLogin()
 	    	.loginPage("/login") //커스텀 로그인 페이지
 	    	.loginProcessingUrl("/login/auth") //form의 action과 일치해야 함
-       	.defaultSuccessUrl("/") //
-       	.failureUrl("/login?result=fail")
+	    	.defaultSuccessUrl("/") //
+	    	.failureUrl("/login?result=fail")
 	    	.usernameParameter("member_id") //아이디 파라미터 설정
 	    	.passwordParameter("pwd"); //비밀번호 파라미터 설정
 	  
@@ -80,7 +80,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	    	.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 
-	/* 특정 url로 접속할 때 인증/인가 처리를 무시 */
+	/**
+	 * 특정 url로 접속할 때 인증/인가 처리를 무시
+	 * @param web WebSecurity 객체
+	 * @exception Exception 예외
+	 */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resource/**"); //정적 파일

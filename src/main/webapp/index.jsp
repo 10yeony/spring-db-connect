@@ -22,8 +22,6 @@
 </head>
 
 <body id="page-top">
-<!-- CSRF 토큰 처리(403 에러 방지) -->
-<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
 	
 <!-- Page Wrapper -->
 <div id="wrapper">

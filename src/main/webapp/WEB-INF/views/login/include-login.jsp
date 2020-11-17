@@ -34,13 +34,15 @@ src="${pageContext.request.contextPath}/resource/js/login/login.js"></script>
 </head>
 
 <body>
-	<!-- POST 방식 ajax를 사용할 때, 403 에러를 막기 위해 csrf 토큰 처리 -->
+	<!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
 	<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
 	
 	<div class="text-center">
 		<h1 class="h4 text-gray-900 mb-4">Welcome To SDTM</h1>
 	</div>
 	<form id="loginFrm" method="post" action='${pageContext.request.contextPath}/login/auth'>
+		<!-- 폼 제출시 POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<div class="form-group">
 			<input type="text" class="form-control form-control-user"
 				id="login_member_id" name="member_id" placeholder="Enter ID">

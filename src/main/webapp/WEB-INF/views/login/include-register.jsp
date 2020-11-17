@@ -35,7 +35,7 @@
 </head>
 
 <body>
-	<!-- POST 방식 ajax를 사용할 때, 403 에러를 막기 위해 csrf 토큰 처리 -->
+	<!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
 	<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
 	
 	<div class="text-center">
