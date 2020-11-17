@@ -43,7 +43,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	/* AuthenticationManagerBuilder에 커스터마이징한 MemberService 적용 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(memberService);
+		auth.userDetailsService(memberService)
+			.passwordEncoder(memberService.passwordEncoder());
 	}
 	
 	/* Spring Security Filter Chain에 접근하여 url 인증 및 인가 처리 시행 */
@@ -51,7 +52,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		/* 권한별 접근 페이지 설정 */
 		http.authorizeRequests()    
-			.antMatchers("/login", "/login/**").permitAll() //모든 사용자가 사용하는 페이지
+			.antMatchers("/login", "/login/**",
+							"/register", "/register/**").permitAll() //모든 사용자가 사용하는 페이지
 			.antMatchers("/", "/**").access("hasRole('ROLE_VIEW')") //ROLE_VIEW 권한을 가진 사용자만 접근
 			.anyRequest().authenticated() //설정되지 않은 모든 url request는 인가된 사용자만 이용
 	  .and()

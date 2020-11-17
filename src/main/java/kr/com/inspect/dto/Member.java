@@ -94,8 +94,8 @@ public class Member implements UserDetails {
 	
 	@Override
 	public String toString() {
-		return "Member [member_id(username)=" + member_id + ", pwd(password)=" + pwd + ", isAccountNonExpired=" + isAccountNonExpired
-				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
-				+ ", isEnabled=" + isEnabled + ", authorities=" + authorities + "]";
+		return "Member [member_id(username)=" + member_id + ", pwd(password)=" + pwd + ", isAccountNonExpired="
+				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
+				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", authorities=" + authorities + "]";
 	}
 }

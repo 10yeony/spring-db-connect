@@ -45,6 +45,7 @@ src="${pageContext.request.contextPath}/resource/js/login/login.js"></script>
 		<div class="form-group">
 			<input type="password" class="form-control form-control-user"
 				id="login_pwd" name="pwd" placeholder="Password">
+			<!-- 403 에러를 막기 위해 csrf 토큰값을 여기에 저장 -->
 			<input type="hidden" id="token" data-token-name="${_csrf.headerName}" 
 				placeholder="Password" value="${_csrf.token}">
 		</div>

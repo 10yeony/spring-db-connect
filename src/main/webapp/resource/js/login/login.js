@@ -10,7 +10,6 @@
 					member_id: $('#login_member_id').val(),
 					pwd: $('#login_pwd').val()
 				},
-				async: false,
 				
 				/* 데이터를 전송하기 전에 헤더에 csrf 값을 설정(이거 안하면 403 에러) */
 				beforeSend : function(xhr){

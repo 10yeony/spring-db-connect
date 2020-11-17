@@ -52,6 +52,10 @@
 			<input type="password" class="form-control" name="pwdCheck"
 				id="register_pwd_check"  placeholder="Password Check">
 			<div style="margin-top:2px;" id="isSamePwd"></div>
+			<!-- 403 에러를 막기 위해 csrf 토큰값을 여기에 저장 -->
+			<input type="hidden" id="token" data-token-name="${_csrf.headerName}" 
+				placeholder="Password" value="${_csrf.token}">
+			
 		</div>
 		
 		<div class="form-group">

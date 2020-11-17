@@ -19,13 +19,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			member_id = #{member_id};
 	</select>
 	
-	<!-- 아이디와 비밀번호로 회원정보를 가져옴(로그인) -->
-	<select id="getMemberByIdAndPwd" parameterType="kr.com.inspect.dto.Member" resultType="kr.com.inspect.dto.Member">
-		<include refid="getMember" />
-		WHERE 
-			member_id = #{member_id} AND pwd = #{pwd};
-	</select>
-	
 	<!-- 아이디 중복 체크  -->
 	<select id="idCheck" parameterType="string" resultType="int">
 		SELECT 
@@ -38,18 +31,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	
 	<!-- 회원가입 -->
 	<insert id="registerMember" parameterType="kr.com.inspect.dto.Member">
-		INSERT INTO audio.member
+		INSERT INTO 
+			audio.member
 			(member_id, pwd)
-			VALUES(#{member_id}, #{pwd});
+		VALUES
+			(#{member_id}, #{pwd});
 	</insert>
 	
-	<!-- 가지고 있는 권한을 가져옴 -->
-	<select id="readAuthorities" parameterType="String" resultType="String">
-		SELECT
-			authority_name 
-		FROM 
-			audio.authority 
+	<!-- 회원탈퇴 -->
+	<delete id="deleteMember" parameterType="string">
+		DELETE FROM 
+			audio.member
 		WHERE 
-			username = #{username};
-   </select>
+			member_id = #{member_id};
+	</delete>
 </mapper>

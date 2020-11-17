@@ -8,9 +8,18 @@ $(function() {
 	/* id 중복검사 */
 	$('#idCheck').click(function() {
 		$.ajax({
-			url : "idCheck",
+			url : "register/idCheck",
 			type : "POST",
-			data : { "member_id" : $('#register_member_id').val() },
+			data : { 
+				"member_id" : $('#register_member_id').val() 
+			},
+			
+			/* 데이터를 전송하기 전에 헤더에 csrf 값을 설정(이거 안하면 403 에러) */
+			beforeSend : function(xhr){
+				var $token = $("#token");
+				xhr.setRequestHeader($token.data("token-name"), $token.val());
+			},
+			
 			success : function(data) {
 				if (data == 0 && $.trim($('#register_member_id').val()) != '') {
 					idCheck = true;
@@ -26,6 +35,7 @@ $(function() {
 					$('#isExistId').append(html);
 				}
 			},
+			
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 			}
@@ -91,15 +101,23 @@ $(function() {
 			return false;
 		}
 		$.ajax({
-			url : "registerMember",
+			url : "register",
 			type : "POST",
 			data : $('#registerForm').serialize(),
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 			async: false,
+			
+			/* 데이터를 전송하기 전에 헤더에 csrf 값을 설정(이거 안하면 403 에러) */
+			beforeSend : function(xhr){
+				var $token = $("#token");
+				xhr.setRequestHeader($token.data("token-name"), $token.val());
+			},
+			
 			success : function(data) {
 				alert(data);
 				location.href = contextPath + "/index.jsp";
 			},
+			
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 			}

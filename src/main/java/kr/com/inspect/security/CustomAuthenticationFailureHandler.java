@@ -30,6 +30,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     	responseData.setCode(ResponseDataCode.ERROR);
     	responseData.setStatus(ResponseDataStatus.ERROR);
     	responseData.setMessage("아이디 또는 비밀번호가 일치하지 않습니다.");
+    	System.out.println(responseData);
 
     	
     	response.setCharacterEncoding("UTF-8");
