@@ -35,10 +35,13 @@
 </head>
 
 <body>
+	<!-- POST 방식 ajax를 사용할 때, 403 에러를 막기 위해 csrf 토큰 처리 -->
+	<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
+	
 	<div class="text-center">
 		<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 	</div>
-	<form method="post" id="registerForm" name="register">
+	<form method="post" id="registerFrm" name="register">
 		<div class="form-group">
 			<input style="display:inline-block; width:63%;" type="text" class="form-control" name="member_id"
 				id="register_member_id" placeholder="Member ID" required> 
@@ -52,10 +55,6 @@
 			<input type="password" class="form-control" name="pwdCheck"
 				id="register_pwd_check"  placeholder="Password Check">
 			<div style="margin-top:2px;" id="isSamePwd"></div>
-			<!-- 403 에러를 막기 위해 csrf 토큰값을 여기에 저장 -->
-			<input type="hidden" id="token" data-token-name="${_csrf.headerName}" 
-				placeholder="Password" value="${_csrf.token}">
-			
 		</div>
 		
 		<div class="form-group">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,10 +34,13 @@ src="${pageContext.request.contextPath}/resource/js/login/login.js"></script>
 </head>
 
 <body>
+	<!-- POST 방식 ajax를 사용할 때, 403 에러를 막기 위해 csrf 토큰 처리 -->
+	<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
+	
 	<div class="text-center">
 		<h1 class="h4 text-gray-900 mb-4">Welcome To SDTM</h1>
 	</div>
-	<div class="form-area">
+	<form id="loginFrm" method="post" action='${pageContext.request.contextPath}/login/auth'>
 		<div class="form-group">
 			<input type="text" class="form-control form-control-user"
 				id="login_member_id" name="member_id" placeholder="Enter ID">
@@ -45,9 +49,6 @@ src="${pageContext.request.contextPath}/resource/js/login/login.js"></script>
 		<div class="form-group">
 			<input type="password" class="form-control form-control-user"
 				id="login_pwd" name="pwd" placeholder="Password">
-			<!-- 403 에러를 막기 위해 csrf 토큰값을 여기에 저장 -->
-			<input type="hidden" id="token" data-token-name="${_csrf.headerName}" 
-				placeholder="Password" value="${_csrf.token}">
 		</div>
 
 		<div class="form-group">
@@ -58,8 +59,8 @@ src="${pageContext.request.contextPath}/resource/js/login/login.js"></script>
 		</div>
 		
 		<div class="form-group">
-			<input id="loginBtn" type="button" value="Login" class="form-control form-control-user">
+			<input id="loginBtn" type="submit" value="Login" class="form-control form-control-user">
 		</div>
-	</div>
+	</form>
 </body>
 </html>

@@ -14,12 +14,6 @@ $(function() {
 				"member_id" : $('#register_member_id').val() 
 			},
 			
-			/* 데이터를 전송하기 전에 헤더에 csrf 값을 설정(이거 안하면 403 에러) */
-			beforeSend : function(xhr){
-				var $token = $("#token");
-				xhr.setRequestHeader($token.data("token-name"), $token.val());
-			},
-			
 			success : function(data) {
 				if (data == 0 && $.trim($('#register_member_id').val()) != '') {
 					idCheck = true;
@@ -103,15 +97,9 @@ $(function() {
 		$.ajax({
 			url : "register",
 			type : "POST",
-			data : $('#registerForm').serialize(),
+			data : $('#registerFrm').serialize(),
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 			async: false,
-			
-			/* 데이터를 전송하기 전에 헤더에 csrf 값을 설정(이거 안하면 403 에러) */
-			beforeSend : function(xhr){
-				var $token = $("#token");
-				xhr.setRequestHeader($token.data("token-name"), $token.val());
-			},
 			
 			success : function(data) {
 				alert(data);
