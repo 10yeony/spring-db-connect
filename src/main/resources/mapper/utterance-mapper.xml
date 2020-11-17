@@ -32,4 +32,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			WHERE u.metadata_id = #{value}
 			ORDER BY u.start;
 	</select>
+
+	<!-- utterance id로 Utterance를 가져옴 -->
+	<select id="getUtteranceUsingId" parameterType="String" resultType="kr.com.inspect.dto.Utterance">
+  		SELECT *
+			FROM audio.utterance u
+			WHERE u.id = #{id};
+	</select>
 </mapper>

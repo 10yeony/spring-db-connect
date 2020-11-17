@@ -44,6 +44,12 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h5 class="h5 mb-2 text-gray-800">
+                        <span><b>${metadata.program.title} - ${metadata.program.subtitle}</b><br/></span>
+                        <span><b>running time :</b> ${metadata.program.running_time}<br/></span>
+                        <span><b>creator :</b> ${metadata.creator}<br/></span>
+                        <h7><b>Form :</b> ${utterance.form}<br/></h7>
+                    </h5>
                 </div>
 
                 <!-- Page Body -->
@@ -51,13 +57,15 @@
                     <table border="1">
                         <tr>
                             <th width="50">Id</th>
-                            <th>Standard</th>
+                            <th>어절</th>
+                            <th>표준어 어절</th>
                             <th>begin</th>
                             <th>end</th>
                         </tr>
                         <c:forEach items="${eojeollist}" var="item" varStatus="status">
                             <tr>
                                 <td>${status.count}</td>
+                                <td>${item.eojeol}</td>
                                 <td>${item.standard}</td>
                                 <td>${item.begin}</td>
                                 <td>${item.finish}</td>

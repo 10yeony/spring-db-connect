@@ -112,6 +112,8 @@ public class PostgreController {
 	public String getEojeolList(Model model, @PathVariable String format){
 		List<EojeolList> eojeolLists = postgreService.getEojeolListUsingUtteranceId(format);
 		model.addAttribute("eojeollist",eojeolLists);
+		model.addAttribute("metadata",postgreService.getMetadataAndProgramUsingId(eojeolLists.get(0).getMetadata_id()));
+		model.addAttribute("utterance",postgreService.getUtteranceUsingId(eojeolLists.get(0).getUtterance_id()));
 		return "postgreSQL/getEojeolList";
 	}
 	

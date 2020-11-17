@@ -27,4 +27,7 @@ public interface PostgreDao {
 
 	/* JsonLog 테이블을 모두 가져옴 */
 	public List<JsonLog> getJsonLog();
+
+	/* utterance id로 해당되는 utterance 튜플을 가져옴 */
+	public Utterance getUtteranceUsingId(String id);
 }

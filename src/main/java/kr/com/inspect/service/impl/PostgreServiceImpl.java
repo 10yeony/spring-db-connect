@@ -372,4 +372,9 @@ public class PostgreServiceImpl implements PostgreService{
 	public Metadata getMetadataAndProgramUsingId(Integer metaId){
 		return postgreDao.getMetadataAndProgramUsingId(metaId);
 	}
+
+	/* utterance id 로 해당되는 utterance 튜플을 가져옴 */
+	public Utterance getUtteranceUsingId(String id){
+		return postgreDao.getUtteranceUsingId(id);
+	}
 }

@@ -23,6 +23,9 @@ public interface PostgreService {
 	
 	/* metadataId로 해당되는 Utterance 테이블을 가져옴 */
 	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId);
+
+	/* utterance id 로 해당되는 utterance 튜플을 가져옴 */
+	public Utterance getUtteranceUsingId(String id);
 	
 	/* 특정 경로에 있는 JSON 파일들을 읽어서 PostgreSQL에 넣음 */
 	public boolean insertJSONUpload(String path, List<MultipartFile> file) throws Exception;
