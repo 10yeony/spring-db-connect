@@ -41,9 +41,12 @@
 			<div class="container-fluid">
 
 				<!-- Page Heading -->
-				<div style="text-align:center;">
-					<%@ include file="/WEB-INF/views/dashboard/collection.jsp"%>
+				<div>
+					<h1 class="h3 mb-0 text-gray-800">Dashboard</h1><br>
 				</div>
+
+				<!-- Content Row -->
+				<%@ include file="/WEB-INF/views/dashboard/collection.jsp"%>
 			</div>
 			<!-- /.container-fluid -->
 		</div>
