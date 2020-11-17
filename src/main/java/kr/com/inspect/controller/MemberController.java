@@ -68,7 +68,7 @@ public class MemberController {
 		}
 	}
 	
-	/* 로그인 */
+	/* 커스텀 로그인 페이지로 이동 */
 	@GetMapping("/login")
 	public String Login(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
