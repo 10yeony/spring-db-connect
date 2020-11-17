@@ -1,6 +1,7 @@
 package kr.com.inspect.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,9 @@ public interface MemberService extends UserDetailsService {
 	
 	/* 아이디 중복 체크 */
 	public int idCheck(String member_id);
+
+	/* 회원 정보 모두 가지고옴 */
+	public List<Member> getMember();
 	
 	/* 회원 정보 수정 */
 	public int updateMember(Member member);

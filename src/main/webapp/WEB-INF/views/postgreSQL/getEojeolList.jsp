@@ -48,30 +48,40 @@
                         <span><b>${metadata.program.title} - ${metadata.program.subtitle}</b><br/></span>
                         <span><b>running time :</b> ${metadata.program.running_time}<br/></span>
                         <span><b>creator :</b> ${metadata.creator}<br/></span>
-                        <h7><b>Form :</b> ${utterance.form}<br/></h7>
                     </h5>
                 </div>
 
                 <!-- Page Body -->
                 <div class="card sahadow mb-4">
-                    <table border="1">
-                        <tr>
-                            <th width="50">Id</th>
-                            <th>어절</th>
-                            <th>표준어 어절</th>
-                            <th>begin</th>
-                            <th>end</th>
-                        </tr>
-                        <c:forEach items="${eojeollist}" var="item" varStatus="status">
-                            <tr>
-                                <td>${status.count}</td>
-                                <td>${item.eojeol}</td>
-                                <td>${item.standard}</td>
-                                <td>${item.begin}</td>
-                                <td>${item.finish}</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-black-50">${utterance.form}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th width="50">Id</th>
+                                        <th>어절</th>
+                                        <th>표준어 어절</th>
+                                        <th>begin</th>
+                                        <th>end</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${eojeollist}" var="item" varStatus="status">
+                                        <tr>
+                                            <td>${status.count}</td>
+                                            <td>${item.eojeol}</td>
+                                            <td>${item.standard}</td>
+                                            <td>${item.begin}</td>
+                                            <td>${item.finish}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
             </div>

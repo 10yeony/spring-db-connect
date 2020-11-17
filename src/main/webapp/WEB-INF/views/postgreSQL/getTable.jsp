@@ -5,6 +5,7 @@
 <html lang="en">
 
 <head>
+	<script src="http://code.jquery.com/jquery-1.4.4.js"></script>
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,30 +56,46 @@
 
 				<!-- Page Body -->
 				<div class="card shadow mb-4">
-					<table border="1">
-						<tr>
-							<th>Id</th>
-							<th>Title</th>
-							<th>Subtitle</th>
-							<th>Creator</th>
-							<th>Year</th>
-							<th>File_num</th>
-							<th>Sentence_count</th>
-							<th>Eojeol_total</th>
-						</tr>
-						<c:forEach items="${result}" var="item">
-							<tr>
-								<td>${item.id}</td>
-								<td>${item.program.title}</td>
-								<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
-								<td>${item.creator}</td>
-								<td>${item.year}</td>
-								<td>${item.title}</td>
-								<td><a href="getUtteranceTable/${item.id}">${item.sentence_count}개</a></td>
-								<td><a href="getUtteranceTable/${item.id}">${item.eojeol_total}개</a></td>
-							</tr>
-						</c:forEach>
-					</table>
+
+					<div class="card-body">
+						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+							<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+								   id="inputSearchText">
+							<button class="btn btn-primary" type="button">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div><br><br>
+						<div class="table-responsive">
+							<table class="table table-bordered" id="metadata" width="100%" cellspacing="0">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Title</th>
+										<th>Subtitle</th>
+										<th>Creator</th>
+										<th>Year</th>
+										<th>File_num</th>
+										<th>문장 수</th>
+										<th>어절 수</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${result}" var="item">
+										<tr>
+											<td>${item.id}</td>
+											<td>${item.program.title}</td>
+											<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
+											<td>${item.creator}</td>
+											<td>${item.year}</td>
+											<td>${item.title}</td>
+											<td><a href="getUtteranceTable/${item.id}">${item.sentence_count}개</a></td>
+											<td><a href="getUtteranceTable/${item.id}">${item.eojeol_total}개</a></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 
 
@@ -100,6 +117,29 @@
 <a class="scroll-to-top rounded" href="#page-top">
 	<i class="fas fa-angle-up"></i>
 </a>
+
+<script>
+
+// $("#inputSearchText").on("keyup", function() {
+// 	var searchText = $(this).val();
+//
+// 	$("#metadata > tbody > tr").filter(function (){
+// 		$(this).toggle($(this).text().indexOf(searchText) > -1)
+// 	});
+// 	// var temp = $("#metadata > tbody > tr > td:contains('" + searchText + "')");
+//
+// 	// $(temp).parent().show();
+// });
+$(document).ready(function() {
+	$("#inputSearchText").keyup(function() {
+		var k = $(this).val();
+		$("#metadata > tbody > tr").hide();
+		var temp = $("#metadata > tbody > tr > td:contains('" + k + "')");
+
+		$(temp).parent().show();
+	})
+})
+</script>
 
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>

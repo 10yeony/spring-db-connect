@@ -61,24 +61,32 @@
 
                 <!-- Page Body -->
                 <div class="card sahadow mb-4">
-                    <table border="1">
-                        <tr>
-                        	<th>Id</th>
-                        	<th>Form</th>
-                        	<th>Start</th>
-                        	<th>End</th>
-                        	<th>Eojeol_count</th>
-                        </tr>
-                        <c:forEach items="${utterances}" var="item" varStatus="status">
-                            <tr>
-                                <td>${status.count}</td>
-                                <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
-                                <td><fmt:formatNumber value="${item.start}" pattern=".00"/></td>
-                                <td><fmt:formatNumber value="${item.finish}" pattern=".00"/></td>
-                                <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.eojeol_count}개</a></td>
-                            </tr>
-                        </c:forEach>
-                    </table>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Form</th>
+                                        <th>Start</th>
+                                        <th>End</th>
+                                        <th width="100">어절 수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${utterances}" var="item" varStatus="status">
+                                        <tr>
+                                            <td>${status.count}</td>
+                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
+                                            <td><fmt:formatNumber value="${item.start}" pattern=".00"/></td>
+                                            <td><fmt:formatNumber value="${item.finish}" pattern=".00"/></td>
+                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.eojeol_count}개</a></td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
             </div>
