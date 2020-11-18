@@ -5,14 +5,20 @@ import java.util.List;
 import kr.com.inspect.dto.Member;
 
 public interface MemberDao {
-	/* 회원가입 */
+	/* member 가입 */
 	public int registerMember(Member member);
+	
+	/* member 탈퇴 */
+	public int deleteMember(String member_id);
+	
+	/* 권한 등록 */
+	public int registerAuthority(String member_id, String authority);
+	
+	/* 권한을 모두 삭제 */
+	public int deleteAuthorities(String member_id);
 	
 	/* 아이디로 회원정보를 읽음 */
 	public Member readMemberById(String member_id);
-
-	/* 아이디와 비밀번호로 회원정보를 가져옴(로그인) */
-	public Member getMemberByIdAndPwd(Member member);
 
 	/* 아이디 중복확인 */
 	public int idCheck(String member_id);

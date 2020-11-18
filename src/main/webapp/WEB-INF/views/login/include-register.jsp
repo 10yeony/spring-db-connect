@@ -29,16 +29,19 @@
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 <script 
-	src="${pageContext.request.contextPath}/resource/js/index/register.js"></script>
+	src="${pageContext.request.contextPath}/resource/js/login/register.js"></script>
 <script>
 </script>	
 </head>
 
 <body>
+	<!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
+	<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
+	
 	<div class="text-center">
 		<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 	</div>
-	<form method="post" id="registerForm" name="register">
+	<form method="post" id="registerFrm" name="register">
 		<div class="form-group">
 			<input style="display:inline-block; width:63%;" type="text" class="form-control" name="member_id"
 				id="register_member_id" placeholder="Member ID" required> 
