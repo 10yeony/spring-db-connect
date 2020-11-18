@@ -61,7 +61,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 		
 		/* 권한별 접근 페이지 설정 */
 		http.authorizeRequests()
-			.antMatchers("/", "/login", "/login/**",
+			.antMatchers("/", "/login", "/login/**", "/logout",
 							"/register", "/register/**").permitAll() //모든 사용자에게 보임
 			.antMatchers("/admin", "/admin/**").access("hasRole('ROLE_ADMIN')") //ADMIN 권한만 접근
 			.antMatchers("/**").access("hasRole('ROLE_VIEW')") //VIEW 권한만 접근
