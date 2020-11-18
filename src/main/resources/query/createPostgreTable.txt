@@ -56,6 +56,8 @@ CREATE TABLE audio.program (
 CREATE TABLE audio.member (
 	member_id text PRIMARY KEY,
 	pwd text NOT NULL,
+	phone text,
+	email text,
 	isAccountNonExpired boolean,
 	isAccountNonLocked boolean,
 	isCredentialsNonExpired boolean,
