@@ -67,5 +67,7 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	/* 회원 정보 모두 가지고옴  */
-	public List<Member> getMember(){ return sqlSession.selectList(memberNs+"getMemberTable"); }
+	public List<Member> getMember(){ 
+		return sqlSession.selectList(memberNs+"getMemberTable"); 	
+	}
 }

@@ -100,4 +100,9 @@ public class MemberServiceImpl implements MemberService {
         }
 		return authorities;
 	}
+
+	@Override
+	public List<Member> getMember() {
+		return memberDao.getMember();
+	}
 }
