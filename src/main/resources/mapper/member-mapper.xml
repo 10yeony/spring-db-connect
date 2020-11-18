@@ -41,9 +41,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<insert id="registerMember" parameterType="kr.com.inspect.dto.Member">
 		INSERT INTO 
 			audio.member
-			(member_id, pwd)
+			(member_id, pwd, 
+			isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled)
 		VALUES
-			(#{member_id}, #{pwd});
+			(#{member_id}, #{pwd}, 
+			#{isAccountNonExpired}, #{isAccountNonLocked}, #{isCredentialsNonExpired}, #{isEnabled});
 	</insert>
 	
 	<!-- 회원탈퇴 -->

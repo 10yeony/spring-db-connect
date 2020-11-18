@@ -1,6 +1,10 @@
 package kr.com.inspect.dto;
 
-/* JSON 응답을 위한 DTO */
+/**
+ * JSON 응답을 위한 객체
+ * @author Yeonhee Kim
+ * @version 1.0, 2020.11.18 VO 생성(Yeonhee Kim)
+ */
 public class ResponseData {
 	private String code;
 	private String status;

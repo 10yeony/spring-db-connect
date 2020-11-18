@@ -30,17 +30,20 @@
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 <script 
-src="${pageContext.request.contextPath}/resource/js/login/login.js"></script>
+	src="${pageContext.request.contextPath}/resource/js/login/login.js"></script>
 </head>
 
 <body>
 	<!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
 	<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
 	
+	<!-- 로그인 에러 메세지 및 로그인한 회원 정보 -->
+	<input type="hidden" id="member_login" value="${member}">
+	
 	<div class="text-center">
 		<h1 class="h4 text-gray-900 mb-4">Welcome To SDTM</h1>
 	</div>
-	<form id="loginFrm" method="post" action='${pageContext.request.contextPath}/login/auth'>
+	<form id="loginFrm" method="post">
 		<!-- 폼 제출시 POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<div class="form-group">
@@ -61,7 +64,7 @@ src="${pageContext.request.contextPath}/resource/js/login/login.js"></script>
 		</div>
 		
 		<div class="form-group">
-			<input id="loginBtn" type="submit" value="Login" class="form-control form-control-user">
+			<input id="loginBtn" type="button" value="Login" class="form-control form-control-user">
 		</div>
 	</form>
 </body>

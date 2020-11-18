@@ -33,17 +33,17 @@
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 <script>
-	$(function(){
-		/* 로그인, 회원가입 메뉴 컨트롤 */
-		$('#goToRegister').click(function(){
-			$('#login').attr('style', 'display:none');
-			$('#register').attr('style', 'display:block');
-		});
-		$('#goToLogin').click(function(){
-			$('#login').attr('style', 'display:block');
-			$('#register').attr('style', 'display:none');
-		});
-	}); //ready
+$(function(){
+	/* 로그인, 회원가입 메뉴 컨트롤 */
+	$('#goToRegister').click(function(){
+		$('#login').attr('style', 'display:none');
+		$('#register').attr('style', 'display:block');
+	});
+	$('#goToLogin').click(function(){
+		$('#login').attr('style', 'display:block');
+		$('#register').attr('style', 'display:none');
+	});
+})
 </script>
 </head>
 

@@ -8,7 +8,7 @@ $(function() {
 	/* id 중복검사 */
 	$('#idCheck').click(function() {
 		$.ajax({
-			url : "register/idCheck",
+			url : contextPath + "/register/idCheck",
 			type : "POST",
 			data : { 
 				"member_id" : $('#register_member_id').val() 
@@ -95,7 +95,7 @@ $(function() {
 			return false;
 		}
 		$.ajax({
-			url : "register",
+			url : contextPath + "/register",
 			type : "POST",
 			data : $('#registerFrm').serialize(),
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',

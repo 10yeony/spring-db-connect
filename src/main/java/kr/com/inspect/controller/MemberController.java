@@ -23,6 +23,15 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	/**
+	 * 커스텀 로그인 페이지로 이동(반드시 GET 방식이어야 함)
+	 * @return string 커스텀 로그인 페이지로 리턴
+	 */
+	@GetMapping("/login")
+	public String Login() {
+		return "login";
+	}
 
 	/* 회원가입 */
 	@ResponseBody
@@ -45,40 +54,10 @@ public class MemberController {
 		return Integer.toString(result);
 	}
 	
-	/* 커스텀 로그인 페이지로 이동(반드시 GET 방식이어야 함) */
-	@GetMapping("/login")
-	public String Login(HttpServletRequest request, HttpServletResponse response) {
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response);
-		
-		try {
-			/* 이전 페이지 정보 */
-			request.getSession().setAttribute("prevPage", savedRequest.getRedirectUrl());
-		} catch(NullPointerException e) {
-			request.getSession().setAttribute("prevPage", "/");
-		}
-		return "login";
-	}
-	
-	/* 아이디와 비밀번호로 회원 체크 */
-	@ResponseBody
-	@PostMapping("login/isMember")
-	public String isMember(Member member, HttpSession session) {
-		Member vo = null;
-		try {
-			vo = memberService.readMemberById(member.getMember_id());
-		} catch(NullPointerException e) {
-			return "none";
-		}
-		session.setAttribute("member", vo);
-		return null;
-	}
-	
 	/* 회원정보 가져와서 회원 목록 페이지로 이동 */
 	@GetMapping("/memberList")
 	public String getMember(Model model) {
 		model.addAttribute("user", memberService.getMember());
-
 		return "member/getMemberList";
 	}
 }

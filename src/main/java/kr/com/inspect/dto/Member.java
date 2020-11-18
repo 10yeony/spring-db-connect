@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 /* Member 테이블(회원 로그인, 회원가입 관련) */
 public class Member implements UserDetails {
 	
+	private static final long serialVersionUID = 1L;
+	
 	/* 아이디 및 비밀번호 */
 	private String member_id; // DB상의 사용자 아이디 컬럼명. 스프링 시큐리티의 username에 해당함.
 	private String pwd; // DB상의 비밀번호 컬럼명. 스프링 시큐리티의 password에 해당함.
