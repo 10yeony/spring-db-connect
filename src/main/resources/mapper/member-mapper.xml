@@ -42,10 +42,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		INSERT INTO 
 			audio.member
 			(member_id, pwd, 
-			isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled)
+			isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled,
+			phone, email)
 		VALUES
 			(#{member_id}, #{pwd}, 
-			#{isAccountNonExpired}, #{isAccountNonLocked}, #{isCredentialsNonExpired}, #{isEnabled});
+			#{isAccountNonExpired}, #{isAccountNonLocked}, #{isCredentialsNonExpired}, #{isEnabled},
+			#{phone}, #{email});
 	</insert>
 	
 	<!-- 회원탈퇴 -->

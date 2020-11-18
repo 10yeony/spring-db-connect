@@ -48,23 +48,23 @@
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<div class="form-group">
 			<input type="text" class="form-control form-control-user"
-				id="login_member_id" name="member_id" placeholder="Enter ID">
+				id="login_member_id" name="member_id" placeholder="아이디">
 		</div>
 		
 		<div class="form-group">
 			<input type="password" class="form-control form-control-user"
-				id="login_pwd" name="pwd" placeholder="Password">
+				id="login_pwd" name="pwd" placeholder="비밀번호">
 		</div>
 
 		<div class="form-group">
 			<div class="custom-control custom-checkbox small">
 				<input type="checkbox" class="custom-control-input" id="customCheck"> 
-				<label class="custom-control-label" for="customCheck">Auto Login</label>
+				<label class="custom-control-label" for="customCheck">자동 로그인</label>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<input id="loginBtn" type="button" value="Login" class="form-control form-control-user">
+			<input id="loginBtn" type="button" value="로그인" class="form-control form-control-user">
 		</div>
 	</form>
 </body>

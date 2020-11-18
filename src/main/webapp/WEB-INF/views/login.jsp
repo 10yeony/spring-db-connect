@@ -57,10 +57,15 @@ $(function(){
 					<div class="card-body p-0">
 						<!-- Nested Row within Card Body -->
 						<div class="row">
-							<div class="col-lg-6 d-none d-lg-block">
-								<image
-									src="${pageContext.request.contextPath}/resource/img/post-thumb-760x630.jpg"
-									width="450" height="450"></image>
+							<div class="col-lg-6 d-none d-lg-block" style="position: relative;">
+								<image 
+									src="${pageContext.request.contextPath}/resource/img/NAMU_Logo_PNG.png"
+									width="300" style="display: block;
+  margin-left: auto;
+  margin-right: auto; position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);"></image>
 							</div><!-- col-lg-6 d-none d-lg-block -->
 							<div class="col-lg-6">
 								<div class="p-5">
@@ -70,7 +75,7 @@ $(function(){
 										<%@ include file="/WEB-INF/views/login/include-login.jsp"%>
 										<hr>
 										<div class="text-center">
-											<a id="goToRegister" class="small" href="javascript:void(0);">Create an Account!</a>
+											<a id="goToRegister" class="small" href="javascript:void(0);">회원가입</a>
 										</div><!-- text-center -->
 									</article>
 									
@@ -79,8 +84,7 @@ $(function(){
 										<%@ include file="/WEB-INF/views/login/include-register.jsp"%>
 										<hr>
 										<div class="text-center">
-											<a id="goToLogin" class="small" href="javascript:void(0);">Already have an account?
-												Login!</a>
+											<a id="goToLogin" class="small" href="javascript:void(0);">이미 계정이 있으신가요? 로그인으로 돌아가기</a>
 										</div><!-- text-center -->
 									</article>
 									

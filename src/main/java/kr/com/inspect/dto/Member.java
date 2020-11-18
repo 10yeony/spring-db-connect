@@ -20,12 +20,17 @@ public class Member implements UserDetails {
 	private boolean isCredentialsNonExpired; //계정의 패스워드가 만료되지 않았는지를 리턴
 	private boolean isEnabled; //계정이 사용가능한 계정인지를 리턴
 	
+	/* 연락처 및 이메일(문자발송 및 메일링 서비스) */
+	private String phone;
+	private String email;
+	
 	/* 권한 목록 */
 	private Collection<? extends GrantedAuthority> authorities; //계정이 갖고 있는 권한 목록을 리턴
 	
 	public Member() {}
 	public Member(String member_id, String pwd, boolean isAccountNonExpired, boolean isAccountNonLocked,
-			boolean isCredentialsNonExpired, boolean isEnabled, Collection<? extends GrantedAuthority> authorities) {
+			boolean isCredentialsNonExpired, boolean isEnabled, String phone, String email,
+			Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.member_id = member_id;
 		this.pwd = pwd;
@@ -33,9 +38,11 @@ public class Member implements UserDetails {
 		this.isAccountNonLocked = isAccountNonLocked;
 		this.isCredentialsNonExpired = isCredentialsNonExpired;
 		this.isEnabled = isEnabled;
+		this.phone = phone;
+		this.email = email;
 		this.authorities = authorities;
 	}
-	
+
 	/* MyBatis 관련 DB 상에 아이디와 비밀번호를 넣고 가져옴 */
 	public String getMember_id() {
 		return member_id;
@@ -94,10 +101,25 @@ public class Member implements UserDetails {
 		this.authorities = authorities;
 	}
 	
+	/* 연락처 및 이메일 setter/getter */
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	@Override
 	public String toString() {
-		return "Member [member_id(username)=" + member_id + ", pwd(password)=" + pwd + ", isAccountNonExpired="
-				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
-				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", authorities=" + authorities + "]";
+		return "Member [member_id=" + member_id + ", pwd=" + pwd + ", isAccountNonExpired=" + isAccountNonExpired
+				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
+				+ ", isEnabled=" + isEnabled + ", phone=" + phone + ", email=" + email + ", authorities=" + authorities
+				+ "]";
 	}
 }

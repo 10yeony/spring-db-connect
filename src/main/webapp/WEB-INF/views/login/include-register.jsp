@@ -43,22 +43,61 @@
 	</div>
 	<form method="post" id="registerFrm" name="register">
 		<div class="form-group">
+			<span>
+				<b style="font-size:14px">아이디 </b> 
+				<span style="font-size:12px; color:red;">(필수)</span>
+			</span><br/>
 			<input style="display:inline-block; width:63%;" type="text" class="form-control" name="member_id"
-				id="register_member_id" placeholder="Member ID" required> 
+				id="register_member_id" placeholder="4자 이상 10자 이하" required> 
 			<input style="display:inline-block; width:35%;" type="button" class="form-control" id="idCheck" value="중복체크">
 			<div style="margin-top:2px;" id="isExistId"></div>
 		</div>
 		
 		<div class="form-group">
-			<input type="password" class="form-control" name="pwd"
-				id="register_pwd" placeholder="Password">
-			<input type="password" class="form-control" name="pwdCheck"
-				id="register_pwd_check"  placeholder="Password Check">
+			<span>
+				<b style="font-size:14px">비밀번호 </b> 
+				<span style="font-size:12px; color:red;">(필수)</span>
+			</span><br/>
+			<input type="password" class="form-control" name="pwd" 
+				id="register_pwd" placeholder="영어/숫자/특수문자 포함 8자 이상 12자 이하" required>
+		</div>
+		
+		<div class="form-group">
+			<span>
+				<b style="font-size:14px">비밀번호 확인 </b> 
+				<span style="font-size:12px; color:red;">(필수)</span>
+			</span><br/>
+			<input type="password" class="form-control" name="pwdCheck" id="register_pwd_check">
 			<div style="margin-top:2px;" id="isSamePwd"></div>
 		</div>
 		
 		<div class="form-group">
-			<input type="button" id="register_submit" value="Register Account"
+			<span>
+				<b style="font-size:14px">연락처 </b> 
+				<span style="font-size:12px">(문자 발송 서비스에 활용됩니다.)</span>
+			</span><br/>
+			<input type="text" class="form-control" name="phone" 
+				id="register_phone" placeholder="예) 010-1234-5678">
+		</div>
+		
+		<div class="form-group">
+			<span>
+				<b style="font-size:14px">이메일 </b> 
+				<span style="font-size:12px">(메일링 서비스에 활용됩니다.)</span>
+			</span><br/>
+			<input type="email" class="form-control" name="email" 
+				id="register_email" placeholder="예) sdtm@namutech.co.kr">
+		</div>
+		
+		<div class="form-group">
+			<div class="custom-control custom-checkbox small">
+				<input type="checkbox" class="custom-control-input" id="customAgree"> 
+				<label class="custom-control-label" for="customAgree">개인 정보 활용에 동의합니다.</label>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<input type="button" id="register_submit" value="회원가입"
 				class="form-control form-control-user">
 		</div>
 	</form>
