@@ -83,12 +83,12 @@
                                         </span>
                                     <span class="text">업로드</span>
                                 </button>
-<%--                                <button type="button" onclick="jsonDir();" class="btn btn-danger btn-icon-split" style="float:right;">--%>
-<%--                                        <span class="icon text-white-50">--%>
-<%--                                            <i class="fas fa-check"></i>--%>
-<%--                                        </span>--%>
-<%--                                    <span class="text">서버 디렉토리의 파일 업로드</span>--%>
-<%--                                </button>--%>
+                                <button type="button" onclick="jsonDir();" class="btn btn-danger btn-icon-split" style="float:right;">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                    <span class="text">서버 디렉토리의 파일 업로드</span>
+                                </button>
                             </form>
 <%--                            <a href="${pageContext.request.contextPath}/insertJSONIntoPostgre">json 파일 업로드</a>--%>
                         </div>
@@ -109,12 +109,12 @@
                                         </span>
                                     <span class="text">업로드</span>
                                 </button>
-<%--                                <button type="button" onclick="xlsxDir();" class="btn btn-danger btn-icon-split" style="float:right;">--%>
-<%--                                        <span class="icon text-white-50">--%>
-<%--                                            <i class="fas fa-check"></i>--%>
-<%--                                        </span>--%>
-<%--                                    <span class="text">서버 디렉토리의 파일 업로드</span>--%>
-<%--                                </button>--%>
+                                <button type="button" onclick="xlsxDir();" class="btn btn-danger btn-icon-split" style="float:right;">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                    <span class="text">서버 디렉토리의 파일 업로드</span>
+                                </button>
                             </form>
 <%--                            <a href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">Excel 파일 업로드</a>--%>
                         </div>
