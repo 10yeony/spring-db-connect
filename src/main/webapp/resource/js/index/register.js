@@ -8,12 +8,9 @@ $(function() {
 	/* id 중복검사 */
 	$('#idCheck').click(function() {
 		$.ajax({
-			url : contextPath + "/register/idCheck",
+			url : "idCheck",
 			type : "POST",
-			data : { 
-				"member_id" : $('#register_member_id').val() 
-			},
-			
+			data : { "member_id" : $('#register_member_id').val() },
 			success : function(data) {
 				if (data == 0 && $.trim($('#register_member_id').val()) != '') {
 					idCheck = true;
@@ -29,7 +26,6 @@ $(function() {
 					$('#isExistId').append(html);
 				}
 			},
-			
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 			}
@@ -95,17 +91,15 @@ $(function() {
 			return false;
 		}
 		$.ajax({
-			url : contextPath + "/register",
+			url : "registerMember",
 			type : "POST",
-			data : $('#registerFrm').serialize(),
+			data : $('#registerForm').serialize(),
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 			async: false,
-			
 			success : function(data) {
 				alert(data);
 				location.href = contextPath + "/index.jsp";
 			},
-			
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 			}

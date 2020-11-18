@@ -38,8 +38,6 @@
 </head>
 
 <body id="page-top">
-<!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
-<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
