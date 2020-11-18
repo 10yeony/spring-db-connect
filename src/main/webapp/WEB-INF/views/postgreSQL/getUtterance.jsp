@@ -48,7 +48,7 @@
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h5 class="h5 mb-2 text-gray-800">
                     	<span><b>${metadata.program.title} - ${metadata.program.subtitle}</b><br/></span>
-                    	<span><b>running time :</b> ${metadata.program.running_time}<br/></span>
+                    	<span><b>강의시간 :</b> ${metadata.program.running_time}<br/></span>
                     	<span><b>creator :</b> ${metadata.creator}<br/></span>
                     </h5>
                     <div>
@@ -68,8 +68,8 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Form</th>
-                                        <th>Start</th>
-                                        <th>End</th>
+                                        <th width="100">시작시간(단위: 초)</th>
+                                        <th width="100">종료시간(단위: 초)</th>
                                         <th width="100">어절 수</th>
                                     </tr>
                                 </thead>

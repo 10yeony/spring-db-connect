@@ -47,10 +47,32 @@
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
 					<h1 class="h3 mb-2 text-gray-800"><b>한국어 강의 데이터 목록</b></h1>
 					<div>
+						<!-- 파일 다운로드 버튼 -->
 						<a href="${pageContext.request.contextPath}/metadata/docx" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 								class="fas fa-download fa-sm text-white-50"></i> Word</a>
 						<a href="${pageContext.request.contextPath}/metadata/xlsx" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-								class="fas fa-download fa-sm text-white-50"></i> Excel</a>
+								class="fas fa-download fa-sm text-white-50"></i> Excel</a><br><br>
+<%--						<!-- 파일 전송 버튼 -->--%>
+<%--						<ul class="navbar-nav ml-auto">--%>
+<%--							<li class="nav-item dropdown no-arrow">--%>
+<%--								<a class="nav-link shadow-sm btn btn-sm btn-primary dropdown-toggle shadow-sm" href="#" id="userDropdown"--%>
+<%--									role="button" data-toggle="dropdown" aria-haspopup="true"--%>
+<%--									aria-expanded="false"><i--%>
+<%--										class="fas fa-paper-plane fa-sm text-white-50"></i> &nbsp;&nbsp;파일 전송하기 </a>--%>
+<%--								<div--%>
+<%--										class="dropdown-menu dropdown-menu-right shadow animated--grow-in"--%>
+<%--										aria-labelledby="userDropdown">--%>
+<%--									<a class="dropdown-item" href="${pageContext.request.contextPath}/metadataMail/docx"> <i--%>
+<%--											class="fas fa-at fa-sm fa-fw mr-2 text-gray-600"></i>Word</a>--%>
+<%--									<a class="dropdown-item" href="#" data-toggle="modal"> <i--%>
+<%--											class="fas fa-at fa-sm fa-fw mr-2 text-gray-600"></i>Excel</a>--%>
+<%--									<a class="dropdown-item" href="#" data-toggle="modal"> <i--%>
+<%--											class="far fa-envelope fa-sm fa-fw mr-2 text-gray-600"></i>Word</a>--%>
+<%--									<a class="dropdown-item" href="#" data-toggle="modal"> <i--%>
+<%--											class="far fa-envelope fa-sm fa-fw mr-2 text-gray-600"></i>Excel</a>--%>
+<%--								</div>--%>
+<%--							</li>--%>
+<%--						</ul>--%>
 					</div>
 				</div>
 
@@ -58,7 +80,7 @@
 				<div class="card shadow mb-4">
 
 					<div class="card-body">
-						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+						<div class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
 							<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
 								   id="inputSearchText">
 							<button class="btn btn-primary" type="button">
@@ -70,11 +92,11 @@
 								<thead>
 									<tr>
 										<th>Id</th>
-										<th>Title</th>
-										<th>Subtitle</th>
+										<th>제목</th>
+										<th>부제</th>
 										<th>Creator</th>
 										<th>Year</th>
-										<th>File_num</th>
+										<th>파일명</th>
 										<th>문장 수</th>
 										<th>어절 수</th>
 									</tr>
@@ -119,17 +141,7 @@
 </a>
 
 <script>
-
-// $("#inputSearchText").on("keyup", function() {
-// 	var searchText = $(this).val();
-//
-// 	$("#metadata > tbody > tr").filter(function (){
-// 		$(this).toggle($(this).text().indexOf(searchText) > -1)
-// 	});
-// 	// var temp = $("#metadata > tbody > tr > td:contains('" + searchText + "')");
-//
-// 	// $(temp).parent().show();
-// });
+// 강의 목록 검색
 $(document).ready(function() {
 	$("#inputSearchText").keyup(function() {
 		var k = $(this).val();

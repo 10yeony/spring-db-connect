@@ -58,10 +58,10 @@
                                         <th>파일명</th>
                                         <th>제목</th>
                                         <th>부제</th>
-                                        <th>강의 시간</th>
+                                        <th width="90">강의 시간</th>
                                         <th>입력 시작 시간</th>
                                         <th>입력 종료 시간</th>
-                                        <th width="150">Parsing 및 <br/>DB 입력 소요시간</th>
+                                        <th width="150">Parsing 및 <br/>DB 입력 소요시간<br/>(분:초)</th>
                                     </tr>
                                 </thead>
                                 <tbody>

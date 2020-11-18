@@ -7,14 +7,18 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
@@ -48,7 +52,7 @@ public class DocxReport {
 	private String column8;
 
 	/* docx 한국어 강의 목록 리스트 작성 */
-	public void writeDocxMetadata(HttpServletResponse response, String path, List<Metadata> list) {
+	public void writeDocxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag)throws Exception {
 		String docxFileName =
 				"LectureList_"+
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
@@ -109,11 +113,17 @@ public class DocxReport {
 			doc.write(fos);
 
 			/* 사용자 컴퓨터에 다운로드 */
-			response.setHeader("Content-Disposition", "attachment;filename="+docxFileName);
-			response.setContentType("application/octet-stream; charset=utf-8");
-			doc.write(response.getOutputStream());
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
+			if(flag.equals("download")) {
+				response.setHeader("Content-Disposition", "attachment;filename=" + docxFileName);
+				response.setContentType("application/octet-stream; charset=utf-8");
+				doc.write(response.getOutputStream());
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
+			/* 사용자 mail로 파일 전송 */
+			else if(flag.equals("mail")){
+//				sendMail(file, docxFileName);
+			}
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
 		} catch (IOException e) {
@@ -209,13 +219,67 @@ public class DocxReport {
 			//e.printStackTrace();
 		} catch (IOException e) {
 			//e.printStackTrace();
-		} finally {
+		} catch (Exception e){
+			System.out.println(e);
+			e.printStackTrace();
+		}finally {
 			try {
 				if(doc!=null) doc.close();
 				if(fos!=null) fos.close();
 			} catch (IOException e) {
 				//e.printStackTrace();
 			}
+		}
+	}
+
+	// 사용자 mail로 파일을 보냄
+	public void sendMail() throws Exception{
+//	public void sendMail(File file,String filename) throws Exception{
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+
+		mailSender.setHost("smtp.gmail.com");
+		mailSender.setUsername("wooyoung.lee@namutech.co.kr");
+		mailSender.setPassword("keabthweiiovgczx");
+
+		Properties javaMailProperties = new Properties();
+		javaMailProperties.put("mail.smtp.starttls.enable", "true");
+		javaMailProperties.put("mail.smtp.auth", "true");
+		javaMailProperties.put("mail.transport.protocol", "smtp");
+		javaMailProperties.put("mail.debug", "true");
+
+		mailSender.setJavaMailProperties(javaMailProperties);
+
+		/* File 생성 */
+		String filename = "test.docx";
+		String path = "/opt/tomcat/resources/report/docx/";
+		XWPFDocument doc = new XWPFDocument();
+		XWPFParagraph p = doc.createParagraph();
+		XWPFRun r = p.createRun();
+
+		r.setText("테스트용 문서입니다.");
+		r.setFontSize(9);
+		r.addBreak();r.addBreak();
+
+		File file = new File(path + filename);
+		FileOutputStream fos = null;
+		fos = new FileOutputStream(file);
+		doc.write(fos);
+		file.delete();
+
+		try{
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setText("메일 테스트입니다.");
+			messageHelper.setTo("dldndud61@naver.com");
+			messageHelper.setSubject("메일 테스트");
+			messageHelper.setFrom("wooyoung.lee@namutech.co.kr");
+
+			messageHelper.addAttachment(filename, file);
+
+			mailSender.send(message);
+			file.delete();
+		}catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 

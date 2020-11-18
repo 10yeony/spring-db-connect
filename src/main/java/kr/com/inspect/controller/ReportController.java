@@ -1,14 +1,24 @@
 package kr.com.inspect.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.com.inspect.dto.Utterance;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +53,9 @@ public class ReportController {
 	
 	@Autowired
 	private PptxReport pptxReport;
+
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@Value("${report.docx.directory}")
 	private String docxPath;
@@ -58,29 +71,34 @@ public class ReportController {
 	
 	/* 한국어 강의 목록 리스트 파일로 출력 */
 	@GetMapping("/metadata/{format}")
-	public void writeMetadata(HttpServletRequest request,
-							  HttpServletResponse response,
-										Model model,
-										@PathVariable String format) {
+	public void writeMetadata(HttpServletResponse response,
+										@PathVariable String format)throws Exception {
 		metadata = postgreService.getMetadataAndProgram();
-		String url = "";
-		
+
 		switch(format) {
 			case ("hwp"): //한글 파일
 				// hwpReport.writeHwp(hwpPath, list);
-				url = "report/hwpReport";
 				break;
 			case ("docx"): //docx 파일
-				docxReport.writeDocxMetadata(response, docxPath, metadata);
-				url = "report/docxReport";
+				try{
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+					messageHelper.setText("메일 테스트입니다.");
+					messageHelper.setTo("dldndud61@naver.com");
+					messageHelper.setSubject("메일 테스트");
+					messageHelper.setFrom("wooyoung.lee@namutech.co.kr");
+
+					mailSender.send(message);
+				}catch (Exception e) {
+					System.out.println(e);
+				}
+				docxReport.writeDocxMetadata(response, docxPath, metadata, "download");
 				break;
 			case ("xlsx"): //xlsx 파일
 				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata);
-				url = "report/xlsxReport";
 				break;
 			case ("pptx"): //pptx 파일 
 				// pptxReport.writePptx(pptxPath, list);
-				url = "report/pptxReport";
 				break;
 			default:
 				break;
@@ -89,13 +107,10 @@ public class ReportController {
 
 	/* utterance 리스트 docx 파일로 출력 */
 	@GetMapping("/utterance/docx/{format}")
-	public void writeUtteranceDocx(HttpServletRequest request,
-							  HttpServletResponse response,
-							  Model model,
+	public void writeUtteranceDocx(HttpServletResponse response,
 							  @PathVariable Integer format) {
 		meta = postgreService.getMetadataAndProgramUsingId(format);
 		utterances = postgreService.getUtteranceUsingMetadataId(format);
-		String url = "";
 
 		docxReport.writeDocxUtterance(response, docxPath, utterances, meta);
 	}
@@ -108,8 +123,39 @@ public class ReportController {
 							   @PathVariable Integer format) {
 		meta = postgreService.getMetadataAndProgramUsingId(format);
 		utterances = postgreService.getUtteranceUsingMetadataId(format);
-		String url = "";
 
 		xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta);
+	}
+
+	/* 한국어 강의 목록 mail 전송 */
+	@GetMapping("/metadataMail/{format}")
+	public void writeMetadataMail(HttpServletResponse response,
+							  Model model,
+							  @PathVariable String format)throws Exception {
+		metadata = postgreService.getMetadataAndProgram();
+
+		System.out.println("start Mail send");
+
+		switch(format) {
+			case ("docx"): //docx 파일
+				try{
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+					messageHelper.setText("메일 테스트입니다.");
+					messageHelper.setTo("dldndud61@naver.com");
+					messageHelper.setSubject("메일 테스트");
+					messageHelper.setFrom("wooyoung.lee@namutech.co.kr");
+
+					mailSender.send(message);
+				}catch (Exception e) {
+					System.out.println(e);
+				}
+				break;
+			case ("xlsx"): //xlsx 파일
+				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata);
+				break;
+			default:
+				break;
+		}
 	}
 }

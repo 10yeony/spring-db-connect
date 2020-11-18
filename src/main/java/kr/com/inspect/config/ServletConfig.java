@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.script.ScriptTemplateViewResolver;
 
 @Configuration
 @EnableWebMvc
@@ -56,5 +55,4 @@ public class ServletConfig implements WebMvcConfigurer {
 	    multipartResolver.setDefaultEncoding("UTF-8");
 	    return multipartResolver;
 	}
-
 }
