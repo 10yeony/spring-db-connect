@@ -38,6 +38,7 @@
 		<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
 	</div>
 	<form method="post" id="registerFrm" name="register">
+	
 		<div class="form-group">
 			<span>
 				<b style="font-size:14px">아이디 </b> 
@@ -63,8 +64,8 @@
 				<b style="font-size:14px">비밀번호 확인 </b> 
 				<span style="font-size:12px; color:red;">(필수)</span>
 			</span><br/>
-			<input type="password" class="form-control" name="pwdCheck" id="register_pwd_check">
-			<div style="margin-top:2px;" id="isSamePwd" required></div>
+			<input type="password" class="form-control" name="pwdCheck" id="register_pwd_check" required>
+			<div style="margin-top:2px;" id="isSamePwd"></div>
 		</div>
 		
 		<div class="form-group">

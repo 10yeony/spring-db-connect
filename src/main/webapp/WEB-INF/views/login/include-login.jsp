@@ -55,7 +55,9 @@
 			<input type="password" class="form-control form-control-user"
 				id="login_pwd" name="pwd" placeholder="비밀번호">
 			<div style="margin-top:2px;" id="isExistId"></div>
-			<a id="" class="small" href="javascript:void(0);">비밀번호를 잊어버리셨습니까?</a>
+			<a id="" class="small" href="javascript:void(0);" style="display:none">
+				비밀번호를 잊어버리셨습니까?
+			</a>
 		</div>
 
 		<div class="form-group">

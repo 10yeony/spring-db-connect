@@ -17,17 +17,18 @@ $(function() {
 			},
 			
 			success : function(data) {
-				alert(data);
 				if (data == 0 && $.trim($('#register_member_id').val()) != '') {
 					idCheck = true;
 					idOk = true;
 					let html = "<div style='color: green'>사용가능</div>";
-					$('#isExistId').html(html);
+					$('#isExistId').empty();
+					$('#isExistId').append(html);
 				} else {
 					idCheck = true;
 					idOk = false;
 					let html = "<div style='color: red'>사용불가능한 아이디입니다.</div>";
-					$('#isExistId').html(html);
+					$('#isExistId').empty();
+					$('#isExistId').append(html);
 				}
 			},
 			
