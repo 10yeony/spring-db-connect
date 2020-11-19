@@ -109,7 +109,7 @@
 		<div class="form-group">
 			<span>
 				<b style="font-size:14px">연락처 </b> 
-				<span style="font-size:12px">(문자 발송 서비스에 활용됩니다.)</span>
+				<span style="font-size:12px">(SMS 서비스에 활용됩니다.)</span>
 			</span><br/>
 			<input type="text" class="form-control" name="phone" 
 				id="register_phone" placeholder="예) 010-1234-5678">

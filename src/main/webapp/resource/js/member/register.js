@@ -15,8 +15,8 @@ $(function() {
 	
 	/* 정규표현식을 이용한 유효성 검사 */
 	var idRegex = /^[a-zA-Z0-9]{4,10}$/; //아이디가 적합한지 검사
-	var pwdRegex =  /^.*(?=^.{8,12}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/; //비밀번호가 적합한지 검사
-   var emailRegex =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	var pwdRegex =  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/; //비밀번호가 적합한지 검사
+   	var emailRegex =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     // 이메일이 적합한지 검사할 정규식
     var phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/; //핸드폰 번호 정규식
 	
@@ -27,6 +27,13 @@ $(function() {
 	
 	/* id 중복검사 */
 	$('#idCheck').click(function() {
+		if(!idRegex.test($('#register_member_id').val())){
+			alert("영어/숫자로 된 4자 이상 10자 이하의 아이디를 입력하세요");
+			$('#register_member_id').val('');
+			$('#register_member_id').focus();
+			return false;
+		}
+		
 		$.ajax({
 			url : contextPath + "/register/check/id",
 			type : "POST",
@@ -81,6 +88,13 @@ $(function() {
 	
 	/* 이메일 중복검사 */
 	$('#emailCheck').click(function() {
+		if(!emailRegex.test($('#register_email').val())){
+			alert("이메일 형식이 잘못되었습니다.");
+			$('#register_email').val('');
+			$('#register_email').focus();
+			return false;
+		}
+		
 		$.ajax({
 			url : contextPath + "/register/check/email",
 			type : "POST",
@@ -135,6 +149,13 @@ $(function() {
 	
 	/* 연락처 중복검사 */
 	$('#phoneCheck').click(function() {
+		if(!phoneRegex.test($('#register_phone').val())){
+			alert("핸드폰 번호 형식이 잘못되었습니다.");
+			$('#register_phone').val('');
+			$('#register_phone').focus();
+			return false;
+		}
+	
 		$.ajax({
 			url : contextPath + "/register/check/phone",
 			type : "POST",
@@ -185,46 +206,48 @@ $(function() {
 	/* 비밀번호 입력 검사 */
 	$('#register_pwd').keyup(function(){
 		let pwd = $('#register_pwd').val();
+		let pwdCheck = $('#register_pwd_check').val();
+		
 		if(pwd == ''){
 			let html = "<div style='color: #007bff'>비밀번호를 입력하세요</div>";
+			$('#isSamePwd').empty();
+			$('#isSamePwd').append(html);
+			$('#register_pwd').focus();
+			return false;
+		}else if(!pwdRegex.test(pwd)){
+			let html = "<div style='color: #dc3545'>잘못된 비밀번호 형식입니다.</div>";
+			$('#isSamePwd').empty();
+			$('#isSamePwd').append(html);
+			$('#register_pwd').focus();
+			return false;
+		}else{
+			$('#isSamePwd').empty();
+		}
+	});
+	
+	
+	/* 비밀번호 일치 검사(비밀번호  확인) */
+	$('#register_pwd_check').keyup(function(){
+		let pwd = $('#register_pwd').val();
+		let pwdCheck = $('#register_pwd_check').val();
+		
+		if(pwd != pwdCheck){
+			let html = "<div style='color: #dc3545'>비밀번호가 일치하지 않습니다.</div>";
+			$('#isSamePwd').empty();
+			$('#isSamePwd').append(html);
+		}else if(pwd === ''){
+			let html = "<div style='color: #007bff'>비밀번호를 입력하세요</div>";
+			$('#isSamePwd').empty();
+			$('#isSamePwd').append(html);
+			$('#register_pwd').focus();
+			return false;
+		}else {
+			let html = "<div style='color: #28a745'>비밀번호 일치</div>";
 			$('#isSamePwd').empty();
 			$('#isSamePwd').append(html);
 		}
 	});
 	
-	/* 비밀번호 일치 검사 */
-	$('#register_pwd_check').keyup(function(){
-		let pwd = $('#register_pwd').val();
-		let pwdCheck = $('#register_pwd_check').val();
-		if(pwd != ''){
-			if(pwd != pwdCheck){
-				let html = "<div style='color: #dc3545'>비밀번호가 일치하지 않습니다.</div>";
-				$('#isSamePwd').empty();
-				$('#isSamePwd').append(html);
-			}else{
-				let html = "<div style='color: #28a745'>비밀번호 일치</div>";
-				$('#isSamePwd').empty();
-				$('#isSamePwd').append(html);
-			}
-		}
-	});
-	
-	/* 비밀번호 일치 검사 */
-	$('#register_pwd').keyup(function(){
-		let pwd = $('#register_pwd').val();
-		let pwdCheck = $('#register_pwd_check').val();
-		if(pwdCheck != ''){
-			if(pwd != pwdCheck){
-				let html = "<div style='color: #dc3545'>비밀번호가 일치하지 않습니다.</div>";
-				$('#isSamePwd').empty();
-				$('#isSamePwd').append(html);
-			}else{
-				let html = "<div style='color: #28a745'>비밀번호 일치</div>";
-				$('#isSamePwd').empty();
-				$('#isSamePwd').append(html);
-			}
-		}
-	});
 	
 	///////////////////////////////////////////////////////////////////////////////////////
 	
