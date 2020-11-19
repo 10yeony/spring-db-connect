@@ -30,49 +30,34 @@
 						</span><br/>
 						<input type="text" class="form-control" name="member_id"
 							id="edit_member_id" value="${member.member_id}" disabled> 
-						<div style="margin-top:2px;" id="isExistId"></div>
 					</div>
 					
 					<div class="form-group">
 						<span>
-							<b style="font-size:14px">현재 비밀번호 </b> 
+							<b style="font-size:14px">비밀번호 </b> 
 							<span style="font-size:12px; color:red;">(필수)</span>
+							<span style="float:right">
+								<a class="small" href="#" data-toggle="modal" data-target="#eidtPwdModal">
+									비밀번호 수정
+								</a>
+							</span>
 						</span><br/>
-						<input type="password" class="form-control" name="present_pwd" 
-							id="edit_present_pwd" placeholder="현재 비밀번호를 입력하세요" required>
-						<div style="margin-top:2px;" id="isExistId"></div>
-						<div id="pwdNotExist" class="small" style="color:#4e73df;">
+						<input type="password" class="form-control" name="pwd" 
+							id="edit_pwd" placeholder="현재 비밀번호를 입력하세요" required>
+						<div id="edit_pwdNotExist" class="small" style="color:#4e73df;">
 							<b>비밀번호를 입력하세요</b>
 						</div>
-						<div id="pwdNotCorrect" style="display:none;">
+						<div id="edit_pwdNotCorrect" style="display:none;">
 							<span class="small" style="color:#e74a3b;">
 								<b>비밀번호가 틀렸습니다.</b>
 							</span>
-							<a id="pwdForgot" class="small" href="javascript:void(0);">비밀번호를 잊어버리셨습니까?</a>
+							<a id="edit_pwdForgot" class="small" href="javascript:void(0);">비밀번호를 잊어버리셨습니까?</a>
 						</div>
-						<div id="pwdCorrect" class="small" style="display:none;">
+						<div id="edit_pwdCorrect" class="small" style="display:none;">
 							<b style="color:#28a745;">OK !</b>
 						</div>
 					</div>
-					
-					<div class="form-group">
-						<span>
-							<b style="font-size:14px">새 비밀번호 </b> 
-							<span style="font-size:12px; color:red;">(필수)</span>
-						</span><br/>
-						<input type="password" class="form-control" name="pwd" 
-							id="edit_pwd" placeholder="영어/숫자/특수문자 포함 8자 이상 12자 이하" required>
-					</div>
-					
-					<div class="form-group">
-						<span>
-							<b style="font-size:14px">새 비밀번호 확인 </b> 
-							<span style="font-size:12px; color:red;">(필수)</span>
-						</span><br/>
-						<input type="password" class="form-control" name="pwdCheck" id="edit_pwd_check">
-						<div style="margin-top:2px;" id="isSamePwd" required></div>
-					</div>
-					
+
 					<div class="form-group">
 						<span>
 							<b style="font-size:14px">이메일 </b> 
@@ -81,6 +66,20 @@
 						<input type="email" class="form-control" name="email" 
 							id="edit_email" placeholder="예) sdtm@namutech.co.kr"
 							value="${member.email}" required>
+						<div style='display:inline-block; float:left;' id="edit_email_input_alert">
+							<span style="color: #007bff;">이메일을 입력하세요.</span>
+						</div>
+						<div style='display:none; float:left;' id="edit_email_able_alert">
+							<span style="color: #28a745;">사용가능</span>
+						</div>
+						<div style='display:none; float:left;' id="edit_email_disable_alert">
+							<span style="color: #dc3545;">사용불가능한 이메일입니다.</span>
+						</div>
+						<div style='display:none; float:left;' id="edit_email_check_alert">
+							<span style="color: #007bff;">이메일 중복체크가 필요합니다.</span>
+						</div>
+						<input style="display:inline-block; width:35%; float:right; margin-top:4px;" 
+							type="button" class="form-control" id="edit_emailCheck" value="중복체크"><br/>
 					</div>
 					
 					<div class="form-group">
@@ -91,19 +90,33 @@
 						<input type="text" class="form-control" name="phone" 
 							id="edit_phone" placeholder="예) 010-1234-5678"
 							value="${member.phone}">
+						<div style='display:none' id="edit_phone_able_alert">
+							<span style="color: #28a745;">사용가능</span>
+						</div>
+						<div style='display:none; float:left;' id="edit_phone_disable_alert">
+							<span style="color: #dc3545;">사용불가능한 연락처입니다.</span>
+						</div>
+						<div style='display:none; float:left;' id="edit_phone_check_alert">
+							<span style="color: #007bff;">연락처 중복체크가 필요합니다.</span>
+						</div>
+						<input style="display:inline-block; width:35%; float:right; margin-top:4px;" 
+							type="button" class="form-control" id="edit_phoneCheck" value="중복체크"><br/><br/>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer" style="display:block;">
 				<button class="btn btn-danger" type="button" data-dismiss="modal"
 					data-toggle="modal" data-target="#deleteModal" style="float:left;">회원탈퇴</button>
-				<button class="btn btn-primary" id="editBtn" style="float:right;">수정</button>
+				<button class="btn btn-primary" id="editBtn" style="float:right;">정보 수정</button>
 				<button class="btn btn-secondary" type="button" data-dismiss="modal"
 					style="float:right;">취소</button>
 			</div>
 		</div>
 	</div>
 </div>
+<!-- 비밀번호 수정 Modal include -->
+<%@ include file="edit_pwd.jsp"%>
+
 <!-- 회원탈퇴 Modal include -->
 <%@ include file="delete_info.jsp"%>
 </body>
