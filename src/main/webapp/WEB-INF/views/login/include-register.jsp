@@ -28,8 +28,6 @@
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
 <script 
 	src="${pageContext.request.contextPath}/resource/js/member/register.js"></script>
 </head>
@@ -48,17 +46,27 @@
 				<span style="font-size:12px; color:red;">(필수)</span>
 			</span><br/>
 			<input style="display:inline-block; width:63%;" type="text" class="form-control" name="member_id"
-				id="register_member_id" placeholder="4자 이상 10자 이하" required> 
+				id="register_member_id" placeholder="4자 이상 10자 이하" minlength="4" maxlength="10" required> 
 			<input style="display:inline-block; width:35%;" type="button" class="form-control" id="idCheck" value="중복체크">
-			<div style='color: blue;' id="id_input_alert">아이디를 입력하세요.</div>
+			<div id="id_input_alert">
+				<span class="small">
+					<b style='color: #4e73df;'>아이디를 입력하세요.</b>
+				</span>
+			</div>
 			<div style='display:none' id="id_able_alert">
-				<span style="color: green;">사용가능</span>
+				<span class="small">
+					<b style="color: #28a745;">사용가능</b>
+				</span>
 			</div>
 			<div style='display:none' id="id_disable_alert">
-				<span style="color: red;">사용불가능한 아이디입니다.</span>
+				<span class="small">
+					<b style="color: #dc3545;">사용불가능한 아이디입니다.</b>
+				</span>
 			</div>
 			<div style='display:none' id="id_check_alert">
-				<span style="color: blue;">아이디 중복체크가 필요합니다.</span>
+				<span class="small">
+					<b style="color: #4e73df;">아이디 중복체크가 필요합니다.</b>
+				</span>
 			</div>
 		</div>
 		
@@ -68,7 +76,8 @@
 				<span style="font-size:12px; color:red;">(필수)</span>
 			</span><br/>
 			<input type="password" class="form-control" name="pwd" 
-				id="register_pwd" placeholder="영어/숫자/특수문자 포함 8자 이상 12자 이하" required>
+				id="register_pwd" placeholder="영어/숫자/특수문자 포함 8자 이상 12자 이하"
+				minlength="8" maxlength="12" required>
 		</div>
 		
 		<div class="form-group">
@@ -76,8 +85,29 @@
 				<b style="font-size:14px">비밀번호 확인 </b> 
 				<span style="font-size:12px; color:red;">(필수)</span>
 			</span><br/>
-			<input type="password" class="form-control" name="pwdCheck" id="register_pwd_check">
-			<div style="margin-top:2px;" id="isSamePwd" required></div>
+			<input type="password" class="form-control" name="pwdCheck" 
+				id="register_pwd_check" placeholder="비밀번호를 한번 더 입력하세요." 
+				minlength="8" maxlength="12" required>
+			<div style='display:block;' id="pwd_input_alert">
+				<span class="small">
+					<b style="color: #4e73df;">비밀번호를 입력하세요.</b>
+				</span>
+			</div>
+			<div style='display:none;' id="pwd_same_alert">
+				<span class="small"> 
+					<b style="color: #28a745;">비밀번호 일치</b>
+				</span>
+			</div>
+			<div style='display:none;' id="pwd_different_alert">
+				<span class="small">
+					<b style="color: #dc3545;">비밀번호가 일치하지 않습니다.</b>
+				</span>
+			</div>
+			<div style='display:none;' id="pwd_disable_alert">
+				<span class="small">
+					<b style="color: #dc3545;">비밀번호 형식이 잘못되었습니다.</b>
+				</span>
+			</div>
 		</div>
 		
 		<div class="form-group">
@@ -87,19 +117,58 @@
 			</span><br/>
 			<input type="email" class="form-control" name="email" 
 				id="register_email" placeholder="예) sdtm@namutech.co.kr" required>
+			<div style='display:inline-block; float:left;' id="email_input_alert">
+				<span class="small">
+					<b style="color: #4e73df;">이메일을 입력하세요.</b>
+				</span>
+			</div>
+			<div style='display:none; float:left;' id="email_able_alert">
+				<span class="small"> 
+					<b style="color: #28a745;">사용가능</b>
+				</span>
+			</div>
+			<div style='display:none; float:left;' id="email_disable_alert">
+				<span class="small">
+					<b style="color: #dc3545;">사용불가능한 이메일입니다.</b>
+				</span>
+			</div>
+			<div style='display:none; float:left;' id="email_check_alert">
+				<span class="small">
+					<b style="color: #4e73df;">이메일 중복체크가 필요합니다.</b>
+				</span>
+			</div>
+			<input style="display:inline-block; width:35%; float:right; margin-top:4px;" 
+				type="button" class="form-control" id="emailCheck" value="중복체크"><br/>
 		</div>
 		
 		<div class="form-group">
 			<span>
 				<b style="font-size:14px">연락처 </b> 
-				<span style="font-size:12px">(문자 발송 서비스에 활용됩니다.)</span>
+				<span style="font-size:12px">(SMS 서비스에 활용됩니다.)</span>
 			</span><br/>
 			<input type="text" class="form-control" name="phone" 
 				id="register_phone" placeholder="예) 010-1234-5678">
+			<div style='display:none' id="phone_able_alert">
+				<span class="small">
+					<b style="color: #28a745;">사용가능</b>
+				</span>
+			</div>
+			<div style='display:none; float:left;' id="phone_disable_alert">
+				<span class="small">
+					<b style="color: #dc3545;">사용불가능한 연락처입니다.</b>
+				</span>
+			</div>
+			<div style='display:none; float:left;' id="phone_check_alert">
+				<span class="small">
+					<b style="color: #4e73df;">연락처 중복체크가 필요합니다.</b>
+				</span>
+			</div>
+			<input style="display:inline-block; width:35%; float:right; margin-top:4px;" 
+				type="button" class="form-control" id="phoneCheck" value="중복체크"><br/><br/>
 		</div>
 		
 		<div class="form-group">
-			<div class="custom-control custom-checkbox small">
+			<div class="custom-control custom-checkbox small" style="text-align:center">
 				<input type="checkbox" class="custom-control-input" id="customAgree"> 
 				<label class="custom-control-label" for="customAgree">개인 정보 활용에 동의합니다.</label>
 			</div>

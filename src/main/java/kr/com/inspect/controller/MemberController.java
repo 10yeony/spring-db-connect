@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,12 +43,21 @@ public class MemberController {
 		return msg;
 	}
 
-	/* 아이디 중복 체크 */
+	/* 회원가입시 해당 요소가 DB에 존재하는지 중복 체크 */
 	@ResponseBody
-	@PostMapping("register/idCheck")
-	public String idCheck(HttpServletRequest request) {
-		String member_id = request.getParameter("member_id");
-		int result = memberService.idCheck(member_id);
+	@PostMapping("register/check/{object}")
+	public String registerCheck(HttpServletRequest request, 
+							@PathVariable String object) {
+		int result = 0;
+		String value = null;
+		if(object.equals("id")) { //아이디 중복 체크
+			value = request.getParameter("member_id");
+		}else if(object.equals("email")) { //이메일 중복 체크
+			value = request.getParameter("email");
+		}else if(object.equals("phone")){ //연락처 중복 체크
+			value = request.getParameter("phone");
+		}
+		result = memberService.registerCheck(object, value);
 		return Integer.toString(result);
 	}
 	
@@ -71,7 +81,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/updateMember")
 	public String UpdateMember(HttpSession session, Member member) {
-		int result = memberService.updateMember(member);
+		int result = memberService.updateMember(session, member);
 		if(result==1) {
 			Member vo = memberService.readMemberById(member.getMember_id());
 			session.setAttribute("member", vo); //회원정보를 수정했으므로 세션 재설정
@@ -88,8 +98,7 @@ public class MemberController {
 		Member member = (Member) session.getAttribute("member");
 		int result = memberService.updatePwd(member.getMember_id(), pwd);
 		if(result == 1) {
-			Member vo = memberService.readMemberById(member.getMember_id());
-			session.setAttribute("member", vo); //비밀번호를 수정했으므로 세션 재설정
+			session.invalidate(); //비밀번호를 수정하였으므로 다시 로그인하게 함
 			return "true";
 		}else {
 			return "false";

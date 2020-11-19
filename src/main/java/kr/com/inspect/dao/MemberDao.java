@@ -29,6 +29,12 @@ public interface MemberDao {
 	/* 아이디 중복확인 */
 	public int idCheck(String member_id);
 	
+	/* 이메일 중복확인 */
+	public int emailCheck(String email);
+	
+	/* 연락처 중복확인 */
+	public int phoneCheck(String phone);
+	
 	/* id로 가지고 있는 권한들을 가져옴 */
 	public List<String> readAuthorities(String memeber_id);
 

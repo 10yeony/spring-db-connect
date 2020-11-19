@@ -72,6 +72,20 @@ public class MemberDaoImpl implements MemberDao{
 		result = sqlSession.selectOne(memberNs+"idCheck", member_id);
 		return result;
 	}
+	
+	/* 이메일 중복확인 */
+	public int emailCheck(String email) {
+		int result = 0;
+		result = sqlSession.selectOne(memberNs+"emailCheck", email);
+		return result;
+	}
+	
+	/* 연락처 중복확인 */
+	public int phoneCheck(String phone) {
+		int result = 0;
+		result = sqlSession.selectOne(memberNs+"phoneCheck", phone);
+		return result;
+	}
 
 	/* id로 가지고 있는 권한들을 가져옴 */
 	@Override
