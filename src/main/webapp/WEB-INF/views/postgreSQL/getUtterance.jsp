@@ -68,8 +68,8 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Form</th>
-                                        <th width="100">시작시간(단위: 초)</th>
-                                        <th width="100">종료시간(단위: 초)</th>
+                                        <th>Start</th>
+                                        <th>End</th>
                                         <th width="100">어절 수</th>
                                     </tr>
                                 </thead>

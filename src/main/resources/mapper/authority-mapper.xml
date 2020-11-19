@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 회원 관련 쿼리 -->
+<mapper namespace="AuthorityMapper">
+	
+	<!-- 가지고 있는 권한을 가져옴 -->
+	<select id="readAuthorities" parameterType="String" resultType="String">
+		SELECT
+			authority_name 
+		FROM 
+			audio.authority 
+		WHERE 
+			username = #{username};
+   </select>
+   
+   <!-- 권한을 새로 등록함 -->
+   <insert id="registerAuthority" parameterType="hashMap">
+   		INSERT INTO 
+			audio.authority
+			(username, authority_name)
+		VALUES
+			(#{username}, #{authority_name});
+   </insert>
+   
+   <!-- 모든 권한을 삭제함 -->
+   <delete id="deleteAuthorities" parameterType="String">
+   		DELETE FROM 
+   			audio.authority 
+   		WHERE 
+   			username = #{username}
+   </delete>
+</mapper>
