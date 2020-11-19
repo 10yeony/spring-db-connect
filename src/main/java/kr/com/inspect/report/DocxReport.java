@@ -11,6 +11,7 @@ import java.util.List;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
 import org.apache.poi.xwpf.usermodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -20,41 +21,25 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class DocxReport {
+	@Autowired
+	private MailSend ms;
+
 	@Value("${table.column0}")
 	private String column0;
 
 	@Value("${table.column1}")
 	private String column1;
 
-	@Value("${table.column2}")
-	private String column2;
-
-	@Value("${table.column3}")
-	private String column3;
-
-	@Value("${table.column4}")
-	private String column4;
-
-	@Value("${table.column5}")
-	private String column5;
-
-	@Value("${table.column6}")
-	private String column6;
-
-	@Value("${table.column7}")
-	private String column7;
-
-	@Value("${table.column8}")
-	private String column8;
-
 	/* docx 한국어 강의 목록 리스트 작성 */
-	public void writeDocxMetadata(HttpServletResponse response, String path, List<Metadata> list) {
+	public void writeDocxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag)throws Exception {
 		String docxFileName =
 				"LectureList_"+
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
 						+ ".docx";
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
+
+		/* doc 파일 생성 */
 		XWPFDocument doc = new XWPFDocument();
 
 		XWPFParagraph p = doc.createParagraph();
@@ -78,11 +63,11 @@ public class DocxReport {
 
 		/* 헤더 정보 구성 */
 		table.getRow(0).getCell(0).setText(column0);
-		table.getRow(0).getCell(1).setText("title");
-		table.getRow(0).getCell(2).setText("subtitle");
+		table.getRow(0).getCell(1).setText("제목");
+		table.getRow(0).getCell(2).setText("부제");
 		table.getRow(0).getCell(3).setText(column1);
-		table.getRow(0).getCell(4).setText("file_num");
-		table.getRow(0).getCell(5).setText("running_time");
+		table.getRow(0).getCell(4).setText("파일명");
+		table.getRow(0).getCell(5).setText("강의 시간");
 		table.getRow(0).getCell(6).setText("문장수");
 		table.getRow(0).getCell(7).setText("어절수");
 
@@ -99,7 +84,7 @@ public class DocxReport {
 			table.getRow(rowIdx+1).getCell(7).setText(Integer.toString(metadata.getEojeol_total()));
 		}
 
-		// 입력된 내용 파일로 쓰기
+		/* 입력된 내용 파일로 쓰기 */
 		File file = new File(path + docxFileName);
 		FileOutputStream fos = null;
 		System.out.println(path + docxFileName);
@@ -109,11 +94,17 @@ public class DocxReport {
 			doc.write(fos);
 
 			/* 사용자 컴퓨터에 다운로드 */
-			response.setHeader("Content-Disposition", "attachment;filename="+docxFileName);
-			response.setContentType("application/octet-stream; charset=utf-8");
-			doc.write(response.getOutputStream());
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
+			if(flag.equals("download")) {
+				response.setHeader("Content-Disposition", "attachment;filename=" + docxFileName);
+				response.setContentType("application/octet-stream; charset=utf-8");
+				doc.write(response.getOutputStream());
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
+			/* 사용자 mail로 파일전송 */
+			else if(flag.equals("mail")){
+				ms.sendMail(file, docxFileName);
+			}
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
 		} catch (IOException e) {
@@ -129,13 +120,14 @@ public class DocxReport {
 	}
 
 	/* docx utterance 리스트 작성 */
-	public void writeDocxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata) {
+	public void writeDocxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata, String flag)throws Exception {
 		String docxFileName =
 				metadata.getTitle()+ "_" +
 						new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
 						+ ".docx";
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
+		/* doc 파일 생성 */
 		XWPFDocument doc = new XWPFDocument();
 
 		XWPFParagraph p = doc.createParagraph();
@@ -169,9 +161,9 @@ public class DocxReport {
 		table.getRow(0).getCell(1).setWidth("3000");
 		table.getRow(0).getCell(1).setText("form");
 		table.getRow(0).getCell(2).setWidth("300");
-		table.getRow(0).getCell(2).setText("start");
+		table.getRow(0).getCell(2).setText("시작시간(단위: 초)");
 		table.getRow(0).getCell(3).setWidth("300");
-		table.getRow(0).getCell(3).setText("end");
+		table.getRow(0).getCell(3).setText("종료시간(단위: 초)");
 		table.getRow(0).getCell(4).setWidth("300");
 		table.getRow(0).getCell(4).setText("어절수");
 
@@ -200,11 +192,17 @@ public class DocxReport {
 			doc.write(fos);
 
 			/* 사용자 컴퓨터에 다운로드 */
-			response.setHeader("Content-Disposition", "attachment;filename="+docxFileName);
-			response.setContentType("application/octet-stream; charset=utf-8");
-			doc.write(response.getOutputStream());
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
+			if(flag.equals("download")) {
+				response.setHeader("Content-Disposition", "attachment;filename=" + docxFileName);
+				response.setContentType("application/octet-stream; charset=utf-8");
+				doc.write(response.getOutputStream());
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
+			/* 사용자 mail로 파일 전송 */
+			else if(flag.equals("mail")){
+				ms.sendMail(file, docxFileName);
+			}
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
 		} catch (IOException e) {
@@ -218,7 +216,6 @@ public class DocxReport {
 			}
 		}
 	}
-
 	public String is_Null(String str){
 		return (str == "") ? " " : str;
 	}

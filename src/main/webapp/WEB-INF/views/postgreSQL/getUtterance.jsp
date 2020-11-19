@@ -56,6 +56,10 @@
                                 class="fas fa-download fa-sm text-white-50"></i> Word</a>
                         <a href="${pageContext.request.contextPath}/utterance/xlsx/${metadata.id}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Excel</a>
+                        <a onclick="mail('docx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> docxMail</a>
+                        <a onclick="mail('xlsx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> xlsxMail</a>
                     </div>
                 </div>
 
@@ -107,6 +111,28 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+
+<script>
+function mail(file){
+    var url = '${pageContext.request.contextPath}/utteranceMail';
+
+    $.ajax({
+        type:"GET",
+        url: url,
+        data: {file: file, metaId: ${metadata.id}},
+        dataType: 'text',
+
+        success:function (){
+            alert("메일이 성공적으로 전송되었습니다.");
+        },
+        error: function (){
+            alert("에러");
+        }
+    })
+
+    alert("메일이 전송됩니다.");
+}
+</script>
 
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>

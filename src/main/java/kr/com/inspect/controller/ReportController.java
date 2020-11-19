@@ -2,6 +2,7 @@ package kr.com.inspect.controller;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,10 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.report.DocxReport;
-import kr.com.inspect.report.HwpReport;
-import kr.com.inspect.report.PptxReport;
 import kr.com.inspect.report.XlsxReport;
 import kr.com.inspect.service.PostgreService;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @PropertySource(value = "classpath:properties/directory.properties")
@@ -33,17 +33,11 @@ public class ReportController {
 
 	/* 파일 생성 */
 	@Autowired
-	private HwpReport hwpReport;
-	
-	@Autowired
 	private DocxReport docxReport;
 	
 	@Autowired
 	private XlsxReport xlsxReport;
-	
-	@Autowired
-	private PptxReport pptxReport;
-	
+
 	@Value("${report.docx.directory}")
 	private String docxPath;
 	
@@ -58,10 +52,8 @@ public class ReportController {
 	
 	/* 한국어 강의 목록 리스트 파일로 출력 */
 	@GetMapping("/metadata/{format}")
-	public void writeMetadata(HttpServletRequest request,
-							  HttpServletResponse response,
-										Model model,
-										@PathVariable String format) {
+	public void writeMetadata(HttpServletResponse response,
+										@PathVariable String format) throws Exception {
 		metadata = postgreService.getMetadataAndProgram();
 
 		switch(format) {
@@ -69,10 +61,10 @@ public class ReportController {
 				// hwpReport.writeHwp(hwpPath, list);
 				break;
 			case ("docx"): //docx 파일
-				docxReport.writeDocxMetadata(response, docxPath, metadata);
+				docxReport.writeDocxMetadata(response, docxPath, metadata, "download");
 				break;
 			case ("xlsx"): //xlsx 파일
-				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata);
+				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "download");
 				break;
 			case ("pptx"): //pptx 파일 
 				// pptxReport.writePptx(pptxPath, list);
@@ -84,15 +76,12 @@ public class ReportController {
 
 	/* utterance 리스트 docx 파일로 출력 */
 	@GetMapping("/utterance/docx/{format}")
-	public void writeUtteranceDocx(HttpServletRequest request,
-							  HttpServletResponse response,
-							  Model model,
-							  @PathVariable Integer format) {
+	public void writeUtteranceDocx(HttpServletResponse response,
+							  @PathVariable Integer format)throws Exception {
 		meta = postgreService.getMetadataAndProgramUsingId(format);
 		utterances = postgreService.getUtteranceUsingMetadataId(format);
-		String url = "";
-
-		docxReport.writeDocxUtterance(response, docxPath, utterances, meta);
+		
+		docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "download");
 	}
 
 	/* utterance 리스트 xlsx 파일로 출력 */
@@ -100,11 +89,52 @@ public class ReportController {
 	public void writeUtteranceXlsx(HttpServletRequest request,
 							   HttpServletResponse response,
 							   Model model,
-							   @PathVariable Integer format) {
+							   @PathVariable Integer format)throws Exception {
 		meta = postgreService.getMetadataAndProgramUsingId(format);
 		utterances = postgreService.getUtteranceUsingMetadataId(format);
-		String url = "";
 
-		xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta);
+		xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "download");
+	}
+
+	/* 한국어 강의목록 파일 mail 전송 */
+	@GetMapping("/metadataMail/{format}")
+	public void sendMetadataMail(HttpServletResponse response,
+							  @PathVariable String format) throws Exception {
+		metadata = postgreService.getMetadataAndProgram();
+
+		switch(format) {
+			case ("docx"): //docx 파일
+				docxReport.writeDocxMetadata(response, docxPath, metadata, "mail");
+				break;
+			case ("xlsx"): //xlsx 파일
+				System.out.println("xlsx파일 mail");
+				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "mail");
+				break;
+			default:
+				break;
+		}
+	}
+
+	/* 강의 문장 파일 mail 전송 */
+	@GetMapping("/utteranceMail")
+	@ResponseBody
+	public void sendUtteranceMail(HttpServletRequest request,
+								  HttpServletResponse response) throws Exception {
+		int format = Integer.parseInt(request.getParameter("metaId"));
+		meta = postgreService.getMetadataAndProgramUsingId(format);
+		utterances = postgreService.getUtteranceUsingMetadataId(format);
+
+		switch(request.getParameter("file")) {
+			case ("docx"): //docx 파일
+				System.out.println("docx");
+				docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "mail");
+				break;
+			case ("xlsx"): //xlsx 파일
+				System.out.println("xlsxl");
+				xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "mail");
+				break;
+			default:
+				break;
+		}
 	}
 }

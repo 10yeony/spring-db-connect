@@ -51,6 +51,10 @@
 								class="fas fa-download fa-sm text-white-50"></i> Word</a>
 						<a href="${pageContext.request.contextPath}/metadata/xlsx" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 								class="fas fa-download fa-sm text-white-50"></i> Excel</a>
+						<a onclick="mail('metadataMail/docx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+								class="fas fa-download fa-sm text-white-50"></i> docxMail</a>
+						<a onclick="mail('metadataMail/xlsx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+								class="fas fa-download fa-sm text-white-50"></i> xlsxMail</a>
 					</div>
 				</div>
 
@@ -120,16 +124,6 @@
 
 <script>
 
-// $("#inputSearchText").on("keyup", function() {
-// 	var searchText = $(this).val();
-//
-// 	$("#metadata > tbody > tr").filter(function (){
-// 		$(this).toggle($(this).text().indexOf(searchText) > -1)
-// 	});
-// 	// var temp = $("#metadata > tbody > tr > td:contains('" + searchText + "')");
-//
-// 	// $(temp).parent().show();
-// });
 $(document).ready(function() {
 	$("#inputSearchText").keyup(function() {
 		var k = $(this).val();
@@ -139,6 +133,24 @@ $(document).ready(function() {
 		$(temp).parent().show();
 	})
 })
+
+function mail(file){
+	var url = '${pageContext.request.contextPath}/' + file;
+
+	$.ajax({
+		type:"GET",
+		url: url,
+
+		success:function (){
+			alert("메일이 성공적으로 전송되었습니다.");
+		},
+		error: function (){
+			alert("에러");
+		}
+	})
+
+	alert("메일이 전송됩니다.");
+}
 </script>
 
 <!-- Bootstrap core JavaScript-->

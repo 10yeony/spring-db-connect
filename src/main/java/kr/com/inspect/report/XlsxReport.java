@@ -14,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -23,41 +24,24 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class XlsxReport {
+	@Autowired
+	private MailSend ms;
+
 	@Value("${table.column0}")
 	private String column0;
 
 	@Value("${table.column1}")
 	private String column1;
 
-	@Value("${table.column2}")
-	private String column2;
-
-	@Value("${table.column3}")
-	private String column3;
-
-	@Value("${table.column4}")
-	private String column4;
-
-	@Value("${table.column5}")
-	private String column5;
-
-	@Value("${tabl.e.column6}")
-	private String column6;
-
-	@Value("${table.column7}")
-	private String column7;
-
-	@Value("${table.column8}")
-	private String column8;
-	
 	/* xlsx 한국어 강의 목록 리스트 작성 */
-	public void writeXlsxMetadata(HttpServletResponse response, String path, List<Metadata> list) {
+	public void writeXlsxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag) throws Exception {
 		String xlsxFileName =
 				"LectureList_"+
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
 						+ ".xlsx"; //파일명
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
+		/* xlsx 파일 생성 */
 		XSSFWorkbook workbook = new XSSFWorkbook(); //워크북
 		XSSFSheet sheet = workbook.createSheet(); //워크시트
 		XSSFRow row = sheet.createRow(0); //행
@@ -77,15 +61,15 @@ public class XlsxReport {
 		cell = row.createCell(0);
 		cell.setCellValue(column0);
 		cell = row.createCell(1);
-		cell.setCellValue("title");
+		cell.setCellValue("제목");
 		cell = row.createCell(2);
-		cell.setCellValue("subtitle");
+		cell.setCellValue("부제");
 		cell = row.createCell(3);
 		cell.setCellValue(column1);
 		cell = row.createCell(4);
-		cell.setCellValue("file_num");
+		cell.setCellValue("파일명");
 		cell = row.createCell(5);
-		cell.setCellValue("running_time");
+		cell.setCellValue("강의시간");
 		cell = row.createCell(6);
 		cell.setCellValue("문장수");
 		cell = row.createCell(7);
@@ -125,25 +109,32 @@ public class XlsxReport {
 			workbook.write(fos);
 
 			/* 사용자 컴퓨터에 다운로드 */
-			response.setHeader("Content-Disposition", "attachment;filename="+xlsxFileName);
-			response.setContentType("application/octet-stream; charset=utf-8");
-			response.setContentType("application/vnd.ms-excel");
-			workbook.write(response.getOutputStream());
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
+			if(flag.equals("download")) {
+				response.setHeader("Content-Disposition", "attachment;filename=" + xlsxFileName);
+				response.setContentType("application/octet-stream; charset=utf-8");
+				response.setContentType("application/vnd.ms-excel");
+				workbook.write(response.getOutputStream());
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
+			/* 사용자 mail로 파일전송 */
+			else if(flag.equals("mail")){
+				ms.sendMail(file, xlsxFileName);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	/* xlsx utterance 리스트 작성 */
-	public void writeXlsxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata) {
+	public void writeXlsxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata, String flag)throws Exception {
 		String xlsxFileName =
 				metadata.getTitle()+ "_" +
 						new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
 						+ ".xlsx"; //파일명
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
+		/* xlsx 파일 생성 */
 		XSSFWorkbook workbook = new XSSFWorkbook(); //워크북
 		XSSFSheet sheet = workbook.createSheet(); //워크시트
 		XSSFRow row = sheet.createRow(0); //행
@@ -175,11 +166,11 @@ public class XlsxReport {
 		cell = row.createCell(0);
 		cell.setCellValue(column0);
 		cell = row.createCell(1);
-		cell.setCellValue("title");
+		cell.setCellValue("form");
 		cell = row.createCell(2);
-		cell.setCellValue("start");
+		cell.setCellValue("시작시간(단위: 초)");
 		cell = row.createCell(3);
-		cell.setCellValue("end");
+		cell.setCellValue("종료시간(단위: 초)");
 		cell = row.createCell(4);
 		cell.setCellValue("어절수");
 
@@ -211,12 +202,18 @@ public class XlsxReport {
 			workbook.write(fos);
 
 			/* 사용자 컴퓨터에 다운로드 */
-			response.setHeader("Content-Disposition", "attachment;filename="+xlsxFileName);
-			response.setContentType("application/octet-stream; charset=utf-8");
-			response.setContentType("application/vnd.ms-excel");
-			workbook.write(response.getOutputStream());
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
+			if(flag.equals("download")) {
+				response.setHeader("Content-Disposition", "attachment;filename=" + xlsxFileName);
+				response.setContentType("application/octet-stream; charset=utf-8");
+				response.setContentType("application/vnd.ms-excel");
+				workbook.write(response.getOutputStream());
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
+			/* 사용자 mail로 파일 전송 */
+			else if(flag.equals("mail")){
+				ms.sendMail(file, xlsxFileName);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
