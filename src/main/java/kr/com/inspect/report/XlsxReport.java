@@ -118,8 +118,8 @@ public class XlsxReport {
 				response.getOutputStream().close();
 			}
 			/* 사용자 mail로 파일전송 */
-			else if(flag.equals("mail")){
-				ms.sendMail(file, xlsxFileName);
+			else if(flag.substring(0,4).equals("mail")){
+				ms.sendMail(file, xlsxFileName, flag.substring(4,flag.length()));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -211,8 +211,8 @@ public class XlsxReport {
 				response.getOutputStream().close();
 			}
 			/* 사용자 mail로 파일 전송 */
-			else if(flag.equals("mail")){
-				ms.sendMail(file, xlsxFileName);
+			else if(flag.substring(0,4).equals("mail")){
+				ms.sendMail(file, xlsxFileName, flag.substring(4, flag.length()));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -52,14 +52,52 @@
                     	<span><b>creator :</b> ${metadata.creator}<br/></span>
                     </h5>
                     <div>
+                        <!-- 파일 다운로드 버튼 -->
                         <a href="${pageContext.request.contextPath}/utterance/docx/${metadata.id}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Word</a>
                         <a href="${pageContext.request.contextPath}/utterance/xlsx/${metadata.id}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Excel</a>
-                        <a onclick="mail('docx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> docxMail</a>
-                        <a onclick="mail('xlsx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> xlsxMail</a>
+                        <div class="my-2"></div>
+<%--                        <a onclick="mail('docx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i--%>
+<%--                                class="fas fa-download fa-sm text-white-50"></i> docxMail</a>--%>
+<%--                        <a onclick="mail('xlsx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i--%>
+<%--                                class="fas fa-download fa-sm text-white-50"></i> xlsxMail</a>--%>
+                        <!-- 파일 전송 버튼 -->
+                        <div>
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item dropdown no-arrow">
+                                    <a class="nav-link dropdown-toggle btn btn-primary shadow-sm btn-sm " href="#" id="fileSend" style="width: 105pt"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                                            class="fas fa-paper-plane fa-sm text-white-50"></i>&nbsp;&nbsp;파일 전송</a>
+                                    <!-- Dropdown - User Information -->
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                         aria-labelledby="fileSend">
+                                        <h5 class="dropdown-header" style="color: black;font-size: 1.5em">
+                                            <i class="fas fa-at"></i>&nbsp;&nbsp;E-Mail
+                                        </h5>
+                                        <div class="my-2"></div>
+                                        <a class="dropdown-item btn" onclick="mail('docx');">
+                                            <h6>- Word</h6>
+                                        </a>
+                                        <a class="dropdown-item btn" onclick="mail('xlsx');">
+                                            <h6>- Excel</h6>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-center small text-gray-500">${member.email}로 발송됩니다.</a>
+<%--                                        <div class="dropdown-divider"></div>--%>
+<%--                                        <h5 class="dropdown-header" style="color: black;font-size: 1.5em">--%>
+<%--                                            <i class="fas fa-envelope"></i>&nbsp;&nbsp;SMS--%>
+<%--                                        </h5>--%>
+<%--                                        <a class="dropdown-item btn" onclick="">--%>
+<%--                                            <h6>- Word</h6>--%>
+<%--                                        </a>--%>
+<%--                                        <a class="dropdown-item btn" onclick="">--%>
+<%--                                            <h6>- Excel</h6>--%>
+<%--                                        </a>--%>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 

@@ -102,8 +102,8 @@ public class DocxReport {
 				response.getOutputStream().close();
 			}
 			/* 사용자 mail로 파일전송 */
-			else if(flag.equals("mail")){
-				ms.sendMail(file, docxFileName);
+			else if(flag.subSequence(0,4).equals("mail")){
+				ms.sendMail(file, docxFileName, flag.substring(4,flag.length()));
 			}
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
@@ -158,11 +158,11 @@ public class DocxReport {
 		/* 헤더 정보 구성 */
 		table.getRow(0).getCell(0).setWidth("300");
 		table.getRow(0).getCell(0).setText(column0);
-		table.getRow(0).getCell(1).setWidth("3000");
+		table.getRow(0).getCell(1).setWidth("2800");
 		table.getRow(0).getCell(1).setText("form");
-		table.getRow(0).getCell(2).setWidth("300");
+		table.getRow(0).getCell(2).setWidth("400");
 		table.getRow(0).getCell(2).setText("시작시간(단위: 초)");
-		table.getRow(0).getCell(3).setWidth("300");
+		table.getRow(0).getCell(3).setWidth("400");
 		table.getRow(0).getCell(3).setText("종료시간(단위: 초)");
 		table.getRow(0).getCell(4).setWidth("300");
 		table.getRow(0).getCell(4).setText("어절수");
@@ -172,11 +172,11 @@ public class DocxReport {
 			utterance = list.get(rowIdx);
 			table.getRow(rowIdx+1).getCell(0).setWidth("300");
 			table.getRow(rowIdx+1).getCell(0).setText(Integer.toString(rowIdx+1));
-			table.getRow(rowIdx+1).getCell(1).setWidth("3000");
+			table.getRow(rowIdx+1).getCell(1).setWidth("2800");
 			table.getRow(rowIdx+1).getCell(1).setText(utterance.getForm());
-			table.getRow(rowIdx+1).getCell(2).setWidth("300");
+			table.getRow(rowIdx+1).getCell(2).setWidth("400");
 			table.getRow(rowIdx+1).getCell(2).setText(Integer.toString((int)utterance.getStart()));
-			table.getRow(rowIdx+1).getCell(3).setWidth("300");
+			table.getRow(rowIdx+1).getCell(3).setWidth("400");
 			table.getRow(rowIdx+1).getCell(3).setText(Integer.toString((int)utterance.getFinish()));
 			table.getRow(rowIdx+1).getCell(4).setWidth("300");
 			table.getRow(rowIdx+1).getCell(4).setText(Integer.toString((int)utterance.getEojeol_count()));
@@ -200,8 +200,8 @@ public class DocxReport {
 				response.getOutputStream().close();
 			}
 			/* 사용자 mail로 파일 전송 */
-			else if(flag.equals("mail")){
-				ms.sendMail(file, docxFileName);
+			else if(flag.subSequence(0,4).equals("mail")){
+				ms.sendMail(file, docxFileName, flag.substring(4,flag.length()));
 			}
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
@@ -216,6 +216,7 @@ public class DocxReport {
 			}
 		}
 	}
+
 	public String is_Null(String str){
 		return (str == "") ? " " : str;
 	}

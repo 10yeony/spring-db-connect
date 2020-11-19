@@ -15,12 +15,13 @@ public class MailSend {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendMail(File file, String filename) throws Exception{
+    /* 파일을 받아서 mail 전송하는 메소드 */
+    public void sendMail(File file, String filename, String email) throws Exception{
         try{
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
             // 받는 사람
-            messageHelper.setTo("dldndud61@naver.com");
+            messageHelper.setTo(email);
             // 보내는 사람
             messageHelper.setFrom("wooyoung.lee@namutech.co.kr");
             // 메일 제목 (생략 가능)
