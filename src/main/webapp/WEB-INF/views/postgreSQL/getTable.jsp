@@ -70,11 +70,11 @@
 								<thead>
 									<tr>
 										<th>Id</th>
-										<th>Title</th>
-										<th>Subtitle</th>
+										<th>제목</th>
+										<th>부제</th>
 										<th>Creator</th>
 										<th>Year</th>
-										<th>File_num</th>
+										<th>파일명</th>
 										<th>문장 수</th>
 										<th>어절 수</th>
 									</tr>
