@@ -30,7 +30,7 @@
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 <script 
-	src="${pageContext.request.contextPath}/resource/js/login/login.js"></script>
+	src="${pageContext.request.contextPath}/resource/js/member/login.js"></script>
 </head>
 
 <body>
@@ -54,6 +54,8 @@
 		<div class="form-group">
 			<input type="password" class="form-control form-control-user"
 				id="login_pwd" name="pwd" placeholder="비밀번호">
+			<div style="margin-top:2px;" id="isExistId"></div>
+			<a id="" class="small" href="javascript:void(0);">비밀번호를 잊어버리셨습니까?</a>
 		</div>
 
 		<div class="form-group">

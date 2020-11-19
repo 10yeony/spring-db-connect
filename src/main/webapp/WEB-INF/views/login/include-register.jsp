@@ -28,10 +28,6 @@
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
-<script 
-	src="${pageContext.request.contextPath}/resource/js/login/register.js"></script>
-<script>
-</script>	
 </head>
 
 <body>
@@ -68,7 +64,16 @@
 				<span style="font-size:12px; color:red;">(필수)</span>
 			</span><br/>
 			<input type="password" class="form-control" name="pwdCheck" id="register_pwd_check">
-			<div style="margin-top:2px;" id="isSamePwd"></div>
+			<div style="margin-top:2px;" id="isSamePwd" required></div>
+		</div>
+		
+		<div class="form-group">
+			<span>
+				<b style="font-size:14px">이메일 </b> 
+				<span style="font-size:12px; color:red;">(필수)</span>
+			</span><br/>
+			<input type="email" class="form-control" name="email" 
+				id="register_email" placeholder="예) sdtm@namutech.co.kr" required>
 		</div>
 		
 		<div class="form-group">
@@ -78,15 +83,6 @@
 			</span><br/>
 			<input type="text" class="form-control" name="phone" 
 				id="register_phone" placeholder="예) 010-1234-5678">
-		</div>
-		
-		<div class="form-group">
-			<span>
-				<b style="font-size:14px">이메일 </b> 
-				<span style="font-size:12px">(메일링 서비스에 활용됩니다.)</span>
-			</span><br/>
-			<input type="email" class="form-control" name="email" 
-				id="register_email" placeholder="예) sdtm@namutech.co.kr">
 		</div>
 		
 		<div class="form-group">

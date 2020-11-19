@@ -1,0 +1,112 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<script
+		src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+	<script 
+		src="${pageContext.request.contextPath}/resource/js/member/member_info.js"></script>
+</head>
+<body>
+<!-- Logout Modal-->
+<div class="modal fade" id="memberInfoModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">회원정보 수정</h5>
+				<button class="close" type="button" data-dismiss="modal"
+					 id="editX" aria-label="Close">
+					<span aria-hidden="true">x</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="editFrm" name="edit">
+					<div class="form-group">
+						<span>
+							<b style="font-size:14px">아이디 </b> 
+						</span><br/>
+						<input type="text" class="form-control" name="member_id"
+							id="edit_member_id" value="${member.member_id}" disabled> 
+						<div style="margin-top:2px;" id="isExistId"></div>
+					</div>
+					
+					<div class="form-group">
+						<span>
+							<b style="font-size:14px">현재 비밀번호 </b> 
+							<span style="font-size:12px; color:red;">(필수)</span>
+						</span><br/>
+						<input type="password" class="form-control" name="present_pwd" 
+							id="edit_present_pwd" placeholder="현재 비밀번호를 입력하세요" required>
+						<div style="margin-top:2px;" id="isExistId"></div>
+						<div id="pwdNotExist" class="small" style="color:#4e73df;">
+							<b>비밀번호를 입력하세요</b>
+						</div>
+						<div id="pwdNotCorrect" style="display:none;">
+							<span class="small" style="color:#e74a3b;">
+								<b>비밀번호가 틀렸습니다.</b>
+							</span>
+							<a id="pwdForgot" class="small" href="javascript:void(0);">비밀번호를 잊어버리셨습니까?</a>
+						</div>
+						<div id="pwdCorrect" class="small" style="display:none;">
+							<b style="color:#28a745;">OK !</b>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<span>
+							<b style="font-size:14px">새 비밀번호 </b> 
+							<span style="font-size:12px; color:red;">(필수)</span>
+						</span><br/>
+						<input type="password" class="form-control" name="pwd" 
+							id="edit_pwd" placeholder="영어/숫자/특수문자 포함 8자 이상 12자 이하" required>
+					</div>
+					
+					<div class="form-group">
+						<span>
+							<b style="font-size:14px">새 비밀번호 확인 </b> 
+							<span style="font-size:12px; color:red;">(필수)</span>
+						</span><br/>
+						<input type="password" class="form-control" name="pwdCheck" id="edit_pwd_check">
+						<div style="margin-top:2px;" id="isSamePwd" required></div>
+					</div>
+					
+					<div class="form-group">
+						<span>
+							<b style="font-size:14px">이메일 </b> 
+							<span style="font-size:12px; color:red;">(필수)</span>
+						</span><br/>
+						<input type="email" class="form-control" name="email" 
+							id="edit_email" placeholder="예) sdtm@namutech.co.kr"
+							value="${member.email}" required>
+					</div>
+					
+					<div class="form-group">
+						<span>
+							<b style="font-size:14px">연락처 </b> 
+							<span style="font-size:12px">(문자 발송 서비스에 활용됩니다.)</span>
+						</span><br/>
+						<input type="text" class="form-control" name="phone" 
+							id="edit_phone" placeholder="예) 010-1234-5678"
+							value="${member.phone}">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" style="display:block;">
+				<button class="btn btn-danger" type="button" data-dismiss="modal"
+					data-toggle="modal" data-target="#deleteModal" style="float:left;">회원탈퇴</button>
+				<button class="btn btn-primary" id="editBtn" style="float:right;">수정</button>
+				<button class="btn btn-secondary" type="button" data-dismiss="modal"
+					style="float:right;">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 회원탈퇴 Modal include -->
+<%@ include file="delete_info.jsp"%>
+</body>
+</html>

@@ -50,12 +50,12 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 	
-	/* 회원정보를 가져옴 */
+	/* 아이디로 회원정보를 가져옴 */
 	@Override
 	public Member readMemberById(String member_id){
-		Member vo = memberDao.readMemberById(member_id);
-		vo.setAuthorities(getAuthorities(member_id));
-		return vo;
+		Member member = memberDao.readMemberById(member_id);
+		member.setAuthorities(getAuthorities(member_id));
+		return member;
 	}
 	
 	/* 아이디 중복 체크 */
@@ -66,7 +66,16 @@ public class MemberServiceImpl implements MemberService {
 
 	/* 회원 정보 수정 */
 	public int updateMember(Member member) {
-		return 0;
+		/* 비밀번호를 암호화함 */
+		String rawPassword = member.getPassword(); //사용자가 입력한 raw한 비밀번호
+		String encodedPassword = new BCryptPasswordEncoder().encode(rawPassword); //암호화된 비밀번호
+		member.setPwd(encodedPassword); //암호화된 비밀번호로 세팅
+		return memberDao.updateMember(member);
+	}
+	
+	/* 비밀번호 변경 */
+	public int updatePwd(String member_id, String pwd) {
+		return memberDao.updatePwd(member_id, pwd);
 	}
 	
 	/* 회원 탈퇴 */

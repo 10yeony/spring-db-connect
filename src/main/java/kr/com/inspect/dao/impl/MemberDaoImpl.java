@@ -25,6 +25,19 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.insert(memberNs+"registerMember", member);
 	}
 	
+	/* 회원 정보 수정 */
+	public int updateMember(Member member) {
+		return sqlSession.update(memberNs+"updateMember", member);
+	}
+	
+	/* 비밀번호 변경 */
+	public int updatePwd(String member_id, String pwd) {
+		Map<String, String> map = new HashMap<>();
+		map.put("member_id", member_id);
+		map.put("pwd", pwd);
+		return sqlSession.update(memberNs+"updatePwd", map);
+	}
+	
 	/* member 탈퇴 */
 	public int deleteMember(String member_id) {
 		return sqlSession.delete(memberNs+"deleteMember", member_id);
@@ -47,9 +60,9 @@ public class MemberDaoImpl implements MemberDao{
 	/* 아이디로 회원정보를 읽음 */
 	@Override
 	public Member readMemberById(String member_id) {
-		Member result = null;
-		result = sqlSession.selectOne(memberNs+"readMemberById", member_id);
-		return result;
+		Member member = null;
+		member = sqlSession.selectOne(memberNs+"readMemberById", member_id);
+		return member;
 	}
 	
 	/* 아이디 중복확인 */

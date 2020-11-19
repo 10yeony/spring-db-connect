@@ -32,6 +32,10 @@
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+<script 
+	src="${pageContext.request.contextPath}/resource/js/member/register.js"></script>
 <script>
 $(function(){
 	/* 로그인, 회원가입 메뉴 컨트롤 */
@@ -60,12 +64,15 @@ $(function(){
 							<div class="col-lg-6 d-none d-lg-block" style="position: relative;">
 								<image 
 									src="${pageContext.request.contextPath}/resource/img/NAMU_Logo_PNG.png"
-									width="300" style="display: block;
-  margin-left: auto;
-  margin-right: auto; position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);"></image>
+									width="300" 
+									style="display: block;
+  											margin-left: auto;
+  											margin-right: auto; 
+  											position: absolute;
+											top: 50%;
+											left: 50%;
+											transform: translate(-50%, -50%);">
+							  </image>
 							</div><!-- col-lg-6 d-none d-lg-block -->
 							<div class="col-lg-6">
 								<div class="p-5">

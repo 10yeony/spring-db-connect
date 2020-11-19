@@ -15,7 +15,7 @@ public interface MemberService extends UserDetailsService {
 	/* 회원가입 */
 	public int registerMember(Member member); 
 	
-	/* 회원정보를 가져옴 */
+	/* 아이디로 회원정보를 가져옴 */
 	public Member readMemberById(String member_id); 
 	
 	/* 아이디 중복 체크 */
@@ -26,6 +26,9 @@ public interface MemberService extends UserDetailsService {
 	
 	/* 회원 정보 수정 */
 	public int updateMember(Member member);
+	
+	/* 비밀번호 변경 */
+	public int updatePwd(String member_id, String pwd);
 	
 	/* 회원 탈퇴 */
 	public int deleteMember(String member_id);

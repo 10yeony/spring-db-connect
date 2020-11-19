@@ -1,13 +1,10 @@
 package kr.com.inspect.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +33,7 @@ public class MemberController {
 	/* 회원가입 */
 	@ResponseBody
 	@RequestMapping(value = "/register", produces = "application/text; charset=utf8")
-	public String registerMember(Member member, Model model) {
+	public String registerMember(Member member) {
 		String msg = "회원가입에 실패하였습니다.";
 		int result = memberService.registerMember(member);
 		if (result == 2) {
@@ -52,6 +49,65 @@ public class MemberController {
 		String member_id = request.getParameter("member_id");
 		int result = memberService.idCheck(member_id);
 		return Integer.toString(result);
+	}
+	
+	/* 회원정보를 수정하거나 삭제할 때 비밀번호를 입력받고 자격을 확인함 */
+	@ResponseBody
+	@PostMapping("/ableToEdit")
+	public String ableToEdit(HttpSession session, String pwd) {
+		/* 세션의 비밀번호와 사용자가 입력한 비밀번호를 서로 비교하여 boolean 값을 리턴 */
+		Member member = (Member) session.getAttribute("member");
+		PasswordEncoder pwdEncoder = memberService.passwordEncoder();
+		boolean pwdMatch = pwdEncoder.matches(pwd, member.getPassword());
+		
+		if(pwdMatch) {
+			return "true";
+		}else {
+			return "false";	
+		}
+	}
+	
+	/* 회원정보를 수정함 */
+	@ResponseBody
+	@PostMapping("/updateMember")
+	public String UpdateMember(HttpSession session, Member member) {
+		int result = memberService.updateMember(member);
+		if(result==1) {
+			Member vo = memberService.readMemberById(member.getMember_id());
+			session.setAttribute("member", vo); //회원정보를 수정했으므로 세션 재설정
+			return "true";
+		}else {
+			return "false";
+		}
+	}
+	
+	/* 비밀번호를 수정함 */
+	@ResponseBody
+	@PostMapping("/updatePwd")
+	public String UpdatePwd(HttpSession session, String pwd) {
+		Member member = (Member) session.getAttribute("member");
+		int result = memberService.updatePwd(member.getMember_id(), pwd);
+		if(result == 1) {
+			Member vo = memberService.readMemberById(member.getMember_id());
+			session.setAttribute("member", vo); //비밀번호를 수정했으므로 세션 재설정
+			return "true";
+		}else {
+			return "false";
+		}
+	}
+	
+	/* 회원을 삭제함 */
+	@ResponseBody
+	@GetMapping("/deleteMember")
+	public String deleteMember(HttpSession session) {
+		Member member = (Member) session.getAttribute("member");
+		int result = memberService.deleteMember(member.getMember_id());
+		if(result == 2) {
+			session.invalidate(); //탈퇴했으니 세션 삭제
+			return "true";
+		}else {
+			return "false";
+		}
 	}
 	
 	/* 회원정보 가져와서 회원 목록 페이지로 이동 */

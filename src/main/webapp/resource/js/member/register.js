@@ -1,9 +1,11 @@
+var contextPath = '';
+
 $(function() {
 	var idCheck = false; //id 중복검사 여부
 	var idOk = false; //id 사용가능 여부
 	
 	/* Context Path */
-	var contextPath = getContextPath();
+	contextPath = getContextPath();
 	
 	/* id 중복검사 */
 	$('#idCheck').click(function() {
@@ -15,18 +17,17 @@ $(function() {
 			},
 			
 			success : function(data) {
+				alert(data);
 				if (data == 0 && $.trim($('#register_member_id').val()) != '') {
 					idCheck = true;
 					idOk = true;
 					let html = "<div style='color: green'>사용가능</div>";
-					$('#isExistId').empty();
-					$('#isExistId').append(html);
+					$('#isExistId').html(html);
 				} else {
 					idCheck = true;
 					idOk = false;
 					let html = "<div style='color: red'>사용불가능한 아이디입니다.</div>";
-					$('#isExistId').empty();
-					$('#isExistId').append(html);
+					$('#isExistId').html(html);
 				}
 			},
 			
@@ -81,7 +82,9 @@ $(function() {
 		let member_id = $('#register_member_id').val();
 		let pwd = $('#register_pwd').val();
 		let pwdCheck = $('#register_pwd_check').val();
-		if(member_id == '' || pwd == '' || pwdCheck == ''){
+		let email = $('#register_email').val();
+		let phone = $('#register_phone').val();
+		if(member_id == '' || pwd == '' || pwdCheck == '' || email == ''){
 			alert("빈칸을 입력하세요.");
 			return false;
 		}else if(idCheck === false){
@@ -93,6 +96,12 @@ $(function() {
 		}else if(pwd != pwdCheck){
 			alert("비밀번호가 일치하지 않습니다.");
 			return false;
+		}
+		else if(phone == ''){
+			let result = confirm("연락처를 입력하지 않으시면 문자 발송 서비스를 사용하실 수 없습니다. 계속 진행하시겠습니까?");
+			if(!result){
+				return false;
+			}
 		}
 		$.ajax({
 			url : contextPath + "/register",

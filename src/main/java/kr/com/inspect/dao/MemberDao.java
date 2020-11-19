@@ -8,6 +8,12 @@ public interface MemberDao {
 	/* member 가입 */
 	public int registerMember(Member member);
 	
+	/* 회원 정보 수정 */
+	public int updateMember(Member member);
+	
+	/* 비밀번호 변경 */
+	public int updatePwd(String member_id, String pwd);
+	
 	/* member 탈퇴 */
 	public int deleteMember(String member_id);
 	
