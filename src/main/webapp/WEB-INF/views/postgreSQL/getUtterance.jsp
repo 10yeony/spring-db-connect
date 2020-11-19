@@ -77,10 +77,10 @@
                                         </h5>
                                         <div class="my-2"></div>
                                         <a class="dropdown-item btn" onclick="mail('docx');">
-                                            <h6>- Word</h6>
+                                            <h6>- Word 파일전송</h6>
                                         </a>
                                         <a class="dropdown-item btn" onclick="mail('xlsx');">
-                                            <h6>- Excel</h6>
+                                            <h6>- Excel 파일전송</h6>
                                         </a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item text-center small text-gray-500">${member.email}로 발송됩니다.</a>
