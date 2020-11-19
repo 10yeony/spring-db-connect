@@ -32,10 +32,6 @@
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
-<script 
-	src="${pageContext.request.contextPath}/resource/js/member/register.js"></script>
 <script>
 $(function(){
 	/* 로그인, 회원가입 메뉴 컨트롤 */

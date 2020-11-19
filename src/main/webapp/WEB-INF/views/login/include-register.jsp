@@ -28,6 +28,10 @@
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+<script 
+	src="${pageContext.request.contextPath}/resource/js/member/register.js"></script>
 </head>
 
 <body>
@@ -46,7 +50,16 @@
 			<input style="display:inline-block; width:63%;" type="text" class="form-control" name="member_id"
 				id="register_member_id" placeholder="4자 이상 10자 이하" required> 
 			<input style="display:inline-block; width:35%;" type="button" class="form-control" id="idCheck" value="중복체크">
-			<div style="margin-top:2px;" id="isExistId"></div>
+			<div style='color: blue;' id="id_input_alert">아이디를 입력하세요.</div>
+			<div style='display:none' id="id_able_alert">
+				<span style="color: green;">사용가능</span>
+			</div>
+			<div style='display:none' id="id_disable_alert">
+				<span style="color: red;">사용불가능한 아이디입니다.</span>
+			</div>
+			<div style='display:none' id="id_check_alert">
+				<span style="color: blue;">아이디 중복체크가 필요합니다.</span>
+			</div>
 		</div>
 		
 		<div class="form-group">

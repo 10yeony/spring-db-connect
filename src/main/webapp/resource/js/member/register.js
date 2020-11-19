@@ -20,13 +20,19 @@ $(function() {
 				if (data == 0 && $.trim($('#register_member_id').val()) != '') {
 					idCheck = true;
 					idOk = true;
-					let html = "<div style='color: green'>사용가능</div>";
-					$('#isExistId').empty();
-					$('#isExistId').append(html);
+					/* 사용가능한 아이디 */
+					$('#id_input_alert').attr('style', 'display:none');
+					$('#id_able_alert').attr('style', 'display:block');
+					$('#id_disable_alert').attr('style', 'display:none');
+					$('#id_check_alert').attr('style', 'display:none');
 				} else {
 					idCheck = true;
 					idOk = false;
-					let html = "<div style='color: red'>사용불가능한 아이디입니다.</div>";
+					/* 사용불가능한 아이디 */
+					$('#id_input_alert').attr('style', 'display:none');
+					$('#id_able_alert').attr('style', 'display:none');
+					$('#id_disable_alert').attr('style', 'display:block');
+					$('#id_check_alert').attr('style', 'display:none');
 					$('#isExistId').empty();
 					$('#isExistId').append(html);
 				}
@@ -41,13 +47,17 @@ $(function() {
 	/* id를 새로 입력하면 중복검사를 안 한 것으로 표기 */
 	$('#register_member_id').keyup(function(){
 		idCheck = false;
-		let html = "<div style='color: blue'>아이디 중복체크가 필요합니다.</div>";
-		$('#isExistId').empty();
-		$('#isExistId').append(html);
+		/* 아이디 중복 체크 필요 */
+		$('#id_input_alert').attr('style', 'display:none');
+		$('#id_able_alert').attr('style', 'display:none');
+		$('#id_disable_alert').attr('style', 'display:none');
+		$('#id_check_alert').attr('style', 'display:block');
 		if($(this).val() == ''){
-			html = "<div style='color: blue'>아이디를 입력하세요.</div>";
-			$('#isExistId').empty();
-			$('#isExistId').append(html);
+			/* 아이디 입력 필요 */
+			$('#id_input_alert').attr('style', 'display:block');
+			$('#id_able_alert').attr('style', 'display:none');
+			$('#id_disable_alert').attr('style', 'display:none');
+			$('#id_check_alert').attr('style', 'display:none');
 		}
 	});
 	
@@ -97,8 +107,11 @@ $(function() {
 		}else if(pwd != pwdCheck){
 			alert("비밀번호가 일치하지 않습니다.");
 			return false;
+		}else if(!$('#customAgree').is(":checked")){
+			alert('개인 정보 활용에 동의해주세요.');
+			return false;
 		}
-		else if(phone == ''){
+		if(phone == ''){
 			let result = confirm("연락처를 입력하지 않으시면 문자 발송 서비스를 사용하실 수 없습니다. 계속 진행하시겠습니까?");
 			if(!result){
 				return false;
