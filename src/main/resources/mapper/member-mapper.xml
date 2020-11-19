@@ -37,6 +37,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			member_id = #{member_id};
 	</select>
 	
+	<!-- 이메일 중복 체크  -->
+	<select id="emailCheck" parameterType="string" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			audio.member 
+		WHERE 
+			email = #{email};
+	</select>
+	
+	<!-- 연락처 중복 체크  -->
+	<select id="phoneCheck" parameterType="string" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			audio.member 
+		WHERE 
+			phone = #{phone};
+	</select>
+	
 	<!-- 회원가입 -->
 	<insert id="registerMember" parameterType="kr.com.inspect.dto.Member">
 		INSERT INTO 

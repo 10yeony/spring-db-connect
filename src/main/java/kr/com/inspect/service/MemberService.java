@@ -18,8 +18,8 @@ public interface MemberService extends UserDetailsService {
 	/* 아이디로 회원정보를 가져옴 */
 	public Member readMemberById(String member_id); 
 	
-	/* 아이디 중복 체크 */
-	public int idCheck(String member_id);
+	/* 회원가입시 해당 요소가 DB에 존재하는지 중복 체크 */
+	public int registerCheck(String object, String value);
 
 	/* 회원 정보 모두 가지고옴 */
 	public List<Member> getMember();

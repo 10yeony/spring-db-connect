@@ -58,10 +58,17 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 	
-	/* 아이디 중복 체크 */
-	@Override
-	public int idCheck(String member_id) {
-		return memberDao.idCheck(member_id);
+	/* 회원가입시 해당 요소가 DB에 존재하는지 중복 체크 */
+	public int registerCheck(String object, String value) {
+		if(object.equals("id")) { //아이디 중복 체크
+			return memberDao.idCheck(value);
+		}else if(object.equals("email")) { //이메일 중복 체크
+			return memberDao.emailCheck(value);
+		}else if(object.contains("phone")) { //연락처 중복 체크
+			return memberDao.phoneCheck(value);
+		}else {
+			return 0;
+		}
 	}
 
 	/* 회원 정보 수정 */
