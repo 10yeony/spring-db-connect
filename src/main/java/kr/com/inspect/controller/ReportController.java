@@ -63,24 +63,19 @@ public class ReportController {
 										Model model,
 										@PathVariable String format) {
 		metadata = postgreService.getMetadataAndProgram();
-		String url = "";
-		
+
 		switch(format) {
 			case ("hwp"): //한글 파일
 				// hwpReport.writeHwp(hwpPath, list);
-				url = "report/hwpReport";
 				break;
 			case ("docx"): //docx 파일
 				docxReport.writeDocxMetadata(response, docxPath, metadata);
-				url = "report/docxReport";
 				break;
 			case ("xlsx"): //xlsx 파일
 				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata);
-				url = "report/xlsxReport";
 				break;
 			case ("pptx"): //pptx 파일 
 				// pptxReport.writePptx(pptxPath, list);
-				url = "report/pptxReport";
 				break;
 			default:
 				break;
