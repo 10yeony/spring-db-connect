@@ -209,19 +209,24 @@ $(function() {
 		let pwdCheck = $('#register_pwd_check').val();
 		
 		if(pwd == ''){
-			let html = "<div style='color: #007bff'>비밀번호를 입력하세요</div>";
-			$('#isSamePwd').empty();
-			$('#isSamePwd').append(html);
+			$('#pwd_input_alert').attr('style', 'display:block');
+			$('#pwd_different_alert').attr('style', 'display:none');
+			$('#pwd_disable_alert').attr('style', 'display:none');
+			$('#pwd_same_alert').attr('style', 'display:none');
 			$('#register_pwd').focus();
 			return false;
 		}else if(!pwdRegex.test(pwd)){
-			let html = "<div style='color: #dc3545'>잘못된 비밀번호 형식입니다.</div>";
-			$('#isSamePwd').empty();
-			$('#isSamePwd').append(html);
+			$('#pwd_input_alert').attr('style', 'display:none');
+			$('#pwd_different_alert').attr('style', 'display:none');
+			$('#pwd_disable_alert').attr('style', 'display:block');
+			$('#pwd_same_alert').attr('style', 'display:none');
 			$('#register_pwd').focus();
 			return false;
 		}else{
-			$('#isSamePwd').empty();
+			$('#pwd_input_alert').attr('style', 'display:none');
+			$('#pwd_different_alert').attr('style', 'display:none');
+			$('#pwd_disable_alert').attr('style', 'display:none');
+			$('#pwd_same_alert').attr('style', 'display:none');
 		}
 	});
 	
@@ -232,19 +237,23 @@ $(function() {
 		let pwdCheck = $('#register_pwd_check').val();
 		
 		if(pwd != pwdCheck){
-			let html = "<div style='color: #dc3545'>비밀번호가 일치하지 않습니다.</div>";
-			$('#isSamePwd').empty();
-			$('#isSamePwd').append(html);
+			$('#pwd_input_alert').attr('style', 'display:none');
+			$('#pwd_different_alert').attr('style', 'display:block');
+			$('#pwd_disable_alert').attr('style', 'display:none');
+			$('#pwd_same_alert').attr('style', 'display:none');
+			return false;
 		}else if(pwd === ''){
-			let html = "<div style='color: #007bff'>비밀번호를 입력하세요</div>";
-			$('#isSamePwd').empty();
-			$('#isSamePwd').append(html);
+			$('#pwd_input_alert').attr('style', 'display:block');
+			$('#pwd_different_alert').attr('style', 'display:none');
+			$('#pwd_disable_alert').attr('style', 'display:none');
+			$('#pwd_same_alert').attr('style', 'display:none');
 			$('#register_pwd').focus();
 			return false;
 		}else {
-			let html = "<div style='color: #28a745'>비밀번호 일치</div>";
-			$('#isSamePwd').empty();
-			$('#isSamePwd').append(html);
+			$('#pwd_input_alert').attr('style', 'display:none');
+			$('#pwd_different_alert').attr('style', 'display:none');
+			$('#pwd_disable_alert').attr('style', 'display:none');
+			$('#pwd_same_alert').attr('style', 'display:block');
 		}
 	});
 	

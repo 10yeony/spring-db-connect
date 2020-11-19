@@ -3,6 +3,8 @@ package kr.com.inspect.service;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +27,7 @@ public interface MemberService extends UserDetailsService {
 	public List<Member> getMember();
 	
 	/* 회원 정보 수정 */
-	public int updateMember(Member member);
+	public int updateMember(HttpSession session, Member member);
 	
 	/* 비밀번호 변경 */
 	public int updatePwd(String member_id, String pwd);

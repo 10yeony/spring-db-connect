@@ -49,16 +49,24 @@
 				id="register_member_id" placeholder="4자 이상 10자 이하" minlength="4" maxlength="10" required> 
 			<input style="display:inline-block; width:35%;" type="button" class="form-control" id="idCheck" value="중복체크">
 			<div id="id_input_alert">
-				<span style='color: #007bff;'>아이디를 입력하세요.</span>
+				<span class="small">
+					<b style='color: #4e73df;'>아이디를 입력하세요.</b>
+				</span>
 			</div>
 			<div style='display:none' id="id_able_alert">
-				<span style="color: #28a745;">사용가능</span>
+				<span class="small">
+					<b style="color: #28a745;">사용가능</b>
+				</span>
 			</div>
 			<div style='display:none' id="id_disable_alert">
-				<span style="color: #dc3545;">사용불가능한 아이디입니다.</span>
+				<span class="small">
+					<b style="color: #dc3545;">사용불가능한 아이디입니다.</b>
+				</span>
 			</div>
 			<div style='display:none' id="id_check_alert">
-				<span style="color: #007bff;">아이디 중복체크가 필요합니다.</span>
+				<span class="small">
+					<b style="color: #4e73df;">아이디 중복체크가 필요합니다.</b>
+				</span>
 			</div>
 		</div>
 		
@@ -80,7 +88,26 @@
 			<input type="password" class="form-control" name="pwdCheck" 
 				id="register_pwd_check" placeholder="비밀번호를 한번 더 입력하세요." 
 				minlength="8" maxlength="12" required>
-			<div style="margin-top:2px;" id="isSamePwd"></div>
+			<div style='display:block;' id="pwd_input_alert">
+				<span class="small">
+					<b style="color: #4e73df;">비밀번호를 입력하세요.</b>
+				</span>
+			</div>
+			<div style='display:none;' id="pwd_same_alert">
+				<span class="small"> 
+					<b style="color: #28a745;">비밀번호 일치</b>
+				</span>
+			</div>
+			<div style='display:none;' id="pwd_different_alert">
+				<span class="small">
+					<b style="color: #dc3545;">비밀번호가 일치하지 않습니다.</b>
+				</span>
+			</div>
+			<div style='display:none;' id="pwd_disable_alert">
+				<span class="small">
+					<b style="color: #dc3545;">비밀번호 형식이 잘못되었습니다.</b>
+				</span>
+			</div>
 		</div>
 		
 		<div class="form-group">
@@ -91,16 +118,24 @@
 			<input type="email" class="form-control" name="email" 
 				id="register_email" placeholder="예) sdtm@namutech.co.kr" required>
 			<div style='display:inline-block; float:left;' id="email_input_alert">
-				<span style="color: #007bff;">이메일을 입력하세요.</span>
+				<span class="small">
+					<b style="color: #4e73df;">이메일을 입력하세요.</b>
+				</span>
 			</div>
 			<div style='display:none; float:left;' id="email_able_alert">
-				<span style="color: #28a745;">사용가능</span>
+				<span class="small"> 
+					<b style="color: #28a745;">사용가능</b>
+				</span>
 			</div>
 			<div style='display:none; float:left;' id="email_disable_alert">
-				<span style="color: #dc3545;">사용불가능한 이메일입니다.</span>
+				<span class="small">
+					<b style="color: #dc3545;">사용불가능한 이메일입니다.</b>
+				</span>
 			</div>
 			<div style='display:none; float:left;' id="email_check_alert">
-				<span style="color: #007bff;">이메일 중복체크가 필요합니다.</span>
+				<span class="small">
+					<b style="color: #4e73df;">이메일 중복체크가 필요합니다.</b>
+				</span>
 			</div>
 			<input style="display:inline-block; width:35%; float:right; margin-top:4px;" 
 				type="button" class="form-control" id="emailCheck" value="중복체크"><br/>
@@ -114,13 +149,19 @@
 			<input type="text" class="form-control" name="phone" 
 				id="register_phone" placeholder="예) 010-1234-5678">
 			<div style='display:none' id="phone_able_alert">
-				<span style="color: #28a745;">사용가능</span>
+				<span class="small">
+					<b style="color: #28a745;">사용가능</b>
+				</span>
 			</div>
 			<div style='display:none; float:left;' id="phone_disable_alert">
-				<span style="color: #dc3545;">사용불가능한 연락처입니다.</span>
+				<span class="small">
+					<b style="color: #dc3545;">사용불가능한 연락처입니다.</b>
+				</span>
 			</div>
 			<div style='display:none; float:left;' id="phone_check_alert">
-				<span style="color: #007bff;">연락처 중복체크가 필요합니다.</span>
+				<span class="small">
+					<b style="color: #4e73df;">연락처 중복체크가 필요합니다.</b>
+				</span>
 			</div>
 			<input style="display:inline-block; width:35%; float:right; margin-top:4px;" 
 				type="button" class="form-control" id="phoneCheck" value="중복체크"><br/><br/>

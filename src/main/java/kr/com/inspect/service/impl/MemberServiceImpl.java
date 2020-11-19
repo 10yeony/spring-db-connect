@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -72,17 +74,22 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	/* 회원 정보 수정 */
-	public int updateMember(Member member) {
-		/* 비밀번호를 암호화함 */
-		String rawPassword = member.getPassword(); //사용자가 입력한 raw한 비밀번호
-		String encodedPassword = new BCryptPasswordEncoder().encode(rawPassword); //암호화된 비밀번호
-		member.setPwd(encodedPassword); //암호화된 비밀번호로 세팅
+	public int updateMember(HttpSession session, Member member) {
+		Member vo = (Member) session.getAttribute("member");
+		member.setMember_id(vo.getMember_id()); //세션에서 아이디, 비밀번호를 가져옴
+		member.setPwd(vo.getPwd());
+		member.setAccountNonExpired(true); //계정 관련 기본값 true로 세팅
+		member.setAccountNonLocked(true);
+		member.setCredentialsNonExpired(true);
+		member.setEnabled(true);
+		//System.out.println(member);
 		return memberDao.updateMember(member);
 	}
 	
 	/* 비밀번호 변경 */
 	public int updatePwd(String member_id, String pwd) {
-		return memberDao.updatePwd(member_id, pwd);
+		String encodedPassword = new BCryptPasswordEncoder().encode(pwd); //사용자가 입력한 비밀번호를 암호화
+		return memberDao.updatePwd(member_id, encodedPassword);
 	}
 	
 	/* 회원 탈퇴 */

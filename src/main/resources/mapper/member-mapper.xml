@@ -93,7 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			phone = #{phone}, 
 			email = #{email}
 		WHERE
-			member_id = #{memeber_id};
+			member_id = #{member_id};
 	</update>
 	
 	<!-- 비밀번호 수정 -->
@@ -103,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		SET
 			pwd = #{pwd}
 		WHERE
-			member_id = #{memeber_id};
+			member_id = #{member_id};
 	</update>
 	
 	<!-- 회원탈퇴 -->

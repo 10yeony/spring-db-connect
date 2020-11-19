@@ -7,7 +7,7 @@
 	<script
 		src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>	
 	<script 
-		src="${pageContext.request.contextPath}/resource/js/member/delete_info.js"></script>
+		src="${pageContext.request.contextPath}/resource/js/member/edit_pwd.js"></script>
 </head>
 <!-- Logout Modal-->
 <div class="modal fade" id="eidtPwdModal" tabindex="-1" role="dialog"
@@ -18,7 +18,7 @@
 				<h5 class="modal-title" id="exampleModalLabel">비밀번호를 수정하시겠습니까?</h5>
 				<button class="close" type="button" data-dismiss="modal"
 					aria-label="Close">
-					<span aria-hidden="true">x</span>
+					<span class="goToMemberInfo" aria-hidden="true">x</span>
 				</button>
 			</div>
 			<div class="modal-body">
@@ -30,11 +30,11 @@
 					<input type="password" class="form-control" name="present_pwd" 
 						id="edit_present_pwd" placeholder="현재 비밀번호를 입력하세요" required>
 					<div id="edit_pwd_pwdNotExist" class="small" style="color:#4e73df;">
-						<b>비밀번호를 입력하세요</b>
+						<b>현재 비밀번호를 입력하세요</b>
 					</div>
 					<div id="edit_pwd_pwdNotCorrect" style="display:none;">
 						<span class="small" style="color:#e74a3b;">
-							<b>비밀번호가 틀렸습니다.</b>
+							<b>현재 비밀번호가 틀렸습니다.</b>
 						</span>
 					</div>
 					<div id="edit_pwd_pwdCorrect" class="small" style="display:none;">
@@ -56,11 +56,30 @@
 					</span><br/>
 					<input type="password" class="form-control" name="pwdCheck" 
 						id="edit_new_pwd_check" placeholder="새 비밀번호를 한번 더 입력하세요." required>
-					<div style="margin-top:2px;" id="edit_isSameNewPwd" required></div>
+					<div style='display:block;' id="edit_new_pwd_input_alert">
+						<span class="small">
+							<b style="color: #4e73df;">새 비밀번호를 입력하세요.</b>
+						</span>
+					</div>
+					<div style='display:none;' id="edit_new_pwd_same_alert">
+						<span class="small"> 
+							<b style="color: #28a745;">새 비밀번호 일치</b>
+						</span>
+					</div>
+					<div style='display:none;' id="edit_new_pwd_different_alert">
+						<span class="small">
+							<b style="color: #dc3545;">새 비밀번호가 일치하지 않습니다.</b>
+						</span>
+					</div>
+					<div style='display:none;' id="edit_new_pwd_disable_alert">
+						<span class="small">
+							<b style="color: #dc3545;">새 비밀번호의 형식이 잘못되었습니다.</b>
+						</span>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+				<button class="btn btn-secondary goToMemberInfo" type="button" data-dismiss="modal">취소</button>
 				<button class="btn btn-primary" type="button" id="editPwdBtn">비밀번호 수정</button>
 			</div>
 		</div>
