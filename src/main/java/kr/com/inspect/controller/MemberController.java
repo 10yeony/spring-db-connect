@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,23 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	/**
+	 * 커스텀 로그인 페이지로 이동(반드시 GET 방식이어야 함)
+	 * @return string 커스텀 로그인 페이지로 리턴
+	 */
+	@GetMapping("/login")
+	public String Login() {
+		return "login";
+	}
 
 	/* 회원가입 */
 	@ResponseBody
-	@RequestMapping(value = "/registerMember", produces = "application/text; charset=utf8")
-	public String registerMember(Member member, Model model) {
+	@RequestMapping(value = "/register", produces = "application/text; charset=utf8")
+	public String registerMember(Member member) {
 		String msg = "회원가입에 실패하였습니다.";
 		int result = memberService.registerMember(member);
-		if (result == 1) {
+		if (result == 2) {
 			msg = "회원가입 완료! 로그인해주세요.";
 		}
 		return msg;
@@ -34,70 +44,76 @@ public class MemberController {
 
 	/* 아이디 중복 체크 */
 	@ResponseBody
-	@PostMapping("/idCheck")
+	@PostMapping("register/idCheck")
 	public String idCheck(HttpServletRequest request) {
 		String member_id = request.getParameter("member_id");
 		int result = memberService.idCheck(member_id);
 		return Integer.toString(result);
 	}
 	
-	/* 아이디와 비밀번호로 회원 체크 */
+	/* 회원정보를 수정하거나 삭제할 때 비밀번호를 입력받고 자격을 확인함 */
 	@ResponseBody
-	@PostMapping("/isMember")
-	public String isMember(Member member, HttpSession session) {
-		try {
-			if (session.getAttribute("loginId") != null) {
-				session.removeAttribute("loginId");
-			}
-			Member result = memberService.loginMember(member);
-			session.setAttribute("loginId", result.getMember_id());
-			String role = result.getMember_id();
-			if(role.equals("admin")) {
-				session.setAttribute("role", "admin");
-				return "admin";
-			}else {
-				session.setAttribute("role", "member");
-				return "member";
-			}
-		} catch (NullPointerException e) {
-			return "none";
+	@PostMapping("/ableToEdit")
+	public String ableToEdit(HttpSession session, String pwd) {
+		/* 세션의 비밀번호와 사용자가 입력한 비밀번호를 서로 비교하여 boolean 값을 리턴 */
+		Member member = (Member) session.getAttribute("member");
+		PasswordEncoder pwdEncoder = memberService.passwordEncoder();
+		boolean pwdMatch = pwdEncoder.matches(pwd, member.getPassword());
+		
+		if(pwdMatch) {
+			return "true";
+		}else {
+			return "false";	
 		}
 	}
-
-	/* 로그인 */
-	@RequestMapping("/loginMember")
-	public String loginMember(HttpSession session) throws Exception {
-		if(session.getAttribute("loginId") != null) { //로그인 상태 확인
-			return "/main";
+	
+	/* 회원정보를 수정함 */
+	@ResponseBody
+	@PostMapping("/updateMember")
+	public String UpdateMember(HttpSession session, Member member) {
+		int result = memberService.updateMember(member);
+		if(result==1) {
+			Member vo = memberService.readMemberById(member.getMember_id());
+			session.setAttribute("member", vo); //회원정보를 수정했으므로 세션 재설정
+			return "true";
+		}else {
+			return "false";
 		}
-		else {
-			return "redirect:index.jsp";
+	}
+	
+	/* 비밀번호를 수정함 */
+	@ResponseBody
+	@PostMapping("/updatePwd")
+	public String UpdatePwd(HttpSession session, String pwd) {
+		Member member = (Member) session.getAttribute("member");
+		int result = memberService.updatePwd(member.getMember_id(), pwd);
+		if(result == 1) {
+			Member vo = memberService.readMemberById(member.getMember_id());
+			session.setAttribute("member", vo); //비밀번호를 수정했으므로 세션 재설정
+			return "true";
+		}else {
+			return "false";
 		}
 	}
-
-	/* 로그아웃 */
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate(); //모든 세션 초기화
-		// session.setAttribute("loginId",null); 으로 해줘도 된다.
-		return "redirect:index.jsp";
+	
+	/* 회원을 삭제함 */
+	@ResponseBody
+	@GetMapping("/deleteMember")
+	public String deleteMember(HttpSession session) {
+		Member member = (Member) session.getAttribute("member");
+		int result = memberService.deleteMember(member.getMember_id());
+		if(result == 2) {
+			session.invalidate(); //탈퇴했으니 세션 삭제
+			return "true";
+		}else {
+			return "false";
+		}
 	}
-
-	/* 회원가입 페이지 이동 */
-	@GetMapping("/register")
-	public String moveToElasticPage() {
-		return "/register";
-	}
-
+	
 	/* 회원정보 가져와서 회원 목록 페이지로 이동 */
 	@GetMapping("/memberList")
 	public String getMember(Model model) {
 		model.addAttribute("user", memberService.getMember());
-
 		return "member/getMemberList";
 	}
-	
-	/* 2020-11-13 */
-	//testins
-	//tstsadfasdfasdfas
 }

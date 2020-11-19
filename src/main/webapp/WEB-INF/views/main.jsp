@@ -22,12 +22,12 @@
 </head>
 
 <body id="page-top">
-
+	
 <!-- Page Wrapper -->
 <div id="wrapper">
 
 	<!-- 사이드바 include-->
-	<%@ include file="include/sidebar.jsp"%>
+	<%@ include file="/WEB-INF/views/include/sidebar.jsp"%>
 
 	<!-- Content Wrapper -->
 	<div id="content-wrapper" class="d-flex flex-column">
@@ -36,7 +36,7 @@
 		<!-- 이 부분만 바꿔주면 됩니다 -->
 		<div id="content">
 			<!-- 툴바 include -->
-			<%@ include file="include/toolbar.jsp"%>
+			<%@ include file="/WEB-INF/views/include/toolbar.jsp"%>
 			<!-- Begin Page Content -->
 			<div class="container-fluid">
 
@@ -46,14 +46,14 @@
 				</div>
 
 				<!-- Content Row -->
-				<%@ include file="dashboard/collection.jsp"%>
+				<%@ include file="/WEB-INF/views/dashboard/collection.jsp"%>
 			</div>
 			<!-- /.container-fluid -->
 		</div>
 		<!-- End of Main Content -->
 
 <!-- footer include-->
-<%@ include file="include/footer.jsp"%>
+<%@ include file="/WEB-INF/views/include/footer.jsp"%>
 
 	</div>
 	<!-- End of Content Wrapper -->

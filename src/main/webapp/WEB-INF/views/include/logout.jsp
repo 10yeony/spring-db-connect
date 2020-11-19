@@ -16,12 +16,13 @@
 					<span aria-hidden="true">x</span>
 				</button>
 			</div>
-			<div class="modal-body">로그아웃 하시려면 Logout 버튼을 눌러주세요.</div>
+			<div class="modal-body">로그아웃 하시려면 로그아웃 버튼을 눌러주세요.</div>
 			<div class="modal-footer">
-				<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-
-				<form action="${pageContext.request.contextPath}/logout" method="get">
-					<input type="submit" value="Logout" class="btn btn-primary">
+				<button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+				
+				<form action="${pageContext.request.contextPath}/logout" method="POST">
+					<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+					<input type="submit" value="로그아웃" class="btn btn-primary">
 				</form>
 
 			</div>
