@@ -1,12 +1,9 @@
 package kr.com.inspect.controller;
 
-import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -154,6 +151,22 @@ public class MemberController {
 		int result = memberService.deleteMember(member.getMember_id());
 		if(result == 2) {
 			session.invalidate(); //탈퇴했으니 세션 삭제
+			return "true";
+		}else {
+			return "false";
+		}
+	}
+	
+	/**
+	 * 관리자 권한으로 회원을 삭제함
+	 * @param member_id 회원 아이디
+	 * @return string ajax로 회원 탈퇴 여부(true/false)를 반환
+	 */
+	@ResponseBody
+	@GetMapping("/member/deleteMember")
+	public String deleteMemberByAdmin(String member_id) {
+		int result = memberService.deleteMember(member_id);
+		if(result == 2) {
 			return "true";
 		}else {
 			return "false";

@@ -26,10 +26,14 @@
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 	<script 
 		src="${pageContext.request.contextPath}/resource/js/member/getMember.js"></script>
+	<script 
+		src="${pageContext.request.contextPath}/resource/js/member/editAuthorities.js"></script>
 
 </head>
 
 <body id="page-top">
+
+<input type="hidden" id="model_authorities" value="${thisMember.authorities}">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -70,38 +74,38 @@
 	                                <tr>
 	                                		<th>이메일</th>
 	                                		<td>
-	                                			<input type="text" id="thisMember_email" class="form-control" 
+	                                			<input type="text" class="form-control" 
 	                                				value="${thisMember.email}" disabled>
 	                                		</td>
 	                                </tr>
 	                                	<tr>
 	                                    <th>연락처</th>
 	                                    <td>
-	                                    	<input type="text" id="thisMember_phone" class="form-control" 
+	                                    	<input type="text" class="form-control" 
 	                                    		value="${thisMember.phone}" disabled>
 	                                    </td>
 	                                </tr>
 	                                <tr>
-	                                		<th>권한</th>
+	                                		<th>현재 권한</th>
 	                                		<td>
 		                                		<c:forEach items="${thisMember.authorities}" var="item" varStatus="status">
 					                           	<c:if test="${item=='ROLE_VIEW'}">
 					                           		<span style="margin-right:3px">
-					                           			| <b>데이터 조회 권한</b> |
+					                           					| 데이터 조회 권한 |
 					                           		</span>
 					                           	</c:if>
 					                           	<c:if test="${item=='ROLE_INPUT'}">
 					                           		<span style="margin-right:3px">
-					                           			| <b>데이터 입력 권한</b> |
+					                           					| 데이터 입력 권한 |
 					                           		</span>
 					                           	</c:if>
 					                           	<c:if test="${item=='ROLE_ADMIN'}">
 															<span style="margin-right:3px">
-																| <b>관리자 권한</b> |	
+																| 관리자 권한 |	
 															</span>
 					                           	</c:if>
 					                          </c:forEach>
-					                          <a href="#">권한 편집</a>
+					                          <a href="javascript:void(0);" data-toggle="modal" data-target="#editAuthoritiesModal">권한 편집</a>
 		                                	</td>
 	                                </tr>
                                 </tbody>
@@ -109,7 +113,6 @@
                            
                             <div>
 						        		<button class="btn btn-danger" type="button" id="deleteBtnByAdmin" style="float:left;">회원탈퇴</button>
-										<button class="btn btn-primary" id="editBtnByAdmin" style="float:right;">정보 수정</button>
 										<button class="btn btn-secondary" type="button" id="backToMemberList"
 											style="float:right; margin-right:10px;">뒤로 가기</button>
 						        </div>
@@ -151,6 +154,8 @@
 <!-- Page level custom scripts -->
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
-</body>
 
+<!-- 회원탈퇴 Modal include -->
+<%@ include file="editAuthorities.jsp"%>
+</body>
 </html>
