@@ -5,17 +5,31 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+
+/**
+ * 
+ * @author Woo Young
+ * @version 1.0
+ *
+ */
 
 @Service
 public class MailSend {
+	/**
+	 * 
+	 */
     @Autowired
     private JavaMailSender mailSender;
 
-    /* 파일을 받아서 mail 전송하는 메소드 */
+    /**
+     * 파일을 받아서 mail 전송하는 메소드
+     * @param file
+     * @param filename
+     * @param email
+     * @throws Exception
+     */
     public void sendMail(File file, String filename, String email) throws Exception{
         try{
             MimeMessage message = mailSender.createMimeMessage();
