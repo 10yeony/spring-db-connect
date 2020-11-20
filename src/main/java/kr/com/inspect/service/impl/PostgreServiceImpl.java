@@ -1,15 +1,11 @@
 package kr.com.inspect.service.impl;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import kr.com.inspect.dto.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -17,24 +13,34 @@ import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import kr.com.inspect.dao.ElasticDao;
 import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
 
 @Service
 public class PostgreServiceImpl implements PostgreService{
+	/**
+	 * 
+	 */
 	@Autowired
 	private ElasticDao elasticDao;
 	
 	@Autowired
 	private PostgreDao postgreDao;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private SqlSession sqlSession;
 	private final String metadataNS = "MetadataMapper.";
@@ -43,11 +49,15 @@ public class PostgreServiceImpl implements PostgreService{
 	private final String utteranceNS = "UtteranceMapper.";
 	private final String eojeolListNS = "EojeolListMapper.";
 	private final String jsonLogNS = "JsonLogMapper.";
-	
+	/**
+	 * 
+	 */
 	private JsonParsing jsonParsing = new JsonParsing();
 	private XlsxParsing xlsxParsing = new XlsxParsing();
 	
-	/* 엘라스틱 서치에서 받아온 인덱스를 PostgreSQL에 넣음(테스트) */
+	/**
+	 * 엘라스틱 서치에서 받아온 인덱스를 PostgreSQL에 넣음(테스트)
+	 */
 	@Override
 	public void insertElasticIndex(String index) {
 		// 인덱스를 통해 엘라스틱서치에서 데이터를 받아옴
@@ -67,30 +77,42 @@ public class PostgreServiceImpl implements PostgreService{
 //		}
 	}
 	
-	/* Metadata 테이블을 모두 가지고 옴 */
+	/**
+	 * Metadata 테이블을 모두 가지고 옴
+	 */
 	public List<Metadata> getMetadata(){
 		return postgreDao.getMetadata();
 	}
 
-	/* JsonLog 테이블을 모두 가져옴 */
+	/**
+	 * JsonLog 테이블을 모두 가져옴
+	 */
 	public List<JsonLog> getJsonLog(){ return postgreDao.getJsonLog();	}
 	
-	/* id로 해당되는 Metadata 테이블을 가져옴 */
+	/**
+	 * id로 해당되는 Metadata 테이블을 가져옴
+	 */
 	public Metadata getMetadataById(Integer id) {
 		return postgreDao.getMetadataById(id);
 	}
 	
-	/* metadataId로 해당되는 Utterance 테이블을 가져옴 */
+	/**
+	 *  metadataId로 해당되는 Utterance 테이블을 가져옴
+	 */
 	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId){
 		return postgreDao.getUtteranceUsingMetadataId(metadataId);
 	}
-
-	/* utterance_id 를 이용하여 eojeollist 데이터 가져오기 */
+	
+	/**
+	 * utterance_id 를 이용하여 eojeollist 데이터 가져오기
+	 */
 	public List<EojeolList> getEojeolListUsingUtteranceId(String id){
 		return postgreDao.getEojeolListUsingUtteranceId(id);
 	}
 	
-	/* JSON 파일들을 업로드해서 PostgreSQL에 넣음 */
+	/**
+	 * JSON 파일들을 업로드해서 PostgreSQL에 넣음
+	 */
 	@Override
 	public boolean insertJSONUpload(String path, List<MultipartFile> jsonFile) throws Exception {
 		String filename;
@@ -195,7 +217,9 @@ public class PostgreServiceImpl implements PostgreService{
 		}
 	}
 
-	/* 서버 디렉토리 안의 json 파일을 PostgreSQL에 넣음 */
+	/**
+	 * 서버 디렉토리 안의 json 파일을 PostgreSQL에 넣음
+	 */
 	@Override
 	public String insertJSONDir(String path) throws Exception {
 		File dir = new File(path);
@@ -279,7 +303,9 @@ public class PostgreServiceImpl implements PostgreService{
 		}
 	}
 
-	/* xlsx 파일들을 업로드해서 PostgreSQL에 넣음 */
+	/**
+	 * xlsx 파일들을 업로드해서 PostgreSQL에 넣음
+	 */
 	@Override
 	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile) throws Exception{
 		String filename;
@@ -332,7 +358,9 @@ public class PostgreServiceImpl implements PostgreService{
 		}
 	}
 
-	/* 서버 디렉토리 안의 xlsx 파일을 PostgreSQL에 넣음 */
+	/**
+	 * 서버 디렉토리 안의 xlsx 파일을 PostgreSQL에 넣음 
+	 */
 	@Override
 	public String insertXlsxDir(String path) throws Exception{
 		File dir = new File(path);
@@ -363,17 +391,23 @@ public class PostgreServiceImpl implements PostgreService{
 		}
 	}
 	
-	/* Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 가져옴
+	 */
 	public List<Metadata> getMetadataAndProgram(){
 		return postgreDao.getMetadataAndProgram();
 	}
 
-	/* metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴 */
+	/**
+	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴
+	 */
 	public Metadata getMetadataAndProgramUsingId(Integer metaId){
 		return postgreDao.getMetadataAndProgramUsingId(metaId);
 	}
 
-	/* utterance id 로 해당되는 utterance 튜플을 가져옴 */
+	/**
+	 * utterance id 로 해당되는 utterance 튜플을 가져옴
+	 */
 	public Utterance getUtteranceUsingId(String id){
 		return postgreDao.getUtteranceUsingId(id);
 	}
