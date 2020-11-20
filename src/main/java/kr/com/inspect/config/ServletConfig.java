@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,27 +14,48 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.script.ScriptTemplateViewResolver;
 
 import java.util.Properties;
+
+/**
+ * 
+ * @author Yeonhee Kim, Woo Young
+ * @version 1.0
+ *
+ */
 
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"kr.com.inspect"})
 public class ServletConfig implements WebMvcConfigurer {
+	
+	/**
+	 * 
+	 */
 	@Value("${report.docx.directory}")
 	private String docxPath;
 	
+	/**
+	 * 
+	 */
 	@Value("${report.xlsx.directory}")
 	private String xlsxPath;
 	
+	/**
+	 * 
+	 */
 	@Value("${report.hwp.directory}")
 	private String hwpPath;
 	
+	/**
+	 * 
+	 */
 	@Value("${report.pptx.directory}")
 	private String pptxPath;
 	
-	/* 정적 자원 관리 */
+	/**
+	 * 정적 자원 관리
+	 */
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/reports/hwp/**").addResourceLocations(hwpPath);
 		registry.addResourceHandler("/reports/docx/**").addResourceLocations(docxPath);
@@ -44,7 +64,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/resource/**").addResourceLocations("/resource/");
 	}
 	  
-	/* 뷰 영역 설정 */
+	/**
+	 * 뷰 영역 설정
+	 */
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 	    InternalResourceViewResolver bean = new InternalResourceViewResolver();
 	    bean.setViewClass(JstlView.class);
@@ -53,7 +75,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	    registry.viewResolver((ViewResolver)bean);
 	}
 	  
-	/* 파일업로드 용량, 인코딩 처리 설정 */
+	/**
+	 * 파일업로드 용량, 인코딩 처리 설정
+	 * @return
+	 */
 	@Bean(name = {"multipartResolver"})
 	public CommonsMultipartResolver multipartResolver() {
 	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
@@ -62,7 +87,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	    return multipartResolver;
 	}
 
-	/* mail 전송 설정 */
+	/**
+	 * mail 전송 설정
+	 * @return
+	 */
 	@Bean
 	public JavaMailSender mailSender(){
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -70,7 +98,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		mailSender.setPort(587);
 		mailSender.setUsername("wooyoung.lee@namutech.co.kr");
 		mailSender.setPassword("szbkbfhfygcuvamh");
-
+		
 		Properties javaMailProperties = new Properties();
 
 		javaMailProperties.put("mail.smtp.starttls.enable", "true");

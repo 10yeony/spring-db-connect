@@ -1,12 +1,10 @@
 package kr.com.inspect.config;
 
 import javax.sql.DataSource;
-
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -16,27 +14,53 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 @Configuration
 @PropertySource(value = "classpath:properties/db.properties")
 @EnableTransactionManagement
 public class PostgreConfig {
 	
 	/* JDBC 정보 */
+	/**
+	 * 
+	 */
 	@Value("${jdbc.driverClassName}") 
 	private String driverClassName;
 	
+	/**
+	 * 
+	 */
 	@Value("${jdbc.url}")
 	private String url;
 	
+	/**
+	 * 
+	 */
 	@Value("${jdbc.username}")
 	private String userName;
 	
+	/**
+	 * 
+	 */
 	@Value("${jdbc.password}")
 	private String password;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private ApplicationContext applicationContext;
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -46,7 +70,12 @@ public class PostgreConfig {
 		dataSource.setPassword(password);
 		return (DataSource)dataSource;
 	}
-	  
+	
+	/**
+	 *   
+	 * @return
+	 * @throws Exception
+	 */
 	@Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
@@ -54,7 +83,12 @@ public class PostgreConfig {
        sqlSessionFactoryBean.setDataSource(dataSource());
        return sqlSessionFactoryBean.getObject();
     }
-    
+	
+    /**
+     * 
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SqlSession sqlSession() throws Exception {
         SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory());
