@@ -20,20 +20,34 @@ import com.mongodb.client.MongoDatabase;
 import kr.com.inspect.dao.MongoDao;
 import kr.com.inspect.parser.JsonParsing;
 
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 @Repository
 public class MongoDaoImpl implements MongoDao {
+	/**
+	 * 
+	 */
 	@Autowired
 	private MongoClient mongoClient;
 	
 	private JsonParsing jsonParsing = new JsonParsing();
 	
-	/* 자원 회수 */
+	/**
+	 * 자원 회수
+	 */
 	@Override
 	public void close() {
 		mongoClient.close();
 	}
 	
-	/* 몽고DB에서 해당되는 database의 collection 객체인 MongoCollection<Document> 만들기 */
+	/**
+	 * 몽고DB에서 해당되는 database의 collection 객체인 MongoCollection<Document> 만들기 
+	 */
 	@Override
 	public MongoCollection<Document> makeMongoCollection(String database, String col) {
 		MongoDatabase DB = mongoClient.getDatabase(database);
@@ -41,7 +55,9 @@ public class MongoDaoImpl implements MongoDao {
 		return collection;
 	}
 	
-	/* 특정 경로에 있는 JSON 파일들을 읽어서 몽고DB에 넣기 */
+	/**
+	 * 특정 경로에 있는 JSON 파일들을 읽어서 몽고DB에 넣기
+	 */
 	@Override
 	public boolean insertJSONData(String database, String col, String path) {
 		File dir = new File(path);
@@ -76,7 +92,9 @@ public class MongoDaoImpl implements MongoDao {
 		return check;
 	}
 	
-	/* 몽고DB에서 해당되는 database의 collection 데이터를 모두 가져오기 */
+	/**
+	 * 몽고DB에서 해당되는 database의 collection 데이터를 모두 가져오기
+	 */
 	@Override
 	public List<Document> getCollection(String database, String col){
 		List<Document> list = new ArrayList<>();
