@@ -3,34 +3,48 @@ package kr.com.inspect.dao.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
+
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
 
 @Repository
 public class MemberDaoImpl implements MemberDao{
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private SqlSession sqlSession;
 	private final String memberNs = "MemberMapper.";
 	private final String authorityNs = "AuthorityMapper.";
 
-	/* member 가입 */
+	/**
+	 * member 가입
+	 */
 	@Override
 	public int registerMember(Member member) {
 		return sqlSession.insert(memberNs+"registerMember", member);
 	}
 	
-	/* 회원 정보 수정 */
+	/**
+	 * 회원 정보 수정
+	 */
 	public int updateMember(Member member) {
 		return sqlSession.update(memberNs+"updateMember", member);
 	}
 	
-	/* 비밀번호 변경 */
+	/**
+	 * 비밀번호 변경
+	 */
 	public int updatePwd(String member_id, String pwd) {
 		Map<String, String> map = new HashMap<>();
 		map.put("member_id", member_id);
@@ -38,12 +52,16 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.update(memberNs+"updatePwd", map);
 	}
 	
-	/* member 탈퇴 */
+	/**
+	 * member 탈퇴
+	 */
 	public int deleteMember(String member_id) {
 		return sqlSession.delete(memberNs+"deleteMember", member_id);
 	}
 
-	/* 권한 등록 */
+	/**
+	 * 권한 등록 
+	 */
 	public int registerAuthority(String member_id, String authority) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("username", member_id);
@@ -51,13 +69,17 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.insert(authorityNs+"registerAuthority", map);
 	}
 	
-	/* 권한을 모두 삭제 */
+	/**
+	 * 권한을 모두 삭제
+	 */
 	public int deleteAuthorities(String member_id) {
 		int result = 0;
 		return sqlSession.delete(authorityNs+"deleteAuthorities", member_id);
 	}
 	
-	/* 아이디로 회원정보를 읽음 */
+	/**
+	 * 아이디로 회원정보를 읽음
+	 */
 	@Override
 	public Member readMemberById(String member_id) {
 		Member member = null;
@@ -65,7 +87,9 @@ public class MemberDaoImpl implements MemberDao{
 		return member;
 	}
 	
-	/* 아이디 중복확인 */
+	/**
+	 * 아이디 중복확인
+	 */
 	@Override
 	public int idCheck(String member_id) {
 		int result = 0;
@@ -73,27 +97,35 @@ public class MemberDaoImpl implements MemberDao{
 		return result;
 	}
 	
-	/* 이메일 중복확인 */
+	/**
+	 * 이메일 중복확인 
+	 */
 	public int emailCheck(String email) {
 		int result = 0;
 		result = sqlSession.selectOne(memberNs+"emailCheck", email);
 		return result;
 	}
 	
-	/* 연락처 중복확인 */
+	/**
+	 * 연락처 중복확인
+	 */
 	public int phoneCheck(String phone) {
 		int result = 0;
 		result = sqlSession.selectOne(memberNs+"phoneCheck", phone);
 		return result;
 	}
 
-	/* id로 가지고 있는 권한들을 가져옴 */
+	/**
+	 * id로 가지고 있는 권한들을 가져옴
+	 */
 	@Override
 	public List<String> readAuthorities(String member_id) {
 		return sqlSession.selectList(authorityNs+"readAuthorities", member_id);
 	}
 
-	/* 회원 정보 모두 가지고옴  */
+	/**
+	 * 회원 정보 모두 가지고옴 
+	 */
 	public List<Member> getMember(){ 
 		return sqlSession.selectList(memberNs+"getMemberTable"); 	
 	}
