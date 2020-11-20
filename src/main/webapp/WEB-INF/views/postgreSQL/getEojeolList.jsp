@@ -64,8 +64,8 @@
                                         <th width="50">Id</th>
                                         <th>어절</th>
                                         <th>표준어 어절</th>
-                                        <th>begin</th>
-                                        <th>end</th>
+                                        <th>시작 인덱스</th>
+                                        <th>종료 인덱스</th>
                                     </tr>
                                 </thead>
                                 <tbody>
