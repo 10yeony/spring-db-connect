@@ -8,7 +8,7 @@
 <body>
 
 <!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
-<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
+<%@ include file="/WEB-INF/views/include/csrf-token.jsp"%>
 
 <!-- Topbar -->
 <nav

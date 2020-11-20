@@ -35,7 +35,7 @@
 
 <body>
 	<!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
-	<%@ include file="/WEB-INF/views/login/csrf-token.jsp"%>
+	<%@ include file="/WEB-INF/views/include/csrf-token.jsp"%>
 	
 	<!-- 로그인 에러 메세지 및 로그인한 회원 정보 -->
 	<input type="hidden" id="member_login" value="${member}">
