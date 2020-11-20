@@ -9,14 +9,6 @@ $(function(){
 	
 	/* 정규표현식을 이용한 유효성 검사 */
 	var pwdRegex =  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/; //비밀번호가 적합한지 검사
-		
-	/* X 버튼이나 취소 버튼을 누르면 이전 모달로 돌아감 */
-	$('.goToMemberInfo').click(function(){
-		$('.modal-backdrop').attr('style', 'display:none');
-		$('#editPwdModal').attr('style', 'display:none');
-		$('#memberInfoModal').attr('style', 'display:block');
-		$('.modal-backdrop').attr('style', 'display:block');
-	});
 	
 	/* 현재 비밀번호가 일치하는지 확인 */
 	$('#edit_present_pwd').keyup(function(){
