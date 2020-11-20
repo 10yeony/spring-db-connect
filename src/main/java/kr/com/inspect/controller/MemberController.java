@@ -164,7 +164,7 @@ public class MemberController {
 	 */
 	@GetMapping("/memberList")
 	public String getMember(Model model) {
-		model.addAttribute("user", memberService.getMember());
+		model.addAttribute("user", memberService.getMemberList());
 		return "member/getMemberList";
 	}
 }
