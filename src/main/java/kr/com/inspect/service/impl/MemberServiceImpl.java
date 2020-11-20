@@ -19,19 +19,33 @@ import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.MemberService;
 
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
+	/**
+	 * 
+	 */
 	@Autowired
 	private MemberDao memberDao;
 	
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
-	/* 사용할 PasswordEncoder를 리턴해줌 */
+	/**
+	 * 사용할 PasswordEncoder를 리턴해줌
+	 */
 	public PasswordEncoder passwordEncoder() {
 		return this.passwordEncoder;
 	}
 	
-	/* 회원가입 */
+	/**
+	 * 회원가입
+	 */
 	@Override
 	public int registerMember(Member member) {
 		int result = 0;
@@ -52,7 +66,9 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 	
-	/* 아이디로 회원정보를 가져옴 */
+	/**
+	 * 아이디로 회원정보를 가져옴
+	 */
 	@Override
 	public Member readMemberById(String member_id){
 		Member member = memberDao.readMemberById(member_id);
@@ -60,7 +76,9 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 	
-	/* 회원가입시 해당 요소가 DB에 존재하는지 중복 체크 */
+	/**
+	 * 회원가입시 해당 요소가 DB에 존재하는지 중복 체크
+	 */
 	public int registerCheck(String object, String value) {
 		if(object.equals("id")) { //아이디 중복 체크
 			return memberDao.idCheck(value);
@@ -73,7 +91,9 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
-	/* 회원 정보 수정 */
+	/**
+	 * 회원 정보 수정
+	 */
 	public int updateMember(HttpSession session, Member member) {
 		Member vo = (Member) session.getAttribute("member");
 		member.setMember_id(vo.getMember_id()); //세션에서 아이디, 비밀번호를 가져옴
@@ -92,14 +112,18 @@ public class MemberServiceImpl implements MemberService {
 		
 		return 0;
 	}
-	
-	/* 비밀번호 변경 */
+
+	/**
+	 * 비밀번호 변경
+	 */
 	public int updatePwd(String member_id, String pwd) {
 		String encodedPassword = new BCryptPasswordEncoder().encode(pwd); //사용자가 입력한 비밀번호를 암호화
 		return memberDao.updatePwd(member_id, encodedPassword);
 	}
 	
-	/* 회원 탈퇴 */
+	/**
+	 * 회원 탈퇴 
+	 */
 	public int deleteMember(String member_id) {
 		int result = 0;
 		
@@ -112,7 +136,9 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 	
-	/* Spring Security에서 User 정보를 읽을 때 사용함. */
+	/**
+	 * Spring Security에서 User 정보를 읽을 때 사용함.
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Member vo = memberDao.readMemberById(username);
@@ -120,7 +146,9 @@ public class MemberServiceImpl implements MemberService {
 		return vo;
 	}
 
-	/* 읽어온 회원정보에 대하여 권한을 부여한 뒤 리턴함 */
+	/**
+	 * 읽어온 회원정보에 대하여 권한을 부여한 뒤 리턴함
+	 */
 	@Override
 	public Collection<GrantedAuthority> getAuthorities(String member_id) {
 		List<String> string_authorities = memberDao.readAuthorities(member_id);
@@ -131,7 +159,10 @@ public class MemberServiceImpl implements MemberService {
 		return authorities;
 	}
 
-	/* 회원 정보를 모두 가져옴 */
+	/**
+	 * 회원 정보를 모두 가져옴
+	 * @return 
+	 */
 	@Override
 	public List<Member> getMemberList() {
 		List<Member> list = memberDao.getMemberList();

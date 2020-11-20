@@ -72,24 +72,25 @@
 											<i class="fas fa-at"></i>&nbsp;&nbsp;E-Mail
 										</h5>
 										<div class="my-2"></div>
-										<a class="dropdown-item btn" onclick="mail('metadataMail/docx');">
-											<h6>- Word 파일전송</h6>
+										<a class="dropdown-item btn" onclick="send('mail','metadataMail/docx');">
+											<h6>- Word</h6>
 										</a>
-										<a class="dropdown-item btn" onclick="mail('metadataMail/xlsx');">
-											<h6>- Excel 파일전송</h6>
+										<a class="dropdown-item btn" onclick="send('mail','metadataMail/xlsx');">
+											<h6>- Excel</h6>
 										</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item text-center small text-gray-500">${member.email}로 발송됩니다.</a>
+										<a class="dropdown-item text-center small text-gray-500">${member.email}(으)로 발송됩니다.</a>
 <%--										<div class="dropdown-divider"></div>--%>
 <%--										<h5 class="dropdown-header" style="color: black;font-size: 1.5em">--%>
 <%--											<i class="fas fa-envelope"></i>&nbsp;&nbsp;SMS--%>
 <%--										</h5>--%>
-<%--										<a class="dropdown-item btn" onclick="">--%>
+<%--										<div class="my-2"></div>--%>
+<%--										<a class="dropdown-item btn" onclick="send('sms','metadataSMS/docx')">--%>
 <%--											<h6>- Word</h6>--%>
 <%--										</a>--%>
-<%--										<a class="dropdown-item btn" onclick="">--%>
+<%--										<a class="dropdown-item btn" onclick="send('sms','metadataSMS/xlsx')">--%>
 <%--											<h6>- Excel</h6>--%>
 <%--										</a>--%>
+<%--										<a class="dropdown-item text-center small text-gray-500">${member.phone}(으)로 발송됩니다.</a>--%>
 									</div>
 								</li>
 							</ul>
@@ -173,22 +174,28 @@ $(document).ready(function() {
 	})
 })
 
-function mail(file){
-	var url = '${pageContext.request.contextPath}/' + file;
+function send(type, fileurl){
+	var url = '${pageContext.request.contextPath}/' + fileurl;
 
 	$.ajax({
 		type:"GET",
 		url: url,
 
 		success:function (){
-			alert("메일이 성공적으로 전송되었습니다.");
+			if(type == 'mail')
+				alert("메일이 성공적으로 전송되었습니다.");
+			else if(type == 'sms')
+				alert("문자가 성공적으로 전송되었습니다.");
 		},
 		error: function (){
 			alert("에러");
 		}
 	})
 
-	alert("메일이 전송됩니다.");
+	if(type == 'mail')
+		alert("메일이 전송됩니다.");
+	else if(type == 'sms')
+		alert("문자가 전송됩니다.");
 }
 </script>
 

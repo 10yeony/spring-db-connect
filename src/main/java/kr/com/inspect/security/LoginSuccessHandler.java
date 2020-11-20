@@ -18,12 +18,14 @@ import kr.com.inspect.dto.Member;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.util.ResponseDataCode;
 import kr.com.inspect.util.ResponseDataStatus;
+
 /**
  * 로그인 성공시 처리
  * @author Yeonhee Kim
  * @version 1.0, 2020.11.18 클래스 작성(Yeonhee Kim)
  *
  */
+
 @Component("loginSuccessHandler")
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	

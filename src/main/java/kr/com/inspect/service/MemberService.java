@@ -13,37 +13,88 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import kr.com.inspect.dto.Member;
 
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 public interface MemberService extends UserDetailsService {
-	/* 회원가입 */
+	
+	/**
+	 * 회원가입
+	 * @param member
+	 * @return
+	 */
 	public int registerMember(Member member); 
 	
-	/* 아이디로 회원정보를 가져옴 */
+	/**
+	 * 아이디로 회원정보를 가져옴
+	 * @param member_id
+	 * @return
+	 */
 	public Member readMemberById(String member_id); 
 	
-	/* 회원가입시 해당 요소가 DB에 존재하는지 중복 체크 */
+	/**
+	 * 회원가입시 해당 요소가 DB에 존재하는지 중복 체크 
+	 * @param object
+	 * @param value
+	 * @return
+	 */
 	public int registerCheck(String object, String value);
+
+	/**
+	 * 회원 정보 모두 가지고옴
+	 * @return
+	 */
+	public List<Member> getMemberList();
 	
-	/* 회원 정보 수정 */
+	/**
+	 * 회원 정보 수정
+	 * @param session
+	 * @param member
+	 * @return
+	 */
 	public int updateMember(HttpSession session, Member member);
 	
-	/* 관리자 권한으로 회원 정보(권한) 수정 */
+	/**
+	 * 관리자 권한으로 회원 정보(권한) 수정
+	 * @param member
+	 * @return
+	 */
 	public int updateMemberByAdmin(Member member);
 	
-	/* 비밀번호 변경 */
+	/**
+	 * 비밀번호 변경
+	 * @param member_id
+	 * @param pwd
+	 * @return
+	 */
 	public int updatePwd(String member_id, String pwd);
 	
-	/* 회원 탈퇴 */
+	/**
+	 * 회원 탈퇴 
+	 * @param member_id
+	 * @return
+	 */
 	public int deleteMember(String member_id);
 	
-	/* Spring Security에서 아이디로 회원 정보를 읽어옴 */
+	/**
+	 * Spring Security에서 아이디로 회원 정보를 읽어옴
+	 */
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 	
-	/* 읽어온 회원정보에 대하여 권한을 부여한 뒤 리턴함 */
+	/**
+	 * 읽어온 회원정보에 대하여 권한을 부여한 뒤 리턴함
+	 * @param username
+	 * @return
+	 */
 	public Collection<GrantedAuthority> getAuthorities(String username);
 	
-	/* 사용할 PasswordEncoder를 리턴해줌 */
+	/**
+	 * 사용할 PasswordEncoder를 리턴해줌
+	 * @return
+	 */
 	public PasswordEncoder passwordEncoder();
-	
-	/* 회원 정보를 모두 가지고옴 */
-	public List<Member> getMemberList();
 }

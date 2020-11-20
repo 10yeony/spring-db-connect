@@ -1,28 +1,24 @@
 package kr.com.inspect.security;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.util.ResponseDataCode;
 import kr.com.inspect.util.ResponseDataStatus;
+
 /**
  * 로그인 실패시 처리
  * @author Yeonhee Kim
  * @version 1.0, 2020.11.18 클래스 작성(Yeonhee Kim)
  *
  */
+
 @Component("loginFailHandler")
 public class LoginFailHandler implements AuthenticationFailureHandler {
 

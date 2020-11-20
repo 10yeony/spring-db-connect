@@ -7,23 +7,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
-
-import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
 
+/**
+ * 
+ * @author Woo Young
+ * @version 1.0
+ *
+ */
+
+
 public class JsonParsing {
 	
-	/* JSON 파일을 읽어 JSON객체로 파싱 */
+	/**
+	 * JSON 파일을 읽어 JSON객체로 파싱
+	 * @param fullPath
+	 * @return
+	 */
 	public JSONObject getJSONObject(String fullPath) {
 		JSONParser parser = new JSONParser();
 	    Object obj = null;
@@ -39,7 +47,11 @@ public class JsonParsing {
 	    return (JSONObject) obj;
 	}
 	
-	/* Metadata 파싱 */
+	/**
+	 * Metadata 파싱
+	 * @param obj
+	 * @return
+	 */
 	public Metadata setMetadata(JSONObject obj) {
 		Map map = new HashMap();
 		Metadata metadata = new Metadata();
@@ -58,7 +70,12 @@ public class JsonParsing {
 		return metadata;
 	}
 	
-	/* Speaker 파싱 */
+	/**
+	 * Speaker 파싱
+	 * @param obj
+	 * @param metadata_id
+	 * @return
+	 */
 	public List<Speaker> setSpeaker(JSONObject obj, int metadata_id){
 		List<Speaker> speakerList = new ArrayList<>();
 		JSONArray arr = (JSONArray) obj.get("speaker");
@@ -90,7 +107,12 @@ public class JsonParsing {
 		return speakerList;
 	}
 	
-	/* Utterance 파싱 */
+	/**
+	 * Utterance 파싱
+	 * @param obj
+	 * @param metadata_id
+	 * @return
+	 */
 	public List<Utterance> setUtterance(JSONObject obj, int metadata_id){
 		List<Utterance> utteranceList = new ArrayList<>();
 		JSONArray arr = (JSONArray) obj.get("utterance");
@@ -129,7 +151,13 @@ public class JsonParsing {
 		return utteranceList;
 	}
 	
-	/* EojeolList 파싱 */
+	/**
+	 * EojeolList 파싱
+	 * @param arr
+	 * @param utterance_id
+	 * @param metadata_id
+	 * @return
+	 */
 	public List<EojeolList> setEojeolList(JSONArray arr, String utterance_id, int metadata_id){
 		List<EojeolList> eojeolListList = new ArrayList<>();
 		for(int i=0; i<arr.size(); i++) {

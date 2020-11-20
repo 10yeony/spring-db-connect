@@ -18,11 +18,21 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 
+ * @author Woo Young
+ * @version 1.0
+ *
+ */
+
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class DocxReport {
+	/**
+	 * 
+	 */
 	@Autowired
-	private MailSend ms;
+	private SendReport ms;
 
 	@Value("${table.column0}")
 	private String column0;
@@ -30,7 +40,14 @@ public class DocxReport {
 	@Value("${table.column1}")
 	private String column1;
 
-	/* docx 한국어 강의 목록 리스트 작성 */
+	/**
+	 * docx 한국어 강의 목록 리스트 작성
+	 * @param response
+	 * @param path
+	 * @param list
+	 * @param flag
+	 * @throws Exception
+	 */
 	public void writeDocxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag)throws Exception {
 		String docxFileName =
 				"LectureList_"+
@@ -119,7 +136,15 @@ public class DocxReport {
 		}
 	}
 
-	/* docx utterance 리스트 작성 */
+	/**
+	 * docx utterance 리스트 작성
+	 * @param response
+	 * @param path
+	 * @param list
+	 * @param metadata
+	 * @param flag
+	 * @throws Exception
+	 */
 	public void writeDocxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata, String flag)throws Exception {
 		String docxFileName =
 				metadata.getTitle()+ "_" +

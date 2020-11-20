@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -18,14 +17,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletResponse;
+
+/**
+ * 
+ * @author Woo Young
+ * @version 1.0
+ *
+ */
 
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class XlsxReport {
+	/**
+	 * 
+	 */
 	@Autowired
-	private MailSend ms;
+	private SendReport ms;
 
 	@Value("${table.column0}")
 	private String column0;
@@ -33,7 +41,14 @@ public class XlsxReport {
 	@Value("${table.column1}")
 	private String column1;
 
-	/* xlsx 한국어 강의 목록 리스트 작성 */
+	/**
+	 * xlsx 한국어 강의 목록 리스트 작성
+	 * @param response
+	 * @param path
+	 * @param list
+	 * @param flag
+	 * @throws Exception
+	 */
 	public void writeXlsxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag) throws Exception {
 		String xlsxFileName =
 				"LectureList_"+
@@ -41,7 +56,9 @@ public class XlsxReport {
 						+ ".xlsx"; //파일명
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-		/* xlsx 파일 생성 */
+		/**
+		 * xlsx 파일 생성 
+		 */
 		XSSFWorkbook workbook = new XSSFWorkbook(); //워크북
 		XSSFSheet sheet = workbook.createSheet(); //워크시트
 		XSSFRow row = sheet.createRow(0); //행
@@ -126,7 +143,15 @@ public class XlsxReport {
 		}
 	}
 
-	/* xlsx utterance 리스트 작성 */
+	/**
+	 * xlsx utterance 리스트 작성
+	 * @param response
+	 * @param path
+	 * @param list
+	 * @param metadata
+	 * @param flag
+	 * @throws Exception
+	 */
 	public void writeXlsxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata, String flag)throws Exception {
 		String xlsxFileName =
 				metadata.getTitle()+ "_" +
