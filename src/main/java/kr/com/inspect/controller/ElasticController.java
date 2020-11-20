@@ -8,15 +8,33 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import kr.com.inspect.service.ElasticService;
 
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 @Controller
 public class ElasticController {
+	
+	/**
+	 * 
+	 */
 	@Autowired
 	private ElasticService elasticService;
 	
+	/**
+	 * 
+	 */
 	//엘라스틱서치
 	private String index = "audiolist";
 
-	/* 엘라스틱서치에서 해당되는 인덱스에 있는 데이터 모두 가져오기 */
+	/**
+	 * 엘라스틱서치에서 해당되는 인덱스에 있는 데이터 모두 가져오기
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/getElasticIndex")
 	public String getElasticIndex(Model model) {
 		SearchHit[] searchHits = elasticService.getIndex(index);
