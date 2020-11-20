@@ -119,10 +119,11 @@ public class MemberController {
 		}
 	}
 	
+	/* 회원 목록을 가져옴 */
 	/* 회원정보 가져와서 회원 목록 페이지로 이동 */
-	@GetMapping("/memberList")
-	public String getMember(Model model) {
-		model.addAttribute("user", memberService.getMember());
+	@GetMapping("/member/getMemberList")
+	public String getMemberList(Model model) {
+		model.addAttribute("user", memberService.getMemberList());
 		return "member/getMemberList";
 	}
 }

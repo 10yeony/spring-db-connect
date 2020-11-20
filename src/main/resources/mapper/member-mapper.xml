@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</sql>
 
 	<!-- 회원정보 가져옴 -->
-	<select id="getMemberTable" resultType="kr.com.inspect.dto.Member">
+	<select id="getMemberList" resultType="kr.com.inspect.dto.Member">
 		SELECT
 			*
 		FROM

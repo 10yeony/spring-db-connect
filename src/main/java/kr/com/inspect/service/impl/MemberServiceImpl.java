@@ -124,8 +124,9 @@ public class MemberServiceImpl implements MemberService {
 		return authorities;
 	}
 
+	/* 회원 정보를 모두 가져옴 */
 	@Override
-	public List<Member> getMember() {
-		return memberDao.getMember();
+	public List<Member> getMemberList() {
+		return memberDao.getMemberList();
 	}
 }

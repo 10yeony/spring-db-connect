@@ -22,9 +22,6 @@ public interface MemberService extends UserDetailsService {
 	
 	/* 회원가입시 해당 요소가 DB에 존재하는지 중복 체크 */
 	public int registerCheck(String object, String value);
-
-	/* 회원 정보 모두 가지고옴 */
-	public List<Member> getMember();
 	
 	/* 회원 정보 수정 */
 	public int updateMember(HttpSession session, Member member);
@@ -43,4 +40,7 @@ public interface MemberService extends UserDetailsService {
 	
 	/* 사용할 PasswordEncoder를 리턴해줌 */
 	public PasswordEncoder passwordEncoder();
+	
+	/* 회원 정보를 모두 가지고옴 */
+	public List<Member> getMemberList();
 }

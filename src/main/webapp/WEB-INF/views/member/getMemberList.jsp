@@ -44,7 +44,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-2 text-gray-800">회원 목록</h1>
+                    <h1 class="h3 mb-2 text-gray-800">회원 관리</h1>
                 </div>
 
                 <!-- Page Body -->
@@ -55,16 +55,32 @@
                                 <thead>
                                 <tr>
                                     <th>no.</th>
-                                    <th>Id</th>
-                                    <th>pwd</th>
+                                    <th>아이디</th>
+                                    <th>이메일</th>
+                                    <th>연락처</th>
+                                    <th>계정 만료</th>
+                                    <th>비밀번호 만료</th>
+                                    <th>잠긴 계정</th>
+                                    <th>사용 가능</th>
+                                    <th>권한</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${user}" var="item" varStatus="status">
+                                <c:forEach items="${list}" var="item" varStatus="status">
                                     <tr>
                                         <td>${status.count}</td>
                                         <td>${item.member_id}</td>
-                                        <td>${item.pwd}</td>
+                                        <td>${item.email}</td>
+                                        <td>${item.phone}</td>
+                                        <td>${item.isAccountNonExpired}</td>
+                                        <td>${item.isCredentialsNonExpired}</td>
+                                        <td>${item.isAccountNonLocked}</td>
+                                        <td>${item.isEnabled}</td>
+                                        <td>
+                                        	<c:forEach items="${item.authorities}" var="authority" varStatus="status">
+                                        		${authority}
+                                        	</c:forEach>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
