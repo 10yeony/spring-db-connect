@@ -27,14 +27,24 @@ import kr.com.inspect.service.MemberService;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @ComponentScan(basePackages= {"kr.com.inspect"})
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
+	
+	/**
+	 * 
+	 */
 	@Autowired
 	@Qualifier("loginSuccessHandler")
 	private LoginSuccessHandler loginSuccessHandler;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	@Qualifier("loginFailHandler")
 	private LoginFailHandler loginfailHandler;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	@Qualifier("memberService")
 	private MemberService memberService;

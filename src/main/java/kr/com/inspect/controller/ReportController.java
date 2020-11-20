@@ -23,20 +23,35 @@ import kr.com.inspect.report.XlsxReport;
 import kr.com.inspect.service.PostgreService;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 @Controller
 @PropertySource(value = "classpath:properties/directory.properties")
 public class ReportController {
-	/* PostgreSQL */
+	
+	/**
+	 * PostgreSQL
+	 */
 	@Autowired 
 	private PostgreService postgreService;
 	private List<Metadata>  metadata;
 	private List<Utterance>  utterances;
 	private Metadata meta;
 
-	/* 파일 생성 */
+	/**
+	 * 파일 생성
+	 */
 	@Autowired
 	private DocxReport docxReport;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private XlsxReport xlsxReport;
 
@@ -52,7 +67,12 @@ public class ReportController {
 	@Value("${report.pptx.directory}")
 	private String pptxPath;
 	
-	/* 한국어 강의 목록 리스트 파일로 출력 */
+	/**
+	 * 한국어 강의 목록 리스트 파일로 출력
+	 * @param response
+	 * @param format
+	 * @throws Exception
+	 */
 	@GetMapping("/metadata/{format}")
 	public void writeMetadata(HttpServletResponse response,
 							  @PathVariable String format) throws Exception {
@@ -77,7 +97,12 @@ public class ReportController {
 		}
 	}
 
-	/* utterance 리스트 docx 파일로 출력 */
+	/**
+	 * utterance 리스트 docx 파일로 출력
+	 * @param response
+	 * @param format
+	 * @throws Exception
+	 */
 	@GetMapping("/utterance/docx/{format}")
 	public void writeUtteranceDocx(HttpServletResponse response,
 							  @PathVariable Integer format)throws Exception {
@@ -87,7 +112,13 @@ public class ReportController {
 		docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "download");
 	}
 
-	/* utterance 리스트 xlsx 파일로 출력 */
+	/**
+	 * utterance 리스트 xlsx 파일로 출력
+	 * @param response
+	 * @param model
+	 * @param format
+	 * @throws Exception
+	 */
 	@GetMapping("/utterance/xlsx/{format}")
 	public void writeUtteranceXlsx(HttpServletResponse response,
 							   Model model,
@@ -98,7 +129,13 @@ public class ReportController {
 		xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "download");
 	}
 
-	/* 한국어 강의목록 파일 mail 전송 */
+	/**
+	 * 한국어 강의목록 파일 mail 전송
+	 * @param session
+	 * @param response
+	 * @param format
+	 * @throws Exception
+	 */
 	@GetMapping("/metadataMail/{format}")
 	public void sendMetadataMail(HttpSession session,
 								 HttpServletResponse response,
@@ -120,7 +157,13 @@ public class ReportController {
 		}
 	}
 
-	/* 강의 문장 파일 mail 전송 */
+	/**
+	 * 강의 문장 파일 mail 전송
+	 * @param session
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@GetMapping("/utteranceMail")
 	@ResponseBody
 	public void sendUtteranceMail(HttpSession session,

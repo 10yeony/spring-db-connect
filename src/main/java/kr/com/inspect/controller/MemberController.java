@@ -16,9 +16,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.MemberService;
 
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 @Controller
 public class MemberController {
-
+	
+	/**
+	 * 
+	 */
 	@Autowired
 	private MemberService memberService;
 	
@@ -31,7 +41,11 @@ public class MemberController {
 		return "login";
 	}
 
-	/* 회원가입 */
+	/**
+	 * 회원가입
+	 * @param member
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/register", produces = "application/text; charset=utf8")
 	public String registerMember(Member member) {
@@ -43,7 +57,12 @@ public class MemberController {
 		return msg;
 	}
 
-	/* 회원가입시 해당 요소가 DB에 존재하는지 중복 체크 */
+	/**
+	 *  회원가입시 해당 요소가 DB에 존재하는지 중복 체크 
+	 * @param request
+	 * @param object
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping("register/check/{object}")
 	public String registerCheck(HttpServletRequest request, 
@@ -61,7 +80,12 @@ public class MemberController {
 		return Integer.toString(result);
 	}
 	
-	/* 회원정보를 수정하거나 삭제할 때 비밀번호를 입력받고 자격을 확인함 */
+	/**
+	 * 회원정보를 수정하거나 삭제할 때 비밀번호를 입력받고 자격을 확인함
+	 * @param session
+	 * @param pwd
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping("/ableToEdit")
 	public String ableToEdit(HttpSession session, String pwd) {
@@ -77,7 +101,12 @@ public class MemberController {
 		}
 	}
 	
-	/* 회원정보를 수정함 */
+	/**
+	 * 회원정보를 수정함
+	 * @param session
+	 * @param member
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping("/updateMember")
 	public String UpdateMember(HttpSession session, Member member) {
@@ -91,7 +120,12 @@ public class MemberController {
 		}
 	}
 	
-	/* 비밀번호를 수정함 */
+	/**
+	 * 비밀번호를 수정함
+	 * @param session
+	 * @param pwd
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping("/updatePwd")
 	public String UpdatePwd(HttpSession session, String pwd) {
@@ -105,7 +139,11 @@ public class MemberController {
 		}
 	}
 	
-	/* 회원을 삭제함 */
+	/**
+	 * 회원을 삭제함
+	 * @param session
+	 * @return
+	 */
 	@ResponseBody
 	@GetMapping("/deleteMember")
 	public String deleteMember(HttpSession session) {
@@ -119,11 +157,14 @@ public class MemberController {
 		}
 	}
 	
-	/* 회원 목록을 가져옴 */
-	/* 회원정보 가져와서 회원 목록 페이지로 이동 */
-	@GetMapping("/member/getMemberList")
-	public String getMemberList(Model model) {
-		model.addAttribute("user", memberService.getMemberList());
+	/**
+	 * 회원정보 가져와서 회원 목록 페이지로 이동
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/memberList")
+	public String getMember(Model model) {
+		model.addAttribute("user", memberService.getMember());
 		return "member/getMemberList";
 	}
 }
