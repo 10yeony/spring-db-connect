@@ -8,19 +8,38 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 @Configuration
 @PropertySource(value = "classpath:properties/db.properties") 
 public class ElasticConfig {
-	
+	/**
+	 * 
+	 */
 	@Value("${elasticsearch.hostname}") 
 	private String hostname;
 	
+	/**
+	 * 
+	 */
 	@Value("${elasticsearch.port}")
 	private int port;
 	
+	/**
+	 * 
+	 */
 	@Value("${elasticsearch.scheme}")
 	private String scheme;
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public RestHighLevelClient restHighLevelClient() {
 		return new RestHighLevelClient(
