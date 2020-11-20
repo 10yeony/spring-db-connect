@@ -1,9 +1,12 @@
 package kr.com.inspect.controller;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +47,7 @@ public class MemberController {
 	/**
 	 * 회원가입
 	 * @param member
-	 * @return
+	 * @return string 회원가입 후 성공/실패 메세지를 반환함
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/register", produces = "application/text; charset=utf8")
@@ -60,8 +63,8 @@ public class MemberController {
 	/**
 	 *  회원가입시 해당 요소가 DB에 존재하는지 중복 체크 
 	 * @param request
-	 * @param object
-	 * @return
+	 * @param object 해당 요소(아이디/이메일/연락처)
+	 * @return string 회원가입시 해당 요소의 DB 존재 여부(존재시 1)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("register/check/{object}")
@@ -84,7 +87,7 @@ public class MemberController {
 	 * 회원정보를 수정하거나 삭제할 때 비밀번호를 입력받고 자격을 확인함
 	 * @param session
 	 * @param pwd
-	 * @return
+	 * @return ajax로 회원정보 수정 및 탈퇴 자격(true/false)을 입증함
 	 */
 	@ResponseBody
 	@PostMapping("/ableToEdit")
@@ -105,7 +108,7 @@ public class MemberController {
 	 * 회원정보를 수정함
 	 * @param session
 	 * @param member
-	 * @return
+	 * @return ajax로 회원정보 수정 여부(true/false)를 반환 
 	 */
 	@ResponseBody
 	@PostMapping("/updateMember")
@@ -124,7 +127,7 @@ public class MemberController {
 	 * 비밀번호를 수정함
 	 * @param session
 	 * @param pwd
-	 * @return
+	 * @return string ajax로 비밀번호 수정 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("/updatePwd")
@@ -142,7 +145,7 @@ public class MemberController {
 	/**
 	 * 회원을 삭제함
 	 * @param session
-	 * @return
+	 * @return string ajax로 회원 탈퇴 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@GetMapping("/deleteMember")
@@ -160,11 +163,25 @@ public class MemberController {
 	/**
 	 * 회원정보 가져와서 회원 목록 페이지로 이동
 	 * @param model
-	 * @return
+	 * @return string 회원 목록 페이지를 리턴
 	 */
-	@GetMapping("/memberList")
-	public String getMember(Model model) {
-		model.addAttribute("user", memberService.getMemberList());
+	@GetMapping("/member/getMemberList")
+	public String getMemberList(Model model) {
+		model.addAttribute("memberList", memberService.getMemberList());
 		return "member/getMemberList";
+	}
+	
+	/**
+	 * 특정 회원 아이디로 회원 정보를 가져오고 회원 정보와 권한을 모델에 바인딩함
+	 * @param model
+	 * @param member_id
+	 * @return string 특정 회원 정보 조회 페이지를 리턴
+	 */
+	@GetMapping("/member/getMember/{member_id}")
+	public String getMember(Model model, @PathVariable String member_id) {
+		Member member = memberService.readMemberById(member_id);
+		model.addAttribute("thisMember", member);
+		model.addAttribute("flag", true);
+		return "member/getMember";
 	}
 }

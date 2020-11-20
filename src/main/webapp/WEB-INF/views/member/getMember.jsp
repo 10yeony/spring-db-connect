@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -20,6 +21,11 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
+	
+	<script
+	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
+	<script 
+		src="${pageContext.request.contextPath}/resource/js/member/getMember.js"></script>
 
 </head>
 
@@ -44,33 +50,69 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-2 text-gray-800">회원 관리</h1>
+                    <h1 class="h3 mb-2 text-gray-800">회원 정보</h1>
                 </div>
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>no.</th>
-                                    <th>아이디</th>
-                                    <th>이메일</th>
-                                    <th>연락처</th>
-                                </tr>
-                                </thead>
+                            <table class="table table-bordered" id="dataTable" width="50%" cellspacing="0">
+                                <thead></thead>
                                 <tbody>
-                                <c:forEach items="${memberList}" var="item" varStatus="status">
-                                    <tr>
-                                        <td>${status.count}</td>
-                                        <td><a href="${pageContext.request.contextPath}/member/getMember/${item.member_id}">${item.member_id}</a></td>
-                                        <td>${item.email}</td>
-                                        <td>${item.phone}</td>
-                                    </tr>
-                                </c:forEach>
+	                                <tr>
+	                                    <th>아이디</th>
+	                                    <td>
+	                                    	<input type="text" id="thisMember_id" class="form-control" 
+	                                    		value="${thisMember.member_id}" disabled>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                		<th>이메일</th>
+	                                		<td>
+	                                			<input type="text" id="thisMember_email" class="form-control" 
+	                                				value="${thisMember.email}" disabled>
+	                                		</td>
+	                                </tr>
+	                                	<tr>
+	                                    <th>연락처</th>
+	                                    <td>
+	                                    	<input type="text" id="thisMember_phone" class="form-control" 
+	                                    		value="${thisMember.phone}" disabled>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                		<th>권한</th>
+	                                		<td>
+		                                		<c:forEach items="${thisMember.authorities}" var="item" varStatus="status">
+					                           	<c:if test="${item=='ROLE_VIEW'}">
+					                           		<span style="margin-right:3px">
+					                           			| <b>데이터 조회 권한</b> |
+					                           		</span>
+					                           	</c:if>
+					                           	<c:if test="${item=='ROLE_INPUT'}">
+					                           		<span style="margin-right:3px">
+					                           			| <b>데이터 입력 권한</b> |
+					                           		</span>
+					                           	</c:if>
+					                           	<c:if test="${item=='ROLE_ADMIN'}">
+															<span style="margin-right:3px">
+																| <b>관리자 권한</b> |	
+															</span>
+					                           	</c:if>
+					                          </c:forEach>
+					                          <a href="#">권한 편집</a>
+		                                	</td>
+	                                </tr>
                                 </tbody>
                             </table>
+                           
+                            <div>
+						        		<button class="btn btn-danger" type="button" id="deleteBtnByAdmin" style="float:left;">회원탈퇴</button>
+										<button class="btn btn-primary" id="editBtnByAdmin" style="float:right;">정보 수정</button>
+										<button class="btn btn-secondary" type="button" id="backToMemberList"
+											style="float:right; margin-right:10px;">뒤로 가기</button>
+						        </div>
                         </div>
                     </div>
                 </div>

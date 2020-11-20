@@ -11,13 +11,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		FROM 
 			audio.member 
 	</sql>
+	
+	<!-- 등록시 중복 여부 체크 -->
+	<sql id="registerCheck">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			audio.member 
+	</sql>
 
-	<!-- 회원정보 가져옴 -->
+	<!-- 회원 목록 가져옴 -->
 	<select id="getMemberList" resultType="kr.com.inspect.dto.Member">
-		SELECT
-			*
-		FROM
-			audio.member;
+		<include refid="getMember" />
 	</select>
 
 	<!-- 아이디로 회원정보를 가져옴 -->
@@ -29,30 +34,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	
 	<!-- 아이디 중복 체크  -->
 	<select id="idCheck" parameterType="string" resultType="int">
-		SELECT 
-			COUNT(*) 
-		FROM 
-			audio.member 
+		<include refid="registerCheck" />
 		WHERE 
 			member_id = #{member_id};
 	</select>
 	
 	<!-- 이메일 중복 체크  -->
 	<select id="emailCheck" parameterType="string" resultType="int">
-		SELECT 
-			COUNT(*) 
-		FROM 
-			audio.member 
+		<include refid="registerCheck" />
 		WHERE 
 			email = #{email};
 	</select>
 	
 	<!-- 연락처 중복 체크  -->
 	<select id="phoneCheck" parameterType="string" resultType="int">
-		SELECT 
-			COUNT(*) 
-		FROM 
-			audio.member 
+		<include refid="registerCheck" />
 		WHERE 
 			phone = #{phone};
 	</select>

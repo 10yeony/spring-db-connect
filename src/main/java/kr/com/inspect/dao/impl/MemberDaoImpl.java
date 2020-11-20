@@ -75,7 +75,9 @@ public class MemberDaoImpl implements MemberDao{
 	
 	/* 이메일 중복확인 */
 	public int emailCheck(String email) {
+		System.out.println("요청이 들어옴");
 		int result = 0;
+		System.out.println(email);
 		result = sqlSession.selectOne(memberNs+"emailCheck", email);
 		return result;
 	}

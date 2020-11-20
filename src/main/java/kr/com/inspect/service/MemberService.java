@@ -26,6 +26,9 @@ public interface MemberService extends UserDetailsService {
 	/* 회원 정보 수정 */
 	public int updateMember(HttpSession session, Member member);
 	
+	/* 관리자 권한으로 회원 정보(권한) 수정 */
+	public int updateMemberByAdmin(Member member);
+	
 	/* 비밀번호 변경 */
 	public int updatePwd(String member_id, String pwd);
 	

@@ -86,6 +86,13 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.updateMember(member);
 	}
 	
+	/* 관리자 권한으로 회원 정보(권한) 수정 */
+	public int updateMemberByAdmin(Member member) {
+		Member vo = readMemberById(member.getMember_id()); //아이디로 회원 정보를 가져옴
+		
+		return 0;
+	}
+	
 	/* 비밀번호 변경 */
 	public int updatePwd(String member_id, String pwd) {
 		String encodedPassword = new BCryptPasswordEncoder().encode(pwd); //사용자가 입력한 비밀번호를 암호화
@@ -127,6 +134,7 @@ public class MemberServiceImpl implements MemberService {
 	/* 회원 정보를 모두 가져옴 */
 	@Override
 	public List<Member> getMemberList() {
-		return memberDao.getMemberList();
+		List<Member> list = memberDao.getMemberList();
+		return list;
 	}
 }
