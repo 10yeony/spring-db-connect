@@ -13,6 +13,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import kr.com.inspect.dto.Member;
 
+/**
+ * 
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 public interface MemberService extends UserDetailsService {
 	
 	/**

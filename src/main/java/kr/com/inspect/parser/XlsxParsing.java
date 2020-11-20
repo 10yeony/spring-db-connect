@@ -17,7 +17,7 @@ import kr.com.inspect.dto.Program;
 
 /**
  * 
- * @author Yeonhee Kim
+ * @author Woo Young
  * @version 1.0
  *
  */

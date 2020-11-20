@@ -19,7 +19,7 @@ import kr.com.inspect.dto.Utterance;
 
 /**
  * 
- * @author Yeonhee Kim
+ * @author Woo Young
  * @version 1.0
  *
  */
