@@ -54,7 +54,7 @@ $(function() {
 				}
 			},
 			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 			}
 		});//ajax
 	}); //keyup
@@ -111,7 +111,7 @@ $(function() {
 			},
 			
 			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 			}
 		}); //ajax
 	}); //click
@@ -195,7 +195,7 @@ $(function() {
 			},
 			
 			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 			}
 		}); //ajax
 	}); //click

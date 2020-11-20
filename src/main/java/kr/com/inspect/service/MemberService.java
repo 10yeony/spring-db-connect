@@ -60,10 +60,11 @@ public interface MemberService extends UserDetailsService {
 	
 	/**
 	 * 관리자 권한으로 회원 정보(권한) 수정
-	 * @param member
+	 * @param member_id
+	 * @param authoritiesArr
 	 * @return
 	 */
-	public int updateMemberByAdmin(Member member);
+	public int updateAuthorities(String member_id, String[] authoritiesArr);
 	
 	/**
 	 * 비밀번호 변경

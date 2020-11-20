@@ -140,6 +140,25 @@ public class MemberController {
 	}
 	
 	/**
+	 * 관리자 권한으로 회원 권한 수정
+	 * @param member_id
+	 * @param authorities
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/member/updateAuthorities")
+	public String updateAuthorities(String member_id, String authorities) {
+		String[] authoritiesArr = authorities.split(",");
+		int result = memberService.updateAuthorities(member_id, authoritiesArr);
+		if(result == authoritiesArr.length) {
+			return "true";
+		}else {
+			return "false";
+		}
+		
+	}
+	
+	/**
 	 * 회원을 삭제함
 	 * @param session
 	 * @return string ajax로 회원 탈퇴 여부(true/false)를 반환

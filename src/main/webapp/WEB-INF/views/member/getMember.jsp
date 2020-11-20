@@ -33,8 +33,6 @@
 
 <body id="page-top">
 
-<input type="hidden" id="model_authorities" value="${thisMember.authorities}">
-
 <!-- Page Wrapper -->
 <div id="wrapper">
 
@@ -91,17 +89,17 @@
 		                                		<c:forEach items="${thisMember.authorities}" var="item" varStatus="status">
 					                           	<c:if test="${item=='ROLE_VIEW'}">
 					                           		<span style="margin-right:3px">
-					                           					| 데이터 조회 권한 |
+					                           					데이터 조회 권한 |
 					                           		</span>
 					                           	</c:if>
 					                           	<c:if test="${item=='ROLE_INPUT'}">
 					                           		<span style="margin-right:3px">
-					                           					| 데이터 입력 권한 |
+					                           					데이터 입력 권한 |
 					                           		</span>
 					                           	</c:if>
 					                           	<c:if test="${item=='ROLE_ADMIN'}">
 															<span style="margin-right:3px">
-																| 관리자 권한 |	
+																관리자 권한 |	
 															</span>
 					                           	</c:if>
 					                          </c:forEach>

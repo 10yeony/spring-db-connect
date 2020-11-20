@@ -39,6 +39,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * 사용할 PasswordEncoder를 리턴해줌
 	 */
+	@Override
 	public PasswordEncoder passwordEncoder() {
 		return this.passwordEncoder;
 	}
@@ -79,6 +80,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * 회원가입시 해당 요소가 DB에 존재하는지 중복 체크
 	 */
+	@Override
 	public int registerCheck(String object, String value) {
 		if(object.equals("id")) { //아이디 중복 체크
 			return memberDao.idCheck(value);
@@ -94,6 +96,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * 회원 정보 수정
 	 */
+	@Override
 	public int updateMember(HttpSession session, Member member) {
 		Member vo = (Member) session.getAttribute("member");
 		member.setMember_id(vo.getMember_id()); //세션에서 아이디, 비밀번호를 가져옴
@@ -106,16 +109,23 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.updateMember(member);
 	}
 	
-	/* 관리자 권한으로 회원 정보(권한) 수정 */
-	public int updateMemberByAdmin(Member member) {
-		Member vo = readMemberById(member.getMember_id()); //아이디로 회원 정보를 가져옴
-		
-		return 0;
+	/**
+	 * 관리자 권한으로 회원 권한 수정
+	 */
+	@Override
+	public int updateAuthorities(String member_id, String[] authoritiesArr) {		
+		int result = 0;
+		memberDao.deleteAuthorities(member_id); //멤버 아이디로 모든 권한을 삭제함
+		for(String authority : authoritiesArr) {
+			result += memberDao.registerAuthority(member_id, authority);
+		}
+		return result;
 	}
 
 	/**
 	 * 비밀번호 변경
 	 */
+	@Override
 	public int updatePwd(String member_id, String pwd) {
 		String encodedPassword = new BCryptPasswordEncoder().encode(pwd); //사용자가 입력한 비밀번호를 암호화
 		return memberDao.updatePwd(member_id, encodedPassword);
@@ -124,6 +134,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * 회원 탈퇴 
 	 */
+	@Override
 	public int deleteMember(String member_id) {
 		int result = 0;
 		
