@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @PropertySource(value = "classpath:properties/report.properties")
 public class DocxReport {
 	@Autowired
-	private MailSend ms;
+	private SendReport ms;
 
 	@Value("${table.column0}")
 	private String column0;
