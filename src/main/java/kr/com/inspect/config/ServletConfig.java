@@ -67,6 +67,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public JavaMailSender mailSender(){
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost("smtp.gmail.com");
+		mailSender.setPort(587);
 		mailSender.setUsername("wooyoung.lee@namutech.co.kr");
 		mailSender.setPassword("szbkbfhfygcuvamh");
 
