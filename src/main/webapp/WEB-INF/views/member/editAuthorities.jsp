@@ -4,6 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>	
+	<style>
+		.role_check_area { cursor:pointer; }
+	</style>
 </head>
 <!-- Logout Modal-->
 <div class="modal fade" id="editAuthoritiesModal" tabindex="-1" role="dialog"
@@ -21,16 +24,16 @@
 				해당 회원에게 부여할 권한을 선택하세요.<br/>
 				<span class="small">(데이터 조회 < 데이터입력 < 관리자)</span><br/><br/>
 				<div>
-					<span style="margin-right:10px;">
+					<span style="margin-right:10px;" class="role_check_area" id="role_view_check_area">
 	            		<input type="checkbox" id="role_view_check"> 데이터 조회 
-	          	</span>
-	          	<span style="margin-right:10px;">
-	            		<input type="checkbox" id="role_input_check"> 데이터 입력 
-	          	</span>
-	          	<span>
-	            		<input type="checkbox" id="role_admin_check"> 관리자 
-	          	</span>
-            </div><br/><br/>
+		          	</span>
+		          	<span style="margin-right:10px;" class="role_check_area" id="role_input_check_area">
+		            		<input type="checkbox" id="role_input_check"> 데이터 입력 
+		          	</span>
+		          	<span class="role_check_area" id="role_admin_check_area">
+		            		<input type="checkbox" id="role_admin_check"> 관리자 
+		          	</span>
+	            </div><br/><br/>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
