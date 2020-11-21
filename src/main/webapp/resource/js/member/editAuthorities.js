@@ -48,7 +48,7 @@ $(function(){
 		let result = confirm('해당 회원의 정보를 수정하시겠습니까?');
 		if(result){
 			$.ajax({
-				url : contextPath + "/member/updateAuthorities",
+				url : contextPath + "/updateAuthoritiesByAdmin",
 				type : "POST",
 				data : { 
 					"member_id" : $('#thisMember_id').val(),

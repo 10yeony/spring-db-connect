@@ -146,8 +146,8 @@ public class MemberController {
 	 * @return
 	 */
 	@ResponseBody
-	@PostMapping("/member/updateAuthorities")
-	public String updateAuthorities(String member_id, String authorities) {
+	@PostMapping("/updateAuthoritiesByAdmin")
+	public String updateAuthoritiesByAdmin(String member_id, String authorities) {
 		String[] authoritiesArr = authorities.split(",");
 		int result = memberService.updateAuthorities(member_id, authoritiesArr);
 		if(result == authoritiesArr.length) {
@@ -167,13 +167,9 @@ public class MemberController {
 	@GetMapping("/deleteMember")
 	public String deleteMember(HttpSession session) {
 		Member member = (Member) session.getAttribute("member");
-		int result = memberService.deleteMember(member.getMember_id());
-		if(result == 2) {
-			session.invalidate(); //탈퇴했으니 세션 삭제
-			return "true";
-		}else {
-			return "false";
-		}
+		memberService.deleteMember(member.getMember_id());
+		session.invalidate(); //탈퇴했으니 세션 삭제
+		return "true";
 	}
 	
 	/**
@@ -182,14 +178,10 @@ public class MemberController {
 	 * @return string ajax로 회원 탈퇴 여부(true/false)를 반환
 	 */
 	@ResponseBody
-	@GetMapping("/member/deleteMember")
+	@GetMapping("/deleteMemberByAdmin")
 	public String deleteMemberByAdmin(String member_id) {
-		int result = memberService.deleteMember(member_id);
-		if(result == 2) {
-			return "true";
-		}else {
-			return "false";
-		}
+		memberService.deleteMember(member_id);
+		return "true";
 	}
 	
 	/**
@@ -197,8 +189,8 @@ public class MemberController {
 	 * @param model
 	 * @return string 회원 목록 페이지를 리턴
 	 */
-	@GetMapping("/member/getMemberList")
-	public String getMemberList(Model model) {
+	@GetMapping("/getMemberListByAdmin")
+	public String getMemberListByAdmin(Model model) {
 		model.addAttribute("memberList", memberService.getMemberList());
 		return "member/getMemberList";
 	}
@@ -209,8 +201,8 @@ public class MemberController {
 	 * @param member_id
 	 * @return string 특정 회원 정보 조회 페이지를 리턴
 	 */
-	@GetMapping("/member/getMember/{member_id}")
-	public String getMember(Model model, @PathVariable String member_id) {
+	@GetMapping("/getMemberByAdmin")
+	public String getMemberByAdmin(Model model, String member_id) {
 		Member member = memberService.readMemberById(member_id);
 		model.addAttribute("thisMember", member);
 		model.addAttribute("flag", true);

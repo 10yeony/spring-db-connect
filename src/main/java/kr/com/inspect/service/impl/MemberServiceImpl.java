@@ -135,16 +135,15 @@ public class MemberServiceImpl implements MemberService {
 	 * 회원 탈퇴 
 	 */
 	@Override
-	public int deleteMember(String member_id) {
-		int result = 0;
+	public void deleteMember(String member_id) {
 		
 		/* 모든 권한 삭제 */
-		result += memberDao.deleteAuthorities(member_id);
+		memberDao.deleteAuthorities(member_id);
+		//System.out.println("권한 삭제 : "+result);
 		
 		/* member 삭제 */
-		result += memberDao.deleteMember(member_id);
-		
-		return result;
+		memberDao.deleteMember(member_id);
+		//System.out.println("+회원 삭제 : "+result);
 	}
 	
 	/**

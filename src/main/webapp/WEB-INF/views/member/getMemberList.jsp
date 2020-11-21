@@ -64,7 +64,7 @@
                                 <c:forEach items="${memberList}" var="item" varStatus="status">
                                     <tr>
                                         <td>${status.count}</td>
-                                        <td><a href="${pageContext.request.contextPath}/member/getMember/${item.member_id}">${item.member_id}</a></td>
+                                        <td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
                                         <td>${item.email}</td>
                                         <td>${item.phone}</td>
                                     </tr>

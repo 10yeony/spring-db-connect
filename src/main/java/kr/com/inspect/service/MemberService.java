@@ -77,9 +77,8 @@ public interface MemberService extends UserDetailsService {
 	/**
 	 * 회원 탈퇴 
 	 * @param member_id
-	 * @return
 	 */
-	public int deleteMember(String member_id);
+	public void deleteMember(String member_id);
 	
 	/**
 	 * Spring Security에서 아이디로 회원 정보를 읽어옴

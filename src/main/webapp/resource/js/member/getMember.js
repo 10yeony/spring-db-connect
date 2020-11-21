@@ -11,7 +11,7 @@ $(function(){
 		let result = confirm('해당 회원을 정말로 탈퇴시키겠습니까?');
 		if(result){
 			$.ajax({
-				url : contextPath + "/member/deleteMember",
+				url : contextPath + "/deleteMemberByAdmin",
 				type : "GET",
 				data : "member_id=" + member_id,
 				async: false,
@@ -19,7 +19,7 @@ $(function(){
 				success : function(result) {
 					if(result == 'true'){
 						alert("해당 회원이 정상적으로 탈퇴되었습니다.");
-						location.href = contextPath + "/member/getMemberList"
+						location.href = contextPath + "/getMemberListByAdmin"
 					}else{
 						alert("해당 회원을 탈퇴시키는 데 실패하였습니다.");
 					}
@@ -33,7 +33,7 @@ $(function(){
 
 	/* 뒤로 가기 클릭 */
 	$('#backToMemberList').click(function(){
-		location.href = contextPath + "/member/getMemberList";
+		window.history.back();
 	});
 });
 
