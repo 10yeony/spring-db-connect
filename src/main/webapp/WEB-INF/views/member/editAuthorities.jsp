@@ -24,14 +24,17 @@
 				해당 회원에게 부여할 권한을 선택하세요.<br/>
 				<span class="small">(데이터 조회 < 데이터입력 < 관리자)</span><br/><br/>
 				<div>
+					<input type="checkbox" id="role_view_check">
 					<span style="margin-right:10px;" class="role_check_area" id="role_view_check_area">
-	            		<input type="checkbox" id="role_view_check"> 데이터 조회 
+	            	 	 데이터 조회 
 		          	</span>
+		          	<input type="checkbox" id="role_input_check">
 		          	<span style="margin-right:10px;" class="role_check_area" id="role_input_check_area">
-		            		<input type="checkbox" id="role_input_check"> 데이터 입력 
+		            	 데이터 입력 
 		          	</span>
+		          	<input type="checkbox" id="role_admin_check">
 		          	<span class="role_check_area" id="role_admin_check_area">
-		            		<input type="checkbox" id="role_admin_check"> 관리자 
+		            	 관리자 
 		          	</span>
 	            </div><br/><br/>
 			</div>

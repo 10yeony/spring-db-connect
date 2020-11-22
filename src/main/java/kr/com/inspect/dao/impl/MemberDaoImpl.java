@@ -127,8 +127,19 @@ public class MemberDaoImpl implements MemberDao{
 
 	/**
 	 * 회원 정보 모두 가지고옴 
+	 * @return 회원 목록
 	 */
 	public List<Member> getMemberList(){ 
 		return sqlSession.selectList(memberNs+"getMemberList"); 	
+	}
+	
+	/**
+	 * 권한명으로 회원 정보를 모두 가지고 옴
+	 * @param role 권한명
+	 * @return 해당 권한을 가진 회원 목록
+	 */
+	@Override
+	public List<Member> getMemberListUsingRole(String role){
+		return sqlSession.selectList(memberNs+"getMemberListUsingRole", role); 
 	}
 }

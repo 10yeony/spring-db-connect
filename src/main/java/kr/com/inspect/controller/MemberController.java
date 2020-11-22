@@ -187,18 +187,37 @@ public class MemberController {
 	/**
 	 * 회원정보 가져와서 회원 목록 페이지로 이동
 	 * @param model
+	 * @param role 권한
 	 * @return string 회원 목록 페이지를 리턴
 	 */
 	@GetMapping("/getMemberListByAdmin")
-	public String getMemberListByAdmin(Model model) {
-		model.addAttribute("memberList", memberService.getMemberList());
+	public String getMemberListByAdmin(Model model, String role) {
+		if(role.equals("ALL")) {
+			model.addAttribute("memberList", memberService.getMemberList());
+			model.addAttribute("selectedRole", "전체 권한");
+		}else {
+			model.addAttribute("memberList", memberService.getMemberListUsingRole(role));
+			switch(role) {
+				case "ROLE_VIEW":
+					model.addAttribute("selectedRole", "데이터 조회 권한");
+					break;
+				case "ROLE_INPUT":
+					model.addAttribute("selectedRole", "데이터 입력 권한");
+					break;
+				case "ROLE_ADMIN":
+					model.addAttribute("selectedRole", "관리자 권한");
+					break;
+				default:
+					break;
+			}
+		}
 		return "member/getMemberList";
 	}
 	
 	/**
 	 * 특정 회원 아이디로 회원 정보를 가져오고 회원 정보와 권한을 모델에 바인딩함
-	 * @param model
-	 * @param member_id
+	 * @param model 
+	 * @param member_id 회원 아이디
 	 * @return string 특정 회원 정보 조회 페이지를 리턴
 	 */
 	@GetMapping("/getMemberByAdmin")

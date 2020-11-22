@@ -23,6 +23,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- 회원 목록 가져옴 -->
 	<select id="getMemberList" resultType="kr.com.inspect.dto.Member">
 		<include refid="getMember" />
+		ORDER BY 
+			member_id;
+	</select>
+	
+	<!-- 특정 권한을 가진 회원 목록을 가져옴 -->
+	<select id="getMemberListUsingRole" parameterType="string" resultType="kr.com.inspect.dto.Member">
+		SELECT 
+			m.member_id, m.email, m.phone
+		FROM
+			audio.member m
+		LEFT JOIN 
+			audio.authority a 
+		ON 
+			m.member_id = a.username 
+		WHERE 
+			a.authority_name = #{role}
+		ORDER BY 
+			m.member_id;
 	</select>
 
 	<!-- 아이디로 회원정보를 가져옴 -->

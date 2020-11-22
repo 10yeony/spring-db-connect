@@ -171,11 +171,22 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * 회원 정보를 모두 가져옴
-	 * @return 
+	 * @return 회원 목록
 	 */
 	@Override
 	public List<Member> getMemberList() {
 		List<Member> list = memberDao.getMemberList();
+		return list;
+	}
+	
+	/**
+	 * 권한명으로 회원 정보를 모두 가지고 옴
+	 * @param role 권한명
+	 * @return 해당 권한을 가진 회원 목록
+	 */
+	@Override
+	public List<Member> getMemberListUsingRole(String role){
+		List<Member> list = memberDao.getMemberListUsingRole(role);
 		return list;
 	}
 }

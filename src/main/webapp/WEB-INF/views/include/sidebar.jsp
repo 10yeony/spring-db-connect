@@ -62,7 +62,7 @@
 	       <div id="memberManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	           <div class="bg-white py-2 collapse-inner rounded">
 	               <h6 class="collapse-header">Member Management</h6>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/getMemberListByAdmin">회원 관리</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getMemberListByAdmin?role=ALL">회원 관리</a>
 	           </div>
 	       </div>
 	   </li>

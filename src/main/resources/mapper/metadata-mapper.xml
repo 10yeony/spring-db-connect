@@ -27,8 +27,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- metadata 테이블에 데이터를 입력함 -->
 	<insert id="insertIntoMetadata" parameterType="kr.com.inspect.dto.Metadata">
 		INSERT INTO audio.metadata
-			(creator, annotation_level, year, sampling, title, category, distributor, relation)
-			VALUES(#{creator}, #{annotation_level}, #{year}, #{sampling}, #{title}, #{category}, #{distributor}, #{relation});
+				(creator, 
+				annotation_level, 
+				year, 
+				sampling, 
+				title, 
+				category, 
+				distributor, 
+				relation)
+			VALUES(#{creator}, 
+				#{annotation_level}, 
+				#{year}, 
+				#{sampling}, 
+				#{title}, 
+				#{category}, 
+				#{distributor}, 
+				#{relation});
 	</insert>
 	
 	<!-- creator와 title로 auto increment된 metadata id를 받아옴(다른 테이블의 외래키 입력을 위함) -->

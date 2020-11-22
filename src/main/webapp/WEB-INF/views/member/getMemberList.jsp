@@ -5,7 +5,8 @@
 <html lang="en">
 
 <head>
-
+	<script src="http://code.jquery.com/jquery-1.4.4.js"></script>
+	
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,7 +21,9 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-
+	
+	<script 
+		src="${pageContext.request.contextPath}/resource/js/member/getMemberList.js"></script>
 </head>
 
 <body id="page-top">
@@ -44,31 +47,48 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-2 text-gray-800">회원 관리</h1>
+                    <h1 class="h3 mb-2 text-gray-800">
+                    	<b>회원 관리</b>
+                    	<span style="font-size:18px;">(${selectedRole})</span>
+                    </h1>
                 </div>
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
+                    	<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+							<select class="form-control" id="roleSelect" style="margin-right:3px;">
+								<option>권한 선택</option>
+    							<option value="ALL">전체</option>
+    							<option value="ROLE_VIEW">데이터 조회</option>
+    							<option value="ROLE_INPUT">데이터 입력</option>
+    							<option value="ROLE_ADMIN">관리자</option>
+  							</select>
+							<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+								   id="memberSearchText">
+							<button class="btn btn-primary" type="button">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div><br><br>
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered" id="memberTable" width="100%" cellspacing="0">
                                 <thead>
-                                <tr>
-                                    <th>no.</th>
-                                    <th>아이디</th>
-                                    <th>이메일</th>
-                                    <th>연락처</th>
-                                </tr>
+	                                <tr>
+	                                    <th>no.</th>
+	                                    <th>아이디</th>
+	                                    <th>이메일</th>
+	                                    <th>연락처</th>
+	                                </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${memberList}" var="item" varStatus="status">
-                                    <tr>
-                                        <td>${status.count}</td>
-                                        <td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
-                                        <td>${item.email}</td>
-                                        <td>${item.phone}</td>
-                                    </tr>
-                                </c:forEach>
+	                                <c:forEach items="${memberList}" var="item" varStatus="status">
+	                                    <tr>
+	                                        <td>${status.count}</td>
+	                                        <td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
+	                                        <td>${item.email}</td>
+	                                        <td>${item.phone}</td>
+	                                    </tr>
+	                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
