@@ -29,21 +29,21 @@ import kr.com.inspect.service.MemberService;
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	
 	/**
-	 * 
+	 * a
 	 */
 	@Autowired
 	@Qualifier("loginSuccessHandler")
 	private LoginSuccessHandler loginSuccessHandler;
 	
 	/**
-	 * 
+	 * b
 	 */
 	@Autowired
 	@Qualifier("loginFailHandler")
 	private LoginFailHandler loginfailHandler;
 	
 	/**
-	 * 
+	 * c
 	 */
 	@Autowired
 	@Qualifier("memberService")
@@ -69,7 +69,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		/* 권한별 접근 페이지 설정 */
+		/**
+		 * 권한별 접근 페이지 설정
+		 */
 		http.authorizeRequests()
 			.antMatchers("/", "/login", "/login/**",
 							"/register", "/register/**").permitAll() //모든 사용자에게 보임

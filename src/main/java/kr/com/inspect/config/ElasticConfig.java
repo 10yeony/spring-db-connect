@@ -38,7 +38,7 @@ public class ElasticConfig {
 	
 	/**
 	 * 
-	 * @return
+	 * @return 
 	 */
 	@Bean
 	public RestHighLevelClient restHighLevelClient() {
