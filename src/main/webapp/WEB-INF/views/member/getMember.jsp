@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
 <head>
-	<script src="http://code.jquery.com/jquery-1.4.4.js"></script>
-	
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,8 +22,13 @@
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
 	
+	<script
+	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 	<script 
-		src="${pageContext.request.contextPath}/resource/js/member/getMemberList.js"></script>
+		src="${pageContext.request.contextPath}/resource/js/member/getMember.js"></script>
+	<script 
+		src="${pageContext.request.contextPath}/resource/js/member/editAuthorities.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -47,50 +52,68 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-2 text-gray-800">
-                    	<b>회원 관리</b>
-                    	<span style="font-size:18px;">(${selectedRole})</span>
-                    </h1>
+                    <h1 class="h3 mb-2 text-gray-800"><b>회원 정보</b></h1>
                 </div>
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                    	<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
-							<select class="form-control" id="roleSelect" style="margin-right:3px;">
-								<option>권한 선택</option>
-    							<option value="ALL">전체</option>
-    							<option value="ROLE_VIEW">데이터 조회</option>
-    							<option value="ROLE_INPUT">데이터 입력</option>
-    							<option value="ROLE_ADMIN">관리자</option>
-  							</select>
-							<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-								   id="memberSearchText">
-							<button class="btn btn-primary" type="button">
-								<i class="fas fa-search fa-sm"></i>
-							</button>
-						</div><br><br>
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="memberTable" width="100%" cellspacing="0">
-                                <thead>
-	                                <tr>
-	                                    <th>no.</th>
-	                                    <th>아이디</th>
-	                                    <th>이메일</th>
-	                                    <th>연락처</th>
-	                                </tr>
-                                </thead>
+                            <table class="table table-bordered" id="dataTable" width="50%" cellspacing="0">
+                                <thead></thead>
                                 <tbody>
-	                                <c:forEach items="${memberList}" var="item" varStatus="status">
-	                                    <tr>
-	                                        <td>${status.count}</td>
-	                                        <td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
-	                                        <td>${item.email}</td>
-	                                        <td>${item.phone}</td>
-	                                    </tr>
-	                                </c:forEach>
+	                                <tr>
+	                                    <th>아이디</th>
+	                                    <td>
+	                                    	<input type="text" id="thisMember_id" class="form-control" 
+	                                    		value="${thisMember.member_id}" disabled>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                		<th>이메일</th>
+	                                		<td>
+	                                			<input type="text" class="form-control" 
+	                                				value="${thisMember.email}" disabled>
+	                                		</td>
+	                                </tr>
+	                                	<tr>
+	                                    <th>연락처</th>
+	                                    <td>
+	                                    	<input type="text" class="form-control" 
+	                                    		value="${thisMember.phone}" disabled>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                		<th>현재 권한</th>
+	                                		<td>
+		                                		<c:forEach items="${thisMember.authorities}" var="item" varStatus="status">
+					                           	<c:if test="${item=='ROLE_VIEW'}">
+					                           		<span style="margin-right:3px">
+					                           					데이터 조회 권한 |
+					                           		</span>
+					                           	</c:if>
+					                           	<c:if test="${item=='ROLE_INPUT'}">
+					                           		<span style="margin-right:3px">
+					                           					데이터 입력 권한 |
+					                           		</span>
+					                           	</c:if>
+					                           	<c:if test="${item=='ROLE_ADMIN'}">
+															<span style="margin-right:3px">
+																관리자 권한 |	
+															</span>
+					                           	</c:if>
+					                          </c:forEach>
+					                          <a href="javascript:void(0);" data-toggle="modal" data-target="#editAuthoritiesModal">권한 편집</a>
+		                                	</td>
+	                                </tr>
                                 </tbody>
                             </table>
+                           
+                            <div>
+						        		<button class="btn btn-danger" type="button" id="deleteBtnByAdmin" style="float:left;">회원탈퇴</button>
+										<button class="btn btn-secondary" type="button" id="backToMemberList"
+											style="float:right; margin-right:10px;">뒤로 가기</button>
+						        </div>
                         </div>
                     </div>
                 </div>
@@ -129,6 +152,8 @@
 <!-- Page level custom scripts -->
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
-</body>
 
+<!-- 회원탈퇴 Modal include -->
+<%@ include file="editAuthorities.jsp"%>
+</body>
 </html>

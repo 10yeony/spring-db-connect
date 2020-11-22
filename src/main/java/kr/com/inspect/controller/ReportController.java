@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.dto.Utterance;
+import kr.com.inspect.report.SendReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -29,11 +30,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @PropertySource(value = "classpath:properties/directory.properties")
 public class ReportController {
+	/* sms 전송확인을 위해 임시로 선언 */
+	@Autowired
+	SendReport sendReport;
 	
 	/**
 	 * PostgreSQL
 	 */
-	@Autowired 
+	/* PostgreSQL */
+	@Autowired
 	private PostgreService postgreService;
 	private List<Metadata>  metadata;
 	private List<Utterance>  utterances;
@@ -139,7 +144,6 @@ public class ReportController {
 		Member member = (Member)session.getAttribute("member");
 		String email = member.getEmail();
 		metadata = postgreService.getMetadataAndProgram();
-		String str = "mail"+email;
 		switch(format) {
 			case ("docx"): //docx 파일 , mail이라는 표시와 email정보를 함께 보냄
 				docxReport.writeDocxMetadata(response, docxPath, metadata, "mail"+email);
@@ -179,6 +183,54 @@ public class ReportController {
 			case ("xlsx"): //xlsx 파일
 				System.out.println("xlsxl");
 				xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "mail"+email);
+				break;
+			default:
+				break;
+		}
+	}
+
+	/* 한국어 강의 목록 파일 sms 전송 */
+	@GetMapping("/metadataSMS/{format}")
+	public void sendMetadataSMS(HttpSession session,
+								 HttpServletResponse response,
+								 @PathVariable String format) throws Exception {
+		Member member = (Member)session.getAttribute("member");
+		String phone = member.getPhone();
+		metadata = postgreService.getMetadataAndProgram();
+
+		switch(format) {
+			case ("docx"): //docx 파일 , sms이라는 표시와 phone정보를 함께 보냄
+				docxReport.writeDocxMetadata(response, docxPath, metadata, "sms"+phone);
+				break;
+			case ("xlsx"): //xlsx 파일, sms이라는 표시와 phone정보를 함께 보냄
+				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "sms"+phone);
+				break;
+			default:
+				break;
+		}
+	}
+
+	/* 강의 문장 파일 sms 전송 */
+	@GetMapping("/utteranceSMS")
+	@ResponseBody
+	public void sendUtteranceSMS(HttpSession session,
+								  HttpServletRequest request,
+								  HttpServletResponse response) throws Exception {
+		Member member = (Member)session.getAttribute("member");
+		String phone = member.getPhone();
+		int format = Integer.parseInt(request.getParameter("metaId"));
+		meta = postgreService.getMetadataAndProgramUsingId(format);
+		utterances = postgreService.getUtteranceUsingMetadataId(format);
+
+		switch(request.getParameter("file")) {
+			case ("docx"): //docx 파일
+				System.out.println(phone + "docx");
+				sendReport.sendSMS(null, null, phone);
+//				docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "sms"+phone);
+				break;
+			case ("xlsx"): //xlsx 파일
+				System.out.println(phone + "xlsxl");
+//				xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "sms"+phone);
 				break;
 			default:
 				break;

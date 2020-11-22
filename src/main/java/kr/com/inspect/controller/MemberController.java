@@ -44,7 +44,7 @@ public class MemberController {
 	/**
 	 * 회원가입
 	 * @param member
-	 * @return
+	 * @return string 회원가입 후 성공/실패 메세지를 반환함
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/register", produces = "application/text; charset=utf8")
@@ -60,8 +60,8 @@ public class MemberController {
 	/**
 	 *  회원가입시 해당 요소가 DB에 존재하는지 중복 체크 
 	 * @param request
-	 * @param object
-	 * @return
+	 * @param object 해당 요소(아이디/이메일/연락처)
+	 * @return string 회원가입시 해당 요소의 DB 존재 여부(존재시 1)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("register/check/{object}")
@@ -84,7 +84,7 @@ public class MemberController {
 	 * 회원정보를 수정하거나 삭제할 때 비밀번호를 입력받고 자격을 확인함
 	 * @param session
 	 * @param pwd
-	 * @return
+	 * @return ajax로 회원정보 수정 및 탈퇴 자격(true/false)을 입증함
 	 */
 	@ResponseBody
 	@PostMapping("/ableToEdit")
@@ -105,7 +105,7 @@ public class MemberController {
 	 * 회원정보를 수정함
 	 * @param session
 	 * @param member
-	 * @return
+	 * @return ajax로 회원정보 수정 여부(true/false)를 반환 
 	 */
 	@ResponseBody
 	@PostMapping("/updateMember")
@@ -124,7 +124,7 @@ public class MemberController {
 	 * 비밀번호를 수정함
 	 * @param session
 	 * @param pwd
-	 * @return
+	 * @return string ajax로 비밀번호 수정 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("/updatePwd")
@@ -140,31 +140,91 @@ public class MemberController {
 	}
 	
 	/**
+	 * 관리자 권한으로 회원 권한 수정
+	 * @param member_id
+	 * @param authorities
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/updateAuthoritiesByAdmin")
+	public String updateAuthoritiesByAdmin(String member_id, String authorities) {
+		String[] authoritiesArr = authorities.split(",");
+		int result = memberService.updateAuthorities(member_id, authoritiesArr);
+		if(result == authoritiesArr.length) {
+			return "true";
+		}else {
+			return "false";
+		}
+		
+	}
+	
+	/**
 	 * 회원을 삭제함
 	 * @param session
-	 * @return
+	 * @return string ajax로 회원 탈퇴 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@GetMapping("/deleteMember")
 	public String deleteMember(HttpSession session) {
 		Member member = (Member) session.getAttribute("member");
-		int result = memberService.deleteMember(member.getMember_id());
-		if(result == 2) {
-			session.invalidate(); //탈퇴했으니 세션 삭제
-			return "true";
-		}else {
-			return "false";
-		}
+		memberService.deleteMember(member.getMember_id());
+		session.invalidate(); //탈퇴했으니 세션 삭제
+		return "true";
+	}
+	
+	/**
+	 * 관리자 권한으로 회원을 삭제함
+	 * @param member_id 회원 아이디
+	 * @return string ajax로 회원 탈퇴 여부(true/false)를 반환
+	 */
+	@ResponseBody
+	@GetMapping("/deleteMemberByAdmin")
+	public String deleteMemberByAdmin(String member_id) {
+		memberService.deleteMember(member_id);
+		return "true";
 	}
 	
 	/**
 	 * 회원정보 가져와서 회원 목록 페이지로 이동
 	 * @param model
-	 * @return
+	 * @param role 권한
+	 * @return string 회원 목록 페이지를 리턴
 	 */
-	@GetMapping("/memberList")
-	public String getMember(Model model) {
-		model.addAttribute("user", memberService.getMember());
+	@GetMapping("/getMemberListByAdmin")
+	public String getMemberListByAdmin(Model model, String role) {
+		if(role.equals("ALL")) {
+			model.addAttribute("memberList", memberService.getMemberList());
+			model.addAttribute("selectedRole", "전체 권한");
+		}else {
+			model.addAttribute("memberList", memberService.getMemberListUsingRole(role));
+			switch(role) {
+				case "ROLE_VIEW":
+					model.addAttribute("selectedRole", "데이터 조회 권한");
+					break;
+				case "ROLE_INPUT":
+					model.addAttribute("selectedRole", "데이터 입력 권한");
+					break;
+				case "ROLE_ADMIN":
+					model.addAttribute("selectedRole", "관리자 권한");
+					break;
+				default:
+					break;
+			}
+		}
 		return "member/getMemberList";
+	}
+	
+	/**
+	 * 특정 회원 아이디로 회원 정보를 가져오고 회원 정보와 권한을 모델에 바인딩함
+	 * @param model 
+	 * @param member_id 회원 아이디
+	 * @return string 특정 회원 정보 조회 페이지를 리턴
+	 */
+	@GetMapping("/getMemberByAdmin")
+	public String getMemberByAdmin(Model model, String member_id) {
+		Member member = memberService.readMemberById(member_id);
+		model.addAttribute("thisMember", member);
+		model.addAttribute("flag", true);
+		return "member/getMember";
 	}
 }

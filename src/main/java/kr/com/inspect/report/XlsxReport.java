@@ -33,7 +33,7 @@ public class XlsxReport {
 	 * 
 	 */
 	@Autowired
-	private MailSend ms;
+	private SendReport ms;
 
 	@Value("${table.column0}")
 	private String column0;

@@ -45,19 +45,34 @@ public interface MemberService extends UserDetailsService {
 	public int registerCheck(String object, String value);
 
 	/**
-	 * 회원 정보 모두 가지고옴
-	 * @return
+	 * 회원 정보를 모두 가지고 옴
+	 * @return 회원 목록
 	 */
-	public List<Member> getMember();
+	public List<Member> getMemberList();
+	
+	/**
+	 * 권한명으로 회원 정보를 모두 가지고 옴
+	 * @param role 권한명
+	 * @return 해당 권한을 가진 회원 목록
+	 */
+	public List<Member> getMemberListUsingRole(String role);
 	
 	/**
 	 * 회원 정보 수정
 	 * @param session
 	 * @param member
-	 * @return
+	 * @return member 테이블에 수정된 row의 수
 	 */
 	public int updateMember(HttpSession session, Member member);
-
+	
+	/**
+	 * 관리자 권한으로 회원 정보(권한) 수정
+	 * @param member_id
+	 * @param authoritiesArr
+	 * @return authority 테이블에 수정된 row의 수
+	 */
+	public int updateAuthorities(String member_id, String[] authoritiesArr);
+	
 	/**
 	 * 비밀번호 변경
 	 * @param member_id
@@ -69,9 +84,8 @@ public interface MemberService extends UserDetailsService {
 	/**
 	 * 회원 탈퇴 
 	 * @param member_id
-	 * @return
 	 */
-	public int deleteMember(String member_id);
+	public void deleteMember(String member_id);
 	
 	/**
 	 * Spring Security에서 아이디로 회원 정보를 읽어옴

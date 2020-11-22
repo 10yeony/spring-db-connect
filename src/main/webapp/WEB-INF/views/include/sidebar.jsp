@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -42,26 +43,30 @@
         <div id="dataManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Data Management</h6>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/insertIntoPostgre">데이터 입력</a>
+                <sec:authorize access="hasRole('ROLE_INPUT')">
+                	<a class="collapse-item" href="${pageContext.request.contextPath}/insertIntoPostgre">데이터 입력</a>
+                </sec:authorize>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/getJsonLog">Json 파일 관리</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">한국어 강의 데이터 목록</a>
             </div>
         </div>
     </li>
 
-<%--    <!-- 회원 관리 메뉴 -->--%>
-<%--    <li class="nav-item">--%>
-<%--        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#memberManage" aria-expanded="true" aria-controls="memberManage">--%>
-<%--            <i class="fas fa-user-friends"></i>--%>
-<%--            <span>회원 관리</span>--%>
-<%--        </a>--%>
-<%--        <div id="memberManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">--%>
-<%--            <div class="bg-white py-2 collapse-inner rounded">--%>
-<%--                <h6 class="collapse-header">Member Management</h6>--%>
-<%--                <a class="collapse-item" href="${pageContext.request.contextPath}/memberList">회원 목록</a>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </li>--%>
+   <!-- 회원 관리 메뉴 -->
+   <sec:authorize access="hasRole('ROLE_ADMIN')">
+	   <li class="nav-item">
+	       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#memberManage" aria-expanded="true" aria-controls="memberManage">
+	           <i class="fas fa-user-friends"></i>
+	           <span>회원 관리</span>
+	       </a>
+	       <div id="memberManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+	           <div class="bg-white py-2 collapse-inner rounded">
+	               <h6 class="collapse-header">Member Management</h6>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getMemberListByAdmin?role=ALL">회원 관리</a>
+	           </div>
+	       </div>
+	   </li>
+   </sec:authorize>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

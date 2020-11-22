@@ -39,7 +39,8 @@
 							<b style="font-size:14px">비밀번호 </b> 
 							<span style="font-size:12px; color:red;">(필수)</span>
 							<span style="float:right">
-								<a class="small" id="goToMemberEdit" href="#" data-toggle="modal" data-target="#eidtPwdModal">
+								<a class="small" id="goToMemberEdit" href="#" data-dismiss="modal"
+								data-toggle="modal" data-target="#eidtPwdModal">
 									비밀번호 수정
 								</a>
 							</span>

@@ -75,7 +75,12 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/", "/login", "/login/**",
 							"/register", "/register/**").permitAll() //모든 사용자에게 보임
-			.antMatchers("/admin", "/admin/**").access("hasRole('ROLE_ADMIN')") //ADMIN 권한만 접근
+			.antMatchers("/getMemberListByAdmin",
+						"/getMemberByAdmin",
+						"/getMemberByAdmin/**",
+						"/deleteMemberByAdmin",
+						"/updateAuthoritiesByAdmin").access("hasRole('ROLE_ADMIN')") //ADMIN 권한만 접근
+			.antMatchers("insertIntoPostgre").access("hasRole('ROLE_INPUT')") //INPUT 권한만 접근
 			.antMatchers("/**").access("hasRole('ROLE_VIEW')") //VIEW 권한만 접근
 			.anyRequest().authenticated(); //설정되지 않은 모든 url request는 인가된 사용자만 이용
 	  
