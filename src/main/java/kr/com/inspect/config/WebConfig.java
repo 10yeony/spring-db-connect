@@ -4,7 +4,9 @@ import javax.servlet.Filter;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -49,5 +51,16 @@ public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitial
 		characterEncodingFilter.setEncoding("UTF-8");
 		characterEncodingFilter.setForceEncoding(true);
 		return new Filter[] { characterEncodingFilter };
+	}
+	
+	/**
+	 * 404 에러 페이지 처리를 위한 메소드
+	 * @return DispatcherServlet
+	 */
+	@Override
+	protected DispatcherServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
+		final DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
+		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+		return dispatcherServlet;
 	}
 }

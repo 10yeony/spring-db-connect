@@ -19,4 +19,9 @@ public class CommonController {
 	public String main() {
 		return "/main";
 	}
+	
+	@GetMapping("/error")
+	public String error() {
+		return "/error";
+	}
 }

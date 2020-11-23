@@ -17,8 +17,9 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-import kr.com.inspect.security.LoginFailHandler;
-import kr.com.inspect.security.LoginSuccessHandler;
+import kr.com.inspect.handler.CustomAccessDeniedHandler;
+import kr.com.inspect.handler.LoginFailHandler;
+import kr.com.inspect.handler.LoginSuccessHandler;
 import kr.com.inspect.service.MemberService;
 
 /**
@@ -46,6 +47,13 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	@Autowired
 	@Qualifier("loginFailHandler")
 	private LoginFailHandler loginfailHandler;
+	
+	/**
+	 * 403 에러(접근 권한 없음) 핸들러 필드 선언
+	 */
+	@Autowired
+	@Qualifier("customAccessDeniedHandler")
+	private CustomAccessDeniedHandler customAccessDeniedHandler;
 	
 	/**
 	 * 멤버 서비스 필드 선언
@@ -96,6 +104,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 			.antMatchers("/**").access("hasRole('ROLE_VIEW')") //VIEW 권한만 접근
 			.anyRequest().authenticated(); //설정되지 않은 모든 url request는 인가된 사용자만 이용
 	  
+		http.exceptionHandling()
+			.accessDeniedHandler(customAccessDeniedHandler); //403 에러 핸들러
+		
 	  	/* 로그인 폼과 관련된 설정 */
 	    http.formLogin()
 	    	.loginPage("/login") //커스텀 로그인 페이지
@@ -107,7 +118,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	    
 	    /* 자동 로그인 설정 */
 	   http.rememberMe()
-	    	.key("zerock") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
+	    	.key("inspect") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
 	    	.tokenRepository(persistentTokenRepository()) //DataSource 추가
 	    	.tokenValiditySeconds(604800); //토큰 유지 시간(초단위) - 일주일
 	    
