@@ -19,7 +19,7 @@ import kr.com.inspect.dao.ElasticDao;
 import kr.com.inspect.parser.JsonParsing;
 
 /**
- * 
+ * 엘라스틱 서치의 DAO
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -29,13 +29,13 @@ import kr.com.inspect.parser.JsonParsing;
 public class ElasticDaoImpl implements ElasticDao {
 	
 	/**
-	 * 
+	 * 엘라스틱 서치의 Client 필드 선언
 	 */
 	@Autowired
 	private RestHighLevelClient elasticClient;
 	
 	/**
-	 * 
+	 * JSON 파싱 필드 선언
 	 */
 	private JsonParsing jsonParsing = new JsonParsing();
 	
@@ -53,6 +53,8 @@ public class ElasticDaoImpl implements ElasticDao {
 	
 	/**
 	 * 엘라스틱서치에서 해당되는 인덱스에 있는 데이터 모두 가져오기
+	 * @param index 엘라스틱서치의 index 값
+	 * @return
 	 */
 	@Override
 	public SearchHit[] getIndex(String index) {
@@ -73,6 +75,8 @@ public class ElasticDaoImpl implements ElasticDao {
 
 	/**
 	 * 특정 경로에 있는 JSON 파일들을 읽어서 엘라스틱서치에 넣기
+	 * @param index 
+	 * @param path
 	 */
 	@Override
 	public boolean insertJSON(String index, String path) {
