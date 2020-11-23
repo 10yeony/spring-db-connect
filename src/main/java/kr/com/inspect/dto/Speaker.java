@@ -20,7 +20,7 @@ public class Speaker {
 	 */
 	private int shortcut;
 	/**
-	 * 
+	 * 직업
 	 */
 	private String occupation;
 	/**

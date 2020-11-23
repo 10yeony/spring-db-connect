@@ -8,7 +8,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
- * 각 환경설정의 컨트롤 타워(web.xml을 대체)
+ * 각 환경설정의 컨트롤러 (web.xml을 대체)
  * @author Yeonhee Kim
  * @version 1.0
  *

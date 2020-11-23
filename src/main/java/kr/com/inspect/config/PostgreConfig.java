@@ -27,17 +27,23 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class PostgreConfig {
 	
 	/*
-	 * PostgreSQL의 JDBC 정보
+	 * PostgreSQL의 JDBC 드라이브 이름
 	 */
 	@Value("${jdbc.driverClassName}") 
 	private String driverClassName;
-
+	/*
+	 * PostgreSQL의 JDBC url
+	 */
 	@Value("${jdbc.url}")
 	private String url;
-
+	/*
+	 * PostgreSQL의 JDBC 유저 이름
+	 */
 	@Value("${jdbc.username}")
 	private String userName;
-	
+	/*
+	 * PostgreSQL의 JDBC 유저 비밀번호
+	 */
 	@Value("${jdbc.password}")
 	private String password;
 
@@ -45,7 +51,7 @@ public class PostgreConfig {
 	private ApplicationContext applicationContext;
 	
 	/**
-	 * 
+	 * JDBC 입력 값
 	 * @return PostgreSQL의 JDBC 정보 반환
 	 */
 	@Bean("dataSource")
@@ -59,7 +65,7 @@ public class PostgreConfig {
 	}
 	
 	/**
-	 *   
+	 *  DB 회원 대조 후 값 리턴
 	 * @return PostgreSQL의 DB정보를 mapper 형태로 리턴
 	 * @throws Exception 예외처리
 	 */
@@ -72,7 +78,7 @@ public class PostgreConfig {
     }
 	
     /**
-     * 
+     * DB 세션
      * @return 세션템플릿 반환
      * @throws Exception 예외처리
      */

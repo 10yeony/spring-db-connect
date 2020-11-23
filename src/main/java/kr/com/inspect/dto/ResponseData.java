@@ -7,19 +7,19 @@ package kr.com.inspect.dto;
  */
 public class ResponseData {
 	/**
-	 * 
+	 * 응답 코드
 	 */
 	private String code;
 	/**
-	 * 
+	 * 응답 상태
 	 */
 	private String status;
 	/**
-	 * 
+	 * 응답 메세지
 	 */
 	private String message;
 	/**
-	 * 
+	 * 객체
 	 */
 	private Object item;
 	

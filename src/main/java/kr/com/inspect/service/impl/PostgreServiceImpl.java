@@ -104,7 +104,7 @@ public class PostgreServiceImpl implements PostgreService{
 	
 	/**
 	 * Metadata 테이블을 모두 가지고 옴
-	 * @return
+	 * @return Metadata 테이블들의 값을 리스트로 담아 리턴
 	 */
 	public List<Metadata> getMetadata(){
 		return postgreDao.getMetadata();
@@ -112,14 +112,14 @@ public class PostgreServiceImpl implements PostgreService{
 
 	/**
 	 * JsonLog 테이블을 모두 가져옴
-	 * @return
+	 * @return JsonLog 테이블들의 값을 리스트로 담아 리턴
 	 */
 	public List<JsonLog> getJsonLog(){ return postgreDao.getJsonLog();	}
 	
 	/**
 	 * id로 해당되는 Metadata 테이블을 가져옴
 	 * @param id Metadata 테이블의 id 값
-	 * @return
+	 * @return id 값에 해당하는 metadata 테이블들의 값을 리턴
 	 */
 	public Metadata getMetadataById(Integer id) {
 		return postgreDao.getMetadataById(id);
@@ -128,7 +128,7 @@ public class PostgreServiceImpl implements PostgreService{
 	/**
 	 *  metadataId로 해당되는 Utterance 테이블을 가져옴
 	 *  @param metadataId Utterance 테이블의 metadataId 값
-	 *  @return
+	 *  @return metadataId 값에 해당하는 Utterance 테이블들의 값을 리스트에 담아 리턴
 	 */
 	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId){
 		return postgreDao.getUtteranceUsingMetadataId(metadataId);
@@ -136,8 +136,8 @@ public class PostgreServiceImpl implements PostgreService{
 	
 	/**
 	 * utterance_id 를 이용하여 eojeollist 데이터 가져오기
-	 * @param id
-	 * @return
+	 * @param id eojeollist 테이블의 utterance_id 값
+	 * @return utterance_id 값에 해당하는 eojeollist 테이블들의 값을 리스트에 담아 리턴
 	 */
 	public List<EojeolList> getEojeolListUsingUtteranceId(String id){
 		return postgreDao.getEojeolListUsingUtteranceId(id);
@@ -145,9 +145,9 @@ public class PostgreServiceImpl implements PostgreService{
 	
 	/**
 	 * JSON 파일들을 업로드해서 PostgreSQL에 넣음
-	 * @param path
-	 * @param jsonFile
-	 * @return
+	 * @param path 파일 디렉토리
+	 * @param jsonFile json 파일
+	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
 	public boolean insertJSONUpload(String path, List<MultipartFile> jsonFile) throws Exception {
@@ -255,9 +255,9 @@ public class PostgreServiceImpl implements PostgreService{
 
 	/**
 	 * 서버 디렉토리 안의 json 파일을 PostgreSQL에 넣음
-	 * @param path
+	 * @param path 파일 디렉토리
 	 * @exception Exception 예외 처리
-	 * @return
+	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
 	public String insertJSONDir(String path) throws Exception {
@@ -344,10 +344,10 @@ public class PostgreServiceImpl implements PostgreService{
 
 	/**
 	 * xlsx 파일들을 업로드해서 PostgreSQL에 넣음
-	 * @param path
-	 * @param xlsxFile
-	 * @exception Exception
-	 * @return
+	 * @param path 파일 디렉토리
+	 * @param xlsxFile 엑셀 파일
+	 * @exception Exception 예외 처리
+	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
 	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile) throws Exception{
@@ -403,9 +403,9 @@ public class PostgreServiceImpl implements PostgreService{
 
 	/**
 	 * 서버 디렉토리 안의 xlsx 파일을 PostgreSQL에 넣음
-	 * @param path
+	 * @param path 파일 디렉토리
 	 * @exception Exception 예외 처리
-	 * @return 
+	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
 	public String insertXlsxDir(String path) throws Exception{
@@ -439,7 +439,7 @@ public class PostgreServiceImpl implements PostgreService{
 	
 	/**
 	 * Metadata 테이블과 Program 테이블을 조인해서 가져옴
-	 * @return
+	 * @return 조인값을 리스트에 담아 리턴
 	 */
 	public List<Metadata> getMetadataAndProgram(){
 		return postgreDao.getMetadataAndProgram();
@@ -447,8 +447,8 @@ public class PostgreServiceImpl implements PostgreService{
 
 	/**
 	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴
-	 * @param metaId
-	 * @return
+	 * @param metaId Metadata와 Program의 조인키
+	 * @return 조인값을 리턴
 	 */
 	public Metadata getMetadataAndProgramUsingId(Integer metaId){
 		return postgreDao.getMetadataAndProgramUsingId(metaId);
@@ -456,8 +456,8 @@ public class PostgreServiceImpl implements PostgreService{
 
 	/**
 	 * utterance id 로 해당되는 utterance 튜플을 가져옴
-	 * @param id
-	 * @return
+	 * @param id utterance 튜플에 해당하는 utterance id 값
+	 * @return 튜플 리턴
 	 */
 	public Utterance getUtteranceUsingId(String id){
 		return postgreDao.getUtteranceUsingId(id);
