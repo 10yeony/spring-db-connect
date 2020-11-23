@@ -1,4 +1,4 @@
-package kr.com.inspect.security;
+package kr.com.inspect.handler;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
