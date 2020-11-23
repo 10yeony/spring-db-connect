@@ -1,15 +1,44 @@
 package kr.com.inspect.dto;
 
-/* Speaker 테이블(한 강의에서 말하는 발화자 목록) */
+/**
+ * Speaker 테이블(한 강의에서 말하는 발화자 목록)
+ * @author Yeonhee Kim
+ * @version 1.0
+ */
+
 public class Speaker {
-	private int id; //primary key, auto increment
-	private int no; //한 강의에서 발화자 번호
+	/**
+	 * primary key, auto increment
+	 */
+	private int id; //
+	/**
+	 * 한 강의에서 발화자 번호
+	 */
+	private int no; //
+	/**
+	 * 
+	 */
 	private int shortcut;
+	/**
+	 * 
+	 */
 	private String occupation;
-	private String sex; //성별
-	private String name; //이름
-	private String age; //나이
-	private int metadata_id; //foreign key
+	/**
+	 * 성별
+	 */
+	private String sex;
+	/**
+	 * 이름
+	 */
+	private String name;
+	/**
+	 * 나이
+	 */
+	private String age;
+	/**
+	 * foreign key
+	 */
+	private int metadata_id;
 	
 	public Speaker() {}
 	public Speaker(int id, int no, int shortcut, String occupation, String sex, String name, String age, int metadata_id) {

@@ -2,19 +2,57 @@ package kr.com.inspect.dto;
 
 import java.util.List;
 
-/* Utterance 테이블(한 강의당 문장 모음) */
+/**
+ * Utterance 테이블(한 강의당 문장 모음)
+ * @author Yeonhee Kim
+ * @version 1.0
+ */
+
 public class Utterance {
-	private String id; //primary key, 문장을 구분하기 위한 uuid 형식의 아이디
+	/**
+	 * primary key, 문장을 구분하기 위한 uuid 형식의 아이디
+	 */
+	private String id;
+	/**
+	 * 
+	 */
 	private String note;
-	private String standard_form; //표준어 문장
-	private String form; //문장(방언일 경우 standard_form과 다름)
-	private String speaker_no; //발화자 번호
-	private double start; //시작 시간
-	private double finish; //끝나는 시간
-	private int eojeol_count; //어절 개수(COUNT 함수로 가져와서 조인함)
-	private int metadata_id; //foreign key
-	private List<EojeolList> eojoelList; //EojeolList 테이블
-	private List<Speaker> speaker; //Speaker 테이블
+	/**
+	 * 표준어 문장
+	 */
+	private String standard_form;
+	/**
+	 * 문장(방언일 경우 standard_form과 다름)
+	 */
+	private String form;
+	/**
+	 * 발화자 번호
+	 */
+	private String speaker_no;
+	/**
+	 * 시작 시간
+	 */
+	private double start;
+	/**
+	 * 끝나는 시간
+	 */
+	private double finish;
+	/**
+	 * 어절 개수(COUNT 함수로 가져와서 조인함)
+	 */
+	private int eojeol_count;
+	/**
+	 * foreign key
+	 */
+	private int metadata_id;
+	/**
+	 * EojeolList 테이블
+	 */
+	private List<EojeolList> eojoelList;
+	/**
+	 * Speaker 테이블
+	 */
+	private List<Speaker> speaker;
 	
 	public Utterance() {}
 	public Utterance(String id, String note, String standard_form, String form, String speaker_no, double start,

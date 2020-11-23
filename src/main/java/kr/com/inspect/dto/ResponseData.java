@@ -6,9 +6,21 @@ package kr.com.inspect.dto;
  * @version 1.0, 2020.11.18 VO 생성(Yeonhee Kim)
  */
 public class ResponseData {
+	/**
+	 * 
+	 */
 	private String code;
+	/**
+	 * 
+	 */
 	private String status;
+	/**
+	 * 
+	 */
 	private String message;
+	/**
+	 * 
+	 */
 	private Object item;
 	
 	public ResponseData() {}

@@ -1,13 +1,40 @@
 package kr.com.inspect.dto;
 
-/* JsonLog 테이블(json 파일 저장 시간 정보 테이블) */
+/**
+ * JsonLog 테이블(json 파일 저장 시간 정보 테이블)
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
 public class JsonLog {
-    private int id; //primary key
-	private int metadata_id; // metadata id
-    private String title; // 파일명
-    private String start; // 파일 저장 시작시간
-    private String finish; // 파일 저장 종료시간
-    private String elapsed; // 총 걸린 시간
+	
+	/**
+	 * primary key
+	 */
+    private int id;
+    /**
+     * metadata id
+     */
+	 private int metadata_id;
+	 /**
+	  * 파일명
+	  */
+    private String title;
+    /**
+     * 파일 저장 시작시간
+     */
+    private String start;
+    /**
+     * 파일 저장 종료시간
+     */
+    private String finish;
+    /**
+     * 총 걸린 시간
+     */
+    private String elapsed;
+    /**
+     * 
+     */
     private Program program;
 
     public JsonLog() {}

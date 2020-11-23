@@ -1,12 +1,33 @@
 package kr.com.inspect.dto;
 
-/* Program 테이블(전체 강의 프로그램 목록)  */
+/**
+ * Program 테이블(전체 강의 프로그램 목록)
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 public class Program {
-	private int id; //순번
-	private String file_num; //파일이름
-	private String title; //제목
-	private String subtitle; //부제
-	private String running_time; //방송시간
+	/**
+	 * 순번
+	 */
+	private int id;
+	/**
+	 * 파일이름
+	 */
+	private String file_num;
+	/**
+	 * 제목
+	 */
+	private String title;
+	/**
+	 * 부제
+	 */
+	private String subtitle;
+	/**
+	 * 방송시간
+	 */
+	private String running_time;
 	
 	public Program() {}
 	public Program(int id, String file_num, String title, String subtitle, String running_time) {
