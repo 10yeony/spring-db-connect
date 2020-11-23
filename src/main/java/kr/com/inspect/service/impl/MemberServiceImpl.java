@@ -20,7 +20,7 @@ import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.MemberService;
 
 /**
- * 
+ * 회원 Service
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -28,15 +28,19 @@ import kr.com.inspect.service.MemberService;
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
 	/**
-	 * 
+	 * 회원 dao 필드 선언
 	 */
 	@Autowired
 	private MemberDao memberDao;
 	
+	/**
+	 * 패스워드 인코더 필드 선언
+	 */
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	/**
 	 * 사용할 PasswordEncoder를 리턴해줌
+	 * @return
 	 */
 	@Override
 	public PasswordEncoder passwordEncoder() {
@@ -45,6 +49,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	/**
 	 * 회원가입
+	 * @param member 회원 정보
+	 * @return
 	 */
 	@Override
 	public int registerMember(Member member) {
@@ -68,6 +74,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	/**
 	 * 아이디로 회원정보를 가져옴
+	 * @param member_id 회원 아이디
+	 * @return
 	 */
 	@Override
 	public Member readMemberById(String member_id){
@@ -78,6 +86,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	/**
 	 * 회원가입시 해당 요소가 DB에 존재하는지 중복 체크
+	 * @param object 회원 정보 객체
+	 * @param value 값 여부 확인
+	 * @return
 	 */
 	@Override
 	public int registerCheck(String object, String value) {
@@ -94,6 +105,9 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * 회원 정보 수정
+	 * @param session 해당유저의 세션
+	 * @param member 회원정보
+	 * @return 
 	 */
 	@Override
 	public int updateMember(HttpSession session, Member member) {
@@ -110,6 +124,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	/**
 	 * 관리자 권한으로 회원 권한 수정
+	 * @param member_id 회원 아이디
+	 * @param authoritiesArr 권한 배열
+	 * @return
 	 */
 	@Override
 	public int updateAuthorities(String member_id, String[] authoritiesArr) {		
@@ -123,6 +140,9 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * 비밀번호 변경
+	 * @param member_id 회원 아이디
+	 * @param pwd 회원 비밀번호
+	 * @return 
 	 */
 	@Override
 	public int updatePwd(String member_id, String pwd) {
@@ -132,6 +152,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	/**
 	 * 회원 탈퇴 
+	 * @param member_id 회원 아이디
+	 * @return
 	 */
 	@Override
 	public void deleteMember(String member_id) {
@@ -147,6 +169,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	/**
 	 * Spring Security에서 User 정보를 읽을 때 사용함.
+	 * @param username 유저 이름
+	 * @exception UsernameNotFoundException 유저이름 예외처리
+	 * @return 
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -157,6 +182,8 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * 읽어온 회원정보에 대하여 권한을 부여한 뒤 리턴함
+	 * @param member_id 회원 아이디
+	 * @return
 	 */
 	@Override
 	public Collection<GrantedAuthority> getAuthorities(String member_id) {

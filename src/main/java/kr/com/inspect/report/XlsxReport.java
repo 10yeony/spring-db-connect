@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 
+ * Xlsx 타입으로 리스트 파일 생성
  * @author Woo Young
  * @version 1.0
  *
@@ -43,11 +43,11 @@ public class XlsxReport {
 
 	/**
 	 * xlsx 한국어 강의 목록 리스트 작성
-	 * @param response
-	 * @param path
-	 * @param list
+	 * @param response 사용자에게 보내는 응답
+	 * @param path 파일 디렉토리
+	 * @param list 객체를 담을 리스트
 	 * @param flag
-	 * @throws Exception
+	 * @throws Exception 예외처리
 	 */
 	public void writeXlsxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag) throws Exception {
 		String xlsxFileName =
@@ -145,12 +145,12 @@ public class XlsxReport {
 
 	/**
 	 * xlsx utterance 리스트 작성
-	 * @param response
-	 * @param path
-	 * @param list
-	 * @param metadata
+	 * @param response 사용자에게 보내는 응답
+	 * @param path 파일 디렉토리
+	 * @param list 객체를 담을 리스트
+	 * @param metadata metadata 테이블 정보
 	 * @param flag
-	 * @throws Exception
+	 * @throws Exception 예외 처리
 	 */
 	public void writeXlsxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata, String flag)throws Exception {
 		String xlsxFileName =

@@ -153,7 +153,6 @@ public class PostgreController {
 		return "postgreSQL/getEojeolList";
 	}
 	
-	/*  */
 	/**
 	 * Metadata & Program 조인해서 가져오기
 	 * @param model 속성부여

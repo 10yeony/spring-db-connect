@@ -16,7 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import kr.com.inspect.dto.Program;
 
 /**
- * 
+ * Xlsx Parsing Class
  * @author Woo Young
  * @version 1.0
  *
@@ -26,11 +26,12 @@ public class XlsxParsing {
 	
 	/**
 	 * Excel 파일을 읽어서 List<Program>에 파싱
-	 * @param fullPath
-	 * @return
+	 * @param fullPath 파일 디렉토리
+	 * @return 파싱값을 리스트에 담아 변수 list에 리턴
 	 */
 	public List<Program> setProgramList(String fullPath) {
 		// 반환할 객체를 생성
+		
 		List<Program> list = new ArrayList<Program>();
 		
 		FileInputStream fis = null;

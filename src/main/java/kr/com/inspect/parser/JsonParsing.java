@@ -18,7 +18,7 @@ import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
 
 /**
- * 
+ * JSON Parsing Class
  * @author Woo Young
  * @version 1.0
  *
@@ -29,8 +29,8 @@ public class JsonParsing {
 	
 	/**
 	 * JSON 파일을 읽어 JSON객체로 파싱
-	 * @param fullPath
-	 * @return
+	 * @param fullPath 파일 디렉토리
+	 * @return 파싱값을 obj에 담아 리턴
 	 */
 	public JSONObject getJSONObject(String fullPath) {
 		JSONParser parser = new JSONParser();
@@ -49,8 +49,8 @@ public class JsonParsing {
 	
 	/**
 	 * Metadata 파싱
-	 * @param obj
-	 * @return
+	 * @param obj JSON 객체
+	 * @return map에 담은 metadata 값을 변수 metadata로 리턴
 	 */
 	public Metadata setMetadata(JSONObject obj) {
 		Map map = new HashMap();
@@ -72,9 +72,9 @@ public class JsonParsing {
 	
 	/**
 	 * Speaker 파싱
-	 * @param obj
-	 * @param metadata_id
-	 * @return
+	 * @param obj JSON 객체
+	 * @param metadata_id Speaker 테이블의 metadata_id 값(FK)
+	 * @return Speaker 테이블의 값을 리스트에 담아 변수 speakerList로 리턴
 	 */
 	public List<Speaker> setSpeaker(JSONObject obj, int metadata_id){
 		List<Speaker> speakerList = new ArrayList<>();
@@ -109,8 +109,8 @@ public class JsonParsing {
 	
 	/**
 	 * Utterance 파싱
-	 * @param obj
-	 * @param metadata_id
+	 * @param obj JSON 객체
+	 * @param metadata_id utterance 테이블의 metadata_id 값(FK)
 	 * @return
 	 */
 	public List<Utterance> setUtterance(JSONObject obj, int metadata_id){
@@ -153,10 +153,10 @@ public class JsonParsing {
 	
 	/**
 	 * EojeolList 파싱
-	 * @param arr
-	 * @param utterance_id
-	 * @param metadata_id
-	 * @return
+	 * @param arr JSON 배열 
+	 * @param utterance_id EojeolList 테이블의 utterance_id 값(FK)
+	 * @param metadata_id EojeolList 테이블의 metadata_id 값(FK)
+	 * @return 파싱값을 리스트에 담아 eojeolListList로 리턴
 	 */
 	public List<EojeolList> setEojeolList(JSONArray arr, String utterance_id, int metadata_id){
 		List<EojeolList> eojeolListList = new ArrayList<>();

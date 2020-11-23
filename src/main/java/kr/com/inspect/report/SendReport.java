@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.HashMap;
 
 /**
- * 
+ * 리스트를 메일로 전송하는 Class
  * @author Woo Young
  * @version 1.0
  *
@@ -29,10 +29,10 @@ public class SendReport {
 
     /**
      * 파일을 받아서 mail 전송하는 메소드
-     * @param file
-     * @param filename
-     * @param email
-     * @throws Exception
+     * @param file 파일
+     * @param filename 파일 이름
+     * @param email 이메일 정보
+     * @throws Exception 예외처리
      */
     public void sendMail(File file, String filename, String email) throws Exception{
         try{
@@ -59,7 +59,13 @@ public class SendReport {
         }
     }
 
-    /* 파일을 받아서 sms 전송하는 메소드 */
+    /**
+     * 파일을 받아서 sms 전송하는 메소드
+     * @param file 파일
+     * @param filename 파일 이름
+     * @param phone 연락처 정보
+     * @throws Exception 예외 처리
+     */
     public void sendSMS(File file, String filename, String phone) throws Exception{
         /* sms 전송 관련 설정 api 키 입력 */
         String api_key = "NCSCZ2WQWBGNB44F";

@@ -52,8 +52,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		ObjectMapper mapper = new ObjectMapper();	//JSON 변경용
 		
     	ResponseData responseData = new ResponseData();
-    	responseData.setCode(ResponseDataCode.SUCCESS);
-    	responseData.setStatus(ResponseDataStatus.SUCCESS);
+    	responseData.setCode(ResponseDataCode.SUCCESS); //코드 성공
+    	responseData.setStatus(ResponseDataStatus.SUCCESS);//상태 성공
     	Map<String, String> items = new HashMap<String,String>();	
     	items.put("url", url);	// 이동할 페이지 저장
     	responseData.setItem(items);

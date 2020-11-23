@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 
+ * docx 타입으로 리스트 파일 작성
  * @author Woo Young
  * @version 1.0
  *
@@ -28,9 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class DocxReport {
-	/**
-	 * 
-	 */
+
 	@Autowired
 	private SendReport ms;
 
@@ -42,11 +40,11 @@ public class DocxReport {
 
 	/**
 	 * docx 한국어 강의 목록 리스트 작성
-	 * @param response
-	 * @param path
-	 * @param list
+	 * @param response 사용자에게 보내는 응답
+	 * @param path 파일 디렉토리
+	 * @param list 객체를 담을 리스트
 	 * @param flag
-	 * @throws Exception
+	 * @throws Exception 예외처리
 	 */
 	public void writeDocxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag)throws Exception {
 		String docxFileName =
@@ -138,12 +136,12 @@ public class DocxReport {
 
 	/**
 	 * docx utterance 리스트 작성
-	 * @param response
-	 * @param path
-	 * @param list
-	 * @param metadata
+	 * @param response 사용자에게 보내는 응답
+	 * @param path 파일 디렉토리
+	 * @param list 객체를 담을 리스트
+	 * @param metadata metadata 테이블 정보
 	 * @param flag
-	 * @throws Exception
+	 * @throws Exception 예외처리
 	 */
 	public void writeDocxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata, String flag)throws Exception {
 		String docxFileName =
