@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import kr.com.inspect.dao.PostgreDao;
 
 /**
- * 
+ * PostgreSQL DAO
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -19,11 +19,9 @@ import kr.com.inspect.dao.PostgreDao;
 @Repository
 public class PostgreDaoImpl implements PostgreDao {
 	
-	/**
-	 * 
-	 */
 	@Autowired
 	private SqlSession sqlSession;
+	
 	private final String metadataNS = "MetadataMapper.";
 	private final String utteranceNS = "UtteranceMapper.";
 	private final String eojeolListNS = "EojeolListMapper.";
@@ -31,6 +29,7 @@ public class PostgreDaoImpl implements PostgreDao {
 	
 	/**
 	 * PostgreSQL에서 Metadata 테이블을 모두 가지고 옴
+	 * @return Metadata 테이블 값을 세션값과 함께 리스트에 담아 리턴
 	 */
 	@Override
 	public List<Metadata> getMetadata() {
@@ -39,6 +38,8 @@ public class PostgreDaoImpl implements PostgreDao {
 	
 	/**
 	 * PostgreSQL에서 id로 해당되는 Metadata 테이블을 가져옴
+	 * @param id metadata 테이블의 id 값
+	 * @return id에 해당하는 metadata 테이블 값을 세션값과 함께 리턴
 	 */
 	@Override
 	public Metadata getMetadataById(Integer id){
@@ -47,6 +48,8 @@ public class PostgreDaoImpl implements PostgreDao {
 	
 	/**
 	 * metadataId로 해당되는 Utterance 테이블을 가져옴
+	 * @param metadataId utterance 테이블의 metadataId 값
+	 * @return metadataId에 해당하는 utterance 테이블의 값을 세션과 함께 리스트에 담아 리턴
 	 */
 	@Override
 	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId) {
@@ -55,6 +58,7 @@ public class PostgreDaoImpl implements PostgreDao {
 	
 	/**
 	 * Metadata 테이블과 Program 테이블을 조인해서 가져옴
+	 * @return 조인값을 리스트에 담아 리턴
 	 */
 	@Override
 	public List<Metadata> getMetadataAndProgram(){
@@ -64,6 +68,8 @@ public class PostgreDaoImpl implements PostgreDao {
 
 	/**
 	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴
+	 * @param metaId 
+	 * @return 조인값을 리턴
 	 */
 	@Override
 	public Metadata getMetadataAndProgramUsingId(Integer metaId){
@@ -72,7 +78,9 @@ public class PostgreDaoImpl implements PostgreDao {
 	}
 
 	/**
-	 *  utterance_id 를 이용하여 eojeollist 데이터 가져오기 
+	 *  utterance_id 를 이용하여 eojeollist 데이터 가져오기
+	 *  @param id eojeollist의 utterance_id 값
+	 *  @return utterance_id에 해당하는 eojeollist의 테이블 값을 세션값과 함께 리스트에 담아 리턴
 	 */
 	public List<EojeolList> getEojeolListUsingUtteranceId(String id){
 		return sqlSession.selectList(eojeolListNS+"getEojeolListUsingUtteranceId", id);
@@ -80,6 +88,7 @@ public class PostgreDaoImpl implements PostgreDao {
 
 	/**
 	 * JsonLog 테이블을 모두 가져옴
+	 * @return 모든 JSON Log 테이블 값을 리턴
 	 */
 	public List<JsonLog> getJsonLog(){
 		return sqlSession.selectList(jsonLogNS+"getJsonLog");
@@ -87,6 +96,9 @@ public class PostgreDaoImpl implements PostgreDao {
 
 	/**
 	 * utterance id로 해당되는 utterance 튜플을 가져옴
+	 * @param id utterance_id 값
+	 * @return 튜플값을 세션값과 함께 리턴
 	 */
-	public Utterance getUtteranceUsingId(String id){ return sqlSession.selectOne(utteranceNS+"getUtteranceUsingId", id); }
+	public Utterance getUtteranceUsingId(String id){
+		return sqlSession.selectOne(utteranceNS+"getUtteranceUsingId", id); }
 }

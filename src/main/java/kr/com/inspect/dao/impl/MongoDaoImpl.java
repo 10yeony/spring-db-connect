@@ -21,7 +21,7 @@ import kr.com.inspect.dao.MongoDao;
 import kr.com.inspect.parser.JsonParsing;
 
 /**
- * 
+ * 몽고 DAO
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -30,11 +30,13 @@ import kr.com.inspect.parser.JsonParsing;
 @Repository
 public class MongoDaoImpl implements MongoDao {
 	/**
-	 * 
+	 * 몽고 클라이언트 필드 선언
 	 */
 	@Autowired
 	private MongoClient mongoClient;
-	
+	/**
+	 * json 파싱 필드 선언
+	 */
 	private JsonParsing jsonParsing = new JsonParsing();
 	
 	/**
