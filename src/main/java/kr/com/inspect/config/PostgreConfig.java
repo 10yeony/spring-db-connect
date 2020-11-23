@@ -48,7 +48,7 @@ public class PostgreConfig {
 	 * 
 	 * @return PostgreSQL의 JDBC 정보 반환
 	 */
-	@Bean
+	@Bean("dataSource")
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(driverClassName);

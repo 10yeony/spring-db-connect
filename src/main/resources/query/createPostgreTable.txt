@@ -78,5 +78,12 @@ CREATE TABLE audio.jsonLog (
     metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
 );
 
+CREATE TABLE persistent_logins (
+	username text NOT NULL,
+	series text PRIMARY KEY,
+	token text NOT NULL,
+	last_used timestamp NOT NULL
+ );
+
 auto_increment 값 초기화
 truncate table audio.metadata restart identity cascade;

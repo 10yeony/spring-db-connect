@@ -25,7 +25,6 @@ import kr.com.inspect.service.MemberService;
  * @version 1.0
  *
  */
-
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
 	/**
