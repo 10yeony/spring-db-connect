@@ -1,7 +1,10 @@
 package kr.com.inspect.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import kr.com.inspect.security.LoginFailHandler;
@@ -48,6 +53,13 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	@Autowired
 	@Qualifier("memberService")
 	private MemberService memberService;
+	
+	/*
+	 * 
+	 */
+	@Autowired
+	@Qualifier("dataSource")
+	private DataSource dataSource;
 	
 	/**
 	 * AuthenticationManagerBuilder에 관련한 설정 적용
@@ -90,13 +102,19 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	    	.failureHandler(loginfailHandler)
 	    	.usernameParameter("member_id") //아이디 파라미터 설정
 	    	.passwordParameter("pwd"); //비밀번호 파라미터 설정
-	  
+	    
+	    /* 자동 로그인 설정 */
+	   http.rememberMe()
+	    	.key("zerock") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
+	    	.tokenRepository(persistentTokenRepository()) //DataSource 추가
+	    	.tokenValiditySeconds(604800); //토큰 유지 시간(초단위) - 일주일
+	    
 	    /* 로그아웃 설정 */
 	    http.logout()
 	    	.logoutUrl("/logout")
 	    	.logoutSuccessUrl("/")
-	    	.invalidateHttpSession(true)
-	    	.permitAll();
+	    	.invalidateHttpSession(true) //세션 삭제
+	    	.deleteCookies("remember-me", "JSESSIONID"); //자동 로그인 쿠키, Tomcat이 발급한 세션 유지 쿠키 삭제
 
 	  	/* csrf 공격 방지를 위해 설정 (이 속성을 설정하면, post 요청시 반드시 _csrf token값 넣기) */
 	    http.csrf()
@@ -111,5 +129,16 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resource/**"); //정적 파일
+	}
+	
+	/**
+	 * 자동 로그인을 위한 DataSource 설정을 위해 PersistentTokenRepository를 Bean에 등록하고 리턴함
+	 * @return PersistentTokenRepository
+	 */
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+		repo.setDataSource(dataSource);
+		return repo;
 	}
 }

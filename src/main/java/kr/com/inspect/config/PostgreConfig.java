@@ -61,7 +61,7 @@ public class PostgreConfig {
 	 * 
 	 * @return
 	 */
-	@Bean
+	@Bean("dataSource")
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(driverClassName);
