@@ -89,6 +89,8 @@ public interface MemberService extends UserDetailsService {
 	
 	/**
 	 * Spring Security에서 아이디로 회원 정보를 읽어옴
+	 * @param username 
+	 * @exception UsernameNotFoundException 유저정보 예외처리
 	 */
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 	

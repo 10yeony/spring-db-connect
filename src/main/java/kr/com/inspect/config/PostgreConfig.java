@@ -15,7 +15,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * 
+ * PostgreSQL JDBC 설정(xml 대체)
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -26,40 +26,27 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class PostgreConfig {
 	
-	/* JDBC 정보 */
-	/**
-	 * 
+	/*
+	 * PostgreSQL의 JDBC 정보
 	 */
 	@Value("${jdbc.driverClassName}") 
 	private String driverClassName;
-	
-	/**
-	 * 
-	 */
+
 	@Value("${jdbc.url}")
 	private String url;
-	
-	/**
-	 * 
-	 */
+
 	@Value("${jdbc.username}")
 	private String userName;
 	
-	/**
-	 * 
-	 */
 	@Value("${jdbc.password}")
 	private String password;
-	
-	/**
-	 * 
-	 */
+
 	@Autowired
 	private ApplicationContext applicationContext;
 	
 	/**
 	 * 
-	 * @return
+	 * @return PostgreSQL의 JDBC 정보 반환
 	 */
 	@Bean
 	public DataSource dataSource() {
@@ -73,8 +60,8 @@ public class PostgreConfig {
 	
 	/**
 	 *   
-	 * @return
-	 * @throws Exception
+	 * @return PostgreSQL의 DB정보를 mapper 형태로 리턴
+	 * @throws Exception 예외처리
 	 */
 	@Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
@@ -86,8 +73,8 @@ public class PostgreConfig {
 	
     /**
      * 
-     * @return
-     * @throws Exception
+     * @return 세션템플릿 반환
+     * @throws Exception 예외처리
      */
     @Bean
     public SqlSession sqlSession() throws Exception {

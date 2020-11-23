@@ -18,7 +18,7 @@ import org.springframework.web.servlet.view.JstlView;
 import java.util.Properties;
 
 /**
- * 
+ * 각 Servlet에 관한 환경설정(xml 대체)
  * @author Yeonhee Kim, Woo Young
  * @version 1.0
  *
@@ -29,27 +29,15 @@ import java.util.Properties;
 @ComponentScan(basePackages = {"kr.com.inspect"})
 public class ServletConfig implements WebMvcConfigurer {
 	
-	/**
-	 * 
-	 */
 	@Value("${report.docx.directory}")
 	private String docxPath;
 	
-	/**
-	 * 
-	 */
 	@Value("${report.xlsx.directory}")
 	private String xlsxPath;
-	
-	/**
-	 * 
-	 */
+
 	@Value("${report.hwp.directory}")
 	private String hwpPath;
-	
-	/**
-	 * 
-	 */
+
 	@Value("${report.pptx.directory}")
 	private String pptxPath;
 	

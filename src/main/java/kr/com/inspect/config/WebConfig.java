@@ -8,7 +8,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
- * 
+ * 각 환경설정의 컨트롤 타워(web.xml을 대체)
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitializer{
 	
 	/**
-	 * 
+	 * 각 환경설정 불러오기
 	 */
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
@@ -31,17 +31,11 @@ public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitial
 							};
 	}
 	
-	/**
-	 * 
-	 */
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		return new Class[] { ServletConfig.class };
 	}
 	
-	/**
-	 * 
-	 */
 	@Override
 	protected String[] getServletMappings() {
 		return new String[] { "/" };

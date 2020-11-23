@@ -15,7 +15,7 @@ import kr.com.inspect.service.PostgreService;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 
+ * PostgreSQL 컨트롤러
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -26,43 +26,31 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostgreController {
 	
 	/**
-	 * 
+	 * PostgreSQL 서비스 필드 선언
 	 */
 	@Autowired
 	private PostgreService postgreService;
 	
 	/**
-	 * 엘라스틱서치
+	 * 엘라스틱 서치에서 가져온 정보
 	 */
 	private String index = "audiolist";
 	
-	/**
-	 * 
-	 */
 	@Value("${input.uploadJson.directory}")
 	private String uploadJsonPath;
 	
-	/**
-	 * 
-	 */
 	@Value("${input.uploadXlsx.directory}")
 	private String uploadXlsxPath;
 	
-	/**
-	 * 
-	 */
 	@Value("${input.json.directory}")
 	private String jsonPath;
 	
-	/**
-	 * 
-	 */
 	@Value("${input.xlsx.directory}")
 	private String xlsxPath;
 	
 	/**
 	 * 엘라스틱서치 특정 인덱스를 PostgreSQL 특정 테이블에 넣기
-	 * @return
+	 * @return 엘라스틱서치의 Index 값을 리턴
 	 */
 	@GetMapping("/insertElasticIndexIntoPostgre")
 	public String insertElasticIndexIntoPostgre() {
@@ -72,7 +60,7 @@ public class PostgreController {
 	
 	/**
 	 * 데이터 입력 페이지로 이동
-	 * @return
+	 * @return 페이지 값 리턴
 	 */
 	@GetMapping("/insertIntoPostgre")
 	public String insertPostgres() {
@@ -81,9 +69,9 @@ public class PostgreController {
 
 	/**
 	 * json 파일 postgresql 에 업로드
-	 * @param multipartFile
-	 * @return
-	 * @throws Exception
+	 * @param multipartFile 파일업로드 기능 구현
+	 * @return json파일 여부(true/false)에 따라 값을 반환
+	 * @throws Exception 에외처리
 	 */
 	@RequestMapping(value = "/jsonUpload", method = RequestMethod.POST)
 	@ResponseBody
@@ -98,9 +86,9 @@ public class PostgreController {
 
 	/**
 	 * xlsx 파일 postgresql 에 업로드
-	 * @param multipartFile
-	 * @return
-	 * @throws Exception
+	 * @param multipartFile 파일업로드 기능 구현
+	 * @return xlsx파일 여부(true/false)에 따라 값을 반환
+	 * @throws Exception 예외처리
 	 */
 	@RequestMapping(value = "/xlsxUpload", method = RequestMethod.POST)
 	@ResponseBody
@@ -114,9 +102,9 @@ public class PostgreController {
 	}
 
 	/**
-	 * json파일 서버 디렉토리에서 업로드
-	 * @return
-	 * @throws Exception
+	 * json파일을 서버 디렉토리에서 업로드
+	 * @return 디렉토리 값 반환
+	 * @throws Exception 예외 처리
 	 */
 	@RequestMapping(value = "/jsonDir", method = RequestMethod.POST)
 	@ResponseBody
@@ -126,8 +114,8 @@ public class PostgreController {
 
 	/**
 	 * xlsx파일 서버 디렉토리에서 업로드
-	 * @return
-	 * @throws Exception
+	 * @return 디렉토리 값 반환
+	 * @throws Exception 예외 처리
 	 */
 	@PostMapping("/xlsxDir")
 	@ResponseBody
@@ -137,9 +125,9 @@ public class PostgreController {
 
 	/**
 	 * Utterance 테이블 가져오기
-	 * @param model
-	 * @param format
-	 * @return
+	 * @param model 속성부여
+	 * @param format 테이블 조인값
+	 * @return Utterance 값 리턴
 	 */
 	@GetMapping("/getUtteranceTable/{format}")
 	public String getUtteranceTable(Model model, @PathVariable Integer format){
@@ -152,9 +140,9 @@ public class PostgreController {
 
 	/**
 	 * EojeolList 테이블 가져오기 
-	 * @param model
-	 * @param format
-	 * @return
+	 * @param model 속성부여
+	 * @param format 테이블 조인값
+	 * @return EojeoList 값 리턴
 	 */
 	@GetMapping("/getEojeolList/{format}")
 	public String getEojeolList(Model model, @PathVariable String format){
@@ -168,8 +156,8 @@ public class PostgreController {
 	/*  */
 	/**
 	 * Metadata & Program 조인해서 가져오기
-	 * @param model
-	 * @return
+	 * @param model 속성부여
+	 * @return 해당 페이지로 값 리턴
 	 */
 	@GetMapping("/getMetadataAndProgram")
 	public String getMetadataAndProgram(Model model) {
@@ -180,8 +168,8 @@ public class PostgreController {
 
 	/**
 	 * JsonLog 테이블 가져오기
-	 * @param model
-	 * @return
+	 * @param model 속성부여
+	 * @return 해당 페이지로 값 리턴
 	 */
 	@GetMapping("/getJsonLog")
 	public String getJsonLog(Model model){

@@ -17,7 +17,7 @@ import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.MemberService;
 
 /**
- * 
+ * 로그인 기능 관련 컨트롤러
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -26,11 +26,8 @@ import kr.com.inspect.service.MemberService;
 @Controller
 public class MemberController {
 	
-	/**
-	 * 
-	 */
 	@Autowired
-	private MemberService memberService;
+	private MemberService memberService; //멤버서비스의 필드선언
 	
 	/**
 	 * 커스텀 로그인 페이지로 이동(반드시 GET 방식이어야 함)
@@ -43,7 +40,7 @@ public class MemberController {
 
 	/**
 	 * 회원가입
-	 * @param member
+	 * @param member 회원정보
 	 * @return string 회원가입 후 성공/실패 메세지를 반환함
 	 */
 	@ResponseBody
@@ -51,22 +48,22 @@ public class MemberController {
 	public String registerMember(Member member) {
 		String msg = "회원가입에 실패하였습니다.";
 		int result = memberService.registerMember(member);
-		if (result == 2) {
+		if (result == 2) { //DB에 있는 회원테이블 정보와 비교시 회원정보가 없을 경우
 			msg = "회원가입 완료! 로그인해주세요.";
 		}
-		return msg;
+		return msg; //실패 메세지
 	}
 
 	/**
 	 *  회원가입시 해당 요소가 DB에 존재하는지 중복 체크 
-	 * @param request
+	 * @param request 사용자로부터 들어온 요청
 	 * @param object 해당 요소(아이디/이메일/연락처)
 	 * @return string 회원가입시 해당 요소의 DB 존재 여부(존재시 1)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("register/check/{object}")
 	public String registerCheck(HttpServletRequest request, 
-							@PathVariable String object) {
+							@PathVariable String object) { // https://elfinlas.github.io/2018/02/18/spring-parameter/
 		int result = 0;
 		String value = null;
 		if(object.equals("id")) { //아이디 중복 체크
@@ -82,17 +79,17 @@ public class MemberController {
 	
 	/**
 	 * 회원정보를 수정하거나 삭제할 때 비밀번호를 입력받고 자격을 확인함
-	 * @param session
-	 * @param pwd
+	 * @param session 해당유저의 세션
+	 * @param pwd 비밀번호
 	 * @return ajax로 회원정보 수정 및 탈퇴 자격(true/false)을 입증함
 	 */
 	@ResponseBody
 	@PostMapping("/ableToEdit")
 	public String ableToEdit(HttpSession session, String pwd) {
 		/* 세션의 비밀번호와 사용자가 입력한 비밀번호를 서로 비교하여 boolean 값을 리턴 */
-		Member member = (Member) session.getAttribute("member");
-		PasswordEncoder pwdEncoder = memberService.passwordEncoder();
-		boolean pwdMatch = pwdEncoder.matches(pwd, member.getPassword());
+		Member member = (Member) session.getAttribute("member"); // 해당 유저의 세션 불러오기
+		PasswordEncoder pwdEncoder = memberService.passwordEncoder(); 
+		boolean pwdMatch = pwdEncoder.matches(pwd, member.getPassword()); // 비밀번호 비교
 		
 		if(pwdMatch) {
 			return "true";
@@ -103,8 +100,8 @@ public class MemberController {
 	
 	/**
 	 * 회원정보를 수정함
-	 * @param session
-	 * @param member
+	 * @param session 해당유저의 세션
+	 * @param member 회원정보
 	 * @return ajax로 회원정보 수정 여부(true/false)를 반환 
 	 */
 	@ResponseBody
@@ -122,8 +119,8 @@ public class MemberController {
 	
 	/**
 	 * 비밀번호를 수정함
-	 * @param session
-	 * @param pwd
+	 * @param session 해당유저의 세션
+	 * @param pwd 해당유저의 비밀번호
 	 * @return string ajax로 비밀번호 수정 여부(true/false)를 반환
 	 */
 	@ResponseBody
@@ -141,9 +138,9 @@ public class MemberController {
 	
 	/**
 	 * 관리자 권한으로 회원 권한 수정
-	 * @param member_id
-	 * @param authorities
-	 * @return
+	 * @param member_id 회원 아이디
+	 * @param authorities 권한부여
+	 * @return string ajax로 회원권한 수정 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("/updateAuthoritiesByAdmin")
@@ -160,14 +157,14 @@ public class MemberController {
 	
 	/**
 	 * 회원을 삭제함
-	 * @param session
+	 * @param session 해당유저의 세션
 	 * @return string ajax로 회원 탈퇴 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@GetMapping("/deleteMember")
 	public String deleteMember(HttpSession session) {
-		Member member = (Member) session.getAttribute("member");
-		memberService.deleteMember(member.getMember_id());
+		Member member = (Member) session.getAttribute("member"); //해당 유저 세션 불러오기
+		memberService.deleteMember(member.getMember_id()); // 테이블 정보 삭제
 		session.invalidate(); //탈퇴했으니 세션 삭제
 		return "true";
 	}
@@ -186,7 +183,7 @@ public class MemberController {
 	
 	/**
 	 * 회원정보 가져와서 회원 목록 페이지로 이동
-	 * @param model
+	 * @param model 속성부여
 	 * @param role 권한
 	 * @return string 회원 목록 페이지를 리턴
 	 */
@@ -216,7 +213,7 @@ public class MemberController {
 	
 	/**
 	 * 특정 회원 아이디로 회원 정보를 가져오고 회원 정보와 권한을 모델에 바인딩함
-	 * @param model 
+	 * @param model 속성부여
 	 * @param member_id 회원 아이디
 	 * @return string 특정 회원 정보 조회 페이지를 리턴
 	 */

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * 
+ * 엘라스틱서치 JDBC 설정(xml 대체)
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -18,28 +18,18 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource(value = "classpath:properties/db.properties") 
 public class ElasticConfig {
-	/**
-	 * 
+	/*
+	 * elasticsearch의 JDBC 정보
 	 */
 	@Value("${elasticsearch.hostname}") 
 	private String hostname;
 	
-	/**
-	 * 
-	 */
 	@Value("${elasticsearch.port}")
 	private int port;
 	
-	/**
-	 * 
-	 */
 	@Value("${elasticsearch.scheme}")
 	private String scheme;
 	
-	/**
-	 * 
-	 * @return 
-	 */
 	@Bean
 	public RestHighLevelClient restHighLevelClient() {
 		return new RestHighLevelClient(

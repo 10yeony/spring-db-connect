@@ -21,8 +21,8 @@ import kr.com.inspect.service.PostgreService;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 
- * @author Yeonhee Kim
+ * 리스트 형식 출력 컨트롤러
+ * @author Woo Young
  * @version 1.0
  *
  */
@@ -37,7 +37,6 @@ public class ReportController {
 	/**
 	 * PostgreSQL
 	 */
-	/* PostgreSQL */
 	@Autowired
 	private PostgreService postgreService;
 	private List<Metadata>  metadata;
@@ -45,13 +44,13 @@ public class ReportController {
 	private Metadata meta;
 
 	/**
-	 * 파일 생성
+	 * doc 파일 생성
 	 */
 	@Autowired
 	private DocxReport docxReport;
-	
+
 	/**
-	 * 
+	 * xlsx 파일 생성
 	 */
 	@Autowired
 	private XlsxReport xlsxReport;
@@ -70,9 +69,9 @@ public class ReportController {
 	
 	/**
 	 * 한국어 강의 목록 리스트 파일로 출력
-	 * @param response
-	 * @param format
-	 * @throws Exception
+	 * @param response 사용자에게 보내는 응답
+	 * @param format 리스트 형식 값
+	 * @throws Exception 예외처리
 	 */
 	@GetMapping("/metadata/{format}")
 	public void writeMetadata(HttpServletResponse response,
@@ -100,9 +99,9 @@ public class ReportController {
 
 	/**
 	 * utterance 리스트 docx 파일로 출력
-	 * @param response
-	 * @param format
-	 * @throws Exception
+	 * @param response 사용자에게 보내는 응답
+	 * @param format utterance index 값
+	 * @throws Exception 예외처리
 	 */
 	@GetMapping("/utterance/docx/{format}")
 	public void writeUtteranceDocx(HttpServletResponse response,
@@ -115,10 +114,10 @@ public class ReportController {
 
 	/**
 	 * utterance 리스트 xlsx 파일로 출력
-	 * @param response
-	 * @param model
-	 * @param format
-	 * @throws Exception
+	 * @param response 사용자에게 보내는 응답
+	 * @param model 속성부여
+	 * @param format utterance index 값
+	 * @throws Exception 예외처리
 	 */
 	@GetMapping("/utterance/xlsx/{format}")
 	public void writeUtteranceXlsx(HttpServletResponse response,
@@ -132,10 +131,10 @@ public class ReportController {
 
 	/**
 	 * 한국어 강의목록 파일 mail 전송
-	 * @param session
-	 * @param response
-	 * @param format
-	 * @throws Exception
+	 * @param session 해당 유저의 세션
+	 * @param response 사용자에게 보내는 응답
+	 * @param format metadata index 값
+	 * @throws Exception 예외 처리
 	 */
 	@GetMapping("/metadataMail/{format}")
 	public void sendMetadataMail(HttpSession session,
@@ -159,10 +158,10 @@ public class ReportController {
 
 	/**
 	 * 강의 문장 파일 mail 전송
-	 * @param session
-	 * @param request
-	 * @param response
-	 * @throws Exception
+	 * @param session 해당 유저의 세션
+	 * @param request 사용자로부터 들어온 요청
+	 * @param response 사용자에게 보내는 응답
+	 * @throws Exception 예외처리
 	 */
 	@GetMapping("/utteranceMail")
 	@ResponseBody
@@ -189,7 +188,13 @@ public class ReportController {
 		}
 	}
 
-	/* 한국어 강의 목록 파일 sms 전송 */
+	/**
+	 * 한국어 강의 목록 파일 sms 전송
+	 * @param session 해당 유저의 세션
+	 * @param response 사용자에게 보내는 응답
+	 * @param format metadata index 값
+	 * @throws Exception 예외 처리
+	 */
 	@GetMapping("/metadataSMS/{format}")
 	public void sendMetadataSMS(HttpSession session,
 								 HttpServletResponse response,
@@ -210,7 +215,13 @@ public class ReportController {
 		}
 	}
 
-	/* 강의 문장 파일 sms 전송 */
+	/**
+	 * 강의 문장 파일 sms 전송
+	 * @param session 해당 유저의 세션
+	 * @param request 사용자로부터 들어온 요청
+	 * @param response 사용자에게 보내는 응답
+	 * @throws Exception 예외처리
+	 */
 	@GetMapping("/utteranceSMS")
 	@ResponseBody
 	public void sendUtteranceSMS(HttpSession session,

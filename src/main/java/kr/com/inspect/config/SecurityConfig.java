@@ -29,21 +29,21 @@ import kr.com.inspect.service.MemberService;
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	
 	/**
-	 * a
+	 * 로그인 성공 핸들러 필드 선언
 	 */
 	@Autowired
 	@Qualifier("loginSuccessHandler")
 	private LoginSuccessHandler loginSuccessHandler;
 	
 	/**
-	 * b
+	 * 로그인 실패 핸들러 필드 선언
 	 */
 	@Autowired
 	@Qualifier("loginFailHandler")
 	private LoginFailHandler loginfailHandler;
 	
 	/**
-	 * c
+	 * 멤버 서비스 필드 선언
 	 */
 	@Autowired
 	@Qualifier("memberService")
