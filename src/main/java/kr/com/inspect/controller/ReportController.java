@@ -141,8 +141,10 @@ public class ReportController {
 	public void sendMetadataMail(HttpSession session,
 								 HttpServletResponse response,
 							  @PathVariable String format) throws Exception {
+		// 사용자의 이메일 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String email = member.getEmail();
+		// 파일에 출력할 metadata table
 		metadata = postgreService.getMetadataAndProgram();
 		switch(format) {
 			case ("docx"): //docx 파일 , mail이라는 표시와 email정보를 함께 보냄
@@ -169,10 +171,13 @@ public class ReportController {
 	public void sendUtteranceMail(HttpSession session,
 								  HttpServletRequest request,
 								  HttpServletResponse response) throws Exception {
+		// 사용자의 이메일 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String email = member.getEmail();
 		int format = Integer.parseInt(request.getParameter("metaId"));
+		// 해당 utterance table의 metadata
 		meta = postgreService.getMetadataAndProgramUsingId(format);
+		// 파일에 출력할 utterance table
 		utterances = postgreService.getUtteranceUsingMetadataId(format);
 
 		switch(request.getParameter("file")) {
@@ -194,16 +199,21 @@ public class ReportController {
 	public void sendMetadataSMS(HttpSession session,
 								 HttpServletResponse response,
 								 @PathVariable String format) throws Exception {
+		// 사용자의 phone 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String phone = member.getPhone();
+		// 파일에 출력할 metadata table
 		metadata = postgreService.getMetadataAndProgram();
 
 		switch(format) {
 			case ("docx"): //docx 파일 , sms이라는 표시와 phone정보를 함께 보냄
-				docxReport.writeDocxMetadata(response, docxPath, metadata, "sms"+phone);
+				System.out.println(phone+"docx");
+				sendReport.sendSMS(null, null, phone);
+//				docxReport.writeDocxMetadata(response, docxPath, metadata, "sms"+phone);
 				break;
 			case ("xlsx"): //xlsx 파일, sms이라는 표시와 phone정보를 함께 보냄
-				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "sms"+phone);
+				System.out.println(phone);
+//				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "sms"+phone);
 				break;
 			default:
 				break;
@@ -216,16 +226,19 @@ public class ReportController {
 	public void sendUtteranceSMS(HttpSession session,
 								  HttpServletRequest request,
 								  HttpServletResponse response) throws Exception {
+		// 사용자의 phone 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String phone = member.getPhone();
 		int format = Integer.parseInt(request.getParameter("metaId"));
+		// 해당 utterance table의 metadata
 		meta = postgreService.getMetadataAndProgramUsingId(format);
+		// 파일에 출력할 utterance table
 		utterances = postgreService.getUtteranceUsingMetadataId(format);
 
 		switch(request.getParameter("file")) {
 			case ("docx"): //docx 파일
 				System.out.println(phone + "docx");
-				sendReport.sendSMS(null, null, phone);
+//				sendReport.sendSMS(null, null, phone);
 //				docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "sms"+phone);
 				break;
 			case ("xlsx"): //xlsx 파일
