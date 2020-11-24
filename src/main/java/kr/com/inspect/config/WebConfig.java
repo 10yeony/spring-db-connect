@@ -5,7 +5,6 @@ import javax.servlet.Filter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -15,9 +14,8 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * @version 1.0
  *
  */
-
 @Configuration
-@ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Component.class), basePackages= {"kr.com.inspect"})
+@ComponentScan(basePackages= {"kr.com.inspect"})
 public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitializer{
 	
 	/**
