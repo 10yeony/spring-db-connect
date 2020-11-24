@@ -14,7 +14,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+
 import java.util.Properties;
+
+import javax.servlet.ServletException;
 
 /**
  * 각 Servlet에 관한 환경설정(xml 대체)
@@ -88,4 +91,6 @@ public class ServletConfig implements WebMvcConfigurer {
 
 		return mailSender;
 	}
+	
+
 }
