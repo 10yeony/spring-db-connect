@@ -1,4 +1,4 @@
-package kr.com.inspect.scheduled;
+package kr.com.inspect.scheduler;
 
 import kr.com.inspect.service.PostgreService;
 import org.springframework.beans.factory.annotation.Autowired;
