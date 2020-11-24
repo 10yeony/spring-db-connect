@@ -55,7 +55,10 @@
 							<span class="small">
 								<b style="color:#e74a3b;">비밀번호가 틀렸습니다.</b>
 							</span>
-							<a id="edit_pwdForgot" class="small" href="javascript:void(0);">비밀번호를 잊어버리셨습니까?</a>
+							<a id="edit_pwdForgot" class="small" href="javascript:void(0);"  
+							data-dismiss="modal" data-toggle="modal" data-target="#sendPwdModal">
+								비밀번호를 잊어버리셨습니까?
+							</a>
 						</div>
 						<div id="edit_pwdCorrect" class="small" style="display:none;">
 							<b style="color:#28a745;">OK !</b>
@@ -132,6 +135,9 @@
 		</div>
 	</div>
 </div>
+<!-- 임시 비밀번호 발송 Modal include -->
+<%@ include file="/WEB-INF/views/login/send_pwd.jsp"%>
+
 <!-- 비밀번호 수정 Modal include -->
 <%@ include file="edit_pwd.jsp"%>
 

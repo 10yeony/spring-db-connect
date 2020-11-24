@@ -55,7 +55,8 @@
 			<input type="password" class="form-control form-control-user"
 				id="login_pwd" name="pwd" placeholder="비밀번호">
 			<div style="margin-top:2px;" id="isExistId"></div>
-			<a id="" class="small" href="javascript:void(0);" style="display:none">
+			<a class="small" href="javascript:void(0);"
+				data-dismiss="modal" data-toggle="modal" data-target="#sendPwdModal">
 				비밀번호를 잊어버리셨습니까?
 			</a>
 		</div>
@@ -71,5 +72,8 @@
 			<input id="loginBtn" type="button" value="로그인" class="form-control form-control-user">
 		</div>
 	</form>
+	
+<!-- 임시 비밀번호 발송 Modal include -->
+<%@ include file="/WEB-INF/views/login/send_pwd.jsp"%>
 </body>
 </html>
