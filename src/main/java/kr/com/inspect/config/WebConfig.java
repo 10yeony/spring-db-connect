@@ -10,13 +10,12 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
- * 각 환경설정의 컨트롤러 (web.xml을 대체)
+ * web.xml의 Java 설정
  * @author Yeonhee Kim
  * @version 1.0
  *
  */
 @Configuration
-@ComponentScan(basePackages= {"kr.com.inspect"})
 public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitializer{
 	
 	/**
