@@ -87,7 +87,7 @@ public interface MemberService extends UserDetailsService {
 	 * @param email 회원 이메일
 	 * @return 
 	 */
-	public String sendEmail(String member_id, String email);
+	public String sendPwdToEmail(String member_id, String email);
 	
 	/**
 	 * 회원 탈퇴 

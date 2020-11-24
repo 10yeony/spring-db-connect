@@ -8,8 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
-import kr.com.inspect.util.RandomKey;
-
 /**
  * 임시 비밀번호를 메일로 발송함
  * @author Yeonhee Kim

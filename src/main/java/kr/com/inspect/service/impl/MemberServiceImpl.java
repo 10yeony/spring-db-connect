@@ -4,14 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
+import kr.com.inspect.sender.SendPwd;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.util.RandomKey;
 
@@ -161,14 +157,32 @@ public class MemberServiceImpl implements MemberService {
 	 * @param member_id 회원 아이디
 	 * @param email 회원 이메일
 	 */
-	public String sendEmail(String member_id, String email) {
+	@Override
+	public String sendPwdToEmail(String member_id, String email) {
 		Member member = memberDao.readMemberById(member_id);
 		
 		/* 인증번호 생성 */
-		if(member !=null && member.getEmail().equals(email)) {
-			
+		if(member == null) { //존재하지 않는 아이디
+			return "idNotExist";
+		}else if(!member.getEmail().equals(email)) { //이메일 불일치
+			return "emailNotSame";
+		}else {
+			/* 랜덤 비밀번호를 암호화하여 회원정보 수정 */
+			String pwd = new RandomKey().getRamdomString(10); //랜덤 비밀번호 생성
+			String encodedPassword = new BCryptPasswordEncoder().encode(pwd); //비밀번호 암호화
+			member.setPwd(encodedPassword); //암호화된 랜덤 비밀번호로 세팅
+			memberDao.updateMember(member); //회원정보 수정
+						
+			/* 이메일로 임시 비밀번호 발송 */
+			SendPwd sendPwd = new SendPwd();
+			try {
+				sendPwd.sendMail(email, pwd);
+				return "success";
+			} catch (Exception e) {
+				//e.printStackTrace();
+				return "sendFailed";
+			}
 		}
-		return null;
 	}
 	
 	/**

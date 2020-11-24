@@ -7,7 +7,7 @@
 	<script
 		src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>	
 	<script 
-		src="${pageContext.request.contextPath}/resource/js/member/edit_pwd.js"></script>
+		src="${pageContext.request.contextPath}/resource/js/member/send_pwd.js"></script>
 </head>
 <!-- Logout Modal-->
 <div class="modal fade" id="sendPwdModal" tabindex="-1" role="dialog"
@@ -21,7 +21,6 @@
 					<span class="goToMemberInfo" aria-hidden="true">x</span>
 				</button>
 			</div><!-- modal-header -->
-			
 			<div class="modal-body">
 				가입하신 아이디와 이메일을 입력하세요.<br/><br/>
 				<div class="form-group">

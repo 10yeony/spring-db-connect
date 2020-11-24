@@ -139,6 +139,19 @@ public class MemberController {
 	}
 	
 	/**
+	 * 비밀번호를 잊어버린 회원에게 아이디와 이메일을 받고 임시 비밀번호를 메일로 발송 
+	 * @param member_id 사용자 아이디
+	 * @param email 사용자 이메일 
+	 * @return ajax로 결과(success/idNotExist/emailNotSame/sendFailed)를 반환
+	 */
+	@ResponseBody
+	@PostMapping("/sendPwdToEmail")
+	public String sendPwdToEmail(String member_id, String email) {
+		String result = memberService.sendPwdToEmail(member_id, email);
+		return result;
+	}
+	
+	/**
 	 * 관리자 권한으로 회원 권한 수정
 	 * @param member_id 회원 아이디
 	 * @param authorities 권한부여

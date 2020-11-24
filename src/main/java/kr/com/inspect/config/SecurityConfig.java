@@ -92,7 +92,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 		/* 권한별 접근 페이지 설정 */
 		http.authorizeRequests()
 			.antMatchers("/", "/login", "/login/**",
-							"/register", "/register/**").permitAll() //모든 사용자에게 보임
+							"/register", "/register/**",
+							"/sendPwdToEmail").permitAll() //모든 사용자에게 보임
 			.antMatchers("/getMemberListByAdmin",
 						"/getMemberByAdmin",
 						"/getMemberByAdmin/**",
