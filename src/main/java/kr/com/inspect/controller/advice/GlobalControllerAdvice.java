@@ -1,14 +1,11 @@
 package kr.com.inspect.controller.advice;
 
-import java.util.zip.DataFormatException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
@@ -20,7 +17,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class GlobalControllerAdvice {
 	/**
 	 * 404 에러와 관련하여 에러 메세지와 함께 error.jsp로 이동함
-	 * @param request
+	 * @param request 사용자의 요청
 	 * @return string 에러 페이지
 	 */
 	@ExceptionHandler(value = NoHandlerFoundException.class)
@@ -31,19 +28,13 @@ public class GlobalControllerAdvice {
     }
 	
 	/**
-	 * 400 에러와 관련하여 에러 메세지와 함께 error.jsp로 이동함
-	 * @param request
+	 * 따로 지정한 예외 외에 발생한 예외와 관련하여 에러 메세지와 함께 error.jsp로 이동함
+	 * @param request 사용자의 요청
+	 * @param e 발생한 예외
 	 * @return string 에러 페이지
 	 */
-	@ExceptionHandler(value = DataFormatException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public String handleBaseException(HttpServletRequest request) {
-		request.setAttribute("errorMsg", "요청이 잘못 되었습니다.");
-		return "/error";
-    }
-
 	@ExceptionHandler(value = Exception.class)
-	public String handleBaseException(HttpServletRequest request, Exception e) {
+	public String handleDefaultException(HttpServletRequest request, Exception e) {
 		request.setAttribute("errorMsg", "페이지 처리에 문제가 발생하였습니다.");
 		return "/error";
     }
