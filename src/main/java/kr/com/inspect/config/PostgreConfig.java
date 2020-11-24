@@ -31,22 +31,28 @@ public class PostgreConfig {
 	 */
 	@Value("${jdbc.driverClassName}") 
 	private String driverClassName;
+	
 	/*
 	 * PostgreSQL의 JDBC url
 	 */
 	@Value("${jdbc.url}")
 	private String url;
+	
 	/*
 	 * PostgreSQL의 JDBC 유저 이름
 	 */
 	@Value("${jdbc.username}")
 	private String userName;
+	
 	/*
 	 * PostgreSQL의 JDBC 유저 비밀번호
 	 */
 	@Value("${jdbc.password}")
 	private String password;
 
+	/**
+	 * 자원을 얻어오기 위한 ApplicationContext
+	 */
 	@Autowired
 	private ApplicationContext applicationContext;
 	
@@ -65,8 +71,8 @@ public class PostgreConfig {
 	}
 	
 	/**
-	 *  DB 회원 대조 후 값 리턴
-	 * @return PostgreSQL의 DB정보를 mapper 형태로 리턴
+	 * SqlSession을 만들기 위해 SQL Mapper xml 경로가 지정된 SqlSessionFactory 리턴
+	 * @return SqlSessionFacotry를 리턴
 	 * @throws Exception 예외처리
 	 */
 	@Bean
@@ -78,8 +84,8 @@ public class PostgreConfig {
     }
 	
     /**
-     * DB 세션
-     * @return 세션템플릿 반환
+     * SqlSession을 빈환함 
+     * @return SqlSession을 구현한 SqlSessionTemplate 반환
      * @throws Exception 예외처리
      */
     @Bean

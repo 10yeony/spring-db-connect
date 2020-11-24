@@ -62,8 +62,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	@Qualifier("memberService")
 	private MemberService memberService;
 	
-	/*
-	 * 
+	/**
+	 * DB 연동을 위한 DataSource 필드 선언
 	 */
 	@Autowired
 	@Qualifier("dataSource")
@@ -89,9 +89,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		/**
-		 * 권한별 접근 페이지 설정
-		 */
+		/* 권한별 접근 페이지 설정 */
 		http.authorizeRequests()
 			.antMatchers("/", "/login", "/login/**",
 							"/register", "/register/**").permitAll() //모든 사용자에게 보임
@@ -104,6 +102,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 			.antMatchers("/**").access("hasRole('ROLE_VIEW')") //VIEW 권한만 접근
 			.anyRequest().authenticated(); //설정되지 않은 모든 url request는 인가된 사용자만 이용
 	  
+		/* 스프링 시큐리티에서 예외 처리 */
 		http.exceptionHandling()
 			.accessDeniedHandler(customAccessDeniedHandler); //403 에러 핸들러
 		
@@ -117,7 +116,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	    	.passwordParameter("pwd"); //비밀번호 파라미터 설정
 	    
 	    /* 자동 로그인 설정 */
-	   http.rememberMe()
+	    http.rememberMe()
 	    	.key("inspect") //쿠키에 사용되는 값을 암호화하기 위한 키(key)값
 	    	.tokenRepository(persistentTokenRepository()) //DataSource 추가
 	    	.tokenValiditySeconds(604800); //토큰 유지 시간(초단위) - 일주일

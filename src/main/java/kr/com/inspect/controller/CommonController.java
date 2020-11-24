@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CommonController {
 	
 	/**
-	 * 메인페이지로 이동
-	 * @return string main 페이지로 리턴
+	 * 메인 페이지로 이동
+	 * @return string main 페이지를 리턴
 	 */
 	@GetMapping("/main")
 	public String main() {
 		return "/main";
 	}
 	
+	/**
+	 * 에러 페이지로 이동
+	 * @return string error 페이지를 리턴
+	 */
 	@GetMapping("/error")
 	public String error() {
 		return "/error";

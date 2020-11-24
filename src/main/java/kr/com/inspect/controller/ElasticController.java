@@ -25,14 +25,14 @@ public class ElasticController {
 	private ElasticService elasticService;
 	
 	/**
-	 * 엘라스틱 서치에서 가져온 정보
+	 * 엘라스틱 서치의 인덱스
 	 */
 	private String index = "audiolist";
 
 	/**
 	 * 엘라스틱서치에서 해당되는 인덱스에 있는 데이터 모두 가져오기
 	 * @param model 속성부여
-	 * @return elasticsearch/getIndex 호출로 해당 페이지에 정보 리턴
+	 * @return string 엘라스틱서치 해당 인덱스에 존재하는 데이터를 모두 보여주는 페이지를 리턴
 	 */
 	@GetMapping("/getElasticIndex")
 	public String getElasticIndex(Model model) {

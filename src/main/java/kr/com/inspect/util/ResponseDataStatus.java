@@ -9,11 +9,11 @@ package kr.com.inspect.util;
 
 public class ResponseDataStatus {
 	/**
-	 * 성공
+	 * 성공인 상태
 	 */
 	public static final String SUCCESS = "200";
 	/**
-	 * 실패
+	 * 실패인 상태
 	 */
 	public static final String ERROR = "999";
 }

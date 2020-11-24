@@ -25,9 +25,11 @@ import kr.com.inspect.service.MemberService;
 
 @Controller
 public class MemberController {
-	
+	/**
+	 * 멤버서비스의 필드 선언
+	 */
 	@Autowired
-	private MemberService memberService; //멤버서비스의 필드선언
+	private MemberService memberService;
 	
 	/**
 	 * 커스텀 로그인 페이지로 이동(반드시 GET 방식이어야 함)

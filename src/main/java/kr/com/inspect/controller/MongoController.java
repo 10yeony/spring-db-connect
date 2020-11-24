@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import kr.com.inspect.service.MongoService;
 
 /**
- * 몽고의 컨트롤러
+ * MongoDB의 컨트롤러
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -31,22 +31,29 @@ public class MongoController {
 	private MongoService mongoService;
 	
 	/**
-	 * 엘라스틱 서치에서 가져온 정보
+	 * 엘라스틱 서치의 인덱스
 	 */
 	private String index = "audiolist";
 	
 	/**
-	 * 몽고 DB
+	 * 몽고DB의 데이터베이스
 	 */
 	private String database = "audioDB";
+	
+	/**
+	 * 몽고DB의 컬렉션
+	 */
 	private String col = index;
 	
+	/**
+	 * JSON 입력 경로
+	 */
 	@Value("${input.json.directory}")
 	private String jsonPath;
 	
 	/**
 	 * 몽고DB 컬렉션에 엘라스틱서치에서 받아온 인덱스 데이터를 입력하기
-	 * @return mongoDB/insertElasticIndex 호출로 해당 페이지에 인덱스 데이터 리턴
+	 * @return string 엘라스틱서치에서 받아온 인덱스 데이터를 몽고DB 컬렉션에 입력하는 페이지로 이동
 	 */
 	@GetMapping("/insertElasticIndexIntoMongo")
 	public String insertElasticIndexIntoMongo() {
@@ -57,7 +64,7 @@ public class MongoController {
 	/**
 	 * 몽고DB에서 해당되는 database의 collection 데이터를 모두 가져오기
 	 * @param model
-	 * @return mongoDB/getCollection 호출로 해당 페이지에 collection 데이터 리턴
+	 * @return string 해당되는 collection 데이터를 볼 수 있는 페이지를 리턴
 	 */
 	@GetMapping("/getMongoCollection")
 	public String getMongoCollection(Model model) {
@@ -69,7 +76,7 @@ public class MongoController {
 	/**
 	 * 특정 경로에 있는 JSON 파일들을 읽어서 몽고DB에 넣기 
 	 * @param request
-	 * @return JSON 데이터 리턴
+	 * @return string MongoDB에 JSON 데이터를 입력하는 페이지를 리턴
 	 */
 	@GetMapping("/insertJSONIntoMongo")
 	public String insertJSONData(HttpServletRequest request) {

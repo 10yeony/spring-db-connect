@@ -19,17 +19,27 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = "classpath:properties/db.properties") 
 public class ElasticConfig {
 	/*
-	 * elasticsearch의 JDBC 정보
+	 * 엘라스틱서치 호스트 이름
 	 */
 	@Value("${elasticsearch.hostname}") 
 	private String hostname;
 	
+	/**
+	 * 엘라스틱서치 포트 번호
+	 */
 	@Value("${elasticsearch.port}")
 	private int port;
 	
+	/**
+	 * 엘라스틱 서치 스키마
+	 */
 	@Value("${elasticsearch.scheme}")
 	private String scheme;
 	
+	/**
+	 * 엘라스틱서치의 호소트 이름, 포트, 스키마가 주입된 RestHighLevelClient 객체를 리턴함
+	 * @return RestHighLevelClient
+	 */
 	@Bean
 	public RestHighLevelClient restHighLevelClient() {
 		return new RestHighLevelClient(

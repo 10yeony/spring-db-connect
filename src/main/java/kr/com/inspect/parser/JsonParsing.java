@@ -19,7 +19,7 @@ import kr.com.inspect.dto.Utterance;
 
 /**
  * JSON Parsing Class
- * @author Woo Young
+ * @author Yeonhee Kim
  * @version 1.0
  *
  */

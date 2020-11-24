@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 리스트 형식 출력 컨트롤러
  * @author Woo Young
+ * @author Yeonhee Kim
  * @version 1.0
  *
  */
@@ -39,8 +40,20 @@ public class ReportController {
 	 */
 	@Autowired
 	private PostgreService postgreService;
+	
+	/**
+	 * 
+	 */
 	private List<Metadata>  metadata;
+	
+	/**
+	 * 
+	 */
 	private List<Utterance>  utterances;
+	
+	/**
+	 * 
+	 */
 	private Metadata meta;
 
 	/**
@@ -55,15 +68,27 @@ public class ReportController {
 	@Autowired
 	private XlsxReport xlsxReport;
 
+	/**
+	 * 
+	 */
 	@Value("${report.docx.directory}")
 	private String docxPath;
 	
+	/**
+	 * 
+	 */
 	@Value("${report.xlsx.directory}")
 	private String xlsxPath;
 	
+	/**
+	 * 
+	 */
 	@Value("${report.hwp.directory}")
 	private String hwpPath;
 	
+	/**
+	 * 
+	 */
 	@Value("${report.pptx.directory}")
 	private String pptxPath;
 	

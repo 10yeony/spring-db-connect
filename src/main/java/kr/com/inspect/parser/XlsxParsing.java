@@ -17,7 +17,7 @@ import kr.com.inspect.dto.Program;
 
 /**
  * Xlsx Parsing Class
- * @author Woo Young
+ * @author Yeonhee Kim
  * @version 1.0
  *
  */

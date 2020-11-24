@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * docx 타입으로 리스트 파일 작성
  * @author Woo Young
+ * @author Yeonhee Kim
  * @version 1.0
  *
  */

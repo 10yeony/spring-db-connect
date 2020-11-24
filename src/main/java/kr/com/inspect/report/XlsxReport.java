@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Xlsx 타입으로 리스트 파일 생성
  * @author Woo Young
+ * @author Yeonhee Kim
  * @version 1.0
  *
  */
