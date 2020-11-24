@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 @Service
 public class SendReport {
+
 	/**
 	 * 메일전송 기능을 위한 필드 선언
 	 */

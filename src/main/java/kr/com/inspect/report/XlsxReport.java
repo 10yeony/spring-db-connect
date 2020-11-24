@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class XlsxReport {
+
 	/**
 	 * 메일과 sms 전송을 위한 SendReport 필드 선언
 	 */
