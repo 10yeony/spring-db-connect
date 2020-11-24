@@ -2,7 +2,6 @@ package kr.com.inspect.config;
 
 import javax.servlet.Filter;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
