@@ -21,6 +21,7 @@ import java.util.Date;
 @Component
 @PropertySource(value = "classpath:properties/directory.properties")
 public class WatchDir {
+
     /**
      * 감시할 디렉토리 경로
      */
