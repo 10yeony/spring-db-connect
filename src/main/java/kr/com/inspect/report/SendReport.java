@@ -4,9 +4,14 @@ import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
@@ -18,14 +23,26 @@ import java.util.HashMap;
  * @version 1.0
  *
  */
-
 @Service
+@PropertySource(value = "classpath:properties/sender.properties")
 public class SendReport {
 	/**
 	 * 메일전송 기능을 위한 필드 선언
 	 */
     @Autowired
     private JavaMailSender mailSender;
+    
+    @Value("${mail.username}") 
+    private String mailUsername;
+    
+    @Value("${sms.sender}") 
+    private String smsSender;
+    
+    @Value("${sms.api.key}") 
+    private String smsApiKey;
+    
+    @Value("${sms.api.secret}") 
+    private String smsApiSecret;
 
     /**
      * 파일을 받아서 mail 전송하는 메소드
@@ -41,7 +58,7 @@ public class SendReport {
             // 받는 사람
             messageHelper.setTo(email);
             // 보내는 사람
-            messageHelper.setFrom("wooyoung.lee@namutech.co.kr");
+            messageHelper.setFrom(mailUsername);
             // 메일 제목 (생략 가능)
             messageHelper.setSubject("메일 전송 테스트");
             // 메일 본문
@@ -68,8 +85,8 @@ public class SendReport {
      */
     public void sendSMS(File file, String filename, String phone) throws Exception{
         /* sms 전송 관련 설정 api 키 입력 */
-        String api_key = "NCSCZ2WQWBGNB44F";
-        String api_secret = "LMEOPFADO6CVCQTTQ1AUEZVMCAO5HX97";
+        String api_key = smsApiKey;
+        String api_secret = smsApiSecret;
 
         Message coolsms = new Message(api_key, api_secret);
 
@@ -77,7 +94,7 @@ public class SendReport {
 
         /* 문자 생성 */
         set.put("to", phone); // 수신번호
-        set.put("from", "01062440346"); // 발신번호
+        set.put("from", smsSender); // 발신번호
         set.put("text", "sms 전송 테스트 문자입니다."); // 문자내용
         set.put("type", "sms"); // 문자 타입
 

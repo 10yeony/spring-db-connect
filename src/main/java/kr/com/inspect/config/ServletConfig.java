@@ -1,5 +1,6 @@
 package kr.com.inspect.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -25,7 +26,14 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"kr.com.inspect"}, useDefaultFilters = false, includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class}))
+@PropertySource(value = "classpath:properties/sender.properties")
 public class ServletConfig implements WebMvcConfigurer {
+	
+	@Value("${mail.username}") 
+	private String mailUsername;
+	
+	@Value("${mail.password}") 
+	private String mailPassword;
 	
 	/**
 	 * 정적 자원 관리
@@ -66,8 +74,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost("smtp.gmail.com");
 		mailSender.setPort(587);
-		mailSender.setUsername("wooyoung.lee@namutech.co.kr");
-		mailSender.setPassword("szbkbfhfygcuvamh");
+		mailSender.setUsername(mailUsername);
+		mailSender.setPassword(mailPassword);
 		
 		Properties javaMailProperties = new Properties();
 
