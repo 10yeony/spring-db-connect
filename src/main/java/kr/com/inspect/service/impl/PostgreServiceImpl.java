@@ -333,6 +333,7 @@ public class PostgreServiceImpl implements PostgreService{
 					sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
 				}
 			}
+			file.delete();
 		}
 
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
