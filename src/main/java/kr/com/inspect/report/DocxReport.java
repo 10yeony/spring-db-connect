@@ -10,6 +10,8 @@ import java.util.List;
 
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
+import kr.com.inspect.sender.SendReport;
+
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

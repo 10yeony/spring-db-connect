@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +23,7 @@ import org.springframework.stereotype.Service;
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.MemberService;
+import kr.com.inspect.util.RandomKey;
 
 /**
  * 회원 Service
@@ -148,6 +154,21 @@ public class MemberServiceImpl implements MemberService {
 	public int updatePwd(String member_id, String pwd) {
 		String encodedPassword = new BCryptPasswordEncoder().encode(pwd); //사용자가 입력한 비밀번호를 암호화
 		return memberDao.updatePwd(member_id, encodedPassword);
+	}
+	
+	/**
+	 * 비밀번호를 잊어버린 회원에게 아이디와 이메일을 받고 임시 비밀번호를 메일로 발송 
+	 * @param member_id 회원 아이디
+	 * @param email 회원 이메일
+	 */
+	public String sendEmail(String member_id, String email) {
+		Member member = memberDao.readMemberById(member_id);
+		
+		/* 인증번호 생성 */
+		if(member !=null && member.getEmail().equals(email)) {
+			
+		}
+		return null;
 	}
 	
 	/**
