@@ -15,7 +15,6 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * @version 1.0
  *
  */
-
 @Configuration
 @ComponentScan(basePackages= {"kr.com.inspect"})
 public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitializer{
