@@ -28,10 +28,15 @@ import java.util.Properties;
 @ComponentScan(basePackages = {"kr.com.inspect"}, useDefaultFilters = false, includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class}))
 @PropertySource(value = "classpath:properties/sender.properties")
 public class ServletConfig implements WebMvcConfigurer {
-	
+	/**
+	 * 발신 이메일
+	 */
 	@Value("${mail.username}") 
 	private String mailUsername;
 	
+	/**
+	 * 발신 이메일 비밀번호
+	 */
 	@Value("${mail.password}") 
 	private String mailPassword;
 	

@@ -32,15 +32,27 @@ public class SendReport {
     @Autowired
     private JavaMailSender mailSender;
     
+    /**
+     * 발신 이메일
+     */
     @Value("${mail.username}") 
     private String mailUsername;
     
+    /**
+     * 발신 번호
+     */
     @Value("${sms.sender}") 
     private String smsSender;
     
+    /**
+    * SMS API Key
+     */
     @Value("${sms.api.key}") 
     private String smsApiKey;
     
+    /**
+    * SMS API 비밀번호
+     */
     @Value("${sms.api.secret}") 
     private String smsApiSecret;
 
