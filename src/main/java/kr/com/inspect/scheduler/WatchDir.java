@@ -39,6 +39,13 @@ public class WatchDir {
      */
     @Scheduled(fixedDelay = 3000)
     public void watchDir() throws Exception {
+//        WatchService watchService = FileSystems.getDefault().newWatchService();
+//
+//        Path path = Paths.get(jsonPath);
+//        path.register(watchService,
+//                StandardWatchEventKinds.ENTRY_CREATE,
+//                StandardWatchEventKinds.ENTRY_DELETE,
+//                StandardWatchEventKinds.ENTRY_MODIFY);
 
         String day = new SimpleDateFormat("yyyy-MM-dd-ss").format(new Date());
 
