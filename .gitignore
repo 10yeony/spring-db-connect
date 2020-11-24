@@ -204,4 +204,5 @@ src/main/webapp/input/xlsx/*
 
 ### DB & Directory Info ###
 src/main/resources/properties/db.properties
+src/main/resources/properties/sender.properties
 src/main/resources/properties/directory.properties
