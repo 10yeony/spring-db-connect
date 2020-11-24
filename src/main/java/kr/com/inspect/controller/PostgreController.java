@@ -36,15 +36,32 @@ public class PostgreController {
 	 */
 	private String index = "audiolist";
 	
+	/**
+	 * 업로드될 JSON 파일이 담기는 경로<br>
+	 * (곧바로 파싱 후 DB에 등록되고 삭제됨. 일반 사용자가 사용하는 경로.)
+	 */
 	@Value("${input.uploadJson.directory}")
 	private String uploadJsonPath;
 	
+	/**
+	 * 업로드될 xlsx 파일이 담기는 경로<br>
+	 * (주기적으로 모니터링하여 일정한 시간에 파일이 있으면 파싱 후 DB에 등록하고 삭제함. <br>
+	 * 관리자가 사용하는 경로.)
+	 */
 	@Value("${input.uploadXlsx.directory}")
 	private String uploadXlsxPath;
 	
+	/**
+	 * 업로드될 JSON 파일이 담기는 경로<br>
+	 * (주기적으로 모니터링하여 일정한 시간에 파일이 있으면 파싱 후 DB에 등록하고 삭제함. <br>
+	 * 관리자가 사용하는 경로.)
+	 */
 	@Value("${input.json.directory}")
 	private String jsonPath;
 	
+	/**
+	 * 업로드될 xlsx 파일이 담기는 경로(관리자가 사용하는 경로.)
+	 */
 	@Value("${input.xlsx.directory}")
 	private String xlsxPath;
 	

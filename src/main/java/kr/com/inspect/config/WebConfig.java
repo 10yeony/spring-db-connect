@@ -20,7 +20,9 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitializer{
 	
 	/**
-	 * 각 환경설정 불러오기
+	 * ContextLoaderListener가 생성한 애플리케이션 컨텍스트를 설정하는 빈으로<br> 
+	 * 데이터 계층이나 백엔드를 구동하는데 사용되는 빈들에 대하여 정의함
+	 * @return Configuration 클래스 배열
 	 */
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
@@ -32,18 +34,27 @@ public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitial
 							};
 	}
 	
+	/**
+	 * DispatcherServlet의 애플리케이션 컨텍스트에서 사용되는 빈들에 대하여 정의함
+	 * @return Configuration 클래스 배열
+	 */
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		return new Class[] { ServletConfig.class };
 	}
 	
+	/**
+	 * 브라우저가 요청한 주소 패턴을 보고 스프링에서 처리할지 말지를 결정
+	 * @return 주소 패턴 문자열 배열
+	 */
 	@Override
 	protected String[] getServletMappings() {
-		return new String[] { "/" };
+		return new String[] { "/" }; //모든 요청을 처리
 	}
 	
 	/**
-	 * 한글 설정(UTF-8)
+	 * 필터 추가 : 한글 설정(UTF-8)
+	 * @return Filter 배열
 	 */
 	protected Filter[] getServletFilters() {
 		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();

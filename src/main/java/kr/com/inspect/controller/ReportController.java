@@ -36,58 +36,58 @@ public class ReportController {
 	SendReport sendReport;
 	
 	/**
-	 * PostgreSQL
+	 * PostgreSQL 서비스 필드 선언
 	 */
 	@Autowired
 	private PostgreService postgreService;
 	
 	/**
-	 * 
+	 * Metadata 리스트 필드 선언
 	 */
 	private List<Metadata>  metadata;
 	
 	/**
-	 * 
+	 * 문장 리스트 필드 선언
 	 */
 	private List<Utterance>  utterances;
 	
 	/**
-	 * 
+	 * Metadata 필드 선언
 	 */
 	private Metadata meta;
 
 	/**
-	 * doc 파일 생성
+	 * docx 파일 생성 객체를 필드로 선언
 	 */
 	@Autowired
 	private DocxReport docxReport;
 
 	/**
-	 * xlsx 파일 생성
+	 * xlsx 파일 생성 객체를 필드로 선언
 	 */
 	@Autowired
 	private XlsxReport xlsxReport;
 
 	/**
-	 * 
+	 * docx 파일이 산출물로 저장될 경로
 	 */
 	@Value("${report.docx.directory}")
 	private String docxPath;
 	
 	/**
-	 * 
+	 * xlsx 파일이 산출물로 저장될 경로
 	 */
 	@Value("${report.xlsx.directory}")
 	private String xlsxPath;
 	
 	/**
-	 * 
+	 * hwp 파일이 산출물로 저장될 경로
 	 */
 	@Value("${report.hwp.directory}")
 	private String hwpPath;
 	
 	/**
-	 * 
+	 * pptx 파일이 산출물로 저장될 경로
 	 */
 	@Value("${report.pptx.directory}")
 	private String pptxPath;

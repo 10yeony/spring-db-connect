@@ -33,7 +33,7 @@ public class MemberController {
 	
 	/**
 	 * 커스텀 로그인 페이지로 이동(반드시 GET 방식이어야 함)
-	 * @return string 커스텀 로그인 페이지로 리턴
+	 * @return 커스텀 로그인 페이지로 리턴
 	 */
 	@GetMapping("/login")
 	public String Login() {
@@ -43,7 +43,7 @@ public class MemberController {
 	/**
 	 * 회원가입
 	 * @param member 회원정보
-	 * @return string 회원가입 후 성공/실패 메세지를 반환함
+	 * @return 회원가입 후 성공/실패 메세지를 반환함
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/register", produces = "application/text; charset=utf8")
@@ -60,7 +60,7 @@ public class MemberController {
 	 *  회원가입시 해당 요소가 DB에 존재하는지 중복 체크 
 	 * @param request 사용자로부터 들어온 요청
 	 * @param object 해당 요소(아이디/이메일/연락처)
-	 * @return string 회원가입시 해당 요소의 DB 존재 여부(존재시 1)를 반환
+	 * @return 회원가입시 해당 요소의 DB 존재 여부(존재시 1)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("register/check/{object}")
@@ -123,7 +123,7 @@ public class MemberController {
 	 * 비밀번호를 수정함
 	 * @param session 해당유저의 세션
 	 * @param pwd 해당유저의 비밀번호
-	 * @return string ajax로 비밀번호 수정 여부(true/false)를 반환
+	 * @return ajax로 비밀번호 수정 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("/updatePwd")
@@ -142,7 +142,7 @@ public class MemberController {
 	 * 관리자 권한으로 회원 권한 수정
 	 * @param member_id 회원 아이디
 	 * @param authorities 권한부여
-	 * @return string ajax로 회원권한 수정 여부(true/false)를 반환
+	 * @return ajax로 회원권한 수정 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("/updateAuthoritiesByAdmin")
@@ -160,7 +160,7 @@ public class MemberController {
 	/**
 	 * 회원을 삭제함
 	 * @param session 해당유저의 세션
-	 * @return string ajax로 회원 탈퇴 여부(true/false)를 반환
+	 * @return ajax로 회원 탈퇴 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@GetMapping("/deleteMember")
@@ -174,7 +174,7 @@ public class MemberController {
 	/**
 	 * 관리자 권한으로 회원을 삭제함
 	 * @param member_id 회원 아이디
-	 * @return string ajax로 회원 탈퇴 여부(true/false)를 반환
+	 * @return ajax로 회원 탈퇴 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@GetMapping("/deleteMemberByAdmin")
@@ -187,7 +187,7 @@ public class MemberController {
 	 * 회원정보 가져와서 회원 목록 페이지로 이동
 	 * @param model 속성부여
 	 * @param role 권한
-	 * @return string 회원 목록 페이지를 리턴
+	 * @return 회원 목록 페이지를 리턴
 	 */
 	@GetMapping("/getMemberListByAdmin")
 	public String getMemberListByAdmin(Model model, String role) {
@@ -217,7 +217,7 @@ public class MemberController {
 	 * 특정 회원 아이디로 회원 정보를 가져오고 회원 정보와 권한을 모델에 바인딩함
 	 * @param model 속성부여
 	 * @param member_id 회원 아이디
-	 * @return string 특정 회원 정보 조회 페이지를 리턴
+	 * @return 특정 회원 정보 조회 페이지를 리턴
 	 */
 	@GetMapping("/getMemberByAdmin")
 	public String getMemberByAdmin(Model model, String member_id) {

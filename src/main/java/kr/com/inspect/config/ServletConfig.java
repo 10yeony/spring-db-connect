@@ -1,6 +1,5 @@
 package kr.com.inspect.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -27,31 +26,15 @@ import java.util.Properties;
 @ComponentScan(basePackages = {"kr.com.inspect"})
 public class ServletConfig implements WebMvcConfigurer {
 	
-	@Value("${report.docx.directory}")
-	private String docxPath;
-	
-	@Value("${report.xlsx.directory}")
-	private String xlsxPath;
-
-	@Value("${report.hwp.directory}")
-	private String hwpPath;
-
-	@Value("${report.pptx.directory}")
-	private String pptxPath;
-	
 	/**
 	 * 정적 자원 관리
 	 */
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/reports/hwp/**").addResourceLocations(hwpPath);
-		registry.addResourceHandler("/reports/docx/**").addResourceLocations(docxPath);
-		registry.addResourceHandler("/reports/xlsx/**").addResourceLocations(xlsxPath);
-		registry.addResourceHandler("/reports/pptx/**").addResourceLocations(pptxPath);
 		registry.addResourceHandler("/resource/**").addResourceLocations("/resource/");
 	}
 	  
 	/**
-	 * 뷰 영역 설정
+	 * 뷰 영역 Prefix, Suffix 설정
 	 */
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 	    InternalResourceViewResolver bean = new InternalResourceViewResolver();
@@ -63,7 +46,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	  
 	/**
 	 * 파일업로드 용량, 인코딩 처리 설정
-	 * @return
+	 * @return CommonsMultipartResolver
 	 */
 	@Bean(name = {"multipartResolver"})
 	public CommonsMultipartResolver multipartResolver() {
@@ -75,7 +58,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	/**
 	 * mail 전송 설정
-	 * @return
+	 * @return JavaMailSender
 	 */
 	@Bean
 	public JavaMailSender mailSender(){
