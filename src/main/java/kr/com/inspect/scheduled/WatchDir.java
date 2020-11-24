@@ -6,17 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.WatchEvent.Kind;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -25,7 +18,6 @@ import java.util.List;
  * @version 1.0
  *
  */
-
 @Component
 @PropertySource(value = "classpath:properties/directory.properties")
 public class WatchDir {
@@ -51,11 +43,11 @@ public class WatchDir {
 
         System.out.println(day);
 
-        watchKey = watchService.take();
-
-        List<WatchEvent<?>> events = watchKey.pollEvents();
-
-        System.out.println(events.size());
+//        watchKey = watchService.take();
+//
+//        List<WatchEvent<?>> events = watchKey.pollEvents();
+//
+//        System.out.println(events.size());
 
 
 //        File dir = new File(path);
