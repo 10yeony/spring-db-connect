@@ -3,6 +3,7 @@ package kr.com.inspect.config;
 import org.springframework.context.annotation.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -23,7 +24,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"kr.com.inspect"})
+@ComponentScan(basePackages = {"kr.com.inspect"}, useDefaultFilters = false, includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class}))
 public class ServletConfig implements WebMvcConfigurer {
 	
 	/**
