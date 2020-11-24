@@ -25,7 +25,7 @@ import kr.com.inspect.service.MemberService;
 /**
  * 기본적인 웹 인증에 대한 부분을 구현
  * @author Yeonhee Kim
- * @version 1.0, 2020.11.18 csrf 관련 설정 수정(Yeonhee Kim)
+ * @version 1.0, 2020.11.24 403 에러 핸들링 추가(Yeonhee Kim)
  *
  */
 @Configuration
