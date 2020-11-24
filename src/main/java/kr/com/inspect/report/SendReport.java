@@ -26,6 +26,7 @@ import java.util.HashMap;
 @Service
 @PropertySource(value = "classpath:properties/sender.properties")
 public class SendReport {
+
 	/**
 	 * 메일전송 기능을 위한 필드 선언
 	 */
