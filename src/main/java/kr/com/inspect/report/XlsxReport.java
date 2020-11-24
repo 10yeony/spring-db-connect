@@ -31,14 +31,20 @@ import javax.servlet.http.HttpServletResponse;
 @PropertySource(value = "classpath:properties/report.properties")
 public class XlsxReport {
 	/**
-	 * 
+	 * 메일과 sms 전송을 위한 SendReport 필드 선언
 	 */
 	@Autowired
 	private SendReport ms;
 
+	/**
+	 * metadata의 id 컬럼
+	 */
 	@Value("${table.column0}")
 	private String column0;
 
+	/**
+	 * metadata의 creator 컬럼
+	 */
 	@Value("${table.column1}")
 	private String column1;
 
@@ -47,7 +53,7 @@ public class XlsxReport {
 	 * @param response 사용자에게 보내는 응답
 	 * @param path 파일 디렉토리
 	 * @param list 객체를 담을 리스트
-	 * @param flag
+	 * @param flag 해당 요청이 download인지, mail인지, sms인지 결정해주는 변수
 	 * @throws Exception 예외처리
 	 */
 	public void writeXlsxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag) throws Exception {
@@ -150,7 +156,7 @@ public class XlsxReport {
 	 * @param path 파일 디렉토리
 	 * @param list 객체를 담을 리스트
 	 * @param metadata metadata 테이블 정보
-	 * @param flag
+	 * @param flag 해당 요청이 download인지, mail인지, sms인지 결정해주는 변수
 	 * @throws Exception 예외 처리
 	 */
 	public void writeXlsxUtterance(HttpServletResponse response, String path, List<Utterance> list, Metadata metadata, String flag)throws Exception {
