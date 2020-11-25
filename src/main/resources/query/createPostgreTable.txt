@@ -65,7 +65,7 @@ CREATE TABLE audio.member (
 );
 
 CREATE TABLE audio.authority (
-	username text,
+	username text REFERENCES audio.member ON DELETE CASCADE,
 	authority_name text
 );
 
