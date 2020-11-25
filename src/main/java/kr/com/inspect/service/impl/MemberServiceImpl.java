@@ -40,6 +40,9 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
+	@Autowired
+	private SendPwd sendPwd;
+	
 	/**
 	 * 
 	 * @return 사용할 PasswordEncoder를 리턴해줌
@@ -174,7 +177,6 @@ public class MemberServiceImpl implements MemberService {
 			memberDao.updateMember(member); //회원정보 수정
 						
 			/* 이메일로 임시 비밀번호 발송 */
-			SendPwd sendPwd = new SendPwd();
 			try {
 				sendPwd.sendMail(email, pwd);
 				return "success";

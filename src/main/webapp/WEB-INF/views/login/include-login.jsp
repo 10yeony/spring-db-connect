@@ -27,6 +27,7 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
+
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 <script 

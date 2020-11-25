@@ -4,9 +4,9 @@ $(function(){
 	/* Context Path */
 	contextPath = getContextPath();
 	
-	/* 현재 비밀번호가 일치하는지 확인 */
+	/* 회원의 이메일로 임시 비밀번호를 발송 */
 	$('#sendPwdBtn').click(function(){
-				
+		
 		$.ajax({
 			url : contextPath + "/sendPwdToEmail",
 			type : "POST",
@@ -14,7 +14,6 @@ $(function(){
 				member_id : $('#send_pwd_id').val(),
 				email : $('#send_pwd_email').val()
 			},
-			async: false,
 			
 			success : function(result) {
 				if(result == 'idNotExist'){
@@ -29,8 +28,10 @@ $(function(){
 				}
 			},
 			error : function(request, status, error) {
+				alert("에러가 발생하였습니다.");
 				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 			}
+			
 		});//ajax
 		
 	}); //click
