@@ -20,6 +20,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import kr.com.inspect.handler.CustomAccessDeniedHandler;
 import kr.com.inspect.handler.LoginFailHandler;
 import kr.com.inspect.handler.LoginSuccessHandler;
+import kr.com.inspect.handler.ProperCookieClearingLogoutHandler;
 import kr.com.inspect.service.MemberService;
 
 /**
@@ -126,8 +127,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	    http.logout()
 	    	.logoutUrl("/logout")
 	    	.logoutSuccessUrl("/")
-	    	.invalidateHttpSession(true) //세션 삭제
-	    	.deleteCookies("remember-me", "JSESSIONID"); //자동 로그인 쿠키, Tomcat이 발급한 세션 유지 쿠키 삭제
+	    	.invalidateHttpSession(true); //세션 삭제
+	    	//.deleteCookies("JSESSIONID", "remember-me"); //자동 로그인 쿠키, Tomcat이 발급한 세션 유지 쿠키 삭제
+	    	//.addLogoutHandler(new ProperCookieClearingLogoutHandler("JESSIONID", "remember-me"));
 
 	  	/* csrf 공격 방지를 위해 설정 (이 속성을 설정하면, post 요청시 반드시 _csrf token값 넣기) */
 	    http.csrf()
