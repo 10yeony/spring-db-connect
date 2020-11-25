@@ -206,3 +206,5 @@ src/main/webapp/input/xlsx/*
 src/main/resources/properties/db.properties
 src/main/resources/properties/sender.properties
 src/main/resources/properties/directory.properties
+PostgreSQL.jpg
+PostgreSQL.ucls
