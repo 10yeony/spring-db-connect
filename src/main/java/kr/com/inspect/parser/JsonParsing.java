@@ -175,30 +175,32 @@ public class JsonParsing {
 	 */
 	public List<EojeolList> setEojeolList(JSONArray arr, String utterance_id, int metadata_id){
 		List<EojeolList> eojeolListList = new ArrayList<>();
-		for(int i=0; i<arr.size(); i++) {
-			Map element = (Map)arr.get(i);
-		    EojeolList eojeolList = new EojeolList();
-		    if(!ObjectUtils.isEmpty(element.get("id"))) {
-		    	eojeolList.setId(element.get("id").toString()); //primary key
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("standard"))) {
-		    	eojeolList.setStandard(element.get("standard").toString());
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("eojeol"))) {
-		    	eojeolList.setEojeol(element.get("eojeol").toString());
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("end"))) {
-		    	eojeolList.setFinish(Integer.parseInt(element.get("end").toString()));
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("isDialect"))) {
-		    	eojeolList.setDialect(Boolean.parseBoolean(element.get("isDialect").toString()));
-		    }
-		    if(!ObjectUtils.isEmpty(element.get("begin"))) {
-		    	eojeolList.setBegin(Integer.parseInt(element.get("begin").toString()));
-		    }
-		    eojeolList.setUtterance_id(utterance_id); //foreign key
-		    eojeolList.setMetadata_id(metadata_id); //foreign key
-		    eojeolListList.add(eojeolList);
+		if(arr != null) {
+			for(int i=0; i<arr.size(); i++) {
+				Map element = (Map)arr.get(i);
+			    EojeolList eojeolList = new EojeolList();
+			    if(!ObjectUtils.isEmpty(element.get("id"))) {
+			    	eojeolList.setId(element.get("id").toString()); //primary key
+			    }
+			    if(!ObjectUtils.isEmpty(element.get("standard"))) {
+			    	eojeolList.setStandard(element.get("standard").toString());
+			    }
+			    if(!ObjectUtils.isEmpty(element.get("eojeol"))) {
+			    	eojeolList.setEojeol(element.get("eojeol").toString());
+			    }
+			    if(!ObjectUtils.isEmpty(element.get("end"))) {
+			    	eojeolList.setFinish(Integer.parseInt(element.get("end").toString()));
+			    }
+			    if(!ObjectUtils.isEmpty(element.get("isDialect"))) {
+			    	eojeolList.setDialect(Boolean.parseBoolean(element.get("isDialect").toString()));
+			    }
+			    if(!ObjectUtils.isEmpty(element.get("begin"))) {
+			    	eojeolList.setBegin(Integer.parseInt(element.get("begin").toString()));
+			    }
+			    eojeolList.setUtterance_id(utterance_id); //foreign key
+			    eojeolList.setMetadata_id(metadata_id); //foreign key
+			    eojeolListList.add(eojeolList);
+			}
 		}
 		return eojeolListList;
 	}

@@ -99,10 +99,11 @@ public class ReportController {
 	 * @param format 리스트 형식 값
 	 * @throws Exception 예외처리
 	 */
-	@GetMapping("/metadata/{format}")
+	@GetMapping("/metadata/{format}/{data}")
 	public void writeMetadata(HttpServletResponse response,
-							  @PathVariable String format) throws Exception {
-		metadata = postgreService.getMetadataAndProgram();
+							  @PathVariable String format,
+							  @PathVariable String data) throws Exception {
+		metadata = postgreService.getMetadataAndProgram(data);
 
 		switch(format) {
 			case ("hwp"): //한글 파일
@@ -162,15 +163,16 @@ public class ReportController {
 	 * @param format metadata index 값
 	 * @throws Exception 예외 처리
 	 */
-	@GetMapping("/metadataMail/{format}")
+	@GetMapping("/metadataMail/{format}/{data}")
 	public void sendMetadataMail(HttpSession session,
 								 HttpServletResponse response,
-							  @PathVariable String format) throws Exception {
+							  @PathVariable String format,
+							  @PathVariable String data) throws Exception {
 		// 사용자의 이메일 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String email = member.getEmail();
 		// 파일에 출력할 metadata table
-		metadata = postgreService.getMetadataAndProgram();
+		metadata = postgreService.getMetadataAndProgram(data);
 		switch(format) {
 			case ("docx"): //docx 파일 , mail이라는 표시와 email정보를 함께 보냄
 				docxReport.writeDocxMetadata(response, docxPath, metadata, "mail"+email);
@@ -226,15 +228,16 @@ public class ReportController {
 	 * @param format metadata index 값
 	 * @throws Exception 예외 처리
 	 */
-	@GetMapping("/metadataSMS/{format}")
+	@GetMapping("/metadataSMS/{format}/{data}")
 	public void sendMetadataSMS(HttpSession session,
 								 HttpServletResponse response,
-								 @PathVariable String format) throws Exception {
+								 @PathVariable String format,
+								 @PathVariable String data) throws Exception {
 		// 사용자의 phone 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String phone = member.getPhone();
 		// 파일에 출력할 metadata table
-		metadata = postgreService.getMetadataAndProgram();
+		metadata = postgreService.getMetadataAndProgram(data);
 
 		switch(format) {
 			case ("docx"): //docx 파일 , sms이라는 표시와 phone정보를 함께 보냄

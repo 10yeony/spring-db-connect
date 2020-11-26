@@ -183,6 +183,7 @@ public class PostgreController {
 	public String getMetadataAndProgram(Model model, String data) {
 		List<Metadata> metadata = postgreService.getMetadataAndProgram(data);
 		model.addAttribute("result", metadata);
+		model.addAttribute("data", data);
 		switch(data) {
 			case "all":
 				model.addAttribute("selectedData", "전체 데이터");

@@ -51,9 +51,9 @@
 					</h1>
 					<div>
 						<!-- 파일 다운로드 버튼 -->
-						<a href="${pageContext.request.contextPath}/metadata/docx" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+						<a href="${pageContext.request.contextPath}/metadata/docx/${data}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 								class="fas fa-download fa-sm text-white-50"></i> Word</a>
-						<a href="${pageContext.request.contextPath}/metadata/xlsx" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+						<a href="${pageContext.request.contextPath}/metadata/xlsx/${data}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 								class="fas fa-download fa-sm text-white-50"></i> Excel</a>
 						<div class="my-2"></div>
 <%--						<a onclick="mail('metadataMail/docx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i--%>
@@ -186,7 +186,8 @@ $(document).ready(function() {
 })
 
 function send(type, fileurl){
-	var url = '${pageContext.request.contextPath}/' + fileurl;
+	var dataType = document.getElementById("present_data_type").value;
+	var url = '${pageContext.request.contextPath}/' + fileurl + "/${data}';
 
 	$.ajax({
 		type:"GET",
