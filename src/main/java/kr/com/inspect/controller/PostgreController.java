@@ -198,7 +198,7 @@ public class PostgreController {
 				model.addAttribute("selectedData", "고객 응대 데이터");
 				break;
 			case "counsel_audio":
-				model.addAttribute("selectedRole", "상담 음성 데이터");
+				model.addAttribute("selectedData", "상담 음성 데이터");
 				break;
 			default:
 				break;
