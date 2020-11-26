@@ -6,11 +6,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- speaker 테이블에 데이터를 입력함 -->
 	<select id="insertIntoSpeaker" parameterType="kr.com.inspect.dto.Speaker">
   		INSERT INTO audio.speaker
-	  		(no, shortcut, occupation, sex, name, age, 
-	  		birthplace, current_residence, pricipal_residence, education,
-	  		metadata_id)
-	  		VALUES(#{no}, #{shortcut}, #{occupation}, #{sex}, #{name}, #{age}, 
-	  		#{birthplace}, #{current_residence}, #{pricipal_residence}, #{education},
-	  		#{metadata_id});
+	  			(no, 
+	  			shortcut, 
+	  			occupation, 
+	  			sex, 
+	  			name, 
+	  			age, 
+	  			birthplace, 
+	  			current_residence, 
+	  			pricipal_residence, 
+	  			education,
+	  			metadata_id)
+	  		VALUES(#{no}, 
+	  			#{shortcut}, 
+	  			#{occupation}, 
+	  			#{sex}, 
+	  			#{name}, 
+	  			#{age}, 
+	  			#{birthplace}, 
+	  			#{current_residence}, 
+	  			#{pricipal_residence}, 
+	  			#{education},
+	  			#{metadata_id});
 	</select>
 </mapper>
