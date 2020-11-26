@@ -114,7 +114,6 @@
 								<thead>
 									<tr>
 										<th>Id</th>
-										<th>type</th>
 										<th>제목</th>
 										<th>부제</th>
 										<th>Creator</th>
@@ -128,7 +127,6 @@
 									<c:forEach items="${result}" var="item">
 										<tr>
 											<td>${item.id}</td>
-											<td>${item.type}</td>
 											<td>${item.program.title}</td>
 											<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
 											<td>${item.creator}</td>
