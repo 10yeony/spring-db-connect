@@ -36,17 +36,16 @@ public class PostgreController {
 	 */
 	private String index = "audiolist";
 	
-	/**
-	 * 업로드될 JSON 파일이 담기는 경로<br>
-	 * (곧바로 파싱 후 DB에 등록되고 삭제됨. 일반 사용자가 사용하는 경로.)
-	 */
-	@Value("${input.uploadJson.directory}")
-	private String uploadJsonPath;
+//	/**
+//	 * 업로드될 JSON 파일이 담기는 경로<br>
+//	 * (곧바로 파싱 후 DB에 등록되고 삭제됨. 일반 사용자가 사용하는 경로.)
+//	 */
+//	@Value("${input.uploadJson.directory}")
+//	private String uploadJsonPath;
 	
 	/**
 	 * 업로드될 xlsx 파일이 담기는 경로<br>
-	 * (주기적으로 모니터링하여 일정한 시간에 파일이 있으면 파싱 후 DB에 등록하고 삭제함. <br>
-	 * 관리자가 사용하는 경로.)
+	 * (곧바로 파싱 후 DB에 등록되고 삭제됨. 일반 사용자가 사용하는 경로.)
 	 */
 	@Value("${input.uploadXlsx.directory}")
 	private String uploadXlsxPath;
@@ -54,7 +53,7 @@ public class PostgreController {
 	/**
 	 * 업로드될 JSON 파일이 담기는 경로<br>
 	 * (주기적으로 모니터링하여 일정한 시간에 파일이 있으면 파싱 후 DB에 등록하고 삭제함. <br>
-	 * 관리자가 사용하는 경로.)
+	 * 관리자와 사용자가 모두 사용하는 경로.)
 	 */
 	@Value("${input.json.directory}")
 	private String jsonPath;
@@ -93,12 +92,9 @@ public class PostgreController {
 	@RequestMapping(value = "/jsonUpload", method = RequestMethod.POST)
 	@ResponseBody
 	public String jsonUpload (@RequestParam("jsonFile") List<MultipartFile> multipartFile) throws Exception{
-		boolean flag = postgreService.insertJSONUpload(uploadJsonPath, multipartFile);
+		postgreService.insertJSONUpload(jsonPath, multipartFile);
 
-		if(flag == true)
-			return "true";
-		else
-			return "false";
+		return "true";
 	}
 
 	/**

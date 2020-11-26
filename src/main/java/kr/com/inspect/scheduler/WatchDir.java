@@ -61,42 +61,42 @@ public class WatchDir {
 
         logger.info("scheduler start " + day);
 
-//        File dirFrom = new File(pathFrom);
-//        File dirTo = new File(pathTo);
-//        File[] fileList = dirFrom.listFiles();
-//
-//        /* json 디렉토리에서 uploadJson 디렉토리로 파일 복사 */
-//        for(File file : fileList){
-//            File temp = new File(dirTo.getAbsolutePath()+File.separator+file.getName());
-//
-//            FileInputStream fis = null;
-//            FileOutputStream fos = null;
-//
-//            try {
-//                fis = new FileInputStream(file);
-//                fos = new FileOutputStream(temp);
-//                byte[] b = new byte[4096];
-//                int cnt = 0;
-//                while ((cnt=fis.read(b)) != -1){
-//                    fos.write(b, 0, cnt);
-//                }
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            } finally {
-//                try {
-//                    fis.close();
-//                    fos.close();
-//                } catch (IOException e){
-//                    e.printStackTrace();
-//                }
-//            }
-//            file.delete();
-//        }
-//
-//        /* uploadJson 디렉토리안의 파일을 파싱하고 삭제 */
-//        postgreService.insertJSONDir(pathTo);
+        File dirFrom = new File(pathFrom);
+        File dirTo = new File(pathTo);
+        File[] fileList = dirFrom.listFiles();
 
-        /* json 디렉토리안의 파일을 파싱하고 삭제 */
-        postgreService.insertJSONDir(pathFrom);
+        /* json 디렉토리에서 uploadJson 디렉토리로 파일 복사 */
+        for(File file : fileList){
+            File temp = new File(dirTo.getAbsolutePath()+File.separator+file.getName());
+
+            FileInputStream fis = null;
+            FileOutputStream fos = null;
+
+            try {
+                fis = new FileInputStream(file);
+                fos = new FileOutputStream(temp);
+                byte[] b = new byte[4096];
+                int cnt = 0;
+                while ((cnt=fis.read(b)) != -1){
+                    fos.write(b, 0, cnt);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            } finally {
+                try {
+                    fis.close();
+                    fos.close();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+            file.delete();
+        }
+
+        /* uploadJson 디렉토리안의 파일을 파싱하고 삭제 */
+        postgreService.insertJSONDir(pathTo);
+
+//        /* json 디렉토리안의 파일을 파싱하고 삭제 */
+//        postgreService.insertJSONDir(pathFrom);
     }
 }

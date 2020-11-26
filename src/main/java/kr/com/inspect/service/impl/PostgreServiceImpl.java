@@ -7,10 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import kr.com.inspect.dto.*;
+import kr.com.inspect.scheduler.WatchDir;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import kr.com.inspect.dao.ElasticDao;
@@ -29,6 +32,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class PostgreServiceImpl implements PostgreService{
+
+	/**
+	 * 로그 출력을 위한 logger
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(PostgreServiceImpl.class);
+
 	/**
 	 * 엘라스틱 dao 필드 선언
 	 */
@@ -150,7 +159,7 @@ public class PostgreServiceImpl implements PostgreService{
 	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
-	public boolean insertJSONUpload(String path, List<MultipartFile> jsonFile) throws Exception {
+	public void insertJSONUpload(String path, List<MultipartFile> jsonFile) throws Exception {
 		String filename;
 		File f;
 
@@ -163,94 +172,94 @@ public class PostgreServiceImpl implements PostgreService{
 			jsonFile.get(i).transferTo(f);
 		}
 
-		File dir = new File(path);
-		File[] fileList = dir.listFiles();
-		boolean check = false;
-
-		for(File file : fileList){
-			/* 확장자가 json인 파일을 읽는다 */
-		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
-		    	String fullPath = path + file.getName();
-
-				JsonLog jsonLog = new JsonLog();
-
-				/* jsonLog 테이블 시작시간 측정 */
-		    	jsonLog.setStart(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-				long startTime = System.currentTimeMillis();
-
-		    	/* json 파일을 읽어서 객체로 파싱 */
-				JSONObject obj = jsonParsing.getJSONObject(fullPath);
-
-				/* metadata 테이블 입력 */
-				Metadata metadata  = jsonParsing.setMetadata(obj);
-
-				/* metadata_id를 가져옴(creator, title) */
-				Map map = new HashMap();
-				map.put("creator", metadata.getCreator());
-				map.put("title", metadata.getTitle());
-				String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
-
-				if(isExistId == null) { //등록된 데이터가 아닐 경우
-					check = true;
-
-					/* metadata 테이블 입력 */
-					sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
-
-					/* auto increment로 등록된 id를 가져옴 */
-					int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
-
-					/* jsonLog 테이블에 파일명과 metadata_id 입력 */
-					jsonLog.setTitle(metadata.getTitle());
-					jsonLog.setMetadata_id(metadata_id);
-
-					/* speaker 테이블 입력 */
-					List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
-					for(Speaker speaker : speakerList) {
-						sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
-					}
-
-					/* utterance 테이블 입력 */
-					List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
-					for(Utterance utterance : utteranceList) {
-						sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
-						List<EojeolList> eojeolListList = utterance.getEojoelList();
-						for(EojeolList eojeolList : eojeolListList) {
-							sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
-						}
-					}
-
-					/* jsonLog 테이블 종료시간 측정 */
-					jsonLog.setFinish(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-					long endTime = System.currentTimeMillis();
-
-					/* jsonLog 테이블 소요시간 입력 */
-					int elapsed = (int)((endTime-startTime)/1000.0);
-					int min = elapsed/60;
-					int sec = elapsed - min*60;
-					jsonLog.setElapsed(""+min+":"+sec);
-
-					sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
-				}
-		    }
-		}
-
-		/* 서버 디렉토리에 파일 삭제 */
-		try{
-			while (dir.listFiles().length != 0){
-				File[] folder_list = dir.listFiles();
-
-				for (int j=0; j<folder_list.length; j++){
-					folder_list[j].delete();
-				}
-			}
-		}catch (Exception e){
-		}
-
-		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
-			return true;
-		}else { //모두 중복된 데이터일 경우
-			return false;
-		}
+//		File dir = new File(path);
+//		File[] fileList = dir.listFiles();
+//		boolean check = false;
+//
+//		for(File file : fileList){
+//			/* 확장자가 json인 파일을 읽는다 */
+//		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
+//		    	String fullPath = path + file.getName();
+//
+//				JsonLog jsonLog = new JsonLog();
+//
+//				/* jsonLog 테이블 시작시간 측정 */
+//		    	jsonLog.setStart(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+//				long startTime = System.currentTimeMillis();
+//
+//		    	/* json 파일을 읽어서 객체로 파싱 */
+//				JSONObject obj = jsonParsing.getJSONObject(fullPath);
+//
+//				/* metadata 테이블 입력 */
+//				Metadata metadata  = jsonParsing.setMetadata(obj);
+//
+//				/* metadata_id를 가져옴(creator, title) */
+//				Map map = new HashMap();
+//				map.put("creator", metadata.getCreator());
+//				map.put("title", metadata.getTitle());
+//				String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
+//
+//				if(isExistId == null) { //등록된 데이터가 아닐 경우
+//					check = true;
+//
+//					/* metadata 테이블 입력 */
+//					sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
+//
+//					/* auto increment로 등록된 id를 가져옴 */
+//					int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
+//
+//					/* jsonLog 테이블에 파일명과 metadata_id 입력 */
+//					jsonLog.setTitle(metadata.getTitle());
+//					jsonLog.setMetadata_id(metadata_id);
+//
+//					/* speaker 테이블 입력 */
+//					List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
+//					for(Speaker speaker : speakerList) {
+//						sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
+//					}
+//
+//					/* utterance 테이블 입력 */
+//					List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
+//					for(Utterance utterance : utteranceList) {
+//						sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
+//						List<EojeolList> eojeolListList = utterance.getEojoelList();
+//						for(EojeolList eojeolList : eojeolListList) {
+//							sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
+//						}
+//					}
+//
+//					/* jsonLog 테이블 종료시간 측정 */
+//					jsonLog.setFinish(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+//					long endTime = System.currentTimeMillis();
+//
+//					/* jsonLog 테이블 소요시간 입력 */
+//					int elapsed = (int)((endTime-startTime)/1000.0);
+//					int min = elapsed/60;
+//					int sec = elapsed - min*60;
+//					jsonLog.setElapsed(""+min+":"+sec);
+//
+//					sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
+//				}
+//		    }
+//		}
+//
+//		/* 서버 디렉토리에 파일 삭제 */
+//		try{
+//			while (dir.listFiles().length != 0){
+//				File[] folder_list = dir.listFiles();
+//
+//				for (int j=0; j<folder_list.length; j++){
+//					folder_list[j].delete();
+//				}
+//			}
+//		}catch (Exception e){
+//		}
+//
+//		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
+//			return true;
+//		}else { //모두 중복된 데이터일 경우
+//			return false;
+//		}
 	}
 
 	/**
@@ -271,6 +280,8 @@ public class PostgreServiceImpl implements PostgreService{
 		for(File file : fileList){
 			/* 확장자가 json인 파일을 읽는다 */
 			if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
+				logger.info("start file " + file.getName());
+
 				String fullPath = path + file.getName();
 
 				JsonLog jsonLog = new JsonLog();
@@ -332,6 +343,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 					sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
 				}
+				logger.info("finish file " + file.getName());
 			}
 			file.delete();
 		}

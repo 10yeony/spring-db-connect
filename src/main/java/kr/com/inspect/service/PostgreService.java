@@ -56,7 +56,7 @@ public interface PostgreService {
 	 * @return
 	 * @throws Exception 예외 처리
 	 */
-	public boolean insertJSONUpload(String path, List<MultipartFile> file) throws Exception;
+	public void insertJSONUpload(String path, List<MultipartFile> file) throws Exception;
 
 	/**
 	 * 서버 디렉토리 안의 json 파일을 PostgreSQL에 넣음
