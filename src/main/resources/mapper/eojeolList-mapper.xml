@@ -6,8 +6,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- eojeolList 테이블에 데이터를 입력함 -->
 	<insert id="insertIntoEojeolList" parameterType="kr.com.inspect.dto.EojeolList">
 		INSERT INTO audio.eojeolList
-			(id, standard, eojeol, finish, isDialect, begin, utterance_id, metadata_id)
-			VALUES(#{id}, #{standard}, #{eojeol}, #{finish}, #{isDialect}, #{begin}, #{utterance_id}, #{metadata_id});
+				(id,
+				standard, 
+				eojeol, 
+				finish, 
+				isDialect, 
+				begin, 
+				utterance_id, 
+				metadata_id)
+			VALUES(#{id}, 
+				#{standard}, 
+				#{eojeol}, 
+				#{finish}, 
+				#{isDialect}, 
+				#{begin}, 
+				#{utterance_id}, 
+				#{metadata_id});
 	</insert>
 	
 	<!-- utterance_id 를 이용하여 eojeollist 데이터 가져오기 -->

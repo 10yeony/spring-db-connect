@@ -18,8 +18,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- utterance 테이블에 데이터를 입력함 -->
 	<insert id="insertIntoUtterance" parameterType="kr.com.inspect.dto.Utterance">
 		INSERT INTO audio.utterance
-			(id, note, standard_form, dialect_form, form, speaker_no, start, finish, metadata_id)
-			VALUES(#{id}, #{note}, #{standard_form}, #{dialect_form}, #{form}, #{speaker_no}, #{start}, #{finish}, #{metadata_id});
+				(id,
+				note,
+				standard_form,
+				dialect_form,
+				form,
+				speaker_no,
+				start,
+				finish,
+				metadata_id)
+			VALUES(#{id},
+				#{note},
+		 		#{standard_form}, 
+		 		#{dialect_form}, 
+		 		#{form}, 
+		 		#{speaker_no}, 
+		 		#{start}, 
+		 		#{finish}, 
+		 		#{metadata_id});
 	</insert>
 	
 	<!-- Metadata id로 Utterance를 가져옴(어절 개수 포함) -->
