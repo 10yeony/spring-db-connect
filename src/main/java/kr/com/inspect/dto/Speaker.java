@@ -7,41 +7,70 @@ package kr.com.inspect.dto;
  */
 
 public class Speaker {
+	
 	/**
 	 * primary key, auto increment
 	 */
-	private int id; //
+	private int id;
+	
 	/**
 	 * 한 강의에서 발화자 번호
 	 */
-	private int no; //
+	private int no;
+	
 	/**
 	 * 
 	 */
 	private int shortcut;
+	
 	/**
 	 * 직업
 	 */
 	private String occupation;
+	
 	/**
 	 * 성별
 	 */
 	private String sex;
+	
 	/**
 	 * 이름
 	 */
 	private String name;
+	
 	/**
 	 * 나이
 	 */
 	private String age;
+	
+	/*
+	 * 출생지
+	 */
+	private String birthplace;
+	
+	/*
+	 * 현재 거주지
+	 */
+	private String current_residence;
+	
+	/*
+	 * 주요 거주지
+	 */
+	private String pricipal_residence;
+	
+	/*
+	 * 학력사항 
+	 */
+	private String education;
+	
 	/**
 	 * foreign key
 	 */
 	private int metadata_id;
 	
 	public Speaker() {}
-	public Speaker(int id, int no, int shortcut, String occupation, String sex, String name, String age, int metadata_id) {
+	public Speaker(int id, int no, int shortcut, String occupation, String sex, String name, String age,
+			String birthplace, String current_residence, String pricipal_residence, String education, int metadata_id) {
 		super();
 		this.id = id;
 		this.no = no;
@@ -50,9 +79,13 @@ public class Speaker {
 		this.sex = sex;
 		this.name = name;
 		this.age = age;
+		this.birthplace = birthplace;
+		this.current_residence = current_residence;
+		this.pricipal_residence = pricipal_residence;
+		this.education = education;
 		this.metadata_id = metadata_id;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -101,10 +134,36 @@ public class Speaker {
 	public void setMetadata_id(int metadata_id) {
 		this.metadata_id = metadata_id;
 	}
+	public String getBirthplace() {
+		return birthplace;
+	}
+	public void setBirthplace(String birthplace) {
+		this.birthplace = birthplace;
+	}
+	public String getCurrent_residence() {
+		return current_residence;
+	}
+	public void setCurrent_residence(String current_residence) {
+		this.current_residence = current_residence;
+	}
+	public String getPricipal_residence() {
+		return pricipal_residence;
+	}
+	public void setPricipal_residence(String pricipal_residence) {
+		this.pricipal_residence = pricipal_residence;
+	}
+	public String getEducation() {
+		return education;
+	}
+	public void setEducation(String education) {
+		this.education = education;
+	}
 	
 	@Override
 	public String toString() {
 		return "Speaker [id=" + id + ", no=" + no + ", shortcut=" + shortcut + ", occupation=" + occupation + ", sex="
-				+ sex + ", name=" + name + ", age=" + age + ", metadata_id=" + metadata_id + "]";
+				+ sex + ", name=" + name + ", age=" + age + ", birthplace=" + birthplace + ", current_residence="
+				+ current_residence + ", pricipal_residence=" + pricipal_residence + ", education=" + education
+				+ ", metadata_id=" + metadata_id + "]";
 	}
 }

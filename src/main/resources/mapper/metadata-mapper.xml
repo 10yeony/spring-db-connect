@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
     	<result column="sampling" property="sampling" />
     	<result column="metadata_title" property="title" />
     	<result column="category" property="category" />
+    	<result column="audio_type" property="audio_type" />
     	<result column="distributor" property="distributor" />
     	<result column="relation" property="relation" />
     	<result column="sentence_count" property="sentence_count" />
@@ -33,6 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				sampling, 
 				title, 
 				category, 
+				audio_type,
 				distributor, 
 				relation)
 			VALUES(#{creator}, 
@@ -41,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				#{sampling}, 
 				#{title}, 
 				#{category}, 
+				#{audio_type},
 				#{distributor}, 
 				#{relation});
 	</insert>
@@ -91,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   			m.sampling sampling,
   			m.title metadata_title,
   			m.category category,
+  			m.audio_type audio_type,
   			m.distributor distributor,
   			m.relation relation,
   			p.id program_id,
@@ -129,6 +133,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   			m.sampling sampling,
   			m.title metadata_title,
   			m.category category,
+  			m.audio_type audio_type,
   			m.distributor distributor,
   			m.relation relation,
   			p.id program_id,

@@ -183,19 +183,19 @@ public class PostgreServiceImpl implements PostgreService{
 
 				/* metadata 테이블 입력 */
 				Metadata metadata  = jsonParsing.setMetadata(obj);
-
+				
 				/* metadata_id를 가져옴(creator, title) */
 				Map map = new HashMap();
 				map.put("creator", metadata.getCreator());
 				map.put("title", metadata.getTitle());
 				String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
-
+				
 				if(isExistId == null) { //등록된 데이터가 아닐 경우
 					check = true;
-
+					
 					/* metadata 테이블 입력 */
-					sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
-
+					int metadata_result = sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
+					
 					/* auto increment로 등록된 id를 가져옴 */
 					int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
 
@@ -206,13 +206,13 @@ public class PostgreServiceImpl implements PostgreService{
 					/* speaker 테이블 입력 */
 					List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
 					for(Speaker speaker : speakerList) {
-						sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
+						int speaker_result = sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
 					}
 
 					/* utterance 테이블 입력 */
 					List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
 					for(Utterance utterance : utteranceList) {
-						sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
+						int utterance_result = sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
 						List<EojeolList> eojeolListList = utterance.getEojoelList();
 						for(EojeolList eojeolList : eojeolListList) {
 							sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력

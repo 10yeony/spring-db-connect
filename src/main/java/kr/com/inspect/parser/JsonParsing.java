@@ -63,10 +63,10 @@ public class JsonParsing {
 		metadata.setSampling(map.get("sampling").toString());
 		metadata.setTitle(map.get("title").toString());
 		metadata.setCategory(map.get("category").toString());
+		metadata.setAudio_type(map.get("title").toString().substring(0, 2));
 		metadata.setDistributor(map.get("distributor").toString());
 		map = (Map) obj.get("setting");
 		metadata.setRelation(map.get("relation").toString());
-		
 		return metadata;
 	}
 	
@@ -100,6 +100,18 @@ public class JsonParsing {
 			}
 			if(!ObjectUtils.isEmpty(element.get("age"))) {
 				speaker.setAge(element.get("age").toString());
+			}
+			if(!ObjectUtils.isEmpty(element.get("birthplace"))) {
+				speaker.setBirthplace(element.get("birthplace").toString());
+			}
+			if(!ObjectUtils.isEmpty(element.get("current_residence"))) {
+				speaker.setCurrent_residence(element.get("current_residence").toString());
+			}
+			if(!ObjectUtils.isEmpty(element.get("pricipal_residence"))) {
+				speaker.setPricipal_residence(element.get("pricipal_residence").toString());
+			}
+			if(!ObjectUtils.isEmpty(element.get("education"))) {
+				speaker.setEducation(element.get("education").toString());
 			}
 			speaker.setMetadata_id(metadata_id); //foreign key
 		    speakerList.add(speaker);
