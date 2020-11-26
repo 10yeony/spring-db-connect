@@ -45,7 +45,7 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h1 class="h3 mb-2 text-gray-800"><b>한국어 강의 데이터 목록</b></h1>
+					<h1 class="h3 mb-2 text-gray-800"><b>전사 데이터 목록</b></h1>
 					<div>
 						<!-- 파일 다운로드 버튼 -->
 						<a href="${pageContext.request.contextPath}/metadata/docx" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
@@ -114,6 +114,7 @@
 								<thead>
 									<tr>
 										<th>Id</th>
+										<th>type</th>
 										<th>제목</th>
 										<th>부제</th>
 										<th>Creator</th>
@@ -127,6 +128,7 @@
 									<c:forEach items="${result}" var="item">
 										<tr>
 											<td>${item.id}</td>
+											<td>${item.type}</td>
 											<td>${item.program.title}</td>
 											<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
 											<td>${item.creator}</td>
