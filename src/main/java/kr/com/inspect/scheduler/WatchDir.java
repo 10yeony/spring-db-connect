@@ -55,11 +55,11 @@ public class WatchDir {
      * 10분마다 디렉토리를 감시하며 json 파일을 DB에 파싱
      * @throws Exception 예외처리
      */
-//    @Scheduled(fixedDelay = 600000)
+    @Scheduled(fixedDelay = 60000)
     public void watchDir() throws Exception {
         String day = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
-        logger.info(day);
+        logger.info("scheduler start " + day);
 
 //        File dirFrom = new File(pathFrom);
 //        File dirTo = new File(pathTo);
@@ -95,5 +95,8 @@ public class WatchDir {
 //
 //        /* uploadJson 디렉토리안의 파일을 파싱하고 삭제 */
 //        postgreService.insertJSONDir(pathTo);
+
+        /* json 디렉토리안의 파일을 파싱하고 삭제 */
+        postgreService.insertJSONDir(pathFrom);
     }
 }
