@@ -2,12 +2,12 @@ package kr.com.inspect.service.impl;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import kr.com.inspect.dto.*;
-import kr.com.inspect.scheduler.WatchDir;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.elasticsearch.search.SearchHit;
@@ -16,12 +16,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import kr.com.inspect.dao.ElasticDao;
 import kr.com.inspect.dao.PostgreDao;
+import kr.com.inspect.dto.EojeolList;
+import kr.com.inspect.dto.JsonLog;
+import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Program;
+import kr.com.inspect.dto.Speaker;
+import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * PostgreSQL Service
@@ -454,8 +461,26 @@ public class PostgreServiceImpl implements PostgreService{
 	 * Metadata 테이블과 Program 테이블을 조인해서 가져옴
 	 * @return 조인값을 리스트에 담아 리턴
 	 */
-	public List<Metadata> getMetadataAndProgram(){
-		return postgreDao.getMetadataAndProgram();
+	public List<Metadata> getMetadataAndProgram(String data){
+		List<Metadata> list = new ArrayList<>();
+		switch(data) {
+			case "all": //전체
+				list = postgreDao.getMetadataAndProgram();
+				break;
+			case "korean_lecture": //한국어 강의 데이터
+				list = postgreDao.getMetadataAndProgramInLecture();
+				break;
+			case "meeting_audio": //회의 음성 데이터
+				list = postgreDao.getMetadataAndProgramInMeeting();
+				break;
+			case "customer_reception": //고객 응대 데이터
+				break;
+			case "counsel_audio": //상담 음성 데이터
+				break;
+			default:
+				break;
+		}
+		return list;
 	}
 
 	/**

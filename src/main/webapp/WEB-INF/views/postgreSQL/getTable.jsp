@@ -45,7 +45,10 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h1 class="h3 mb-2 text-gray-800"><b>전사 데이터 목록</b></h1>
+					<h1 class="h3 mb-2 text-gray-800">
+						<b>전사 데이터 목록</b>
+						<span style="font-size:18px;">(${selectedData})</span>
+					</h1>
 					<div>
 						<!-- 파일 다운로드 버튼 -->
 						<a href="${pageContext.request.contextPath}/metadata/docx" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
@@ -103,6 +106,14 @@
 
 					<div class="card-body">
 						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+							<select class="form-control" id="dataSelect" style="margin-right:3px;" onchange="selectData()">
+								<option>데이터 선택</option>
+    							<option value="all">전체</option>
+    							<option value="korean_lecture">한국어 강의</option>
+    							<option value="meeting_audio">회의 음성</option>
+    							<option value="customer_reception">고객 응대</option>
+    							<option value="counsel_audio">상담 음성</option>
+  							</select>
 							<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
 								   id="inputSearchText">
 							<button class="btn btn-primary" type="button">
@@ -196,6 +207,12 @@ function send(type, fileurl){
 		alert("메일이 전송됩니다.");
 	else if(type == 'sms')
 		alert("문자가 전송됩니다.");
+}
+
+function selectData(){
+	var selectOption = document.getElementById("dataSelect");
+	selectOption = selectOption.options[selectOption.selectedIndex].value;
+	location.href = '${pageContext.request.contextPath}/' + "getMetadataAndProgram?data=" + selectOption;
 }
 </script>
 

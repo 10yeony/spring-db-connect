@@ -87,7 +87,7 @@ public interface PostgreService {
 	 * Metadata 테이블과 Program 테이블을 조인해서 가져옴
 	 * @return
 	 */
-	public List<Metadata> getMetadataAndProgram();
+	public List<Metadata> getMetadataAndProgram(String data);
 
 	/**
 	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴

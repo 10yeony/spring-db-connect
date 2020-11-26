@@ -57,12 +57,30 @@ public class PostgreDaoImpl implements PostgreDao {
 	}
 	
 	/**
-	 * Metadata 테이블과 Program 테이블을 조인해서 가져옴
+	 * Metadata 테이블과 Program 테이블을 조인해서 전체 데이터를 가져옴
 	 * @return 조인값을 리스트에 담아 리턴
 	 */
 	@Override
 	public List<Metadata> getMetadataAndProgram(){
 		List<Metadata> list = sqlSession.selectList(metadataNS+"getMetadataAndProgram");
+		return list;
+	}
+	
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 한국어 강의 데이터를 가져옴
+	 * @return 조인값을 리스트로 담아 리턴
+	 */
+	public List<Metadata> getMetadataAndProgramInLecture(){
+		List<Metadata> list = sqlSession.selectList(metadataNS+"getMetadataAndProgramInLecture");
+		return list;
+	}
+	
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 회의 음성데이터를 가져옴
+	 * @return 조인값을 리스트로 담아 리턴
+	 */
+	public List<Metadata> getMetadataAndProgramInMeeting(){
+		List<Metadata> list = sqlSession.selectList(metadataNS+"getMetadataAndProgramInMeeting");
 		return list;
 	}
 
