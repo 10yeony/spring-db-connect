@@ -127,11 +127,14 @@ public class JsonParsing {
 		    if(!ObjectUtils.isEmpty(element.get("note"))) {
 		    	utterance.setNote(element.get("note").toString());
 		    }
+		    if(!ObjectUtils.isEmpty(element.get("form"))) {
+		    	utterance.setForm(element.get("form").toString());
+		    }
 		    if(!ObjectUtils.isEmpty(element.get("standard_form"))) {
 		    	utterance.setStandard_form(element.get("standard_form").toString());
 		    }
-		    if(!ObjectUtils.isEmpty(element.get("form"))) {
-		    	utterance.setForm(element.get("form").toString());
+		    if(!ObjectUtils.isEmpty(element.get("dialect_form"))) {
+		    	utterance.setDialect_form(element.get("dialect_form").toString());
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("speaker_id"))) {
 		    	utterance.setSpeaker_no(element.get("speaker_id").toString());
