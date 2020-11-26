@@ -57,9 +57,14 @@ public class XlsxReport {
 	 * @param path 파일 디렉토리
 	 * @param list 객체를 담을 리스트
 	 * @param flag 해당 요청이 download인지, mail인지, sms인지 결정해주는 변수
+	 * @param title 파일 내용의 제목
 	 * @throws Exception 예외처리
 	 */
-	public void writeXlsxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag) throws Exception {
+	public void writeXlsxMetadata(HttpServletResponse response, 
+										String path, 
+										List<Metadata> list, 
+										String flag,
+										String title) throws Exception {
 		String xlsxFileName =
 				"LectureList_"+
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
@@ -79,7 +84,7 @@ public class XlsxReport {
 
 		row = sheet.createRow(2);
 		cell = row.createCell(0);
-		cell.setCellValue("한국어 강의 목록 리스트");
+		cell.setCellValue(title);
 		sheet.addMergedRegion(new CellRangeAddress(2,2,0,1));
 
 
@@ -110,15 +115,21 @@ public class XlsxReport {
 			cell = row.createCell(0);
 			cell.setCellValue(metadata.getId());
 			cell = row.createCell(1);
-			cell.setCellValue(metadata.getProgram().getTitle());
+			if(metadata.getProgram()!= null) {
+				cell.setCellValue(metadata.getProgram().getTitle());
+			}
 			cell = row.createCell(2);
-			cell.setCellValue(metadata.getProgram().getSubtitle());
+			if(metadata.getProgram()!= null) {
+				cell.setCellValue(metadata.getProgram().getSubtitle());
+			}
 			cell = row.createCell(3);
 			cell.setCellValue(metadata.getCreator());
 			cell = row.createCell(4);
 			cell.setCellValue(metadata.getTitle());
 			cell = row.createCell(5);
-			cell.setCellValue(metadata.getProgram().getRunning_time());
+			if(metadata.getProgram()!= null) {
+				cell.setCellValue(metadata.getProgram().getRunning_time());
+			}
 			cell = row.createCell(6);
 			cell.setCellValue(Integer.toString(metadata.getSentence_count()));
 			cell = row.createCell(7);

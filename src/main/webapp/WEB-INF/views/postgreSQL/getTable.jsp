@@ -25,6 +25,8 @@
 </head>
 
 <body id="page-top">
+<!-- data type -->
+<input type="hidden" id="show_data_type" value="${data}">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -106,7 +108,7 @@
 
 					<div class="card-body">
 						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
-							<select class="form-control" id="dataSelect" style="margin-right:3px;" onchange="selectData()">
+							<select class="form-control" id="dataSelect" style="margin-right:3px;">
 								<option>데이터 선택</option>
     							<option value="all">전체</option>
     							<option value="korean_lecture">한국어 강의</option>
@@ -183,11 +185,16 @@ $(document).ready(function() {
 
 		$(temp).parent().show();
 	})
+	
+	$('#dataSelect').change(function(){
+		var selectOption = $(this).val();
+		location.href = '${pageContext.request.contextPath}/' + "getMetadataAndProgram?data=" + selectOption;
+	});
 })
 
 function send(type, fileurl){
-	var dataType = document.getElementById("present_data_type").value;
-	var url = '${pageContext.request.contextPath}/' + fileurl + "/${data}';
+	var dataType = document.getElementById("show_data_type").value;
+	var url = '${pageContext.request.contextPath}/' + fileurl + '/'+ dataType;
 
 	$.ajax({
 		type:"GET",
@@ -208,12 +215,6 @@ function send(type, fileurl){
 		alert("메일이 전송됩니다.");
 	else if(type == 'sms')
 		alert("문자가 전송됩니다.");
-}
-
-function selectData(){
-	var selectOption = document.getElementById("dataSelect");
-	selectOption = selectOption.options[selectOption.selectedIndex].value;
-	location.href = '${pageContext.request.contextPath}/' + "getMetadataAndProgram?data=" + selectOption;
 }
 </script>
 
