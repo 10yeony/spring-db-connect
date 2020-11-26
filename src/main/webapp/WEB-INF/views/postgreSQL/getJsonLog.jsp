@@ -65,9 +65,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${jsonLog}" var="item">
+                                    <c:forEach items="${jsonLog}" var="item" varStatus="status">
                                         <tr>
-                                            <td>${item.id}</td>
+                                            <td>${status.count}</td>
                                             <td><a href="getUtteranceTable/${item.metadata_id}">${item.title}</a></td>
                                             <td>${item.program.title}</td>
                                             <td>${item.program.subtitle}</td>

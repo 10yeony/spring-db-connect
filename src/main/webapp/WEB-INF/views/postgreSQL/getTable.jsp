@@ -124,9 +124,9 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${result}" var="item">
+									<c:forEach items="${result}" var="item" varStatus="status">
 										<tr>
-											<td>${item.id}</td>
+											<td>${status.count}</td>
 											<td>${item.program.title}</td>
 											<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
 											<td>${item.creator}</td>

@@ -65,10 +65,6 @@ public class WatchDir {
      */
     @Scheduled(fixedDelay = 600000)
     public void watchDir() throws Exception {
-        String day = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-
-        logger.info("scheduler start " + day);
-
         File dirFrom = new File(pathFrom);
         File dirTo = new File(pathTo);
         File dirStor = new File(pathStorage);

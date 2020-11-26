@@ -83,8 +83,10 @@ public class XlsxParsing {
 										
 									case 4: // 방송시간
 										Date time = curCell.getDateCellValue();
-										String timeString = new SimpleDateFormat("mm:ss").format(time);
-										program.setRunning_time("0:"+timeString);
+										String timeString = new SimpleDateFormat("hh:mm:ss").format(time);
+										if(timeString.substring(0,2).equals("12"))
+											timeString = "00"+timeString.substring(2,timeString.length());
+										program.setRunning_time(timeString);
 										break;
 		
 									default:
