@@ -55,7 +55,7 @@ public class WatchDir {
      * 10분마다 디렉토리를 감시하며 json 파일을 DB에 파싱
      * @throws Exception 예외처리
      */
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 600000)
     public void watchDir() throws Exception {
         String day = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
