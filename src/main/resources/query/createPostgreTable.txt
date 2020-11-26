@@ -8,6 +8,7 @@ CREATE TABLE audio.metadata (
     sampling text,
     title text NOT NULL,
     category text,
+    audio_type text,
     distributor text,
     relation text
 ); 
@@ -20,14 +21,19 @@ CREATE TABLE audio.speaker (
 	sex text,
 	name text,
 	age text,
+	birthplace text,
+	current_residence text,
+	pricipal_residence text,
+	education text,
 	metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
 );
 
 CREATE TABLE audio.utterance (
 	id text PRIMARY KEY,
 	note text,
-	standard_form text,
 	form text,
+	standard_form text,
+	dialect_form text,
 	speaker_no text,
 	start numeric,
 	finish numeric,
@@ -43,6 +49,15 @@ CREATE TABLE audio.eojeolList (
 	begin integer,
 	utterance_id text REFERENCES audio.utterance ON DELETE CASCADE, 
 	metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
+);
+
+CREATE TABLE audio.jsonLog (
+    id SERIAL PRIMARY KEY,
+    title text,
+    start text,
+    finish text,
+    elapsed text,
+    metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
 );
 
 CREATE TABLE audio.program (
@@ -65,17 +80,8 @@ CREATE TABLE audio.member (
 );
 
 CREATE TABLE audio.authority (
-	username text,
+	username text REFERENCES audio.member ON DELETE CASCADE,
 	authority_name text
-);
-
-CREATE TABLE audio.jsonLog (
-    id SERIAL PRIMARY KEY,
-    title text,
-    start text,
-    finish text,
-    elapsed text,
-    metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
 );
 
 CREATE TABLE persistent_logins (

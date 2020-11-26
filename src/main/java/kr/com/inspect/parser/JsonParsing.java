@@ -63,10 +63,10 @@ public class JsonParsing {
 		metadata.setSampling(map.get("sampling").toString());
 		metadata.setTitle(map.get("title").toString());
 		metadata.setCategory(map.get("category").toString());
+		metadata.setAudio_type(map.get("title").toString().substring(0, 2));
 		metadata.setDistributor(map.get("distributor").toString());
 		map = (Map) obj.get("setting");
 		metadata.setRelation(map.get("relation").toString());
-		
 		return metadata;
 	}
 	
@@ -101,6 +101,18 @@ public class JsonParsing {
 			if(!ObjectUtils.isEmpty(element.get("age"))) {
 				speaker.setAge(element.get("age").toString());
 			}
+			if(!ObjectUtils.isEmpty(element.get("birthplace"))) {
+				speaker.setBirthplace(element.get("birthplace").toString());
+			}
+			if(!ObjectUtils.isEmpty(element.get("current_residence"))) {
+				speaker.setCurrent_residence(element.get("current_residence").toString());
+			}
+			if(!ObjectUtils.isEmpty(element.get("pricipal_residence"))) {
+				speaker.setPricipal_residence(element.get("pricipal_residence").toString());
+			}
+			if(!ObjectUtils.isEmpty(element.get("education"))) {
+				speaker.setEducation(element.get("education").toString());
+			}
 			speaker.setMetadata_id(metadata_id); //foreign key
 		    speakerList.add(speaker);
 		}
@@ -127,11 +139,14 @@ public class JsonParsing {
 		    if(!ObjectUtils.isEmpty(element.get("note"))) {
 		    	utterance.setNote(element.get("note").toString());
 		    }
+		    if(!ObjectUtils.isEmpty(element.get("form"))) {
+		    	utterance.setForm(element.get("form").toString());
+		    }
 		    if(!ObjectUtils.isEmpty(element.get("standard_form"))) {
 		    	utterance.setStandard_form(element.get("standard_form").toString());
 		    }
-		    if(!ObjectUtils.isEmpty(element.get("form"))) {
-		    	utterance.setForm(element.get("form").toString());
+		    if(!ObjectUtils.isEmpty(element.get("dialect_form"))) {
+		    	utterance.setDialect_form(element.get("dialect_form").toString());
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("speaker_id"))) {
 		    	utterance.setSpeaker_no(element.get("speaker_id").toString());

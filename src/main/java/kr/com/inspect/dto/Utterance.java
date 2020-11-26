@@ -13,55 +13,71 @@ public class Utterance {
 	 * primary key, 문장을 구분하기 위한 uuid 형식의 아이디
 	 */
 	private String id;
+	
 	/**
-	 * 
+	 * 노트
 	 */
 	private String note;
-	/**
-	 * 표준어 문장
-	 */
-	private String standard_form;
+	
 	/**
 	 * 문장(방언일 경우 standard_form과 다름)
 	 */
 	private String form;
+	
+	/**
+	 * 표준어 문장
+	 */
+	private String standard_form;
+	
+	/**
+	 * 방언 문장
+	 */
+	private String dialect_form;
+	
 	/**
 	 * 발화자 번호
 	 */
 	private String speaker_no;
+	
 	/**
 	 * 시작 시간
 	 */
 	private double start;
+	
 	/**
 	 * 끝나는 시간
 	 */
 	private double finish;
+	
 	/**
 	 * 어절 개수(COUNT 함수로 가져와서 조인함)
 	 */
 	private int eojeol_count;
+	
 	/**
 	 * foreign key
 	 */
 	private int metadata_id;
+	
 	/**
 	 * EojeolList 테이블
 	 */
 	private List<EojeolList> eojoelList;
+	
 	/**
 	 * Speaker 테이블
 	 */
 	private List<Speaker> speaker;
 	
 	public Utterance() {}
-	public Utterance(String id, String note, String standard_form, String form, String speaker_no, double start,
+	public Utterance(String id, String note, String form, String standard_form, String dialect_form, String speaker_no, double start,
 			double finish, int eojeol_count, int metadata_id, List<EojeolList> eojoelList, List<Speaker> speaker) {
 		super();
 		this.id = id;
 		this.note = note;
-		this.standard_form = standard_form;
 		this.form = form;
+		this.standard_form = standard_form;
+		this.dialect_form = dialect_form;
 		this.speaker_no = speaker_no;
 		this.start = start;
 		this.finish = finish;
@@ -83,17 +99,23 @@ public class Utterance {
 	public void setNote(String note) {
 		this.note = note;
 	}
+	public String getForm() {
+		return form;
+	}
+	public void setForm(String form) {
+		this.form = form;
+	}
 	public String getStandard_form() {
 		return standard_form;
 	}
 	public void setStandard_form(String standard_form) {
 		this.standard_form = standard_form;
 	}
-	public String getForm() {
-		return form;
+	public String getDialect_form() {
+		return dialect_form;
 	}
-	public void setForm(String form) {
-		this.form = form;
+	public void setDialect_form(String dialect_form) {
+		this.dialect_form = dialect_form;
 	}
 	public String getSpeaker_no() {
 		return speaker_no;
@@ -140,9 +162,9 @@ public class Utterance {
 	
 	@Override
 	public String toString() {
-		return "Utterance [id=" + id + ", note=" + note + ", standard_form=" + standard_form + ", form=" + form
-				+ ", speaker_no=" + speaker_no + ", start=" + start + ", finish=" + finish + ", eojeol_count="
-				+ eojeol_count + ", metadata_id=" + metadata_id + ", eojoelList=" + eojoelList + ", speaker=" + speaker
-				+ "]";
+		return "Utterance [id=" + id + ", note=" + note + ", form=" + form + ", standard_form=" + standard_form
+				+ ", dialect_form=" + dialect_form + ", speaker_no=" + speaker_no + ", start=" + start + ", finish="
+				+ finish + ", eojeol_count=" + eojeol_count + ", metadata_id=" + metadata_id + ", eojoelList="
+				+ eojoelList + ", speaker=" + speaker + "]";
 	}
 }

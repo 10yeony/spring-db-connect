@@ -13,11 +13,13 @@ public class Metadata {
 	/**
 	 * primary key, auto increment
 	 */
-	private int id; //
+	private int id; 
+	
 	/**
 	 * 스크립트 작성자
 	 */
-	private String creator; //
+	private String creator; 
+	
 	/**
 	 * 
 	 */
@@ -25,7 +27,8 @@ public class Metadata {
 	/**
 	 * 제작년도
 	 */
-	private String year; //
+	private String year; 
+	
 	/**
 	 * 
 	 */
@@ -33,35 +36,49 @@ public class Metadata {
 	/**
 	 * 파일이름
 	 */
-	private String title; //
+	private String title; 
+	
 	/**
 	 * 
 	 */
 	private String category;
+	
+	/**
+	 * 파일명에서 앞두글자를 따옴<br>
+	 * (강의/회의/상담/고객응대에 따라 파일명 패턴이 다름)
+	 */
+	private String audio_type;
+	
 	/**
 	 * 
 	 */
 	private String distributor;
+	
 	/**
 	 * 
 	 */
 	private String relation;
+	
 	/**
 	 * 문장 개수(COUNT 함수로 가져와서 조인함)
 	 */
 	private int sentence_count;
+	
 	/**
 	 * 어절 개(COUNT 함수로 가져와서 조인함)
 	 */
 	private int eojeol_total;
+	
 	/**
 	 * Program 테이블
 	 */
 	private Program program;
+	
 	/**
 	 * Speaker 테이블
 	 */
 	private List<Speaker> speaker;
+	
 	/**
 	 * Utterance 테이블
 	 */
@@ -71,7 +88,7 @@ public class Metadata {
 	}
 
 	public Metadata(int id, String creator, String annotation_level, String year, String sampling, String title,
-			String category, String distributor, String relation, int sentence_count, int eojeol_total, Program program,
+			String category, String audio_type, String distributor, String relation, int sentence_count, int eojeol_total, Program program,
 			List<Speaker> speaker, List<Utterance> utterance) {
 		super();
 		this.id = id;
@@ -81,6 +98,7 @@ public class Metadata {
 		this.sampling = sampling;
 		this.title = title;
 		this.category = category;
+		this.audio_type = audio_type;
 		this.distributor = distributor;
 		this.relation = relation;
 		this.sentence_count = sentence_count;
@@ -145,6 +163,14 @@ public class Metadata {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	
+	public String getAudio_type() {
+		return audio_type;
+	}
+
+	public void setAudio_type(String audio_type) {
+		this.audio_type = audio_type;
+	}
 
 	public String getDistributor() {
 		return distributor;
@@ -205,8 +231,9 @@ public class Metadata {
 	@Override
 	public String toString() {
 		return "Metadata [id=" + id + ", creator=" + creator + ", annotation_level=" + annotation_level + ", year="
-				+ year + ", sampling=" + sampling + ", title=" + title + ", category=" + category + ", distributor="
-				+ distributor + ", relation=" + relation + ", sentence_count=" + sentence_count + ", eojeol_total="
-				+ eojeol_total + ", program=" + program + ", speaker=" + speaker + ", utterance=" + utterance + "]";
+				+ year + ", sampling=" + sampling + ", title=" + title + ", category=" + category + ", audio_type="
+				+ audio_type + ", distributor=" + distributor + ", relation=" + relation + ", sentence_count="
+				+ sentence_count + ", eojeol_total=" + eojeol_total + ", program=" + program + ", speaker=" + speaker
+				+ ", utterance=" + utterance + "]";
 	}
 }
