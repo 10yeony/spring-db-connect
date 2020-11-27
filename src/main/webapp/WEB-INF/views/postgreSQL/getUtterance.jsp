@@ -47,8 +47,10 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h5 class="h5 mb-2 text-gray-800">
-                    	<span><b>${metadata.program.title} - ${metadata.program.subtitle}</b><br/></span>
-                    	<span><b>running time :</b> ${metadata.program.running_time}<br/></span>
+	                    <c:if test="${metadata.program != null}">
+	                    	<span><b>${metadata.program.title} - ${metadata.program.subtitle}</b><br/></span>
+	                    	<span><b>running time :</b> ${metadata.program.running_time}<br/></span>
+	                    </c:if>
                     	<span><b>creator :</b> ${metadata.creator}<br/></span>
                     </h5>
                     <div>
