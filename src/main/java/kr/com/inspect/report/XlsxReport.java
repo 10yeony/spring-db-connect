@@ -192,13 +192,17 @@ public class XlsxReport {
 		// 강의명과 부제 출력
 		row = sheet.createRow(2);
 		cell = row.createCell(0);
-		cell.setCellValue(metadata.getProgram().getTitle()+"  "+metadata.getProgram().getSubtitle());
+		if(metadata.getProgram() != null) {
+			cell.setCellValue(metadata.getProgram().getTitle()+"  "+metadata.getProgram().getSubtitle());
+		}
 		sheet.addMergedRegion(new CellRangeAddress(2,2,0,3));
 
 		// running time
 		row = sheet.createRow(3);
 		cell = row.createCell(0);
-		cell.setCellValue("running time: " + metadata.getProgram().getRunning_time());
+		if(metadata.getProgram() != null) {
+			cell.setCellValue("running time: " + metadata.getProgram().getRunning_time());
+		}
 		sheet.addMergedRegion(new CellRangeAddress(3,3,0,1));
 
 		// creator

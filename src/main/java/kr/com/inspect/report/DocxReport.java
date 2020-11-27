@@ -183,12 +183,16 @@ public class DocxReport {
 		XWPFParagraph p1 = doc.createParagraph();
 		p1.setAlignment(ParagraphAlignment.CENTER);
 		XWPFRun r1 = p1.createRun();
-		r1.setText(metadata.getProgram().getTitle()+"  "+metadata.getProgram().getSubtitle());
+		if(metadata.getProgram() != null) {
+			r1.setText(metadata.getProgram().getTitle()+"  "+metadata.getProgram().getSubtitle());
+		}
 		r1.setBold(true);
 		r1.setFontSize(14);
 		r1.addBreak();
 		XWPFRun r2 = p1.createRun();
-		r2.setText("running time: " + metadata.getProgram().getRunning_time());
+		if(metadata.getProgram() != null) {
+			r2.setText("running time: " + metadata.getProgram().getRunning_time());
+		}
 		r2.addBreak();
 		r2.setText("creator: " + metadata.getCreator());
 		r2.setFontSize(10);
