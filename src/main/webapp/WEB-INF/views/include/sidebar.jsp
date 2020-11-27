@@ -62,7 +62,7 @@
 	       <div id="workManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	           <div class="bg-white py-2 collapse-inner rounded">
 	               <h6 class="collapse-header">Work Status Management</h6>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/getWorkListByAdmin?role=ALL">작업 관리</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getWorkListByAdmin">작업 관리</a>
 	           </div>
 	       </div>
 	   </li>
@@ -81,7 +81,7 @@
 	               <!-- <a class="collapse-item"	href="#" data-toggle="collapse" data-target="#ruleManage2" aria-expanded="true" aria-controls="ruleManage2" >
 	               <span>발화자표기(중분류)</span>
 	               </a> -->
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin?role=ALL">발표자 표기</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">발표자 표기</a>
 	           </div>
 	       </div>
 	       <%-- <div id="ruleManage2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
