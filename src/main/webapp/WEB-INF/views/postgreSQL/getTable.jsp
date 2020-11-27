@@ -25,6 +25,8 @@
 </head>
 
 <body id="page-top">
+<!-- data type -->
+<input type="hidden" id="show_data_type" value="${data}">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -45,12 +47,15 @@
 
 				<!-- Page Heading -->
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h1 class="h3 mb-2 text-gray-800"><b>전사 데이터 목록</b></h1>
+					<h1 class="h3 mb-2 text-gray-800">
+						<b>전사 데이터 목록</b>
+						<span style="font-size:18px;">(${selectedData})</span>
+					</h1>
 					<div>
 						<!-- 파일 다운로드 버튼 -->
-						<a href="${pageContext.request.contextPath}/metadata/docx" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+						<a href="${pageContext.request.contextPath}/metadata/docx/${data}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 								class="fas fa-download fa-sm text-white-50"></i> Word</a>
-						<a href="${pageContext.request.contextPath}/metadata/xlsx" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+						<a href="${pageContext.request.contextPath}/metadata/xlsx/${data}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 								class="fas fa-download fa-sm text-white-50"></i> Excel</a>
 						<div class="my-2"></div>
 <%--						<a onclick="mail('metadataMail/docx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i--%>
@@ -103,6 +108,14 @@
 
 					<div class="card-body">
 						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+							<select class="form-control" id="dataSelect" style="margin-right:3px;">
+								<option>데이터 선택</option>
+    							<option value="all">전체</option>
+    							<option value="korean_lecture">한국어 강의</option>
+    							<option value="meeting_audio">회의 음성</option>
+    							<option value="customer_reception">고객 응대</option>
+    							<option value="counsel_audio">상담 음성</option>
+  							</select>
 							<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
 								   id="inputSearchText">
 							<button class="btn btn-primary" type="button">
@@ -172,10 +185,16 @@ $(document).ready(function() {
 
 		$(temp).parent().show();
 	})
+	
+	$('#dataSelect').change(function(){
+		var selectOption = $(this).val();
+		location.href = '${pageContext.request.contextPath}/' + "getMetadataAndProgram?data=" + selectOption;
+	});
 })
 
 function send(type, fileurl){
-	var url = '${pageContext.request.contextPath}/' + fileurl;
+	var dataType = document.getElementById("show_data_type").value;
+	var url = '${pageContext.request.contextPath}/' + fileurl + '/'+ dataType;
 
 	$.ajax({
 		type:"GET",

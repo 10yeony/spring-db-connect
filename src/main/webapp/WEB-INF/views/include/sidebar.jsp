@@ -47,7 +47,7 @@
                 	<a class="collapse-item" href="${pageContext.request.contextPath}/insertIntoPostgre">데이터 입력</a>
                 </sec:authorize>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/getJsonLog">Json 파일 관리</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram">전사 데이터 목록</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram?data=all">전사 데이터 목록</a>
             </div>
         </div>
     </li>

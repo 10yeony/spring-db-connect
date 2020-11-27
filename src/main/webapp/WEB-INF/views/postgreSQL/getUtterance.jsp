@@ -117,14 +117,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                		<c:set var="count" value="0" />
                                     <c:forEach items="${utterances}" var="item" varStatus="status">
-                                        <tr>
-                                            <td>${status.count}</td>
-                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
-                                            <td><fmt:formatNumber value="${item.start}" pattern=".00"/></td>
-                                            <td><fmt:formatNumber value="${item.finish}" pattern=".00"/></td>
-                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.eojeol_count}개</a></td>
-                                        </tr>
+	                                    <c:if test="${item.eojeol_count!=0}">
+	                                        <tr>
+	                                        	  <c:set var="count" value="${count+1}" />
+	                                            <td>${count}</td>
+	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
+	                                            <td><fmt:formatNumber value="${item.start}" pattern=".00"/></td>
+	                                            <td><fmt:formatNumber value="${item.finish}" pattern=".00"/></td>
+	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.eojeol_count}개</a></td>
+	                                        </tr>
+                                        </c:if>
                                     </c:forEach>
                                 </tbody>
                             </table>

@@ -99,21 +99,25 @@ public class ReportController {
 	 * @param format 리스트 형식 값
 	 * @throws Exception 예외처리
 	 */
-	@GetMapping("/metadata/{format}")
+	@GetMapping("/metadata/{format}/{data}")
 	public void writeMetadata(HttpServletResponse response,
-							  @PathVariable String format) throws Exception {
-		metadata = postgreService.getMetadataAndProgram();
-
+							  @PathVariable String format,
+							  @PathVariable String data) throws Exception {
+		metadata = postgreService.getMetadataAndProgram(data);
+		
+		/* 데이터 타입에 맞는 문서 제목 부여 */
+		String title = getTitleByDataType(data);
+		
 		switch(format) {
 			case ("hwp"): //한글 파일
 				// hwpReport.writeHwp(hwpPath, list);
 				break;
 			case ("docx"): //docx 파일
-				docxReport.writeDocxMetadata(response, docxPath, metadata, "download");
+				docxReport.writeDocxMetadata(response, docxPath, metadata, "download", title);
 				System.out.println();
 				break;
 			case ("xlsx"): //xlsx 파일
-				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "download");
+				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "download", title);
 				break;
 			case ("pptx"): //pptx 파일 
 				// pptxReport.writePptx(pptxPath, list);
@@ -162,22 +166,27 @@ public class ReportController {
 	 * @param format metadata index 값
 	 * @throws Exception 예외 처리
 	 */
-	@GetMapping("/metadataMail/{format}")
+	@GetMapping("/metadataMail/{format}/{data}")
 	public void sendMetadataMail(HttpSession session,
 								 HttpServletResponse response,
-							  @PathVariable String format) throws Exception {
+							  @PathVariable String format,
+							  @PathVariable String data) throws Exception {
+		
+		/* 데이터 타입에 맞는 문서 제목 부여 */
+		String title = getTitleByDataType(data);
+		
 		// 사용자의 이메일 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String email = member.getEmail();
 		// 파일에 출력할 metadata table
-		metadata = postgreService.getMetadataAndProgram();
+		metadata = postgreService.getMetadataAndProgram(data);
 		switch(format) {
 			case ("docx"): //docx 파일 , mail이라는 표시와 email정보를 함께 보냄
-				docxReport.writeDocxMetadata(response, docxPath, metadata, "mail"+email);
+				docxReport.writeDocxMetadata(response, docxPath, metadata, "mail"+email, title);
 				break;
 			case ("xlsx"): //xlsx 파일, mail이라는 표시와 email정보를 함께 보냄
 				System.out.println("xlsx파일 mail");
-				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "mail"+email);
+				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "mail"+email, title);
 				break;
 			default:
 				break;
@@ -196,6 +205,7 @@ public class ReportController {
 	public void sendUtteranceMail(HttpSession session,
 								  HttpServletRequest request,
 								  HttpServletResponse response) throws Exception {
+		
 		// 사용자의 이메일 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String email = member.getEmail();
@@ -226,25 +236,30 @@ public class ReportController {
 	 * @param format metadata index 값
 	 * @throws Exception 예외 처리
 	 */
-	@GetMapping("/metadataSMS/{format}")
+	@GetMapping("/metadataSMS/{format}/{data}")
 	public void sendMetadataSMS(HttpSession session,
 								 HttpServletResponse response,
-								 @PathVariable String format) throws Exception {
+								 @PathVariable String format,
+								 @PathVariable String data) throws Exception {
+		
+		/* 데이터 타입에 맞는 문서 제목 부여 */
+		String title = getTitleByDataType(data);
+		
 		// 사용자의 phone 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String phone = member.getPhone();
 		// 파일에 출력할 metadata table
-		metadata = postgreService.getMetadataAndProgram();
+		metadata = postgreService.getMetadataAndProgram(data);
 
 		switch(format) {
 			case ("docx"): //docx 파일 , sms이라는 표시와 phone정보를 함께 보냄
 				System.out.println(phone+"docx");
 				sendReport.sendSMS(null, null, phone);
-//				docxReport.writeDocxMetadata(response, docxPath, metadata, "sms"+phone);
+//				docxReport.writeDocxMetadata(response, docxPath, metadata, "sms"+phone, title);
 				break;
 			case ("xlsx"): //xlsx 파일, sms이라는 표시와 phone정보를 함께 보냄
 				System.out.println(phone);
-//				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "sms"+phone);
+//				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "sms"+phone, title);
 				break;
 			default:
 				break;
@@ -285,5 +300,26 @@ public class ReportController {
 			default:
 				break;
 		}
+	}
+	
+	/**
+	 * 데이터 타입을 입력하면 데이터 타입에 맞는 문서 제목을 리턴함
+	 * @param data 데이터 타입(전체/한국어 강의/회의 음성/고객 응대/상담 음성)
+	 * @return 데이터 타입에 맞는 제목을 리턴함
+	 */
+	public String getTitleByDataType(String data) {
+		String title = "전사 데이터 목록";
+		if(data.equals("all")) {
+			title += "(전체)";
+		}else if(data.equals("korean_lecture")) {
+			title += "(한국어 강의)";
+		}else if(data.equals("meeting_audio")) {
+			title += "(회의 음성)";
+		}else if(data.equals("customer_reception")) {
+			title += "(고객 응대)";
+		}else if(data.equals("counsel_audio")) {
+			title += "(상담 음성)";
+		}
+		return title;
 	}
 }

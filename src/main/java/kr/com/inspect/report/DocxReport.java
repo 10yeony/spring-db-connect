@@ -56,16 +56,20 @@ public class DocxReport {
 	 * @param path 파일 디렉토리
 	 * @param list 객체를 담을 리스트
 	 * @param flag 해당 요청이 download인지, mail인지, sms인지 결정해주는 변수
+	 * @param title 파일 내용의 제목
 	 * @throws Exception 예외처리
 	 */
-	public void writeDocxMetadata(HttpServletResponse response, String path, List<Metadata> list, String flag)throws Exception {
+	public void writeDocxMetadata(HttpServletResponse response, 
+										String path, 
+										List<Metadata> list, 
+										String flag,
+										String title)throws Exception {
 		String docxFileName =
 				"LectureList_"+
 				new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
 						+ ".docx";
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-
+		
 		/* doc 파일 생성 */
 		XWPFDocument doc = new XWPFDocument();
 
@@ -79,7 +83,7 @@ public class DocxReport {
 		XWPFParagraph p1 = doc.createParagraph();
 		p1.setAlignment(ParagraphAlignment.CENTER);
 		XWPFRun r1 = p1.createRun();
-		r1.setText("한국어 강의 데이터 목록");
+		r1.setText(title);
 		r1.setBold(true);
 		r1.setFontSize(17);
 		r1.addBreak();
@@ -102,11 +106,15 @@ public class DocxReport {
 		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
 			metadata = list.get(rowIdx);
 			table.getRow(rowIdx+1).getCell(0).setText(Integer.toString(metadata.getId()));
-			table.getRow(rowIdx+1).getCell(1).setText(metadata.getProgram().getTitle());
-			table.getRow(rowIdx+1).getCell(2).setText(metadata.getProgram().getSubtitle());
+			if(metadata.getProgram()!= null) {
+				table.getRow(rowIdx+1).getCell(1).setText(metadata.getProgram().getTitle());
+				table.getRow(rowIdx+1).getCell(2).setText(metadata.getProgram().getSubtitle());
+			}
 			table.getRow(rowIdx+1).getCell(3).setText(metadata.getCreator());
 			table.getRow(rowIdx+1).getCell(4).setText(metadata.getTitle());
-			table.getRow(rowIdx+1).getCell(5).setText(metadata.getProgram().getRunning_time());
+			if(metadata.getProgram()!= null) {
+				table.getRow(rowIdx+1).getCell(5).setText(metadata.getProgram().getRunning_time());
+			}
 			table.getRow(rowIdx+1).getCell(6).setText(Integer.toString(metadata.getSentence_count()));
 			table.getRow(rowIdx+1).getCell(7).setText(Integer.toString(metadata.getEojeol_total()));
 		}

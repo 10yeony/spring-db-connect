@@ -1,18 +1,26 @@
 package kr.com.inspect.controller;
 
 import java.util.List;
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.JsonLog;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import kr.com.inspect.dto.EojeolList;
+import kr.com.inspect.dto.JsonLog;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * PostgreSQL 컨트롤러
@@ -172,9 +180,29 @@ public class PostgreController {
 	 * @return 해당 페이지로 값 리턴
 	 */
 	@GetMapping("/getMetadataAndProgram")
-	public String getMetadataAndProgram(Model model) {
-		List<Metadata> metadata = postgreService.getMetadataAndProgram();
+	public String getMetadataAndProgram(Model model, String data) {
+		List<Metadata> metadata = postgreService.getMetadataAndProgram(data);
 		model.addAttribute("result", metadata);
+		model.addAttribute("data", data);
+		switch(data) {
+			case "all":
+				model.addAttribute("selectedData", "전체 데이터");
+				break;
+			case "korean_lecture":
+				model.addAttribute("selectedData", "한국어 강의 데이터");
+				break;
+			case "meeting_audio":
+				model.addAttribute("selectedData", "회의 음성 데이터");
+				break;
+			case "customer_reception":
+				model.addAttribute("selectedData", "고객 응대 데이터");
+				break;
+			case "counsel_audio":
+				model.addAttribute("selectedData", "상담 음성 데이터");
+				break;
+			default:
+				break;
+		}
 		return "postgreSQL/getTable";
 	}
 
