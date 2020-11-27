@@ -8,7 +8,7 @@ public class RuleController {
 	
 	@GetMapping("/getRuleListByAdmin")
 	public String Rulepage() {
-		return "Rule/getRuleList";
+		return "rule/getRuleList";
 	}
 
 }

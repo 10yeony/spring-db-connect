@@ -8,6 +8,6 @@ public class WorkController {
 
 	@GetMapping("/getWorkListByAdmin")
 	public String Workpage() {
-		return "WorkList/getWorkList";
+		return "workList/getWorkList";
 	}
 }
