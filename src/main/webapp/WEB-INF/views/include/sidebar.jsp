@@ -33,7 +33,7 @@
     <div class="sidebar-heading">
         List
     </div>
-
+	
     <!-- 데이터 관리 메뉴 -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#dataManage" aria-expanded="true" aria-controls="dataManage">
@@ -51,6 +51,49 @@
             </div>
         </div>
     </li>
+    
+     <!-- 작업 관리 메뉴 -->
+   <sec:authorize access="hasRole('ROLE_ADMIN')">
+	   <li class="nav-item">
+	       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#workManage" aria-expanded="true" aria-controls="workManage">
+	           <i class="fas fa-user-friends"></i>
+	           <span>작업 관리</span>
+	       </a>
+	       <div id="workManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+	           <div class="bg-white py-2 collapse-inner rounded">
+	               <h6 class="collapse-header">Work Status Management</h6>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getWorkListByAdmin?role=ALL">작업 관리</a>
+	           </div>
+	       </div>
+	   </li>
+   </sec:authorize>
+	
+	<!-- 룰 관리 메뉴 -->
+   <sec:authorize access="hasRole('ROLE_ADMIN')">
+	   <li class="nav-item">
+	       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ruleManage" aria-expanded="true" aria-controls="ruleManage">
+	           <i class="fas fa-user-friends"></i>
+	           <span>RULE 관리</span>
+	       </a>
+	       <div id="ruleManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+	           <div class="bg-white py-2 collapse-inner rounded">
+	               <h6 class="collapse-header">TMAX</h6>
+	               <!-- <a class="collapse-item"	href="#" data-toggle="collapse" data-target="#ruleManage2" aria-expanded="true" aria-controls="ruleManage2" >
+	               <span>발화자표기(중분류)</span>
+	               </a> -->
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin?role=ALL">발표자 표기</a>
+	           </div>
+	       </div>
+	       <%-- <div id="ruleManage2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+	           	<div class="bg-white py-2 collapse-inner rounded">
+	           	<h6 class="collapse-header">발화자표기(중분류)</h6>
+	       	 	<a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin?role=ALL">화자 이름(소분류 가칭)</a>
+	       	 	<a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin?role=ALL">화자 성별(소분류 가칭)</a>
+	       	 	<a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin?role=ALL">화자 정보(소분류 가칭)</a>
+	       	 </div>
+	      </div> --%>
+	   </li>
+   </sec:authorize>
 
    <!-- 회원 관리 메뉴 -->
    <sec:authorize access="hasRole('ROLE_ADMIN')">

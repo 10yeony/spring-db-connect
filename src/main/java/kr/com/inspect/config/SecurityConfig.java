@@ -99,7 +99,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 						"/getMemberByAdmin",
 						"/getMemberByAdmin/**",
 						"/deleteMemberByAdmin",
-						"/updateAuthoritiesByAdmin").access("hasRole('ROLE_ADMIN')") //ADMIN 권한만 접근
+						"/updateAuthoritiesByAdmin",
+						"/getWorkListByAdmin",
+						"/getRuleListByAdmin").access("hasRole('ROLE_ADMIN')") //ADMIN 권한만 접근
 			.antMatchers("insertIntoPostgre").access("hasRole('ROLE_INPUT')") //INPUT 권한만 접근
 			.antMatchers("/**").access("hasRole('ROLE_VIEW')") //VIEW 권한만 접근
 			.anyRequest().authenticated(); //설정되지 않은 모든 url request는 인가된 사용자만 이용
@@ -129,7 +131,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	    	.logoutSuccessUrl("/")
 	    	.invalidateHttpSession(true); //세션 삭제
 	    	//.deleteCookies("JSESSIONID", "remember-me"); //자동 로그인 쿠키, Tomcat이 발급한 세션 유지 쿠키 삭제
-	    	//.addLogoutHandler(new ProperCookieClearingLogoutHandler("JESSIONID", "remember-me"));
+	    	//.addLogoutHandler(new ProperCookieClearingLogoutHandler("JESSIONID", "remember-me")); // 사용자 정의 로그아웃핸들러(쿠키 자동삭제 이슈)
 
 	  	/* csrf 공격 방지를 위해 설정 (이 속성을 설정하면, post 요청시 반드시 _csrf token값 넣기) */
 	    http.csrf()
