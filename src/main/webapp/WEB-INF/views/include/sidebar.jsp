@@ -81,9 +81,16 @@
 	               <!-- <a class="collapse-item"	href="#" data-toggle="collapse" data-target="#ruleManage2" aria-expanded="true" aria-controls="ruleManage2" >
 	               <span>발화자표기(중분류)</span>
 	               </a> -->
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">발표자 표기</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">발화자 표기</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">이중전사</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">잡음의 처리</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">간투어</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">숫자,특수문자,도랑형 외래어</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">문장부호와 띄어쓰기</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">기타</a>
 	           </div>
 	       </div>
+	       
 	       <%-- <div id="ruleManage2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	           	<div class="bg-white py-2 collapse-inner rounded">
 	           	<h6 class="collapse-header">발화자표기(중분류)</h6>
