@@ -11,8 +11,8 @@ public class PagingUtil {
 	 * @param commonForm
 	 * @return
 	 */
-	public static CommonDTO setPageUtil(CommonForm commonForm) {
-		CommonDTO commonDto = new CommonDTO();
+	public static CommonDto setPageUtil(CommonForm commonForm) {
+		CommonDto commonDto = new CommonDto();
 		
 		String pagination = ""; // 페이징 결과 값
 		String functionName = commonForm.getFunction_name(); // 페이징 목록을 요청하는 자바스크립트 함수명

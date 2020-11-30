@@ -9,9 +9,9 @@ package kr.com.inspect.dto;
 
 import java.util.List;
 
-import kr.com.inspect.paging.CommonDTO;
+import kr.com.inspect.paging.CommonDto;
 
-public class Metadata extends CommonDTO {
+public class Metadata extends CommonDto {
 	
 	/**
 	 * 게시글 번호
