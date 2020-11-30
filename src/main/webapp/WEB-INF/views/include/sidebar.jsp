@@ -85,7 +85,7 @@
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">이중전사</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">잡음의 처리</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">간투어</a>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">숫자,특수문자,도랑형 외래어</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">숫자,특수문자,도랑형,외래어</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">문장부호와 띄어쓰기</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin">기타</a>
 	           </div>
