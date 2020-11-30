@@ -58,9 +58,9 @@ public class PagingUtil {
 		pagination += "<a href='javascript:" + functionName + "(" + prePerPage + ");' class=\"direction_left01\">[<]</a>";
 		for (int a = viewFirstPage; a <= ViewLastPage; a++) {
 			if (a == currentPage) {
-				pagination += "<a href='javascript:" + functionName + "(\"" + a + "\");' class='onpage'>[" + a + "]</a>";
+				pagination += "<a href='javascript:" + functionName + "(\"" + a + "\");' class='on_page'>[" + a + "]</a>";
 			} else {
-				pagination += "<a href='javascript:" + functionName + "(\"" + a + "\");'>[" + a + "]</a>";
+				pagination += "<a href='javascript:" + functionName + "(\"" + a + "\");' class='other_page'>[" + a + "]</a>";
             }
         }
 		pagination += "<a href='javascript:" + functionName + "(" + nextPerPage + ");' class=\"direction_right01\">[>]</a>";
