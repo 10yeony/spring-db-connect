@@ -6,6 +6,7 @@ package kr.com.inspect.paging;
  *
  */
 public class CommonDTO {
+	
 	/**
 	 * SELECT할 row의 수
 	 */
@@ -50,6 +51,7 @@ public class CommonDTO {
 	
 	@Override
 	public String toString() {
-		return "CommonDTO [limit=" + limit + ", offset=" + offset + ", pagination=" + pagination + "]";
+		return "CommonDTO [limit=" + limit + ", offset=" + offset + ", pagination="
+				+ pagination + "]";
 	}
 }

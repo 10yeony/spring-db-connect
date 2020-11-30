@@ -126,7 +126,7 @@
 							<table class="table table-bordered" id="metadata" width="100%" cellspacing="0">
 								<thead>
 									<tr>
-										<th>Id</th>
+										<th>no.</th>
 										<th>제목</th>
 										<th>부제</th>
 										<th>Creator</th>
@@ -139,7 +139,7 @@
 								<tbody>
 									<c:forEach items="${result}" var="item" varStatus="status">
 										<tr>
-											<td>${status.count}</td>
+											<td>${item.row_num}</td>
 											<td>${item.program.title}</td>
 											<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
 											<td>${item.creator}</td>

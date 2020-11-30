@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <mapper namespace="MetadataMapper">
 	<resultMap id="metadataAndProgram" type="kr.com.inspect.dto.Metadata">
    		<id column="metadata_id" property="id" />
+   		<result column="row_num" property="row_num" />
     	<result column="creator" property="creator" />
     	<result column="annotation_level" property="annotation_level" />
     	<result column="metadata_year" property="year" />
@@ -22,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
       		<result column="program_title" property="title"/>
       		<result column="subtitle" property="subtitle"/>
 			<result column="running_time" property="running_time"/>
-		</collection>
+		</collection> 
 	</resultMap>
 	
 	<!-- metadata 테이블에 데이터를 입력함 -->
@@ -95,6 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- Metadata와 Program을 조인해서 가져옴(전체 데이터) -->
 	<select id="getMetadataAndProgram" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
   		SELECT
+  			(ROW_NUMBER() OVER()) AS row_num,
   			m.id metadata_id,
   			m.creator creator,
   			m.annotation_level annotation_level,
