@@ -151,17 +151,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				GROUP BY metadata_id) eo
 		ON
 			m.id = eo.metadata_id
-		ORDER BY 
-			m.id
 	</sql>
 	<select id="getMetadataAndProgram"  
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
   		<include refid="getMetadataAndProgram" />
+  		ORDER BY 
+			metadata_id
 	</select>
 	<select id="getMetadataAndProgramByPaging" parameterType="hashMap" 
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
   		<include refid="getMetadataAndProgram" />
-  		DESC
+  		ORDER BY 
+			metadata_id DESC
 		LIMIT 
 			#{limit} 
 		OFFSET 
@@ -170,46 +171,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	
 	<!-- Metadata와 Program을 조인해서 가져옴(한국어 강의 데이터) -->
 	<sql id="getMetadataAndProgramInLecture">
-		SELECT
-  			(ROW_NUMBER() OVER()) AS row_num,
-  			m.id metadata_id,
-  			m.creator creator,
-  			m.annotation_level annotation_level,
-  			m.year metadata_year,
-  			m.sampling sampling,
-  			m.title metadata_title,
-  			m.category category,
-  			m.audio_type audio_type,
-  			m.distributor distributor,
-  			m.relation relation,
-  			p.id program_id,
-  			p.file_num file_num,
-  			p.title program_title,
-  			p.subtitle subtitle,
-  			p.running_time running_time,
-			ut.sentence_count sentence_count,
-			eo.eojeol_total eojeol_total
-  		FROM
-  			audio.metadata m
-  		LEFT JOIN audio.program p 
-		ON
-  			m.title = p.file_num
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(form) sentence_count
-				FROM audio.utterance
-				GROUP BY metadata_id) ut
-		ON
-			m.id = ut.metadata_id
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(standard) eojeol_total
-				FROM audio.eojeolList
-				GROUP BY metadata_id) eo
-		ON
-			m.id = eo.metadata_id
+		<include refid="getMetadataAndProgram" />
 		WHERE 
-			m.audio_type = 'LH'
+			audio_type = 'LH'
 		ORDER BY 
-			m.id
+			metadata_id
 	</sql>
 	<select id="getMetadataAndProgramInLecture" 
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
@@ -227,46 +193,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	
 	<!-- Metadata와 Program을 조인해서 가져옴(회의 음성 데이터) -->
 	<sql id="getMetadataAndProgramInMeeting">
-		SELECT
-  			(ROW_NUMBER() OVER()) AS row_num,
-  			m.id metadata_id,
-  			m.creator creator,
-  			m.annotation_level annotation_level,
-  			m.year metadata_year,
-  			m.sampling sampling,
-  			m.title metadata_title,
-  			m.category category,
-  			m.audio_type audio_type,
-  			m.distributor distributor,
-  			m.relation relation,
-  			p.id program_id,
-  			p.file_num file_num,
-  			p.title program_title,
-  			p.subtitle subtitle,
-  			p.running_time running_time,
-			ut.sentence_count sentence_count,
-			eo.eojeol_total eojeol_total
-  		FROM
-  			audio.metadata m
-  		LEFT JOIN audio.program p 
-		ON
-  			m.title = p.file_num
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(form) sentence_count
-				FROM audio.utterance
-				GROUP BY metadata_id) ut
-		ON
-			m.id = ut.metadata_id
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(standard) eojeol_total
-				FROM audio.eojeolList
-				GROUP BY metadata_id) eo
-		ON
-			m.id = eo.metadata_id
+		<include refid="getMetadataAndProgram" />
 		WHERE 
-			m.audio_type = 'CG'
+			audio_type = 'CG'
 		ORDER BY 
-			m.id
+			metadata_id
 	</sql>
 	<select id="getMetadataAndProgramInMeeting" 
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">

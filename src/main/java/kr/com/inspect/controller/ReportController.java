@@ -114,7 +114,7 @@ public class ReportController {
 				break;
 			case ("docx"): //docx 파일
 				docxReport.writeDocxMetadata(response, docxPath, metadata, "download", title);
-				System.out.println();
+				//System.out.println();
 				break;
 			case ("xlsx"): //xlsx 파일
 				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "download", title);
@@ -185,7 +185,7 @@ public class ReportController {
 				docxReport.writeDocxMetadata(response, docxPath, metadata, "mail"+email, title);
 				break;
 			case ("xlsx"): //xlsx 파일, mail이라는 표시와 email정보를 함께 보냄
-				System.out.println("xlsx파일 mail");
+				//System.out.println("xlsx파일 mail");
 				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "mail"+email, title);
 				break;
 			default:
@@ -217,11 +217,11 @@ public class ReportController {
 
 		switch(request.getParameter("file")) {
 			case ("docx"): //docx 파일
-				System.out.println("docx");
+				//System.out.println("docx");
 				docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "mail"+email);
 				break;
 			case ("xlsx"): //xlsx 파일
-				System.out.println("xlsxl");
+				//System.out.println("xlsxl");
 				xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "mail"+email);
 				break;
 			default:
@@ -253,12 +253,12 @@ public class ReportController {
 
 		switch(format) {
 			case ("docx"): //docx 파일 , sms이라는 표시와 phone정보를 함께 보냄
-				System.out.println(phone+"docx");
+				//System.out.println(phone+"docx");
 				sendReport.sendSMS(null, null, phone);
 //				docxReport.writeDocxMetadata(response, docxPath, metadata, "sms"+phone, title);
 				break;
 			case ("xlsx"): //xlsx 파일, sms이라는 표시와 phone정보를 함께 보냄
-				System.out.println(phone);
+				//System.out.println(phone);
 //				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "sms"+phone, title);
 				break;
 			default:
@@ -289,12 +289,12 @@ public class ReportController {
 
 		switch(request.getParameter("file")) {
 			case ("docx"): //docx 파일
-				System.out.println(phone + "docx");
+				//System.out.println(phone + "docx");
 //				sendReport.sendSMS(null, null, phone);
 //				docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "sms"+phone);
 				break;
 			case ("xlsx"): //xlsx 파일
-				System.out.println(phone + "xlsxl");
+				//System.out.println(phone + "xlsxl");
 //				xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "sms"+phone);
 				break;
 			default:
