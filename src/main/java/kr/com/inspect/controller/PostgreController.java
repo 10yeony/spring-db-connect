@@ -184,13 +184,19 @@ public class PostgreController {
 	 */
 	@GetMapping("/getMetadataAndProgram")
 	public String getMetadataAndProgram(Model model, 
-												String data, 
-												String function_name,
-												int current_page_no) {
+										String data, 
+										String function_name,
+										int current_page_no,
+										int count_per_page,
+										int count_per_list) {
 		List<Metadata> metadata = new ArrayList<>();
 		ResponseData responseData = new ResponseData();
 		if(function_name != null && current_page_no > 0) {
-			responseData = postgreService.getMetadataAndProgram(data, function_name, current_page_no);
+			responseData = postgreService.getMetadataAndProgram(data, 
+																function_name, 
+																current_page_no, 
+																count_per_page, 
+																count_per_list);
 			Map<String, Object> items = (Map<String, Object>) responseData.getItem();
 			metadata = (List<Metadata>) items.get("list");
 			model.addAttribute("totalCount", items.get("totalCount"));
@@ -219,6 +225,8 @@ public class PostgreController {
 		}
 		model.addAttribute("result", metadata);
 		model.addAttribute("data", data);
+		model.addAttribute("count_per_page", count_per_page);
+		model.addAttribute("count_per_list", count_per_list);
 		return "postgreSQL/getTable";
 	}
 	

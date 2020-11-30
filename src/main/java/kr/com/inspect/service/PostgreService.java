@@ -99,7 +99,11 @@ public interface PostgreService {
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 테이블
 	 */
-	public ResponseData getMetadataAndProgram(String data, String function_name, int current_page_no);
+	public ResponseData getMetadataAndProgram(String data, 
+											String function_name, 
+											int current_page_no,
+											int count_per_page,
+											int count_per_list);
 
 	/**
 	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴

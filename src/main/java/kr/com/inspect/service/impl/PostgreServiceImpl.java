@@ -498,8 +498,10 @@ public class PostgreServiceImpl implements PostgreService{
 	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 테이블
 	 */
 	public ResponseData getMetadataAndProgram(String data, 
-														String function_name, 
-														int current_page_no){
+											String function_name, 
+											int current_page_no,
+											int count_per_page,
+											int count_per_list){
     	
 		CommonDto commonDto = new CommonDto();
 		int totalCount = postgreDao.getMetadataCnt(data); //총 Metadata의 row 수
@@ -507,8 +509,8 @@ public class PostgreServiceImpl implements PostgreService{
 			CommonForm commonForm = new CommonForm();
 			commonForm.setFunction_name(function_name);
 			commonForm.setCurrent_page_no(current_page_no);
-			commonForm.setCount_per_page(10);
-			commonForm.setCount_per_list(10);
+			commonForm.setCount_per_page(count_per_page);
+			commonForm.setCount_per_list(count_per_list);
 			commonForm.setTatal_list_count(totalCount);
 			commonDto = PagingUtil.setPageUtil(commonForm);
 		}

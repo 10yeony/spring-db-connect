@@ -39,8 +39,10 @@
 </head>
 
 <body id="page-top">
-<!-- data type, function_name, current_page_no -->
+<!-- data type, count_per_page, count_per_list -->
 <input type="hidden" id="show_data_type" value="${data}">
+<input type="hidden" id="show_count_per_page" value="${count_per_page}">
+<input type="hidden" id="show_count_per_list" value="${count_per_list}">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -120,22 +122,30 @@
 				<!-- Page Body -->
 				<div class="card shadow mb-4">
 
-					<div class="card-body">
+					<div class="card-body"><br/>
 						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
-							<select class="form-control" id="dataSelect" style="margin-right:3px;">
+  							<select class="form-control" id="dataSelect" style="margin-right:3px;">
 								<option>데이터 선택</option>
-    							<option value="all">전체</option>
+    							<option value="all">전체 데이터</option>
     							<option value="korean_lecture">한국어 강의</option>
     							<option value="meeting_audio">회의 음성</option>
     							<option value="customer_reception">고객 응대</option>
     							<option value="counsel_audio">상담 음성</option>
   							</select>
-							<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-								   id="inputSearchText">
+							<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
+								placeholder="Search for..." id="inputSearchText">
 							<button class="btn btn-primary" type="button">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
 						</div><br><br>
+						<div style="display:inline-block; float:right;">
+								<input type="radio" name="views" value="10views"> 
+								<span id="10viewsSpan" style="cursor: pointer">10개씩 보기</span> 
+								<input type="radio" name="views" value="20views" style="margin-left:10px;"> 
+								<span id="20viewsSpan" style="cursor: pointer">20개씩 보기</span>
+								<input type="radio" name="views" value="30views" style="margin-left:10px;"> 
+								<span id="30viewsSpan" style="cursor: pointer">30개씩 보기</span> 
+						</div>
 						<div class="table-responsive">
 							<table class="table table-bordered" id="metadata" width="100%" cellspacing="0">
 								<thead>
@@ -193,6 +203,15 @@
 <script>
 
 $(document).ready(function() {
+	var count_per_list = $('#show_count_per_list').val();
+	if(count_per_list==10){
+		$('input[value=10views]').prop("checked", true);
+	}else if(count_per_list==20){
+		$('input[value=20views]').prop("checked", true);
+	}else if(count_per_list==30){
+		$('input[value=30views]').prop("checked", true);
+	}
+	
 	$("#inputSearchText").keyup(function() {
 		var k = $(this).val();
 		$("#metadata > tbody > tr").hide();
@@ -201,11 +220,45 @@ $(document).ready(function() {
 		$(temp).parent().show();
 	})
 	
+	/* 데이터 타입 선택 */
 	$('#dataSelect').change(function(){
-		var selectOption = $(this).val();
+		let selectOption = $(this).val();
 		location.href = '${pageContext.request.contextPath}/' 
 							+ "getMetadataAndProgram?data=" + selectOption
-							+ "&function_name=getMetadataAndProgram&current_page_no=1";
+							+ "&function_name=getMetadataAndProgram"
+							+ "&current_page_no=1"
+							+ "&count_per_page=" + $('#show_count_per_page').val()
+							+ "&count_per_list=" + $('#show_count_per_list').val();
+	});
+	
+	/* 10개씩, 20개씩, 30개씩 보기 */
+	$('input[name=views]').change(function(){
+		let check = $(this).val();
+		if(check == '10views'){
+			setMetadataAndProgramListSize(10);
+		}else if(check == '20views'){
+			setMetadataAndProgramListSize(20);
+		}else if(check == '30views'){
+			setMetadataAndProgramListSize(30);
+		}
+	});
+	$('#10viewsSpan').click(function(){
+		$('input[value=10views]').prop("checked", true);
+		if($('input[value=10views]').is(":checked")){
+			setMetadataAndProgramListSize(10);
+		}
+	});
+	$('#20viewsSpan').click(function(){
+		$('input[value=20views]').prop("checked", true);
+		if($('input[value=20views]').is(":checked")){
+			setMetadataAndProgramListSize(20);
+		}
+	});
+	$('#30viewsSpan').click(function(){
+		$('input[value=30views]').prop("checked", true);
+		if($('input[value=30views]').is(":checked")){
+			setMetadataAndProgramListSize(30);
+		}
 	});
 })
 
@@ -216,8 +269,18 @@ function getMetadataAndProgram(currentPageNo){
 	location.href = '${pageContext.request.contextPath}/' 
 		+ "getMetadataAndProgram?data=" + $('#show_data_type').val()
 				+ "&function_name=getMetadataAndProgram"
-				+ "&current_page_no=" + currentPageNo;
-	
+				+ "&current_page_no=" + currentPageNo
+				+ "&count_per_page=" + $('#show_count_per_page').val()
+				+ "&count_per_list=" + $('#show_count_per_list').val();
+}
+
+function setMetadataAndProgramListSize(size){
+	location.href = '${pageContext.request.contextPath}/' 
+		+ "getMetadataAndProgram?data=" + $('#show_data_type').val()
+				+ "&function_name=getMetadataAndProgram"
+				+ "&current_page_no=" + 1
+				+ "&count_per_page=" + $('#show_count_per_page').val()
+				+ "&count_per_list=" + size;
 }
 
 function send(type, fileurl){
