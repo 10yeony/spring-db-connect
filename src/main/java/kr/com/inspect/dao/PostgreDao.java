@@ -13,6 +13,12 @@ import kr.com.inspect.dto.*;
 public interface PostgreDao {
 	
 	/**
+	 * Metadata 테이블의 총 row 수를 가지고 옴
+	 * @return Metadata 테이블의 총 row 수
+	 */
+	public int getMetadataCnt(String data);
+	
+	/**
 	 * Metadata 테이블을 모두 가지고 옴 
 	 * @return Metadata 테이블 값을 리스트로 담아 리턴
 	 */
@@ -33,22 +39,46 @@ public interface PostgreDao {
 	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId);
 	
 	/**
-	 * Metadata 테이블과 Program 테이블을 조인해서 전체 데이터를 가져옴
-	 * @return 조인값을 리스트로 담아 리턴
+	 * Metadata 테이블과 Program 테이블을 조인해서 전체 테이블을 가져옴
+	 * @return Metadata 테이블과 Program 테이블을 조인한 전체 테이블
 	 */
 	public List<Metadata> getMetadataAndProgram();
 	
 	/**
-	 * Metadata 테이블과 Program 테이블을 조인해서 한국어 강의 데이터를 가져옴
-	 * @return 조인값을 리스트로 담아 리턴
+	 * Metadata 테이블과 Program 테이블을 조인해서 페이징 처리하여 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 전체 테이블
+	 */
+	public List<Metadata> getMetadataAndProgram(int limit, int offset);
+	
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 한국어 강의 데이터를 모두 가져옴
+	 * @return Metadata 테이블과 Program 테이블을 조인한 한국어 강의 데이터 테이블
 	 */
 	public List<Metadata> getMetadataAndProgramInLecture();
 	
 	/**
-	 * Metadata 테이블과 Program 테이블을 조인해서 회의 음성데이터를 가져옴
-	 * @return 조인값을 리스트로 담아 리턴
+	 * Metadata 테이블과 Program 테이블을 조인해서 한국어 강의 데이터를 페이징 처리하여 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 한국어 강의 데이터 테이블
+	 */
+	public List<Metadata> getMetadataAndProgramInLecture(int limit, int offset);
+	
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 회의 음성데이터를 모두 가져옴
+	 * @return Metadata 테이블과 Program 테이블을 조인한 회의 음성데이터 테이블
 	 */
 	public List<Metadata> getMetadataAndProgramInMeeting();
+	
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 회의 음성데이터를 페이징 처리하여 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 회의 음성데이터 테이블
+	 */
+	public List<Metadata> getMetadataAndProgramInMeeting(int limit, int offset);
 
 	/**
 	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴

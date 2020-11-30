@@ -1,13 +1,18 @@
 package kr.com.inspect.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import kr.com.inspect.dto.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.PostgreDao;
+import kr.com.inspect.dto.EojeolList;
+import kr.com.inspect.dto.JsonLog;
+import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Utterance;
 
 /**
  * PostgreSQL DAO
@@ -26,6 +31,24 @@ public class PostgreDaoImpl implements PostgreDao {
 	private final String utteranceNS = "UtteranceMapper.";
 	private final String eojeolListNS = "EojeolListMapper.";
 	private final String jsonLogNS = "JsonLogMapper.";
+	
+	public int getMetadataCnt(String data) {
+		switch(data) {
+			case "all": //전체
+				return sqlSession.selectOne(metadataNS+"getMetadataCnt");
+			case "korean_lecture": //한국어 강의 데이터
+				return sqlSession.selectOne(metadataNS+"getMetadataInLectureCnt");
+			case "meeting_audio": //회의 음성 데이터
+				return sqlSession.selectOne(metadataNS+"getMetadataInMeetingCnt");
+			case "customer_reception": //고객 응대 데이터
+				return 0;
+			case "counsel_audio": //상담 음성 데이터
+				return 0;
+			default:
+				return 0;
+		}
+		
+	}
 	
 	/**
 	 * PostgreSQL에서 Metadata 테이블을 모두 가지고 옴
@@ -57,12 +80,27 @@ public class PostgreDaoImpl implements PostgreDao {
 	}
 	
 	/**
-	 * Metadata 테이블과 Program 테이블을 조인해서 전체 데이터를 가져옴
-	 * @return 조인값을 리스트에 담아 리턴
+	 * Metadata 테이블과 Program 테이블을 조인해서 전체 테이블을 가져옴
+	 * @return Metadata 테이블과 Program 테이블을 조인한 전체 테이블
 	 */
 	@Override
 	public List<Metadata> getMetadataAndProgram(){
 		List<Metadata> list = sqlSession.selectList(metadataNS+"getMetadataAndProgram");
+		return list;
+	}
+	
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 페이징 처리하여 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 테이블
+	 */
+	@Override
+	public List<Metadata> getMetadataAndProgram(int limit, int offset){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("limit", limit);
+		map.put("offset", offset);
+		List<Metadata> list = sqlSession.selectList(metadataNS+"getMetadataAndProgramByPaging", map);
 		return list;
 	}
 	
@@ -76,6 +114,20 @@ public class PostgreDaoImpl implements PostgreDao {
 	}
 	
 	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 한국어 강의 데이터를 페이징 처리하여 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 한국어 강의 데이터 테이블
+	 */
+	public List<Metadata> getMetadataAndProgramInLecture(int limit, int offset){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("limit", limit);
+		map.put("offset", offset);
+		List<Metadata> list = sqlSession.selectList(metadataNS+"getMetadataAndProgramInLectureByPaging", map);
+		return list;
+	}
+	
+	/**
 	 * Metadata 테이블과 Program 테이블을 조인해서 회의 음성데이터를 가져옴
 	 * @return 조인값을 리스트로 담아 리턴
 	 */
@@ -84,6 +136,20 @@ public class PostgreDaoImpl implements PostgreDao {
 		return list;
 	}
 
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 회의 음성데이터를 페이징 처리하여 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 회의 음성데이터 테이블
+	 */
+	public List<Metadata> getMetadataAndProgramInMeeting(int limit, int offset){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("limit", limit);
+		map.put("offset", offset);
+		List<Metadata> list = sqlSession.selectList(metadataNS+"getMetadataAndProgramInMeetingByPaging", map);
+		return list;
+	}
+	
 	/**
 	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴
 	 * @param metaId 

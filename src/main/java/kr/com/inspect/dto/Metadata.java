@@ -9,7 +9,15 @@ package kr.com.inspect.dto;
 
 import java.util.List;
 
-public class Metadata {
+import kr.com.inspect.paging.CommonDto;
+
+public class Metadata extends CommonDto {
+	
+	/**
+	 * 게시글 번호
+	 */
+	private int row_num;
+	
 	/**
 	 * primary key, auto increment
 	 */
@@ -87,10 +95,11 @@ public class Metadata {
 	public Metadata() {
 	}
 
-	public Metadata(int id, String creator, String annotation_level, String year, String sampling, String title,
+	public Metadata(int row_num, int id, String creator, String annotation_level, String year, String sampling, String title,
 			String category, String audio_type, String distributor, String relation, int sentence_count, int eojeol_total, Program program,
 			List<Speaker> speaker, List<Utterance> utterance) {
 		super();
+		this.row_num = row_num;
 		this.id = id;
 		this.creator = creator;
 		this.annotation_level = annotation_level;
@@ -106,6 +115,14 @@ public class Metadata {
 		this.program = program;
 		this.speaker = speaker;
 		this.utterance = utterance;
+	}
+	
+	public int getRow_num() {
+		return row_num;
+	}
+
+	public void setRow_num(int row_num) {
+		this.row_num = row_num;
 	}
 
 	public int getId() {
@@ -230,10 +247,10 @@ public class Metadata {
 
 	@Override
 	public String toString() {
-		return "Metadata [id=" + id + ", creator=" + creator + ", annotation_level=" + annotation_level + ", year="
-				+ year + ", sampling=" + sampling + ", title=" + title + ", category=" + category + ", audio_type="
-				+ audio_type + ", distributor=" + distributor + ", relation=" + relation + ", sentence_count="
-				+ sentence_count + ", eojeol_total=" + eojeol_total + ", program=" + program + ", speaker=" + speaker
-				+ ", utterance=" + utterance + "]";
+		return "Metadata [row_num=" + row_num + ", id=" + id + ", creator=" + creator + ", annotation_level="
+				+ annotation_level + ", year=" + year + ", sampling=" + sampling + ", title=" + title + ", category="
+				+ category + ", audio_type=" + audio_type + ", distributor=" + distributor + ", relation=" + relation
+				+ ", sentence_count=" + sentence_count + ", eojeol_total=" + eojeol_total + ", program=" + program
+				+ ", speaker=" + speaker + ", utterance=" + utterance + "]";
 	}
 }

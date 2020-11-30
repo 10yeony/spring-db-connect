@@ -1,6 +1,8 @@
 package kr.com.inspect.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.JsonLog;
 import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
 
@@ -180,10 +183,21 @@ public class PostgreController {
 	 * @return 해당 페이지로 값 리턴
 	 */
 	@GetMapping("/getMetadataAndProgram")
-	public String getMetadataAndProgram(Model model, String data) {
-		List<Metadata> metadata = postgreService.getMetadataAndProgram(data);
-		model.addAttribute("result", metadata);
-		model.addAttribute("data", data);
+	public String getMetadataAndProgram(Model model, 
+												String data, 
+												String function_name,
+												int current_page_no) {
+		List<Metadata> metadata = new ArrayList<>();
+		ResponseData responseData = new ResponseData();
+		if(function_name != null && current_page_no > 0) {
+			responseData = postgreService.getMetadataAndProgram(data, function_name, current_page_no);
+			Map<String, Object> items = (Map<String, Object>) responseData.getItem();
+			metadata = (List<Metadata>) items.get("list");
+			model.addAttribute("totalCount", items.get("totalCount"));
+			model.addAttribute("pagination",(String)items.get("pagination"));
+		} else {
+			metadata = postgreService.getMetadataAndProgram(data);
+		}
 		switch(data) {
 			case "all":
 				model.addAttribute("selectedData", "전체 데이터");
@@ -203,9 +217,11 @@ public class PostgreController {
 			default:
 				break;
 		}
+		model.addAttribute("result", metadata);
+		model.addAttribute("data", data);
 		return "postgreSQL/getTable";
 	}
-
+	
 	/**
 	 * JsonLog 테이블 가져오기
 	 * @param model 속성부여

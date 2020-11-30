@@ -24,11 +24,17 @@ import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.JsonLog;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Program;
+import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
+import kr.com.inspect.paging.CommonDto;
+import kr.com.inspect.paging.CommonForm;
+import kr.com.inspect.paging.PagingUtil;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
+import kr.com.inspect.util.ResponseDataCode;
+import kr.com.inspect.util.ResponseDataStatus;
 
 /**
  * PostgreSQL Service
@@ -458,8 +464,9 @@ public class PostgreServiceImpl implements PostgreService{
 	}
 	
 	/**
-	 * Metadata 테이블과 Program 테이블을 조인해서 가져옴
-	 * @return 조인값을 리스트에 담아 리턴
+	 * Metadata 테이블과 Program 테이블을 조인해서 전체 테이블을 가져옴
+	 * @param data 데이터 타입 유형(전체/강의/회의/고객응대/상담)
+	 * @return Metadata 테이블과 Program 테이블을 조인한 전체 테이블
 	 */
 	public List<Metadata> getMetadataAndProgram(String data){
 		List<Metadata> list = new ArrayList<>();
@@ -481,6 +488,58 @@ public class PostgreServiceImpl implements PostgreService{
 				break;
 		}
 		return list;
+	}
+	
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 페이징 처리하여 가져옴
+	 * @param data 데이터 타입 유형(전체/강의/회의/고객응대/상담)
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 테이블
+	 */
+	public ResponseData getMetadataAndProgram(String data, 
+														String function_name, 
+														int current_page_no){
+    	
+		CommonDto commonDto = new CommonDto();
+		int totalCount = postgreDao.getMetadataCnt(data); //총 Metadata의 row 수
+		if (totalCount != 0) {
+			CommonForm commonForm = new CommonForm();
+			commonForm.setFunction_name(function_name);
+			commonForm.setCurrent_page_no(current_page_no);
+			commonForm.setCount_per_page(10);
+			commonForm.setCount_per_list(10);
+			commonForm.setTatal_list_count(totalCount);
+			commonDto = PagingUtil.setPageUtil(commonForm);
+		}
+		int limit = commonDto.getLimit();
+		int offset = commonDto.getOffset();
+		
+		List<Metadata> list = new ArrayList<>();
+		switch(data) {
+			case "all": //전체
+				list = postgreDao.getMetadataAndProgram(limit, offset);
+				break;
+			case "korean_lecture": //한국어 강의 데이터
+				list = postgreDao.getMetadataAndProgramInLecture(limit, offset);
+				break;
+			case "meeting_audio": //회의 음성 데이터
+				list = postgreDao.getMetadataAndProgramInMeeting(limit, offset);
+				break;
+			case "customer_reception": //고객 응대 데이터
+				break;
+			case "counsel_audio": //상담 음성 데이터
+				break;
+			default:
+				break;
+		}
+		ResponseData responseData = new ResponseData();
+    	Map<String, Object> items = new HashMap<String, Object>();	
+    	items.put("list", list);
+    	items.put("totalCount", totalCount);
+    	items.put("pagination", commonDto.getPagination());
+		responseData.setItem(items);
+		return responseData;
 	}
 
 	/**

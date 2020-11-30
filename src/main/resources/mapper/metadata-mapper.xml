@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <mapper namespace="MetadataMapper">
 	<resultMap id="metadataAndProgram" type="kr.com.inspect.dto.Metadata">
    		<id column="metadata_id" property="id" />
+   		<result column="row_num" property="row_num" />
     	<result column="creator" property="creator" />
     	<result column="annotation_level" property="annotation_level" />
     	<result column="metadata_year" property="year" />
@@ -22,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
       		<result column="program_title" property="title"/>
       		<result column="subtitle" property="subtitle"/>
 			<result column="running_time" property="running_time"/>
-		</collection>
+		</collection> 
 	</resultMap>
 	
 	<!-- metadata 테이블에 데이터를 입력함 -->
@@ -68,12 +69,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			creator = #{creator} AND title = #{title};
 	</select>
 	
-	<!-- metadata 데이터 총 개수 -->
+	<!-- metadata 전체 데이터 총 개수 -->
 	<select id="getMetadataCnt" resultType="int">
 		SELECT 
 			COUNT(*) 
 		FROM 
 			audio.metadata;
+	</select>
+	
+	<!-- metadata 한국어 강의 데이터 총 개수 -->
+	<select id="getMetadataInLectureCnt" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			audio.metadata
+		WHERE
+			audio_type = 'LH';
+	</select>
+	
+	<!-- metadata 회의 음성 데이터 총 개수 -->
+	<select id="getMetadataInMeetingCnt" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			audio.metadata
+		WHERE
+			audio_type = 'CG';
 	</select>
 
 	<!-- metadata 테이블 가져오기 -->
@@ -93,8 +114,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	
 	<!-- Metadata와 Program을 조인해서 가져옴(전체 데이터) -->
-	<select id="getMetadataAndProgram" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
-  		SELECT
+	<sql id="getMetadataAndProgram">
+		SELECT
+  			(ROW_NUMBER() OVER()) AS row_num,
   			m.id metadata_id,
   			m.creator creator,
   			m.annotation_level annotation_level,
@@ -128,12 +150,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				FROM audio.eojeolList
 				GROUP BY metadata_id) eo
 		ON
-			m.id = eo.metadata_id;
+			m.id = eo.metadata_id
+		ORDER BY 
+			m.id
+	</sql>
+	<select id="getMetadataAndProgram"  
+		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
+  		<include refid="getMetadataAndProgram" />
+	</select>
+	<select id="getMetadataAndProgramByPaging" parameterType="hashMap" 
+		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
+  		<include refid="getMetadataAndProgram" />
+  		DESC
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
 	</select>
 	
 	<!-- Metadata와 Program을 조인해서 가져옴(한국어 강의 데이터) -->
-	<select id="getMetadataAndProgramInLecture" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
-  		SELECT
+	<sql id="getMetadataAndProgramInLecture">
+		SELECT
+  			(ROW_NUMBER() OVER()) AS row_num,
   			m.id metadata_id,
   			m.creator creator,
   			m.annotation_level annotation_level,
@@ -169,12 +207,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		ON
 			m.id = eo.metadata_id
 		WHERE 
-			m.audio_type = 'LH';
+			m.audio_type = 'LH'
+		ORDER BY 
+			m.id
+	</sql>
+	<select id="getMetadataAndProgramInLecture" 
+		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
+  		<include refid="getMetadataAndProgramInLecture" />
+	</select>
+	<select id="getMetadataAndProgramInLectureByPaging" parameterType="hashMap" 
+		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
+  		<include refid="getMetadataAndProgramInLecture" />
+  		DESC
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
 	</select>
 	
 	<!-- Metadata와 Program을 조인해서 가져옴(회의 음성 데이터) -->
-	<select id="getMetadataAndProgramInMeeting" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
-  		SELECT
+	<sql id="getMetadataAndProgramInMeeting">
+		SELECT
+  			(ROW_NUMBER() OVER()) AS row_num,
   			m.id metadata_id,
   			m.creator creator,
   			m.annotation_level annotation_level,
@@ -210,12 +264,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		ON
 			m.id = eo.metadata_id
 		WHERE 
-			m.audio_type = 'CG';
+			m.audio_type = 'CG'
+		ORDER BY 
+			m.id
+	</sql>
+	<select id="getMetadataAndProgramInMeeting" 
+		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
+  		<include refid="getMetadataAndProgramInMeeting" />
+	</select>
+	<select id="getMetadataAndProgramInMeetingByPaging" parameterType="hashMap" 
+		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
+  		<include refid="getMetadataAndProgramInMeeting" />
+  		DESC
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
 	</select>
 
 	<!-- Metadata와 Program을 조인한 것을 id로 가져옴 -->
 	<select id="getMetadataAndProgramUsingId" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram" parameterType="Integer">
 		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
   			m.id metadata_id,
   			m.creator creator,
   			m.annotation_level annotation_level,

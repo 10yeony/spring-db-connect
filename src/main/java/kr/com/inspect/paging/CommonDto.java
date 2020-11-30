@@ -5,7 +5,8 @@ package kr.com.inspect.paging;
  * @author Yeonhee Kim
  *
  */
-public class CommonDTO {
+public class CommonDto {
+	
 	/**
 	 * SELECT할 row의 수
 	 */
@@ -21,8 +22,8 @@ public class CommonDTO {
 	 */
 	private String pagination;
 	
-	public CommonDTO() {}
-	public CommonDTO(int limit, int offset, String pagination) {
+	public CommonDto() {}
+	public CommonDto(int limit, int offset, String pagination) {
 		super();
 		this.limit = limit;
 		this.offset = offset;
@@ -50,6 +51,7 @@ public class CommonDTO {
 	
 	@Override
 	public String toString() {
-		return "CommonDTO [limit=" + limit + ", offset=" + offset + ", pagination=" + pagination + "]";
+		return "CommonDTO [limit=" + limit + ", offset=" + offset + ", pagination="
+				+ pagination + "]";
 	}
 }
