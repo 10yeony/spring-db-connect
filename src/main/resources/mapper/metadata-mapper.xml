@@ -136,6 +136,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- Metadata와 Program을 조인해서 가져옴(한국어 강의 데이터) -->
 	<select id="getMetadataAndProgramInLecture" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
   		SELECT
+  			(ROW_NUMBER() OVER()) AS row_num,
   			m.id metadata_id,
   			m.creator creator,
   			m.annotation_level annotation_level,
@@ -177,6 +178,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- Metadata와 Program을 조인해서 가져옴(회의 음성 데이터) -->
 	<select id="getMetadataAndProgramInMeeting" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
   		SELECT
+  			(ROW_NUMBER() OVER()) AS row_num,
   			m.id metadata_id,
   			m.creator creator,
   			m.annotation_level annotation_level,
@@ -218,6 +220,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- Metadata와 Program을 조인한 것을 id로 가져옴 -->
 	<select id="getMetadataAndProgramUsingId" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram" parameterType="Integer">
 		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
   			m.id metadata_id,
   			m.creator creator,
   			m.annotation_level annotation_level,
