@@ -135,7 +135,7 @@
     							<option value="counsel_audio">상담 음성</option>
   							</select>
 							<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
-								placeholder="Search for..." id="inputSearchText">
+								placeholder="Search for..." id="inputSearchText" value="${search_word}">
 							<button class="btn btn-primary" type="button" id="inputSearchButton">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
@@ -229,7 +229,7 @@ $(document).ready(function() {
 		if(event.keyCode == 13){
 			searchMetadataAndProgram();
 		}
-	})
+	});
 	
 	/* 데이터 타입 선택 */
 	$('#dataSelect').change(function(){
@@ -240,7 +240,7 @@ $(document).ready(function() {
 							+ "&current_page_no=1"
 							+ "&count_per_page=" + $('#show_count_per_page').val()
 							+ "&count_per_list=" + $('#show_count_per_list').val()
-							+ "&search_word=" + $('#show_search_word').val();
+							+ "&search_word=";
 	});
 	
 	/* 10개씩, 20개씩, 30개씩 보기 */
