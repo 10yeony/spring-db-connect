@@ -212,7 +212,7 @@ $(document).ready(function() {
 	$('#inputSearchButton').click(function(){
 		searchMetadataAndProgram();
 	});
-	$("#inputSearchText").keyup(function(event) {
+	$("#inputSearchText").keydown(function(event) {
 		if(event.keyCode == 13){
 			searchMetadataAndProgram();
 		}

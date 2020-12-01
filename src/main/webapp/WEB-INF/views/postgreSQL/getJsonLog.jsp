@@ -105,6 +105,7 @@
                                 </tbody>
                             </table>
                             ${pagination}
+                            <br/><br/>
                         </div>
                     </div>
                 </div>
@@ -147,7 +148,7 @@
 		$('#inputSearchButton').click(function(){
 			searchJsonLog();
 		});
-		$("#inputSearchText").keyup(function(event) {
+		$("#inputSearchText").keydown(function(event) {
 			if(event.keyCode == 13){
 				searchJsonLog();
 			}
