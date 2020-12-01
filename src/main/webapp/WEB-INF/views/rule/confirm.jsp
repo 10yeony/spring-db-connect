@@ -48,11 +48,8 @@
 				<!-- Begin Page Content -->
 
 				<h2>Submitted Information</h2>
-				<table>
-					<tr>
-						<td>${contents}</td>
-					</tr>
-				</table>
+				<textarea class="form-control" name="contents" cols="170"
+									rows="20" value="" style="resize: none;">${contents}</textarea>
 
 			</div>
 		</div>
