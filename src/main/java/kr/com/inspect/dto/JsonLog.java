@@ -9,6 +9,11 @@ package kr.com.inspect.dto;
 public class JsonLog {
 	
 	/**
+	 * 게시글 번호
+	 */
+	private int row_num;
+	
+	/**
 	 * primary key
 	 */
     private int id;
@@ -49,6 +54,14 @@ public class JsonLog {
 		this.program = program;
 	}
 
+	public int getRow_num() {
+		return row_num;
+	}
+	
+	public void setRow_num(int row_num) {
+		this.row_num = row_num;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -57,9 +70,13 @@ public class JsonLog {
 		this.id = id;
 	}
 
-	public int getMetadata_id(){ return metadata_id; }
+	public int getMetadata_id(){ 
+		return metadata_id; 
+	}
 
-	public void setMetadata_id(int metadata_id) { this.metadata_id = metadata_id; }
+	public void setMetadata_id(int metadata_id) { 
+		this.metadata_id = metadata_id; 
+	}
 
 	public String getTitle() {
 		return title;

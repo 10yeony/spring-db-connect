@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <mapper namespace="JsonLogMapper">
 	<resultMap id="jsonLogAndProgram" type="kr.com.inspect.dto.JsonLog">
    		<id column="id" property="id" />
+   		<result column="row_num" property="row_num" />
    		<result column="metadata_id" property="metadata_id" />
     	<result column="file_num" property="title" />
     	<result column="starting" property="start" />
@@ -32,9 +33,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				#{elapsed});
 	</insert>
 	
-	<!-- JsonLog 테이블 가져오기 -->
-	<select id="getJsonLog" resultMap="jsonLogAndProgram" resultType="kr.com.inspect.dto.JsonLog">
+	<!-- 검색어에 따라 JsonLog 테이블의 총 row 수를 가져옴 -->
+	<select id="getJsonLogCnt" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			(SELECT * FROM audio.jsonlog) j
+		LEFT JOIN 
+			audio.program p 
+		ON
+			j.title = p.file_num
+		WHERE 
+			j.title LIKE '%'||#{search_word}||'%'
+			OR p.title LIKE '%'||#{search_word}||'%'
+			OR p.subtitle LIKE '%'||#{search_word}||'%';
+	</select>
+	
+	<!-- 검색어에 따라 JsonLog 테이블 가져오기 -->
+	<select id="getJsonLog" parameterType="hashMap"
+		resultMap="jsonLogAndProgram" resultType="kr.com.inspect.dto.JsonLog">
   		SELECT
+  			(ROW_NUMBER() OVER()) AS row_num,
 			j.id id,
 			j.metadata_id metadata_id,
 			j.title file_num,
@@ -49,6 +68,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		LEFT JOIN 
 			audio.program p 
 		ON
-			j.title = p.file_num;
+			j.title = p.file_num
+		WHERE 
+			j.title LIKE '%'||#{search_word}||'%'
+			OR p.title LIKE '%'||#{search_word}||'%'
+			OR p.subtitle LIKE '%'||#{search_word}||'%'
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
 	</select>
 </mapper>

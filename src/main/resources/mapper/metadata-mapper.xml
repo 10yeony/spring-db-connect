@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	
 	<!-- metadata 전체 데이터 검색 후 총 개수 -->
-	<select id="getToSearchMetdataCnt" resultType="int">
+	<select id="getToSearchMetdataCnt" parameterType="string" resultType="int">
 		SELECT
   			COUNT(*)
   		FROM
@@ -116,7 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	
 	<!-- metadata 한국어 강의 데이터 검색 후 총 개수 -->
-	<select id="getToSearchMetdataInLectureCnt" resultType="int">
+	<select id="getToSearchMetdataInLectureCnt" parameterType="string" resultType="int">
 		SELECT
   			COUNT(*)
   		FROM
@@ -138,10 +138,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			m.id = eo.metadata_id
 		WHERE 
 			audio_type = 'LH'
-			AND p.title LIKE '%'||#{search_word}||'%'
+			AND (p.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
-			OR p.file_num LIKE '%'||#{search_word}||'%';
+			OR p.file_num LIKE '%'||#{search_word}||'%');
 	</select>
 	
 	<!-- metadata 회의 음성 데이터 총 개수 -->
@@ -155,7 +155,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	
 	<!-- metadata 회의 음성 데이터 검색 후 총 개수 -->
-	<select id="getToSearchMetdataInMeetingCnt" resultType="int">
+	<select id="getToSearchMetdataInMeetingCnt" parameterType="string" resultType="int">
 		SELECT
   			COUNT(*)
   		FROM
@@ -177,12 +177,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			m.id = eo.metadata_id
 		WHERE 
 			audio_type = 'CG'
-			AND p.title LIKE '%'||#{search_word}||'%'
+			AND (p.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
-			OR p.file_num LIKE '%'||#{search_word}||'%';
+			OR p.file_num LIKE '%'||#{search_word}||'%');
 	</select>
-
+	
 	<!-- metadata 테이블 가져오기 -->
 	<select id="getMetadata" resultType="kr.com.inspect.dto.Metadata">
 		SELECT * 
@@ -298,7 +298,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR m.creator LIKE '%'||#{search_word}||'%'
 			OR p.file_num LIKE '%'||#{search_word}||'%'
 		ORDER BY 
-			metadata_id DESC
+			m.id DESC
 		LIMIT 
 			#{limit} 
 		OFFSET 
@@ -365,13 +365,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		ON
 			m.id = eo.metadata_id
 		WHERE 
-			audio_type = 'LH'
+			m.audio_type = 'LH'
 			AND (p.title LIKE '%'||#{search_word}||'%'
-			OR p.subtitle LIKE '%'||#${search_word}||'%'
+			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
 			OR p.file_num LIKE '%'||#{search_word}||'%')
 		ORDER BY 
-			metadata_id DESC
+			m.id DESC
 		LIMIT 
 			#{limit} 
 		OFFSET 
@@ -438,13 +438,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		ON
 			m.id = eo.metadata_id
 		WHERE 
-			audio_type = 'CG'
+			m.audio_type = 'CG'
 			AND (p.title LIKE '%'||#{search_word}||'%' 
-			OR p.subtitle LIKE '%'||#${search_word}||'%'
+			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
 			OR p.file_num LIKE '%'||#{search_word}||'%')
 		ORDER BY 
-			metadata_id DESC
+			m.id DESC
 		LIMIT 
 			#{limit} 
 		OFFSET 

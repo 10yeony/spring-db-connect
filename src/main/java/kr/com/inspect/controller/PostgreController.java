@@ -185,10 +185,7 @@ public class PostgreController {
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
-	 * @param program_title 검색할 프로그램 제목
-	 * @param subtitle 검색할 프로그램 부제
-	 * @param creator 검색할 크리에이터
-	 * @param file_num 검색할 파일명
+	 * @param search_word 검색어
 	 * @return 해당 페이지로 값 리턴
 	 */
 	@GetMapping("/getMetadataAndProgram")
@@ -218,19 +215,39 @@ public class PostgreController {
 		}
 		switch(data) {
 			case "all":
-				model.addAttribute("selectedData", "전체 데이터");
+				if(search_word == "") {
+					model.addAttribute("selectedData", "전체 데이터");
+				}else {
+					model.addAttribute("selectedData", "전체 데이터 검색 결과");
+				}
 				break;
 			case "korean_lecture":
-				model.addAttribute("selectedData", "한국어 강의 데이터");
+				if(search_word == "") {
+					model.addAttribute("selectedData", "한국어 강의 데이터");
+				}else {
+					model.addAttribute("selectedData", "한국어 강의 데이터 검색 결과");
+				}
 				break;
 			case "meeting_audio":
-				model.addAttribute("selectedData", "회의 음성 데이터");
+				if(search_word == "") {
+					model.addAttribute("selectedData", "회의 음성 데이터");
+				}else {
+					model.addAttribute("selectedData", "회의 음성 데이터 검색 결과");
+				}
 				break;
 			case "customer_reception":
-				model.addAttribute("selectedData", "고객 응대 데이터");
+				if(search_word == "") {
+					model.addAttribute("selectedData", "고객 응대 데이터");
+				}else {
+					model.addAttribute("selectedData", "고객 응대 데이터 검색 결과");
+				}
 				break;
 			case "counsel_audio":
-				model.addAttribute("selectedData", "상담 음성 데이터");
+				if(search_word == "") {
+					model.addAttribute("selectedData", "상담 음성 데이터");
+				}else {
+					model.addAttribute("selectedData", "상담 음성 데이터 검색 결과");
+				}
 				break;
 			default:
 				break;
@@ -244,15 +261,40 @@ public class PostgreController {
 	}
 	
 	/**
-	 * JsonLog 테이블 가져오기
+	 * 검색어로 JsonLog 테이블 페이징 처리하여 가져오기
 	 * @param model 속성부여
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
 	 * @return 해당 페이지로 값 리턴
 	 */
 	@GetMapping("/getJsonLog")
-	public String getJsonLog(Model model){
-		List<JsonLog> jsonLogs = postgreService.getJsonLog();
-		model.addAttribute("jsonLog",jsonLogs);
-
+	public String getJsonLog(Model model,
+									String function_name, 
+									int current_page_no,
+									int count_per_page,
+									int count_per_list,
+									String search_word){
+		ResponseData responseData = postgreService.getJsonLog(function_name, 
+																	current_page_no,
+																	count_per_page,
+																	count_per_list,
+																	search_word);
+		Map<String, Object> items = (Map<String, Object>) responseData.getItem();
+		List<JsonLog> list  = (List<JsonLog>) items.get("list");
+		model.addAttribute("jsonLog", list);
+		model.addAttribute("totalCount", items.get("totalCount"));
+		model.addAttribute("pagination",(String)items.get("pagination"));
+		model.addAttribute("count_per_page", count_per_page);
+		model.addAttribute("count_per_list", count_per_list);
+		model.addAttribute("search_word", search_word);
+		if(search_word == "") {
+			model.addAttribute("selectedData", "전체");
+		}else {
+			model.addAttribute("selectedData", "검색 결과");
+		}
 		return "postgreSQL/getJsonLog";
 	}
 }

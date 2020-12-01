@@ -22,20 +22,7 @@
 	<!-- Custom styles for this template-->
 	<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
 	
-	<style>
-		.pagination{
-			display: block;
-			text-align: center;
-		}
-		.direction_left01, .direction_right01, .on_page, .other_page{
-			color: #717384;
-			margin-right: 10px;
-		}
-		.on_page{
-			color: #e74a3b;
-			font-weight: bold;
-		}
-	</style>
+	<link href="${pageContext.request.contextPath}/resource/css/paging.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -225,11 +212,11 @@ $(document).ready(function() {
 	$('#inputSearchButton').click(function(){
 		searchMetadataAndProgram();
 	});
-	$("#inputSearchText").keyup(function(event) {
+	$("#inputSearchText").keydown(function(event) {
 		if(event.keyCode == 13){
 			searchMetadataAndProgram();
 		}
-	})
+	});
 	
 	/* 데이터 타입 선택 */
 	$('#dataSelect').change(function(){
@@ -240,7 +227,7 @@ $(document).ready(function() {
 							+ "&current_page_no=1"
 							+ "&count_per_page=" + $('#show_count_per_page').val()
 							+ "&count_per_list=" + $('#show_count_per_list').val()
-							+ "&search_word=" + $('#show_search_word').val();
+							+ "&search_word=";
 	});
 	
 	/* 10개씩, 20개씩, 30개씩 보기 */

@@ -134,9 +134,44 @@ public class PostgreServiceImpl implements PostgreService{
 
 	/**
 	 * JsonLog 테이블을 모두 가져옴
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
 	 * @return JsonLog 테이블들의 값을 리스트로 담아 리턴
 	 */
-	public List<JsonLog> getJsonLog(){ return postgreDao.getJsonLog();	}
+	public ResponseData getJsonLog(String function_name, 
+										int current_page_no,
+										int count_per_page,
+										int count_per_list,
+										String search_word){ 
+		
+		CommonDto commonDto = new CommonDto();
+		int totalCount = postgreDao.getJsonLogCnt(search_word); //총 JsonLog의 row 수
+		if (totalCount != 0) {
+			CommonForm commonForm = new CommonForm();
+			commonForm.setFunction_name(function_name);
+			commonForm.setCurrent_page_no(current_page_no);
+			commonForm.setCount_per_page(count_per_page);
+			commonForm.setCount_per_list(count_per_list);
+			commonForm.setTatal_list_count(totalCount);
+			commonDto = PagingUtil.setPageUtil(commonForm);
+		}
+		int limit = commonDto.getLimit();
+		int offset = commonDto.getOffset();
+		
+		List<JsonLog> list = new ArrayList<>();
+		list = postgreDao.getJsonLog(limit, offset, search_word);
+		
+		ResponseData responseData = new ResponseData();
+    	Map<String, Object> items = new HashMap<String, Object>();	
+    	items.put("list", list);
+    	items.put("totalCount", totalCount);
+    	items.put("pagination", commonDto.getPagination());
+		responseData.setItem(items);
+		return responseData;	
+	}
 	
 	/**
 	 * id로 해당되는 Metadata 테이블을 가져옴
