@@ -58,11 +58,11 @@ public class PostgreDaoImpl implements PostgreDao {
 		}else { //검색어가 있을 경우
 			switch(data) {
 				case "all": //전체
-					return sqlSession.selectOne(metadataNS+"getToSearchMetdataCnt");
+					return sqlSession.selectOne(metadataNS+"getToSearchMetdataCnt", search_word);
 				case "korean_lecture": //한국어 강의 데이터
-					return sqlSession.selectOne(metadataNS+"getToSearchMetdataInLectureCnt");
+					return sqlSession.selectOne(metadataNS+"getToSearchMetdataInLectureCnt", search_word);
 				case "meeting_audio": //회의 음성 데이터
-					return sqlSession.selectOne(metadataNS+"getToSearchMetdataInMeetingCnt");
+					return sqlSession.selectOne(metadataNS+"getToSearchMetdataInMeetingCnt", search_word);
 				case "customer_reception": //고객 응대 데이터
 					return 0;
 				case "counsel_audio": //상담 음성 데이터
