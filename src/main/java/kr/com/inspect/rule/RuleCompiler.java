@@ -25,10 +25,10 @@ public class RuleCompiler extends Thread {
 
     public Object create(String body)throws Exception{
         System.out.println(postgreService);
-        System.out.println(postgreService.getMetadata().get(0));
+        //System.out.println(postgreService.getMetadata().get(0));
 
-        String path = "/home/wooyoung/github/spring-db-connect/src/main/java/";
-        String classPath = "/home/wooyoung/github/spring-db-connect/target/classes/";
+        String path = "/home/namuhwang/github/spring-db-connect/src/main/java/";
+        String classPath = "/home/namuhwang/github/spring-db-connect/target/classes/";
 
         // Source를 만들고 Java파일 생성
         File sourceFile = new File(path+"kr/com/inspect/rule/Test.java");

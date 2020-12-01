@@ -63,11 +63,11 @@
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 								<textarea class="form-control" name="contents" cols="170"
 									rows="20" value="" style="resize: none;">
-			package kr.com.inspect.java;
+package kr.com.inspect.java;
 			
-			import kr.com.inspect.*;
+import kr.com.inspect.*;
 			
-			public class{}
+public class{}
 								</textarea>
 								<input type="submit" value="Save" class="btn btn-primary" 
 									style="float:right; margin-top:10px;">
