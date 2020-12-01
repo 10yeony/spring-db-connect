@@ -6,9 +6,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class RuleController {
 	
-	@GetMapping("/getRuleListByAdmin")
-	public String Rulepage() {
-		return "rule/getRuleList";
+	@GetMapping("/editRuleByAdmin")
+	public String editRulepage() {
+		return "rule/editRule";
+	}
+	
+	@GetMapping("/registerRuleByAdmin")
+	public String registerRulepage() {
+		return "rule/registerRule";
+	}
+	
+	@GetMapping("/runRuleByAdmin")
+	public String runRulepage() {
+		return "rule/runRule";
 	}
 
 }

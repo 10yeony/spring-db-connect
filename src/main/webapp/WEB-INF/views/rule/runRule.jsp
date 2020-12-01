@@ -42,7 +42,7 @@
 				<div style="text-align:center; padding-top:100px;">
 					<img src="${pageContext.request.contextPath}/resource/img/warning.png"
 						width="150px">
-					<div style="margin-top:30px; font-size:1.5em;">룰관리 페이지가 아직 작업중입니다</div>
+					<div style="margin-top:30px; font-size:1.5em;">룰실행 페이지가 아직 작업중입니다</div>
 				</div>
 			</div>
 			<!-- /.container-fluid -->

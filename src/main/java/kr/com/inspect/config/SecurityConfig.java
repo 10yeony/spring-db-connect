@@ -101,7 +101,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 						"/deleteMemberByAdmin",
 						"/updateAuthoritiesByAdmin",
 						"/getWorkListByAdmin",
-						"/getRuleListByAdmin").access("hasRole('ROLE_ADMIN')") //ADMIN 권한만 접근
+						"/editRuleByAdmin",
+						"/registerRuleByAdmin",
+						"/runRuleByAdmin").access("hasRole('ROLE_ADMIN')") //ADMIN 권한만 접근
 			.antMatchers("insertIntoPostgre").access("hasRole('ROLE_INPUT')") //INPUT 권한만 접근
 			.antMatchers("/**").access("hasRole('ROLE_VIEW')") //VIEW 권한만 접근
 			.anyRequest().authenticated(); //설정되지 않은 모든 url request는 인가된 사용자만 이용
