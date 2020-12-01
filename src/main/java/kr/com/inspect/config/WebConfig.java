@@ -28,7 +28,8 @@ public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitial
 							ElasticConfig.class, 
 							MongoConfig.class,
 							PostgreConfig.class,
-							SecurityConfig.class
+							SecurityConfig.class,
+							ScheduledConfig.class
 							};
 	}
 	

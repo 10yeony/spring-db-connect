@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix = "form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -46,22 +46,14 @@
 				<!-- 툴바 include -->
 				<%@ include file="/WEB-INF/views/include/toolbar.jsp"%>
 				<!-- Begin Page Content -->
-				<div class="container-fluid">
-						<div style="margin-top: 30px; font-size: 1.5em;">
-						제시된 양식을 보고 참고하여 작성해주세요</div>
-						<form action="${pageContext.request.contextPath}/saveRule" method="post">
-						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-						<textarea class="form-control" name="contents" cols="170"
-							rows="30" value="">
-package kr.com.inspect.java;
 
-import kr.com.inspect.*;
+				<h2>Submitted Information</h2>
+				<table>
+					<tr>
+						<td>${contents}</td>
+					</tr>
+				</table>
 
-public class{}
-							</textarea>
-						<input type="submit" value="Save">
-					</form>
-				</div>
 			</div>
 		</div>
 	</div>
