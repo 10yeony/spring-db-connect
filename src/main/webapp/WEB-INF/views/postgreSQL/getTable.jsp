@@ -44,6 +44,9 @@
 <input type="hidden" id="show_count_per_page" value="${count_per_page}">
 <input type="hidden" id="show_count_per_list" value="${count_per_list}">
 
+<!-- program_title, subtitle, creator, file_num -->
+<input type="hidden" id="show_search_word" value="${search_word}">
+
 <!-- Page Wrapper -->
 <div id="wrapper">
 
@@ -125,7 +128,6 @@
 					<div class="card-body"><br/>
 						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
   							<select class="form-control" id="dataSelect" style="margin-right:3px;">
-								<option>데이터 선택</option>
     							<option value="all">전체 데이터</option>
     							<option value="korean_lecture">한국어 강의</option>
     							<option value="meeting_audio">회의 음성</option>
@@ -134,7 +136,7 @@
   							</select>
 							<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
 								placeholder="Search for..." id="inputSearchText">
-							<button class="btn btn-primary" type="button">
+							<button class="btn btn-primary" type="button" id="inputSearchButton">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
 						</div><br><br>
@@ -203,7 +205,14 @@
 <script>
 
 $(document).ready(function() {
+	/* 화면 세팅을 위한 변수 선언 */
+	var data_type = $('#show_data_type').val();
 	var count_per_list = $('#show_count_per_list').val();
+	
+	/* 선택한 데이터 타입 세팅 */
+	$('#dataSelect').val(data_type);
+	
+	/* 한 페이지당 몇개씩 보는지 세팅 */
 	if(count_per_list==10){
 		$('input[value=10views]').prop("checked", true);
 	}else if(count_per_list==20){
@@ -212,12 +221,14 @@ $(document).ready(function() {
 		$('input[value=30views]').prop("checked", true);
 	}
 	
-	$("#inputSearchText").keyup(function() {
-		var k = $(this).val();
-		$("#metadata > tbody > tr").hide();
-		var temp = $("#metadata > tbody > tr > td:contains('" + k + "')");
-
-		$(temp).parent().show();
+	/* 검색 기능 (클릭, 엔터) */
+	$('#inputSearchButton').click(function(){
+		searchMetadataAndProgram();
+	});
+	$("#inputSearchText").keyup(function(event) {
+		if(event.keyCode == 13){
+			searchMetadataAndProgram();
+		}
 	})
 	
 	/* 데이터 타입 선택 */
@@ -228,7 +239,8 @@ $(document).ready(function() {
 							+ "&function_name=getMetadataAndProgram"
 							+ "&current_page_no=1"
 							+ "&count_per_page=" + $('#show_count_per_page').val()
-							+ "&count_per_list=" + $('#show_count_per_list').val();
+							+ "&count_per_list=" + $('#show_count_per_list').val()
+							+ "&search_word=" + $('#show_search_word').val();
 	});
 	
 	/* 10개씩, 20개씩, 30개씩 보기 */
@@ -262,6 +274,17 @@ $(document).ready(function() {
 	});
 })
 
+function searchMetadataAndProgram(){
+	let searchWord = $("#inputSearchText").val();
+	location.href = '${pageContext.request.contextPath}/' 
+						+ "getMetadataAndProgram?data=" + $('#show_data_type').val()
+						+ "&function_name=getMetadataAndProgram"
+						+ "&current_page_no=1"
+						+ "&count_per_page=" + $('#show_count_per_page').val()
+						+ "&count_per_list=" + $('#show_count_per_list').val()
+						+ "&search_word=" + searchWord;
+}
+
 function getMetadataAndProgram(currentPageNo){
 	if(currentPageNo === undefined){
 		currentPageNo = "1";
@@ -271,7 +294,8 @@ function getMetadataAndProgram(currentPageNo){
 				+ "&function_name=getMetadataAndProgram"
 				+ "&current_page_no=" + currentPageNo
 				+ "&count_per_page=" + $('#show_count_per_page').val()
-				+ "&count_per_list=" + $('#show_count_per_list').val();
+				+ "&count_per_list=" + $('#show_count_per_list').val()
+				+ "&search_word=" + $('#show_search_word').val();
 }
 
 function setMetadataAndProgramListSize(size){
@@ -280,7 +304,8 @@ function setMetadataAndProgramListSize(size){
 				+ "&function_name=getMetadataAndProgram"
 				+ "&current_page_no=" + 1
 				+ "&count_per_page=" + $('#show_count_per_page').val()
-				+ "&count_per_list=" + size;
+				+ "&count_per_list=" + size
+				+ "&search_word=" + $('#show_search_word').val();
 }
 
 function send(type, fileurl){

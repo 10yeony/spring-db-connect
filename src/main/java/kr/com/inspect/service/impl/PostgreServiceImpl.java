@@ -495,16 +495,20 @@ public class PostgreServiceImpl implements PostgreService{
 	 * @param data 데이터 타입 유형(전체/강의/회의/고객응대/상담)
 	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
 	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 테이블
 	 */
 	public ResponseData getMetadataAndProgram(String data, 
 											String function_name, 
 											int current_page_no,
 											int count_per_page,
-											int count_per_list){
+											int count_per_list,
+											String search_word){
     	
 		CommonDto commonDto = new CommonDto();
-		int totalCount = postgreDao.getMetadataCnt(data); //총 Metadata의 row 수
+		int totalCount = postgreDao.getMetadataCnt(data, search_word); //총 Metadata의 row 수
 		if (totalCount != 0) {
 			CommonForm commonForm = new CommonForm();
 			commonForm.setFunction_name(function_name);
@@ -518,23 +522,8 @@ public class PostgreServiceImpl implements PostgreService{
 		int offset = commonDto.getOffset();
 		
 		List<Metadata> list = new ArrayList<>();
-		switch(data) {
-			case "all": //전체
-				list = postgreDao.getMetadataAndProgram(limit, offset);
-				break;
-			case "korean_lecture": //한국어 강의 데이터
-				list = postgreDao.getMetadataAndProgramInLecture(limit, offset);
-				break;
-			case "meeting_audio": //회의 음성 데이터
-				list = postgreDao.getMetadataAndProgramInMeeting(limit, offset);
-				break;
-			case "customer_reception": //고객 응대 데이터
-				break;
-			case "counsel_audio": //상담 음성 데이터
-				break;
-			default:
-				break;
-		}
+		list = postgreDao.getMetadataAndProgram(data, limit, offset, search_word);
+		
 		ResponseData responseData = new ResponseData();
     	Map<String, Object> items = new HashMap<String, Object>();	
     	items.put("list", list);

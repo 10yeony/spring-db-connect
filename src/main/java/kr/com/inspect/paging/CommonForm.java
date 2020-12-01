@@ -18,7 +18,7 @@ public class CommonForm {
 	private int current_page_no;
 	
 	/**
-	 * 변수는 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 */
 	private int count_per_page;
 	
