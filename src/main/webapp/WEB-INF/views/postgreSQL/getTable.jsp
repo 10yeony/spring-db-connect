@@ -21,12 +21,31 @@
 
 	<!-- Custom styles for this template-->
 	<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-
+	
+	<style>
+		.pagination{
+			display: block;
+			text-align: center;
+		}
+		.direction_left01, .direction_right01, .on_page, .other_page{
+			color: #717384;
+			margin-right: 10px;
+		}
+		.on_page{
+			color: #e74a3b;
+			font-weight: bold;
+		}
+	</style>
 </head>
 
 <body id="page-top">
-<!-- data type -->
+<!-- data type, count_per_page, count_per_list -->
 <input type="hidden" id="show_data_type" value="${data}">
+<input type="hidden" id="show_count_per_page" value="${count_per_page}">
+<input type="hidden" id="show_count_per_list" value="${count_per_list}">
+
+<!-- program_title, subtitle, creator, file_num -->
+<input type="hidden" id="show_search_word" value="${search_word}">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -49,7 +68,7 @@
 				<div class="d-sm-flex align-items-center justify-content-between mb-4">
 					<h1 class="h3 mb-2 text-gray-800">
 						<b>전사 데이터 목록</b>
-						<span style="font-size:18px;">(${selectedData})</span>
+						<span style="font-size:18px;">(${selectedData} ${totalCount}개)</span>
 					</h1>
 					<div>
 						<!-- 파일 다운로드 버튼 -->
@@ -106,27 +125,34 @@
 				<!-- Page Body -->
 				<div class="card shadow mb-4">
 
-					<div class="card-body">
+					<div class="card-body"><br/>
 						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
-							<select class="form-control" id="dataSelect" style="margin-right:3px;">
-								<option>데이터 선택</option>
-    							<option value="all">전체</option>
+  							<select class="form-control" id="dataSelect" style="margin-right:3px;">
+    							<option value="all">전체 데이터</option>
     							<option value="korean_lecture">한국어 강의</option>
     							<option value="meeting_audio">회의 음성</option>
     							<option value="customer_reception">고객 응대</option>
     							<option value="counsel_audio">상담 음성</option>
   							</select>
-							<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-								   id="inputSearchText">
-							<button class="btn btn-primary" type="button">
+							<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
+								placeholder="Search for..." id="inputSearchText">
+							<button class="btn btn-primary" type="button" id="inputSearchButton">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
 						</div><br><br>
+						<div style="display:inline-block; float:right;">
+								<input type="radio" name="views" value="10views"> 
+								<span id="10viewsSpan" style="cursor: pointer">10개씩 보기</span> 
+								<input type="radio" name="views" value="20views" style="margin-left:10px;"> 
+								<span id="20viewsSpan" style="cursor: pointer">20개씩 보기</span>
+								<input type="radio" name="views" value="30views" style="margin-left:10px;"> 
+								<span id="30viewsSpan" style="cursor: pointer">30개씩 보기</span> 
+						</div>
 						<div class="table-responsive">
 							<table class="table table-bordered" id="metadata" width="100%" cellspacing="0">
 								<thead>
 									<tr>
-										<th>Id</th>
+										<th>no.</th>
 										<th>제목</th>
 										<th>부제</th>
 										<th>Creator</th>
@@ -139,7 +165,7 @@
 								<tbody>
 									<c:forEach items="${result}" var="item" varStatus="status">
 										<tr>
-											<td>${status.count}</td>
+											<td>${item.row_num}</td>
 											<td>${item.program.title}</td>
 											<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
 											<td>${item.creator}</td>
@@ -151,10 +177,11 @@
 									</c:forEach>
 								</tbody>
 							</table>
+							${pagination}
+							<br/><br/>
 						</div>
 					</div>
 				</div>
-
 
 			</div>
 			<!-- /.container-fluid -->
@@ -178,19 +205,108 @@
 <script>
 
 $(document).ready(function() {
-	$("#inputSearchText").keyup(function() {
-		var k = $(this).val();
-		$("#metadata > tbody > tr").hide();
-		var temp = $("#metadata > tbody > tr > td:contains('" + k + "')");
-
-		$(temp).parent().show();
+	/* 화면 세팅을 위한 변수 선언 */
+	var data_type = $('#show_data_type').val();
+	var count_per_list = $('#show_count_per_list').val();
+	
+	/* 선택한 데이터 타입 세팅 */
+	$('#dataSelect').val(data_type);
+	
+	/* 한 페이지당 몇개씩 보는지 세팅 */
+	if(count_per_list==10){
+		$('input[value=10views]').prop("checked", true);
+	}else if(count_per_list==20){
+		$('input[value=20views]').prop("checked", true);
+	}else if(count_per_list==30){
+		$('input[value=30views]').prop("checked", true);
+	}
+	
+	/* 검색 기능 (클릭, 엔터) */
+	$('#inputSearchButton').click(function(){
+		searchMetadataAndProgram();
+	});
+	$("#inputSearchText").keyup(function(event) {
+		if(event.keyCode == 13){
+			searchMetadataAndProgram();
+		}
 	})
 	
+	/* 데이터 타입 선택 */
 	$('#dataSelect').change(function(){
-		var selectOption = $(this).val();
-		location.href = '${pageContext.request.contextPath}/' + "getMetadataAndProgram?data=" + selectOption;
+		let selectOption = $(this).val();
+		location.href = '${pageContext.request.contextPath}/' 
+							+ "getMetadataAndProgram?data=" + selectOption
+							+ "&function_name=getMetadataAndProgram"
+							+ "&current_page_no=1"
+							+ "&count_per_page=" + $('#show_count_per_page').val()
+							+ "&count_per_list=" + $('#show_count_per_list').val()
+							+ "&search_word=" + $('#show_search_word').val();
+	});
+	
+	/* 10개씩, 20개씩, 30개씩 보기 */
+	$('input[name=views]').change(function(){
+		let check = $(this).val();
+		if(check == '10views'){
+			setMetadataAndProgramListSize(10);
+		}else if(check == '20views'){
+			setMetadataAndProgramListSize(20);
+		}else if(check == '30views'){
+			setMetadataAndProgramListSize(30);
+		}
+	});
+	$('#10viewsSpan').click(function(){
+		$('input[value=10views]').prop("checked", true);
+		if($('input[value=10views]').is(":checked")){
+			setMetadataAndProgramListSize(10);
+		}
+	});
+	$('#20viewsSpan').click(function(){
+		$('input[value=20views]').prop("checked", true);
+		if($('input[value=20views]').is(":checked")){
+			setMetadataAndProgramListSize(20);
+		}
+	});
+	$('#30viewsSpan').click(function(){
+		$('input[value=30views]').prop("checked", true);
+		if($('input[value=30views]').is(":checked")){
+			setMetadataAndProgramListSize(30);
+		}
 	});
 })
+
+function searchMetadataAndProgram(){
+	let searchWord = $("#inputSearchText").val();
+	location.href = '${pageContext.request.contextPath}/' 
+						+ "getMetadataAndProgram?data=" + $('#show_data_type').val()
+						+ "&function_name=getMetadataAndProgram"
+						+ "&current_page_no=1"
+						+ "&count_per_page=" + $('#show_count_per_page').val()
+						+ "&count_per_list=" + $('#show_count_per_list').val()
+						+ "&search_word=" + searchWord;
+}
+
+function getMetadataAndProgram(currentPageNo){
+	if(currentPageNo === undefined){
+		currentPageNo = "1";
+	}
+	location.href = '${pageContext.request.contextPath}/' 
+		+ "getMetadataAndProgram?data=" + $('#show_data_type').val()
+				+ "&function_name=getMetadataAndProgram"
+				+ "&current_page_no=" + currentPageNo
+				+ "&count_per_page=" + $('#show_count_per_page').val()
+				+ "&count_per_list=" + $('#show_count_per_list').val()
+				+ "&search_word=" + $('#show_search_word').val();
+}
+
+function setMetadataAndProgramListSize(size){
+	location.href = '${pageContext.request.contextPath}/' 
+		+ "getMetadataAndProgram?data=" + $('#show_data_type').val()
+				+ "&function_name=getMetadataAndProgram"
+				+ "&current_page_no=" + 1
+				+ "&count_per_page=" + $('#show_count_per_page').val()
+				+ "&count_per_list=" + size
+				+ "&search_word=" + $('#show_search_word').val();
+}
 
 function send(type, fileurl){
 	var dataType = document.getElementById("show_data_type").value;

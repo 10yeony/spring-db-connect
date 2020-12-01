@@ -2,11 +2,13 @@ package kr.com.inspect.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.JsonLog;
 import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Utterance;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * PostgreSQL Service Interface
@@ -84,10 +86,28 @@ public interface PostgreService {
 	public String insertXlsxDir(String path) throws Exception;
 
 	/**
-	 * Metadata 테이블과 Program 테이블을 조인해서 가져옴
-	 * @return
+	 * Metadata 테이블과 Program 테이블을 조인해서 전체 테이블을 가져옴
+	 * @param data 데이터 타입 유형(전체/강의/회의/고객응대/상담)
+	 * @return Metadata 테이블과 Program 테이블을 조인한 전체 테이블
 	 */
 	public List<Metadata> getMetadataAndProgram(String data);
+	
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 페이징 처리하여 가져옴
+	 * @param data 데이터 타입 유형(전체/강의/회의/고객응대/상담)
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 테이블
+	 */
+	public ResponseData getMetadataAndProgram(String data, 
+											String function_name, 
+											int current_page_no,
+											int count_per_page,
+											int count_per_list,
+											String search_word);
 
 	/**
 	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴

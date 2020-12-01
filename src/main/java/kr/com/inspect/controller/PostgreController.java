@@ -1,6 +1,8 @@
 package kr.com.inspect.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.JsonLog;
 import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
 
@@ -177,13 +180,42 @@ public class PostgreController {
 	/**
 	 * Metadata & Program 조인해서 가져오기
 	 * @param model 속성부여
+	 * @param data 데이터 타입 유형(전체/강의/회의/고객응대/상담)
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param program_title 검색할 프로그램 제목
+	 * @param subtitle 검색할 프로그램 부제
+	 * @param creator 검색할 크리에이터
+	 * @param file_num 검색할 파일명
 	 * @return 해당 페이지로 값 리턴
 	 */
 	@GetMapping("/getMetadataAndProgram")
-	public String getMetadataAndProgram(Model model, String data) {
-		List<Metadata> metadata = postgreService.getMetadataAndProgram(data);
-		model.addAttribute("result", metadata);
-		model.addAttribute("data", data);
+	public String getMetadataAndProgram(Model model, 
+										String data, 
+										String function_name,
+										int current_page_no,
+										int count_per_page,
+										int count_per_list,
+										String search_word) {
+		
+		List<Metadata> metadata = new ArrayList<>();
+		ResponseData responseData = new ResponseData();
+		if(function_name != null && current_page_no > 0) {
+			responseData = postgreService.getMetadataAndProgram(data, 
+																function_name, 
+																current_page_no, 
+																count_per_page, 
+																count_per_list,
+																search_word);
+			Map<String, Object> items = (Map<String, Object>) responseData.getItem();
+			metadata = (List<Metadata>) items.get("list");
+			model.addAttribute("totalCount", items.get("totalCount"));
+			model.addAttribute("pagination",(String)items.get("pagination"));
+		} else {
+			metadata = postgreService.getMetadataAndProgram(data);
+		}
 		switch(data) {
 			case "all":
 				model.addAttribute("selectedData", "전체 데이터");
@@ -203,9 +235,14 @@ public class PostgreController {
 			default:
 				break;
 		}
+		model.addAttribute("result", metadata);
+		model.addAttribute("data", data);
+		model.addAttribute("count_per_page", count_per_page);
+		model.addAttribute("count_per_list", count_per_list);
+		model.addAttribute("search_word", search_word);
 		return "postgreSQL/getTable";
 	}
-
+	
 	/**
 	 * JsonLog 테이블 가져오기
 	 * @param model 속성부여
