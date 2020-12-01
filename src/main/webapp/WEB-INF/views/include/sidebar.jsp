@@ -46,7 +46,7 @@
                 <sec:authorize access="hasRole('ROLE_INPUT')">
                 	<a class="collapse-item" href="${pageContext.request.contextPath}/insertIntoPostgre">데이터 입력</a>
                 </sec:authorize>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getJsonLog">Json 파일 관리</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getJsonLog?&function_name=getJsonLog&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">JSON 파일 관리</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram?data=all&function_name=getMetadataAndProgram&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">전사 데이터 목록</a>
             </div>
         </div>

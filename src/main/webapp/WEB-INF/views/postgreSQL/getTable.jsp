@@ -22,20 +22,7 @@
 	<!-- Custom styles for this template-->
 	<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
 	
-	<style>
-		.pagination{
-			display: block;
-			text-align: center;
-		}
-		.direction_left01, .direction_right01, .on_page, .other_page{
-			color: #717384;
-			margin-right: 10px;
-		}
-		.on_page{
-			color: #e74a3b;
-			font-weight: bold;
-		}
-	</style>
+	<link href="${pageContext.request.contextPath}/resource/css/paging.css" rel="stylesheet">
 </head>
 
 <body id="page-top">

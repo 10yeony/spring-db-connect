@@ -1,0 +1,12 @@
+.pagination{
+			display: block;
+			text-align: center;
+}
+.direction_left01, .direction_right01, .on_page, .other_page{
+	color: #717384;
+	margin-right: 10px;
+}
+.on_page{
+	color: #e74a3b;
+	font-weight: bold;
+}

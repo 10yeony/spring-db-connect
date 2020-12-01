@@ -211,11 +211,29 @@ public class PostgreDaoImpl implements PostgreDao {
 	}
 
 	/**
-	 * JsonLog 테이블을 모두 가져옴
-	 * @return 모든 JSON Log 테이블 값을 리턴
+	 * 검색어를 통해 JsonLog 테이블의 총 row 수를 가져옴
+	 * @param search_word 검색어
+	 * @return 해당되는 JsonLog 테이블의 총 row 수를 리턴함
 	 */
-	public List<JsonLog> getJsonLog(){
-		return sqlSession.selectList(jsonLogNS+"getJsonLog");
+	public int getJsonLogCnt(String search_word) {
+		return sqlSession.selectOne(jsonLogNS+"getJsonLogCnt", search_word);
+	}
+	
+	/**
+	 * JsonLog 테이블을 검색어를 통해 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @return 모든 테이블을 리스트로 담아 리턴
+	 */
+	public List<JsonLog> getJsonLog(int limit, 
+											int offset, 
+											String search_word){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("limit", limit);
+		map.put("offset", offset);
+		map.put("search_word", search_word);
+		return sqlSession.selectList(jsonLogNS+"getJsonLog", map);
 	}
 
 	/**
