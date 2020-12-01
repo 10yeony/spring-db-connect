@@ -47,19 +47,21 @@
 				<%@ include file="/WEB-INF/views/include/toolbar.jsp"%>
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-						<div style="margin-top: 30px; font-size: 1.5em;">
-						제시된 양식을 보고 참고하여 작성해주세요</div>
-						<form action="${pageContext.request.contextPath}/saveRule" method="post">
+					<div style="margin-top: 30px; font-size: 1.5em;">
+						제시된 양식을 보고 참고하여 작성해주세요
+					</div>
+					<form action="${pageContext.request.contextPath}/saveRule" method="post">
 						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 						<textarea class="form-control" name="contents" cols="170"
-							rows="30" value="">
-package kr.com.inspect.java;
-
-import kr.com.inspect.*;
-
-public class{}
-							</textarea>
-						<input type="submit" value="Save">
+							rows="30" value="" style="resize: none;">
+	package kr.com.inspect.java;
+	
+	import kr.com.inspect.*;
+	
+	public class{}
+						</textarea>
+						<input type="submit" value="Save" class="btn btn-primary" 
+							style="float:right; margin-top:10px;">
 					</form>
 				</div>
 			</div>
