@@ -109,12 +109,12 @@
                                         </span>
                                     <span class="text">업로드</span>
                                 </button>
-<%--                                <button type="button" onclick="xlsxDir();" class="btn btn-danger btn-icon-split" style="float:right;">--%>
-<%--                                        <span class="icon text-white-50">--%>
-<%--                                            <i class="fas fa-check"></i>--%>
-<%--                                        </span>--%>
-<%--                                    <span class="text">서버 디렉토리의 파일 업로드</span>--%>
-<%--                                </button>--%>
+                                <button type="button" onclick="xlsxDir();" class="btn btn-danger btn-icon-split" style="float:right;">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                    <span class="text">TEST</span>
+                                </button>
                             </form>
 <%--                            <a href="${pageContext.request.contextPath}/insertXlsxIntoPostgre">Excel 파일 업로드</a>--%>
                         </div>
@@ -269,27 +269,9 @@
             type:"POST",
             url: "${pageContext.request.contextPath}/xlsxDir",
 
-            success:function (result){
-                res = result;
-                if(res == 'true'){
-                    alert("파일을 성공적으로 업로드했습니다.")
-                    document.getElementById('loadingArea').style.display='none';
-                }
-                else if(res == 'false'){
-                    alert("이미 업로드한 파일입니다.")
-                    document.getElementById('loadingArea').style.display='none';
-                }
-                else if(res == 'null'){
-                    alert("서버 디렉토리 안에 파일이 존재하지 않습니다.")
-                    document.getElementById('loadingArea').style.display='none';
-                }
-            },
-            error: function (){
-                alert("에러가 발생했습니다.");
-                document.getElementById('loadingArea').style.display='none';
-            }
+            success:function (result){}
+
         });
-        document.getElementById('loadingArea').style.display='block';
     }
 </script>
 

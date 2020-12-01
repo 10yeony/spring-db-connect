@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import kr.com.inspect.rule.RuleCompiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -137,14 +138,23 @@ public class PostgreController {
 	}
 
 	/**
-	 * xlsx파일 서버 디렉토리에서 업로드
+	 * 클래스 파일 생성
 	 * @return 디렉토리 값 반환
 	 * @throws Exception 예외 처리
 	 */
 	@PostMapping("/xlsxDir")
 	@ResponseBody
 	public String xlsxDir () throws Exception{
-		return postgreService.insertXlsxDir(xlsxPath);
+		System.out.println("start Test");
+		RuleCompiler test = new RuleCompiler();
+		// 간단한 테스트 소스
+		String str ="System.out.println(\"hi\"); int result = 0; for(int b : params) result = result + b; return result;";
+		// jsonLogs 읽어오는 소스
+//		String str ="List<JsonLog> jsonLogs = postgreService.getJsonLog(); System.out.println(jsonLogs.get(0)); int result = 0; for(int b : params) result = result + b; return result;";
+		Object obj = test.create(str);
+		int rst = test.runObject(obj);
+		System.out.println(rst);
+		return "true";
 	}
 
 	/**

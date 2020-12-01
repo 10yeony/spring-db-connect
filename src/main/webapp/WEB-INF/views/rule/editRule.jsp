@@ -47,24 +47,37 @@
 				<%@ include file="/WEB-INF/views/include/toolbar.jsp"%>
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-						<div style="margin-top: 30px; font-size: 1.5em;">
-						제시된 양식을 보고 참고하여 작성해주세요</div>
-						<form action="${pageContext.request.contextPath}/saveRule" method="post">
-						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-						<textarea class="form-control" name="contents" cols="170"
-							rows="30" value="">
-package kr.com.inspect.java;
-
-import kr.com.inspect.*;
-
-public class{}
-							</textarea>
-						<input type="submit" value="Save">
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+				
+					<!-- Page Heading -->
+					<div class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-2 text-gray-800"><b>Rule 작성</b></h1>
+					</div>
+					
+					<!-- Page Body -->
+					<div class="card shadow mb-4">
+						<div class="card-body">
+							<div style="font-size: 1.2em;">
+								제시된 양식을 참고하여 작성해주세요
+							</div><br/>
+							<form action="${pageContext.request.contextPath}/saveRule" method="post">
+								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+								<textarea class="form-control" name="contents" cols="170"
+									rows="20" value="" style="resize: none;">
+			package kr.com.inspect.java;
+			
+			import kr.com.inspect.*;
+			
+			public class{}
+								</textarea>
+								<input type="submit" value="Save" class="btn btn-primary" 
+									style="float:right; margin-top:10px;">
+							</form>
+						</div><!-- card-body -->
+					</div><!-- card shadow mb-4 -->
+				</div><!-- container-fluid -->
+			</div><!-- content -->
+		</div><!-- content-wrapper -->
+	</div><!-- wrapper -->
 </body>
 <!-- /.container-fluid -->
 <!-- End of Main Content -->
