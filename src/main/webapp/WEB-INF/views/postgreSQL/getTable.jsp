@@ -135,7 +135,7 @@
     							<option value="counsel_audio">상담 음성</option>
   							</select>
 							<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
-								placeholder="Search for..." id="inputSearchText" value="${search_word}">
+								placeholder="Search for..." id="inputSearchText">
 							<button class="btn btn-primary" type="button" id="inputSearchButton">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
