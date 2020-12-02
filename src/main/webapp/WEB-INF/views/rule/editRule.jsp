@@ -57,7 +57,7 @@
 					<div class="card shadow mb-4">
 						<div class="card-body">
 							<div style="font-size: 1.2em;">
-								제시된 양식을 참고하여 작성해주세요
+								제시된 양식을 참고하여 코드를 작성해주세요
 							</div><br/>
 							<form action="${pageContext.request.contextPath}/saveRule" method="post">
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>

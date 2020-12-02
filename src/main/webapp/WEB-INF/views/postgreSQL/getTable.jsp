@@ -113,7 +113,7 @@
 				<div class="card shadow mb-4">
 
 					<div class="card-body"><br/>
-						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+						<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
   							<select class="form-control" id="dataSelect" style="margin-right:3px;">
     							<option value="all">전체 데이터</option>
     							<option value="korean_lecture">한국어 강의</option>
@@ -126,7 +126,7 @@
 							<button class="btn btn-primary" type="button" id="inputSearchButton">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
-						</div><br><br>
+						</div><br/>
 						<div style="display:inline-block; float:right;">
 								<input type="radio" name="views" value="10views"> 
 								<span id="10viewsSpan" style="cursor: pointer">10개씩 보기</span> 
