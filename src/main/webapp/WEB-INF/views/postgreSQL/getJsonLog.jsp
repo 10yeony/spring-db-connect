@@ -60,13 +60,13 @@
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
                     <div class="card-body"><br/>
-                    	<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+                    	<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
 								<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
 									placeholder="Search for..." id="inputSearchText">
 								<button class="btn btn-primary" type="button" id="inputSearchButton">
 									<i class="fas fa-search fa-sm"></i>
 								</button>
-							</div><br><br>
+							</div><br/>
 							<div style="display:inline-block; float:right;">
 									<input type="radio" name="views" value="10views"> 
 									<span id="10viewsSpan" style="cursor: pointer">10개씩 보기</span> 

@@ -81,8 +81,8 @@
 	               <!-- <a class="collapse-item"	href="#" data-toggle="collapse" data-target="#ruleManage2" aria-expanded="true" aria-controls="ruleManage2" >
 	               <span>발화자표기(중분류)</span>
 	               </a> -->
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/editRuleByAdmin">룰 작성</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/registerRuleByAdmin">룰 등록</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/editRuleByAdmin">룰 작성</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/runRuleByAdmin">룰 실행</a>
 	           </div>
 	       </div>
