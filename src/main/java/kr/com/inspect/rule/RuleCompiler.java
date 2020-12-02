@@ -2,10 +2,6 @@ package kr.com.inspect.rule;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 import kr.com.inspect.service.PostgreService;
-import org.apache.poi.ss.formula.functions.T;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.tools.*;
@@ -20,25 +16,23 @@ import java.util.List;
 @Component
 public class RuleCompiler extends Thread {
 
-    @Autowired
-    private PostgreService postgreService;
-
-    public Object create(String body)throws Exception{
-        System.out.println(postgreService);
-        //System.out.println(postgreService.getMetadata().get(0));
-
-        String path = "/home/namuhwang/github/spring-db-connect/src/main/java/";
-        String classPath = "/home/namuhwang/github/spring-db-connect/target/classes/";
+    // 자바파일 생성하고 컴파일후 class 파일 로드해오는 파일 (이 메서드는 잘 작동됩니다.)
+    public Object create(String body, PostgreService postgreService)throws Exception{
+        String path = "/home/wooyoung/github/spring-db-connect/src/main/java/";
+        String classPath = "/home/wooyoung/github/spring-db-connect/target/classes/";
 
         // Source를 만들고 Java파일 생성
         File sourceFile = new File(path+"kr/com/inspect/rule/Test.java");
         String source = this.getSource(body);
         new FileWriter(sourceFile).append(source).close();
 
+        // java파일 컴파일 할때 옵션주기
         List<String> optionList = new ArrayList<>();
+        // CLASS PATH 추가
         optionList.add("-classpath");
-        optionList.add(System.getProperty("java.class.path"));
-        System.out.println(System.getProperty("java.class.path"));
+        optionList.add(System.getProperty("java.class.path")+":"+classPath);
+//        optionList.add(System.getProperty("java.class.path"));
+        // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
 
@@ -51,17 +45,19 @@ public class RuleCompiler extends Thread {
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostic, null, null);
         Iterable<? extends JavaFileObject> compilationUnit
                 = fileManager.getJavaFileObjectsFromStrings(sources);
-        System.out.println("before");
-        Boolean task = compiler.getTask(
+        System.out.println("before Compile");
+        JavaCompiler.CompilationTask task = compiler.getTask(
                 null,
                 fileManager,
                 diagnostic,
                 optionList,
                 null,
                 compilationUnit
-        ).call();
-        System.out.println("after");
+        );
+        Boolean success = task.call();
+        System.out.println("after Compile");
 
+        // 기본 comiler run하는 코드 (추후에 삭제 예정)
 //        compiler.run(null, System.out, System.out, path+"kr/com/inspect/rule/Test.java");
 
 
@@ -82,34 +78,44 @@ public class RuleCompiler extends Thread {
         StringBuffer sb = new StringBuffer();
 
         // Java Source를 생성한다.
-        // 간단한 테스트 소스
+        // report 패키지의 TestRuleCompiler 클래스를 호출하는 테스트 소스
         sb.append("package kr.com.inspect.rule;\n"+
+                "import kr.com.inspect.report.TestRuleCompiler;\n"+
                 "public class Test { \n"+
-                "public int runMethod(int[] params) throws Exception {")
+                "public int runMethod(int[] list) {\n")
                 .append(body)
-                .append("} }");
+                .append("\t}\n}");
         // jsonLog 읽어오는 소스
 //        sb.append("package kr.com.inspect.rule;\n"+
 //                "import kr.com.inspect.service.PostgreService;\n" +
-//                "import org.springframework.beans.factory.annotation.Autowired;\n" +
-//                "import kr.com.inspect.dto.JsonLog;\n"+
+//                "import kr.com.inspect.dto.Metadata;\n"+
 //                "import java.util.List;\n"+
 //                "public class Test { \n"+
-//                "@Autowired\n" +
-//                "private PostgreService postgreService;\n"+
-//                "public int runMethod(int[] params) throws Exception {\n")
+//                "\tpublic void runMethod(PostgreService postgreService) throws Exception {\n")
 //                .append(body)
-//                .append("} }");
+//                .append("\t}\n}");
         return sb.toString();
     }
 
-    public int runObject(Object obj) throws Exception{
-        int[] params = {1, 2, 3};
-        Class arguments[] = new Class[]{params.getClass()};
+    // Test.class 안의 runMethod 메서드 실행
+    public int runObject(Object obj, PostgreService postgreService) throws Exception{
+        int[] list = {1, 2, 3};
+
+        Class arguments[] = new Class[]{list.getClass()};
 
         // Source를 만들때 지정한 Method를 실행
+        // runMethod 메소드 지정 
         Method objMethod = obj.getClass().getMethod("runMethod", arguments);
-        Object result = objMethod.invoke(obj, params);
+        // 인자로 list를 보냄
+        Object result = objMethod.invoke(obj, list);
+
+        // postgreService 가 인자로 보내져야 하는데 보내지질 않음
+//        System.out.println("before Method");
+        // 문제 부분 (여기서 실행이 멈춤)
+//        Method objMethod = obj.getClass().getMethod("runMethod", arguments);
+//        System.out.println("after Method");
+//        Object result = objMethod.invoke(obj, postgreService);
+//        System.out.println("after invoke");
         return (int) result;
     }
 }

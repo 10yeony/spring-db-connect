@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import kr.com.inspect.rule.Data;
 import kr.com.inspect.rule.RuleCompiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -145,15 +146,20 @@ public class PostgreController {
 	@PostMapping("/xlsxDir")
 	@ResponseBody
 	public String xlsxDir () throws Exception{
-		System.out.println("start Test");
 		RuleCompiler test = new RuleCompiler();
-		// 간단한 테스트 소스
-		String str ="System.out.println(\"hi\"); int result = 0; for(int b : params) result = result + b; return result;";
+
+		System.out.println("button clicked");
+		// report 패키지의 TestRuleCompiler 클래스를 호출하는 테스트 소스
+		String str ="\t\tTestRuleCompiler testRuleCompiler = new TestRuleCompiler();\n" +
+				"\t\tint result = testRuleCompiler.Test(list);\n" +
+				"\t\treturn result;\n";
 		// jsonLogs 읽어오는 소스
-//		String str ="List<JsonLog> jsonLogs = postgreService.getJsonLog(); System.out.println(jsonLogs.get(0)); int result = 0; for(int b : params) result = result + b; return result;";
-		Object obj = test.create(str);
-		int rst = test.runObject(obj);
-		System.out.println(rst);
+//		String str ="\t\tList<Metadata> jsonLogs = postgreService.getMetadata();\n\t\tSystem.out.println(jsonLogs.get(0));\n\t\tSystem.out.println(\"success\");";
+		// java 파일 컴파일 후 class 로드하는 메서드 호출
+		Object obj = test.create(str, postgreService);
+		// Test.class 안의 runMethod 메서드 실행하는 메서드 호출
+		int rst = test.runObject(obj, postgreService);
+		System.out.println("result : " + rst);
 		return "true";
 	}
 
