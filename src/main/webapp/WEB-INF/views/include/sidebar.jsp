@@ -62,7 +62,7 @@
 	       <div id="workManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	           <div class="bg-white py-2 collapse-inner rounded">
 	               <h6 class="collapse-header">Work Status Management</h6>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/getWorkListByAdmin">작업 관리</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getWorkList">작업 관리</a>
 	           </div>
 	       </div>
 	   </li>
@@ -78,23 +78,11 @@
 	       <div id="ruleManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	           <div class="bg-white py-2 collapse-inner rounded">
 	               <h6 class="collapse-header">룰 관리</h6>
-	               <!-- <a class="collapse-item"	href="#" data-toggle="collapse" data-target="#ruleManage2" aria-expanded="true" aria-controls="ruleManage2" >
-	               <span>발화자표기(중분류)</span>
-	               </a> -->
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/registerRuleByAdmin">룰 등록</a>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/editRuleByAdmin">룰 작성</a>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/runRuleByAdmin">룰 실행</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/registerRule">룰 등록</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/ruleList">룰 목록</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/runRule">룰 실행</a>
 	           </div>
 	       </div>
-	       
-	       <%-- <div id="ruleManage2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-	           	<div class="bg-white py-2 collapse-inner rounded">
-	           	<h6 class="collapse-header">발화자표기(중분류)</h6>
-	       	 	<a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin?role=ALL">화자 이름(소분류 가칭)</a>
-	       	 	<a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin?role=ALL">화자 성별(소분류 가칭)</a>
-	       	 	<a class="collapse-item" href="${pageContext.request.contextPath}/getRuleListByAdmin?role=ALL">화자 정보(소분류 가칭)</a>
-	       	 </div>
-	      </div> --%>
 	   </li>
    </sec:authorize>
 

@@ -9,7 +9,6 @@ import kr.com.inspect.dto.*;
  * @version 1.0
  *
  */
-
 public interface PostgreDao {
 	
 	/**

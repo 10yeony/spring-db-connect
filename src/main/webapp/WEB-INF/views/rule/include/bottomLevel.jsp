@@ -18,14 +18,20 @@
 
 	<!-- Custom styles for this template-->
 	<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-
+	
+	<style>
+		.bottom_level_collection{
+			display: none;
+		}
+	</style>
 </head>
 
 <body>
+
 	<select class="form-control" id="bottom_level" style="margin-right:3px;">
 		<option value="bottom_level_value">소분류</option>
 		<!-- 티맥스 중분류 -->
-		<option class="bottom_level_collection tmax_middle_level" 
+		<option class="bottom_level_collection tmax_bottom_level" 
 			value="tmax_bottom_level1">테스트</option>
 	</select>
 
