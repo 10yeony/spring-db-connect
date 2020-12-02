@@ -1,5 +1,7 @@
 package kr.com.inspect.config;
 
+import kr.com.inspect.service.PostgreService;
+import kr.com.inspect.service.impl.PostgreServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -97,5 +99,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		return mailSender;
 	}
 	
-
+	@Bean
+	public PostgreService postgreService(){
+		PostgreServiceImpl postgreService = new PostgreServiceImpl();
+		return postgreService;
+	}
 }
