@@ -22,9 +22,9 @@
 </head>
 
 <body>
+
 	<select class="form-control" id="top_level" style="margin-right:3px;">
 		<option value="top_level_value">대분류</option>
-	   	<option value="tmax">티맥스</option>
 	</select>
 
 	<!-- Bootstrap core JavaScript-->

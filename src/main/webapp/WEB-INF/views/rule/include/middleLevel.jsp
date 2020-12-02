@@ -18,25 +18,17 @@
 
 	<!-- Custom styles for this template-->
 	<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-
+	<style>
+		.middle_level_collection{
+			display: none;
+		}
+	</style>
 </head>
 
 <body>
+
 	<select class="form-control" id="middle_level" style="margin-right:3px;">
 		<option value="middle_level_value">중분류</option>
-		<!-- 티맥스 중분류 -->
-		<option class="middle_level_collection tmax_middle_level" 
-			value="tmax_middle_level1">발화자의 표기</option>
-		<option class="middle_level_collection tmax_middle_level" 
-			value="tmax_middle_level2">이중전사</option>
-		<option class="middle_level_collection tmax_middle_level" 
-			value="tmax_middle_level3">잡음의 처리</option>
-		<option class="middle_level_collection tmax_middle_level" 
-			value="tmax_middle_level4">간투어</option>
-		<option class="middle_level_collection tmax_middle_level" 
-			value="tmax_middle_level5">숫자와 특수문자, 도량형, 외래어</option>
-		<option class="middle_level_collection tmax_middle_level" 
-			value="tmax_middle_level6">문장부호와 띄어쓰기</option>
 	</select>
 	
 	<!-- Bootstrap core JavaScript-->
