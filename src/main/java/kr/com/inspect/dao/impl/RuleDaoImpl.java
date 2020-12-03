@@ -121,4 +121,122 @@ public class RuleDaoImpl implements RuleDao {
 		map.put("bottom_level_id", bottom_level_id);
 		return sqlSession.selectList(ruleNS+"getRuleListByTopMiddleBottomId", map);
 	}
+
+	/**
+	 * 대분류를 등록함
+	 * @param rule 대분류 등록을 위한 Rule 객체 
+	 * @return 등록된 대분류 DB row의 수
+	 */
+	@Override
+	public int registerTopLevel(Rule rule) {
+		return sqlSession.insert(ruleNS+"registerTopLevel", rule);
+	}
+
+	/**
+	 * 중분류를 등록함
+	 * @param rule 중분류 등록을 위한 Rule 객체 
+	 * @return 등록된 중분류 DB row의 수
+	 */
+	@Override
+	public int registerMiddleLevel(Rule rule) {
+		return sqlSession.insert(ruleNS+"registerMiddleLevel", rule);
+	}
+
+	/**
+	 * 전사규칙을 등록함
+	 * @param rule 전사규칙 등록을 위한 Rule 객체
+	 * @return 등록된 소분류 DB row의 수
+	 */
+	@Override
+	public int registerBottomLevel(Rule rule) {
+		return sqlSession.insert(ruleNS+"registerBottomLevel", rule);
+	}
+
+	/**
+	 * 대분류가 중복되지 않았는지 해당되는 row 개수를 가져옴
+	 * @param rule 대분류 중복검사를 위한 Rule 객체
+	 * @return 존재하는 row의 개수
+	 */
+	@Override
+	public int isExistTopLevel(Rule rule) {
+		int id = 0;
+		try {
+			id = sqlSession.selectOne(ruleNS+"isExistTopLevel", rule);
+		}catch(NullPointerException e) {
+			return 0;
+		}
+		return id;
+	}
+
+	/**
+	 * 중분류가 중복되지 않았는지 해당되는 row 개수를 가져옴
+	 * @param rule 중분류 중복검사를 위한 Rule 객체
+	 * @return 존재하는 row의 개수
+	 */
+	@Override
+	public int isExistMiddleLevel(Rule rule) {
+		int id = 0;
+		try {
+			id = sqlSession.selectOne(ruleNS+"isExistMiddleLevel", rule);
+		}catch(NullPointerException e) {
+			return 0;
+		}
+		return id;
+	}
+
+	/**
+	 * 전사규칙(소분류)이 중복되지 않았는지 해당되는 row 개수를 가져옴
+	 * @param rule 전사규칙(소분류) 중복검사를 위한 Rule 객체
+	 * @return 존재하는 row의 개수
+	 */
+	@Override
+	public int isExistBottomLevel(Rule rule) {
+		int id = 0;
+		try {
+			id = sqlSession.selectOne(ruleNS+"isExistBottomLevel", rule);
+		}catch(NullPointerException e) {
+			return 0;
+		}
+		return id;
+	}
+
+	/**
+	 * 전사규칙(소분류)의 파일명을 업데이트함
+	 * @param rule 전사규칙(소분류) 파일명 업데이트를 위한 Rule 객체
+	 * @return 업데이트된 row의 개수
+	 */
+	@Override
+	public int updateBottomLevelFileName(Rule rule) {
+		return sqlSession.update(ruleNS+"updateBottomLevelFileName", rule);
+	}
+
+	/**
+	 * 해당되는 대분류와 종속된 중분류, 소분류를 삭제함
+	 * @param id 대분류 아이디
+	 * @return 삭제된 row의 수
+	 */
+	@Override
+	public int deleteTopLevel(int id) {
+		return sqlSession.delete(ruleNS+"deleteTopLevel", id);
+	}
+
+	/**
+	 * 해당되는 중분류와 종속된 소분류를 삭제함
+	 * @param id 중분류 아이디
+	 * @return 삭제된 row의 수
+	 */
+	@Override
+	public int deleteMiddleLevel(int id) {
+		return sqlSession.delete(ruleNS+"deleteMiddleLevel", id);
+	}
+
+	/**
+	 * 해당되는 전사규칙(소분류)를 삭제함
+	 * @param id 전사규칙(소분류) 아이디
+	 * @return 삭제된 row의 수
+	 */
+	@Override
+	public int deleteBottomLevel(int id) {
+		return sqlSession.delete(ruleNS+"deleteBottomLevel", id);
+	}
 }

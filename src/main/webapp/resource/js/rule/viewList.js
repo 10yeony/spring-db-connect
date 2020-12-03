@@ -4,6 +4,20 @@ $(function(){
 	/* Context Path */
 	contextPath = getContextPath();
 	
+	/* 메세지 체크 후 띄우기 */
+	var ruleRegSuccessMsg = $('#ruleRegSuccessMsg').val();
+	if(ruleRegSuccessMsg != ''){
+		alert(ruleRegSuccessMsg);
+	}
+	var ruleDelSuccessMsg = $('#ruleDelSuccessMsg').val();
+	if(ruleDelSuccessMsg != ''){
+		alert(ruleDelSuccessMsg);
+	}
+	var ruleDelErrorMsg = $('#ruleDelErrorMsg').val();
+	if(ruleDelErrorMsg != ''){
+		alert(ruleDelErrorMsg);
+	}
+	
 	getRuleList();
 	
 	/* 대분류 선택시 */

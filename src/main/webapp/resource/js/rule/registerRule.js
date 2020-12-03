@@ -4,14 +4,22 @@ $(function(){
 	/* Context Path */
 	contextPath = getContextPath();
 	
+	/* 메세지 체크 후 띄우기 */
 	var ruleRegSuccessMsg = $('#ruleRegSuccessMsg').val();
 	if(ruleRegSuccessMsg != ''){
 		alert(ruleRegSuccessMsg);
 	}
-		
 	var ruleRegErrorMsg = $('#ruleRegErrorMsg').val();
 	if(ruleRegErrorMsg != ''){
 		alert(ruleRegErrorMsg);
+	}
+	var ruleDelSuccessMsg = $('#ruleDelSuccessMsg').val();
+	if(ruleDelSuccessMsg != ''){
+		alert(ruleDelSuccessMsg);
+	}
+	var ruleDelErrorMsg = $('#ruleDelErrorMsg').val();
+	if(ruleDelErrorMsg != ''){
+		alert(ruleDelErrorMsg);
 	}
 
 	$('#top_level').append(
@@ -80,12 +88,32 @@ function getContextPath() {
     return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
 }
 
-/* 대분류 삭제 */
+/* 대분류 삭제(프론트에서 확인) */
 function deleteTopLevel(){
-	alert("대분류 삭제");
+	let top_level = $('#top_level').val();
+	if(top_level == 'top_level_value' || top_level == 'top_level_input'){
+		alert("삭제하실 대분류를 선택하세요.")
+	}else{
+		let answer = confirm("대분류를 삭제하시면 대분류에 해당되는 전사규칙들이 모두 삭제됩니다. 그래도 삭제하시겠습니까?");
+		if(answer){
+			location.href = contextPath + "/rule/deleteRuleLevel?level=top&id=" + top_level;
+		}else{
+			return false;
+		}
+	}
 }
 
-/* 중분류 삭제 */
+/* 중분류 삭제(프론트에서 확인) */
 function deleteMiddleLevel(){
-	alert("중분류 삭제");
+	let middle_level = $('#middle_level').val();
+	if(middle_level == 'middle_level_value' || middle_level == 'middle_level_input'){
+		alert("삭제하실 중분류를 선택하세요.")
+	}else{
+		let answer = confirm("중분류를 삭제하시면 중분류에 해당되는 전사규칙들이 모두 삭제됩니다. 그래도 삭제하시겠습니까?");
+		if(answer){
+			location.href = contextPath + "/rule/deleteRuleLevel?level=middle&id=" + middle_level;
+		}else{
+			return false;
+		}
+	}
 }

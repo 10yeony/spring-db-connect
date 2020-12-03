@@ -101,7 +101,7 @@ public class RuleController {
 		}
 		
 		if(result == 0) {
-			model.addAttribute("ruleRegErrorMsg", levelName + " 등록에 실패하였습니다.");
+			model.addAttribute("ruleRegErrorMsg", "이미 존재하는 " + levelName + "입니다.");
 		}else {
 			model.addAttribute("ruleRegSuccessMsg", levelName + "를 성공적으로 등록하였습니다.");
 		}
@@ -169,8 +169,41 @@ public class RuleController {
     	response.getWriter().flush();
 	}
 	
+	@GetMapping("/deleteRuleLevel")
+	public String deleteRuleLevel(Model model, String level, int id) {
+		String levelName = "";
+		switch(level) {
+			case "top" :
+				levelName = "대분류";
+				break;
+			case "middle" :
+				levelName = "중분류";
+				break;
+			case "bottom" :
+				levelName = "Rule";
+				break;
+		}
+		
+		int result = 0;
+		result = ruleService.deleteRule(level, id);
+		if(result > 0) {
+			model.addAttribute("ruleDelSuccessMsg", levelName+"를 성공적으로 삭제했습니다.");
+			if(level.equals("bottom")) {
+				model.addAttribute("ruleDelSuccessMsg", levelName+"을 성공적으로 삭제했습니다.");
+			}
+		} else {
+			model.addAttribute("ruleDelErrorMsg", "존재하지 않는 "+levelName+"입니다.");
+		}
+		
+		if(level.equals("bottom")) {
+			return "rule/ruleList";
+		}
+		return "rule/registerRule";
+	}
+	
 	@GetMapping("/editRule")
-	public String editRulepage() {
+	public String editRulepage(Model model, int bottom_level_id) {
+		model.addAttribute("bottom_level_id", bottom_level_id);
 		return "rule/editRule";
 	}
 	

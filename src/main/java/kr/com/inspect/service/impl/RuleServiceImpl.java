@@ -101,6 +101,59 @@ public class RuleServiceImpl implements RuleService {
 	 * @return DB에 등록한 row의 수
 	 */
 	public int registerRule(String level, Rule rule) {
-		return 0;
+		int id = 0; //아이디
+		int result = 0; //등록 후 DB에 추가된 row의 수
+		
+		switch(level) {
+			case "top" :
+				id = ruleDao.isExistTopLevel(rule);
+				if(id == 0) { //존재하지 않는 경우에만 등록
+					result = ruleDao.registerTopLevel(rule);
+				}
+				break;
+			case "middle" :
+				id = ruleDao.isExistMiddleLevel(rule);
+				if(id == 0) { //존재하지 않는 경우에만 등록
+					result = ruleDao.registerMiddleLevel(rule);
+				}
+				break;
+			case "bottom" :
+				id = ruleDao.isExistBottomLevel(rule); //등록 전 아이디(중복 확인)
+				if(id == 0) { //존재하지 않는 경우에만 등록
+					result = ruleDao.registerBottomLevel(rule);
+					id = ruleDao.isExistBottomLevel(rule); //등록 후 아이디(auto increment된 아이디)
+					
+					/* 파일명 DB 등록(파일명이 중복되지 않도록 auto increment된 아이디 사용) */
+					String fileName = "Rule"+ id + ".java";
+					rule.setBottom_level_id(id);
+					rule.setFile_name(fileName);
+					result += ruleDao.updateBottomLevelFileName(rule);
+				}
+				break;
+		}
+		return result;
+	}
+
+	/**
+	 * 대분류/중분류/소분류 아이디로 해당되는 항목을 삭제함
+	 * @param level 해당되는 분류(대분류/중분류/소분류)
+	 * @param id 대분류/중분류/소분류 아이디
+	 * @return DB에서 삭제한 row의 수
+	 */
+	@Override
+	public int deleteRule(String level, int id) {
+		int result = 0;
+		switch(level) {
+			case "top":
+				result = ruleDao.deleteTopLevel(id);
+				break;
+			case "middle":
+				result = ruleDao.deleteMiddleLevel(id);
+				break;
+			case "bottom":
+				result = ruleDao.deleteBottomLevel(id);
+				break;
+		}
+		return result;
 	}
 }

@@ -30,6 +30,7 @@
 </head>
 
 <body id="page-top">
+<input type="hidden" id="bottom_level_id" value="${bottom_level_id}">
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">

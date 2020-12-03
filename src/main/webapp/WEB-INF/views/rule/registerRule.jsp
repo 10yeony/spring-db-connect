@@ -26,6 +26,10 @@
 <!-- 등록 후 메세지 -->
 <input id="ruleRegSuccessMsg" type="hidden" value="${ruleRegSuccessMsg}">
 <input id="ruleRegErrorMsg" type="hidden" value="${ruleRegErrorMsg}">
+
+<!-- 삭제 후 메세지 -->
+<input id="ruleDelSuccessMsg" type="hidden" value="${ruleDelSuccessMsg}">
+<input id="ruleDelErrorMsg" type="hidden" value="${ruleDelErrorMsg}">
 	
 <!-- Page Wrapper -->
 <div id="wrapper">

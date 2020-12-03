@@ -32,6 +32,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			(#{bottom_level_name}, #{description}, #{creator}, 
 			#{top_level_id}, #{middle_level_id});
 	</insert>
+	
+	<!-- 중복검사를 위한 대분류 존재 유무 확인 -->
+	<select id="isExistTopLevel" parameterType="kr.com.inspect.dto.Rule" resultType="int">
+		SELECT 
+			id 
+		FROM 
+			audio.rule_top_level 
+		WHERE 
+			name = #{top_level_name};
+	</select>
+	
+	<!-- 중복검사를 위한 중분류 존재 유무 확인 -->
+	<select id="isExistMiddleLevel" parameterType="kr.com.inspect.dto.Rule" resultType="int">
+		SELECT 
+			id 
+		FROM 
+			audio.rule_middle_level 
+		WHERE 
+			top_level_id = #{top_level_id}
+			AND name = #{middle_level_name};
+	</select>
+	
+	<!-- 중복검사를 위한 소분류 존재 유무 확인 -->
+	<select id="isExistBottomLevel" parameterType="kr.com.inspect.dto.Rule" resultType="int">
+		SELECT 
+			id 
+		FROM 
+			audio.rule_bottom_level 
+		WHERE 
+			middle_level_id = #{middle_level_id}
+			AND name = #{bottom_level_name};
+	</select>
  
 	<!-- 대분류 모두 가져오기 -->
 	<select id="getAllTopLevel" resultType="kr.com.inspect.dto.Rule">
@@ -195,44 +227,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	
 	<!-- 대분류 이름 수정 -->
-	<update id="updateTopLevelName" parameterType="hashMap">
+	<update id="updateTopLevelName" parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 			audio.rule_top_level
 		SET
-			name = #{name}
+			name = #{top_level_name}
 		WHERE
-			id = #{id};
+			id = #{top_level_id};
 	</update>
 	
 	<!-- 중분류 이름 수정 -->
-	<update id="updateMiddleLevelName" parameterType="hashMap">
+	<update id="updateMiddleLevelName" parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 			audio.rule_middle_level
 		SET
-			name = #{name}
+			name = #{middle_level_name}
 		WHERE
-			id = #{id};
+			id = #{middle_level_id};
 	</update>
 	
 	<!-- 소분류 이름, 설명 수정 -->
-	<update id="updateBottomLevelContents" parameterType="hashMap">
+	<update id="updateBottomLevelContents" parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 			audio.rule_bottom_level
 		SET
-			name = #{name},
+			name = #{bottom_level_name},
 			description = #{description}
 		WHERE
-			id = #{id};
+			id = #{bottom_level_id};
 	</update>
 	
 	<!-- 소분류 파일명 작성 -->
-	<update id="updateBottomLevelFileName" parameterType="hashMap">
+	<update id="updateBottomLevelFileName" parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 			audio.rule_bottom_level
 		SET
 			file_name = #{file_name}
 		WHERE
-			id = #{id};
+			id = #{bottom_level_id};
 	</update>
 	
 	<!-- 대분류 삭제 -->

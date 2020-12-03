@@ -38,4 +38,12 @@ public interface RuleService {
 	 * @return DB에 등록한 row의 수
 	 */
 	public int registerRule(String level, Rule rule);
+	
+	/**
+	 * 대분류/중분류/소분류 아이디로 해당되는 항목을 삭제함
+	 * @param level 해당되는 분류(대분류/중분류/소분류)
+	 * @param id 대분류/중분류/소분류 아이디
+	 * @return DB에서 삭제한 row의 수
+	 */
+	public int deleteRule(String level, int id);
 }

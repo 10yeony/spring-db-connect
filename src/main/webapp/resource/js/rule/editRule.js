@@ -5,7 +5,8 @@ $(function(){
 	contextPath = getContextPath();
 	
 	$('#deleteRuleBtn').click(function(){
-		alert("룰 삭제");
+		let bottom_level_id = $('#bottom_level_id').val();
+		location.href = contextPath + '/rule/deleteRuleLevel?level=bottom&id='+bottom_level_id;
 	});
 	
 	$('#backRuleBtn').click(function(){
