@@ -22,6 +22,10 @@
 </head>
 
 <body id="page-top">
+
+<!-- 등록 후 메세지 -->
+<input id="ruleRegSuccessMsg" type="hidden" value="${ruleRegSuccessMsg}">
+<input id="ruleRegErrorMsg" type="hidden" value="${ruleRegErrorMsg}">
 	
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -49,14 +53,16 @@
 					<div class="card-body">
 					 	<div class="table-responsive">
 					 		<table class="table table-bordered" id="dataTable" width="50%" cellspacing="0">
-					 			<thead></thead>
-					 			<tbody>
+					 			<thead>
 					 				<tr>
-					 					<th>대분류</th>
+					 					<td>
+						 					<b>대분류</b>
+						 					<a href="javascript:deleteTopLevel()">삭제</a>
+										</td>
 					 					<td>
 					 						<%@ include file="/WEB-INF/views/rule/include/topLevel.jsp"%>
-					 						<div id="add_top_level_area" style="margin-top:5px;">
-					 							<form method="post" action="${pageContext.request.contextPath}/rule/addRuleLevel" accept-charset="utf-8">
+					 						<div id="add_top_level_area" style="display:none;">
+					 							<form method="post" action="${pageContext.request.contextPath}/rule/addRuleLevel">
 							 						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 							 						<input style="display:inline-block; width:75%;" type="text" class="form-control" 
 							 						name="new_top_level_name" id="new_top_level_name" placeholder="10자 이하로 입력하세요" maxlength="10" required> 
@@ -67,13 +73,48 @@
 					 					</td>
 					 				</tr>
 					 				<tr>
-					 					<th>중분류</th>
+					 					<td>
+					 						<b>중분류</b>
+					 						<a href="javascript:deleteMiddleLevel()">삭제</a>
+					 					</td>
 					 					<td>
 					 						<%@ include file="/WEB-INF/views/rule/include/middleLevel.jsp"%>
+					 						<div id="add_middle_level_area" style="display:none;">
+					 							<form method="post" action="${pageContext.request.contextPath}/rule/addRuleLevel">
+							 						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+							 						<input style="display:inline-block; width:75%;" type="text" class="form-control" 
+							 						name="new_middle_level_name" id="new_middle_level_name" placeholder="20자 이하로 입력하세요" maxlength="20" required> 
+													<input style="display:inline-block; width:22%;" type="submit" 
+													class="form-control" id="add_middle_level_btn" value="등록">
+												</form>
+											</div>
+					 					</td>
+					 				</tr>
+					 			</thead>
+					 			<form method="post" action="${pageContext.request.contextPath}/rule/addRuleLevel">
+					 			<tbody>
+					 				<tr>
+					 					<th>이름</th>
+					 					<td>
+					 						<input type="text" class="form-control" name="bottom_level_name" 
+					 							placeholder="20자 이하로 입력하세요" maxlength="20" required> 
+					 					</td>
+					 				</tr>
+					 				<tr>
+					 					<th>설명</th>
+					 					<td>
+					 						<textarea class="form-control" name="description" rows="5" style="resize: none;"></textarea>
 					 					</td>
 					 				</tr>
 					 			</tbody>
 					 		</table>
+					 			<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+					 			<input name="top_level_id" type="hidden"/>
+					 			<input name="middle_level_id" type="hidden"/>
+					 			<button style="display:inline-block; width:18%; float:right;" class="btn btn-primary">
+									등록
+								</button>
+					 		</form>
 						</div><!-- table-responsive -->
 					</div><!-- card-body -->
 				</div><!-- card shadow mb-4 -->

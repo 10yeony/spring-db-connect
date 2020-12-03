@@ -30,4 +30,12 @@ public interface RuleService {
 	public List<Rule> getRuleListUsingJoin(String top_level_id, 
 												String middle_level_id,
 												String bottom_level_id);
+	
+	/**
+	 * 대분류/중분류/소분류를 DB에 등록함
+	 * @param level 해당되는 분류(대분류/중분류/소분류)
+	 * @param rule DB 등록을 위한 Rule 객체
+	 * @return DB에 등록한 row의 수
+	 */
+	public int registerRule(String level, Rule rule);
 }

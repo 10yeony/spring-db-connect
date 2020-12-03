@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import kr.com.inspect.dto.Member;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.service.RuleService;
@@ -41,14 +43,68 @@ public class RuleController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RuleController.class);
 	
+	/**
+	 * 대분류/중분류/소분류를 DB에 등록함
+	 * @param new_top_level_name 대분류 등록을 위한 대분류 이름
+	 * @param new_middle_level_name 중분류 등록을 위한 중분류 이름
+	 * @param rule 소분류 등록을 위한 Rule 객체
+	 * @return 대분류/중분류/소분류 등록 후 이동할 페이지
+	 */
 	@PostMapping("/addRuleLevel")
-	public String addRuleLevel(String new_top_level_name,
+	public String addRuleLevel(Model model,
+									HttpSession session,
+									String new_top_level_name,
 									String new_middle_level_name,
 									Rule rule) {
-		System.out.println(new_top_level_name);
-		System.out.println(new_middle_level_name);
-		System.out.println(rule);
-		return null;
+		
+		/* DB 등록 후 row의 수 */
+		int result = 0;
+		
+		/* 등록 후 화면으로 보여줄 메세지에 포함될 분류 이름 */
+		String levelName = "";
+		
+		/* 대분류 등록 */
+		if(new_top_level_name != null) {
+			levelName = "대분류";
+			
+			String level = "top";
+			Rule vo = new Rule();
+			vo.setTop_level_name(new_top_level_name);
+			result = ruleService.registerRule(level, vo);
+		}
+		
+		/* 중분류 등록 */
+		else if(new_middle_level_name != null) { 
+			levelName = "중분류";
+			
+			String level = "middle";
+			Rule vo = new Rule();
+			vo.setMiddle_level_name(new_middle_level_name);
+			result = ruleService.registerRule(level, vo);
+		}
+		
+		/* 소분류 등록 */
+		else {
+			levelName = "Rule";
+			
+			String level = "bottom";
+			Member member = (Member) session.getAttribute("member");
+			rule.setCreator(member.getMember_id());
+			
+			result = ruleService.registerRule(level, rule);
+			
+			if(result != 0) {
+				model.addAttribute("ruleRegSuccessMsg", levelName + "을 성공적으로 등록하였습니다.");
+				return "rule/ruleList";
+			}
+		}
+		
+		if(result == 0) {
+			model.addAttribute("ruleRegErrorMsg", levelName + " 등록에 실패하였습니다.");
+		}else {
+			model.addAttribute("ruleRegSuccessMsg", levelName + "를 성공적으로 등록하였습니다.");
+		}
+		return "rule/registerRule";
 	}
 	
 	/**
@@ -73,6 +129,7 @@ public class RuleController {
     	items.put("list", list);
     	responseData.setItem(items);
     	
+    	/* 응답시 한글 인코딩 처리 */
     	response.setCharacterEncoding("UTF-8");
     	response.setStatus(HttpServletResponse.SC_OK);
     	response.getWriter().print(mapper.writeValueAsString(responseData));
@@ -104,6 +161,7 @@ public class RuleController {
     	items.put("list", list);
     	responseData.setItem(items);
     	
+    	/* 응답시 한글 인코딩 처리 */
     	response.setCharacterEncoding("UTF-8");
     	response.setStatus(HttpServletResponse.SC_OK);
     	response.getWriter().print(mapper.writeValueAsString(responseData));
