@@ -20,6 +20,9 @@ $(function(){
 		
 		/* middle_level 내용을 새롭게 세팅 */
 		let selectedValue = $(this).val(); //선택한 대분류 아이디 값 할당
+		if(selectedValue == 'top_level_value' || selectedValue == 'top_level_input'){
+			return false;
+		}
 		getAllRuleMiddleLevel(selectedValue); //중분류 드롭다운 목록 호출
 		let className = 'top_level_' + selectedValue;
 		$('.' + className).attr('style', 'display:block');
@@ -33,6 +36,9 @@ $(function(){
 		/* bottom_level 내용을 새롭게 세팅 */
 		let topLevelValue = $('#top_level').val(); //선택한 대분류 아이디 값 할당
 		let selectedValue = $(this).val(); //선택한 중분류 아이디 값 할당
+		if(selectedValue == 'middle_level_value' || selectedValue == 'middle_level_input'){
+			return false;
+		}
 		getAllRuleBottomLevel(topLevelValue, selectedValue); //소분류 드롭다운 목록 호출
 		let className = 'middle_level_' + selectedValue;
 		$('.' + className).attr('style', 'display:block');

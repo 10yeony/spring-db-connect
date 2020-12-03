@@ -80,8 +80,9 @@
 					 					<td>
 					 						<%@ include file="/WEB-INF/views/rule/include/middleLevel.jsp"%>
 					 						<div id="add_middle_level_area" style="display:none;">
-					 							<form method="post" action="${pageContext.request.contextPath}/rule/addRuleLevel">
+					 							<form method="post" id="add_middle_level_frm" action="${pageContext.request.contextPath}/rule/addRuleLevel">
 							 						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+							 						<input name="top_level_id" type="hidden"/>
 							 						<input style="display:inline-block; width:75%;" type="text" class="form-control" 
 							 						name="new_middle_level_name" id="new_middle_level_name" placeholder="20자 이하로 입력하세요" maxlength="20" required> 
 													<input style="display:inline-block; width:22%;" type="submit" 
@@ -91,7 +92,7 @@
 					 					</td>
 					 				</tr>
 					 			</thead>
-					 			<form method="post" action="${pageContext.request.contextPath}/rule/addRuleLevel">
+					 			<form method="post" id="add_bottom_level_frm"action="${pageContext.request.contextPath}/rule/addRuleLevel">
 					 			<tbody>
 					 				<tr>
 					 					<th>이름</th>
@@ -111,7 +112,8 @@
 					 			<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 					 			<input name="top_level_id" type="hidden"/>
 					 			<input name="middle_level_id" type="hidden"/>
-					 			<button style="display:inline-block; width:18%; float:right;" class="btn btn-primary">
+					 			<button style="display:inline-block; width:18%; float:right;" 
+					 				class="btn btn-primary" id="add_bottom_level_btn">
 									등록
 								</button>
 					 		</form>

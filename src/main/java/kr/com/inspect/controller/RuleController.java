@@ -79,6 +79,7 @@ public class RuleController {
 			
 			String level = "middle";
 			Rule vo = new Rule();
+			vo.setTop_level_id(rule.getTop_level_id());
 			vo.setMiddle_level_name(new_middle_level_name);
 			result = ruleService.registerRule(level, vo);
 		}
