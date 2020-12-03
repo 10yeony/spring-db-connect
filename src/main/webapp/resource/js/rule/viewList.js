@@ -54,7 +54,7 @@ function getRuleList(){
 	$.ajax({
 		//요청
 		type: "GET",
-		url: contextPath + "/getRuleList", 
+		url: contextPath + "/rule/getRuleList", 
 		data: {
 			top_level_id: '',
 			middle_level_id: '',
@@ -79,7 +79,7 @@ function getRuleListByTopId(top_level_id){
 	$.ajax({
 		//요청
 		type: "GET",
-		url: contextPath + "/getRuleList", 
+		url: contextPath + "/rule/getRuleList", 
 		data: {
 			top_level_id: top_level_id,
 			middle_level_id: '',
@@ -104,7 +104,7 @@ function getRuleListByTopMiddleId(top_level_id, middle_level_id){
 	$.ajax({
 		//요청
 		type: "GET",
-		url: contextPath + "/getRuleList", 
+		url: contextPath + "/rule/getRuleList", 
 		data: {
 			top_level_id: top_level_id,
 			middle_level_id: middle_level_id,
@@ -129,7 +129,7 @@ function getRuleListByTopMiddleBottomId(top_level_id, middle_level_id, bottom_le
 	$.ajax({
 		//요청
 		type: "GET",
-		url: contextPath + "/getRuleList", 
+		url: contextPath + "/rule/getRuleList", 
 		data: {
 			top_level_id: top_level_id,
 			middle_level_id: middle_level_id,
@@ -176,7 +176,7 @@ function appendRuleTable(list){
 				"<td>" + row_num + "</td>" +
 				"<td>" + top_level_name + "</td>" +
 				"<td>" + middle_level_name + "</td>" +
-				"<td><a href=" + contextPath + "/editRule?bottom_level_id=" + bottom_level_id + ">"+ bottom_level_name + "</a></td>" +
+				"<td><a href=" + contextPath + "/rule/editRule?bottom_level_id=" + bottom_level_id + ">"+ bottom_level_name + "</a></td>" +
 				"<td>" + description + "</td>" +
 				"<td>" + creator + "</td>" +
 			"</tr>"

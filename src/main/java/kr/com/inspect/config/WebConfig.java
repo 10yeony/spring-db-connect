@@ -55,6 +55,7 @@ public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitial
 	 * 필터 추가 : 한글 설정(UTF-8)
 	 * @return Filter 배열
 	 */
+	@Override
 	protected Filter[] getServletFilters() {
 		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
 		characterEncodingFilter.setEncoding("UTF-8");

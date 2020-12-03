@@ -78,9 +78,9 @@
 	       <div id="ruleManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	           <div class="bg-white py-2 collapse-inner rounded">
 	               <h6 class="collapse-header">룰 관리</h6>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/registerRule">룰 등록</a>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/ruleList">룰 목록</a>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/runRule">룰 실행</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/registerRule">룰 등록</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/ruleList">룰 목록</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/runRule">룰 실행</a>
 	           </div>
 	       </div>
 	   </li>

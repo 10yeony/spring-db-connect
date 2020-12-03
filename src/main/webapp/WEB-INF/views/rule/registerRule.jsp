@@ -45,15 +45,39 @@
 					<h1 class="h3 mb-2 text-gray-800"><b>Rule 등록</b></h1>
 				</div>
 				<!-- Page Body -->
-					<div class="card shadow mb-4">
-						<div class="card-body">
-							<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
-								<%@ include file="/WEB-INF/views/rule/include/topLevel.jsp"%>
-								<%@ include file="/WEB-INF/views/rule/include/middleLevel.jsp"%>
-								<%@ include file="/WEB-INF/views/rule/include/bottomLevel.jsp"%>
-							</div>
-						</div>
-					</div>
+				<div class="card shadow mb-4">
+					<div class="card-body">
+					 	<div class="table-responsive">
+					 		<table class="table table-bordered" id="dataTable" width="50%" cellspacing="0">
+					 			<thead></thead>
+					 			<tbody>
+					 				<tr>
+					 					<th>대분류</th>
+					 					<td>
+					 						<%@ include file="/WEB-INF/views/rule/include/topLevel.jsp"%>
+					 						<div id="add_top_level_area" style="margin-top:5px;">
+					 							<form method="post" action="${pageContext.request.contextPath}/rule/addRuleLevel" accept-charset="utf-8">
+							 						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+							 						<input style="display:inline-block; width:75%;" type="text" class="form-control" 
+							 						name="new_top_level_name" id="new_top_level_name" placeholder="10자 이하로 입력하세요" maxlength="10" required> 
+													<input style="display:inline-block; width:22%;" type="submit" 
+													class="form-control" id="add_top_level_btn" value="등록">
+												</form>
+											</div>
+					 					</td>
+					 				</tr>
+					 				<tr>
+					 					<th>중분류</th>
+					 					<td>
+					 						<%@ include file="/WEB-INF/views/rule/include/middleLevel.jsp"%>
+					 					</td>
+					 				</tr>
+					 			</tbody>
+					 		</table>
+						</div><!-- table-responsive -->
+					</div><!-- card-body -->
+				</div><!-- card shadow mb-4 -->
+				
 			</div>
 			<!-- /.container-fluid -->
 		</div>
@@ -83,6 +107,7 @@
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>
+<script src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>\
+<script src="${pageContext.request.contextPath}/resource/js/rule/registerRule.js"></script>
 </body>
 </html>

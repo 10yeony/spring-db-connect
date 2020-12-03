@@ -44,7 +44,7 @@ function getAllRuleTopLevel(){
 	$.ajax({
 		//요청
 		type: "GET",
-		url: contextPath + "/getRuleCategory", 
+		url: contextPath + "/rule/getRuleCategory", 
 		data: {
 			top_level_id: '',
 			middle_level_id: ''
@@ -75,7 +75,7 @@ function getAllRuleMiddleLevel(top_level_id){
 	$.ajax({
 		//요청
 		type: "GET",
-		url: contextPath + "/getRuleCategory", 
+		url: contextPath + "/rule/getRuleCategory", 
 		data: {
 			top_level_id: top_level_id,
 			middle_level_id: ''
@@ -106,7 +106,7 @@ function getAllRuleBottomLevel(top_level_id, middle_level_id){
 	$.ajax({
 		//요청
 		type: "GET",
-		url: contextPath + "/getRuleCategory", 
+		url: contextPath + "/rule/getRuleCategory", 
 		data: {
 			top_level_id: top_level_id,
 			middle_level_id: middle_level_id

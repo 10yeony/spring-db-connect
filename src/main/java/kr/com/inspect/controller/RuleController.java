@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +30,7 @@ import kr.com.inspect.service.RuleService;
  *
  */
 @Controller
+@RequestMapping("rule")
 public class RuleController {
 	
 	/**
@@ -38,6 +40,16 @@ public class RuleController {
 	private RuleService ruleService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(RuleController.class);
+	
+	@PostMapping("/addRuleLevel")
+	public String addRuleLevel(String new_top_level_name,
+									String new_middle_level_name,
+									Rule rule) {
+		System.out.println(new_top_level_name);
+		System.out.println(new_middle_level_name);
+		System.out.println(rule);
+		return null;
+	}
 	
 	/**
 	 * 해당되는 전사규칙 드롭다운 목록을 Ajax로 응답함
