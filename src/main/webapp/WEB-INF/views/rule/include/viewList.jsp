@@ -42,15 +42,7 @@
 					<th>작성자</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td>대분류 내용</td>
-					<td>중분류 내용</td>
-					<td><a href="${pageContext.request.contextPath}/editRule">소분류 내용</a></td>
-					<td>설명</td>
-					<td>작성자</td>
-				</tr>
+			<tbody id="ruleListTbody">
 			</tbody>
 		</table>
 	</div>					

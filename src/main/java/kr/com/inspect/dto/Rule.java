@@ -6,6 +6,12 @@ package kr.com.inspect.dto;
  *
  */
 public class Rule {
+	
+	/**
+	 * 게시글 번호
+	 */
+	private int row_num;
+	
 	/**
 	 * 대분류 primary key(auto increment)
 	 */
@@ -58,10 +64,11 @@ public class Rule {
 	private String contents;
 
 	public Rule() {}
-	public Rule(int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
+	public Rule(int row_num, int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
 			int bottom_level_id, String bottom_level_name, String description, String file_name, String creator,
 			String contents) {
 		super();
+		this.row_num = row_num;
 		this.top_level_id = top_level_id;
 		this.top_level_name = top_level_name;
 		this.middle_level_id = middle_level_id;
@@ -73,7 +80,13 @@ public class Rule {
 		this.creator = creator;
 		this.contents = contents;
 	}
-	
+
+	public int getRow_num() {
+		return row_num;
+	}
+	public void setRow_num(int row_num) {
+		this.row_num = row_num;
+	}
 	public int getTop_level_id() {
 		return top_level_id;
 	}
@@ -137,9 +150,9 @@ public class Rule {
 	
 	@Override
 	public String toString() {
-		return "Rule [top_level_id=" + top_level_id + ", top_level_name=" + top_level_name + ", middle_level_id="
-				+ middle_level_id + ", middle_level_name=" + middle_level_name + ", bottom_level_id=" + bottom_level_id
-				+ ", bottom_level_name=" + bottom_level_name + ", description=" + description + ", file_name="
-				+ file_name + ", creator=" + creator + ", contents=" + contents + "]";
-	} 
+		return "Rule [row_num=" + row_num + ", top_level_id=" + top_level_id + ", top_level_name=" + top_level_name
+				+ ", middle_level_id=" + middle_level_id + ", middle_level_name=" + middle_level_name
+				+ ", bottom_level_id=" + bottom_level_id + ", bottom_level_name=" + bottom_level_name + ", description="
+				+ description + ", file_name=" + file_name + ", creator=" + creator + ", contents=" + contents + "]";
+	}
 }

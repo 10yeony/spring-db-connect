@@ -3,9 +3,9 @@ var contextPath;
 $(function(){
 	/* Context Path */
 	contextPath = getContextPath();
-	
-	getAllRuleTopLevel();
 
+	getAllRuleTopLevel();
+	
 	/* 드롭다운 핸들링 */
 	$('#top_level').change(function(){ //대분류 선택시
 		/* bottom_level 내용을 리셋 */
@@ -112,7 +112,7 @@ function getAllRuleBottomLevel(top_level_id, middle_level_id){
 			middle_level_id: middle_level_id
 		},
 		async: false,
-			
+		
 		//응답
 		success : function(response){  
 			var json = JSON.parse(response);

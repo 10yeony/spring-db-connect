@@ -96,7 +96,6 @@ public class RuleController {
     	response.setStatus(HttpServletResponse.SC_OK);
     	response.getWriter().print(mapper.writeValueAsString(responseData));
     	response.getWriter().flush();
-		
 	}
 	
 	@GetMapping("/editRule")

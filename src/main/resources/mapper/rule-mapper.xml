@@ -88,6 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- 전사규칙 리스트를 조인하여 모두 가져옴 -->
 	<select id="getRuleList" resultType="kr.com.inspect.dto.Rule">
 		SELECT 
+			(ROW_NUMBER() OVER()) AS row_num,
 			b.id AS bottom_level_id,
 			b.name AS bottom_level_name,
 			b.description,
@@ -110,8 +111,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	
 	<!-- 대분류 아이디로 전사규칙 리스트를 조인하여 모두 가져옴 -->
-	<select id="getRuleListByTopId" parameterType="string" resultType="kr.com.inspect.dto.Rule">
+	<select id="getRuleListByTopId" parameterType="int" resultType="kr.com.inspect.dto.Rule">
 		SELECT 
+			(ROW_NUMBER() OVER()) AS row_num,
 			b.id AS bottom_level_id,
 			b.name AS bottom_level_name,
 			b.description,
@@ -138,6 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- 대분류, 중분류 아이디로 전사규칙 리스트를 조인하여 모두 가져옴 -->
 	<select id="getRuleListByTopMiddleId" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
 		SELECT 
+			(ROW_NUMBER() OVER()) AS row_num,
 			b.id AS bottom_level_id,
 			b.name AS bottom_level_name,
 			b.description,
@@ -165,6 +168,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- 대분류, 중분류, 소분류 아이디로 전사규칙 리스트를 조인하여 가져옴 -->
 	<select id="getRuleListByTopMiddleBottomId" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
 		SELECT 
+			(ROW_NUMBER() OVER()) AS row_num,
 			b.id AS bottom_level_id,
 			b.name AS bottom_level_name,
 			b.description,

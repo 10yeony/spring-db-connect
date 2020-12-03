@@ -87,6 +87,7 @@
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/resource/js/rule/rule.js"></script>
+<script src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>
+<script src="${pageContext.request.contextPath}/resource/js/rule/ruleList.js"></script>
 </body>
 </html>
