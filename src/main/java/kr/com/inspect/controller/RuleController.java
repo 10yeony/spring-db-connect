@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.com.inspect.rule.RuleCompiler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -223,15 +224,17 @@ public class RuleController {
 	}
 	
 	@RequestMapping(value = "/saveRule", method = RequestMethod.POST)
-	public String saveRule(Rule rule, Model model) {
+	public String saveRule(Rule rule, Model model) throws Exception{
 		
-		System.out.println("POST");
 		String contents = rule.getContents();
 		model.addAttribute("contents", contents);
 		
 		//rule.setContents(rule.getContents().replaceAll("\r\n","<br>"));
-		System.out.println(rule);
-		System.out.println("값 받아오기");
+
+		RuleCompiler ruleCompiler = new RuleCompiler();
+		ruleCompiler.create(contents);
+		ruleCompiler.runObject();
+
 		return "rule/confirm";
 	}
 }
