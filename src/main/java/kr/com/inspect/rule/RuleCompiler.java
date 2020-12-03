@@ -31,8 +31,8 @@ public class RuleCompiler extends Thread {
         List<String> optionList = new ArrayList<>();
         // CLASS PATH 추가
         optionList.add("-classpath");
-//        optionList.add(System.getProperty("java.class.path") + ":" + classPath+":/opt/tomcat/resources/input/rule/");
-        optionList.add(System.getProperty("java.class.path"));
+        optionList.add(System.getProperty("java.class.path") + ":" + classPath+":/opt/tomcat/resources/input/rule/");
+//        optionList.add(System.getProperty("java.class.path"));
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
