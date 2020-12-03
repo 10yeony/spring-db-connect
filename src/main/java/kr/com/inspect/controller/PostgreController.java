@@ -6,6 +6,7 @@ import java.util.Map;
 
 import kr.com.inspect.rule.Data;
 import kr.com.inspect.rule.RuleCompiler;
+import org.apache.logging.log4j.core.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -156,12 +157,11 @@ public class PostgreController {
 //				"\t\tint result = testRuleCompiler.Test(list);\n" +
 //				"\t\treturn result;\n";
 		// Metadata 읽어오는 소스
-//		String str ="\t\t\tList<Metadata> jsonLogs = postgreService.getMetadata();\n\t\t\tSystem.out.println(jsonLogs.get(0));\nSystem.out.println(postgreService.getClass());\n\t\t\tSystem.out.println(\"success\");";
-		String str ="\t\tdata.metadata();";
+		String str ="\t\t\tData data = new Data();\n\t\t\tList<Metadata> metadata = data.metadata();\n\t\t\tSystem.out.println(metadata.get(0));\n";
 		// java 파일 컴파일 후 class 로드하는 메서드 호출
-		Object obj = test.create(str);
+		test.create(str);
 		// Test.class 안의 runMethod 메서드 실행하는 메서드 호출
-		test.runObject(obj, postgreService);
+		test.runObject();
 		return "true";
 	}
 
