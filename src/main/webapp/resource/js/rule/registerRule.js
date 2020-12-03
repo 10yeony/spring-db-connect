@@ -84,8 +84,8 @@ $(function(){
 
 /* ContextPath를 가져옴 */
 function getContextPath() {
-    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+    let contextPath = $('#contextPath').val();
+    return contextPath;
 }
 
 /* 대분류 삭제(프론트에서 확인) */
