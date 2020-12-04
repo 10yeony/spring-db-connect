@@ -137,7 +137,7 @@ public class PostgreController {
 	@ResponseBody
 	public String jsonDir () throws Exception{
 		Data d = new Data();
-		d.metadata();
+		d.getMetadata(0);
 		return "true";
 	}
 
