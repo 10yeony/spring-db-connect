@@ -228,12 +228,11 @@ public class RuleController {
 		
 		String contents = rule.getContents();
 		model.addAttribute("contents", contents);
-		
 		//rule.setContents(rule.getContents().replaceAll("\r\n","<br>"));
 
 		RuleCompiler ruleCompiler = new RuleCompiler();
 		ruleCompiler.create(contents);
-		Object result = ruleCompiler.runObject();
+		ruleCompiler.runObject();
 		return "rule/confirm";
 	}
 }

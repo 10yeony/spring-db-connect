@@ -124,7 +124,7 @@ public class RuleServiceImpl implements RuleService {
 					id = ruleDao.isExistBottomLevel(rule); //등록 후 아이디(auto increment된 아이디)
 					
 					/* 파일명 DB 등록(파일명이 중복되지 않도록 auto increment된 아이디 사용) */
-					String fileName = "Rule"+ id + ".java";
+					String fileName = "Rule"+ id ;
 					rule.setBottom_level_id(id);
 					rule.setFile_name(fileName);
 					result += ruleDao.updateBottomLevelFileName(rule);
