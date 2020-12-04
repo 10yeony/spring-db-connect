@@ -75,7 +75,7 @@ public class RuleCompiler {
         Boolean success = task.call();
 
         // Class 파일 Load
-        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL(),new File(lib).toURI().toURL()});
+        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL(),new URL("file:"+lib+"postgresql-42.2.18.jar")});
         Class<?> cls = classLoader.loadClass("kr.com.inspect.rule.Test");
 
         // 가져온 Class 파일에서 메서드 실행
