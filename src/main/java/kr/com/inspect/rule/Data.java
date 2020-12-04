@@ -19,38 +19,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Data {
-
-    private String metadataNS = "MetadataMapper.";
-    private String utteranceNS = "UtteranceMapper.";
-    private String eojeolListNS = "EojeolListMapper.";
-    private String jsonLogNS = "JsonLogMapper.";
-
-    public SqlSession sqlSession() throws Exception{
+    public Connection getConnect() throws Exception{
         Class.forName("org.postgresql.Driver");
 
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://45.32.55.180:5432/postgres");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
-
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:/mapper/*.xml"));
-        sqlSessionFactoryBean.setDataSource((DataSource) dataSource);
-
-        SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactoryBean.getObject());
-        return sqlSessionTemplate;
+        Connection conn = DriverManager.getConnection("jdbc:postgresql://45.32.55.180:5432/postgres", "postgres", "postgres");
+        return conn;
     }
 
-    public List<Metadata> metadata()throws Exception{
-        return sqlSession().selectList(metadataNS+"getMetadataAndProgram");
+    public void closeAll(PreparedStatement ps, Connection conn)throws SQLException {
+        if(ps!=null) ps.close(); // 호출한 순서와 반대로 종료시킴
+        if(conn!=null) conn.close();
     }
 
-    public List<Utterance> utterance(Integer metadataId)throws Exception{
-        return sqlSession().selectList(utteranceNS+"getUtteranceByMetadataId", metadataId);
+    public void closeAll(ResultSet rs,PreparedStatement ps, Connection conn)throws SQLException {
+        if(rs!=null) rs.close();
+        closeAll(ps, conn);
     }
 
-    public List<EojeolList> eojeolList(Integer utteranceId)throws Exception{
-        return sqlSession().selectList(eojeolListNS+"getEojeolListUsingUtteranceId", utteranceId);
+    public List<Metadata> metadata() throws Exception{
+        List<Metadata> metadata = new ArrayList<>();
+        Metadata meta = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query = "SELECT * FROM audio.metadata;";
+
+        conn = getConnect();
+        ps = conn.prepareStatement(query);
+
+        rs = ps.executeQuery();
+
+        while(rs.next()){
+            meta = new Metadata();
+            meta.setId(rs.getInt("id"));
+            meta.setTitle(rs.getString("title"));
+            metadata.add(meta);
+        }
+
+        closeAll(rs, ps, conn);
+        return metadata;
     }
 }

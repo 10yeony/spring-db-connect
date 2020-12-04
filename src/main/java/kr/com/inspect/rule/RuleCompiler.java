@@ -31,12 +31,15 @@ public class RuleCompiler extends Thread {
         List<String> optionList = new ArrayList<>();
         // CLASS PATH 추가
         optionList.add("-classpath");
-        optionList.add(System.getProperty("java.class.path") + ":" + classPath+":/opt/tomcat/resources/input/rule/");
+//        optionList.add(System.getProperty("java.class.path") + ":" + classPath+":/opt/tomcat/resources/input/rule/");
+//        optionList.add(System.getProperty("java.class.path") + ":" + classPath);
+        optionList.add(System.getProperty("java.class.path"));
 //        optionList.add(System.getProperty("java.class.path"));
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
 
+        System.out.println("compile start");
         // 만들어진 Java 파일을 컴파일
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 
@@ -55,11 +58,11 @@ public class RuleCompiler extends Thread {
                 compilationUnit
         );
         Boolean success = task.call();
-
+        System.out.println("compile finish");
     }
 
     // Test.class 안의 runMethod 메서드 실행
-    public void runObject() throws Exception {
+    public Object runObject() throws Exception {
 
         // 컴파일된 Class를 Load
         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL(),new File("/opt/tomcat/resources/input/rule/").toURI().toURL()});
@@ -80,11 +83,13 @@ public class RuleCompiler extends Thread {
             System.out.println("method Name: " + objMethod.getName());
 
             // 메서드 실행
-            objMethod.invoke(cls.getDeclaredConstructor().newInstance());
+            Object result = objMethod.invoke(cls.getDeclaredConstructor().newInstance());
+            return result;
 
         }catch (InvocationTargetException e){
             e.getTargetException().printStackTrace();
         }
+        return null;
     }
 
 }

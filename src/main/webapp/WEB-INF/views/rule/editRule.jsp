@@ -68,7 +68,7 @@
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 								<textarea class="form-control" name="contents" cols="170"
 									rows="20" value="" style="resize: none;">
-package kr.com.inspect.java;
+package kr.com.inspect.rule;
 			
 import kr.com.inspect.*;
 			
