@@ -1,10 +1,5 @@
 package kr.com.inspect.rule;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
-import kr.com.inspect.dto.Rule;
-import org.apache.ibatis.io.Resources;
-
-import javax.tools.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Reader;
@@ -15,6 +10,16 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
+
+import org.apache.ibatis.io.Resources;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class RuleCompiler {
 
@@ -76,7 +81,13 @@ public class RuleCompiler {
 
         // Class 파일 Load
         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL(),new File(lib).toURI().toURL()});
-        Class<?> cls = classLoader.loadClass("kr.com.inspect.rule.Test");
+        Class<?> cls = null;
+        try {
+        	cls = classLoader.loadClass("kr.com.inspect.rule.Test");
+        }catch(ClassNotFoundException e) { //코드가 틀려서 컴파일되지 않았을 경우
+        	e.printStackTrace();
+        }
+       
 
         // 가져온 Class 파일에서 메서드 실행
         try {
