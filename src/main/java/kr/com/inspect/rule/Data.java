@@ -93,7 +93,7 @@ public class Data {
 	 */
 	public List<Metadata> getMetadata(int metadata_id) throws Exception{
 		List<Metadata> list = new ArrayList<>();
-		Metadata vo = null;
+		Metadata vo = new Metadata();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -137,8 +137,8 @@ public class Data {
 	 */
 	public List<Metadata> getMetadataAndProgram(int metadata_id) throws Exception{
 		List<Metadata> list = new ArrayList<>();
-		Metadata vo = null;
-		Program program = null;
+		Metadata vo = new Metadata();
+		Program program = new Program();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -174,7 +174,7 @@ public class Data {
 								+ "FROM "
 										+ "audio.utterance " 
 								+ "GROUP BY "
-										+ "metadata_id) ut" 
+										+ "metadata_id) ut " 
 							+ "ON " 
 								+ "m.id = ut.metadata_id " 
 							+ "LEFT JOIN " 
@@ -211,6 +211,7 @@ public class Data {
 			vo.setAudio_type(rs.getString("audio_type"));
 			vo.setDistributor(rs.getString("distributor"));
 			vo.setRelation(rs.getString("relation"));
+			System.out.println(rs.getInt("program_id"));
 			program.setId(rs.getInt("program_id"));
 			program.setFile_num(rs.getString("file_num"));
 			program.setTitle(rs.getString("program_title"));
@@ -229,7 +230,7 @@ public class Data {
 	
 	public List<Speaker> getSpeaker(int metadata_id) throws Exception{
 		List<Speaker> list = new ArrayList<>();
-		Speaker vo = null;
+		Speaker vo = new Speaker();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -270,7 +271,7 @@ public class Data {
 	
 	public List<Utterance> getUtterance(int metadata_id) throws Exception{
 		List<Utterance> list = new ArrayList<>();
-		Utterance vo = null;
+		Utterance vo = new Utterance();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -308,7 +309,7 @@ public class Data {
 	
 	public List<EojeolList> getEojoelList(int metadata_id) throws Exception{
 		List<EojeolList> list = new ArrayList<>();
-		EojeolList vo = null;
+		EojeolList vo = new EojeolList();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
