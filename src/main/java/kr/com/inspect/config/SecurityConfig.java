@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import kr.com.inspect.handler.CustomAccessDeniedHandler;
 import kr.com.inspect.handler.LoginFailHandler;
@@ -90,6 +92,13 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
+		/* 처음으로 요청 속성을 읽는 필터 앞에 CharacterEncodingFilter를 추가
+		   (이거 없으면 form 값 받을 때 한글 깨짐) */
+		CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		filter.setEncoding("UTF-8");
+		filter.setForceEncoding(true);
+		http.addFilterBefore(filter,CsrfFilter.class);
+		
 		/* 권한별 접근 페이지 설정 */
 		http.authorizeRequests()
 			.antMatchers("/", "/login", "/login/**",
@@ -100,10 +109,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 						"/getMemberByAdmin/**",
 						"/deleteMemberByAdmin",
 						"/updateAuthoritiesByAdmin",
-						"/getWorkListByAdmin",
-						"/editRuleByAdmin",
-						"/registerRuleByAdmin",
-						"/runRuleByAdmin").access("hasRole('ROLE_ADMIN')") //ADMIN 권한만 접근
+						"/rule/**").access("hasRole('ROLE_ADMIN')") //ADMIN 권한만 접근
 			.antMatchers("insertIntoPostgre").access("hasRole('ROLE_INPUT')") //INPUT 권한만 접근
 			.antMatchers("/**").access("hasRole('ROLE_VIEW')") //VIEW 권한만 접근
 			.anyRequest().authenticated(); //설정되지 않은 모든 url request는 인가된 사용자만 이용

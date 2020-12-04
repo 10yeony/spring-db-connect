@@ -30,6 +30,11 @@
 </head>
 
 <body id="page-top">
+<!-- contextPath -->
+<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
+
+<!-- 소분류 아이디 -->
+<input type="hidden" id="bottom_level_id" value="${bottom_level_id}">
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
@@ -59,19 +64,25 @@
 							<div style="font-size: 1.2em;">
 								제시된 양식을 참고하여 코드를 작성해주세요
 							</div><br/>
-							<form action="${pageContext.request.contextPath}/saveRule" method="post">
+							<form action="${pageContext.request.contextPath}/rule/saveRule" method="post">
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 								<textarea class="form-control" name="contents" cols="170"
 									rows="20" value="" style="resize: none;">
-package kr.com.inspect.java;
+package kr.com.inspect.rule;
 			
 import kr.com.inspect.*;
 			
 public class{}
 								</textarea>
-								<input type="submit" value="Save" class="btn btn-primary" 
-									style="float:right; margin-top:10px;">
+								<div style="display:block; margin-top:5px;">
+									<button class="btn btn-danger" type="button" id="deleteRuleBtn" 
+										style="float:left;">삭제</button>
+									<button class="btn btn-primary" style="float:right;">작성</button>
+									<button class="btn btn-secondary" type="button" id="backRuleBtn" 
+										style="float:right; margin-right:5px;">돌아가기</button>
+								</div>
 							</form>
+							<br/><br/>
 						</div><!-- card-body -->
 					</div><!-- card shadow mb-4 -->
 				</div><!-- container-fluid -->
@@ -117,6 +128,9 @@ public class{}
 	src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
+	
+<script
+	src="${pageContext.request.contextPath}/resource/js/rule/editRule.js"></script>
 </body>
 
 </html>

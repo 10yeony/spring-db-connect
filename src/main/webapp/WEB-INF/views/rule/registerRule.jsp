@@ -22,6 +22,16 @@
 </head>
 
 <body id="page-top">
+<!-- contextPath -->
+<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
+
+<!-- 등록 후 메세지 -->
+<input id="ruleRegSuccessMsg" type="hidden" value="${ruleRegSuccessMsg}">
+<input id="ruleRegErrorMsg" type="hidden" value="${ruleRegErrorMsg}">
+
+<!-- 삭제 후 메세지 -->
+<input id="ruleDelSuccessMsg" type="hidden" value="${ruleDelSuccessMsg}">
+<input id="ruleDelErrorMsg" type="hidden" value="${ruleDelErrorMsg}">
 	
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -45,13 +55,78 @@
 					<h1 class="h3 mb-2 text-gray-800"><b>Rule 등록</b></h1>
 				</div>
 				<!-- Page Body -->
-					<div class="card shadow mb-4">
-						<div class="card-body">
-							<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
-								<%@ include file="/WEB-INF/views/rule/include/levelCategory.jsp"%>
-							</div>
-						</div>
-					</div>
+				<div class="card shadow mb-4">
+					<div class="card-body">
+					 	<div class="table-responsive">
+					 		<table class="table table-bordered" id="dataTable" width="50%" cellspacing="0">
+					 			<thead>
+					 				<tr>
+					 					<td>
+						 					<b>대분류</b>
+						 					<a href="javascript:deleteTopLevel()">삭제</a>
+										</td>
+					 					<td>
+					 						<%@ include file="/WEB-INF/views/rule/include/topLevel.jsp"%>
+					 						<div id="add_top_level_area" style="display:none;">
+					 							<form method="post" action="${pageContext.request.contextPath}/rule/addRuleLevel">
+							 						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+							 						<input style="display:inline-block; width:75%;" type="text" class="form-control" 
+							 						name="new_top_level_name" id="new_top_level_name" placeholder="10자 이하로 입력하세요" maxlength="10" required> 
+													<input style="display:inline-block; width:22%;" type="submit" 
+													class="form-control" id="add_top_level_btn" value="등록">
+												</form>
+											</div>
+					 					</td>
+					 				</tr>
+					 				<tr>
+					 					<td>
+					 						<b>중분류</b>
+					 						<a href="javascript:deleteMiddleLevel()">삭제</a>
+					 					</td>
+					 					<td>
+					 						<%@ include file="/WEB-INF/views/rule/include/middleLevel.jsp"%>
+					 						<div id="add_middle_level_area" style="display:none;">
+					 							<form method="post" id="add_middle_level_frm" action="${pageContext.request.contextPath}/rule/addRuleLevel">
+							 						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+							 						<input name="top_level_id" type="hidden"/>
+							 						<input style="display:inline-block; width:75%;" type="text" class="form-control" 
+							 						name="new_middle_level_name" id="new_middle_level_name" placeholder="20자 이하로 입력하세요" maxlength="20" required> 
+													<input style="display:inline-block; width:22%;" type="submit" 
+													class="form-control" id="add_middle_level_btn" value="등록">
+												</form>
+											</div>
+					 					</td>
+					 				</tr>
+					 			</thead>
+					 			<form method="post" id="add_bottom_level_frm"action="${pageContext.request.contextPath}/rule/addRuleLevel">
+					 			<tbody>
+					 				<tr>
+					 					<th>이름</th>
+					 					<td>
+					 						<input type="text" class="form-control" name="bottom_level_name" 
+					 							placeholder="20자 이하로 입력하세요" maxlength="20" required> 
+					 					</td>
+					 				</tr>
+					 				<tr>
+					 					<th>설명</th>
+					 					<td>
+					 						<textarea class="form-control" name="description" rows="5" style="resize: none;"></textarea>
+					 					</td>
+					 				</tr>
+					 			</tbody>
+					 		</table>
+					 			<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+					 			<input name="top_level_id" type="hidden"/>
+					 			<input name="middle_level_id" type="hidden"/>
+					 			<button style="display:inline-block; width:18%; float:right;" 
+					 				class="btn btn-primary" id="add_bottom_level_btn">
+									등록
+								</button>
+					 		</form>
+						</div><!-- table-responsive -->
+					</div><!-- card-body -->
+				</div><!-- card shadow mb-4 -->
+				
 			</div>
 			<!-- /.container-fluid -->
 		</div>
@@ -81,11 +156,7 @@
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="${pageContext.request.contextPath}/resource/vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
+<script src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>\
+<script src="${pageContext.request.contextPath}/resource/js/rule/registerRule.js"></script>
 </body>
 </html>

@@ -90,6 +90,27 @@ CREATE TABLE persistent_logins (
 	token text NOT NULL,
 	last_used timestamp NOT NULL
  );
+ 
+CREATE TABLE audio.rule_top_level (
+	id SERIAL PRIMARY KEY,
+	name text
+);
+ 
+CREATE TABLE audio.rule_middle_level (
+	id SERIAL PRIMARY KEY,
+	name text,
+	top_level_id integer REFERENCES audio.rule_top_level ON DELETE CASCADE
+);
+ 
+CREATE TABLE audio.rule_bottom_level (
+	id SERIAL PRIMARY KEY,
+	name text,
+	description text,
+	file_name text,
+	creator text,
+	top_level_id integer REFERENCES audio.rule_top_level ON DELETE CASCADE,
+	middle_level_id integer REFERENCES audio.rule_middle_level ON DELETE CASCADE
+);
 
 auto_increment 값 초기화
 truncate table audio.metadata restart identity cascade;
