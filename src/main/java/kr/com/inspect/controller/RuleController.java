@@ -233,8 +233,7 @@ public class RuleController {
 
 		RuleCompiler ruleCompiler = new RuleCompiler();
 		ruleCompiler.create(contents);
-		ruleCompiler.runObject();
-
+		Object result = ruleCompiler.runObject();
 		return "rule/confirm";
 	}
 }
