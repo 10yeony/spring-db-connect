@@ -137,7 +137,7 @@ public class PostgreController {
 	@ResponseBody
 	public String jsonDir () throws Exception{
 		Data d = new Data();
-		d.metadata();
+		d.getMetadata(0);
 		return "true";
 	}
 
@@ -150,18 +150,7 @@ public class PostgreController {
 	@ResponseBody
 	public String xlsxDir () throws Exception{
 		RuleCompiler test = new RuleCompiler();
-
 		System.out.println("button clicked");
-		// report 패키지의 TestRuleCompiler 클래스를 호출하는 테스트 소스
-//		String str ="\t\tSystem.out.println(list.getClass());\t\t\nTestRuleCompiler testRuleCompiler = new TestRuleCompiler();\n" +
-//				"\t\tint result = testRuleCompiler.Test(list);\n" +
-//				"\t\treturn result;\n";
-		// Metadata 읽어오는 소스
-		String str ="\t\t\tData data = new Data();\n\t\t\tList<Metadata> metadata = data.metadata();\n\t\t\tSystem.out.println(metadata.get(0));\n";
-		// java 파일 컴파일 후 class 로드하는 메서드 호출
-		test.create(str);
-		// Test.class 안의 runMethod 메서드 실행하는 메서드 호출
-		test.runObject();
 		return "true";
 	}
 
