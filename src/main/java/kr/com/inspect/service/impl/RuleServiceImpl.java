@@ -170,17 +170,14 @@ public class RuleServiceImpl implements RuleService {
 	}
 
 	@Override
-	public int updateContents(Rule rule) throws Exception {
+	public Object updateContents(Rule rule) throws Exception {
 		int result = ruleDao.updateContents(rule);
 		Rule vo =  ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
-		System.out.println(vo);
 		ruleCompiler.create(vo);
 		Object obj = ruleCompiler.runObject(vo);
-		System.out.println(obj);
-		return 0;
+		return obj;
 	}
 
-	
 	@Override
 	public List<Object> runRuleCompiler(List<Rule> list) throws Exception {
 		List<Object> result = new ArrayList<>();

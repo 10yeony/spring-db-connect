@@ -51,7 +51,7 @@ public interface RuleService {
 	
 	public Rule getRuleBottomLevel(int bottom_level_id);
 	
-	public int updateContents(Rule rule) throws Exception;
+	public Object updateContents(Rule rule) throws Exception;
 	
 	public List<Object> runRuleCompiler(List<Rule> list) throws Exception;
 }
