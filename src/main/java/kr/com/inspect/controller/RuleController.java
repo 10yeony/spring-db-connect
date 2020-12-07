@@ -114,7 +114,6 @@ public class RuleController {
 	 * @param response HttpServletResponse 객체 
 	 * @param top_level_id 전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
-	 * @param bottom_level_id 전사규칙 소분류 아이디
 	 * @throws IOException 입출력 예외
 	 */
 	@GetMapping("/getRuleCategory")
@@ -231,8 +230,8 @@ public class RuleController {
 		//rule.setContents(rule.getContents().replaceAll("\r\n","<br>"));
 
 		RuleCompiler ruleCompiler = new RuleCompiler();
-		ruleCompiler.create(contents);
-		ruleCompiler.runObject();
+		ruleCompiler.create(rule);
+		ruleCompiler.runObject(rule);
 		return "rule/confirm";
 	}
 }
