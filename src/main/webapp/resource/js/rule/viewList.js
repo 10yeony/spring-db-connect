@@ -196,7 +196,6 @@ function appendRuleTable(list){
 				"<td><a href=" + contextPath + "/rule/editRule?bottom_level_id=" + bottom_level_id + ">"+ bottom_level_name + "</a></td>" +
 				"<td>" + description + "</td>" +
 				"<td>" + creator + "</td>" +
-				"<td>" + contents + "</td>" +
 			"</tr>"
 		);
 	}

@@ -67,7 +67,7 @@
 							<form action="${pageContext.request.contextPath}/rule/saveRule" method="post">
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 								<textarea class="form-control" name="contents" cols="170"
-									rows="20" value="" style="resize: none;"></textarea>
+									rows="20" value="" style="resize: none;">${contents}</textarea>
 								<div style="display:block; margin-top:5px;">
 									<button class="btn btn-danger" type="button" id="deleteRuleBtn" 
 										style="float:left;">삭제</button>
