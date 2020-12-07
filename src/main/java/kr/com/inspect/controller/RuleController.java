@@ -221,18 +221,10 @@ public class RuleController {
 
 	@RequestMapping(value = "/saveRule", method = RequestMethod.POST)
 	public String saveRule(Rule rule) throws Exception {		
-		System.out.println(rule);
 		ruleService.updateContents(rule);
-		System.out.println("변형후");
-		System.out.println(rule);
 		rule = ruleService.getRuleBottomLevel(rule.getBottom_level_id());
-		System.out.println("db 전체 불러오기");
-		System.out.println(rule);
-		
-		// rule.setContents(rule.getContents().replaceAll("\r\n","<br>"));
 
 		RuleCompiler ruleCompiler = new RuleCompiler();
-		//ruleCompiler.getSource(rule);
 		ruleCompiler.create(rule);
 		ruleCompiler.runObject(rule);
 		return "rule/ruleList";

@@ -80,6 +80,12 @@ public class PostgreController {
 	 */
 	@Value("${input.xlsx.directory}")
 	private String xlsxPath;
+
+	/**
+	 * wav파일을 업로드하는 경로
+	 */
+	@Value("${input.sound.directory}")
+	private String wavPath;
 	
 	/**
 	 * 엘라스틱서치 특정 인덱스를 PostgreSQL 특정 테이블에 넣기
@@ -101,9 +107,9 @@ public class PostgreController {
 	}
 
 	/**
-	 * json 파일 postgresql 에 업로드
+	 * json 파일 jsonPath 에 업로드
 	 * @param multipartFile 파일업로드 기능 구현
-	 * @return json파일 여부(true/false)에 따라 값을 반환
+	 * @return 업로드가 성공적으로 되면 true반환
 	 * @throws Exception 에외처리
 	 */
 	@RequestMapping(value = "/jsonUpload", method = RequestMethod.POST)
@@ -132,28 +138,16 @@ public class PostgreController {
 	}
 
 	/**
-	 * json파일을 서버 디렉토리에서 업로드
-	 * @return 디렉토리 값 반환
-	 * @throws Exception 예외 처리
+	 * wav 파일 postgresql 에 업로드
+	 * @param multipartFile 파일업로드 기능 구현
+	 * @return wav파일 여부(true/false)에 따라 값을 반환
+	 * @throws Exception 에외처리
 	 */
-	@RequestMapping(value = "/jsonDir", method = RequestMethod.POST)
+	@RequestMapping(value = "/wavUpload", method = RequestMethod.POST)
 	@ResponseBody
-	public String jsonDir () throws Exception{
-		Data d = new Data();
-		d.getMetadata(0);
-		return "true";
-	}
+	public String wavUpload (@RequestParam("wavFile") List<MultipartFile> multipartFile) throws Exception{
+		postgreService.uploadWav(multipartFile);
 
-	/**
-	 * 클래스 파일 생성
-	 * @return 디렉토리 값 반환
-	 * @throws Exception 예외 처리
-	 */
-	@PostMapping("/xlsxDir")
-	@ResponseBody
-	public String xlsxDir () throws Exception{
-		RuleCompiler test = new RuleCompiler();
-		System.out.println("button clicked");
 		return "true";
 	}
 
@@ -314,9 +308,13 @@ public class PostgreController {
 	 */
 	@GetMapping("/sound")
 	@ResponseBody
-	public void sound(HttpServletRequest request){
+	public String sound(HttpServletRequest request){
 		Utterance utterance = postgreService.getUtteranceUsingId(request.getParameter("id"));
-		System.out.println(utterance);
-		postgreService.sound(utterance);
+		boolean flag = postgreService.sound(utterance);
+		if(flag == true){
+			return "true";
+		}
+		else
+			return "false";
 	}
 }
