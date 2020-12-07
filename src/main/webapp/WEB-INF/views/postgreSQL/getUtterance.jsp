@@ -126,7 +126,11 @@
 	                                        	  <c:set var="count" value="${count+1}" />
 	                                            <td>${count}</td>
 	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
-	                                            <td><fmt:formatNumber value="${item.start}" pattern=".00"/></td>
+	                                            <td><fmt:formatNumber value="${item.start}" pattern=".00"/>
+                                                    <a onclick="sound('${item.id}');" class="btn btn-primary btn-circle btn-sm">
+                                                        <i class="fas fa-play"></i>
+                                                    </a>
+                                                </td>
 	                                            <td><fmt:formatNumber value="${item.finish}" pattern=".00"/></td>
 	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.eojeol_count}개</a></td>
 	                                        </tr>
@@ -182,6 +186,14 @@ function send(type, file, fileurl){
         alert("메일이 전송됩니다.");
     else if(type == 'sms')
         alert("문자가 전송됩니다.");
+}
+
+function sound(id){
+    $.ajax({
+        type:"GET",
+        url: '${pageContext.request.contextPath}/sound',
+        data: {id: id}
+    })
 }
 </script>
 
