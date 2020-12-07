@@ -18,6 +18,11 @@ $(function(){
 		alert(ruleDelErrorMsg);
 	}
 	
+	var msg = $('#msg').val();
+	if(msg != ''){
+		alert(msg);
+	}
+	
 	getRuleList();
 	
 	/* 대분류 선택시 */

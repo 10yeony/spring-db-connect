@@ -219,9 +219,15 @@ public class RuleController {
 		return "rule/ruleList";
 	}
 
+	
+	//@ResponseBody
+	//@RequestMapping(value = "/saveRule", produces = "application/text; charset=utf8")
 	@PostMapping("/saveRule")
-	public String saveRule(Rule rule) throws Exception {		
+	public String saveRule(Rule rule, Model model) throws Exception {		
 		Object obj = ruleService.updateContents(rule);
+		//String msg = "";
+		
+		model.addAttribute("msg", "코드 작성이 완료되었습니다!");
 		return "rule/ruleList";
 	}
 }

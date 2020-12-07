@@ -201,10 +201,5 @@ public class RuleServiceImpl implements RuleService {
 		}
 		return result;
 	}
-
-	/*
-	 * @Override public int updateContents(int bottom_level_id, String contents) {
-	 * int result = 0; return 0; }
-	 */
 	
 }
