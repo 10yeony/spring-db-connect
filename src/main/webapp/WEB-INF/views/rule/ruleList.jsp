@@ -22,8 +22,6 @@
 </head>
 
 <body id="page-top">
-<!-- contextPath -->
-<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
 
 <!-- 등록 후 성공메세지 -->
 <input id="ruleRegSuccessMsg" type="hidden" value="${ruleRegSuccessMsg}">

@@ -30,8 +30,6 @@
 </head>
 
 <body id="page-top">
-<!-- contextPath -->
-<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
 
 <!-- 소분류 아이디 -->
 <input type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}" name="bottom_level_id">
