@@ -192,7 +192,12 @@ function sound(id){
     $.ajax({
         type:"GET",
         url: '${pageContext.request.contextPath}/sound',
-        data: {id: id}
+        data: {id: id},
+
+        success: function (result){
+            if(result == "false")
+                alert("해당 데이터의 음성파일이 존재하지 않습니다.");
+        }
     })
 }
 </script>

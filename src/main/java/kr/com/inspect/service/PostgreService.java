@@ -142,5 +142,12 @@ public interface PostgreService {
 	 * utterance를 받아 해당 문장의 음성 출력
 	 * @param utterance 사용자가 클릭한 utterance
 	 */
-	public void sound(Utterance utterance);
+	public boolean sound(Utterance utterance);
+
+	/**
+	 * wav 파일들을 저장 경로에 업로드
+	 * @param wavFile wav 파일
+	 * @throws Exception 파일 업로드 예외처리
+	 */
+	public void uploadWav(List<MultipartFile> wavFile) throws Exception;
 }

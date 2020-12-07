@@ -1,5 +1,6 @@
 package kr.com.inspect.service.impl;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -110,7 +111,7 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	private XlsxParsing xlsxParsing = new XlsxParsing();
 	/**
-	 * 음성파일이 저장된 경로
+	 * 음성파일 저장 경로
 	 */
 	@Value("${input.sound.directory}")
 	private String soundPath;
@@ -233,95 +234,6 @@ public class PostgreServiceImpl implements PostgreService{
 
 			jsonFile.get(i).transferTo(f);
 		}
-
-//		File dir = new File(path);
-//		File[] fileList = dir.listFiles();
-//		boolean check = false;
-//
-//		for(File file : fileList){
-//			/* 확장자가 json인 파일을 읽는다 */
-//		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
-//		    	String fullPath = path + file.getName();
-//
-//				JsonLog jsonLog = new JsonLog();
-//
-//				/* jsonLog 테이블 시작시간 측정 */
-//		    	jsonLog.setStart(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-//				long startTime = System.currentTimeMillis();
-//
-//		    	/* json 파일을 읽어서 객체로 파싱 */
-//				JSONObject obj = jsonParsing.getJSONObject(fullPath);
-//
-//				/* metadata 테이블 입력 */
-//				Metadata metadata  = jsonParsing.setMetadata(obj);
-//
-//				/* metadata_id를 가져옴(creator, title) */
-//				Map map = new HashMap();
-//				map.put("creator", metadata.getCreator());
-//				map.put("title", metadata.getTitle());
-//				String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
-//
-//				if(isExistId == null) { //등록된 데이터가 아닐 경우
-//					check = true;
-//
-//					/* metadata 테이블 입력 */
-//					sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
-//
-//					/* auto increment로 등록된 id를 가져옴 */
-//					int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
-//
-//					/* jsonLog 테이블에 파일명과 metadata_id 입력 */
-//					jsonLog.setTitle(metadata.getTitle());
-//					jsonLog.setMetadata_id(metadata_id);
-//
-//					/* speaker 테이블 입력 */
-//					List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
-//					for(Speaker speaker : speakerList) {
-//						sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
-//					}
-//
-//					/* utterance 테이블 입력 */
-//					List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
-//					for(Utterance utterance : utteranceList) {
-//						sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
-//						List<EojeolList> eojeolListList = utterance.getEojoelList();
-//						for(EojeolList eojeolList : eojeolListList) {
-//							sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
-//						}
-//					}
-//
-//					/* jsonLog 테이블 종료시간 측정 */
-//					jsonLog.setFinish(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-//					long endTime = System.currentTimeMillis();
-//
-//					/* jsonLog 테이블 소요시간 입력 */
-//					int elapsed = (int)((endTime-startTime)/1000.0);
-//					int min = elapsed/60;
-//					int sec = elapsed - min*60;
-//					jsonLog.setElapsed(""+min+":"+sec);
-//
-//					sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
-//				}
-//		    }
-//		}
-//
-//		/* 서버 디렉토리에 파일 삭제 */
-//		try{
-//			while (dir.listFiles().length != 0){
-//				File[] folder_list = dir.listFiles();
-//
-//				for (int j=0; j<folder_list.length; j++){
-//					folder_list[j].delete();
-//				}
-//			}
-//		}catch (Exception e){
-//		}
-//
-//		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
-//			return true;
-//		}else { //모두 중복된 데이터일 경우
-//			return false;
-//		}
 	}
 
 	/**
@@ -603,9 +515,12 @@ public class PostgreServiceImpl implements PostgreService{
 	/**
 	 * utterance를 받아 해당 문장의 음성 출력
 	 * @param utterance 사용자가 클릭한 utterance
+	 * @return 해당 파일의 음성파일 유무 리턴
 	 */
-	public void sound(Utterance utterance){
+	public boolean sound(Utterance utterance) {
 		Metadata metadata = postgreDao.getMetadataAndProgramUsingId(utterance.getMetadata_id());
+		double duringTime = utterance.getFinish() - utterance.getStart();
+		long start, end;
 		File dir = new File(soundPath);
 		String[] files = dir.list(new FilenameFilter() {
 			@Override
@@ -620,27 +535,44 @@ public class PostgreServiceImpl implements PostgreService{
 				AudioInputStream stream = AudioSystem.getAudioInputStream(file);
 				AudioFormat format = stream.getFormat();
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
-				Clip clip = (Clip)AudioSystem.getLine(info);
-
-				long audioFileLength = file.length();
-				int frameSize = format.getFrameSize();
-				float frameRate = format.getFrameRate();
-				float durationInSeconds = (audioFileLength / (frameSize * frameRate));
+				Clip clip = (Clip) AudioSystem.getLine(info);
 
 				clip.open(stream);
-				int start = (int)Math.floor(clip.getFrameLength() * utterance.getStart() / durationInSeconds);
-				int finish = (int)Math.ceil(clip.getFrameLength() * utterance.getFinish() / durationInSeconds);
-
-				System.out.println(start);
-				System.out.println(finish);
-
-				clip.setLoopPoints(start, finish);
-//				clip.loop(1);
-//				clip.start();
+				clip.setLoopPoints(clip.getFrameLength()/3, clip.getFrameLength()/2);
+				clip.setMicrosecondPosition((long) (utterance.getStart()*1000000));
+				clip.start();
+				start = System.currentTimeMillis();
+				while(true){
+					end = System.currentTimeMillis();
+					if((end - start)/1000.0 > duringTime){
+						clip.close();
+						return true;
+					}
+				}
 			} catch (IOException | UnsupportedAudioFileException | LineUnavailableException e){
 				e.printStackTrace();
 			}
 
+		}
+		return false;
+	}
+
+	/**
+	 * wav 파일들을 저장 경로에 업로드
+	 * @param wavFile wav 파일
+	 * @throws Exception 파일 업로드 예외처리
+	 */
+	public void uploadWav(List<MultipartFile> wavFile) throws Exception {
+		String filename;
+		File f;
+
+		/* 서버 디렉토리에 파일 저장 */
+		for (int i = 0; i < wavFile.size(); i++) {
+			filename = wavFile.get(i).getOriginalFilename();
+
+			f = new File(soundPath + filename);
+
+			wavFile.get(i).transferTo(f);
 		}
 	}
 }
