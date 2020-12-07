@@ -137,4 +137,10 @@ public interface PostgreService {
 										int count_per_page,
 										int count_per_list,
 										String search_word);
+
+	/**
+	 * utterance를 받아 해당 문장의 음성 출력
+	 * @param utterance 사용자가 클릭한 utterance
+	 */
+	public void sound(Utterance utterance);
 }

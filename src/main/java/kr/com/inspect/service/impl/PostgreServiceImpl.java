@@ -1,6 +1,8 @@
 package kr.com.inspect.service.impl;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,12 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOCase;
 import org.apache.ibatis.session.SqlSession;
 import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +41,9 @@ import kr.com.inspect.service.PostgreService;
 import kr.com.inspect.util.ResponseDataCode;
 import kr.com.inspect.util.ResponseDataStatus;
 
+import javax.sound.sampled.*;
+import javax.swing.*;
+
 /**
  * PostgreSQL Service
  * @author Yeonhee Kim
@@ -44,6 +52,7 @@ import kr.com.inspect.util.ResponseDataStatus;
  */
 
 @Service
+@PropertySource(value = "classpath:properties/directory.properties")
 public class PostgreServiceImpl implements PostgreService{
 
 	/**
@@ -100,6 +109,11 @@ public class PostgreServiceImpl implements PostgreService{
 	 * XlsxParsing 필드 선언
 	 */
 	private XlsxParsing xlsxParsing = new XlsxParsing();
+	/**
+	 * 음성파일이 저장된 경로
+	 */
+	@Value("${input.sound.directory}")
+	private String soundPath;
 	
 	/**
 	 * 엘라스틱 서치에서 받아온 인덱스를 PostgreSQL에 넣음(테스트)
@@ -584,5 +598,49 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	public Utterance getUtteranceUsingId(String id){
 		return postgreDao.getUtteranceUsingId(id);
+	}
+
+	/**
+	 * utterance를 받아 해당 문장의 음성 출력
+	 * @param utterance 사용자가 클릭한 utterance
+	 */
+	public void sound(Utterance utterance){
+		Metadata metadata = postgreDao.getMetadataAndProgramUsingId(utterance.getMetadata_id());
+		File dir = new File(soundPath);
+		String[] files = dir.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.indexOf(metadata.getTitle()) != -1;
+			}
+		});
+
+		if(files.length!=0){
+			File file = new File(soundPath + files[0]);
+			try {
+				AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+				AudioFormat format = stream.getFormat();
+				DataLine.Info info = new DataLine.Info(Clip.class, format);
+				Clip clip = (Clip)AudioSystem.getLine(info);
+
+				long audioFileLength = file.length();
+				int frameSize = format.getFrameSize();
+				float frameRate = format.getFrameRate();
+				float durationInSeconds = (audioFileLength / (frameSize * frameRate));
+
+				clip.open(stream);
+				int start = (int)Math.floor(clip.getFrameLength() * utterance.getStart() / durationInSeconds);
+				int finish = (int)Math.ceil(clip.getFrameLength() * utterance.getFinish() / durationInSeconds);
+
+				System.out.println(start);
+				System.out.println(finish);
+
+				clip.setLoopPoints(start, finish);
+//				clip.loop(1);
+//				clip.start();
+			} catch (IOException | UnsupportedAudioFileException | LineUnavailableException e){
+				e.printStackTrace();
+			}
+
+		}
 	}
 }
