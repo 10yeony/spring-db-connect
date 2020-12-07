@@ -37,12 +37,23 @@
 		<div id="content">
 			<!-- 툴바 include -->
 			<%@ include file="/WEB-INF/views/include/toolbar.jsp"%>
+			
 			<!-- Begin Page Content -->
 			<div class="container-fluid">
-				<div style="text-align:center; padding-top:100px;">
-					<img src="${pageContext.request.contextPath}/resource/img/warning.png"
-						width="150px">
-					<div style="margin-top:30px; font-size:1.5em;">룰실행 페이지가 아직 작업중입니다</div>
+				<!-- Page Heading -->
+				<div class="d-sm-flex align-items-center justify-content-between mb-4">
+					<h1 class="h3 mb-2 text-gray-800"><b>Rule 실행</b></h1>
+				</div>
+				
+				<!-- Page Body -->
+				<div class="card shadow mb-4">
+					<div class="card-body">
+						<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
+							<%@ include file="/WEB-INF/views/rule/include/topLevel.jsp"%>
+							<%@ include file="/WEB-INF/views/rule/include/middleLevel.jsp"%>
+							<%@ include file="/WEB-INF/views/rule/include/bottomLevel.jsp"%>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- /.container-fluid -->
@@ -79,6 +90,8 @@
 <!-- Page level custom scripts -->
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
+
+<script src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>
 </body>
 
 </html>
