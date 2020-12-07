@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.com.inspect.dto.Member;
@@ -215,6 +216,31 @@ public class RuleController {
 	@GetMapping("/runRule")
 	public String runRulepage() {
 		return "rule/runRule";
+	}
+	
+	@GetMapping("/runRuleWork")
+	@ResponseBody
+	public void runRuleWork(HttpServletResponse response, 
+								String top_level_id, 
+								String middle_level_id,
+								String bottom_level_id) 
+								throws JsonProcessingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();	//JSON 변경용
+		
+		List<Rule> list = ruleService.getRuleListUsingJoin(top_level_id, 
+																		middle_level_id, 
+																		bottom_level_id);
+		
+		ResponseData responseData = new ResponseData();
+		Map<String, Object> items = new HashMap<String, Object>();	
+    	//items.put("list", list);
+    	responseData.setItem(items);
+    	
+    	/* 응답시 한글 인코딩 처리 */
+    	response.setCharacterEncoding("UTF-8");
+    	response.setStatus(HttpServletResponse.SC_OK);
+    	response.getWriter().print(mapper.writeValueAsString(responseData));
+    	response.getWriter().flush();
 	}
 	
 	@GetMapping("/ruleList")

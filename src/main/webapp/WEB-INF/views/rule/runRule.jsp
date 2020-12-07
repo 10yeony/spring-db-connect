@@ -53,6 +53,12 @@
 							<%@ include file="/WEB-INF/views/rule/include/middleLevel.jsp"%>
 							<%@ include file="/WEB-INF/views/rule/include/bottomLevel.jsp"%>
 						</div>
+						<button style="display:inline-block;" 
+					 		class="btn btn-primary" id="run_rule_btn">실행</button>
+					 	<div>
+					 		<br/>
+					 		<textarea class="form-control" rows="5" style="resize: none;" readonly>##### 실행 결과 #####</textarea>
+					 	</div>
 					</div>
 				</div>
 			</div>
