@@ -240,8 +240,22 @@ public class RuleDaoImpl implements RuleDao {
 		return sqlSession.delete(ruleNS+"deleteBottomLevel", id);
 	}
 
+	/**
+	 * 사용자가 작성한 전사규칙(소분류) 코드 내용을 DB에 저장함
+	 * @param rule 전사규칙(소분류) 코드 내용 업데이트를 위한 Rule 객체
+	 * @return 업데이트된 row의 수
+	 */
 	@Override
 	public int updateContents(Rule rule) {
 		return sqlSession.update(ruleNS+"updateContents", rule);
+	}
+	
+	/**
+	 * 사용자가 작성한 전사규칙(소분류)을 컴파일하고 결과값을 DB에 저장함
+	 * @param rule 전사규칙(소분류) 컴파일 결과값 업데이트를 위한 Rule 객체
+	 * @return 업데이트된 row의 수
+	 */
+	public int updateRuleCompileResult(Rule rule) {
+		return sqlSession.update(ruleNS+"updateRuleCompileResult", rule);
 	}
 }

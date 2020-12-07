@@ -55,11 +55,13 @@
 						</div>
 						<button style="display:inline-block;" 
 					 		class="btn btn-primary" id="run_rule_btn">실행</button>
-					 	<div>
+					 	<div id="run_rule_result_area">
 					 		<br/>
-					 		<textarea class="form-control" rows="5" style="resize: none;" readonly>##### 실행 결과 #####</textarea>
+					 		<textarea class="form-control" rows="5" style="resize: none;" readonly>
+전사규칙을 선택하고 실행하세요.
+					 		</textarea>
 					 	</div>
-					</div>
+					</div><br/><br/>
 				</div>
 			</div>
 			<!-- /.container-fluid -->
@@ -98,6 +100,7 @@
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
 
 <script src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>
+<script src="${pageContext.request.contextPath}/resource/js/rule/runRule.js"></script>
 </body>
 
 </html>
