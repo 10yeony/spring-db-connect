@@ -129,7 +129,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			b.top_level_id,
 			t.name AS top_level_name,
 			b.middle_level_id,
-			m.name AS middle_level_name
+			m.name AS middle_level_name,
+			b.contents
 		FROM 
 			audio.rule_bottom_level b
 		LEFT JOIN 
@@ -154,7 +155,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			b.top_level_id,
 			t.name AS top_level_name,
 			b.middle_level_id,
-			m.name AS middle_level_name
+			m.name AS middle_level_name,
+			b.contents
 		FROM 
 			audio.rule_bottom_level b
 		LEFT JOIN 
@@ -181,7 +183,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			b.top_level_id,
 			t.name AS top_level_name,
 			b.middle_level_id,
-			m.name AS middle_level_name
+			m.name AS middle_level_name,
+			b.contents
 		FROM 
 			audio.rule_bottom_level b
 		LEFT JOIN 
@@ -209,7 +212,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			b.top_level_id,
 			t.name AS top_level_name,
 			b.middle_level_id,
-			m.name AS middle_level_name
+			m.name AS middle_level_name,
+			b.contents
 		FROM 
 			audio.rule_bottom_level b
 		LEFT JOIN 

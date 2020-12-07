@@ -184,6 +184,9 @@ function appendRuleTable(list){
 				
 		var creator = JSON.stringify(list[i].creator);
 		creator = creator.replace(/"/g, ""); //큰 따옴표 제거
+		
+		var contents = JSON.stringify(list[i].contents);
+		contents = contents.replace(/"/g, ""); //큰 따옴표 제거
 				
 		$('#ruleListTbody').append(
 			"<tr>" +
@@ -193,6 +196,7 @@ function appendRuleTable(list){
 				"<td><a href=" + contextPath + "/rule/editRule?bottom_level_id=" + bottom_level_id + ">"+ bottom_level_name + "</a></td>" +
 				"<td>" + description + "</td>" +
 				"<td>" + creator + "</td>" +
+				"<td>" + contents + "</td>" +
 			"</tr>"
 		);
 	}

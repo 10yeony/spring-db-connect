@@ -40,6 +40,7 @@
 					<th>소분류</th>
 					<th>설명</th>
 					<th>작성자</th>
+					<th>코드</th>
 				</tr>
 			</thead>
 			<tbody id="ruleListTbody">
