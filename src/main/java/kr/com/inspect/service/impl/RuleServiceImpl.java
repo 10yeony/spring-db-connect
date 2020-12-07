@@ -3,13 +3,12 @@ package kr.com.inspect.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.RuleDao;
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
 
 /**
@@ -27,6 +26,8 @@ public class RuleServiceImpl implements RuleService {
 	private RuleDao ruleDao;
 	
 	private Rule rule;
+	
+	private RuleCompiler ruleCompiler = new RuleCompiler();
 	
 	/**
 	 * 전사규칙 대분류, 중분류, 소분류 카테고리 리스트를 반환함
@@ -169,8 +170,39 @@ public class RuleServiceImpl implements RuleService {
 	}
 
 	@Override
-	public int updateContents(Rule rule) {
-		return ruleDao.updateContents(rule);
+	public int updateContents(Rule rule) throws Exception {
+		int result = ruleDao.updateContents(rule);
+		Rule vo =  ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
+		System.out.println(vo);
+		ruleCompiler.create(vo);
+		Object obj = ruleCompiler.runObject(vo);
+		System.out.println(obj);
+		return 0;
+	}
+
+	
+	@Override
+	public List<Object> runRuleCompiler(List<Rule> list) throws Exception {
+		List<Object> result = new ArrayList<>();
+		for(Rule rule : list) {
+			new Thread() 
+			{
+				@Override
+				public void run() {
+					try {
+						Object obj = ruleCompiler.runObject(rule);
+						result.add(obj);
+						
+						/* 현재 스레드 이름 찍어보기 */
+						String tname = Thread.currentThread().getName();
+						System.out.println("CurrentThread :: "+tname);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				};
+			}.start();
+		}
+		return result;
 	}
 
 	/*

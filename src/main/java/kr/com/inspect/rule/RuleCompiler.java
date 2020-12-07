@@ -85,6 +85,8 @@ public class RuleCompiler {
      * @throws Exception 클래스 메소드 not found, url 포멧, 메서드 호출, 호출한 메서드 내 오류, 객체 생성 예외처리
      */
     public Object runObject(Rule rule) throws Exception{
+    	System.out.println(rule);
+    	
         // java파일 컴파일 할때 옵션주기
         List<String> optionList = new ArrayList<>();
         // CLASS PATH 추가

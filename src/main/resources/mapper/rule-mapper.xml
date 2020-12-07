@@ -109,6 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			name AS bottom_level_name,
 			description,
 			creator,
+			file_name,
 			top_level_id AS top_level_id,
 			middle_level_id AS middle_level_id,
 			contents
