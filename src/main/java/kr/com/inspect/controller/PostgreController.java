@@ -28,6 +28,9 @@ import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 /**
  * PostgreSQL 컨트롤러
  * @author Yeonhee Kim
@@ -303,5 +306,17 @@ public class PostgreController {
 			model.addAttribute("selectedData", "검색 결과");
 		}
 		return "postgreSQL/getJsonLog";
+	}
+
+	/**
+	 * 클릭한 utterance의 음성 출력
+	 * @param request 사용자로부터 들어온 요청
+	 */
+	@GetMapping("/sound")
+	@ResponseBody
+	public void sound(HttpServletRequest request){
+		Utterance utterance = postgreService.getUtteranceUsingId(request.getParameter("id"));
+		System.out.println(utterance);
+		postgreService.sound(utterance);
 	}
 }
