@@ -2,6 +2,8 @@ package kr.com.inspect.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import kr.com.inspect.dto.Rule;
 
 /**
@@ -46,4 +48,8 @@ public interface RuleService {
 	 * @return DB에서 삭제한 row의 수
 	 */
 	public int deleteRule(String level, int id);
+	
+	public Rule getRuleBottomLevel(int bottom_level_id);
+	
+	public int updateContents(Rule rule);
 }

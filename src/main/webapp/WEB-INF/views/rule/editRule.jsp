@@ -32,7 +32,7 @@
 <body id="page-top">
 
 <!-- 소분류 아이디 -->
-<input type="hidden" id="bottom_level_id" value="${bottom_level_id}">
+<input type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}" name="bottom_level_id">
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
@@ -65,7 +65,8 @@
 							<form action="${pageContext.request.contextPath}/rule/saveRule" method="post">
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 								<textarea class="form-control" name="contents" cols="170"
-									rows="20" value="" style="resize: none;">${contents}</textarea>
+									rows="20" value="" style="resize: none;">${rule.contents}</textarea>
+								<input name="bottom_level_id" type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}">
 								<div style="display:block; margin-top:5px;">
 									<button class="btn btn-danger" type="button" id="deleteRuleBtn" 
 										style="float:left;">삭제</button>
