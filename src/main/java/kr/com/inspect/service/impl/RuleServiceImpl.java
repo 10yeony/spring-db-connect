@@ -1,7 +1,12 @@
 package kr.com.inspect.service.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +30,14 @@ public class RuleServiceImpl implements RuleService {
 	@Autowired
 	private RuleDao ruleDao;
 	
+	/**
+	 * Rule 객체
+	 */
 	private Rule rule;
 	
+	/**
+	 * 전사규칙 자바 컴파일러 객체
+	 */
 	private RuleCompiler ruleCompiler = new RuleCompiler();
 	
 	/**
@@ -179,32 +190,29 @@ public class RuleServiceImpl implements RuleService {
 	}
 
 	@Override
-	public List<Object> runRuleCompiler(List<Rule> list) throws Exception {
-		List<Object> result = new ArrayList<>();
+	public void runRuleCompiler(List<Rule> list) throws Exception {
 		for(Rule rule : list) {
 			new Thread() 
 			{
 				@Override
 				public void run() {
 					try {
+						/* 자바 파일 실행 */
 						Object obj = ruleCompiler.runObject(rule);
-						result.add(obj);
 						
-						/* 현재 스레드 이름 찍어보기 */
-						String tname = Thread.currentThread().getName();
-						System.out.println("CurrentThread :: "+tname);
+						/* 컴파일 결과값 DB에 등록 */
+						rule.setResult(obj.toString());
+						int updateResult = ruleDao.updateRuleCompileResult(rule);
+						//System.out.println("DB에 등록 : " + updateResult);
+						
 					} catch (Exception e) {
-						e.printStackTrace();
-					}
+						StringWriter error = new StringWriter();        
+						e.printStackTrace(new PrintWriter(error));   
+						rule.setResult(error.toString());
+						int updateResult = ruleDao.updateRuleCompileResult(rule);
+					} 
 				};
 			}.start();
 		}
-		return result;
 	}
-
-	/*
-	 * @Override public int updateContents(int bottom_level_id, String contents) {
-	 * int result = 0; return 0; }
-	 */
-	
 }

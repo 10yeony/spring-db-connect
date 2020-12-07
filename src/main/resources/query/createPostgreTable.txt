@@ -108,6 +108,8 @@ CREATE TABLE audio.rule_bottom_level (
 	description text,
 	file_name text,
 	creator text,
+	contents text,
+	result text,
 	top_level_id integer REFERENCES audio.rule_top_level ON DELETE CASCADE,
 	middle_level_id integer REFERENCES audio.rule_middle_level ON DELETE CASCADE
 );
