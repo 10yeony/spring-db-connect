@@ -120,6 +120,8 @@ public interface RuleDao {
 	 */
 	public int updateBottomLevelFileName(Rule rule);
 	
+	public int updateContents(Rule rule);
+	
 	/**
 	 * 해당되는 대분류와 종속된 중분류, 소분류를 삭제함
 	 * @param id 대분류 아이디

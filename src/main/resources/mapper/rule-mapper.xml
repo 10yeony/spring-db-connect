@@ -110,7 +110,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			description,
 			creator,
 			top_level_id AS top_level_id,
-			middle_level_id AS middle_level_id
+			middle_level_id AS middle_level_id,
+			contents
 		FROM
 			audio.rule_bottom_level
 		WHERE 
@@ -267,6 +268,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			audio.rule_bottom_level
 		SET
 			file_name = #{file_name}
+		WHERE
+			id = #{bottom_level_id};
+	</update>
+	
+	<!-- 코드 작성 -->
+	<update id="updateContents" parameterType="kr.com.inspect.dto.Rule">
+		UPDATE
+			audio.rule_bottom_level
+		SET
+			contents = #{contents}
 		WHERE
 			id = #{bottom_level_id};
 	</update>

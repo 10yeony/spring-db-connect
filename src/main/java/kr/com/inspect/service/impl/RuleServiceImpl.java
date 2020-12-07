@@ -3,6 +3,8 @@ package kr.com.inspect.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	@Autowired
 	private RuleDao ruleDao;
+	
+	private Rule rule;
 	
 	/**
 	 * 전사규칙 대분류, 중분류, 소분류 카테고리 리스트를 반환함
@@ -133,6 +137,8 @@ public class RuleServiceImpl implements RuleService {
 		}
 		return result;
 	}
+	
+
 
 	/**
 	 * 대분류/중분류/소분류 아이디로 해당되는 항목을 삭제함
@@ -156,4 +162,20 @@ public class RuleServiceImpl implements RuleService {
 		}
 		return result;
 	}
+
+	@Override
+	public Rule getRuleBottomLevel(int bottom_level_id) {
+		return ruleDao.getRuleBottomLevel(bottom_level_id);
+	}
+
+	@Override
+	public int updateContents(Rule rule) {
+		return ruleDao.updateContents(rule);
+	}
+
+	/*
+	 * @Override public int updateContents(int bottom_level_id, String contents) {
+	 * int result = 0; return 0; }
+	 */
+	
 }

@@ -239,4 +239,9 @@ public class RuleDaoImpl implements RuleDao {
 	public int deleteBottomLevel(int id) {
 		return sqlSession.delete(ruleNS+"deleteBottomLevel", id);
 	}
+
+	@Override
+	public int updateContents(Rule rule) {
+		return sqlSession.update(ruleNS+"updateContents", rule);
+	}
 }
