@@ -220,18 +220,21 @@ public class RuleController {
 	}
 
 	@RequestMapping(value = "/saveRule", method = RequestMethod.POST)
-	public String saveRule(int bottom_level_id, String contents,Rule rule) throws Exception {		
-		System.out.println(bottom_level_id);
-		System.out.println(contents);
-		rule.setBottom_level_id(bottom_level_id);
-		rule.setContents(contents);
+	public String saveRule(Rule rule) throws Exception {		
+		System.out.println(rule);
 		ruleService.updateContents(rule);
-		//model.addAttribute("contents", contents);
+		System.out.println("변형후");
+		System.out.println(rule);
+		rule = ruleService.getRuleBottomLevel(rule.getBottom_level_id());
+		System.out.println("db 전체 불러오기");
+		System.out.println(rule);
+		
 		// rule.setContents(rule.getContents().replaceAll("\r\n","<br>"));
 
 		RuleCompiler ruleCompiler = new RuleCompiler();
-		//ruleCompiler.create(rule);
-		//ruleCompiler.runObject(rule);
+		//ruleCompiler.getSource(rule);
+		ruleCompiler.create(rule);
+		ruleCompiler.runObject(rule);
 		return "rule/ruleList";
 	}
 

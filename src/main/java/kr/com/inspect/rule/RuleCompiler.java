@@ -141,7 +141,7 @@ public class RuleCompiler {
      * @param rule 사용자가 입력한 Rule
      * @return source 코드
      */
-    private String getSource(Rule rule){
+    public String getSource(Rule rule){
         StringBuffer sb = new StringBuffer();
 
         // Java Source를 생성
