@@ -120,7 +120,19 @@ public interface RuleDao {
 	 */
 	public int updateBottomLevelFileName(Rule rule);
 	
+	/**
+	 * 사용자가 작성한 전사규칙(소분류) 코드 내용을 DB에 저장함
+	 * @param rule 전사규칙(소분류) 코드 내용 업데이트를 위한 Rule 객체
+	 * @return 업데이트된 row의 수
+	 */
 	public int updateContents(Rule rule);
+	
+	/**
+	 * 사용자가 작성한 전사규칙(소분류)을 컴파일하고 결과값을 DB에 저장함
+	 * @param rule 전사규칙(소분류) 컴파일 결과값 업데이트를 위한 Rule 객체
+	 * @return 업데이트된 row의 수
+	 */
+	public int updateRuleCompileResult(Rule rule);
 	
 	/**
 	 * 해당되는 대분류와 종속된 중분류, 소분류를 삭제함

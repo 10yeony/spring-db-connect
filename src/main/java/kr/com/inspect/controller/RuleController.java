@@ -208,6 +208,37 @@ public class RuleController {
 	public String runRulepage() {
 		return "rule/runRule";
 	}
+	
+	@PostMapping("/runRuleCompiler")
+	@ResponseBody
+	public void runRuleCompiler(HttpServletResponse response, 
+										String top_level_id, 
+										String middle_level_id, 
+										String bottom_level_id) throws Exception {
+		
+		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
+
+		ResponseData responseData = new ResponseData();
+		
+		/* 해당되는 목록 가져오기 */
+		List<Rule> list = ruleService.getRuleListUsingJoin(top_level_id, middle_level_id, bottom_level_id);
+		
+		/* 컴파일 후 결과값 DB에 저장 */
+		ruleService.runRuleCompiler(list);
+		
+		/* 해당되는 목록 다시 가져오기 */
+		list = ruleService.getRuleListUsingJoin(top_level_id, middle_level_id, bottom_level_id);
+		
+		Map<String, Object> items = new HashMap<String, Object>();
+		items.put("list", list);
+		responseData.setItem(items);
+
+		/* 응답시 한글 인코딩 처리 */
+		response.setCharacterEncoding("UTF-8");
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.getWriter().print(mapper.writeValueAsString(responseData));
+		response.getWriter().flush();
+	}
 
 	@GetMapping("/ruleList")
 	public String ruleListPage() {

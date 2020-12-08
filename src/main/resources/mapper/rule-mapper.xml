@@ -93,6 +93,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			name AS bottom_level_name,
 			description,
 			creator,
+			file_name,
+			contents,
+			result,
 			top_level_id AS top_level_id,
 			middle_level_id AS middle_level_id
 		FROM
@@ -109,10 +112,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			name AS bottom_level_name,
 			description,
 			creator,
+			contents,
+			result,
 			file_name,
 			top_level_id AS top_level_id,
-			middle_level_id AS middle_level_id,
-			contents
+			middle_level_id AS middle_level_id
 		FROM
 			audio.rule_bottom_level
 		WHERE 
@@ -128,11 +132,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			b.description,
 			b.file_name,
 			b.creator,
+			b.contents,
+			b.result,
 			b.top_level_id,
 			t.name AS top_level_name,
 			b.middle_level_id,
-			m.name AS middle_level_name,
-			b.contents
+			m.name AS middle_level_name
 		FROM 
 			audio.rule_bottom_level b
 		LEFT JOIN 
@@ -154,11 +159,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			b.description,
 			b.file_name,
 			b.creator,
+			b.contents,
+			b.result,
 			b.top_level_id,
 			t.name AS top_level_name,
 			b.middle_level_id,
-			m.name AS middle_level_name,
-			b.contents
+			m.name AS middle_level_name
 		FROM 
 			audio.rule_bottom_level b
 		LEFT JOIN 
@@ -182,11 +188,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			b.description,
 			b.file_name,
 			b.creator,
+			b.contents,
+			b.result,
 			b.top_level_id,
 			t.name AS top_level_name,
 			b.middle_level_id,
-			m.name AS middle_level_name,
-			b.contents
+			m.name AS middle_level_name
 		FROM 
 			audio.rule_bottom_level b
 		LEFT JOIN 
@@ -211,11 +218,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			b.description,
 			b.file_name,
 			b.creator,
+			b.contents,
+			b.result,
 			b.top_level_id,
 			t.name AS top_level_name,
 			b.middle_level_id,
-			m.name AS middle_level_name,
-			b.contents
+			m.name AS middle_level_name
 		FROM 
 			audio.rule_bottom_level b
 		LEFT JOIN 
@@ -279,6 +287,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			audio.rule_bottom_level
 		SET
 			contents = #{contents}
+		WHERE
+			id = #{bottom_level_id};
+	</update>
+	
+	<!-- 컴파일 결과값 저장 -->
+	<update id="updateRuleCompileResult" parameterType="kr.com.inspect.dto.Rule">
+		UPDATE
+			audio.rule_bottom_level
+		SET
+			result = #{result}
 		WHERE
 			id = #{bottom_level_id};
 	</update>

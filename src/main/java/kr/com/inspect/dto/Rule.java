@@ -62,11 +62,16 @@ public class Rule {
 	 * DB에는 저장하지 않고, 프론트에서 받아와서 이 내용으로 자바 파일 생성
 	 */
 	private String contents;
+	
+	/**
+	 * 작성한 코드를 컴파일한 후 결과값
+	 */
+	private String result;
 
 	public Rule() {}
 	public Rule(int row_num, int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
 			int bottom_level_id, String bottom_level_name, String description, String file_name, String creator,
-			String contents) {
+			String contents, String result) {
 		super();
 		this.row_num = row_num;
 		this.top_level_id = top_level_id;
@@ -79,6 +84,7 @@ public class Rule {
 		this.file_name = file_name;
 		this.creator = creator;
 		this.contents = contents;
+		this.result = result;
 	}
 
 	public int getRow_num() {
@@ -147,12 +153,19 @@ public class Rule {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
+	public String getResult() {
+		return result;
+	}
+	public void setResult(String result) {
+		this.result = result;
+	}
 	
 	@Override
 	public String toString() {
 		return "Rule [row_num=" + row_num + ", top_level_id=" + top_level_id + ", top_level_name=" + top_level_name
 				+ ", middle_level_id=" + middle_level_id + ", middle_level_name=" + middle_level_name
 				+ ", bottom_level_id=" + bottom_level_id + ", bottom_level_name=" + bottom_level_name + ", description="
-				+ description + ", file_name=" + file_name + ", creator=" + creator + ", contents=" + contents + "]";
+				+ description + ", file_name=" + file_name + ", creator=" + creator + ", contents=" + contents
+				+ ", result=" + result + "]";
 	}
 }

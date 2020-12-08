@@ -85,8 +85,6 @@ public class RuleCompiler {
      * @throws Exception 클래스 메소드 not found, url 포멧, 메서드 호출, 호출한 메서드 내 오류, 객체 생성 예외처리
      */
     public Object runObject(Rule rule) throws Exception{
-    	System.out.println(rule);
-    	
         // java파일 컴파일 할때 옵션주기
         List<String> optionList = new ArrayList<>();
         // CLASS PATH 추가
@@ -116,11 +114,7 @@ public class RuleCompiler {
         // Class 파일 Load
         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL(),new URL("file:"+lib+"postgresql-42.2.18.jar")});
         Class<?> cls = null;
-        try {
-            cls = classLoader.loadClass("kr.com.inspect.rule."+rule.getFile_name());
-        }catch(ClassNotFoundException e) { //코드가 틀려서 컴파일되지 않았을 경우
-        	e.printStackTrace();
-        }
+        cls = classLoader.loadClass("kr.com.inspect.rule."+rule.getFile_name());
 
         // 가져온 Class 파일에서 메서드 실행
         Class[] params = null;

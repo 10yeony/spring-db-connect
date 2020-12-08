@@ -1,6 +1,7 @@
 package kr.com.inspect.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,5 +54,5 @@ public interface RuleService {
 	
 	public Object updateContents(Rule rule) throws Exception;
 	
-	public List<Object> runRuleCompiler(List<Rule> list) throws Exception;
+	public void runRuleCompiler(List<Rule> list) throws Exception;
 }
