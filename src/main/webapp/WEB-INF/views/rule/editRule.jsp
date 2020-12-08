@@ -70,12 +70,18 @@
 							<form action="${pageContext.request.contextPath}/rule/saveRuleContents" id="editRuleFrm">
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 									<div id="code_area" style="font-size:1.2em; font-weight:bold;">
-									<div>public class ${rule.file_name} {</div>
-									<div style="margin-left:3%;">public Object run(){</div>
-									<textarea class="form-control" name="contents" rows="12" 
-									value="" style="width:90%; margin-left:5%; resize: none;">${rule.contents}</textarea>
-									<div style="margin-left:3%;">}</div>
-									<div style="margin-bottom:5px;">}</div>
+										<div>
+											<span style="color:orange;">public class</span>
+											<span style="color:#26B3E0;"> ${rule.file_name}</span> {</div>
+										<div style="margin-left:3%;">
+											<span style="color:orange;">public </span>
+											<span style="color:#26B3E0;">Object </span>
+											<span style="color:#00967B;">run()</span>{
+										</div>
+										<textarea class="form-control" name="contents" rows="12" 
+										value="" style="width:90%; margin-left:5%; resize: none;">${rule.contents}</textarea>
+										<div style="margin-left:3%;">}</div>
+										<div style="margin-bottom:5px;">}</div>
 									</div>
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}">
 								<div id="show_result_after_update">
