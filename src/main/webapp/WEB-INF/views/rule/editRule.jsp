@@ -84,7 +84,7 @@
 									rows="20" value="" style="resize: none;">${rule.contents}</textarea> --%>
 
 								<div class="form-control" contenteditable="true" id="contents"
-									name="contents">${rule.contents}</div>
+									name="contents" style="resize: none;">${rule.contents}</div>
 								
 								<%-- <pre class="form-control" id="contents" name="contents" contenteditable="true"><code>${rule.contents}</code></pre> --%>
 
