@@ -203,9 +203,14 @@ public class RuleServiceImpl implements RuleService {
 		}catch (Exception e) {
 			obj = getStringOfException(e); //예외 문자열
 		}
+		
+		/* 자바 파일 및 클래스 파일 삭제 */
+		deleteJavaClassFile(vo.getFile_name());
+		
 		/* 컴파일 결과값 DB에 등록 */
 		rule.setResult(obj.toString());
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
+		System.out.println(updateResult);
 		
 		/* 리턴값 세팅 */
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -231,10 +236,15 @@ public class RuleServiceImpl implements RuleService {
 				public void run() {
 					/* 자바 파일 실행 */
 					try { 
+						ruleCompiler.create(rule);
 						obj = ruleCompiler.runObject(rule); //실행 결과값
 					} catch (Exception e) { 
 						obj = getStringOfException(e); //예외 문자열
 					} 
+					
+					/* 자바 파일 및 클래스 파일 삭제 */
+					deleteJavaClassFile(rule.getFile_name());
+					
 					/* 컴파일 결과값 DB에 등록 */
 					rule.setResult(obj.toString());
 					int updateResult = ruleDao.updateRuleCompileResult(rule);
@@ -266,8 +276,8 @@ public class RuleServiceImpl implements RuleService {
 		String packagePath = "kr"+s+"com"+s+"inspect"+s+"rule"+s;
 		String javaPath = ruleCompiler.getPath() + fileName + ".java";
 		String classPath = ruleCompiler.getClassPath() + packagePath + fileName + ".class";
-		System.out.println("javaPath : " + javaPath);
-		System.out.println("classPath : " + classPath);
+		//System.out.println("javaPath : " + javaPath);
+		//System.out.println("classPath : " + classPath);
 		
 		File[] fileArr = new File[2];
 		fileArr[0] = new File(javaPath);
@@ -276,12 +286,12 @@ public class RuleServiceImpl implements RuleService {
 		for(File file : fileArr) {
 			if(file.exists()){
 				if(file.delete()){
-					System.out.println("파일 삭제 성공");
+					//System.out.println("파일 삭제 성공");
 				}else {
-					System.out.println("파일 삭제 실패");
+					//System.out.println("파일 삭제 실패");
 				}
 			}else {
-				System.out.println("파일이 존재하지 않습니다.");
+				//System.out.println("파일이 존재하지 않습니다.");
 			}
 		}
 	}
