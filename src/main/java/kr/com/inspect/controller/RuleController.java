@@ -4,16 +4,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import kr.com.inspect.rule.RuleCompiler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +45,7 @@ public class RuleController {
 	 */
 	@Autowired
 	private RuleService ruleService;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(RuleController.class);
 
 	/**
@@ -50,9 +57,9 @@ public class RuleController {
 	 * @return 대분류/중분류/소분류 등록 후 이동할 페이지
 	 */
 	@PostMapping("/addRuleLevel")
-	public String addRuleLevel(Model model, HttpSession session, String new_top_level_name,
+	public String addRuleLevel(Model model, String new_top_level_name,
 			String new_middle_level_name, Rule rule) {
-
+		
 		/* DB 등록 후 row의 수 */
 		int result = 0;
 
@@ -85,8 +92,10 @@ public class RuleController {
 			levelName = "Rule";
 
 			String level = "bottom";
-			Member member = (Member) session.getAttribute("member");
-			rule.setCreator(member.getMember_id());
+			
+			/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
+			Map<String, String> map = getMemberInfo();
+			rule.setCreator(map.get("username"));
 
 			result = ruleService.registerRule(level, rule);
 
@@ -217,7 +226,6 @@ public class RuleController {
 										String bottom_level_id) throws Exception {
 		
 		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
-
 		ResponseData responseData = new ResponseData();
 		
 		/* 해당되는 목록 가져오기 */
@@ -244,16 +252,61 @@ public class RuleController {
 	public String ruleListPage() {
 		return "rule/ruleList";
 	}
-
-	// @ResponseBody
-	// @RequestMapping(value = "/saveRule", produces = "application/text;
-	// charset=utf8")
-	@PostMapping("/saveRule")
-	public String saveRule(Rule rule, Model model) throws Exception {
-		Object obj = ruleService.updateContents(rule);
-		// String msg = "";
-
-		model.addAttribute("msg", "코드 작성이 완료되었습니다!");
-		return "rule/ruleList";
+	
+	/**
+	 * Ajax 요청이 들어오면 작성한 Rule 코드를 컴파일하고 DB에 등록 후 사용자에게 결과를 보여줌
+	 * @param rule Rule 코드 작성을 위한 Rule 객체
+	 * @throws Exception
+	 */
+	@PostMapping("/saveRuleContents")
+	@ResponseBody
+	public void saveRuleContents(HttpServletResponse response, Rule rule) throws Exception {		
+		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
+		ResponseData responseData = new ResponseData(); //ajax 응답 객체
+		
+		/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
+		String username = getMemberInfo().get("username");
+		rule.setCreator(username);
+		
+		/* 컴파일 + DB에 코드 및 결과 업데이트 */
+		Map<String, Object> map = ruleService.updateContents(rule);
+		
+		/* 컴파일 성공 및 실패 처리 */
+		if((int)map.get("updateResult") == 0) {
+			responseData.setMessage("코드 등록에 실패하였습니다.");
+		}else {
+			if((boolean)map.get("compile") == true) {
+				responseData.setMessage("코드 작성이 완료되었습니다.");
+			} else {
+				responseData.setMessage("잘못된 코드입니다.");
+			}
+		}
+		Map<String, Object> items = new HashMap<String, Object>();
+		items.put("obj", (String)map.get("object"));
+		responseData.setItem(items);
+		
+		/* 응답시 한글 인코딩 처리 */
+		response.setCharacterEncoding("UTF-8");
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.getWriter().print(mapper.writeValueAsString(responseData));
+		response.getWriter().flush();
+	}
+	
+	/**
+	 * 스프링 시큐리티에서 로그인한 사용자의 아이디와 암호화된 비밀번호를 가져옴
+	 * @return 로그인한 사용자의 아이디와 암호화된 비밀번호
+	 */
+	public Map<String, String> getMemberInfo(){
+		Map<String, String> map = new HashMap<String, String>();
+		
+		/* 로그인한 사용자 아이디를 가져옴 */
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		UserDetails userDetails = (UserDetails)principal; 
+		String username = userDetails.getUsername();
+		String password = userDetails.getPassword();
+		
+		map.put("username", username);
+		map.put("password", password);
+		return map;
 	}
 }
