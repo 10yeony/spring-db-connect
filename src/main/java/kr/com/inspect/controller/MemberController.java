@@ -65,7 +65,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("register/check/{object}")
 	public String registerCheck(HttpServletRequest request, 
-							@PathVariable String object) { // https://elfinlas.github.io/2018/02/18/spring-parameter/
+							@PathVariable String object) {
 		int result = 0;
 		String value = null;
 		if(object.equals("id")) { //아이디 중복 체크

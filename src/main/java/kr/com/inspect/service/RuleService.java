@@ -52,7 +52,18 @@ public interface RuleService {
 	
 	public Rule getRuleBottomLevel(int bottom_level_id);
 	
-	public Object updateContents(Rule rule) throws Exception;
+	/**
+	 * 사용자가 입력한 Rule 코드를 DB에 업데이트함
+	 * @param rule 코드 업데이트를 위한 Rule 객체
+	 * @return 컴파일 성공 여부, DB 업데이트 여부, 실행 결과값 또는 예외 메세지
+	 * @throws Exception 예외
+	 */
+	public Map<String, Object> updateContents(Rule rule) throws Exception;
 	
+	/**
+	 * Rule 클래스 파일을 실행시킴
+	 * @param list Rule 목록
+	 * @throws Exception 예외
+	 */
 	public void runRuleCompiler(List<Rule> list) throws Exception;
 }

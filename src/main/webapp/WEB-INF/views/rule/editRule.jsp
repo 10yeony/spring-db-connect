@@ -29,8 +29,6 @@
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
-<script 
-	src="${pageContext.request.contextPath}/resource/js/rule/editRule.js"></script>
 </head>
 
 <body id="page-top">
@@ -66,19 +64,24 @@
 							<div style="font-size: 1.2em;">
 								제시된 양식을 참고하여 코드를 작성해주세요
 							</div><br/>
-							<form action="${pageContext.request.contextPath}/rule/saveRule" method="post" id="saveRuleok">
+							<form action="${pageContext.request.contextPath}/rule/saveRuleContents" id="editRuleFrm">
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-								<textarea class="form-control" name="contents" cols="170"
-									rows="20" value="" style="resize: none;">${rule.contents}</textarea>
+									<textarea class="form-control" name="contents" cols="170"
+										rows="12" value="" style="resize: none;">${rule.contents}</textarea>
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}">
 								<div style="display:block; margin-top:5px;">
 									<button class="btn btn-danger" type="button" id="deleteRuleBtn" 
 										style="float:left;">삭제</button>
-									<button id ="ruleSubmit" class="btn btn-primary" style="float:right;">작성</button>
+									<button id ="ruleUpdateBtn" type="button" class="btn btn-primary" style="float:right;">작성</button>
 									<button class="btn btn-secondary" type="button" id="backRuleBtn" 
 										style="float:right; margin-right:5px;">돌아가기</button>
 								</div>
 							</form>
+							<div id="show_result_after_update" style="display:none;">
+								<br/><br/><br/>
+								<b>실행결과</b>
+								<textarea class="form-control" rows="5" style="resize: none;" readonly></textarea>
+							</div>
 							<br/><br/>
 						</div><!-- card-body -->
 					</div><!-- card shadow mb-4 -->
