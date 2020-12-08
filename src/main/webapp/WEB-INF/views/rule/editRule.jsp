@@ -68,8 +68,9 @@
 							</div><br/>
 							<form action="${pageContext.request.contextPath}/rule/saveRule" method="post" id="saveRuleok">
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-								<textarea class="form-control" name="contents" cols="170"
+								<textarea class="form-control" id = "contents" name="contents" cols="170"
 									rows="20" value="" style="resize: none;">${rule.contents}</textarea>
+								
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}">
 								<div style="display:block; margin-top:5px;">
 									<button class="btn btn-danger" type="button" id="deleteRuleBtn" 
@@ -102,6 +103,38 @@
 	class="fas fa-angle-up"></i>
 </a>
 
+<script src="//d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+<script>
+    // Hook up ACE editor to all textareas with data-editor attribute
+    $(function () {
+        $('textarea[data-editor]').each(function () {
+            var textarea = $(this);
+
+            var mode = textarea.data('editor');
+
+            var editDiv = $('<div>', {
+                position: 'absolute',
+                width: textarea.width(),
+                height: textarea.height(),
+                'class': textarea.attr('class')
+            }).insertBefore(textarea);
+
+            textarea.css('display', 'none');
+
+            var editor = ace.edit(editDiv[0]);
+            editor.renderer.setShowGutter(false);
+            editor.getSession().setValue(textarea.val());
+            editor.getSession().setMode("ace/mode/" + mode);
+            // editor.setTheme("ace/theme/idle_fingers");
+            
+            // copy back to textarea on form submit...
+            textarea.closest('form').submit(function () {
+                textarea.val(editor.getSession().getValue());
+            })
+
+        });
+    });
+</script>
 <!-- Bootstrap core JavaScript-->
 <script
 	src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
