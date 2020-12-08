@@ -38,7 +38,7 @@ public class RuleController {
 	 */
 	@Autowired
 	private RuleService ruleService;
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(RuleController.class);
 
 	/**

@@ -29,14 +29,21 @@
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
-<script 
+<script
 	src="${pageContext.request.contextPath}/resource/js/rule/editRule.js"></script>
+	
+<!-- <link rel="stylesheet"
+	href="//cdn.jsdelivr.net/highlight.js/9.5.0/styles/default.min.css">
+<script src="//cdn.jsdelivr.net/highlight.js/9.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script> -->
+
 </head>
 
 <body id="page-top">
-<input id="msg" type="hidden" value="${msg}">
-<!-- 소분류 아이디 -->
-<input type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}" name="bottom_level_id">
+	<input id="msg" type="hidden" value="${msg}">
+	<!-- 소분류 아이디 -->
+	<input type="hidden" id="bottom_level_id"
+		value="${rule.bottom_level_id}" name="bottom_level_id">
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
@@ -54,39 +61,59 @@
 				<%@ include file="/WEB-INF/views/include/toolbar.jsp"%>
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-				
+
 					<!-- Page Heading -->
-					<div class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-2 text-gray-800"><b>Rule 작성</b></h1>
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-2 text-gray-800">
+							<b>Rule 작성</b>
+						</h1>
 					</div>
-					
+
 					<!-- Page Body -->
 					<div class="card shadow mb-4">
 						<div class="card-body">
-							<div style="font-size: 1.2em;">
-								제시된 양식을 참고하여 코드를 작성해주세요
-							</div><br/>
-							<form action="${pageContext.request.contextPath}/rule/saveRule" method="post" id="saveRuleok">
-								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-								<textarea class="form-control" id = "contents" name="contents" cols="170"
-									rows="20" value="" style="resize: none;">${rule.contents}</textarea>
+							<div style="font-size: 1.2em;">제시된 양식을 참고하여 코드를 작성해주세요</div>
+							<br />
+							<form action="${pageContext.request.contextPath}/rule/saveRule"
+								method="post" id="saveRuleok">
+								<input name="${_csrf.parameterName}" type="hidden"
+									value="${_csrf.token}" />
+
+								<%-- <textarea class="form-control" id = "contents" name="contents" cols="170"
+									rows="20" value="" style="resize: none;">${rule.contents}</textarea> --%>
+
+								<div class="form-control" contenteditable="true" id="contents"
+									name="contents">${rule.contents}</div>
 								
-								<input name="bottom_level_id" type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}">
-								<div style="display:block; margin-top:5px;">
-									<button class="btn btn-danger" type="button" id="deleteRuleBtn" 
-										style="float:left;">삭제</button>
-									<button id ="ruleSubmit" class="btn btn-primary" style="float:right;">작성</button>
-									<button class="btn btn-secondary" type="button" id="backRuleBtn" 
-										style="float:right; margin-right:5px;">돌아가기</button>
+								<%-- <pre class="form-control" id="contents" name="contents" contenteditable="true"><code>${rule.contents}</code></pre> --%>
+
+
+								<input name="bottom_level_id" type="hidden" id="bottom_level_id"
+									value="${rule.bottom_level_id}">
+
+								<div style="display: block; margin-top: 5px;">
+									<button class="btn btn-danger" type="button" id="deleteRuleBtn"
+										style="float: left;">삭제</button>
+									<button id="ruleSubmit" class="btn btn-primary"
+										style="float: right;">작성</button>
+									<button class="btn btn-secondary" type="button"
+										id="backRuleBtn" style="float: right; margin-right: 5px;">돌아가기</button>
 								</div>
 							</form>
-							<br/><br/>
-						</div><!-- card-body -->
-					</div><!-- card shadow mb-4 -->
-				</div><!-- container-fluid -->
-			</div><!-- content -->
-		</div><!-- content-wrapper -->
-	</div><!-- wrapper -->
+							<br /> <br />
+						</div>
+						<!-- card-body -->
+					</div>
+					<!-- card shadow mb-4 -->
+				</div>
+				<!-- container-fluid -->
+			</div>
+			<!-- content -->
+		</div>
+		<!-- content-wrapper -->
+	</div>
+	<!-- wrapper -->
 </body>
 <!-- /.container-fluid -->
 <!-- End of Main Content -->
@@ -103,38 +130,6 @@
 	class="fas fa-angle-up"></i>
 </a>
 
-<script src="//d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
-<script>
-    // Hook up ACE editor to all textareas with data-editor attribute
-    $(function () {
-        $('textarea[data-editor]').each(function () {
-            var textarea = $(this);
-
-            var mode = textarea.data('editor');
-
-            var editDiv = $('<div>', {
-                position: 'absolute',
-                width: textarea.width(),
-                height: textarea.height(),
-                'class': textarea.attr('class')
-            }).insertBefore(textarea);
-
-            textarea.css('display', 'none');
-
-            var editor = ace.edit(editDiv[0]);
-            editor.renderer.setShowGutter(false);
-            editor.getSession().setValue(textarea.val());
-            editor.getSession().setMode("ace/mode/" + mode);
-            // editor.setTheme("ace/theme/idle_fingers");
-            
-            // copy back to textarea on form submit...
-            textarea.closest('form').submit(function () {
-                textarea.val(editor.getSession().getValue());
-            })
-
-        });
-    });
-</script>
 <!-- Bootstrap core JavaScript-->
 <script
 	src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
@@ -158,7 +153,7 @@
 	src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
-	
+
 <script
 	src="${pageContext.request.contextPath}/resource/js/rule/editRule.js"></script>
 </body>

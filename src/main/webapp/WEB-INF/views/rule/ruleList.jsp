@@ -55,7 +55,6 @@
 				<!-- Page Body -->
 					<div class="card shadow mb-4">
 						<div class="card-body">
-						<div>${msg}</div>
 							<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
 								<%@ include file="/WEB-INF/views/rule/include/topLevel.jsp"%>
 								<%@ include file="/WEB-INF/views/rule/include/middleLevel.jsp"%>
