@@ -35,7 +35,6 @@ function saveRuleContents(){
 			var obj = json.item.obj;
 			$('#show_result_after_update textarea').empty();
 			$('#show_result_after_update textarea').append(obj);
-			$('#show_result_after_update').attr('style', 'display:block');
 		},
 		error : function(request, status, error) {
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");

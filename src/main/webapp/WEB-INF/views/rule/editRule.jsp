@@ -55,7 +55,10 @@
 				
 					<!-- Page Heading -->
 					<div class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-2 text-gray-800"><b>Rule 작성</b></h1>
+						<h1 class="h3 mb-2 text-gray-800" style="display:inline-block">
+							<b>Rule 작성</b>
+						</h1><br/>
+						<span><b>이름 :</b> ${rule.bottom_level_name}</span>
 					</div>
 					
 					<!-- Page Body -->
@@ -63,12 +66,32 @@
 						<div class="card-body">
 							<div style="font-size: 1.2em;">
 								제시된 양식을 참고하여 코드를 작성해주세요
+								<a class="small" id="goToRuleApi" href="#" data-dismiss="modal"
+								data-toggle="modal" data-target="#ruleApiModal">
+									API 문서 보기
+								</a>
 							</div><br/>
 							<form action="${pageContext.request.contextPath}/rule/saveRuleContents" id="editRuleFrm">
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-									<textarea class="form-control" name="contents" cols="170"
-										rows="12" value="" style="resize: none;">${rule.contents}</textarea>
+									<div id="code_area" style="font-size:1.2em; font-weight:bold;">
+										<div>
+											<span style="color:orange;">public class</span>
+											<span style="color:#26B3E0;"> ${rule.file_name}</span> {</div>
+										<div style="margin-left:3%;">
+											<span style="color:orange;">public </span>
+											<span style="color:#26B3E0;">Object </span>
+											<span style="color:#00967B;">run()</span>{
+										</div>
+										<textarea class="form-control" name="contents" rows="12" 
+										value="" style="width:90%; margin-left:5%; resize: none;">${rule.contents}</textarea>
+										<div style="margin-left:3%;">}</div>
+										<div style="margin-bottom:5px;">}</div>
+									</div>
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}">
+								<div id="show_result_after_update">
+								<b>실행결과</b>
+								<textarea class="form-control" rows="5" style="resize: none;" readonly></textarea>
+							</div>
 								<div style="display:block; margin-top:5px;">
 									<button class="btn btn-danger" type="button" id="deleteRuleBtn" 
 										style="float:left;">삭제</button>
@@ -77,12 +100,6 @@
 										style="float:right; margin-right:5px;">돌아가기</button>
 								</div>
 							</form>
-							<div id="show_result_after_update" style="display:none;">
-								<br/><br/><br/>
-								<b>실행결과</b>
-								<textarea class="form-control" rows="5" style="resize: none;" readonly></textarea>
-							</div>
-							<br/><br/>
 						</div><!-- card-body -->
 					</div><!-- card shadow mb-4 -->
 				</div><!-- container-fluid -->
@@ -92,6 +109,9 @@
 </body>
 <!-- /.container-fluid -->
 <!-- End of Main Content -->
+
+<!-- Rule API 문서 Modal -->
+<%@ include file="ruleApi.jsp"%>
 
 <!-- footer include-->
 <%@ include file="/WEB-INF/views/include/footer.jsp"%>
