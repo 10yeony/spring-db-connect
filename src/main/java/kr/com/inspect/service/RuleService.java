@@ -3,8 +3,6 @@ package kr.com.inspect.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import kr.com.inspect.dto.Rule;
 
 /**
@@ -66,4 +64,11 @@ public interface RuleService {
 	 * @throws Exception 예외
 	 */
 	public void runRuleCompiler(List<Rule> list) throws Exception;
+	
+	/**
+	 * 클래스 아이디로 클래스 정보, 필드 정보, 생성자 정보, 메소드 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 클래스에 관한 전반적인 정보를 담은 Map
+	 */
+	public Map<String, Object> getApiDesc(int class_id);
 }

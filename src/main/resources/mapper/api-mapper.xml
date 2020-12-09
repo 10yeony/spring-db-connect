@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- API 관련 쿼리 -->
+<mapper namespace="ApiMapper">
+	<!-- 클래스 아이디로 해당되는 클래스 정보를 가져옴 -->
+	<select id="getApiClass" resultType="kr.com.inspect.dto.ApiDesc" parameterType="int">
+  		SELECT
+			ac.id class_id, 
+			ac.name class_name, 
+			ac.description class_description
+		FROM 
+			audio.api_class ac
+		WHERE 
+			ac.id = #{value};
+	</select>
+	
+	<!-- 클래스 아이디로 해당되는 클래스 필드 정보를 가져옴 -->
+	<select id="getApiClassField" resultType="kr.com.inspect.dto.ApiDesc" parameterType="int">
+  		SELECT
+			acf.id field_id, 
+			acf.field_type field_type,
+			acf.name field_name, 
+			acf.description field_description,
+			acf.api_class_id class_id
+		FROM 
+			audio.api_class_field acf
+		WHERE 
+			acf.api_class_id = #{value};
+	</select>
+	
+	<!-- 클래스 아이디로 해당되는 클래스 생성자 정보를 가져옴 -->
+	<select id="getApiClassConstructor" resultType="kr.com.inspect.dto.ApiDesc" parameterType="int">
+  		SELECT
+			acc.id constructor_id, 
+			acc.parameter constructor_parameter,
+			acc.description constructor_description,
+			acC.api_class_id class_id
+		FROM 
+			audio.api_class_constructor acc
+		WHERE 
+			acc.api_class_id = #{value};
+	</select>
+	
+	<!-- 클래스 아이디로 해당되는 클래스 메소드 정보를 가져옴 -->
+	<select id="getApiClassMethod" resultType="kr.com.inspect.dto.ApiDesc" parameterType="int">
+  		SELECT 
+			acm.id method_id, 
+			acm.return_type method_return_type, 
+			acm.name method_name,
+			acm.parameter method_parameter, 
+			acm.description method_description,
+			acm.api_class_id class_id
+		FROM 
+			audio.api_class_method acm
+		WHERE 
+			acm.api_class_id = #{value};
+	</select>
+</mapper>
