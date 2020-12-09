@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * 패스워드 인코더 필드 선언
 	 */
-	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private SendPwd sendPwd;
@@ -49,6 +49,7 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public PasswordEncoder passwordEncoder() {
+		passwordEncoder = new BCryptPasswordEncoder();
 		return this.passwordEncoder;
 	}
 	
