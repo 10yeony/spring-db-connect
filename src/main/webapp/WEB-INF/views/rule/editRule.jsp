@@ -66,6 +66,10 @@
 						<div class="card-body">
 							<div style="font-size: 1.2em;">
 								제시된 양식을 참고하여 코드를 작성해주세요
+								<a class="small" id="goToRuleApi" href="#" data-dismiss="modal"
+								data-toggle="modal" data-target="#ruleApiModal">
+									API 문서 보기
+								</a>
 							</div><br/>
 							<form action="${pageContext.request.contextPath}/rule/saveRuleContents" id="editRuleFrm">
 								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
@@ -105,6 +109,9 @@
 </body>
 <!-- /.container-fluid -->
 <!-- End of Main Content -->
+
+<!-- Rule API 문서 Modal -->
+<%@ include file="ruleApi.jsp"%>
 
 <!-- footer include-->
 <%@ include file="/WEB-INF/views/include/footer.jsp"%>
