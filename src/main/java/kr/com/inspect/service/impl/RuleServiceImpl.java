@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.RuleDao;
+import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
@@ -294,5 +295,19 @@ public class RuleServiceImpl implements RuleService {
 				//System.out.println("파일이 존재하지 않습니다.");
 			}
 		}
+	}
+	
+	/**
+	 * 클래스 아이디로 클래스 정보, 필드 정보, 생성자 정보, 메소드 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 클래스에 관한 전반적인 정보를 담은 응답 객체
+	 */
+	public Map<String, Object> getApiDesc(int class_id) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("class", ruleDao.getApiClass(class_id));
+		map.put("field", ruleDao.getApiClassField(class_id));
+		map.put("constructor", ruleDao.getApiClassConstructor(class_id));
+		map.put("method", ruleDao.getApiClassMethod(class_id));
+		return map;
 	}
 }

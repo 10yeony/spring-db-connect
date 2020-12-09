@@ -79,7 +79,7 @@ public class Data {
 	 * @param conn Connection
 	 * @throws SQLException SQL 예외
 	 */
-	public void closeAll(ResultSet rs,PreparedStatement ps, Connection conn)throws SQLException {
+	public void closeAll(ResultSet rs,PreparedStatement ps, Connection conn) throws SQLException {
 		if(rs!=null) rs.close();
 		if(ps!=null) ps.close(); 
 		if(conn!=null) conn.close();
@@ -211,7 +211,6 @@ public class Data {
 			vo.setAudio_type(rs.getString("audio_type"));
 			vo.setDistributor(rs.getString("distributor"));
 			vo.setRelation(rs.getString("relation"));
-			System.out.println(rs.getInt("program_id"));
 			program.setId(rs.getInt("program_id"));
 			program.setFile_num(rs.getString("file_num"));
 			program.setTitle(rs.getString("program_title"));
@@ -227,7 +226,12 @@ public class Data {
 		return list;
 	}
 	
-	
+	/**
+	 * 해당되는 Speaker 테이블을 가져옴
+	 * @param metadata_id Metadata 아이디(0일 경우 전체 Metadata)
+	 * @return 해당되는 Speaker 테이블
+	 * @throws Exception 예외
+	 */
 	public List<Speaker> getSpeaker(int metadata_id) throws Exception{
 		List<Speaker> list = new ArrayList<>();
 		Speaker vo = new Speaker();
@@ -268,7 +272,12 @@ public class Data {
 		return list;
 	}
 	
-	
+	/**
+	 * 해당되는 Utterance 테이블을 가져옴
+	 * @param metadata_id Metadata 아이디(0일 경우 전체 Metadata)
+	 * @return 해당되는 Utterance 테이블
+	 * @throws Exception 예외
+	 */
 	public List<Utterance> getUtterance(int metadata_id) throws Exception{
 		List<Utterance> list = new ArrayList<>();
 		Utterance vo = new Utterance();
@@ -306,7 +315,12 @@ public class Data {
 		return list;
 	}
 	
-	
+	/**
+	 * 해당되는 EojeolList 테이블을 가져옴
+	 * @param metadata_id Metadata 아이디(0일 경우 전체 Metadata)
+	 * @return 해당되는 EojeolList 테이블
+	 * @throws Exception 예외
+	 */
 	public List<EojeolList> getEojoelList(int metadata_id) throws Exception{
 		List<EojeolList> list = new ArrayList<>();
 		EojeolList vo = new EojeolList();

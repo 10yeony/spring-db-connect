@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.RuleDao;
+import kr.com.inspect.dto.ApiDesc;
 import kr.com.inspect.dto.Rule;
 
 /**
@@ -29,6 +30,11 @@ public class RuleDaoImpl implements RuleDao {
 	 * Rule Mapper 네임스페이스
 	 */
 	private final String ruleNS = "RuleMapper.";
+	
+	/**
+	 * Api Mapper 네임스페이스
+	 */
+	private final String apiNS = "ApiMapper.";
 	
 	/**
 	 * 전사규칙 대분류 드롭다운 목록을 리턴함
@@ -257,5 +263,41 @@ public class RuleDaoImpl implements RuleDao {
 	 */
 	public int updateRuleCompileResult(Rule rule) {
 		return sqlSession.update(ruleNS+"updateRuleCompileResult", rule);
+	}
+	
+	/**
+	 * 클래스 아이디로 해당되는 클래스 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 해당되는 클래스 정보가 담긴 List
+	 */
+	public List<ApiDesc> getApiClass(int class_id){
+		return sqlSession.selectList(apiNS+"getApiClass", class_id);
+	}
+	
+	/**
+	 * 클래스 아이디로 해당되는 클래스 필드 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 해당되는 클래스 필드 정보가 담긴 List
+	 */
+	public List<ApiDesc> getApiClassField(int class_id){
+		return sqlSession.selectList(apiNS+"getApiClassField", class_id);
+	}
+	
+	/**
+	 * 클래스 아이디로 해당되는 클래스 생성자 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 해당되는 클래스 생성자 정보가 담긴 List
+	 */
+	public List<ApiDesc> getApiClassConstructor(int class_id){
+		return sqlSession.selectList(apiNS+"getApiClassConstructor", class_id);
+	}
+	
+	/**
+	 * 클래스 아이디로 해당되는 클래스 메소드 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 해당되는 클래스 메소드 정보가 담긴 List
+	 */
+	public List<ApiDesc> getApiClassMethod(int class_id){
+		return sqlSession.selectList(apiNS+"getApiClassMethod", class_id);
 	}
 }

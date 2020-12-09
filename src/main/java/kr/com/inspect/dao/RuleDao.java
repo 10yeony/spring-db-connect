@@ -2,6 +2,7 @@ package kr.com.inspect.dao;
 
 import java.util.List;
 
+import kr.com.inspect.dto.ApiDesc;
 import kr.com.inspect.dto.Rule;
 
 /**
@@ -154,4 +155,32 @@ public interface RuleDao {
 	 * @return 삭제된 row의 수
 	 */
 	public int deleteBottomLevel(int id);
+	
+	/**
+	 * 클래스 아이디로 해당되는 클래스 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 해당되는 클래스 정보가 담긴 List
+	 */
+	public List<ApiDesc> getApiClass(int class_id);
+	
+	/**
+	 * 클래스 아이디로 해당되는 클래스 필드 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 해당되는 클래스 필드 정보가 담긴 List
+	 */
+	public List<ApiDesc> getApiClassField(int class_id);
+	
+	/**
+	 * 클래스 아이디로 해당되는 클래스 생성자 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 해당되는 클래스 생성자 정보가 담긴 List
+	 */
+	public List<ApiDesc> getApiClassConstructor(int class_id);
+	
+	/**
+	 * 클래스 아이디로 해당되는 클래스 메소드 정보를 가져옴
+	 * @param class_id DB 상의 클래스 아이디
+	 * @return 해당되는 클래스 메소드 정보가 담긴 List
+	 */
+	public List<ApiDesc> getApiClassMethod(int class_id);
 }
