@@ -1,10 +1,11 @@
 package kr.com.inspect.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -149,8 +150,6 @@ public class RuleServiceImpl implements RuleService {
 		}
 		return result;
 	}
-	
-
 
 	/**
 	 * 대분류/중분류/소분류 아이디로 해당되는 항목을 삭제함
@@ -169,6 +168,11 @@ public class RuleServiceImpl implements RuleService {
 				result = ruleDao.deleteMiddleLevel(id);
 				break;
 			case "bottom":
+				/* 자바 파일, 클래스 파일 삭제 */
+				String fileName = ruleDao.getRuleBottomLevel(id).getFile_name();
+				deleteJavaClassFile(fileName);
+				
+				/* DB에서 소분류 삭제 */
 				result = ruleDao.deleteBottomLevel(id);
 				break;
 		}
@@ -180,39 +184,115 @@ public class RuleServiceImpl implements RuleService {
 		return ruleDao.getRuleBottomLevel(bottom_level_id);
 	}
 
+	/**
+	 * 사용자가 입력한 Rule 코드를 DB에 업데이트함
+	 * @param rule 코드 업데이트를 위한 Rule 객체
+	 * @return DB에 업데이트된 row의 수
+	 * @throws Exception 예외
+	 */
 	@Override
-	public Object updateContents(Rule rule) throws Exception {
+	public Map<String, Object> updateContents(Rule rule) {
+		boolean compile = false;
 		int result = ruleDao.updateContents(rule);
 		Rule vo =  ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
-		ruleCompiler.create(vo);
-		Object obj = ruleCompiler.runObject(vo);
-		return obj;
+		Object obj = null;
+		try {
+			ruleCompiler.create(vo);
+			obj = ruleCompiler.runObject(vo); //실행 결과값
+			compile = true;
+		}catch (Exception e) {
+			obj = getStringOfException(e); //예외 문자열
+		}
+		
+		/* 자바 파일 및 클래스 파일 삭제 */
+		deleteJavaClassFile(vo.getFile_name());
+		
+		/* 컴파일 결과값 DB에 등록 */
+		rule.setResult(obj.toString());
+		int updateResult = ruleDao.updateRuleCompileResult(rule);
+		//System.out.println(updateResult);
+		
+		/* 리턴값 세팅 */
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("compile", compile); //컴파일 결과
+		map.put("updateResult", updateResult); //업데이트된 DB row의 수
+		map.put("object", obj); //실행 결과값 또는 예외 메세지
+		return map;
 	}
 
+	/**
+	 * Rule 클래스 파일을 실행시킴
+	 * @param list Rule 목록
+	 * @throws Exception 예외
+	 */
 	@Override
 	public void runRuleCompiler(List<Rule> list) throws Exception {
 		for(Rule rule : list) {
 			new Thread() 
 			{
+				Object obj = null;
+				
 				@Override
 				public void run() {
-					try {
-						/* 자바 파일 실행 */
-						Object obj = ruleCompiler.runObject(rule);
-						
-						/* 컴파일 결과값 DB에 등록 */
-						rule.setResult(obj.toString());
-						int updateResult = ruleDao.updateRuleCompileResult(rule);
-						//System.out.println("DB에 등록 : " + updateResult);
-						
-					} catch (Exception e) {
-						StringWriter error = new StringWriter();        
-						e.printStackTrace(new PrintWriter(error));   
-						rule.setResult(error.toString());
-						int updateResult = ruleDao.updateRuleCompileResult(rule);
+					/* 자바 파일 실행 */
+					try { 
+						ruleCompiler.create(rule);
+						obj = ruleCompiler.runObject(rule); //실행 결과값
+					} catch (Exception e) { 
+						obj = getStringOfException(e); //예외 문자열
 					} 
+					
+					/* 자바 파일 및 클래스 파일 삭제 */
+					deleteJavaClassFile(rule.getFile_name());
+					
+					/* 컴파일 결과값 DB에 등록 */
+					rule.setResult(obj.toString());
+					int updateResult = ruleDao.updateRuleCompileResult(rule);
+					//System.out.println("DB에 등록 : " + updateResult);
 				};
 			}.start();
+		}
+	}
+	
+	/**
+	 * 예외 발생시 예외를 문자열로 바꿔서 리턴함
+	 * @param e 예외
+	 * @return 문자열로 변환된 예외
+	 */
+	public String getStringOfException(Exception e) {
+		/* 에러메세지를 문자열로 바꿈 */
+		StringWriter error = new StringWriter();        
+		e.printStackTrace(new PrintWriter(error));
+		
+		return error.toString();
+	}
+	
+	/**
+	 * 컴파일 오류시 자바 파일과 클래스 파일을 삭제함
+	 * @param fileName 자바 및 클래스 파일명
+	 */
+	public void deleteJavaClassFile(String fileName) {
+		String s = File.separator;
+		String packagePath = "kr"+s+"com"+s+"inspect"+s+"rule"+s;
+		String javaPath = ruleCompiler.getPath() + fileName + ".java";
+		String classPath = ruleCompiler.getClassPath() + packagePath + fileName + ".class";
+		//System.out.println("javaPath : " + javaPath);
+		//System.out.println("classPath : " + classPath);
+		
+		File[] fileArr = new File[2];
+		fileArr[0] = new File(javaPath);
+		fileArr[1] = new File(classPath);
+		
+		for(File file : fileArr) {
+			if(file.exists()){
+				if(file.delete()){
+					//System.out.println("파일 삭제 성공");
+				}else {
+					//System.out.println("파일 삭제 실패");
+				}
+			}else {
+				//System.out.println("파일이 존재하지 않습니다.");
+			}
 		}
 	}
 }

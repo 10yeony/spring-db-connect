@@ -34,11 +34,13 @@ $(function() {
 			$('#edit_pwdNotCorrect').attr('style', 'display:none');
 			return false;
 		}
+		
+		let pwd = encodeURIComponent($('#edit_pwd').val());
 	
 		$.ajax({
 			url : contextPath + "/ableToEdit",
 			type : "POST",
-			data : "pwd=" + $('#edit_pwd').val(),
+			data : "pwd=" + pwd,
 			async: false,
 			
 			success : function(result) {

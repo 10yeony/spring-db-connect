@@ -30,6 +30,22 @@ import edu.emory.mathcs.backport.java.util.Arrays;
  * @version 1.0
  */
 public class RuleCompiler {
+	
+	/**
+     * java 파일을 저장할 위치
+     */
+    String path;
+
+    /**
+     * class 파일을 저장할 위치
+     */
+    String classPath;
+
+    /**
+     * 프로젝트에서 쓰이는 라이브러리들이 저장된 위치
+     */
+    String lib;
+	
 
     /**
      * 객체를 생성할 때 각 path를 지정
@@ -49,23 +65,24 @@ public class RuleCompiler {
             e.printStackTrace();
         }
     }
-
+    
     /**
-     * java 파일을 저장할 위치
+     * java 파일이 저장되는 경로를 리턴함
+     * @return java 파일이 저장되는 경로
      */
-    String path;
-
+    public String getPath() {
+		return path;
+	}
+    
     /**
-     * class 파일을 저장할 위치
+     * class 파일이 저장되는 경로를 리턴함
+     * @return class 파일이 저장되는 경로
      */
-    String classPath;
+	public String getClassPath() {
+		return classPath;
+	}
 
-    /**
-     * 프로젝트에서 쓰이는 라이브러리들이 저장된 위치
-     */
-    String lib;
-
-    /**
+	/**
      * Rule을 받아 해당 룰의 컨텐츠를 java파일로 생성
      * @param rule java파일로 만들 Rule
      * @throws IOException 입출력 예외 처리

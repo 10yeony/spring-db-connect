@@ -1,9 +1,14 @@
 package kr.com.inspect.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,7 +70,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("register/check/{object}")
 	public String registerCheck(HttpServletRequest request, 
-							@PathVariable String object) { // https://elfinlas.github.io/2018/02/18/spring-parameter/
+							@PathVariable String object) {
 		int result = 0;
 		String value = null;
 		if(object.equals("id")) { //아이디 중복 체크
@@ -88,10 +93,10 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/ableToEdit")
 	public String ableToEdit(HttpSession session, String pwd) {
-		/* 세션의 비밀번호와 사용자가 입력한 비밀번호를 서로 비교하여 boolean 값을 리턴 */
-		Member member = (Member) session.getAttribute("member"); // 해당 유저의 세션 불러오기
+		Map<String, String> map = getMemberInfo();
+		String password = map.get("password");
 		PasswordEncoder pwdEncoder = memberService.passwordEncoder(); 
-		boolean pwdMatch = pwdEncoder.matches(pwd, member.getPassword()); // 비밀번호 비교
+		boolean pwdMatch = pwdEncoder.matches(pwd, password); // 비밀번호 비교
 		
 		if(pwdMatch) {
 			return "true";
@@ -238,5 +243,23 @@ public class MemberController {
 		model.addAttribute("thisMember", member);
 		model.addAttribute("flag", true);
 		return "member/getMember";
+	}
+	
+	/**
+	 * 스프링 시큐리티에서 로그인한 사용자의 아이디와 암호화된 비밀번호를 가져옴
+	 * @return 로그인한 사용자의 아이디와 암호화된 비밀번호
+	 */
+	public Map<String, String> getMemberInfo(){
+		Map<String, String> map = new HashMap<String, String>();
+		
+		/* 로그인한 사용자 아이디를 가져옴 */
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		UserDetails userDetails = (UserDetails)principal; 
+		String username = userDetails.getUsername();
+		String password = userDetails.getPassword();
+		
+		map.put("username", username);
+		map.put("password", password);
+		return map;
 	}
 }
