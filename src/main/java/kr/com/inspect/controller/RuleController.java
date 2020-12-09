@@ -277,7 +277,8 @@ public class RuleController {
 			}
 		}
 		Map<String, Object> items = new HashMap<String, Object>();
-		items.put("obj", (String)map.get("object"));
+		Object obj = (Object)map.get("object");
+		items.put("obj", obj);
 		responseData.setItem(items);
 		
 		/* 응답시 한글 인코딩 처리 */
