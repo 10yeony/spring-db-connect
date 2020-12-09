@@ -263,6 +263,8 @@ public class RuleController {
 		String username = getMemberInfo().get("username");
 		rule.setCreator(username);
 		
+		System.out.println(rule);
+		
 		/* 컴파일 + DB에 코드 및 결과 업데이트 */
 		Map<String, Object> map = ruleService.updateContents(rule);
 		
