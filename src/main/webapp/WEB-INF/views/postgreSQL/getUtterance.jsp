@@ -113,8 +113,8 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Form</th>
-                                        <th width="100">시작시간(단위: 초)</th>
-                                        <th width="100">종료시간(단위: 초)</th>
+                                        <th width="130">시작시간<br/>(단위: 초)</th>
+                                        <th width="100">종료시간<br/>(단위: 초)</th>
                                         <th width="100">어절 수</th>
                                     </tr>
                                 </thead>
@@ -126,7 +126,8 @@
 	                                        	  <c:set var="count" value="${count+1}" />
 	                                            <td>${count}</td>
 	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
-	                                            <td><fmt:formatNumber value="${item.start}" pattern=".00"/>
+	                                            <td>
+                                                    <fmt:formatNumber value="${item.start}" pattern=".00"/>&nbsp;&nbsp;
                                                     <a onclick="sound('${item.start}', '${item.finish}');" class="btn btn-primary btn-circle btn-sm">
                                                         <i class="fas fa-play"></i>
                                                     </a>
