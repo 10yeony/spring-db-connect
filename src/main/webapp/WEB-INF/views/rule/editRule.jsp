@@ -14,6 +14,9 @@
 <meta name="author" content="">
 
 <title>Home Page</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/vs2015.min.css"> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> 
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- Custom fonts for this template-->
 <link
@@ -27,27 +30,15 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resource/css/rule.css">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
-<link rel="stylesheet" href="/path/to/styles/default.css">
-<script src="/path/to/highlight.min.js"></script>
-<script>
-	hljs.initHighlightingOnLoad();
-</script>
 
 </head>
 
 <body id="page-top">
-	<input id="msg" type="hidden" value="${msg}">
-	<!-- 소분류 아이디 -->
-	<input type="hidden" id="bottom_level_id"
-		value="${rule.bottom_level_id}" name="bottom_level_id">
+<input id="msg" type="hidden" value="${msg}">
+<!-- 소분류 아이디 -->
+<input type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}" name="bottom_level_id">
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
@@ -65,84 +56,61 @@
 				<%@ include file="/WEB-INF/views/include/toolbar.jsp"%>
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-
+				
 					<!-- Page Heading -->
-					<div
-						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-2 text-gray-800" style="display: inline-block">
+					<div class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-2 text-gray-800" style="display:inline-block">
 							<b>Rule 작성</b>
-						</h1>
-						<br /> <span><b>이름 :</b> ${rule.bottom_level_name}</span>
+						</h1><br/>
+						<span><b>이름 :</b> ${rule.bottom_level_name}</span>
 					</div>
-
+					
 					<!-- Page Body -->
 					<div class="card shadow mb-4">
 						<div class="card-body">
 							<div style="font-size: 1.2em;">
-								제시된 양식을 참고하여 코드를 작성해주세요 <a class="small" id="goToRuleApi"
-									href="#" data-dismiss="modal" data-toggle="modal"
-									data-target="#ruleApiModal"> API 문서 보기 </a>
-							</div>
-							<br />
-							<form
-								action="${pageContext.request.contextPath}/rule/saveRuleContents"
-								id="editRuleFrm">
-								<input name="${_csrf.parameterName}" type="hidden"
-									value="${_csrf.token}" />
-								<div id="code_area" style="font-size: 1.2em; font-weight: bold;">
-									<div>
-										<span style="color: orange;">public class</span> <span
-											style="color: #26B3E0;"> ${rule.file_name}</span> {
+								제시된 양식을 참고하여 코드를 작성해주세요
+								<a class="small" id="goToRuleApi" href="#" data-dismiss="modal"
+								data-toggle="modal" data-target="#ruleApiModal">
+									API 문서 보기
+								</a>
+							</div><br/>
+							<form action="${pageContext.request.contextPath}/rule/saveRuleContents" id="editRuleFrm">
+								<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+									<div id="code_area" style="font-size:1.2em; font-weight:bold;">
+										<div>
+											<span style="color:orange;">public class</span>
+											<span style="color:#26B3E0;"> ${rule.file_name}</span> {</div>
+										<div style="margin-left:3%;">
+											<span style="color:orange;">public </span>
+											<span style="color:#26B3E0;">Object </span>
+											<span style="color:#00967B;">run()</span>{
+										</div>
+										<textarea class="form-control" name="contents" rows="12" 
+										value="" style="width:90%; margin-left:5%; resize: none;">${rule.contents}</textarea>
+										<pre><code class="java">${rule.contents}</code></pre>
+										<div style="margin-left:3%;">}</div>
+										<div style="margin-bottom:5px;">}</div>
 									</div>
-									<div style="margin-left: 3%;">
-										<span style="color: orange;">public </span> <span
-											style="color: #26B3E0;">Object </span> <span
-											style="color: #00967B;">run()</span>{
-									</div>
-
-									<%-- <textarea class="form-control" name="contents" rows="12" 
-										value="" style="width:90%; margin-left:5%; resize: none;">${rule.contents}</textarea> --%>
-
-									<pre>
-										<code class="form-control" contenteditable="true"
-											id="contents" style="margin-left: 5%;">${rule.contents}</code>
-									</pre>
-
-									<div style="margin-left: 3%;">}</div>
-									<div style="margin-bottom: 5px;">}</div>
-
-								</div>
-
-								<input name="bottom_level_id" type="hidden" id="bottom_level_id"
-									value="${rule.bottom_level_id}">
-
+								<input name="bottom_level_id" type="hidden" id="bottom_level_id" value="${rule.bottom_level_id}">
 								<div id="show_result_after_update">
-									<b>실행결과</b>
-									<textarea class="form-control" rows="5" style="resize: none;"
-										readonly></textarea>
-								</div>
-								<div style="display: block; margin-top: 5px;">
-									<button class="btn btn-danger" type="button" id="deleteRuleBtn"
-										style="float: left;">삭제</button>
-
-									<button id="ruleUpdateBtn" type="button"
-										class="btn btn-primary" style="float: right;">작성</button>
-									<button class="btn btn-secondary" type="button"
-										id="backRuleBtn" style="float: right; margin-right: 5px;">돌아가기</button>
+								<b>실행결과</b>
+								<textarea class="form-control" rows="5" style="resize: none;" readonly></textarea>
+							</div>
+								<div style="display:block; margin-top:5px;">
+									<button class="btn btn-danger" type="button" id="deleteRuleBtn" 
+										style="float:left;">삭제</button>
+									<button id ="ruleUpdateBtn" type="button" class="btn btn-primary" style="float:right;">작성</button>
+									<button class="btn btn-secondary" type="button" id="backRuleBtn" 
+										style="float:right; margin-right:5px;">돌아가기</button>
 								</div>
 							</form>
-						</div>
-						<!-- card-body -->
-					</div>
-					<!-- card shadow mb-4 -->
-				</div>
-				<!-- container-fluid -->
-			</div>
-			<!-- content -->
-		</div>
-		<!-- content-wrapper -->
-	</div>
-	<!-- wrapper -->
+						</div><!-- card-body -->
+					</div><!-- card shadow mb-4 -->
+				</div><!-- container-fluid -->
+			</div><!-- content -->
+		</div><!-- content-wrapper -->
+	</div><!-- wrapper -->
 </body>
 <!-- /.container-fluid -->
 <!-- End of Main Content -->
@@ -185,11 +153,11 @@
 	src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
-
+	
 <script
 	src="${pageContext.request.contextPath}/resource/js/rule/editRule.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resource/js/rule/ruleApi.js"></script>
+<script 
+		src="${pageContext.request.contextPath}/resource/js/rule/ruleApi.js"></script>
 </body>
 
 </html>
