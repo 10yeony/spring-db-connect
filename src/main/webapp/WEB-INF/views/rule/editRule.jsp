@@ -24,14 +24,15 @@
 	rel="stylesheet">
 
 <!-- Custom styles for this template-->
-<link
-	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/rule.css">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+
 </head>
 
 <body id="page-top">
@@ -95,15 +96,16 @@
 										value="" style="width:90%; margin-left:5%; resize: none;">${rule.contents}</textarea> --%>
 
 									<div class="form-control" contenteditable="true" id="contents"
-										name="contents" style="resize: none;">${rule.contents}</div>
+										style="margin-left: 5%;">${rule.contents}</div>
 
 									<div style="margin-left: 3%;">}</div>
 									<div style="margin-bottom: 5px;">}</div>
+
 								</div>
-								
+
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id"
 									value="${rule.bottom_level_id}">
-									
+
 								<div id="show_result_after_update">
 									<b>실행결과</b>
 									<textarea class="form-control" rows="5" style="resize: none;"
@@ -112,7 +114,7 @@
 								<div style="display: block; margin-top: 5px;">
 									<button class="btn btn-danger" type="button" id="deleteRuleBtn"
 										style="float: left;">삭제</button>
-										
+
 									<button id="ruleUpdateBtn" type="button"
 										class="btn btn-primary" style="float: right;">작성</button>
 									<button class="btn btn-secondary" type="button"

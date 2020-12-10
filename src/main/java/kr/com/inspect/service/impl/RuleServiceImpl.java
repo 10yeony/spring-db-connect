@@ -196,8 +196,16 @@ public class RuleServiceImpl implements RuleService {
 		int result = ruleDao.updateContents(rule);
 		Rule vo =  ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
 		Object obj = null;
+		
+		System.out.println("서비스 진입");
+		System.out.println(vo);
+		
 		try {
 			ruleCompiler.create(vo);
+			
+			System.out.println("생성과정");
+			System.out.println(vo);
+			
 			obj = ruleCompiler.runObject(vo); //실행 결과값
 			compile = true;
 		}catch (Exception e) {

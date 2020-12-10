@@ -1,5 +1,4 @@
 var contextPath;
-var contents;
 
 $(function(){
 
@@ -7,7 +6,6 @@ $(function(){
 	contextPath = getContextPath();
 	
 	$('#ruleUpdateBtn').click(function(){
-	$contents = $('#contents').html();
 		saveRuleContents();
 	});
 	
@@ -19,7 +17,6 @@ $(function(){
 	$('#backRuleBtn').click(function(){
 		location.href = contextPath + '/rule/ruleList';
 	});
-	
 });
 
 function saveRuleContents(){
@@ -27,7 +24,10 @@ function saveRuleContents(){
 		//요청
 		type: "POST",
 		url: contextPath + "/rule/saveRuleContents", 
-		data: {contents:$(".contents").html()},
+		data: {
+			bottom_level_id : $('#bottom_level_id').val(),
+			contents : $('#contents').text()
+		},
 		datatype: 'html',
 		async: false,
 			
@@ -52,7 +52,7 @@ function getContextPath() {
 }
 
 /* code highlight */
-const editor = document.getElementById('editor');
+const contents = document.getElementById('contents');
 const selectionOutput = document.getElementById('selection');
 
 function getTextSegments(element) {
@@ -74,11 +74,11 @@ function getTextSegments(element) {
     return textSegments;
 }
 
-editor.addEventListener('input', updateEditor);
+contents.addEventListener('input', updateContents);
 
-function updateEditor() {
+function updateContents() {
     const sel = window.getSelection();
-    const textSegments = getTextSegments(editor);
+    const textSegments = getTextSegments(contents);
     const textContent = textSegments.map(({text}) => text).join('');
     let anchorIndex = null;
     let focusIndex = null;
@@ -93,17 +93,19 @@ function updateEditor() {
         currentIndex += text.length;
     });
     
-    editor.innerHTML = renderText(textContent);
+    contents.innerHTML = renderText(textContent);
     
     restoreSelection(anchorIndex, focusIndex);
 }
 
+
+
 function restoreSelection(absoluteAnchorIndex, absoluteFocusIndex) {
     const sel = window.getSelection();
-    const textSegments = getTextSegments(editor);
-    let anchorNode = editor;
+    const textSegments = getTextSegments(contents);
+    let anchorNode = contents;
     let anchorIndex = 0;
-    let focusNode = editor;
+    let focusNode = contents;
     let focusIndex = 0;
     let currentIndex = 0;
     textSegments.forEach(({text, node}) => {
@@ -126,11 +128,20 @@ function restoreSelection(absoluteAnchorIndex, absoluteFocusIndex) {
 function renderText(text) {
     const words = text.split(/(\s+)/);
     const output = words.map((word) => {
-        if (word === 'bold') {
+        if (word === 'System') {
             return `<strong>${word}</strong>`;
         }
-        else if (word === 'red') {
-            return `<span style='color:red'>${word}</span>`;
+        else if (word === 'return') {
+            return `<span style='color:brown'>${word}</span>`;
+        }
+        else if (word === 'String') {
+            return `<span style='color:blue'>${word}</span>`;
+        }
+        else if (word === 'int') {
+            return `<span style='color:blue'>${word}</span>`;
+        }
+        else if (word === 'boolean') {
+            return `<span style='color:blue'>${word}</span>`;
         }
         else {
             return word;
@@ -139,4 +150,4 @@ function renderText(text) {
     return output.join('');
 }
 
-updateEditor();
+updateContents();
