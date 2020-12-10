@@ -1,13 +1,16 @@
 package kr.com.inspect.service.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -237,31 +240,40 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	@Override
 	public void runRuleCompiler(List<Rule> list) throws Exception {
+		ExecutorService executor = Executors.newFixedThreadPool(list.size());
+		List<Future<?>> futures = new ArrayList<>();
+		
 		for(Rule rule : list) {
-			new Thread() 
-			{
+			futures.add(executor.submit(() -> {
+				//String threadName = Thread.currentThread().getName();
 				Object obj = null;
+				try { 
+					ruleCompiler.create(rule);
+					obj = ruleCompiler.runObject(rule); //실행 결과값
+				} catch (Exception e) { 
+					obj = getStringOfException(e); //예외 문자열
+				} 
+					
+				/* 자바 파일 및 클래스 파일 삭제 */
+				deleteJavaClassFile(rule.getFile_name());
+					
+				/* 컴파일 결과값 DB에 등록 */
+				rule.setResult(obj.toString());
+				int updateResult = ruleDao.updateRuleCompileResult(rule);
 				
-				@Override
-				public void run() {
-					/* 자바 파일 실행 */
-					try { 
-						ruleCompiler.create(rule);
-						obj = ruleCompiler.runObject(rule); //실행 결과값
-					} catch (Exception e) { 
-						obj = getStringOfException(e); //예외 문자열
-					} 
-					
-					/* 자바 파일 및 클래스 파일 삭제 */
-					deleteJavaClassFile(rule.getFile_name());
-					
-					/* 컴파일 결과값 DB에 등록 */
-					rule.setResult(obj.toString());
-					int updateResult = ruleDao.updateRuleCompileResult(rule);
-					//System.out.println("DB에 등록 : " + updateResult);
-				};
-			}.start();
+	        }));
 		}
+		
+		for (Future<?> future : futures) {
+			try {
+				future.get(); //스레드 작업이 종료될 때까지 기다림
+			} catch (InterruptedException e) {
+				//e.printStackTrace();
+			} catch (ExecutionException e) {
+				//e.printStackTrace();
+			}
+        }
+		executor.shutdownNow(); //Task 종료
 	}
 	
 	/**
@@ -271,9 +283,8 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	public String getStringOfException(Exception e) {
 		/* 에러메세지를 문자열로 바꿈 */
-		StringWriter error = new StringWriter();        
+		StringWriter error = new StringWriter();       
 		e.printStackTrace(new PrintWriter(error));
-		
 		return error.toString();
 	}
 	
