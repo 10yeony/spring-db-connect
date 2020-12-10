@@ -24,14 +24,22 @@
 	rel="stylesheet">
 
 <!-- Custom styles for this template-->
-<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/rule.css">
+<link
+	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resource/css/rule.css">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
+<link rel="stylesheet" href="/path/to/styles/default.css">
+<script src="/path/to/highlight.min.js"></script>
+<script>
+	hljs.initHighlightingOnLoad();
+</script>
 
 </head>
 
@@ -95,8 +103,10 @@
 									<%-- <textarea class="form-control" name="contents" rows="12" 
 										value="" style="width:90%; margin-left:5%; resize: none;">${rule.contents}</textarea> --%>
 
-									<div class="form-control" contenteditable="true" id="contents"
-										style="margin-left: 5%;">${rule.contents}</div>
+									<pre>
+										<code class="form-control" contenteditable="true"
+											id="contents" style="margin-left: 5%;">${rule.contents}</code>
+									</pre>
 
 									<div style="margin-left: 3%;">}</div>
 									<div style="margin-bottom: 5px;">}</div>
@@ -178,8 +188,8 @@
 
 <script
 	src="${pageContext.request.contextPath}/resource/js/rule/editRule.js"></script>
-<script 
-		src="${pageContext.request.contextPath}/resource/js/rule/ruleApi.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resource/js/rule/ruleApi.js"></script>
 </body>
 
 </html>

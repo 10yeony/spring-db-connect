@@ -50,3 +50,4 @@ function getContextPath() {
     let contextPath = $('#contextPath').val();
     return contextPath;
 }
+
