@@ -111,14 +111,15 @@
 											contenteditable="true">${rule.contents}</code>
 									</pre> --%>
 									
-									<pre><code style="margin-left: 5%;" id="contents"
-											contenteditable="true"></code></pre>
+									<pre><code style="margin-left: 5%;" id="contents" 
+											contenteditable="true">${rule.contents}</code></pre>
 
 									<div style="margin-left: 3%;">}</div>
 									<div style="margin-bottom: 5px;">}</div>
 								</div>
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id"
 									value="${rule.bottom_level_id}">
+									
 								<div id="show_result_after_update">
 									<b>실행결과</b>
 									<textarea class="form-control" rows="5" style="resize: none;"

@@ -138,10 +138,16 @@ function renderText(text) {
             return `<span style='color:blue'>${word}</span>`;
         }
         else if (word === 'int') {
-            return `<span style='color:blue'>${word}</span>`;
+            return `<span style='color:brown'>${word}</span>`;
         }
         else if (word === 'boolean') {
-            return `<span style='color:blue'>${word}</span>`;
+            return `<span style='color:brown'>${word}</span>`;
+        }
+        else if (word === 'PostgreDao') {
+            return `<span style='color:skyblue'>${word}</span>`;
+        }
+        else if (word === 'private') {
+            return `<span style='color:brown'>${word}</span>`;
         }
         else {
             return word;
