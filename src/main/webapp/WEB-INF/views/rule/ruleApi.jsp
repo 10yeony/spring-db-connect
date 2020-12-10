@@ -4,11 +4,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
-	<script
-		src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>	
-	<script 
-		src="${pageContext.request.contextPath}/resource/js/member/edit_pwd.js"></script>
+	<style>
+		th{
+			background: #96BEE0;
+		}
+		tr:nth-child(even){
+			background: #D8DEE1;
+		}
+		.class-component-bold {
+			font-size:1.2em; 
+			font-weight:bold;
+		}
+	</style>
 </head>
+<body>
 <!-- Logout Modal-->
 <div class="modal fade" id="ruleApiModal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -22,11 +31,23 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				내용
-			</div>
+				<!-- 클래스 선택 -->
+				<select id="api-class-select" class="form-control">
+					<option value=1>Data</option>
+					<option value=2>Metadata</option>
+					<option value=3>Program</option>
+					<option value=4>Speaker</option>
+					<option value=5>Utterance</option>
+					<option value=6>EojeolList</option>
+				</select><br/>
+				
+				<%@ include file="./include/apiTable.jsp"%>
+			</div><!-- modal-body -->
 			<div class="modal-footer">
 				<button class="btn btn-secondary" type="button" data-dismiss="modal">닫기</button>
 			</div>
 		</div>
 	</div>
 </div>
+</body>
+</html>

@@ -1,8 +1,6 @@
 package kr.com.inspect.service.impl;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +39,7 @@ import kr.com.inspect.service.PostgreService;
 import kr.com.inspect.util.ResponseDataCode;
 import kr.com.inspect.util.ResponseDataStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
@@ -512,48 +511,53 @@ public class PostgreServiceImpl implements PostgreService{
 	}
 
 	/**
-	 * utterance를 받아 해당 문장의 음성 출력
-	 * @param utterance 사용자가 클릭한 utterance
-	 * @return 해당 파일의 음성파일 유무 리턴
+	 * 음성데이터 저장 디렉토리에가서 프론트에서 음성파일에 접근할 수 있도록 webapp/resource/sound/로 음성파일 복사
+	 * @param metaTitle 사용자가 클릭한 utterance의 파일명
+	 * @param request 사용자로부터 들어온 요청
 	 */
-	public boolean sound(Utterance utterance) {
-		Metadata metadata = postgreDao.getMetadataAndProgramUsingId(utterance.getMetadata_id());
-		double duringTime = utterance.getFinish() - utterance.getStart();
-		long start, end;
+	public void wavFileCopy(String metaTitle, HttpServletRequest request) {
+		// 음성파일이 저장되어 있는 디렉토리
 		File dir = new File(soundPath);
+		// utterance의 파일명이 포함된 파일을 찾는 필터
 		String[] files = dir.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
-				return name.indexOf(metadata.getTitle()) != -1;
+				return name.indexOf(metaTitle) != -1;
 			}
 		});
 
+		// resource에 sound 디렉토리가 없을 경우 생성
+		File fileDir = new File(request.getSession().getServletContext().getRealPath("/resource/sound/"));
+		if(!fileDir.exists()){
+			fileDir.mkdir();
+		}
+
+		// file이 존재한다면 webapp으로 음성파일 복사
 		if(files.length!=0){
 			File file = new File(soundPath + files[0]);
+			File temp = new File(request.getSession().getServletContext().getRealPath("/resource/sound/"+metaTitle+".wav"));
+			FileInputStream fis = null;
+			FileOutputStream fos = null;
+
 			try {
-				AudioInputStream stream = AudioSystem.getAudioInputStream(file);
-				AudioFormat format = stream.getFormat();
-				DataLine.Info info = new DataLine.Info(Clip.class, format);
-				Clip clip = (Clip) AudioSystem.getLine(info);
-
-				clip.open(stream);
-				clip.setLoopPoints(clip.getFrameLength()/3, clip.getFrameLength()/2);
-				clip.setMicrosecondPosition((long) (utterance.getStart()*1000000));
-				clip.start();
-				start = System.currentTimeMillis();
-				while(true){
-					end = System.currentTimeMillis();
-					if((end - start)/1000.0 > duringTime){
-						clip.close();
-						return true;
-					}
+				fis = new FileInputStream(file);
+				fos = new FileOutputStream(temp);
+				byte[] b = new byte[4096];
+				int cnt = 0;
+				while ((cnt = fis.read(b)) != -1) {
+					fos.write(b, 0, cnt);
 				}
-			} catch (IOException | UnsupportedAudioFileException | LineUnavailableException e){
+			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					fis.close();
+					fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-
 		}
-		return false;
 	}
 
 	/**
@@ -565,7 +569,7 @@ public class PostgreServiceImpl implements PostgreService{
 		String filename;
 		File f;
 
-		/* 서버 디렉토리에 파일 저장 */
+		/* 서버의 음성파일 저장 디렉토리에 wav파일 저장 */
 		for (int i = 0; i < wavFile.size(); i++) {
 			filename = wavFile.get(i).getOriginalFilename();
 

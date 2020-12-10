@@ -113,8 +113,8 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Form</th>
-                                        <th width="100">시작시간(단위: 초)</th>
-                                        <th width="100">종료시간(단위: 초)</th>
+                                        <th width="130">시작시간<br/>(단위: 초)</th>
+                                        <th width="100">종료시간<br/>(단위: 초)</th>
                                         <th width="100">어절 수</th>
                                     </tr>
                                 </thead>
@@ -126,8 +126,9 @@
 	                                        	  <c:set var="count" value="${count+1}" />
 	                                            <td>${count}</td>
 	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
-	                                            <td><fmt:formatNumber value="${item.start}" pattern=".00"/>
-                                                    <a onclick="sound('${item.id}');" class="btn btn-primary btn-circle btn-sm">
+	                                            <td>
+                                                    <fmt:formatNumber value="${item.start}" pattern=".00"/>&nbsp;&nbsp;
+                                                    <a onclick="sound('${item.start}', '${item.finish}');" class="btn btn-primary btn-circle btn-sm">
                                                         <i class="fas fa-play"></i>
                                                     </a>
                                                 </td>
@@ -188,17 +189,16 @@ function send(type, file, fileurl){
         alert("문자가 전송됩니다.");
 }
 
-function sound(id){
-    $.ajax({
-        type:"GET",
-        url: '${pageContext.request.contextPath}/sound',
-        data: {id: id},
-
-        success: function (result){
-            if(result == "false")
-                alert("해당 데이터의 음성파일이 존재하지 않습니다.");
-        }
+function sound(start, finish){
+    $.get('${pageContext.request.contextPath}/resource/sound/' + '${metadata.title}' + '.wav').done(function (){
+    }).fail(function (){
+        alert("음성 파일을 업로드 해주세요.");
+        return;
     })
+    var audio = new Audio('${pageContext.request.contextPath}/resource/sound/' + '${metadata.title}' + '.wav');
+    audio.currentTime = parseInt(Math.floor(start));
+    audio.play();
+    setTimeout(function (){audio.pause();}, (Math.ceil(finish)-Math.floor(start))*1000);
 }
 </script>
 

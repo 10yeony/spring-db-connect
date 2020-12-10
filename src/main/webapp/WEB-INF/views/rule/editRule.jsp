@@ -178,6 +178,8 @@
 
 <script
 	src="${pageContext.request.contextPath}/resource/js/rule/editRule.js"></script>
+<script 
+		src="${pageContext.request.contextPath}/resource/js/rule/ruleApi.js"></script>
 </body>
 
 </html>

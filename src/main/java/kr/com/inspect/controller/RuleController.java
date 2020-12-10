@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.com.inspect.dto.ResponseData;
@@ -285,6 +286,21 @@ public class RuleController {
 		responseData.setItem(items);
 		
 		/* 응답시 한글 인코딩 처리 */
+		response.setCharacterEncoding("UTF-8");
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.getWriter().print(mapper.writeValueAsString(responseData));
+		response.getWriter().flush();
+	}
+	
+	@GetMapping("/getApiDesc")
+	@ResponseBody
+	public void getApiDesc(HttpServletResponse response, int class_id) throws JsonProcessingException, IOException {
+		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
+		ResponseData responseData = new ResponseData(); //ajax 응답 객체
+		
+		Map<String, Object> items = ruleService.getApiDesc(class_id);
+		responseData.setItem(items);
+		
 		response.setCharacterEncoding("UTF-8");
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.getWriter().print(mapper.writeValueAsString(responseData));

@@ -82,12 +82,6 @@ public class PostgreController {
 	private String xlsxPath;
 
 	/**
-	 * wav파일을 업로드하는 경로
-	 */
-	@Value("${input.sound.directory}")
-	private String wavPath;
-	
-	/**
 	 * 엘라스틱서치 특정 인덱스를 PostgreSQL 특정 테이블에 넣기
 	 * @return 엘라스틱서치의 Index 값을 리턴
 	 */
@@ -140,7 +134,7 @@ public class PostgreController {
 	/**
 	 * wav 파일 postgresql 에 업로드
 	 * @param multipartFile 파일업로드 기능 구현
-	 * @return wav파일 여부(true/false)에 따라 값을 반환
+	 * @return 오류없이 업로드되면 "true" 반환
 	 * @throws Exception 에외처리
 	 */
 	@RequestMapping(value = "/wavUpload", method = RequestMethod.POST)
@@ -155,14 +149,16 @@ public class PostgreController {
 	 * Utterance 테이블 가져오기
 	 * @param model 속성부여
 	 * @param format 테이블 조인값
+	 * @param request 사용자로부터 들어온 요청
 	 * @return Utterance 값 리턴
 	 */
 	@GetMapping("/getUtteranceTable/{format}")
-	public String getUtteranceTable(Model model, @PathVariable Integer format){
+	public String getUtteranceTable(Model model, @PathVariable Integer format, HttpServletRequest request){
 		List<Utterance> utterances = postgreService.getUtteranceUsingMetadataId(format);
  		Metadata metadata = postgreService.getMetadataAndProgramUsingId(format);
 		model.addAttribute("utterances",utterances);
 		model.addAttribute("metadata",metadata);
+		postgreService.wavFileCopy(metadata.getTitle(), request);
 		return "postgreSQL/getUtterance";
 	}
 
@@ -300,21 +296,5 @@ public class PostgreController {
 			model.addAttribute("selectedData", "검색 결과");
 		}
 		return "postgreSQL/getJsonLog";
-	}
-
-	/**
-	 * 클릭한 utterance의 음성 출력
-	 * @param request 사용자로부터 들어온 요청
-	 */
-	@GetMapping("/sound")
-	@ResponseBody
-	public String sound(HttpServletRequest request){
-		Utterance utterance = postgreService.getUtteranceUsingId(request.getParameter("id"));
-		boolean flag = postgreService.sound(utterance);
-		if(flag == true){
-			return "true";
-		}
-		else
-			return "false";
 	}
 }

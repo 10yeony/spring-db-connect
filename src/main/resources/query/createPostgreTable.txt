@@ -114,5 +114,35 @@ CREATE TABLE audio.rule_bottom_level (
 	middle_level_id integer REFERENCES audio.rule_middle_level ON DELETE CASCADE
 );
 
+CREATE TABLE audio.api_class (
+	id SERIAL PRIMARY KEY,
+	name text,
+	description text
+);
+
+CREATE TABLE audio.api_class_field (
+	id SERIAL PRIMARY KEY,
+	field_type text,
+	name text,
+	description text,
+	api_class_id integer REFERENCES audio.api_class ON DELETE CASCADE
+);
+
+CREATE TABLE audio.api_class_constructor (
+	id SERIAL PRIMARY KEY,
+	parameter text,
+	description text,
+	api_class_id integer REFERENCES audio.api_class ON DELETE CASCADE
+);
+
+CREATE TABLE audio.api_class_method (
+	id SERIAL PRIMARY KEY,
+	return_type text,
+	name text,
+	parameter text,
+	description text,
+	api_class_id integer REFERENCES audio.api_class ON DELETE CASCADE
+);
+
 auto_increment 값 초기화
 truncate table audio.metadata restart identity cascade;

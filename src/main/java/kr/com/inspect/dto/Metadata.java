@@ -73,7 +73,7 @@ public class Metadata extends CommonDto {
 	private int sentence_count;
 	
 	/**
-	 * 어절 개(COUNT 함수로 가져와서 조인함)
+	 * 어절 개수(COUNT 함수로 가져와서 조인함)
 	 */
 	private int eojeol_total;
 	

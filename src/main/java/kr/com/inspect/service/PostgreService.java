@@ -10,6 +10,8 @@ import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Utterance;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * PostgreSQL Service Interface
  * @author Yeonhee Kim
@@ -139,10 +141,11 @@ public interface PostgreService {
 										String search_word);
 
 	/**
-	 * utterance를 받아 해당 문장의 음성 출력
-	 * @param utterance 사용자가 클릭한 utterance
+	 * 음성데이터 저장 디렉토리에가서 프론트에서 음성파일에 접근할 수 있도록 webapp/resource/sound/로 음성파일 복사
+	 * @param metaTitle 사용자가 클릭한 utterance의 파일명
+	 * @param request 사용자로부터 들어온 요청
 	 */
-	public boolean sound(Utterance utterance);
+	public void wavFileCopy(String metaTitle, HttpServletRequest request);
 
 	/**
 	 * wav 파일들을 저장 경로에 업로드

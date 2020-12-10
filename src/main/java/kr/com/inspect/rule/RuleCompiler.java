@@ -27,6 +27,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 /**
  * 텍스트를 자바 파일로 저장, 컴파일, 실행하는 클래스
  * @author Woo young
+ * @author Yeonhee Kim
  * @version 1.0
  */
 public class RuleCompiler {
@@ -165,7 +166,7 @@ public class RuleCompiler {
                 "import kr.com.inspect.dto.Program;\n" +
                 "import kr.com.inspect.dto.EojeolList;\n" +
                 "import java.util.List;\n\n" +
-                "public class "+rule.getFile_name()+"{\n" +
+                "public class "+rule.getFile_name()+" throws Exception {\n" +
                 "\tpublic Object run(){\n")
                 .append(rule.getContents())
                 .append("\n\t}\n}");
