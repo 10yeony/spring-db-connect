@@ -313,10 +313,45 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	public Map<String, Object> getApiDesc(int class_id) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("class", ruleDao.getApiClass(class_id));
-		map.put("field", ruleDao.getApiClassField(class_id));
-		map.put("constructor", ruleDao.getApiClassConstructor(class_id));
-		map.put("method", ruleDao.getApiClassMethod(class_id));
+		
+		Thread classThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				map.put("class", ruleDao.getApiClass(class_id));
+			}
+		});
+		Thread fieldThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				map.put("field", ruleDao.getApiClassField(class_id));
+			}
+		});
+		Thread constructorThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				map.put("constructor", ruleDao.getApiClassConstructor(class_id));
+			}
+		});
+		Thread methodThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				map.put("method", ruleDao.getApiClassMethod(class_id));
+			}
+		});
+		
+		classThread.start();
+		fieldThread.start();
+		constructorThread.start();
+		methodThread.start();
+		
+		try {
+			classThread.join();
+			fieldThread.join();
+			constructorThread.join();
+			methodThread.join();
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+		}
 		return map;
 	}
 }
