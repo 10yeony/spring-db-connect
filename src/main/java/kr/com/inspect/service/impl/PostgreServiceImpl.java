@@ -64,6 +64,7 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	@Autowired
 	private ElasticDao elasticDao;
+	
 	/**
 	 * PostgreSQL dao 필드 선언
 	 */
@@ -228,7 +229,7 @@ public class PostgreServiceImpl implements PostgreService{
 		for(int i=0; i<jsonFile.size(); i++){
 			filename = jsonFile.get(i).getOriginalFilename();
 
-			f = new File(path+filename);
+			f = new File(path+filename); 
 
 			jsonFile.get(i).transferTo(f);
 		}

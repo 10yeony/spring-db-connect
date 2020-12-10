@@ -166,7 +166,7 @@ public class RuleCompiler {
                 "import kr.com.inspect.dto.Program;\n" +
                 "import kr.com.inspect.dto.EojeolList;\n" +
                 "import java.util.List;\n\n" +
-                "public class "+rule.getFile_name()+" throws Exception {\n" +
+                "public class "+rule.getFile_name()+" {\n" +
                 "\tpublic Object run(){\n")
                 .append(rule.getContents())
                 .append("\n\t}\n}");

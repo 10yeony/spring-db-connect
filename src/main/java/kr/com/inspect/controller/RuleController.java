@@ -289,6 +289,13 @@ public class RuleController {
 		response.getWriter().flush();
 	}
 	
+	/**
+	 * Rule을 작성할 때 참고할 관련 API 문서를 ajax 응답 객체에 담아서 화면에 뿌림
+	 * @param response HttpServletResponse
+	 * @param class_id DB 상의 클래스 아이디 
+	 * @throws JsonProcessingException JSON 처리 예외
+	 * @throws IOException 입출력 예외
+	 */
 	@GetMapping("/getApiDesc")
 	@ResponseBody
 	public void getApiDesc(HttpServletResponse response, int class_id) throws JsonProcessingException, IOException {
