@@ -14,6 +14,9 @@
 <meta name="author" content="">
 
 <title>Home Page</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/vs2015.min.css"> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> 
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- Custom fonts for this template-->
 <link
@@ -29,6 +32,7 @@
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -84,6 +88,7 @@
 										</div>
 										<textarea class="form-control" name="contents" rows="12" 
 										value="" style="width:90%; margin-left:5%; resize: none;">${rule.contents}</textarea>
+										<pre><code class="java">${rule.contents}</code></pre>
 										<div style="margin-left:3%;">}</div>
 										<div style="margin-bottom:5px;">}</div>
 									</div>
