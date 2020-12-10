@@ -60,10 +60,6 @@
                         <a href="${pageContext.request.contextPath}/utterance/xlsx/${metadata.id}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Excel</a>
                         <div class="my-2"></div>
-<%--                        <a onclick="mail('docx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i--%>
-<%--                                class="fas fa-download fa-sm text-white-50"></i> docxMail</a>--%>
-<%--                        <a onclick="mail('xlsx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i--%>
-<%--                                class="fas fa-download fa-sm text-white-50"></i> xlsxMail</a>--%>
                         <!-- 파일 전송 버튼 -->
                         <div>
                             <ul class="navbar-nav ml-auto">
@@ -113,7 +109,7 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Form</th>
-                                        <th width="130">시작시간<br/>(단위: 초)</th>
+                                        <th width="170">시작시간<br/>(단위: 초)</th>
                                         <th width="100">종료시간<br/>(단위: 초)</th>
                                         <th width="100">어절 수</th>
                                     </tr>
@@ -128,9 +124,13 @@
 	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
 	                                            <td>
                                                     <fmt:formatNumber value="${item.start}" pattern=".00"/>&nbsp;&nbsp;
+                                                    <div align="right">
                                                     <a onclick="sound('${item.start}', '${item.finish}');" class="btn btn-primary btn-circle btn-sm">
                                                         <i class="fas fa-play"></i>
                                                     </a>
+                                                    <a onclick="pause('${item.start}');" class="btn btn-primary btn-circle btn-sm">
+                                                        <i class="fas fa-pause"></i>
+                                                    </a></div>
                                                 </td>
 	                                            <td><fmt:formatNumber value="${item.finish}" pattern=".00"/></td>
 	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.eojeol_count}개</a></td>
@@ -189,16 +189,34 @@ function send(type, file, fileurl){
         alert("문자가 전송됩니다.");
 }
 
+var audio = new Audio();
+var flag;
+
 function sound(start, finish){
+    flag = start;
+    audio.pause();
+
+    // 파일 유무 검사
     $.get('${pageContext.request.contextPath}/resource/sound/' + '${metadata.title}' + '.wav').done(function (){
     }).fail(function (){
         alert("음성 파일을 업로드 해주세요.");
-        return;
     })
-    var audio = new Audio('${pageContext.request.contextPath}/resource/sound/' + '${metadata.title}' + '.wav');
-    audio.currentTime = parseInt(Math.floor(start));
+
+    // Audio wav파일 경로 지정
+    audio = new Audio('${pageContext.request.contextPath}/resource/sound/' + '${metadata.title}' + '.wav');
+    // 클릭한 문장의 시작시간을 내림한 초부터 audio 시작
+    audio.currentTime = start;
     audio.play();
-    setTimeout(function (){audio.pause();}, (Math.ceil(finish)-Math.floor(start))*1000);
+    // 종료시간 - 시작시간 의 시간이 지나면 audio 멈춤
+    setTimeout(function (){
+        if(flag == start)
+            audio.pause();
+    }, (finish-start+0.3)*1000);
+}
+
+function pause(start){
+    if(flag == start)
+        audio.pause();
 }
 </script>
 

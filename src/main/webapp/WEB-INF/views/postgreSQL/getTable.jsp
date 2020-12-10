@@ -64,11 +64,6 @@
 						<a href="${pageContext.request.contextPath}/metadata/xlsx/${data}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 								class="fas fa-download fa-sm text-white-50"></i> Excel</a>
 						<div class="my-2"></div>
-<%--						<a onclick="mail('metadataMail/docx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i--%>
-<%--								class="fas fa-download fa-sm text-white-50"></i> docxMail</a>--%>
-<%--						<a onclick="mail('metadataMail/xlsx');" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i--%>
-<%--								class="fas fa-download fa-sm text-white-50"></i> xlsxMail</a>--%>
-
 						<!-- 파일 전송 버튼 -->
 						<div>
 							<ul class="navbar-nav ml-auto">
