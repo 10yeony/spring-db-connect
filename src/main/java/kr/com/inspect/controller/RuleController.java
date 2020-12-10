@@ -263,6 +263,10 @@ public class RuleController {
 		/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
 		String username = getMemberInfo().get("username");
 		rule.setCreator(username);
+		
+		System.out.println("입력확인");
+		System.out.println(rule);
+		
 		/* 컴파일 + DB에 코드 및 결과 업데이트 */
 		Map<String, Object> map = ruleService.updateContents(rule);
 		
