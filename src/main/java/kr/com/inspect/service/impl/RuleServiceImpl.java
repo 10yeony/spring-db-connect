@@ -211,6 +211,7 @@ public class RuleServiceImpl implements RuleService {
 			compile = true;
 		}catch (Exception e) {
 			obj = getStringOfException(e); //예외 문자열
+			System.out.println("obj :"+obj);
 		}
 		
 		/* 자바 파일 및 클래스 파일 삭제 */
