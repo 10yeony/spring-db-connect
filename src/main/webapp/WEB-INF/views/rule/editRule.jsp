@@ -16,16 +16,17 @@
 <title>Home Page</title>
 
 <!--하이라이트 js-->
-<%-- <link rel="stylesheet"
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resource/styles/vs.css">
 <script
 	src="${pageContext.request.contextPath}/resource/js/highlight.pack.js"></script>
 <script>
 	hljs.initHighlightingOnLoad();
-</script> --%>
+</script>
 
 <!--커스텀 제작 하이라이트 css, js-->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/rule.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resource/css/rule.css">
 
 <!-- Custom fonts for this template-->
 <link
@@ -100,26 +101,26 @@
 											style="color: #26B3E0;">Object </span> <span
 											style="color: #00967B;">run()</span>{
 									</div>
-									
+
 									<!--하이라이트 적용 안되는 textarea-->
 									<%-- <textarea class="form-control" name="contents" rows="12"
 										value="" style="width: 90%; margin-left: 5%; resize: none;">${rule.contents}</textarea> --%>
-									
+
 									<!--하이라이트.js 적용은 되지만 custom이 어려움-->
-									<%-- <pre>
-										<code style="margin-left: 5%;" class="java" id="contents"
-											contenteditable="true">${rule.contents}</code>
-									</pre> --%>
-									
-									<pre><code style="margin-left: 5%;" id="contents" 
-											contenteditable="true">${rule.contents}</code></pre>
+									<pre>
+										<code class="java" id="contents" contenteditable="true">${rule.contents}</code>
+									</pre>
+
+									<!-- custom 하이라이트 -->
+									<%-- 		<pre><code style="margin-left: 5%;" id="contents" 
+											contenteditable="true">${rule.contents}</code></pre> --%>
 
 									<div style="margin-left: 3%;">}</div>
 									<div style="margin-bottom: 5px;">}</div>
 								</div>
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id"
 									value="${rule.bottom_level_id}">
-									
+
 								<div id="show_result_after_update">
 									<b>실행결과</b>
 									<textarea class="form-control" rows="5" style="resize: none;"

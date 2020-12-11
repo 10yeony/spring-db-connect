@@ -209,9 +209,13 @@ public class RuleServiceImpl implements RuleService {
 		
 		Object obj = null;
 		try {
+			
 			//System.out.println("생성");
+			
 			ruleCompiler.create(vo);
+			
 			//System.out.println(vo);
+			
 			obj = ruleCompiler.runObject(vo); //실행 결과값
 			compile = true;
 		}catch (Exception e) {
@@ -224,7 +228,7 @@ public class RuleServiceImpl implements RuleService {
 		/* 컴파일 결과값 DB에 등록 */
 		rule.setResult(obj == null ? "" : obj.toString());
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
-		//System.out.println(updateResult);
+		System.out.println(updateResult);
 		
 		/* 리턴값 세팅 */
 		Map<String, Object> map = new HashMap<String, Object>();
