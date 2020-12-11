@@ -257,8 +257,6 @@ public class RuleController {
 	@PostMapping("/saveRuleContents")
 	@ResponseBody
 	public void saveRuleContents(HttpServletResponse response, Rule rule) throws Exception {		
-		System.out.println(rule);
-		
 		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
 		ResponseData responseData = new ResponseData(); //ajax 응답 객체
 		
