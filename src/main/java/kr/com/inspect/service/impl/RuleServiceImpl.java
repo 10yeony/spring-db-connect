@@ -198,24 +198,10 @@ public class RuleServiceImpl implements RuleService {
 	public Map<String, Object> updateContents(Rule rule) {
 		boolean compile = false;
 		int result = ruleDao.updateContents(rule);
-		
-		//System.out.println("업데이트");
-		//System.out.println(rule);
-		
 		Rule vo =  ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
-		
-		//System.out.println("db 불러오기");
-		//System.out.println(rule);
-		
 		Object obj = null;
 		try {
-			
-			//System.out.println("생성");
-			
 			ruleCompiler.create(vo);
-			
-			//System.out.println(vo);
-			
 			obj = ruleCompiler.runObject(vo); //실행 결과값
 			compile = true;
 		}catch (Exception e) {
@@ -228,7 +214,6 @@ public class RuleServiceImpl implements RuleService {
 		/* 컴파일 결과값 DB에 등록 */
 		rule.setResult(obj == null ? "" : obj.toString());
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
-		//System.out.println(updateResult);
 		
 		/* 리턴값 세팅 */
 		Map<String, Object> map = new HashMap<String, Object>();
