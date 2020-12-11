@@ -7,6 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
@@ -116,6 +120,11 @@ public class PostgreServiceImpl implements PostgreService{
 	private String soundPath;
 	
 	/**
+	 * 중복된 데이터 체크(아직 DB에 등록되지 않은 데이터일 경우 true)
+	 */
+	private boolean check;
+	
+	/**
 	 * 엘라스틱 서치에서 받아온 인덱스를 PostgreSQL에 넣음(테스트)
 	 * @param index
 	 */
@@ -222,17 +231,23 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	@Override
 	public void insertJSONUpload(String path, List<MultipartFile> jsonFile) throws Exception {
-		String filename;
-		File f;
-
+		int threadCnt = 5;
+		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
+		List<Future<?>> futures = new ArrayList<>();
+		
 		/* 서버 디렉토리에 파일 저장 */
-		for(int i=0; i<jsonFile.size(); i++){
-			filename = jsonFile.get(i).getOriginalFilename();
-
-			f = new File(path+filename); 
-
-			jsonFile.get(i).transferTo(f);
+		for(MultipartFile json : jsonFile){
+			futures.add(executor.submit(() -> {
+				String filename = json.getOriginalFilename();
+				File f = new File(path+filename); 
+				try {
+					json.transferTo(f);
+				} catch (IllegalStateException | IOException e) {
+					//e.printStackTrace();
+				}
+			}));
 		}
+		closeThread(executor, futures);
 	}
 
 	/**
@@ -245,81 +260,109 @@ public class PostgreServiceImpl implements PostgreService{
 	public String insertJSONDir(String path) throws Exception {
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
-		boolean check = false;
+		
+		check = false;
+		if(fileList.length == 0) {
+			return "false";
+		}
+		int threadCnt = 5;
+		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
+		List<Future<?>> futures = new ArrayList<>();
 
 		if(fileList.length == 0)
 			return "null";
 
 		for(File file : fileList){
-			/* 확장자가 json인 파일을 읽는다 */
-			if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
-				logger.info("start file " + file.getName());
+			futures.add(executor.submit(() -> {
+				/* 확장자가 json인 파일을 읽는다 */
+				if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
+					logger.info("start file " + file.getName());
 
-				String fullPath = path + file.getName();
+					String fullPath = path + file.getName();
 
-				JsonLog jsonLog = new JsonLog();
+					JsonLog jsonLog = new JsonLog();
 
-				/* jsonLog 테이블 시작시간 측정 */
-				jsonLog.setStart(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-				long startTime = System.currentTimeMillis();
+					/* jsonLog 테이블 시작시간 측정 */
+					jsonLog.setStart(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+					long startTime = System.currentTimeMillis();
 
-				/* json 파일을 읽어서 객체로 파싱 */
-				JSONObject obj = jsonParsing.getJSONObject(fullPath);
-
-				/* metadata 테이블 입력 */
-				Metadata metadata  = jsonParsing.setMetadata(obj);
-
-				/* metadata_id를 가져옴(creator, title) */
-				Map map = new HashMap();
-				map.put("creator", metadata.getCreator());
-				map.put("title", metadata.getTitle());
-				String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
-
-				if(isExistId == null) { //등록된 데이터가 아닐 경우
-					check = true;
+					/* json 파일을 읽어서 객체로 파싱 */
+					JSONObject obj = jsonParsing.getJSONObject(fullPath);
 
 					/* metadata 테이블 입력 */
-					sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
+					Metadata metadata  = jsonParsing.setMetadata(obj);
 
-					/* auto increment로 등록된 id를 가져옴 */
-					int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
+					/* metadata_id를 가져옴(creator, title) */
+					Map map = new HashMap();
+					map.put("creator", metadata.getCreator());
+					map.put("title", metadata.getTitle());
+					String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
 
-					/* jsonLog 테이블에 파일명과 metadata_id 입력 */
-					jsonLog.setTitle(metadata.getTitle());
-					jsonLog.setMetadata_id(metadata_id);
+					if(isExistId == null) { //등록된 데이터가 아닐 경우
+						check = true;
 
-					/* speaker 테이블 입력 */
-					List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
-					for(Speaker speaker : speakerList) {
-						sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
-					}
+						/* metadata 테이블 입력 */
+						sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
 
-					/* utterance 테이블 입력 */
-					List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
-					for(Utterance utterance : utteranceList) {
-						sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
-						List<EojeolList> eojeolListList = utterance.getEojoelList();
-						for(EojeolList eojeolList : eojeolListList) {
-							sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
+						/* auto increment로 등록된 id를 가져옴 */
+						int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
+
+						/* jsonLog 테이블에 파일명과 metadata_id 입력 */
+						jsonLog.setTitle(metadata.getTitle());
+						jsonLog.setMetadata_id(metadata_id);
+
+						/* speaker 테이블 입력 */
+						List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
+						int innerThreadCnt1 = 5;
+						ExecutorService innerExecutor1 = Executors.newFixedThreadPool(innerThreadCnt1);
+						List<Future<?>> innerFutures1 = new ArrayList<>();
+						for(Speaker speaker : speakerList) {
+							innerFutures1.add(innerExecutor1.submit(() -> {
+								sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
+							}));
 						}
+						closeThread(innerExecutor1, innerFutures1);
+
+						/* utterance 테이블 입력 */
+						List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
+						int innerThreadCnt2_1 = 5;
+						ExecutorService innerExecutor2_1 = Executors.newFixedThreadPool(innerThreadCnt2_1);
+						List<Future<?>> innerFutures2_1 = new ArrayList<>();
+						for(Utterance utterance : utteranceList) {
+							innerFutures2_1.add(innerExecutor2_1.submit(() -> {
+								sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
+							}));
+							List<EojeolList> eojeolListList = utterance.getEojoelList();
+							int innerThreadCnt2_2 = 5;
+							ExecutorService innerExecutor2_2 = Executors.newFixedThreadPool(innerThreadCnt2_2);
+							List<Future<?>> innerFutures2_2 = new ArrayList<>();
+							for(EojeolList eojeolList : eojeolListList) {
+								innerFutures2_2.add(innerExecutor2_2.submit(() -> {
+									sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
+								}));
+							}
+							closeThread(innerExecutor2_2, innerFutures2_2);
+						}
+						closeThread(innerExecutor2_1, innerFutures2_1);
+
+						/* jsonLog 테이블 종료시간 측정 */
+						jsonLog.setFinish(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+						long endTime = System.currentTimeMillis();
+
+						/* jsonLog 테이블 소요시간 입력 */
+						int elapsed = (int)((endTime-startTime)/1000.0);
+						int min = elapsed/60;
+						int sec = elapsed - min*60;
+						jsonLog.setElapsed(""+min+":"+sec);
+
+						sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
 					}
-
-					/* jsonLog 테이블 종료시간 측정 */
-					jsonLog.setFinish(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-					long endTime = System.currentTimeMillis();
-
-					/* jsonLog 테이블 소요시간 입력 */
-					int elapsed = (int)((endTime-startTime)/1000.0);
-					int min = elapsed/60;
-					int sec = elapsed - min*60;
-					jsonLog.setElapsed(""+min+":"+sec);
-
-					sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
+					logger.info("finish file " + file.getName());
 				}
-				logger.info("finish file " + file.getName());
-			}
-			file.delete();
+				file.delete();
+			}));
 		}
+		closeThread(executor, futures);
 
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return "true";
@@ -337,48 +380,73 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	@Override
 	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile) throws Exception{
-		String filename;
-		File f;
+		int threadCnt = 5;
+		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
+		List<Future<?>> futures = new ArrayList<>();
 
 		/* 서버 디렉토리에 파일 저장 */
-		for(int i=0; i<xlsxFile.size(); i++){
-			filename = xlsxFile.get(i).getOriginalFilename();
-
-			f = new File(path+filename);
-
-			xlsxFile.get(i).transferTo(f);
+		for(MultipartFile xlsx : xlsxFile){
+			futures.add(executor.submit(() -> {
+				String filename = xlsx.getOriginalFilename();
+				File f = new File(path+filename);
+				try {
+					xlsx.transferTo(f);
+				} catch (IllegalStateException | IOException e) {
+					//e.printStackTrace();
+				}
+			}));
 		}
-
+		closeThread(executor, futures);
+		
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
-		boolean check = false;
+		check = false;
 
+		threadCnt = 5;
+		executor = Executors.newFixedThreadPool(threadCnt);
+		futures = new ArrayList<>();
+		
 		for(File file : fileList){
-			/* 확장자가 xlsx인 파일을 읽는다 */
-		    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
-		    	String fullPath = path + file.getName();
-		    	List<Program> list = xlsxParsing.setProgramList(fullPath);
-		    	for(int i=0; i<list.size(); i++) {
-		    		if(sqlSession.selectOne(programNS+"getProgramByFileNum", list.get(i).getFile_num()) == null) {
-		    			check = true;
-		    			sqlSession.insert(programNS+"insertIntoProgram", list.get(i));
-		    		}
-		    	}
-		    }
+			futures.add(executor.submit(() -> {
+				/* 확장자가 xlsx인 파일을 읽는다 */
+			    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
+			    	String fullPath = path + file.getName();
+			    	List<Program> list = xlsxParsing.setProgramList(fullPath);
+			    	int innerThreadCnt = 5;
+			    	ExecutorService innerExecutor = Executors.newFixedThreadPool(innerThreadCnt);
+	    			List<Future<?>> innerFutures = new ArrayList<>();
+			    	for(Program p : list) {
+			    		if(sqlSession.selectOne(programNS+"getProgramByFileNum", p.getFile_num()) == null) {
+			    			check = true;
+			    			innerFutures.add(innerExecutor.submit(() -> {
+			    				sqlSession.insert(programNS+"insertIntoProgram", p);
+			    			}));
+			    		}
+			    	}
+			    	closeThread(innerExecutor, innerFutures);
+			    }
+			}));
 		}
+		closeThread(executor, futures);
+		
+		threadCnt = 5;
+		executor = Executors.newFixedThreadPool(threadCnt);
+		futures = new ArrayList<>();
 
 		/* 서버 디렉토리에 파일 삭제 */
 		try{
 			while (dir.listFiles().length != 0){
 				File[] folder_list = dir.listFiles();
 
-				for (int j=0; j<folder_list.length; j++){
-					folder_list[j].delete();
+				for (File file : folder_list){
+					futures.add(executor.submit(() -> {
+						file.delete();
+					}));
 				}
 			}
 		}catch (Exception e){
 		}
-
+		closeThread(executor, futures);
 
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return true;
@@ -397,24 +465,37 @@ public class PostgreServiceImpl implements PostgreService{
 	public String insertXlsxDir(String path) throws Exception{
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
-		boolean check = false;
+		check = false;
+		
+		int threadCnt = 5;
+		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
+		List<Future<?>> futures = new ArrayList<>();
 
 		if(fileList.length == 0)
 			return "null";
 
 		for(File file : fileList){
-			/* 확장자가 xlsx인 파일을 읽는다 */
-			if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
-				String fullPath = path + file.getName();
-				List<Program> list = xlsxParsing.setProgramList(fullPath);
-				for(int i=0; i<list.size(); i++) {
-					if(sqlSession.selectOne(programNS+"getProgramByFileNum", list.get(i).getFile_num()) == null) {
-						check = true;
-						sqlSession.insert(programNS+"insertIntoProgram", list.get(i));
+			futures.add(executor.submit(() -> {
+				/* 확장자가 xlsx인 파일을 읽는다 */
+				if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
+					String fullPath = path + file.getName();
+					List<Program> list = xlsxParsing.setProgramList(fullPath);
+					int innerThreadCnt = 5;
+					ExecutorService innerExecutor = Executors.newFixedThreadPool(innerThreadCnt);
+	    			List<Future<?>> innerFutures = new ArrayList<>();
+					for(Program p : list) {
+						if(sqlSession.selectOne(programNS+"getProgramByFileNum", p.getFile_num()) == null) {
+							check = true;
+							innerFutures.add(innerExecutor.submit(() -> {
+								sqlSession.insert(programNS+"insertIntoProgram", p);
+							}));
+						}
 					}
+					closeThread(innerExecutor, innerFutures);
 				}
-			}
+			}));
 		}
+		closeThread(executor, futures);
 
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return "true";
@@ -567,16 +648,35 @@ public class PostgreServiceImpl implements PostgreService{
 	 * @throws Exception 파일 업로드 예외처리
 	 */
 	public void uploadWav(List<MultipartFile> wavFile) throws Exception {
-		String filename;
-		File f;
-
+		int threadCnt = 5;
+		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
+		List<Future<?>> futures = new ArrayList<>();
+		
 		/* 서버의 음성파일 저장 디렉토리에 wav파일 저장 */
-		for (int i = 0; i < wavFile.size(); i++) {
-			filename = wavFile.get(i).getOriginalFilename();
-
-			f = new File(soundPath + filename);
-
-			wavFile.get(i).transferTo(f);
+		for (MultipartFile wav : wavFile) {
+			futures.add(executor.submit(() -> {
+				String filename = wav.getOriginalFilename();
+				File f = new File(soundPath + filename);
+				try {
+					wav.transferTo(f);
+				} catch (IllegalStateException | IOException e) {
+					//e.printStackTrace();
+				}
+			}));
 		}
+		closeThread(executor, futures);
+	}
+	
+	public void closeThread(ExecutorService executor, List<Future<?>> futures) {
+		for (Future<?> future : futures) {
+			try {
+				future.get(); //스레드 작업이 종료될 때까지 기다림
+			} catch (InterruptedException e) {
+				//e.printStackTrace();
+			} catch (ExecutionException e) {
+				//e.printStackTrace();
+			}
+        }
+		executor.shutdownNow(); //Task 종료
 	}
 }
