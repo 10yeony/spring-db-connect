@@ -89,7 +89,7 @@
 					<div class="card shadow mb-4">
 						<div class="card-body">
 							<div style="font-size: 1.2em;">
-								제시된 양식을 참고하여 코드를 작성해주세요 <a class="small" id="goToRuleApi"
+								제시된 양식을 참고하여 Java 코드를 작성해주세요 <a class="small" id="goToRuleApi"
 									href="#" data-dismiss="modal" data-toggle="modal"
 									data-target="#ruleApiModal"> API 문서 보기 </a>
 							</div>
@@ -124,7 +124,7 @@
 								</div>
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id"
 									value="${rule.bottom_level_id}">
-
+								<br/>
 								<div id="show_result_after_update">
 									<b>실행결과</b>
 									<textarea class="form-control" rows="5" style="resize: none;"
