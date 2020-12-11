@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.RuleDao;
-import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
@@ -233,7 +232,8 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	@Override
 	public void runRuleCompiler(List<Rule> list) throws Exception {
-		ExecutorService executor = Executors.newFixedThreadPool(list.size());
+		int threadCnt = 5; //스레드 개수 설정
+		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();
 		
 		for(Rule rule : list) {
