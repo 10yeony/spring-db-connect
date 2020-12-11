@@ -109,7 +109,10 @@
 										<span style="color: #dd464c;">public </span> 
 										<span style="color: white;">Object </span> 
 										<span style="color: #fd8b19;">run</span>
-										<span style="color: white;">(){</span>
+										<span style="color: white; margin-left:-5px;">()</span>
+										<span style="color: #dd464c;">throws </span> 
+										<span style="color: #8fc13e;">Exception </span> 
+										<span style="color: white;">{</span>
 									</div>
 
 									<textarea id="contents" name="contents" cols="170" rows="20"
