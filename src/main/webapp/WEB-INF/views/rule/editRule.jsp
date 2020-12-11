@@ -23,7 +23,7 @@
 <link 
 	rel="stylesheet" href="${pageContext.request.contextPath}/resource/codemirror/codemirror.css">
 <link 
-	rel="stylesheet" href="https://codemirror.net/theme/eclipse.css">
+	rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
 <script
 	src="${pageContext.request.contextPath}/resource/codemirror/clike.js"></script>
 
@@ -39,6 +39,21 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
+	
+<style>
+	#code_area{
+		background: #322931;
+		padding: 10px;
+	}
+
+	.CodeMirror{
+		width:90%;
+		margin-left: 5%;
+		height: 300px;
+		font-size: 1em;
+		font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	}
+</style>
 </head>
 
 <body id="page-top">
@@ -86,20 +101,26 @@
 									value="${_csrf.token}" />
 								<div id="code_area" style="font-size: 1.2em; font-weight: bold;">
 									<div>
-										<span style="color: orange;">public class</span> <span
-											style="color: #26B3E0;"> ${rule.file_name}</span> {
+										<span style="color: #dd464c;">public class</span> <span
+											style="color: #fd8b19;"> ${rule.file_name}</span> 
+										<span style="color: white;">{</span>
 									</div>
 									<div style="margin-left: 3%;">
-										<span style="color: orange;">public </span> <span
-											style="color: #26B3E0;">Object </span> <span
-											style="color: #00967B;">run()</span>{
+										<span style="color: #dd464c;">public </span> 
+										<span style="color: white;">Object </span> 
+										<span style="color: #fd8b19;">run</span>
+										<span style="color: white;">(){</span>
 									</div>
 
 									<textarea id="contents" name="contents" cols="170" rows="20"
 										style="resize: none;">${rule.contents}</textarea>
 									
-									<div style="margin-left: 3%;">}</div>
-									<div style="margin-bottom: 5px;">}</div>
+									<div style="margin-left: 3%;">
+										<span style="color: white;">}</span>
+									</div>
+									<div style="margin-bottom: 5px;">
+										<span style="color: white;">}</span>
+									</div>
 								</div>
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id"
 									value="${rule.bottom_level_id}">

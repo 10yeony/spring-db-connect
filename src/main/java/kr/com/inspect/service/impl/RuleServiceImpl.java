@@ -203,6 +203,9 @@ public class RuleServiceImpl implements RuleService {
 		try {
 			ruleCompiler.create(vo);
 			obj = ruleCompiler.runObject(vo); //실행 결과값
+			if(obj == null) {
+				obj = "null";
+			}
 			compile = true;
 		}catch (Exception e) {
 			obj = getStringOfException(e); //예외 문자열
@@ -212,7 +215,7 @@ public class RuleServiceImpl implements RuleService {
 		deleteJavaClassFile(vo.getFile_name());
 		
 		/* 컴파일 결과값 DB에 등록 */
-		rule.setResult(obj == null ? "" : obj.toString());
+		rule.setResult((String)obj);
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
 		
 		/* 리턴값 세팅 */

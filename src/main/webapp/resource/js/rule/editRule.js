@@ -14,7 +14,7 @@ function runCodemirror(){
 		lineWrapping: true,
 		styleActiveLine: true,
 		matchBrackets: true,
-		theme: "eclipse"
+		theme: "hopscotch"
 	});
 }
 
