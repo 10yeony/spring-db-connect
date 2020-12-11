@@ -222,7 +222,7 @@ public class RuleServiceImpl implements RuleService {
 		deleteJavaClassFile(vo.getFile_name());
 		
 		/* 컴파일 결과값 DB에 등록 */
-		rule.setResult(obj.toString());
+		rule.setResult(obj == null ? "" : obj.toString());
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
 		//System.out.println(updateResult);
 		
