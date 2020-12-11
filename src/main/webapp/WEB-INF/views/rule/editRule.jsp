@@ -15,18 +15,17 @@
 
 <title>Home Page</title>
 
-<!--하이라이트 js-->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resource/styles/vs.css">
 <script
-	src="${pageContext.request.contextPath}/resource/js/highlight.pack.js"></script>
-<script>
-	hljs.initHighlightingOnLoad();
-</script>
+	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 
-<!--커스텀 제작 하이라이트 css, js-->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resource/css/rule.css">
+<script
+	src="${pageContext.request.contextPath}/resource/codemirror/codemirror.js"></script>
+<link 
+	rel="stylesheet" href="${pageContext.request.contextPath}/resource/codemirror/codemirror.css">
+<link 
+	rel="stylesheet" href="https://codemirror.net/theme/eclipse.css">
+<script
+	src="${pageContext.request.contextPath}/resource/codemirror/clike.js"></script>
 
 <!-- Custom fonts for this template-->
 <link
@@ -40,8 +39,21 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
-<script
-	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
+
+<script>
+	window.onload = function() {
+		var contents_textarea = document.getElementById("contents");
+		
+		window.editor = CodeMirror.fromTextArea(contents_textarea, {
+		    mode: "text/x-java",
+			 lineNumbers: true,
+		    lineWrapping: true,
+		    styleActiveLine: true,
+		    matchBrackets: true,
+		    theme: "eclipse"
+		  });
+	}
+</script>
 
 </head>
 
@@ -102,19 +114,8 @@
 											style="color: #00967B;">run()</span>{
 									</div>
 
-									<!--하이라이트 적용 안되는 textarea-->
-									<%-- <textarea class="form-control" name="contents" rows="12"
-										value="" style="width: 90%; margin-left: 5%; resize: none;">${rule.contents}</textarea> --%>
-
-									<!--하이라이트.js 적용은 되지만 custom이 어려움-->
-									<pre>
-										<code class="java" id="contents" contenteditable="true">${rule.contents}</code>
-									</pre>
-
-									<!-- custom 하이라이트 -->
-									<%-- 		<pre><code style="margin-left: 5%;" id="contents" 
-											contenteditable="true">${rule.contents}</code></pre> --%>
-
+									<textarea id="contents">${rule.contents}</textarea>
+									
 									<div style="margin-left: 3%;">}</div>
 									<div style="margin-bottom: 5px;">}</div>
 								</div>
