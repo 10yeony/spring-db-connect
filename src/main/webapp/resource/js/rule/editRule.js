@@ -26,7 +26,7 @@ function saveRuleContents(){
 		url: contextPath + "/rule/saveRuleContents", 
 		data: {
 			bottom_level_id : $('#bottom_level_id').val(),
-			contents : $('#contents').text()
+			contents : $('#contents').val()
 		},
 		datatype: 'html',
 		async: false,

@@ -114,7 +114,8 @@
 											style="color: #00967B;">run()</span>{
 									</div>
 
-									<textarea id="contents">${rule.contents}</textarea>
+									<textarea id="contents" name="contents" cols="170" rows="20"
+										style="resize: none;">${rule.contents}</textarea>
 									
 									<div style="margin-left: 3%;">}</div>
 									<div style="margin-bottom: 5px;">}</div>
