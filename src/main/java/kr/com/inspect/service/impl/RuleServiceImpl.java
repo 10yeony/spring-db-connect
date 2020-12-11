@@ -215,7 +215,7 @@ public class RuleServiceImpl implements RuleService {
 		deleteJavaClassFile(vo.getFile_name());
 		
 		/* 컴파일 결과값 DB에 등록 */
-		rule.setResult((String)obj);
+		rule.setResult(obj.toString());
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
 		
 		/* 리턴값 세팅 */
@@ -248,12 +248,11 @@ public class RuleServiceImpl implements RuleService {
 				} 
 					
 				/* 자바 파일 및 클래스 파일 삭제 */
-				//deleteJavaClassFile(rule.getFile_name());
+				deleteJavaClassFile(rule.getFile_name());
 					
 				/* 컴파일 결과값 DB에 등록 */
 				rule.setResult(obj.toString());
 				int updateResult = ruleDao.updateRuleCompileResult(rule);
-				
 	        }));
 		}
 		
