@@ -1,4 +1,22 @@
 var contextPath;
+var myCodeMirror;
+	
+window.onload = function() {
+	runCodemirror();
+}
+	
+function runCodemirror(){
+	var contents_textarea = document.getElementById("contents");
+		
+	myCodeMirror = CodeMirror.fromTextArea(contents_textarea, {
+		mode: "text/x-java",
+		lineNumbers: true,
+		lineWrapping: true,
+		styleActiveLine: true,
+		matchBrackets: true,
+		theme: "eclipse"
+	});
+}
 
 $(function(){
 
@@ -26,9 +44,8 @@ function saveRuleContents(){
 		url: contextPath + "/rule/saveRuleContents", 
 		data: {
 			bottom_level_id : $('#bottom_level_id').val(),
-			contents : $('#contents').val()
+			contents : myCodeMirror.getValue()
 		},
-		datatype: 'html',
 		async: false,
 			
 		//응답

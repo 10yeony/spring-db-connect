@@ -39,29 +39,10 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
-
-<script>
-	window.onload = function() {
-		var contents_textarea = document.getElementById("contents");
-		
-		window.editor = CodeMirror.fromTextArea(contents_textarea, {
-		    mode: "text/x-java",
-			 lineNumbers: true,
-		    lineWrapping: true,
-		    styleActiveLine: true,
-		    matchBrackets: true,
-		    theme: "eclipse"
-		  });
-	}
-</script>
-
 </head>
 
 <body id="page-top">
 	<input id="msg" type="hidden" value="${msg}">
-	<!-- 소분류 아이디 -->
-	<input type="hidden" id="bottom_level_id"
-		value="${rule.bottom_level_id}" name="bottom_level_id">
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
