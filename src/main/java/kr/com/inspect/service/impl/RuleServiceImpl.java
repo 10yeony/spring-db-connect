@@ -49,7 +49,6 @@ public class RuleServiceImpl implements RuleService {
 	 * 전사규칙 대분류, 중분류, 소분류 카테고리 리스트를 반환함
 	 * @param top_level_id 전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
-	 * @param bottom_level_id 전사규칙 소분류 아이디
 	 * @return 전사규칙 대분류, 중분류, 소분류 카테고리 리스트
 	 */
 	@Override
@@ -215,9 +214,9 @@ public class RuleServiceImpl implements RuleService {
 		deleteJavaClassFile(vo.getFile_name());
 		
 		/* 컴파일 결과값 DB에 등록 */
-		rule.setResult((String)obj);
+		rule.setResult(obj.toString());
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
-		
+
 		/* 리턴값 세팅 */
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("compile", compile); //컴파일 결과
