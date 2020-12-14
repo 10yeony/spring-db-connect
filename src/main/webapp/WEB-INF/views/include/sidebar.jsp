@@ -53,7 +53,7 @@
     </li>
     
      <!-- 작업 관리 메뉴 -->
-   <sec:authorize access="hasRole('ROLE_ADMIN')">
+   <%-- <sec:authorize access="hasRole('ROLE_ADMIN')">
 	   <li class="nav-item">
 	       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#workManage" aria-expanded="true" aria-controls="workManage">
 	           <i class="fas fa-user-friends"></i>
@@ -66,7 +66,7 @@
 	           </div>
 	       </div>
 	   </li>
-   </sec:authorize>
+   </sec:authorize> --%>
 	
 	<!-- 룰 관리 메뉴 -->
    <sec:authorize access="hasRole('ROLE_ADMIN')">

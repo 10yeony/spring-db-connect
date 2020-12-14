@@ -196,25 +196,21 @@ public class RuleServiceImpl implements RuleService {
 	public Map<String, Object> updateContents(Rule rule) {
 		boolean compile = false;
 		int result = ruleDao.updateContents(rule);
+		//System.out.println(result);
 		Rule vo =  ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
+		//System.out.println(vo);
 		Object obj = null;
-		System.out.println("몽땅 가져오는 것");
-		System.out.println(rule);
 		try {
 			ruleCompiler.create(vo);
 			obj = ruleCompiler.runObject(vo); //실행 결과값
 			if(obj == null) {
 				obj = "null";
 			}
-			System.out.println("obj 가져오기");
-			System.out.println(obj);
-			System.out.println("rule 가져오기");
-			System.out.println(rule);
 			compile = true;
 		}catch (Exception e) {
 			obj = getStringOfException(e); //예외 문자열
 		}
-		System.out.println(rule);
+		//System.out.println(obj);
 		/* 자바 파일 및 클래스 파일 삭제 */
 		deleteJavaClassFile(vo.getFile_name());
 		
