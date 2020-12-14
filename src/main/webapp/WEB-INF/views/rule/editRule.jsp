@@ -53,6 +53,12 @@
 		font-size: 1em;
 		font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 	}
+	
+	.codeWhite{ color: white; }
+	.codeRed{ color: #dd464c; }
+	.codeOrange{ color: #fd8b19; }
+	.codeYellowGreen{ color: #8fc13e }
+	.codeRemoveMargin{ margin-left:-3px; margin-right:-3px; }
 </style>
 </head>
 
@@ -101,28 +107,119 @@
 									value="${_csrf.token}" />
 								<div id="code_area" style="font-size: 1.2em; font-weight: bold;">
 									<div>
-										<span style="color: #dd464c;">public class</span> <span
-											style="color: #fd8b19;"> ${rule.file_name}</span> 
-										<span style="color: white;">{</span>
+										<span class="codeRed">package</span>
+										<span class="codeYellowGreen">kr</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">com</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">inspect</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">rule</span>
+										<span class="codeWhite codeRemoveMargin">;</span>
+									</div><br/>
+									<div>
+										<span class="codeRed">import</span>
+										<span class="codeYellowGreen">java</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">util</span>
+										<span class="codeWhite codeRemoveMargin">.*;</span>
+									</div><br/>
+									<div>
+										<span class="codeRed">import</span>
+										<span class="codeYellowGreen">kr</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">com</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">inspect</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">rule</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">Data</span>
+										<span class="codeWhite codeRemoveMargin">;</span>
+										<br/>
+										<span class="codeRed">import</span>
+										<span class="codeYellowGreen">kr</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">com</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">inspect</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">rule</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">Metadata</span>
+										<span class="codeWhite codeRemoveMargin">;</span>
+										<br/>
+										<span class="codeRed">import</span>
+										<span class="codeYellowGreen">kr</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">com</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">inspect</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">rule</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">Program</span>
+										<span class="codeWhite codeRemoveMargin">;</span>
+										<br/>
+										<span class="codeRed">import</span>
+										<span class="codeYellowGreen">kr</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">com</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">inspect</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">rule</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">Speaker</span>
+										<span class="codeWhite codeRemoveMargin">;</span>
+										<br>
+										<span class="codeRed">import</span>
+										<span class="codeYellowGreen">kr</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">com</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">inspect</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">rule</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">Utterance</span>
+										<span class="codeWhite codeRemoveMargin">;</span>
+										<br>
+										<span class="codeRed">import</span>
+										<span class="codeYellowGreen">kr</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">com</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">inspect</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">rule</span>
+										<span class="codeWhite codeRemoveMargin">.</span>
+										<span class="codeYellowGreen">EojeolList</span>
+										<span class="codeWhite codeRemoveMargin">;</span>
+									</div><br/>
+									<div>
+										<span class="codeRed">public class</span> 
+										<span class="codeOrange"> ${rule.file_name}</span> 
+										<span class="codeWhite">{</span>
 									</div>
 									<div style="margin-left: 3%;">
-										<span style="color: #dd464c;">public </span> 
-										<span style="color: white;">Object </span> 
-										<span style="color: #fd8b19;">run</span>
-										<span style="color: white; margin-left:-5px;">()</span>
-										<span style="color: #dd464c;">throws </span> 
-										<span style="color: #8fc13e;">Exception </span> 
-										<span style="color: white;">{</span>
+										<span class="codeRed">public </span> 
+										<span class="codeWhite">Object </span> 
+										<span class="codeOrange">run</span>
+										<span class="codeWhite" style="margin-left:-5px;">()</span>
+										<span class="codeWhite">throws </span> 
+										<span class="codeYellowGreen">Exception </span> 
+										<span class="codeWhite">{</span>
 									</div>
 
 									<textarea id="contents" name="contents" cols="170" rows="20"
 										style="resize: none;">${rule.contents}</textarea>
 									
 									<div style="margin-left: 3%;">
-										<span style="color: white;">}</span>
+										<span class="codeWhite">}</span>
 									</div>
 									<div style="margin-bottom: 5px;">
-										<span style="color: white;">}</span>
+										<span class="codeWhite">}</span>
 									</div>
 								</div>
 								<input name="bottom_level_id" type="hidden" id="bottom_level_id"

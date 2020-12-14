@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -175,14 +173,14 @@ public class RuleCompiler {
         StringBuffer sb = new StringBuffer();
 
         // Java Source를 생성
-        sb.append("package kr.com.inspect.rule;\n" +
-                "import java.lang.Exception;\n" +
+        sb.append("package kr.com.inspect.rule;\n\n" +
+                "import java.util.*;\n\n" +
+        			"import kr.com.inspect.rule.Data;\n" +
                 "import kr.com.inspect.dto.Metadata;\n" +
+                "import kr.com.inspect.dto.Program;\n" +
                 "import kr.com.inspect.dto.Speaker;\n" +
                 "import kr.com.inspect.dto.Utterance;\n" +
-                "import kr.com.inspect.dto.Program;\n" +
-                "import kr.com.inspect.dto.EojeolList;\n" +
-                "import java.util.*;\n\n" +
+                "import kr.com.inspect.dto.EojeolList;\n\n" +
                 "public class "+rule.getFile_name()+" {\n" +
                 "\tpublic Object run() throws Exception {\n")
                 .append(rule.getContents())
