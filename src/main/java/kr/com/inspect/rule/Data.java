@@ -49,16 +49,21 @@ public class Data {
 	 * Data 객체의 기본 생성자(JDBC 정보 세팅)
 	 */
 	public Data() {
-		Properties p = new Properties();
-		try {
-			p.load(new FileInputStream("src/main/resources/properties/db.properties"));
-		} catch (IOException e) {
-			//e.printStackTrace();
-		} 
-		this.driver = p.getProperty("jdbc.driverClassName"); 
-		this.url = p.getProperty("jdbc.url");
-		this.user = p.getProperty("jdbc.username");
-		this.pass = p.getProperty("jdbc.password");
+//		Properties p = new Properties();
+//		try {
+//			p.load(new FileInputStream("src/main/resources/properties/db.properties"));
+//		} catch (IOException e) {
+//			//e.printStackTrace();
+//		}
+//		this.driver = p.getProperty("jdbc.driverClassName");
+//		this.url = p.getProperty("jdbc.url");
+//		this.user = p.getProperty("jdbc.username");
+//		this.pass = p.getProperty("jdbc.password");
+
+		this.driver = "org.postgresql.Driver";
+		this.url = "jdbc:postgresql://45.32.55.180:5432/postgres";
+		this.user = "postgres";
+		this.pass = "postgres";
 	}
 	
 	/**
@@ -84,7 +89,7 @@ public class Data {
 		if(ps!=null) ps.close(); 
 		if(conn!=null) conn.close();
 	}
-	
+
 	/**
 	 * 해당되는 Metadata 테이블을 가져옴
 	 * @param metadata_id Metadata 아이디(0일 경우 전체 Metadata)
@@ -108,7 +113,7 @@ public class Data {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, metadata_id);
 		}
-		
+
 		rs = ps.executeQuery();
 		
 		while(rs.next()){

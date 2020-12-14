@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import kr.com.inspect.rule.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -256,20 +257,20 @@ public class RuleController {
 	 */
 	@PostMapping("/saveRuleContents")
 	@ResponseBody
-	public void saveRuleContents(HttpServletResponse response, Rule rule) throws Exception {		
+	public void saveRuleContents(HttpServletResponse response, Rule rule) throws Exception {
 		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
 		ResponseData responseData = new ResponseData(); //ajax 응답 객체
-		
+
 		/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
 		String username = getMemberInfo().get("username");
 		rule.setCreator(username);
-		
+
 		//System.out.println("입력확인");
 		//System.out.println(rule);
-		
+
 		/* 컴파일 + DB에 코드 및 결과 업데이트 */
 		Map<String, Object> map = ruleService.updateContents(rule);
-		
+
 		/* 컴파일 성공 및 실패 처리 */
 		if((int)map.get("updateResult") == 0) {
 			responseData.setMessage("코드 등록에 실패하였습니다.");
@@ -284,7 +285,6 @@ public class RuleController {
 		Object obj = (Object)map.get("object");
 		items.put("obj", obj);
 		responseData.setItem(items);
-		
 		/* 응답시 한글 인코딩 처리 */
 		response.setCharacterEncoding("UTF-8");
 		response.setStatus(HttpServletResponse.SC_OK);
