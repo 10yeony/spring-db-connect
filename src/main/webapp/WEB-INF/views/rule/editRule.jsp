@@ -284,16 +284,6 @@
 <script
 	src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script
-	src="${pageContext.request.contextPath}/resource/vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script
-	src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
-
 <script
 	src="${pageContext.request.contextPath}/resource/js/rule/editRule.js"></script>
 <script

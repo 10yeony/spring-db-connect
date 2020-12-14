@@ -5,11 +5,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- D3.js -->
-	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<!-- chart.js -->
+	<script 
+	src="${pageContext.request.contextPath}/resource/vendor/chart.js/Chart.min.js"></script>
+
+	<!-- D3.js -->
+	<script 
+		src="https://d3js.org/d3.v5.min.js"></script>
 	
 	<!-- 대시보드 css -->
-	<link href="${pageContext.request.contextPath}/resource/css/dashboard.css" rel="stylesheet">
+	<link 
+		href="${pageContext.request.contextPath}/resource/css/dashboard.css" rel="stylesheet">
 </head>
 
 <!-- bar Chart -->
@@ -39,13 +45,13 @@
 			<!-- Card Header - Dropdown -->
 			<div
 					class="card-header">
-				<h5 class="m-0 font-weight-bold text-primary">line chart</h5>
+				<h5 class="m-0 font-weight-bold text-primary">음성 데이터 유형</h5>
 			</div>
 			<!-- Card Body -->
 			<div class="card-body">
 				<div align="center">
-					<div class="inline-block-chart" id="line-svg-area1"></div>
-					<script src="${pageContext.request.contextPath}/resource/js/dashboard/sample/line-chart.js"></script>
+					<canvas class="inline-block-chart" id="myPieChart" width="500%"></canvas>
+					<script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
 				</div>
 			</div>
 		</div>

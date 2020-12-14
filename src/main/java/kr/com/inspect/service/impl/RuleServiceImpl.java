@@ -210,9 +210,9 @@ public class RuleServiceImpl implements RuleService {
 		}catch (Exception e) {
 			obj = getStringOfException(e); //예외 문자열
 		}
-		//System.out.println(obj);
+		
 		/* 자바 파일 및 클래스 파일 삭제 */
-		//deleteJavaClassFile(vo.getFile_name());
+		deleteJavaClassFile(vo.getFile_name());
 		
 		/* 컴파일 결과값 DB에 등록 */
 		rule.setResult(obj.toString());
@@ -249,7 +249,7 @@ public class RuleServiceImpl implements RuleService {
 				} 
 				
 				/* 자바 파일 및 클래스 파일 삭제 */
-				//deleteJavaClassFile(rule.getFile_name());
+				deleteJavaClassFile(rule.getFile_name());
 					
 				/* 컴파일 결과값 DB에 등록 */
 				rule.setResult(obj.toString());

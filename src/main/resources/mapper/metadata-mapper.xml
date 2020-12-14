@@ -77,6 +77,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			audio.metadata;
 	</select>
 	
+	<!-- Metadata 유형별 강의 총 개수 -->
+	<select id="getMetadataCntByType" parameterType="string" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			audio.metadata
+		WHERE
+			audio_type = #{type};
+	</select>
+	
 	<!-- metadata 전체 데이터 검색 후 총 개수 -->
 	<select id="getToSearchMetdataCnt" parameterType="string" resultType="int">
 		SELECT
@@ -103,16 +113,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
 			OR p.file_num LIKE '%'||#{search_word}||'%';
-	</select>
-	
-	<!-- metadata 한국어 강의 데이터 총 개수 -->
-	<select id="getMetadataInLectureCnt" resultType="int">
-		SELECT 
-			COUNT(*) 
-		FROM 
-			audio.metadata
-		WHERE
-			audio_type = 'LH';
 	</select>
 	
 	<!-- metadata 한국어 강의 데이터 검색 후 총 개수 -->
@@ -142,16 +142,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
 			OR p.file_num LIKE '%'||#{search_word}||'%');
-	</select>
-	
-	<!-- metadata 회의 음성 데이터 총 개수 -->
-	<select id="getMetadataInMeetingCnt" resultType="int">
-		SELECT 
-			COUNT(*) 
-		FROM 
-			audio.metadata
-		WHERE
-			audio_type = 'CG';
 	</select>
 	
 	<!-- metadata 회의 음성 데이터 검색 후 총 개수 -->

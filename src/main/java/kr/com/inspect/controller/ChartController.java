@@ -24,4 +24,11 @@ public class ChartController {
 		List<Integer> list = chartService.getCountListOnJsonLog();
 		return list.toString();
 	}
+	
+	@GetMapping("getRatioOnMetadataByType")
+	@ResponseBody
+	public Map<String, Double> getRatioOnMetadataByType() {
+		Map<String, Double> map = chartService.getRatioOnMetadataByType();
+		return map;
+	}
 }
