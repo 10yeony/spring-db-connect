@@ -1,13 +1,13 @@
 package kr.com.inspect.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import kr.com.inspect.rule.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -265,9 +265,6 @@ public class RuleController {
 		String username = getMemberInfo().get("username");
 		rule.setCreator(username);
 
-		//System.out.println("입력확인");
-		//System.out.println(rule);
-
 		/* 컴파일 + DB에 코드 및 결과 업데이트 */
 		Map<String, Object> map = ruleService.updateContents(rule);
 
@@ -282,9 +279,10 @@ public class RuleController {
 			}
 		}
 		Map<String, Object> items = new HashMap<String, Object>();
-		Object obj = (Object)map.get("object");
+		Object obj = map.get("object").toString();
 		items.put("obj", obj);
 		responseData.setItem(items);
+		
 		/* 응답시 한글 인코딩 처리 */
 		response.setCharacterEncoding("UTF-8");
 		response.setStatus(HttpServletResponse.SC_OK);
