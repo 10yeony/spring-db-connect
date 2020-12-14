@@ -199,17 +199,23 @@ public class RuleServiceImpl implements RuleService {
 		int result = ruleDao.updateContents(rule);
 		Rule vo =  ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
 		Object obj = null;
+		System.out.println("몽땅 가져오는 것");
+		System.out.println(rule);
 		try {
 			ruleCompiler.create(vo);
 			obj = ruleCompiler.runObject(vo); //실행 결과값
 			if(obj == null) {
 				obj = "null";
 			}
+			System.out.println("obj 가져오기");
+			System.out.println(obj);
+			System.out.println("rule 가져오기");
+			System.out.println(rule);
 			compile = true;
 		}catch (Exception e) {
 			obj = getStringOfException(e); //예외 문자열
 		}
-		
+		System.out.println(rule);
 		/* 자바 파일 및 클래스 파일 삭제 */
 		deleteJavaClassFile(vo.getFile_name());
 		
@@ -246,7 +252,7 @@ public class RuleServiceImpl implements RuleService {
 				} catch (Exception e) { 
 					obj = getStringOfException(e); //예외 문자열
 				} 
-					
+				
 				/* 자바 파일 및 클래스 파일 삭제 */
 				deleteJavaClassFile(rule.getFile_name());
 					
