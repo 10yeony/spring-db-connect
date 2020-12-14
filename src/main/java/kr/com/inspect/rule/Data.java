@@ -1,7 +1,6 @@
 package kr.com.inspect.rule;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +15,7 @@ import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Program;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
+import org.apache.ibatis.io.Resources;
 
 /**
  * 사용자가 가져다 쓸 DB 접속 객체
@@ -49,21 +49,20 @@ public class Data {
 	 * Data 객체의 기본 생성자(JDBC 정보 세팅)
 	 */
 	public Data() {
-//		Properties p = new Properties();
-//		try {
-//			p.load(new FileInputStream("src/main/resources/properties/db.properties"));
-//		} catch (IOException e) {
-//			//e.printStackTrace();
-//		}
-//		this.driver = p.getProperty("jdbc.driverClassName");
-//		this.url = p.getProperty("jdbc.url");
-//		this.user = p.getProperty("jdbc.username");
-//		this.pass = p.getProperty("jdbc.password");
+		String resource = "properties/db.properties";
+		Properties properties = new Properties();
 
-		this.driver = "org.postgresql.Driver";
-		this.url = "jdbc:postgresql://45.32.55.180:5432/postgres";
-		this.user = "postgres";
-		this.pass = "postgres";
+		try{
+			Reader reader = Resources.getResourceAsReader(resource);
+			properties.load(reader);
+
+			this.driver = properties.getProperty("jdbc.driverClassName");
+			this.url = properties.getProperty("jdbc.url");
+			this.user = properties.getProperty("jdbc.username");
+			this.pass = properties.getProperty("jdbc.password");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	/**

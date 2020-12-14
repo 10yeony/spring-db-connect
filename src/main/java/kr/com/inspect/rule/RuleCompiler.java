@@ -47,7 +47,11 @@ public class RuleCompiler {
      * 프로젝트에서 쓰이는 라이브러리들이 저장된 위치
      */
     String lib;
-	
+
+    /**
+     * properties 파일이 저장된 위치
+     */
+    String proPath;
 
     /**
      * 객체를 생성할 때 각 path를 지정
@@ -63,6 +67,7 @@ public class RuleCompiler {
             this.path = properties.getProperty("rule.java.directory");
             this.classPath = properties.getProperty("rule.class.directory");
             this.lib = properties.getProperty("rule.lib.directory");
+            this.proPath = properties.getProperty("rule.properties.directory");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -134,7 +139,10 @@ public class RuleCompiler {
             e.printStackTrace();
         }
         // Class 파일 Load
-        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL(),new URL("file:"+lib+"postgresql-42.2.18.jar")});
+        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL()
+                , new URL("file:"+lib+"postgresql-42.2.18.jar")
+                , new URL("file:"+proPath+"db.properties")
+                , new URL("file:"+lib+"mybatis-3.5.6.jar")});
         Class<?> cls = null;
         cls = classLoader.loadClass("kr.com.inspect.rule."+rule.getFile_name());
 
