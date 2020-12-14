@@ -78,4 +78,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		OFFSET 
 			#{offset};
 	</select>
+	
+	<!-- 특정 시간보다 빠른 jsonlog 개수 가져오기 -->
+	<select id="getCountLessThan" parameterType="java.time.LocalTime" resultType="int">
+		SELECT 
+			COUNT(j.t) 
+		FROM 
+			(SELECT 
+				to_timestamp(elapsed, 'MI:SS')::TIME t 
+			FROM 
+				audio.jsonlog) j
+		WHERE 
+			t <![CDATA[<]]> #{time};
+	</select>
+	
+	<!-- 특정 시간보다 느린 jsonlog 개수 가져오기 -->
+	<select id="getCountMoreThan" parameterType="java.time.LocalTime" resultType="int">
+		SELECT 
+			COUNT(j.t) 
+		FROM 
+			(SELECT 
+				to_timestamp(elapsed, 'MI:SS')::TIME t 
+			FROM 
+				audio.jsonlog) j
+		WHERE 
+			t > #{time};
+	</select>
+	
+	<!-- 특정 시간보다 빠르거나 느린 jsonlog 개수 가져오기 -->
+	<select id="getCountLessAndMoreThan" parameterType="hashMap" resultType="int">
+		SELECT 
+			COUNT(j.t) 
+		FROM 
+			(SELECT 
+				to_timestamp(elapsed, 'MI:SS')::TIME t 
+			FROM 
+				audio.jsonlog) j
+		WHERE 
+			t > #{time1} AND t <![CDATA[<]]> #{time2};
+	</select>
 </mapper>

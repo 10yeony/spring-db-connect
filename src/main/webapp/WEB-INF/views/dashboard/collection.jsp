@@ -11,28 +11,6 @@
 	<!-- 대시보드 css -->
 	<link href="${pageContext.request.contextPath}/resource/css/dashboard.css" rel="stylesheet">
 </head>
-<%--<table class="chartTable">--%>
-<%--	<thead></thead>--%>
-<%--	<tbody>--%>
-<%--		<tr>--%>
-<%--			<th>bar chart</th>--%>
-<%--			<th>line chart</th>--%>
-<%--		</tr>--%>
-<%--		<tr>--%>
-<%--			<td>--%>
-<%--				<div class="inline-block-chart" id="bar-svg-area1">--%>
-<%--					<div id="bar-tooltip1"></div>--%>
-<%--				</div>--%>
-<%--				<script src="${pageContext.request.contextPath}/resource/js/dashboard/sample/bar-chart.js"></script>--%>
-<%--			</td>--%>
-<%--			<td>--%>
-<%--				<div class="inline-block-chart" id="line-svg-area1"></div>--%>
-<%--				<script src="${pageContext.request.contextPath}/resource/js/dashboard/sample/line-chart.js"></script>--%>
-<%--			</td>--%>
-<%--		</tr>--%>
-<%--	</tbody>--%>
-<%--	<tfoot></tfoot>--%>
-<%--</table>--%>
 
 <!-- bar Chart -->
 <div class="row">
@@ -41,7 +19,7 @@
 			<!-- Card Header - Dropdown -->
 			<div
 					class="card-header">
-				<h5 class="m-0 font-weight-bold text-primary">bar chart</h5>
+				<h5 class="m-0 font-weight-bold text-primary">JSON 파일 입력 시간</h5>
 			</div>
 			<!-- Card Body -->
 			<div class="card-body">
