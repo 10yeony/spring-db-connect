@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -46,12 +47,16 @@ public class RuleCompiler {
      * 프로젝트에서 쓰이는 라이브러리들이 저장된 위치
      */
     String lib;
-	
+
+    /**
+     * properties 파일이 저장된 위치
+     */
+    String proPath;
 
     /**
      * 객체를 생성할 때 각 path를 지정
      */
-    public RuleCompiler(){
+    public RuleCompiler() {
         String resource = "properties/directory.properties";
         Properties properties = new Properties();
 
@@ -62,6 +67,7 @@ public class RuleCompiler {
             this.path = properties.getProperty("rule.java.directory");
             this.classPath = properties.getProperty("rule.class.directory");
             this.lib = properties.getProperty("rule.lib.directory");
+            this.proPath = properties.getProperty("rule.properties.directory");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -112,25 +118,31 @@ public class RuleCompiler {
         optionList.add("-d");
         optionList.add(classPath);
 
-        // 만들어진 Java 파일을 컴파일
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        List<String> sources = Arrays.asList(new String[]{path + rule.getFile_name() +".java"});
-        DiagnosticCollector<JavaFileObject> diagnostic = new DiagnosticCollector<JavaFileObject>();
-        StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostic, null, null);
-        Iterable<? extends JavaFileObject> compilationUnit
-                = fileManager.getJavaFileObjectsFromStrings(sources);
-        JavaCompiler.CompilationTask task = compiler.getTask(
-                null,
-                fileManager,
-                diagnostic,
-                optionList,
-                null,
-                compilationUnit
-        );
-        Boolean success = task.call();
-
+        try {
+            // 만들어진 Java 파일을 컴파일
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            List<String> sources = Arrays.asList(new String[]{path + rule.getFile_name() + ".java"});
+            DiagnosticCollector<JavaFileObject> diagnostic = new DiagnosticCollector<JavaFileObject>();
+            StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostic, null, null);
+            Iterable<? extends JavaFileObject> compilationUnit
+                    = fileManager.getJavaFileObjectsFromStrings(sources);
+            JavaCompiler.CompilationTask task = compiler.getTask(
+                    null,
+                    fileManager,
+                    diagnostic,
+                    optionList,
+                    null,
+                    compilationUnit
+            );
+            Boolean success = task.call();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         // Class 파일 Load
-        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL(),new URL("file:"+lib+"postgresql-42.2.18.jar")});
+        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL()
+                , new URL("file:"+lib+"postgresql-42.2.18.jar")
+                , new URL("file:"+proPath+"db.properties")
+                , new URL("file:"+lib+"mybatis-3.5.6.jar")});
         Class<?> cls = null;
         cls = classLoader.loadClass("kr.com.inspect.rule."+rule.getFile_name());
 
@@ -142,11 +154,15 @@ public class RuleCompiler {
         for(Method method : methods){
             params = method.getParameterTypes();
         }
-
         // 메소드 가져오기
         Method objMethod = cls.getDeclaredConstructor().newInstance().getClass().getMethod(methods[0].getName());
         // 메서드 실행
-        Object result = objMethod.invoke(cls.getDeclaredConstructor().newInstance());
+        Object result = new Object();
+        try {
+            result = objMethod.invoke(cls.getDeclaredConstructor().newInstance());
+        } catch (InvocationTargetException e){
+            e.getTargetException().printStackTrace();
+        }
         return result;
     }
 
@@ -160,12 +176,13 @@ public class RuleCompiler {
 
         // Java Source를 생성
         sb.append("package kr.com.inspect.rule;\n" +
+                "import java.lang.Exception;\n" +
                 "import kr.com.inspect.dto.Metadata;\n" +
                 "import kr.com.inspect.dto.Speaker;\n" +
                 "import kr.com.inspect.dto.Utterance;\n" +
                 "import kr.com.inspect.dto.Program;\n" +
                 "import kr.com.inspect.dto.EojeolList;\n" +
-                "import java.util.List;\n\n" +
+                "import java.util.*;\n\n" +
                 "public class "+rule.getFile_name()+" {\n" +
                 "\tpublic Object run() throws Exception {\n")
                 .append(rule.getContents())

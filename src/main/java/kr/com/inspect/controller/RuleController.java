@@ -1,6 +1,7 @@
 package kr.com.inspect.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -256,20 +257,17 @@ public class RuleController {
 	 */
 	@PostMapping("/saveRuleContents")
 	@ResponseBody
-	public void saveRuleContents(HttpServletResponse response, Rule rule) throws Exception {		
+	public void saveRuleContents(HttpServletResponse response, Rule rule) throws Exception {
 		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
 		ResponseData responseData = new ResponseData(); //ajax 응답 객체
-		
+
 		/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
 		String username = getMemberInfo().get("username");
 		rule.setCreator(username);
-		
-		//System.out.println("입력확인");
-		//System.out.println(rule);
-		
+
 		/* 컴파일 + DB에 코드 및 결과 업데이트 */
 		Map<String, Object> map = ruleService.updateContents(rule);
-		
+
 		/* 컴파일 성공 및 실패 처리 */
 		if((int)map.get("updateResult") == 0) {
 			responseData.setMessage("코드 등록에 실패하였습니다.");
@@ -281,7 +279,7 @@ public class RuleController {
 			}
 		}
 		Map<String, Object> items = new HashMap<String, Object>();
-		Object obj = (Object)map.get("object");
+		Object obj = map.get("object").toString();
 		items.put("obj", obj);
 		responseData.setItem(items);
 		

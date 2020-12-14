@@ -1,7 +1,6 @@
 package kr.com.inspect.rule;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +15,7 @@ import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Program;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
+import org.apache.ibatis.io.Resources;
 
 /**
  * 사용자가 가져다 쓸 DB 접속 객체
@@ -49,16 +49,20 @@ public class Data {
 	 * Data 객체의 기본 생성자(JDBC 정보 세팅)
 	 */
 	public Data() {
-		Properties p = new Properties();
-		try {
-			p.load(new FileInputStream("src/main/resources/properties/db.properties"));
-		} catch (IOException e) {
-			//e.printStackTrace();
-		} 
-		this.driver = p.getProperty("jdbc.driverClassName"); 
-		this.url = p.getProperty("jdbc.url");
-		this.user = p.getProperty("jdbc.username");
-		this.pass = p.getProperty("jdbc.password");
+		String resource = "properties/db.properties";
+		Properties properties = new Properties();
+
+		try{
+			Reader reader = Resources.getResourceAsReader(resource);
+			properties.load(reader);
+
+			this.driver = properties.getProperty("jdbc.driverClassName");
+			this.url = properties.getProperty("jdbc.url");
+			this.user = properties.getProperty("jdbc.username");
+			this.pass = properties.getProperty("jdbc.password");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -84,7 +88,7 @@ public class Data {
 		if(ps!=null) ps.close(); 
 		if(conn!=null) conn.close();
 	}
-	
+
 	/**
 	 * 해당되는 Metadata 테이블을 가져옴
 	 * @param metadata_id Metadata 아이디(0일 경우 전체 Metadata)
@@ -108,7 +112,7 @@ public class Data {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, metadata_id);
 		}
-		
+
 		rs = ps.executeQuery();
 		
 		while(rs.next()){
