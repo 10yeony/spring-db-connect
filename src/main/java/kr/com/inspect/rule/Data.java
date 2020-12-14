@@ -325,7 +325,7 @@ public class Data {
 	 * @return 해당되는 EojeolList 테이블
 	 * @throws Exception 예외
 	 */
-	public List<EojeolList> getEojoelList(int metadata_id) throws Exception{
+	public List<EojeolList> getEojeolList(int metadata_id) throws Exception{
 		List<EojeolList> list = new ArrayList<>();
 		EojeolList vo = new EojeolList();
 		Connection conn = null;
