@@ -22,7 +22,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import kr.com.inspect.handler.CustomAccessDeniedHandler;
 import kr.com.inspect.handler.LoginFailHandler;
 import kr.com.inspect.handler.LoginSuccessHandler;
-import kr.com.inspect.handler.ProperCookieClearingLogoutHandler;
 import kr.com.inspect.service.MemberService;
 
 /**

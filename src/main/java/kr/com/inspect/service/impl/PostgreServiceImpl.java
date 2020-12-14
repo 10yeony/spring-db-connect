@@ -13,7 +13,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOCase;
 import org.apache.ibatis.session.SqlSession;
 import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONObject;
@@ -40,13 +39,8 @@ import kr.com.inspect.paging.PagingUtil;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
-import kr.com.inspect.util.ResponseDataCode;
-import kr.com.inspect.util.ResponseDataStatus;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.sound.sampled.*;
-import javax.swing.*;
-
 /**
  * PostgreSQL Service
  * @author Yeonhee Kim

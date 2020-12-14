@@ -19,8 +19,6 @@ import org.springframework.web.servlet.view.JstlView;
 
 import java.util.Properties;
 
-import javax.servlet.ServletException;
-
 /**
  * 각 Servlet에 관한 환경설정(xml 대체)
  * @author Yeonhee Kim, Woo Young
