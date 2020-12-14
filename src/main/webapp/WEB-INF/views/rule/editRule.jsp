@@ -144,7 +144,7 @@
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">inspect</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
-										<span class="codeYellowGreen">rule</span>
+										<span class="codeYellowGreen">dto</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">Metadata</span>
 										<span class="codeWhite codeRemoveMargin">;</span>
@@ -156,7 +156,7 @@
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">inspect</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
-										<span class="codeYellowGreen">rule</span>
+										<span class="codeYellowGreen">dto</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">Program</span>
 										<span class="codeWhite codeRemoveMargin">;</span>
@@ -168,7 +168,7 @@
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">inspect</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
-										<span class="codeYellowGreen">rule</span>
+										<span class="codeYellowGreen">dto</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">Speaker</span>
 										<span class="codeWhite codeRemoveMargin">;</span>
@@ -180,7 +180,7 @@
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">inspect</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
-										<span class="codeYellowGreen">rule</span>
+										<span class="codeYellowGreen">dto</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">Utterance</span>
 										<span class="codeWhite codeRemoveMargin">;</span>
@@ -192,7 +192,7 @@
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">inspect</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
-										<span class="codeYellowGreen">rule</span>
+										<span class="codeYellowGreen">dto</span>
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">EojeolList</span>
 										<span class="codeWhite codeRemoveMargin">;</span>
