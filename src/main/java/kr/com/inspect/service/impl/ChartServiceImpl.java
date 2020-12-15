@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.com.inspect.dao.MemberDao;
+import kr.com.inspect.dao.PostgreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,18 @@ public class ChartServiceImpl implements ChartService {
 	
 	@Autowired
 	private ChartDao chartDao;
+
+	/**
+	 * PostgreSQL dao 필드 선언
+	 */
+	@Autowired
+	private PostgreDao postgreDao;
+
+	/**
+	 * MemberDao 필드 선언
+	 */
+	@Autowired
+	private MemberDao memberDao;
 
 	/**
 	 * 차트에 활용할 JsonLog 개수 목록을 가져옴
@@ -88,5 +102,58 @@ public class ChartServiceImpl implements ChartService {
 			list.add(map.get(i));
 		}
 		return list;
+	}
+
+	/**
+	 * 대쉬보드에 사용할 데이터 개수 가져옴
+	 * @return 총 음성데이터, 문장, 어절, 회원 수 개수
+	 */
+	@Override
+	public Map<String, Object> getCountData(){
+		Map<String, Object> items = new HashMap<String, Object>();
+
+		Thread thread1 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				items.put("metadata", postgreDao.getMetadataCount());
+			}
+		});
+
+		Thread thread2 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				items.put("utterance", postgreDao.getUtteranceCount());
+			}
+		});
+
+		Thread thread3 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				items.put("eojeol", postgreDao.getEojeolListCount());
+			}
+		});
+
+		Thread thread4 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				items.put("member", memberDao.getMemberCount());
+			}
+		});
+
+		thread1.start();
+		thread2.start();
+		thread3.start();
+		thread4.start();
+
+		try{
+			thread1.join();
+			thread2.join();
+			thread3.join();
+			thread4.join();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return items;
 	}
 }

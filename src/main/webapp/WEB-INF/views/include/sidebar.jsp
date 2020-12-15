@@ -72,7 +72,7 @@
    <sec:authorize access="hasRole('ROLE_ADMIN')">
 	   <li class="nav-item">
 	       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ruleManage" aria-expanded="true" aria-controls="ruleManage">
-	           <i class="fas fa-user-friends"></i>
+	           <i class="fas fa-clipboard-list"></i>
 	           <span>RULE 관리</span>
 	       </a>
 	       <div id="ruleManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
