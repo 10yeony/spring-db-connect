@@ -209,6 +209,11 @@ public class RuleController {
 		return "rule/runRule";
 	}
 	
+	@GetMapping("/customRule")
+	public String customRulepage() {
+		return "rule/ruleCustom";
+	}
+	
 	@PostMapping("/runRuleCompiler")
 	@ResponseBody
 	public void runRuleCompiler(HttpServletResponse response, 
