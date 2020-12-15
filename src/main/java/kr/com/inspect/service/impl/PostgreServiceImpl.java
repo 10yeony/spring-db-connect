@@ -312,7 +312,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 						/* speaker 테이블 입력 */
 						List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
-						int innerThreadCnt1 = 5;
+						int innerThreadCnt1 = 2;
 						ExecutorService innerExecutor1 = Executors.newFixedThreadPool(innerThreadCnt1);
 						List<Future<?>> innerFutures1 = new ArrayList<>();
 						for(Speaker speaker : speakerList) {
@@ -324,7 +324,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 						/* utterance 테이블 입력 */
 						List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
-						int innerThreadCnt2_1 = 5;
+						int innerThreadCnt2_1 = 2;
 						ExecutorService innerExecutor2_1 = Executors.newFixedThreadPool(innerThreadCnt2_1);
 						List<Future<?>> innerFutures2_1 = new ArrayList<>();
 						for(Utterance utterance : utteranceList) {
@@ -332,15 +332,9 @@ public class PostgreServiceImpl implements PostgreService{
 								sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
 							}));
 							List<EojeolList> eojeolListList = utterance.getEojoelList();
-							int innerThreadCnt2_2 = 5;
-							ExecutorService innerExecutor2_2 = Executors.newFixedThreadPool(innerThreadCnt2_2);
-							List<Future<?>> innerFutures2_2 = new ArrayList<>();
 							for(EojeolList eojeolList : eojeolListList) {
-								innerFutures2_2.add(innerExecutor2_2.submit(() -> {
-									sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
-								}));
+								sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
 							}
-							closeThread(innerExecutor2_2, innerFutures2_2);
 						}
 						closeThread(innerExecutor2_1, innerFutures2_1);
 
