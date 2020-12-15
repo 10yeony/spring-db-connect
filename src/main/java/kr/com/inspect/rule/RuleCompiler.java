@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLStreamHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -52,6 +53,11 @@ public class RuleCompiler {
     String proPath;
 
     /**
+     * 사용자가 올린 라이브러리, 클래스 파일이 저장되는 위치
+     */
+    String customPath;
+
+    /**
      * 객체를 생성할 때 각 path를 지정
      */
     public RuleCompiler() {
@@ -66,6 +72,7 @@ public class RuleCompiler {
             this.classPath = properties.getProperty("rule.class.directory");
             this.lib = properties.getProperty("rule.lib.directory");
             this.proPath = properties.getProperty("rule.properties.directory");
+            this.customPath = properties.getProperty("input.custom.directory");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -111,36 +118,64 @@ public class RuleCompiler {
         List<String> optionList = new ArrayList<>();
         // CLASS PATH 추가
         optionList.add("-classpath");
-        optionList.add(System.getProperty("java.class.path")+":"+classPath);
+//        optionList.add(System.getProperty("java.class.path")+":"+classPath);
+        optionList.add(System.getProperty("java.class.path")+":"+classPath+":"+customPath+rule.getCreator()+"/");
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
 
-        try {
-            // 만들어진 Java 파일을 컴파일
-            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-            List<String> sources = Arrays.asList(new String[]{path + rule.getFile_name() + ".java"});
-            DiagnosticCollector<JavaFileObject> diagnostic = new DiagnosticCollector<JavaFileObject>();
-            StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostic, null, null);
-            Iterable<? extends JavaFileObject> compilationUnit
-                    = fileManager.getJavaFileObjectsFromStrings(sources);
-            JavaCompiler.CompilationTask task = compiler.getTask(
-                    null,
-                    fileManager,
-                    diagnostic,
-                    optionList,
-                    null,
-                    compilationUnit
-            );
-            Boolean success = task.call();
-        } catch (Exception e){
-            e.printStackTrace();
+        // 만들어진 Java 파일을 컴파일
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        List<String> sources = Arrays.asList(new String[]{path + rule.getFile_name() + ".java"});
+        DiagnosticCollector<JavaFileObject> diagnostic = new DiagnosticCollector<JavaFileObject>();
+        StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostic, null, null);
+        Iterable<? extends JavaFileObject> compilationUnit
+                = fileManager.getJavaFileObjectsFromStrings(sources);
+        JavaCompiler.CompilationTask task = compiler.getTask(
+                null,
+                fileManager,
+                diagnostic,
+                optionList,
+                null,
+                compilationUnit
+        );
+        Boolean success = task.call();
+
+        // load class files in directory
+        ArrayList<URL> urls = new ArrayList<URL>();
+        URLStreamHandler streamHandler = null;
+//        urls.add( new URL(null, "file:" + jarPath.getCanonicalPath() + File.separator, streamHandler));
+
+        // 현재 프로젝트의 class파일 디렉토리 경로 추가
+        urls.add(new File(classPath).toURI().toURL());
+        // Data.class에서 DB 연결에 쓸 properties 경로 추가
+        urls.add(new URL("file:"+proPath+"db.properties"));
+
+        // load jar files
+        // lib 디렉토리에 있는 jar파일 모두 읽음
+        File[] files = new File( lib).listFiles();
+//        for( File file : files) {
+//            if( file.isFile() && file.getName().endsWith(".jar")) {
+//                urls.add( new URL("file:" + lib + file.getName()));
+//            }
+//        }
+        // custom / userId 디렉토리에 있는 jar파일 모두 읽음
+        files = new File(customPath+rule.getCreator()+"/").listFiles();
+        if(files != null){
+            for( File file : files) {
+                if( file.isFile() && file.getName().endsWith(".jar")) {
+                    urls.add( new URL("file:" + customPath + rule.getCreator() + "/" + file.getName()));
+                }
+            }
         }
+//        // Test.class
+////        urls.add( new File(customPath+rule.getCreator()+"/").toURI().toURL());
+//        URLStreamHandler urlStreamHandler = null;
+//        File classPathFile = new File(customPath+rule.getCreator()+"/");
+//        urls.add( new URL(null, "file:"+classPathFile.getCanonicalPath()+File.separator, urlStreamHandler));
+
         // Class 파일 Load
-        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(classPath).toURI().toURL()
-                , new URL("file:"+lib+"postgresql-42.2.18.jar")
-                , new URL("file:"+proPath+"db.properties")
-                , new URL("file:"+lib+"mybatis-3.5.6.jar")});
+        URLClassLoader classLoader = URLClassLoader.newInstance((URL[])urls.toArray( new URL[urls.size()]));
         Class<?> cls = null;
         cls = classLoader.loadClass("kr.com.inspect.rule."+rule.getFile_name());
 
@@ -175,12 +210,13 @@ public class RuleCompiler {
         // Java Source를 생성
         sb.append("package kr.com.inspect.rule;\n\n" +
                 "import java.util.*;\n\n" +
-        			"import kr.com.inspect.rule.Data;\n" +
+                "import kr.com.inspect.rule.Data;\n" +
                 "import kr.com.inspect.dto.Metadata;\n" +
                 "import kr.com.inspect.dto.Program;\n" +
                 "import kr.com.inspect.dto.Speaker;\n" +
                 "import kr.com.inspect.dto.Utterance;\n" +
                 "import kr.com.inspect.dto.EojeolList;\n\n" +
+//                "import Test;\n\n" +
                 "public class "+rule.getFile_name()+" {\n" +
                 "\tpublic Object run() throws Exception {\n")
                 .append(rule.getContents())

@@ -39,6 +39,11 @@ public class ChartController {
 		return map;
 	}
 
+	/**
+	 * 대쉬보드에 쓰일 데이터 개수 반환
+	 * @param response 웹으로 보낼 응답
+	 * @throws IOException 입출력 예외
+	 */
 	@GetMapping("getCountData")
 	@ResponseBody
 	public void getCountData(HttpServletResponse response) throws IOException {
