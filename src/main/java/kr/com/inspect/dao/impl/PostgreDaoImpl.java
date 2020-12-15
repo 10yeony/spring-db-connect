@@ -243,4 +243,29 @@ public class PostgreDaoImpl implements PostgreDao {
 	 */
 	public Utterance getUtteranceUsingId(String id){
 		return sqlSession.selectOne(utteranceNS+"getUtteranceUsingId", id); }
+
+
+	/**
+	 * Metadata 테이블 데이터 개수를 가져옴
+	 * @return Metadata 테이블 데이터 개수
+	 */
+	public int getMetadataCount(){
+		return sqlSession.selectOne(metadataNS + "getMetadataCount");
+	}
+
+	/**
+	 * utterance 테이블 데이터 개수를 가져옴
+	 * @return utterance 테이블 데이터 개수
+	 */
+	public int getUtteranceCount(){
+		return sqlSession.selectOne(utteranceNS + "getUtteranceCount");
+	}
+
+	/**
+	 * eojeolList 테이블 데이터 개수를 가져옴
+	 * @return eojeolList 테이블 데이터 개수
+	 */
+	public int getEojeolListCount(){
+		return sqlSession.selectOne(eojeolListNS+"getEojeolListCount");
+	}
 }

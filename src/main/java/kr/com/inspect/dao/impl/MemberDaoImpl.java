@@ -164,4 +164,12 @@ public class MemberDaoImpl implements MemberDao{
 	public List<Member> getMemberListUsingRole(String role){
 		return sqlSession.selectList(memberNs+"getMemberListUsingRole", role); 
 	}
+
+	/**
+	 * 회원 수를 가져옴
+	 * @return 회원 수
+	 */
+	public int getMemberCount(){
+		return sqlSession.selectOne(memberNs+"getMemberCount");
+	}
 }

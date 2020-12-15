@@ -103,4 +103,10 @@ public interface MemberDao {
 	 * @return 해당 권한을 가진 회원 목록
 	 */
 	public List<Member> getMemberListUsingRole(String role);
+
+	/**
+	 * 회원 수를 가져옴
+	 * @return 회원 수
+	 */
+	public int getMemberCount();
 }
