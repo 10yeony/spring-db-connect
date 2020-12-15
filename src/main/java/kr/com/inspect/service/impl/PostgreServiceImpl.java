@@ -257,15 +257,20 @@ public class PostgreServiceImpl implements PostgreService{
 		
 		check = false;
 		if(fileList.length == 0) {
-			return "false";
+			return "null";
 		}
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String format_time;
+		
+		long beforeTime = System.currentTimeMillis();
+		format_time = format.format(beforeTime);
+		logger.info(format_time + " JSON 입력 시작");
+		
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();
-
-		if(fileList.length == 0)
-			return "null";
-
+		
 		for(File file : fileList){
 			futures.add(executor.submit(() -> {
 				/* 확장자가 json인 파일을 읽는다 */
@@ -357,6 +362,16 @@ public class PostgreServiceImpl implements PostgreService{
 			}));
 		}
 		closeThread(executor, futures);
+		
+		long afterTime = System.currentTimeMillis();
+		format_time = format.format(afterTime);
+		logger.info(format_time + " JSON 입력 끝");
+		
+		long diffTime = (afterTime - beforeTime);
+		logger.info("JSON 입력 소요 시간(ms) : " + diffTime + "밀리초");
+		
+		long secDiffTime = diffTime/1000;
+		logger.info("JSON 입력 소요 시간(s) : " + secDiffTime + "초");
 
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return "true";
