@@ -133,6 +133,7 @@
 					<canvas class="inline-block-chart" id="myPieChart" width="500%"></canvas>
 					<script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
 				</div>
+				<div class="mt-4 text-center small" id="pieChartDesc" style="margin-top:4px; margin-bottom:12px;"></div>
 			</div>
 		</div>
 	</div>
