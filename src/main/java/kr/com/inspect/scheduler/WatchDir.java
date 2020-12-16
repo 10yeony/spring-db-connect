@@ -102,6 +102,13 @@ public class WatchDir {
 			}
 			file.delete();
 		}
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String format_time;
+		
+		long beforeTime = System.currentTimeMillis();
+		format_time = format.format(beforeTime);
+		logger.info(format_time + " 스케쥴러 시작");
 
 //		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String format_time;
