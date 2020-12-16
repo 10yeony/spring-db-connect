@@ -144,5 +144,11 @@ CREATE TABLE audio.api_class_method (
 	api_class_id integer REFERENCES audio.api_class ON DELETE CASCADE
 );
 
+CREATE TABLE audio.custom_rule (
+	id SERIAL PRIMARY KEY,
+	creater text,
+	file_name text
+);
+
 auto_increment 값 초기화
 truncate table audio.metadata restart identity cascade;

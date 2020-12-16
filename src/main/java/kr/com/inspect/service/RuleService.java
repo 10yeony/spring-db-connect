@@ -3,6 +3,11 @@ package kr.com.inspect.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import kr.com.inspect.dto.CustomRule;
 import kr.com.inspect.dto.Rule;
 
 /**
@@ -71,4 +76,8 @@ public interface RuleService {
 	 * @return 클래스에 관한 전반적인 정보를 담은 Map
 	 */
 	public Map<String, Object> getApiDesc(int class_id);
+	
+	public void customUpload(List<MultipartFile> customFile, String username, CustomRule customrule) throws Exception;
+	
+	public int registerCustom(CustomRule customrule);
 }

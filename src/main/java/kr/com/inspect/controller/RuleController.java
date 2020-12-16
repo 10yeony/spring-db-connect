@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,11 +15,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import kr.com.inspect.dto.CustomRule;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.service.RuleService;
@@ -38,6 +43,7 @@ public class RuleController {
 	 */
 	@Autowired
 	private RuleService ruleService;
+	
 
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함
@@ -327,5 +333,30 @@ public class RuleController {
 		map.put("username", username);
 		map.put("password", password);
 		return map;
+	}
+	
+	@RequestMapping(value = "/customUpload", method = RequestMethod.POST)
+	@ResponseBody
+	public String customUpload (@RequestParam("customFile") List<MultipartFile> multipartFile, CustomRule customrule) throws Exception{
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		UserDetails userDetails = (UserDetails)principal; 
+		String username = userDetails.getUsername();
+		System.out.println("시큐리티로 이름 가져오기");
+		System.out.println(username);
+		
+
+		System.out.println("커스텀룰");
+		System.out.println(customrule);
+		
+		customrule.setCreator(username);
+		
+		System.out.println("rule creator 설정");
+		System.out.println(customrule.getCreator());
+		ruleService.customUpload(multipartFile, username, customrule);
+		
+		System.out.println("서비스 끝");
+		System.out.println(multipartFile);
+		
+		return "true";
 	}
 }

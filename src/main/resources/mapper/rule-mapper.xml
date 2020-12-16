@@ -4,325 +4,365 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <!-- 회원 관련 쿼리 -->
 <mapper namespace="RuleMapper">
 
+	<!-- 중복검사를 위한 custom 존재 유무 확인 -->
+	<select id="isExistCustom"
+		parameterType="kr.com.inspect.dto.CustomRule" resultType="int">
+		SELECT
+		id
+		FROM
+		audio.custom_rule
+		WHERE
+		id = #{custom_id};
+	</select>
+
+	<insert id="registerCustom"
+		parameterType="kr.com.inspect.dto.CustomRule">
+		INSERT INTO
+		audio.custom_rule
+		(id,creator,file_name)
+		VALUES
+		(#{custom_id}, #{creator}, #{file_name});
+	</insert>
+
 	<!-- 대분류 등록 -->
-	<insert id="registerTopLevel" parameterType="kr.com.inspect.dto.Rule">
-		INSERT INTO 
-			audio.rule_top_level
-			(name)
+	<insert id="registerTopLevel"
+		parameterType="kr.com.inspect.dto.Rule">
+		INSERT INTO
+		audio.rule_top_level
+		(name)
 		VALUES
-			(#{top_level_name});
+		(#{top_level_name});
 	</insert>
-	
+
 	<!-- 중분류 등록 -->
-	<insert id="registerMiddleLevel" parameterType="kr.com.inspect.dto.Rule">
-		INSERT INTO 
-			audio.rule_middle_level
-			(name, top_level_id)
+	<insert id="registerMiddleLevel"
+		parameterType="kr.com.inspect.dto.Rule">
+		INSERT INTO
+		audio.rule_middle_level
+		(name, top_level_id)
 		VALUES
-			(#{middle_level_name}, #{top_level_id});
+		(#{middle_level_name}, #{top_level_id});
 	</insert>
-	
+
 	<!-- 소분류 등록 -->
-	<insert id="registerBottomLevel" parameterType="kr.com.inspect.dto.Rule">
-		INSERT INTO 
-			audio.rule_bottom_level
-			(name, description, creator, 
-			top_level_id, middle_level_id)
+	<insert id="registerBottomLevel"
+		parameterType="kr.com.inspect.dto.Rule">
+		INSERT INTO
+		audio.rule_bottom_level
+		(name, description, creator,
+		top_level_id, middle_level_id)
 		VALUES
-			(#{bottom_level_name}, #{description}, #{creator}, 
-			#{top_level_id}, #{middle_level_id});
+		(#{bottom_level_name}, #{description}, #{creator},
+		#{top_level_id}, #{middle_level_id});
 	</insert>
-	
+
+
+
 	<!-- 중복검사를 위한 대분류 존재 유무 확인 -->
-	<select id="isExistTopLevel" parameterType="kr.com.inspect.dto.Rule" resultType="int">
-		SELECT 
-			id 
-		FROM 
-			audio.rule_top_level 
-		WHERE 
-			name = #{top_level_name};
+	<select id="isExistTopLevel"
+		parameterType="kr.com.inspect.dto.Rule" resultType="int">
+		SELECT
+		id
+		FROM
+		audio.rule_top_level
+		WHERE
+		name = #{top_level_name};
 	</select>
-	
+
 	<!-- 중복검사를 위한 중분류 존재 유무 확인 -->
-	<select id="isExistMiddleLevel" parameterType="kr.com.inspect.dto.Rule" resultType="int">
-		SELECT 
-			id 
-		FROM 
-			audio.rule_middle_level 
-		WHERE 
-			top_level_id = #{top_level_id}
-			AND name = #{middle_level_name};
+	<select id="isExistMiddleLevel"
+		parameterType="kr.com.inspect.dto.Rule" resultType="int">
+		SELECT
+		id
+		FROM
+		audio.rule_middle_level
+		WHERE
+		top_level_id = #{top_level_id}
+		AND name = #{middle_level_name};
 	</select>
-	
+
 	<!-- 중복검사를 위한 소분류 존재 유무 확인 -->
-	<select id="isExistBottomLevel" parameterType="kr.com.inspect.dto.Rule" resultType="int">
-		SELECT 
-			id 
-		FROM 
-			audio.rule_bottom_level 
-		WHERE 
-			middle_level_id = #{middle_level_id}
-			AND name = #{bottom_level_name};
+	<select id="isExistBottomLevel"
+		parameterType="kr.com.inspect.dto.Rule" resultType="int">
+		SELECT
+		id
+		FROM
+		audio.rule_bottom_level
+		WHERE
+		middle_level_id = #{middle_level_id}
+		AND name = #{bottom_level_name};
 	</select>
- 
+
 	<!-- 대분류 모두 가져오기 -->
 	<select id="getAllTopLevel" resultType="kr.com.inspect.dto.Rule">
-		SELECT 
-			id AS top_level_id,
-			name AS top_level_name
-		FROM 
-			audio.rule_top_level;
+		SELECT
+		id AS top_level_id,
+		name AS top_level_name
+		FROM
+		audio.rule_top_level;
 	</select>
-	
+
 	<!-- 대분류 아이디로 중분류 모두 가져오기 -->
-	<select id="getAllMiddleLevel" parameterType="int" resultType="kr.com.inspect.dto.Rule">
-		SELECT 
-			id AS middle_level_id,
-			name AS middle_level_name,
-			top_level_id AS top_level_id
-		FROM 
-			audio.rule_middle_level
-		WHERE 
-			top_level_id = #{top_level_id};
+	<select id="getAllMiddleLevel" parameterType="int"
+		resultType="kr.com.inspect.dto.Rule">
+		SELECT
+		id AS middle_level_id,
+		name AS middle_level_name,
+		top_level_id AS top_level_id
+		FROM
+		audio.rule_middle_level
+		WHERE
+		top_level_id = #{top_level_id};
 	</select>
-	
+
 	<!-- 대분류 아이디와 중분류 아이디로 소분류 모두 가져오기 -->
-	<select id="getAllBottomLevel" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+	<select id="getAllBottomLevel" parameterType="hashMap"
+		resultType="kr.com.inspect.dto.Rule">
 		SELECT
-			id AS bottom_level_id,
-			name AS bottom_level_name,
-			description,
-			creator,
-			file_name,
-			contents,
-			result,
-			top_level_id AS top_level_id,
-			middle_level_id AS middle_level_id
+		id AS bottom_level_id,
+		name AS bottom_level_name,
+		description,
+		creator,
+		file_name,
+		contents,
+		result,
+		top_level_id AS top_level_id,
+		middle_level_id AS middle_level_id
 		FROM
-			audio.rule_bottom_level
-		WHERE 
-			top_level_id = #{top_level_id} 
-			AND middle_level_id = #{middle_level_id}; 
+		audio.rule_bottom_level
+		WHERE
+		top_level_id = #{top_level_id}
+		AND middle_level_id = #{middle_level_id};
 	</select>
-	
+
 	<!-- 아이디로 소분류 모두 가져오기 -->
-	<select id="getBottomLevelById" parameterType="int" resultType="kr.com.inspect.dto.Rule">
+	<select id="getBottomLevelById" parameterType="int"
+		resultType="kr.com.inspect.dto.Rule">
 		SELECT
-			id AS bottom_level_id,
-			name AS bottom_level_name,
-			description,
-			creator,
-			contents,
-			result,
-			file_name,
-			top_level_id AS top_level_id,
-			middle_level_id AS middle_level_id
+		id AS bottom_level_id,
+		name AS bottom_level_name,
+		description,
+		creator,
+		contents,
+		result,
+		file_name,
+		top_level_id AS top_level_id,
+		middle_level_id AS middle_level_id
 		FROM
-			audio.rule_bottom_level
-		WHERE 
-			id = #{id}; 
+		audio.rule_bottom_level
+		WHERE
+		id = #{id};
 	</select>
-	
+
 	<!-- 전사규칙 리스트를 조인하여 모두 가져옴 -->
 	<select id="getRuleList" resultType="kr.com.inspect.dto.Rule">
-		SELECT 
-			(ROW_NUMBER() OVER()) AS row_num,
-			b.id AS bottom_level_id,
-			b.name AS bottom_level_name,
-			b.description,
-			b.file_name,
-			b.creator,
-			b.contents,
-			b.result,
-			b.top_level_id,
-			t.name AS top_level_name,
-			b.middle_level_id,
-			m.name AS middle_level_name
-		FROM 
-			audio.rule_bottom_level b
-		LEFT JOIN 
-			audio.rule_top_level t
-		ON 
-			b.top_level_id = t.id
+		SELECT
+		(ROW_NUMBER() OVER()) AS row_num,
+		b.id AS bottom_level_id,
+		b.name AS bottom_level_name,
+		b.description,
+		b.file_name,
+		b.creator,
+		b.contents,
+		b.result,
+		b.top_level_id,
+		t.name AS top_level_name,
+		b.middle_level_id,
+		m.name AS middle_level_name
+		FROM
+		audio.rule_bottom_level b
 		LEFT JOIN
-			audio.rule_middle_level m
+		audio.rule_top_level t
 		ON
-			b.middle_level_id = m.id;
+		b.top_level_id = t.id
+		LEFT JOIN
+		audio.rule_middle_level m
+		ON
+		b.middle_level_id = m.id;
 	</select>
-	
+
 	<!-- 대분류 아이디로 전사규칙 리스트를 조인하여 모두 가져옴 -->
-	<select id="getRuleListByTopId" parameterType="int" resultType="kr.com.inspect.dto.Rule">
-		SELECT 
-			(ROW_NUMBER() OVER()) AS row_num,
-			b.id AS bottom_level_id,
-			b.name AS bottom_level_name,
-			b.description,
-			b.file_name,
-			b.creator,
-			b.contents,
-			b.result,
-			b.top_level_id,
-			t.name AS top_level_name,
-			b.middle_level_id,
-			m.name AS middle_level_name
-		FROM 
-			audio.rule_bottom_level b
-		LEFT JOIN 
-			audio.rule_top_level t
-		ON 
-			b.top_level_id = t.id
+	<select id="getRuleListByTopId" parameterType="int"
+		resultType="kr.com.inspect.dto.Rule">
+		SELECT
+		(ROW_NUMBER() OVER()) AS row_num,
+		b.id AS bottom_level_id,
+		b.name AS bottom_level_name,
+		b.description,
+		b.file_name,
+		b.creator,
+		b.contents,
+		b.result,
+		b.top_level_id,
+		t.name AS top_level_name,
+		b.middle_level_id,
+		m.name AS middle_level_name
+		FROM
+		audio.rule_bottom_level b
 		LEFT JOIN
-			audio.rule_middle_level m
+		audio.rule_top_level t
 		ON
-			b.middle_level_id = m.id
+		b.top_level_id = t.id
+		LEFT JOIN
+		audio.rule_middle_level m
+		ON
+		b.middle_level_id = m.id
 		WHERE
-			t.id = #{top_level_id};
+		t.id = #{top_level_id};
 	</select>
-	
+
 	<!-- 대분류, 중분류 아이디로 전사규칙 리스트를 조인하여 모두 가져옴 -->
-	<select id="getRuleListByTopMiddleId" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
-		SELECT 
-			(ROW_NUMBER() OVER()) AS row_num,
-			b.id AS bottom_level_id,
-			b.name AS bottom_level_name,
-			b.description,
-			b.file_name,
-			b.creator,
-			b.contents,
-			b.result,
-			b.top_level_id,
-			t.name AS top_level_name,
-			b.middle_level_id,
-			m.name AS middle_level_name
-		FROM 
-			audio.rule_bottom_level b
-		LEFT JOIN 
-			audio.rule_top_level t
-		ON 
-			b.top_level_id = t.id
+	<select id="getRuleListByTopMiddleId" parameterType="hashMap"
+		resultType="kr.com.inspect.dto.Rule">
+		SELECT
+		(ROW_NUMBER() OVER()) AS row_num,
+		b.id AS bottom_level_id,
+		b.name AS bottom_level_name,
+		b.description,
+		b.file_name,
+		b.creator,
+		b.contents,
+		b.result,
+		b.top_level_id,
+		t.name AS top_level_name,
+		b.middle_level_id,
+		m.name AS middle_level_name
+		FROM
+		audio.rule_bottom_level b
 		LEFT JOIN
-			audio.rule_middle_level m
+		audio.rule_top_level t
 		ON
-			b.middle_level_id = m.id
+		b.top_level_id = t.id
+		LEFT JOIN
+		audio.rule_middle_level m
+		ON
+		b.middle_level_id = m.id
 		WHERE
-			t.id = #{top_level_id}
-			AND m.id = #{middle_level_id};
+		t.id = #{top_level_id}
+		AND m.id = #{middle_level_id};
 	</select>
-	
+
 	<!-- 대분류, 중분류, 소분류 아이디로 전사규칙 리스트를 조인하여 가져옴 -->
-	<select id="getRuleListByTopMiddleBottomId" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
-		SELECT 
-			(ROW_NUMBER() OVER()) AS row_num,
-			b.id AS bottom_level_id,
-			b.name AS bottom_level_name,
-			b.description,
-			b.file_name,
-			b.creator,
-			b.contents,
-			b.result,
-			b.top_level_id,
-			t.name AS top_level_name,
-			b.middle_level_id,
-			m.name AS middle_level_name
-		FROM 
-			audio.rule_bottom_level b
-		LEFT JOIN 
-			audio.rule_top_level t
-		ON 
-			b.top_level_id = t.id
+	<select id="getRuleListByTopMiddleBottomId"
+		parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+		SELECT
+		(ROW_NUMBER() OVER()) AS row_num,
+		b.id AS bottom_level_id,
+		b.name AS bottom_level_name,
+		b.description,
+		b.file_name,
+		b.creator,
+		b.contents,
+		b.result,
+		b.top_level_id,
+		t.name AS top_level_name,
+		b.middle_level_id,
+		m.name AS middle_level_name
+		FROM
+		audio.rule_bottom_level b
 		LEFT JOIN
-			audio.rule_middle_level m
+		audio.rule_top_level t
 		ON
-			b.middle_level_id = m.id
+		b.top_level_id = t.id
+		LEFT JOIN
+		audio.rule_middle_level m
+		ON
+		b.middle_level_id = m.id
 		WHERE
-			t.id = #{top_level_id}
-			AND m.id = #{middle_level_id}
-			AND b.id = #{bottom_level_id};
+		t.id = #{top_level_id}
+		AND m.id = #{middle_level_id}
+		AND b.id = #{bottom_level_id};
 	</select>
-	
+
 	<!-- 대분류 이름 수정 -->
-	<update id="updateTopLevelName" parameterType="kr.com.inspect.dto.Rule">
+	<update id="updateTopLevelName"
+		parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
-			audio.rule_top_level
+		audio.rule_top_level
 		SET
-			name = #{top_level_name}
+		name = #{top_level_name}
 		WHERE
-			id = #{top_level_id};
+		id = #{top_level_id};
 	</update>
-	
+
 	<!-- 중분류 이름 수정 -->
-	<update id="updateMiddleLevelName" parameterType="kr.com.inspect.dto.Rule">
+	<update id="updateMiddleLevelName"
+		parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
-			audio.rule_middle_level
+		audio.rule_middle_level
 		SET
-			name = #{middle_level_name}
+		name = #{middle_level_name}
 		WHERE
-			id = #{middle_level_id};
+		id = #{middle_level_id};
 	</update>
-	
+
 	<!-- 소분류 이름, 설명 수정 -->
-	<update id="updateBottomLevelContents" parameterType="kr.com.inspect.dto.Rule">
+	<update id="updateBottomLevelContents"
+		parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
-			audio.rule_bottom_level
+		audio.rule_bottom_level
 		SET
-			name = #{bottom_level_name},
-			description = #{description}
+		name = #{bottom_level_name},
+		description = #{description}
 		WHERE
-			id = #{bottom_level_id};
+		id = #{bottom_level_id};
 	</update>
-	
+
 	<!-- 소분류 파일명 작성 -->
-	<update id="updateBottomLevelFileName" parameterType="kr.com.inspect.dto.Rule">
+	<update id="updateBottomLevelFileName"
+		parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
-			audio.rule_bottom_level
+		audio.rule_bottom_level
 		SET
-			file_name = #{file_name}
+		file_name = #{file_name}
 		WHERE
-			id = #{bottom_level_id};
+		id = #{bottom_level_id};
 	</update>
-	
+
 	<!-- 코드 작성 -->
-	<update id="updateContents" parameterType="kr.com.inspect.dto.Rule">
+	<update id="updateContents"
+		parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
-			audio.rule_bottom_level
+		audio.rule_bottom_level
 		SET
-			creator = #{creator},
-			contents = #{contents}
+		creator = #{creator},
+		contents = #{contents}
 		WHERE
-			id = #{bottom_level_id};
+		id = #{bottom_level_id};
 	</update>
-	
+
 	<!-- 컴파일 결과값 저장 -->
-	<update id="updateRuleCompileResult" parameterType="kr.com.inspect.dto.Rule">
+	<update id="updateRuleCompileResult"
+		parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
-			audio.rule_bottom_level
+		audio.rule_bottom_level
 		SET
-			result = #{result}
+		result = #{result}
 		WHERE
-			id = #{bottom_level_id};
+		id = #{bottom_level_id};
 	</update>
-	
+
 	<!-- 대분류 삭제 -->
 	<delete id="deleteTopLevel" parameterType="int">
-		DELETE FROM 
-			audio.rule_top_level
-		WHERE 
-			id = #{id};
+		DELETE FROM
+		audio.rule_top_level
+		WHERE
+		id = #{id};
 	</delete>
-	
+
 	<!-- 중분류 삭제 -->
 	<delete id="deleteMiddleLevel" parameterType="int">
-		DELETE FROM 
-			audio.rule_middle_level
-		WHERE 
-			id = #{id};
+		DELETE FROM
+		audio.rule_middle_level
+		WHERE
+		id = #{id};
 	</delete>
-	
+
 	<!-- 소분류 삭제 -->
 	<delete id="deleteBottomLevel" parameterType="int">
-		DELETE FROM 
-			audio.rule_bottom_level
-		WHERE 
-			id = #{id};
+		DELETE FROM
+		audio.rule_bottom_level
+		WHERE
+		id = #{id};
 	</delete>
 </mapper>
