@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <mapper namespace="RuleMapper">
 
 	<!-- 중복검사를 위한 custom 존재 유무 확인 -->
-	<select id="isExistCustom"
+	<!-- <select id="isExistCustom"
 		parameterType="kr.com.inspect.dto.CustomRule" resultType="int">
 		SELECT
 		id
@@ -13,15 +13,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		audio.custom_rule
 		WHERE
 		id = #{custom_id};
-	</select>
+	</select> -->
 
 	<insert id="registerCustom"
 		parameterType="kr.com.inspect.dto.CustomRule">
 		INSERT INTO
 		audio.custom_rule
-		(id,creator,file_name)
+		(creator,file_name)
 		VALUES
-		(#{custom_id}, #{creator}, #{file_name});
+		(#{creator}, #{file_name});
 	</insert>
 
 	<!-- 대분류 등록 -->

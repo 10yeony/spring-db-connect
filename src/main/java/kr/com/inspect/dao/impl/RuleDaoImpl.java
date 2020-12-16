@@ -332,14 +332,14 @@ public class RuleDaoImpl implements RuleDao {
 		return sqlSession.insert(ruleNS + "customUpload", customrule);
 	}
 
-	@Override
-	public int isExistCustom(CustomRule customrule) {
-		int id = 0;
-		try {
-			id = sqlSession.selectOne(ruleNS + "isExistCustom", customrule);
-		} catch (NullPointerException e) {
-			return 0;
-		}
-		return id;
-	}
+//	@Override
+//	public int isExistCustom(CustomRule customrule) {
+//		int id = 0;
+//		try {
+//			id = sqlSession.selectOne(ruleNS + "isExistCustom", customrule);
+//		} catch (NullPointerException e) {
+//			return 0;
+//		}
+//		return id;
+//	}
 }

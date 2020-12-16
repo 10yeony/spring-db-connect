@@ -68,18 +68,11 @@ public class Rule {
 	 */
 	private String result;
 	
-	private int custom_id;
-
-	public int getCustom_id() {
-		return custom_id;
-	}
-	public void setCustom_id(int custom_id) {
-		this.custom_id = custom_id;
-	}
 	
+
 	public Rule(int row_num, int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
 			int bottom_level_id, String bottom_level_name, String description, String file_name, String creator,
-			String contents, String result, int custom_id) {
+			String contents, String result) {
 		super();
 		this.row_num = row_num;
 		this.top_level_id = top_level_id;
@@ -93,8 +86,8 @@ public class Rule {
 		this.creator = creator;
 		this.contents = contents;
 		this.result = result;
-		this.custom_id = custom_id;
 	}
+
 	public Rule() {}
 
 	public int getRow_num() {
@@ -169,13 +162,15 @@ public class Rule {
 	public void setResult(String result) {
 		this.result = result;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Rule [row_num=" + row_num + ", top_level_id=" + top_level_id + ", top_level_name=" + top_level_name
 				+ ", middle_level_id=" + middle_level_id + ", middle_level_name=" + middle_level_name
 				+ ", bottom_level_id=" + bottom_level_id + ", bottom_level_name=" + bottom_level_name + ", description="
 				+ description + ", file_name=" + file_name + ", creator=" + creator + ", contents=" + contents
-				+ ", result=" + result + ", custom_id=" + custom_id + "]";
+				+ ", result=" + result + "]";
 	}
+	
+
 }

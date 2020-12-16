@@ -103,6 +103,7 @@ public class WatchDir {
 		}
 
 		/* uploadJson 디렉토리안의 파일을 파싱하고 삭제 */
+		//System.out.println(new Date());
 		postgreService.insertJSONDir(pathTo);
 	}
 }

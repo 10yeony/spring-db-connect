@@ -187,5 +187,5 @@ public interface RuleDao {
 	
 	public int registerCustom(CustomRule customrule);
 	
-	public int isExistCustom(CustomRule customrule);
+	//public int isExistCustom(CustomRule customrule);
 }
