@@ -108,4 +108,22 @@ public interface PostgreDao {
 	 * @return 튜플 값 리턴
 	 */
 	public Utterance getUtteranceUsingId(String id);
+
+	/**
+	 * Metadata 테이블 데이터 개수를 가져옴
+	 * @return Metadata 테이블 데이터 개수
+	 */
+	public int getMetadataCount();
+
+	/**
+	 * utterance 테이블 데이터 개수를 가져옴
+	 * @return utterance 테이블 데이터 개수
+	 */
+	public int getUtteranceCount();
+
+	/**
+	 * eojeolList 테이블 데이터 개수를 가져옴
+	 * @return eojeolList 테이블 데이터 개수
+	 */
+	public int getEojeolListCount();
 }

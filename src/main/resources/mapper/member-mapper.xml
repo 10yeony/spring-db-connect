@@ -127,4 +127,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		WHERE 
 			member_id = #{member_id};
 	</delete>
+
+	<!-- 회원 수 리턴 -->
+	<select id="getMemberCount" resultType="int">
+		SELECT count(*)
+		FROM audio.member;
+	</select>
 </mapper>

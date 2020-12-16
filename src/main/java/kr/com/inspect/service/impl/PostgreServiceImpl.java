@@ -257,15 +257,20 @@ public class PostgreServiceImpl implements PostgreService{
 		
 		check = false;
 		if(fileList.length == 0) {
-			return "false";
+			return "null";
 		}
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String format_time;
+		
+		long beforeTime = System.currentTimeMillis();
+		format_time = format.format(beforeTime);
+		logger.info(format_time + " JSON 입력 시작");
+		
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();
-
-		if(fileList.length == 0)
-			return "null";
-
+		
 		for(File file : fileList){
 			futures.add(executor.submit(() -> {
 				/* 확장자가 json인 파일을 읽는다 */
@@ -307,7 +312,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 						/* speaker 테이블 입력 */
 						List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
-						int innerThreadCnt1 = 5;
+						int innerThreadCnt1 = 2;
 						ExecutorService innerExecutor1 = Executors.newFixedThreadPool(innerThreadCnt1);
 						List<Future<?>> innerFutures1 = new ArrayList<>();
 						for(Speaker speaker : speakerList) {
@@ -319,7 +324,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 						/* utterance 테이블 입력 */
 						List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
-						int innerThreadCnt2_1 = 5;
+						int innerThreadCnt2_1 = 2;
 						ExecutorService innerExecutor2_1 = Executors.newFixedThreadPool(innerThreadCnt2_1);
 						List<Future<?>> innerFutures2_1 = new ArrayList<>();
 						for(Utterance utterance : utteranceList) {
@@ -327,15 +332,9 @@ public class PostgreServiceImpl implements PostgreService{
 								sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
 							}));
 							List<EojeolList> eojeolListList = utterance.getEojoelList();
-							int innerThreadCnt2_2 = 5;
-							ExecutorService innerExecutor2_2 = Executors.newFixedThreadPool(innerThreadCnt2_2);
-							List<Future<?>> innerFutures2_2 = new ArrayList<>();
 							for(EojeolList eojeolList : eojeolListList) {
-								innerFutures2_2.add(innerExecutor2_2.submit(() -> {
-									sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
-								}));
+								sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
 							}
-							closeThread(innerExecutor2_2, innerFutures2_2);
 						}
 						closeThread(innerExecutor2_1, innerFutures2_1);
 
@@ -357,6 +356,16 @@ public class PostgreServiceImpl implements PostgreService{
 			}));
 		}
 		closeThread(executor, futures);
+		
+		long afterTime = System.currentTimeMillis();
+		format_time = format.format(afterTime);
+		logger.info(format_time + " JSON 입력 끝");
+		
+		long diffTime = (afterTime - beforeTime);
+		logger.info("JSON 입력 소요 시간(ms) : " + diffTime + "밀리초");
+		
+		long secDiffTime = diffTime/1000;
+		logger.info("JSON 입력 소요 시간(s) : " + secDiffTime + "초");
 
 		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return "true";

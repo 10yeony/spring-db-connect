@@ -6,6 +6,7 @@ var contextPath;
 var pieDataList;
 
 $(function(){
+
 	/* Context Path */
 	contextPath = getContextPath();
 	
@@ -42,6 +43,17 @@ $(function(){
 	    cutoutPercentage: 80,
 	  },
 	});
+	
+	let label = myPieChart.data.labels;
+	let datasetColor = myPieChart.data.datasets[0].backgroundColor;
+	for(let i=0; i<label.length; i++){
+		$('#pieChartDesc').append(
+			'<span class="mr-2">' +
+				'<i class="fas fa-circle" style="color:'+ datasetColor[i] + '"></i> ' +
+				label[i] +
+			'</span>'
+		);
+	}
 });
 
 /* ContextPath를 가져옴 */
