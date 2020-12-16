@@ -267,7 +267,7 @@ public class PostgreServiceImpl implements PostgreService{
 		format_time = format.format(beforeTime);
 		logger.info(format_time + " JSON 입력 시작");
 		
-		int threadCnt = 5;
+		int threadCnt = 3;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();
 		
