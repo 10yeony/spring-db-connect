@@ -312,31 +312,20 @@ public class PostgreServiceImpl implements PostgreService{
 
 						/* speaker 테이블 입력 */
 						List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
-						int innerThreadCnt1 = 2;
-						ExecutorService innerExecutor1 = Executors.newFixedThreadPool(innerThreadCnt1);
-						List<Future<?>> innerFutures1 = new ArrayList<>();
 						for(Speaker speaker : speakerList) {
-							innerFutures1.add(innerExecutor1.submit(() -> {
-								sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
-							}));
+							sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
 						}
-						closeThread(innerExecutor1, innerFutures1);
 
 						/* utterance 테이블 입력 */
 						List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
-						int innerThreadCnt2_1 = 2;
-						ExecutorService innerExecutor2_1 = Executors.newFixedThreadPool(innerThreadCnt2_1);
-						List<Future<?>> innerFutures2_1 = new ArrayList<>();
 						for(Utterance utterance : utteranceList) {
-							innerFutures2_1.add(innerExecutor2_1.submit(() -> {
-								sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
-							}));
+							sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
+							
 							List<EojeolList> eojeolListList = utterance.getEojoelList();
 							for(EojeolList eojeolList : eojeolListList) {
 								sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
 							}
 						}
-						closeThread(innerExecutor2_1, innerFutures2_1);
 
 						/* jsonLog 테이블 종료시간 측정 */
 						jsonLog.setFinish(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
@@ -415,18 +404,13 @@ public class PostgreServiceImpl implements PostgreService{
 			    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
 			    	String fullPath = path + file.getName();
 			    	List<Program> list = xlsxParsing.setProgramList(fullPath);
-			    	int innerThreadCnt = 5;
-			    	ExecutorService innerExecutor = Executors.newFixedThreadPool(innerThreadCnt);
-	    			List<Future<?>> innerFutures = new ArrayList<>();
+
 			    	for(Program p : list) {
 			    		if(sqlSession.selectOne(programNS+"getProgramByFileNum", p.getFile_num()) == null) {
 			    			check = true;
-			    			innerFutures.add(innerExecutor.submit(() -> {
-			    				sqlSession.insert(programNS+"insertIntoProgram", p);
-			    			}));
+			    			sqlSession.insert(programNS+"insertIntoProgram", p);
 			    		}
 			    	}
-			    	closeThread(innerExecutor, innerFutures);
 			    }
 			}));
 		}
@@ -483,18 +467,13 @@ public class PostgreServiceImpl implements PostgreService{
 				if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
 					String fullPath = path + file.getName();
 					List<Program> list = xlsxParsing.setProgramList(fullPath);
-					int innerThreadCnt = 5;
-					ExecutorService innerExecutor = Executors.newFixedThreadPool(innerThreadCnt);
-	    			List<Future<?>> innerFutures = new ArrayList<>();
+
 					for(Program p : list) {
 						if(sqlSession.selectOne(programNS+"getProgramByFileNum", p.getFile_num()) == null) {
 							check = true;
-							innerFutures.add(innerExecutor.submit(() -> {
-								sqlSession.insert(programNS+"insertIntoProgram", p);
-							}));
+							sqlSession.insert(programNS+"insertIntoProgram", p);
 						}
 					}
-					closeThread(innerExecutor, innerFutures);
 				}
 			}));
 		}

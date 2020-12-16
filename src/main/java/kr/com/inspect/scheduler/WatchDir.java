@@ -102,6 +102,11 @@ public class WatchDir {
 			}
 			file.delete();
 		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String format_time;
+		long beforeTime = System.currentTimeMillis();
+		format_time = format.format(beforeTime);
+		logger.info(format_time + " 스케줄러 시작");
 
 		/* uploadJson 디렉토리안의 파일을 파싱하고 삭제 */
 		postgreService.insertJSONDir(pathTo);
