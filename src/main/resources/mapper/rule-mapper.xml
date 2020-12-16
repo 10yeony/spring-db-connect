@@ -14,7 +14,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		WHERE
 		id = #{custom_id};
 	</select> -->
-
+	
+	<!-- 소분류 삭제 -->
+	<delete id="deleteCustom" parameterType="int">
+		DELETE FROM
+		audio.custom_rule
+		WHERE
+		id = #{id};
+	</delete>
+	
 	<insert id="registerCustom"
 		parameterType="kr.com.inspect.dto.CustomRule">
 		INSERT INTO

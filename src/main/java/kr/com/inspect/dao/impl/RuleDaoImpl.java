@@ -329,7 +329,7 @@ public class RuleDaoImpl implements RuleDao {
 
 	@Override
 	public int registerCustom(CustomRule customrule) {
-		return sqlSession.insert(ruleNS + "customUpload", customrule);
+		return sqlSession.insert(ruleNS + "registerCustom", customrule);
 	}
 
 //	@Override
