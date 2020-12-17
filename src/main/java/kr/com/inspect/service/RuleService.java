@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.com.inspect.dto.CustomRule;
+import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.Rule;
 
 /**
@@ -77,7 +77,25 @@ public interface RuleService {
 	 */
 	public Map<String, Object> getApiDesc(int class_id);
 	
-	public void customUpload(List<MultipartFile> customFile, String username, CustomRule customrule) throws Exception;
+	/**
+	 * 사용자가 import하고자 하는 커스텀 라이브러리 파일을 업로드함 
+	 * @param customFile 사용자가 업로드한 커스텀 라이브러리 파일
+	 * @param customLibrary 커스텀 라이브러리 객체
+	 * @throws Exception 예외
+	 */
+	public void uploadCustomLibrary(List<MultipartFile> customFile, CustomLibrary customLibrary) throws Exception;
 	
-	public int registerCustom(CustomRule customrule);
+	/**
+	 * 사용자가 import하고자 하는 커스텀 라이브러리를 등록함
+	 * @param customLibrary 등록하고자 하는 커스텀 라이브러리 객체
+	 * @return DB에 추가된 row의 수
+	 */
+	public int registerCustomLibrary(CustomLibrary customLibrary);
+	
+	/**
+	 * 사용자 아이디로 사용자가 추가한 커스텀 라이브러리 목록을 가져옴
+	 * @param creator 사용자 아이디
+	 * @return 사용자가 추가한 커스텀 라이브러리 목록
+	 */
+	public List<CustomLibrary> getAllCustomLibraryByCreator(String creator);
 }
