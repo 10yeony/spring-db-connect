@@ -52,6 +52,7 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	private RuleCompiler ruleCompiler = new RuleCompiler();
 
+
 	/**
 	 * 전사규칙 대분류, 중분류, 소분류 카테고리 리스트를 반환함
 	 * 
@@ -377,7 +378,7 @@ public class RuleServiceImpl implements RuleService {
 		System.out.println(customrule);
 		
 		
-		File fileDir = new File("/home/namuhwang/Documents/test/input/custom/"+username+"/");
+		File fileDir = new File(customPath+username+"/");
 		if(!fileDir.exists()){
 			fileDir.mkdir();
 		}

@@ -20,6 +20,7 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.report.DocxReport;
 import org.apache.ibatis.io.Resources;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -116,10 +117,21 @@ public class RuleCompiler {
     public Object runObject(Rule rule) throws Exception{
         // java파일 컴파일 할때 옵션주기
         List<String> optionList = new ArrayList<>();
+
+        // 컴파일할때 추가할 custom/userId 에 있는 jar파일 path
+        String jarFilePath = "";
+        File[] files = new File(customPath+rule.getCreator()+"/").listFiles();
+        if(files != null){
+            for( File file : files) {
+                if( file.isFile() && file.getName().endsWith(".jar")) {
+                    jarFilePath += (":"+customPath+rule.getCreator()+"/"+file.getName());
+                }
+            }
+        }
+
         // CLASS PATH 추가
         optionList.add("-classpath");
-//        optionList.add(System.getProperty("java.class.path")+":"+classPath);
-        optionList.add(System.getProperty("java.class.path")+":"+classPath+":"+customPath+rule.getCreator()+"/");
+        optionList.add(System.getProperty("java.class.path")+":"+classPath+jarFilePath);
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
@@ -144,7 +156,6 @@ public class RuleCompiler {
         // load class files in directory
         ArrayList<URL> urls = new ArrayList<URL>();
         URLStreamHandler streamHandler = null;
-//        urls.add( new URL(null, "file:" + jarPath.getCanonicalPath() + File.separator, streamHandler));
 
         // 현재 프로젝트의 class파일 디렉토리 경로 추가
         urls.add(new File(classPath).toURI().toURL());
@@ -153,13 +164,14 @@ public class RuleCompiler {
 
         // load jar files
         // lib 디렉토리에 있는 jar파일 모두 읽음
-        File[] files = new File( lib).listFiles();
+        files = new File( lib).listFiles();
         for( File file : files) {
             if( file.isFile() && file.getName().endsWith(".jar")) {
                 urls.add( new URL("file:" + lib + file.getName()));
             }
         }
-        // custom / userId 디렉토리에 있는 jar파일 모두 읽음
+
+        // custom / userId 디렉토리에 있는 jar파일 모두 읽음 (사용자가 올린 파일)
         files = new File(customPath+rule.getCreator()+"/").listFiles();
         if(files != null){
             for( File file : files) {
@@ -168,12 +180,6 @@ public class RuleCompiler {
                 }
             }
         }
-//        // Test.class
-////        urls.add( new File(customPath+rule.getCreator()+"/").toURI().toURL());
-//        URLStreamHandler urlStreamHandler = null;
-//        File classPathFile = new File(customPath+rule.getCreator()+"/");
-        URLStreamHandler urlStreamHandler = null;
-        urls.add(new URL(null, "file:"+new File(customPath+rule.getCreator()).getCanonicalPath()+File.separator, urlStreamHandler));
 
         // Class 파일 Load
         URLClassLoader classLoader = URLClassLoader.newInstance((URL[])urls.toArray( new URL[urls.size()]));
@@ -217,7 +223,8 @@ public class RuleCompiler {
                 "import kr.com.inspect.dto.Speaker;\n" +
                 "import kr.com.inspect.dto.Utterance;\n" +
                 "import kr.com.inspect.dto.EojeolList;\n\n" +
-//                "import Test;\n\n" +
+//                "import org.apache.ibatis.session.SqlSession;\n\n" +
+//                "import secondPackage.Test;\n\n" +
                 "public class "+rule.getFile_name()+" {\n" +
                 "\tpublic Object run() throws Exception {\n")
                 .append(rule.getContents())
