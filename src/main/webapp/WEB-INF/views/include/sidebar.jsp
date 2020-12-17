@@ -80,7 +80,7 @@
 	               <h6 class="collapse-header">Rule Management</h6>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/registerRule">룰 등록</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/ruleList">룰 목록</a>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/customRule">사용자정의 업로드(가칭)</a>
+<%--	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/customRule">사용자정의 업로드(가칭)</a>--%>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/runRule">룰 실행</a>
 	           </div>
 	       </div>
