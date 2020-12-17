@@ -346,4 +346,14 @@ public class RuleDaoImpl implements RuleDao {
 	public List<CustomLibrary> getAllCustomLibraryByCreator(String creator){
 		return sqlSession.selectList(ruleNS + "getAllCustomLibraryByCreator", creator);
 	}
+	
+	/**
+	 * 해당되는 커스텀 라이브러리를 삭제함
+	 * @param id 아이디
+	 * @return DB에서 삭제된 row의 수
+	 */
+	@Override
+	public int deleteCustomLibrary(int id) {
+		return sqlSession.delete(ruleNS + "deleteCustomLibrary", id);
+	}
 }
