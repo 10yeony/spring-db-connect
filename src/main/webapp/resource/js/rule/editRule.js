@@ -1,25 +1,14 @@
 var contextPath;
 var myCodeMirror;
-var imp_myCodeMirror;
-
+	
 window.onload = function() {
 	runCodemirror();
 }
 	
 function runCodemirror(){
 	var contents_textarea = document.getElementById("contents");
-	var imp_contents_textarea = document.getElementById("imp_contents");
-
+		
 	myCodeMirror = CodeMirror.fromTextArea(contents_textarea, {
-		mode: "text/x-java",
-		lineNumbers: true,
-		lineWrapping: true,
-		styleActiveLine: true,
-		matchBrackets: true,
-		theme: "hopscotch"
-	});
-
-	imp_myCodeMirror = CodeMirror.fromTextArea(imp_contents_textarea, {
 		mode: "text/x-java",
 		lineNumbers: true,
 		lineWrapping: true,
@@ -55,8 +44,7 @@ function saveRuleContents(){
 		url: contextPath + "/rule/saveRuleContents", 
 		data: {
 			bottom_level_id : $('#bottom_level_id').val(),
-			contents : myCodeMirror.getValue(),
-			imp_contents : imp_myCodeMirror.getValue()
+			contents : myCodeMirror.getValue()
 		},
 		async: false,
 			

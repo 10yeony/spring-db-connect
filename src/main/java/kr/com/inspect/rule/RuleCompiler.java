@@ -131,7 +131,7 @@ public class RuleCompiler {
 
         // CLASS PATH 추가
         optionList.add("-classpath");
-        optionList.add(System.getProperty("java.class.path")+":"+classPath+jarFilePath+":"+customPath+rule.getCreator()+"/");
+        optionList.add(System.getProperty("java.class.path")+":"+classPath+jarFilePath);
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
@@ -159,8 +159,6 @@ public class RuleCompiler {
 
         // 현재 프로젝트의 class파일 디렉토리 경로 추가
         urls.add(new File(classPath).toURI().toURL());
-        // 사용자가 올린 class파일 path
-        urls.add(new File(customPath+rule.getCreator()+"/").toURI().toURL());
         // Data.class에서 DB 연결에 쓸 properties 경로 추가
         urls.add(new URL("file:"+proPath+"db.properties"));
 
@@ -226,7 +224,7 @@ public class RuleCompiler {
                 "import kr.com.inspect.dto.Utterance;\n" +
                 "import kr.com.inspect.dto.EojeolList;\n\n" +
 //                "import org.apache.ibatis.session.SqlSession;\n\n" +
-                "import secondPackage.Test;\n\n" +
+//                "import secondPackage.Test;\n\n" +
                 "public class "+rule.getFile_name()+" {\n" +
                 "\tpublic Object run() throws Exception {\n")
                 .append(rule.getContents())
