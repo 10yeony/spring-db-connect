@@ -32,8 +32,8 @@ import edu.emory.mathcs.backport.java.util.Arrays;
  * @version 1.0
  */
 public class RuleCompiler {
-	
-	/**
+
+    /**
      * java 파일을 저장할 위치
      */
     String path;
@@ -78,24 +78,24 @@ public class RuleCompiler {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * java 파일이 저장되는 경로를 리턴함
      * @return java 파일이 저장되는 경로
      */
     public String getPath() {
-		return path;
-	}
-    
+        return path;
+    }
+
     /**
      * class 파일이 저장되는 경로를 리턴함
      * @return class 파일이 저장되는 경로
      */
-	public String getClassPath() {
-		return classPath;
-	}
+    public String getClassPath() {
+        return classPath;
+    }
 
-	/**
+    /**
      * Rule을 받아 해당 룰의 컨텐츠를 java파일로 생성
      * @param rule java파일로 만들 Rule
      * @throws IOException 입출력 예외 처리
@@ -131,7 +131,7 @@ public class RuleCompiler {
 
         // CLASS PATH 추가
         optionList.add("-classpath");
-        optionList.add(System.getProperty("java.class.path")+":"+classPath+jarFilePath);
+        optionList.add(System.getProperty("java.class.path")+":"+classPath+jarFilePath+":"+customPath+rule.getCreator()+"/");
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
@@ -159,6 +159,8 @@ public class RuleCompiler {
 
         // 현재 프로젝트의 class파일 디렉토리 경로 추가
         urls.add(new File(classPath).toURI().toURL());
+        // 사용자가 올린 class파일 path
+        urls.add(new File(customPath+rule.getCreator()+"/").toURI().toURL());
         // Data.class에서 DB 연결에 쓸 properties 경로 추가
         urls.add(new URL("file:"+proPath+"db.properties"));
 
@@ -216,7 +218,6 @@ public class RuleCompiler {
 
         // Java Source를 생성
         sb.append("package kr.com.inspect.rule;\n\n" +
-                "import java.util.*;\n\n" +
                 "import kr.com.inspect.rule.Data;\n" +
                 "import kr.com.inspect.dto.Metadata;\n" +
                 "import kr.com.inspect.dto.Program;\n" +
@@ -224,7 +225,7 @@ public class RuleCompiler {
                 "import kr.com.inspect.dto.Utterance;\n" +
                 "import kr.com.inspect.dto.EojeolList;\n\n" +
 //                "import org.apache.ibatis.session.SqlSession;\n\n" +
-//                "import secondPackage.Test;\n\n" +
+                rule.getImp_contents()+"\n"+
                 "public class "+rule.getFile_name()+" {\n" +
                 "\tpublic Object run() throws Exception {\n")
                 .append(rule.getContents())

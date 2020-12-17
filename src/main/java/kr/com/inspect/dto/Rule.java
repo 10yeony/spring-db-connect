@@ -6,73 +6,78 @@ package kr.com.inspect.dto;
  *
  */
 public class Rule {
-	
+
 	/**
 	 * 게시글 번호
 	 */
 	private int row_num;
-	
+
 	/**
 	 * 대분류 primary key(auto increment)
 	 */
 	private int top_level_id;
-	
+
 	/**
 	 * 대분류 이름(회사명)
 	 */
 	private String top_level_name;
-	
+
 	/**
 	 * 중분류 primary key(auto increment)
 	 */
 	private int middle_level_id;
-	
+
 	/**
 	 * 중분류 이름(규칙 묶음)
 	 */
 	private String middle_level_name;
-	
+
 	/**
 	 * 소분류 primary key(auto increment)
 	 */
 	private int bottom_level_id;
-	
+
 	/**
 	 * 소분류 이름(디테일한 규칙명)
 	 */
 	private String bottom_level_name;
-	
+
 	/**
 	 * 규칙에 대한 설명
 	 */
 	private String description;
-	
+
 	/**
 	 * 규칙과 관련한 코드의 자바 파일명
 	 */
 	private String file_name;
-	
+
 	/**
 	 * 규칙 작성자(회원 아이디)
 	 */
 	private String creator;
-	
+
 	/**
 	 * 규칙과 관련한 코드 내용<br>
 	 * DB에는 저장하지 않고, 프론트에서 받아와서 이 내용으로 자바 파일 생성
 	 */
 	private String contents;
-	
+
 	/**
 	 * 작성한 코드를 컴파일한 후 결과값
 	 */
 	private String result;
-	
-	
+
+	/**
+	 * 작성한 코드를 컴파일한 후 결과값
+	 */
+	private String imp_contents;
+
+
 
 	public Rule(int row_num, int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
-			int bottom_level_id, String bottom_level_name, String description, String file_name, String creator,
-			String contents, String result) {
+				int bottom_level_id, String bottom_level_name, String description, String file_name, String creator,
+				String contents, String result, String imp_contents) {
 		super();
 		this.row_num = row_num;
 		this.top_level_id = top_level_id;
@@ -86,6 +91,7 @@ public class Rule {
 		this.creator = creator;
 		this.contents = contents;
 		this.result = result;
+		this.imp_contents = imp_contents;
 	}
 
 	public Rule() {}
@@ -162,6 +168,12 @@ public class Rule {
 	public void setResult(String result) {
 		this.result = result;
 	}
+	public String getImp_contents() {
+		return imp_contents;
+	}
+	public void setImp_contents(String imp_contents) {
+		this.imp_contents = imp_contents;
+	}
 
 	@Override
 	public String toString() {
@@ -169,8 +181,8 @@ public class Rule {
 				+ ", middle_level_id=" + middle_level_id + ", middle_level_name=" + middle_level_name
 				+ ", bottom_level_id=" + bottom_level_id + ", bottom_level_name=" + bottom_level_name + ", description="
 				+ description + ", file_name=" + file_name + ", creator=" + creator + ", contents=" + contents
-				+ ", result=" + result + "]";
+				+ ", result=" + result + ", imp_contents=" + imp_contents + "]";
 	}
-	
+
 
 }

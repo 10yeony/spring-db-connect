@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 회원 관련 쿼리 -->
 <mapper namespace="RuleMapper">
 
@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		WHERE
 		id = #{custom_id};
 	</select> -->
-	
+
 	<!-- 소분류 삭제 -->
 	<delete id="deleteCustom" parameterType="int">
 		DELETE FROM
@@ -22,9 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		WHERE
 		id = #{id};
 	</delete>
-	
+
 	<insert id="registerCustom"
-		parameterType="kr.com.inspect.dto.CustomRule">
+			parameterType="kr.com.inspect.dto.CustomRule">
 		INSERT INTO
 		audio.custom_rule
 		(creator,file_name)
@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 대분류 등록 -->
 	<insert id="registerTopLevel"
-		parameterType="kr.com.inspect.dto.Rule">
+			parameterType="kr.com.inspect.dto.Rule">
 		INSERT INTO
 		audio.rule_top_level
 		(name)
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 중분류 등록 -->
 	<insert id="registerMiddleLevel"
-		parameterType="kr.com.inspect.dto.Rule">
+			parameterType="kr.com.inspect.dto.Rule">
 		INSERT INTO
 		audio.rule_middle_level
 		(name, top_level_id)
@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 소분류 등록 -->
 	<insert id="registerBottomLevel"
-		parameterType="kr.com.inspect.dto.Rule">
+			parameterType="kr.com.inspect.dto.Rule">
 		INSERT INTO
 		audio.rule_bottom_level
 		(name, description, creator,
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 중복검사를 위한 대분류 존재 유무 확인 -->
 	<select id="isExistTopLevel"
-		parameterType="kr.com.inspect.dto.Rule" resultType="int">
+			parameterType="kr.com.inspect.dto.Rule" resultType="int">
 		SELECT
 		id
 		FROM
@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 중복검사를 위한 중분류 존재 유무 확인 -->
 	<select id="isExistMiddleLevel"
-		parameterType="kr.com.inspect.dto.Rule" resultType="int">
+			parameterType="kr.com.inspect.dto.Rule" resultType="int">
 		SELECT
 		id
 		FROM
@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 중복검사를 위한 소분류 존재 유무 확인 -->
 	<select id="isExistBottomLevel"
-		parameterType="kr.com.inspect.dto.Rule" resultType="int">
+			parameterType="kr.com.inspect.dto.Rule" resultType="int">
 		SELECT
 		id
 		FROM
@@ -112,7 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 대분류 아이디로 중분류 모두 가져오기 -->
 	<select id="getAllMiddleLevel" parameterType="int"
-		resultType="kr.com.inspect.dto.Rule">
+			resultType="kr.com.inspect.dto.Rule">
 		SELECT
 		id AS middle_level_id,
 		name AS middle_level_name,
@@ -125,7 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 대분류 아이디와 중분류 아이디로 소분류 모두 가져오기 -->
 	<select id="getAllBottomLevel" parameterType="hashMap"
-		resultType="kr.com.inspect.dto.Rule">
+			resultType="kr.com.inspect.dto.Rule">
 		SELECT
 		id AS bottom_level_id,
 		name AS bottom_level_name,
@@ -133,6 +133,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		creator,
 		file_name,
 		contents,
+		imp_contents,
 		result,
 		top_level_id AS top_level_id,
 		middle_level_id AS middle_level_id
@@ -145,13 +146,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 아이디로 소분류 모두 가져오기 -->
 	<select id="getBottomLevelById" parameterType="int"
-		resultType="kr.com.inspect.dto.Rule">
+			resultType="kr.com.inspect.dto.Rule">
 		SELECT
 		id AS bottom_level_id,
 		name AS bottom_level_name,
 		description,
 		creator,
 		contents,
+		imp_contents,
 		result,
 		file_name,
 		top_level_id AS top_level_id,
@@ -172,6 +174,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		b.file_name,
 		b.creator,
 		b.contents,
+		b.imp_contents,
 		b.result,
 		b.top_level_id,
 		t.name AS top_level_name,
@@ -191,7 +194,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 대분류 아이디로 전사규칙 리스트를 조인하여 모두 가져옴 -->
 	<select id="getRuleListByTopId" parameterType="int"
-		resultType="kr.com.inspect.dto.Rule">
+			resultType="kr.com.inspect.dto.Rule">
 		SELECT
 		(ROW_NUMBER() OVER()) AS row_num,
 		b.id AS bottom_level_id,
@@ -200,6 +203,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		b.file_name,
 		b.creator,
 		b.contents,
+		b.imp_contents,
 		b.result,
 		b.top_level_id,
 		t.name AS top_level_name,
@@ -221,7 +225,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 대분류, 중분류 아이디로 전사규칙 리스트를 조인하여 모두 가져옴 -->
 	<select id="getRuleListByTopMiddleId" parameterType="hashMap"
-		resultType="kr.com.inspect.dto.Rule">
+			resultType="kr.com.inspect.dto.Rule">
 		SELECT
 		(ROW_NUMBER() OVER()) AS row_num,
 		b.id AS bottom_level_id,
@@ -230,6 +234,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		b.file_name,
 		b.creator,
 		b.contents,
+		b.imp_contents,
 		b.result,
 		b.top_level_id,
 		t.name AS top_level_name,
@@ -252,7 +257,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 대분류, 중분류, 소분류 아이디로 전사규칙 리스트를 조인하여 가져옴 -->
 	<select id="getRuleListByTopMiddleBottomId"
-		parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+			parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
 		SELECT
 		(ROW_NUMBER() OVER()) AS row_num,
 		b.id AS bottom_level_id,
@@ -261,6 +266,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		b.file_name,
 		b.creator,
 		b.contents,
+		b.imp_contents,
 		b.result,
 		b.top_level_id,
 		t.name AS top_level_name,
@@ -284,7 +290,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 대분류 이름 수정 -->
 	<update id="updateTopLevelName"
-		parameterType="kr.com.inspect.dto.Rule">
+			parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 		audio.rule_top_level
 		SET
@@ -295,7 +301,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 중분류 이름 수정 -->
 	<update id="updateMiddleLevelName"
-		parameterType="kr.com.inspect.dto.Rule">
+			parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 		audio.rule_middle_level
 		SET
@@ -306,7 +312,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 소분류 이름, 설명 수정 -->
 	<update id="updateBottomLevelContents"
-		parameterType="kr.com.inspect.dto.Rule">
+			parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 		audio.rule_bottom_level
 		SET
@@ -318,7 +324,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 소분류 파일명 작성 -->
 	<update id="updateBottomLevelFileName"
-		parameterType="kr.com.inspect.dto.Rule">
+			parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 		audio.rule_bottom_level
 		SET
@@ -329,19 +335,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- 코드 작성 -->
 	<update id="updateContents"
-		parameterType="kr.com.inspect.dto.Rule">
+			parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 		audio.rule_bottom_level
 		SET
 		creator = #{creator},
-		contents = #{contents}
+		contents = #{contents},
+		imp_contents = #{imp_contents}
 		WHERE
 		id = #{bottom_level_id};
 	</update>
 
 	<!-- 컴파일 결과값 저장 -->
 	<update id="updateRuleCompileResult"
-		parameterType="kr.com.inspect.dto.Rule">
+			parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 		audio.rule_bottom_level
 		SET
