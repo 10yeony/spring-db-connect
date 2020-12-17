@@ -69,8 +69,7 @@ function getAllCustomByCreator(){
 						'</td>' +
 						'<td>' + 
 							result[i].file_name +
-							'<a href="javascript:deleteCustom()" style="margin-left:5px">삭제</a>' +
-							'<input type="hidden" value="+ result[i].id +">' + 
+							'<a href="javascript:deleteCustom(' + result[i].id + ')" style="margin-left:5px">삭제</a>' +
 						'</td>' +
 					'</tr>'
 				);
@@ -83,10 +82,10 @@ function getAllCustomByCreator(){
 	});
 }
 
-function deleteCustom(){
+function deleteCustom(id){
 	var result = confirm("정말로 삭제하시겠습니까?");
 	if(result){
-		alert($(this).next().val());
+		alert(id);
 	}
 }
 

@@ -198,4 +198,11 @@ public interface RuleDao {
 	 * @return 사용자가 추가한 커스텀 라이브러리 목록
 	 */
 	public List<CustomLibrary> getAllCustomLibraryByCreator(String creator);
+	
+	/**
+	 * 해당되는 커스텀 라이브러리를 삭제함
+	 * @param id 아이디
+	 * @return DB에서 삭제된 row의 수
+	 */
+	public int deleteCustomLibrary(int id);
 }
