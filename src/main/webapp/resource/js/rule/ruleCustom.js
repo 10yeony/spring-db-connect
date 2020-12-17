@@ -64,8 +64,14 @@ function getAllCustomByCreator(){
 			for(let i=0; i<result.length; i++){
 				$('#library-content').append(
 					'<tr>' + 
-						'<td>' + (i+1) + '</td>' +
-						'<td>' + result[i].file_name + '</td>' +
+						'<td>' + 
+							(i+1) + 
+						'</td>' +
+						'<td>' + 
+							result[i].file_name +
+							'<a href="javascript:deleteCustom()" style="margin-left:5px">삭제</a>' +
+							'<input type="hidden" value="+ result[i].id +">' + 
+						'</td>' +
 					'</tr>'
 				);
 			}
@@ -75,6 +81,13 @@ function getAllCustomByCreator(){
 			//alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		}
 	});
+}
+
+function deleteCustom(){
+	var result = confirm("정말로 삭제하시겠습니까?");
+	if(result){
+		alert($(this).next().val());
+	}
 }
 
 /* ContextPath를 가져옴 */

@@ -3,17 +3,6 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 회원 관련 쿼리 -->
 <mapper namespace="RuleMapper">
-
-	<!-- 중복검사를 위한 custom 존재 유무 확인 -->
-	<!-- <select id="isExistCustomLibrary"
-		parameterType="kr.com.inspect.dto.CustomLibrary" resultType="int">
-		SELECT
-		id
-		FROM
-		audio.custom_library
-		WHERE
-		id = #{custom_id};
-	</select> -->
 	
 	<!-- 커스텀 라이브러리 삭제 -->
 	<delete id="deleteCustomLibrary" parameterType="int">
