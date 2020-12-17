@@ -3,7 +3,7 @@ package kr.com.inspect.dao;
 import java.util.List;
 
 import kr.com.inspect.dto.ApiDesc;
-import kr.com.inspect.dto.CustomRule;
+import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.Rule;
 
 /**
@@ -185,7 +185,17 @@ public interface RuleDao {
 	 */
 	public List<ApiDesc> getApiClassMethod(int class_id);
 	
-	public int registerCustom(CustomRule customrule);
+	/**
+	 * 사용자가 import하고자 하는 커스텀 라이브러리를 등록함
+	 * @param customLibrary 등록할 라이브러리 정보를 담고 있는 객체
+	 * @return DB에 추가된 row의 수
+	 */
+	public int registerCustomLibrary(CustomLibrary customLibrary);
 	
-	//public int isExistCustom(CustomRule customrule);
+	/**
+	 * 사용자 아이디로 사용자가 추가한 커스텀 라이브러리 목록을 가져옴
+	 * @param creator 사용자 아이디
+	 * @return 사용자가 추가한 커스텀 라이브러리 목록
+	 */
+	public List<CustomLibrary> getAllCustomLibraryByCreator(String creator);
 }

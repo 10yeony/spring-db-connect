@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kr.com.inspect.dto.CustomRule;
+import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.service.RuleService;
@@ -317,6 +317,27 @@ public class RuleController {
 		response.getWriter().flush();
 	}
 	
+	@RequestMapping(value = "/uploadCustom", method = RequestMethod.POST)
+	@ResponseBody
+	public String uploadCustom (@RequestParam("customFile") List<MultipartFile> multipartFile) throws Exception{
+		String username = getMemberInfo().get("username");
+		CustomLibrary customLibrary = new CustomLibrary();
+		customLibrary.setCreator(username);
+		ruleService.uploadCustomLibrary(multipartFile, customLibrary);
+		return "true";
+	}
+	
+	/**
+	 * 사용자가 추가한 라이브러리 목록을 가져옴 
+	 * @return 사용자가 추가한 라이브러리 목록
+	 */
+	@GetMapping("getAllCustomByCreator")
+	@ResponseBody
+	public List<CustomLibrary> getAllCustomByCreator() {
+		String creator = getMemberInfo().get("username");
+		return ruleService.getAllCustomLibraryByCreator(creator);
+	}
+	
 	/**
 	 * 스프링 시큐리티에서 로그인한 사용자의 아이디와 암호화된 비밀번호를 가져옴
 	 * @return 로그인한 사용자의 아이디와 암호화된 비밀번호
@@ -333,30 +354,5 @@ public class RuleController {
 		map.put("username", username);
 		map.put("password", password);
 		return map;
-	}
-	
-	@RequestMapping(value = "/customUpload", method = RequestMethod.POST)
-	@ResponseBody
-	public String customUpload (@RequestParam("customFile") List<MultipartFile> multipartFile, CustomRule customrule) throws Exception{
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		UserDetails userDetails = (UserDetails)principal; 
-		String username = userDetails.getUsername();
-		System.out.println("시큐리티로 이름 가져오기");
-		System.out.println(username);
-		
-
-		System.out.println("커스텀룰");
-		System.out.println(customrule);
-		
-		customrule.setCreator(username);
-		
-		System.out.println("rule creator 설정");
-		System.out.println(customrule.getCreator());
-		ruleService.customUpload(multipartFile, username, customrule);
-		
-		System.out.println("서비스 끝");
-		System.out.println(multipartFile);
-		
-		return "true";
 	}
 }

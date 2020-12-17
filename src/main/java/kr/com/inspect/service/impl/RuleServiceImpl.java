@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dao.RuleDao;
-import kr.com.inspect.dto.CustomRule;
+import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
@@ -36,6 +36,7 @@ public class RuleServiceImpl implements RuleService {
 
 	@Value("${input.custom.directory}")
 	private String customPath;
+	
 	/**
 	 * 전사규칙에 관한 DAO 인터페이스
 	 */
@@ -371,59 +372,83 @@ public class RuleServiceImpl implements RuleService {
 		return map;
 	}
 
-	public void customUpload(List<MultipartFile> customFile, String username, CustomRule customrule) throws Exception {
-		
-		System.out.println("서비스");
-		System.out.println(username);
-		System.out.println(customrule);
-		
-		
-		File fileDir = new File(customPath+username+"/");
+	/**
+	 * 사용자가 import하고자 하는 커스텀 라이브러리 파일을 업로드함 
+	 * @param customFile 사용자가 업로드한 커스텀 라이브러리 파일
+	 * @param customLibrary 커스텀 라이브러리 객체
+	 * @throws Exception 예외
+	 */
+	public void uploadCustomLibrary(List<MultipartFile> customFile, CustomLibrary customLibrary) throws Exception {
+		File fileDir = new File(customPath + customLibrary.getCreator() + File.separator);
 		if(!fileDir.exists()){
 			fileDir.mkdir();
 		}
-		System.out.println(fileDir);
 		
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();
 
-		/* 서버의 음성파일 저장 디렉토리에 wav파일 저장 */
+		/* 사용자가 업로드한 커스텀 라이브러리 파일을 서버 스토리지에 생성 */
 		for (MultipartFile cus : customFile) {
-			
-			System.out.println(customFile);
-			
 			futures.add(executor.submit(() -> {
+				
+				/* 업로드 파일 생성 */
 				String filename = cus.getOriginalFilename();
-				File f = new File(fileDir+"/"+filename);
-				
-				
-				customrule.setFile_name(filename);
-				
-				System.out.println(customrule.getFile_name());
-				System.out.println(customrule);
-				
-				
+				File f = new File(fileDir + File.separator + filename);
 				try {
 					cus.transferTo(f);
 				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
+				
+				/* DB 저장 */
+				customLibrary.setFile_name(filename);
+				registerCustomLibrary(customLibrary);
 			}));
 		}
 		closeThread(executor, futures);
-		
-		System.out.println(customrule);
-		registerCustom(customrule);
-		//System.out.println("입력완료 후");
-		//System.out.println(username);
-		//System.out.println(rule);
-		//System.out.println(rule.getCreator());
-		//System.out.println(rule.getFile_name());
-		//rule.setCreator(username);
-		//System.out.println(rule.getCreator());
 	}
 
+	/**
+	 * 사용자가 import하고자 하는 커스텀 라이브러리를 등록함
+	 * @param customLibrary
+	 * @return DB에 추가된 row의 수
+	 */
+	@Override
+	public int registerCustomLibrary(CustomLibrary customLibrary) {
+		int result = 0; // 등록 후 DB에 추가된 row의 수
+		
+		/* 이미 DB에 등록한 파일명인지 중복검사 */
+		boolean flag = false;
+		List<CustomLibrary> list = ruleDao.getAllCustomLibraryByCreator(customLibrary.getCreator());
+		for(CustomLibrary library : list) {
+			if(customLibrary.getFile_name().equals(library.getFile_name())) {
+				flag = true;
+			}
+		}
+		if(flag == false) {
+			result = ruleDao.registerCustomLibrary(customLibrary);
+			result = 1;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 사용자 아이디로 사용자가 추가한 커스텀 라이브러리 목록을 가져옴
+	 * @param creator 사용자 아이디
+	 * @return 사용자가 추가한 커스텀 라이브러리 목록
+	 */
+	@Override
+	public List<CustomLibrary> getAllCustomLibraryByCreator(String creator){
+		return ruleDao.getAllCustomLibraryByCreator(creator);
+	}
+	
+	/**
+	 * 스레드 작업이 종료될 때까지 기다리고 Task를 종료함
+	 * @param executor ExecutorService
+	 * @param futures List<Future<?>>
+	 */
 	public void closeThread(ExecutorService executor, List<Future<?>> futures) {
 		for (Future<?> future : futures) {
 			try {
@@ -435,19 +460,5 @@ public class RuleServiceImpl implements RuleService {
 			}
 		}
 		executor.shutdownNow(); // Task 종료
-	}
-
-	@Override
-	public int registerCustom(CustomRule customrule) {
-		//int id = 0; // 아이디
-		int result = 0; // 등록 후 DB에 추가된 row의 수
-		
-		//id = ruleDao.isExistCustom(customrule);
-		//if(id == 0) {
-			result = ruleDao.registerCustom(customrule);
-			//id = ruleDao.isExistCustom(customrule);
-		//}
-		
-		return result;
 	}
 }

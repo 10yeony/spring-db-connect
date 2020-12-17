@@ -144,9 +144,9 @@ CREATE TABLE audio.api_class_method (
 	api_class_id integer REFERENCES audio.api_class ON DELETE CASCADE
 );
 
-CREATE TABLE audio.custom_rule (
+CREATE TABLE audio.custom_library (
 	id SERIAL PRIMARY KEY,
-	creater text,
+	creator text,
 	file_name text
 );
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.RuleDao;
 import kr.com.inspect.dto.ApiDesc;
-import kr.com.inspect.dto.CustomRule;
+import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.Rule;
 
 /**
@@ -327,19 +327,23 @@ public class RuleDaoImpl implements RuleDao {
 		return sqlSession.selectList(apiNS + "getApiClassMethod", class_id);
 	}
 
+	/**
+	 * 사용자가 import하고자 하는 커스텀 라이브러리를 등록함
+	 * @param customLibrary 등록할 라이브러리 정보를 담고 있는 객체
+	 * @return DB에 추가된 row의 수
+	 */
 	@Override
-	public int registerCustom(CustomRule customrule) {
-		return sqlSession.insert(ruleNS + "registerCustom", customrule);
+	public int registerCustomLibrary(CustomLibrary customLibrary) {
+		return sqlSession.insert(ruleNS + "registerCustomLibrary", customLibrary);
 	}
-
-//	@Override
-//	public int isExistCustom(CustomRule customrule) {
-//		int id = 0;
-//		try {
-//			id = sqlSession.selectOne(ruleNS + "isExistCustom", customrule);
-//		} catch (NullPointerException e) {
-//			return 0;
-//		}
-//		return id;
-//	}
+	
+	/**
+	 * 사용자 아이디로 사용자가 추가한 커스텀 라이브러리 목록을 가져옴
+	 * @param creator 사용자 아이디
+	 * @return 사용자가 추가한 커스텀 라이브러리 목록
+	 */
+	@Override
+	public List<CustomLibrary> getAllCustomLibraryByCreator(String creator){
+		return sqlSession.selectList(ruleNS + "getAllCustomLibraryByCreator", creator);
+	}
 }

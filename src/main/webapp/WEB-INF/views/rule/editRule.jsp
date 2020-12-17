@@ -59,10 +59,26 @@
 	.codeOrange{ color: #fd8b19; }
 	.codeYellowGreen{ color: #8fc13e }
 	.codeRemoveMargin{ margin-left:-3px; margin-right:-3px; }
+	
+	.loading {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 80px;
+		height: 80px;
+		margin: -50px 0 0 -50px;
+	}
 </style>
 </head>
 
 <body id="page-top">
+	
+	<!-- 라이브러리 업로드시 로딩 화면 -->
+	<div id="loadingArea" class="w3-modal w3-animate-opacity">
+		<img class="loading" width="100px"
+			src="${pageContext.request.contextPath}/resource/img/loading.gif">
+	</div>
+
 	<input id="msg" type="hidden" value="${msg}">
 
 	<!-- Page Wrapper -->
@@ -94,9 +110,11 @@
 					<!-- Page Body -->
 					<div class="card shadow mb-4">
 						<div class="card-body">
+							<a class="small" id="goToRuleCustom" href="#" data-dismiss="modal" data-toggle="modal"
+								data-target="#ruleCustomModal" style="float:right; font-size:1em;"> 라이브러리 추가하기 </a><br/>
 							<div style="font-size: 1.2em;">
-								제시된 양식을 참고하여 Java 코드를 작성해주세요 <a class="small" id="goToRuleApi"
-									href="#" data-dismiss="modal" data-toggle="modal"
+								제시된 양식을 참고하여 Java 코드를 작성하세요 
+								<a class="small" id="goToRuleApi" href="#" data-dismiss="modal" data-toggle="modal"
 									data-target="#ruleApiModal"> API 문서 보기 </a>
 							</div>
 							<br />
@@ -258,6 +276,9 @@
 <!-- Rule API 문서 Modal -->
 <%@ include file="ruleApi.jsp"%>
 
+<!-- Rule Custom Modal -->
+<%@ include file="ruleCustom.jsp"%>
+
 <!-- footer include-->
 <%@ include file="/WEB-INF/views/include/footer.jsp"%>
 
@@ -266,8 +287,8 @@
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top"> <i
-	class="fas fa-angle-up"></i>
+<a class="scroll-to-top rounded" href="#page-top"> 
+	<i class="fas fa-angle-up"></i>
 </a>
 
 <!-- Bootstrap core JavaScript-->
