@@ -53,7 +53,7 @@
 		font-size: 1em;
 		font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 	}
-	
+
 	.codeWhite{ color: white; }
 	.codeRed{ color: #dd464c; }
 	.codeOrange{ color: #fd8b19; }
@@ -116,13 +116,6 @@
 										<span class="codeWhite codeRemoveMargin">.</span>
 										<span class="codeYellowGreen">rule</span>
 										<span class="codeWhite codeRemoveMargin">;</span>
-									</div><br/>
-									<div>
-										<span class="codeRed">import</span>
-										<span class="codeYellowGreen">java</span>
-										<span class="codeWhite codeRemoveMargin">.</span>
-										<span class="codeYellowGreen">util</span>
-										<span class="codeWhite codeRemoveMargin">.*;</span>
 									</div><br/>
 									<div>
 										<span class="codeRed">import</span>
@@ -197,6 +190,8 @@
 										<span class="codeYellowGreen">EojeolList</span>
 										<span class="codeWhite codeRemoveMargin">;</span>
 									</div><br/>
+									<textarea id="imp_contents" name="imp_contents" cols="170" rows="20"
+											  style="resize: none;">${rule.imp_contents}</textarea>
 									<div>
 										<span class="codeRed">public class</span> 
 										<span class="codeOrange"> ${rule.file_name}</span> 
