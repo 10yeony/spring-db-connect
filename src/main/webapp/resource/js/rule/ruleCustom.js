@@ -36,6 +36,7 @@ function customUpload() {
 			if(res == 'true'){
 				alert("파일을 성공적으로 업로드했습니다.")
 				document.getElementById('loadingArea').style.display='none';
+				getAllCustomByCreator();
 			}
 			
 			else if(res == 'false'){
