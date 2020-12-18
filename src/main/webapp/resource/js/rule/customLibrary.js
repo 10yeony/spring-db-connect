@@ -28,9 +28,9 @@ function customUpload() {
 	
 	$.ajax({
 		type:"POST",
-		enctype: 'form-data', 
+		enctype: 'multipart/form-data', 
 		url: contextPath + "/rule/uploadCustom",
-		data: {formData, pack : $('#pack').val()},
+		data: formData,
 		processData: false,
 		contentType: false,
 		cache: false,

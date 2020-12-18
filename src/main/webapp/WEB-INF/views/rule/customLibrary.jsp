@@ -42,13 +42,12 @@ tr:nth-child(even) {
 							<h6 class="m-0 font-weight-bold text-primary">라이브러리 파일
 								업로드(.jar, .class)</h6>
 						</div>
-						
+
 						<div class="card-body">
 							<form id="customUpload">
 								<input type="file" id="customFile" name="customFile" accept="*"
-									multiple>
-									<span class="text">package path 입력</span>
-									<input type="text" id="pack" name="pack" value="abc.def" />
+									multiple> <span class="text">package path 입력</span> <input
+									type="text" id="pack" name="pack" value="abc.def" />
 								<hr>
 								<button type="button" onclick="customUpload();"
 									class="btn btn-primary btn-icon-split" style="float: left;">
@@ -57,6 +56,7 @@ tr:nth-child(even) {
 									</span> <span class="text">업로드</span>
 								</button>
 							</form>
+
 						</div>
 					</div>
 					<br />
