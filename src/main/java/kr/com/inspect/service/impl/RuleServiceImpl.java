@@ -26,7 +26,6 @@ import kr.com.inspect.service.RuleService;
 
 /**
  * 전사규칙에 관한 Service 구현 클래스
- * 
  * @author Yeonhee Kim
  * @version 1.0
  */
@@ -56,7 +55,6 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 전사규칙 대분류, 중분류, 소분류 카테고리 리스트를 반환함
-	 * 
 	 * @param top_level_id    전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @return 전사규칙 대분류, 중분류, 소분류 카테고리 리스트
@@ -85,7 +83,6 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 선택된 카테고리에 해당되는 전사규칙 리스트를 조인해서 가져옴
-	 * 
 	 * @param top_level_id    전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
@@ -121,7 +118,6 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함
-	 * 
 	 * @param level 해당되는 분류(대분류/중분류/소분류)
 	 * @param rule  DB 등록을 위한 Rule 객체
 	 * @return DB에 등록한 row의 수
@@ -162,7 +158,6 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 대분류/중분류/소분류 아이디로 해당되는 항목을 삭제함
-	 * 
 	 * @param level 해당되는 분류(대분류/중분류/소분류)
 	 * @param id    대분류/중분류/소분류 아이디
 	 * @return DB에서 삭제한 row의 수
@@ -196,7 +191,6 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 사용자가 입력한 Rule 코드를 DB에 업데이트함
-	 * 
 	 * @param rule 코드 업데이트를 위한 Rule 객체
 	 * @return DB에 업데이트된 row의 수
 	 * @throws Exception 예외
@@ -237,7 +231,6 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * Rule 클래스 파일을 실행시킴
-	 * 
 	 * @param list Rule 목록
 	 * @throws Exception 예외
 	 */
@@ -281,7 +274,6 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 예외 발생시 예외를 문자열로 바꿔서 리턴함
-	 * 
 	 * @param e 예외
 	 * @return 문자열로 변환된 예외
 	 */
@@ -294,7 +286,6 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 컴파일 오류시 자바 파일과 클래스 파일을 삭제함
-	 * 
 	 * @param fileName 자바 및 클래스 파일명
 	 */
 	public void deleteJavaClassFile(String fileName) {
@@ -324,7 +315,6 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 클래스 아이디로 클래스 정보, 필드 정보, 생성자 정보, 메소드 정보를 가져옴
-	 * 
 	 * @param class_id DB 상의 클래스 아이디
 	 * @return 클래스에 관한 전반적인 정보를 담은 응답 객체
 	 */
@@ -442,6 +432,31 @@ public class RuleServiceImpl implements RuleService {
 	@Override
 	public List<CustomLibrary> getAllCustomLibraryByCreator(String creator){
 		return ruleDao.getAllCustomLibraryByCreator(creator);
+	}
+	
+	/**
+	 * 해당되는 커스텀 라이브러리 파일을 삭제하고 DB에서도 삭제함
+	 * @param customLibrary 삭제할 CustomLibrary 객체
+	 * @return DB에서 삭제된 row의 수
+	 */
+	@Override
+	public int deleteCustomLibrary(CustomLibrary customLibrary) {
+		int result = 0;
+		customLibrary = ruleDao.getCustomLibraryById(customLibrary.getId());
+		File file = new File(customPath 
+								+ customLibrary.getCreator() 
+								+ File.separator 
+								+ customLibrary.getFile_name());
+		if (file.exists()) {
+			if (file.delete()) {
+				// System.out.println("파일 삭제 성공");
+			} else {
+				// System.out.println("파일 삭제 실패");
+			}
+		} else {
+			// System.out.println("파일이 존재하지 않습니다.");
+		}
+		return ruleDao.deleteCustomLibrary(customLibrary.getId());
 	}
 	
 	/**

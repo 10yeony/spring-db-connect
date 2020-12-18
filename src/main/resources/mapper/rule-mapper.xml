@@ -30,6 +30,16 @@
 		WHERE 
 			creator = #{creator};
 	</select>
+	
+	<select id="getCustomLibraryById" parameterType="int"
+		resultType="kr.com.inspect.dto.CustomLibrary">
+		SELECT 
+			* 
+		FROM 
+			audio.custom_library 
+		WHERE 
+			id = #{id};
+	</select>
 
 	<!-- 대분류 등록 -->
 	<insert id="registerTopLevel"

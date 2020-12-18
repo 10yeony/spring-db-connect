@@ -98,4 +98,11 @@ public interface RuleService {
 	 * @return 사용자가 추가한 커스텀 라이브러리 목록
 	 */
 	public List<CustomLibrary> getAllCustomLibraryByCreator(String creator);
+	
+	/**
+	 * 해당되는 커스텀 라이브러리 파일을 삭제하고 DB에서도 삭제함
+	 * @param customLibrary 삭제할 CustomLibrary 객체
+	 * @return DB에서 삭제된 row의 수
+	 */
+	public int deleteCustomLibrary(CustomLibrary customLibrary);
 }

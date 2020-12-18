@@ -62,6 +62,8 @@ function getAllCustomByCreator(){
 		success:function(result){
 			$('#library-content').empty();
 			for(let i=0; i<result.length; i++){
+				var temp = [];
+				temp[0] = result[i].file_name;
 				$('#library-content').append(
 					'<tr>' + 
 						'<td>' + 
@@ -85,7 +87,25 @@ function getAllCustomByCreator(){
 function deleteCustom(id){
 	var result = confirm("정말로 삭제하시겠습니까?");
 	if(result){
-		alert(id);
+		$.ajax({
+			//요청
+			type: "POST",
+			url: contextPath + "/rule/deleteCustomLibrary",
+			data: {
+				id : id,
+			},
+	
+			//응답
+			success : function(response){
+				if(response == 1){
+					alert("선택한 라이브러리를 성공적으로 삭제했습니다.");
+				}
+				getAllCustomByCreator();
+			},
+			error : function(request, status, error) {
+				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+			}
+		}); //ajax
 	}
 }
 
