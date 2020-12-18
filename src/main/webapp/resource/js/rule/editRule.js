@@ -27,6 +27,7 @@ function runCodemirror(){
 		matchBrackets: true,
 		theme: "hopscotch"
 	});
+	imp_myCodeMirror.setSize(500,100);
 }
 
 $(function(){

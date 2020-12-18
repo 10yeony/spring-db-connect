@@ -48,8 +48,6 @@
 
 		.CodeMirror{
 			width:90%;
-			margin-left: 5%;
-			height: 300px;
 			font-size: 1em;
 			font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 		}
@@ -207,9 +205,11 @@
 									<span class="codeWhite codeRemoveMargin">.</span>
 									<span class="codeYellowGreen">EojeolList</span>
 									<span class="codeWhite codeRemoveMargin">;</span>
+								</div>
+								<div style="height: 100px;">
+									<textarea id="imp_contents" name="imp_contents" cols="170" rows="20"
+											  style="height: 50px;">${rule.imp_contents}</textarea>
 								</div><br/>
-								<textarea id="imp_contents" name="imp_contents" cols="170" rows="20"
-										  style="resize: none;">${rule.imp_contents}</textarea>
 								<div>
 									<span class="codeRed">public class</span>
 									<span class="codeOrange"> ${rule.file_name}</span>
@@ -224,9 +224,10 @@
 									<span class="codeYellowGreen">Exception </span>
 									<span class="codeWhite">{</span>
 								</div>
-
-								<textarea id="contents" name="contents" cols="170" rows="20"
-										  style="resize: none;">${rule.contents}</textarea>
+								<div style="margin-left: 5%; height: 300px;">
+									<textarea id="contents" name="contents" cols="170" rows="20"
+											  style="resize: none;">${rule.contents}</textarea>
+								</div>
 
 								<div style="margin-left: 3%;">
 									<span class="codeWhite">}</span>

@@ -20,7 +20,6 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
 import kr.com.inspect.dto.Rule;
-import kr.com.inspect.report.DocxReport;
 import org.apache.ibatis.io.Resources;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -224,7 +223,6 @@ public class RuleCompiler {
                 "import kr.com.inspect.dto.Speaker;\n" +
                 "import kr.com.inspect.dto.Utterance;\n" +
                 "import kr.com.inspect.dto.EojeolList;\n\n" +
-//                "import org.apache.ibatis.session.SqlSession;\n\n" +
                 rule.getImp_contents()+"\n"+
                 "public class "+rule.getFile_name()+" {\n" +
                 "\tpublic Object run() throws Exception {\n")
