@@ -324,7 +324,7 @@ public class RuleController {
 		String username = getMemberInfo().get("username");
 		CustomLibrary customLibrary = new CustomLibrary();
 		customLibrary.setCreator(username);
-		customLibrary.setClass_package(pack);
+		//customLibrary.setClass_package(pack);
 		ruleService.uploadCustomLibrary(multipartFile, customLibrary);
 		return "true";
 	}
