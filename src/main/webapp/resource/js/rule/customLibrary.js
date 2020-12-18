@@ -95,6 +95,7 @@ function getAllCustomByCreator(){
 						'</td>' +
 						'<td>' +
 							result[i].class_package +
+						'</td>' +
 					'</tr>'
 				);
 			}
