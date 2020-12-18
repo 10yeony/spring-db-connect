@@ -438,7 +438,8 @@ public class RuleServiceImpl implements RuleService {
 			result = 1;
 		}
 		// class 파일이라면 package 업데이트
-		else if((flag == true)&&(customLibrary.getFile_name().substring(customLibrary.getFile_name().length()-6).equals(".class"))){
+		else if((flag == true)&&(customLibrary.getFile_name().substring(customLibrary.getFile_name().lastIndexOf(".")+1).equals("class"))){
+			System.out.println("class file");
 			ruleDao.updateCustomLibraryPackage(customLibrary);
 		}
 		
