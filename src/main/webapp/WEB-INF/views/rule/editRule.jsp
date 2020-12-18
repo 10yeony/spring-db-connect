@@ -107,8 +107,7 @@
 					<!-- Page Body -->
 					<div class="card shadow mb-4">
 						<div class="card-body">
-							<a class="small" id="goToRuleCustom" href="#" data-dismiss="modal" data-toggle="modal"
-								data-target="#ruleCustomModal" style="float:right; font-size:1em;"> 라이브러리 추가하기 </a><br/>
+							<br/>
 							<div style="font-size: 1.2em;">
 								제시된 양식을 참고하여 Java 코드를 작성하세요 
 								<a class="small" id="goToRuleApi" href="#" data-dismiss="modal" data-toggle="modal"
@@ -206,7 +205,11 @@
 									<span class="codeWhite codeRemoveMargin">;</span>
 								</div>
 								<div style="height: 100px;"><br/>
-									<div style="margin-left: 0.23%;">/* 아래에 필요한 라이브러리를 import 하세요 */</div>
+									<div style="margin-left: 0.23%;">
+									/* 아래에 필요한 라이브러리를 import 하세요 */
+									<a class="small" id="goToRuleCustom" href="#" data-dismiss="modal" data-toggle="modal"
+								data-target="#customLibraryModal" style="margin-left:5px; font-size:1em;"> 라이브러리 추가 </a>
+									</div>
 									<textarea id="imp_contents" name="imp_contents" cols="170" rows="20"
 											  style="height: 50px;">${rule.imp_contents}</textarea>
 								</div><br/><br/>
@@ -274,7 +277,7 @@
 <%@ include file="ruleApi.jsp"%>
 
 <!-- Rule Custom Modal -->
-<%@ include file="ruleCustom.jsp"%>
+<%@ include file="customLibrary.jsp"%>
 
 <!-- footer include-->
 <%@ include file="/WEB-INF/views/include/footer.jsp"%>
