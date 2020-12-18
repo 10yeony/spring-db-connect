@@ -11,22 +11,24 @@ function customUpload() {
 	var res = '';
 
 	var formData = new FormData($('#customUpload')[0]);
-	var pack = $('form input[name = pack]').val();
+	
 	// 파일 형식 확인
    for(var item of formData.entries()) {
    		var name = item[1]["name"];
-	   if(name.substring(name.length-4, name.length) != '.jar' && name.substring(name.length-6, name.length) != '.class'){
-			console.log("error");
-			alert("jar 파일 또는 class을 업로드해주세요.");
-			return;
-		}
+   		if(name != undefined){
+   			if(name.substring(name.length-4, name.length) != '.jar' && name.substring(name.length-6, name.length) != '.class'){
+				console.log("error");
+				alert("jar 파일 또는 class을 업로드해주세요.");
+				return;
+			}
+   		}
 	}
 	
 	$.ajax({
 		type:"POST",
 		enctype: 'multipart/form-data', 
 		url: contextPath + "/rule/uploadCustom",
-		data: formData, pack,
+		data: formData,
 		processData: false,
 		contentType: false,
 		cache: false,
