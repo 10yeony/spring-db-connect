@@ -420,6 +420,10 @@ public class RuleServiceImpl implements RuleService {
 			result = ruleDao.registerCustomLibrary(customLibrary);
 			result = 1;
 		}
+		// class 파일이라면 package 업데이트
+		else if((flag == true)&&(customLibrary.getFile_name().substring(customLibrary.getFile_name().length()-6).equals(".class"))){
+			ruleDao.updateCustomLibraryPackage(customLibrary);
+		}
 		
 		return result;
 	}

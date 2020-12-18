@@ -212,4 +212,11 @@ public interface RuleDao {
 	 * @return DB에서 삭제된 row의 수
 	 */
 	public int deleteCustomLibrary(int id);
+
+	/**
+	 * class 파일의 package를 업데이트
+	 * @param customLibrary 사용자가 업로드한 customLibrary
+	 * @return 업데이트된 row의 개수
+	 */
+	public int updateCustomLibraryPackage(CustomLibrary customLibrary);
 }

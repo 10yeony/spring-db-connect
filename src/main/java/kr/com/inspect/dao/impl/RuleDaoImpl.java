@@ -365,4 +365,12 @@ public class RuleDaoImpl implements RuleDao {
 	public int deleteCustomLibrary(int id) {
 		return sqlSession.delete(ruleNS + "deleteCustomLibrary", id);
 	}
+
+	/**
+	 * class 파일의 package를 업데이트
+	 * @param customLibrary 사용자가 업로드한 customLibrary
+	 * @return 업데이트된 row의 개수
+	 */
+	@Override
+	public int updateCustomLibraryPackage(CustomLibrary customLibrary){return sqlSession.update(ruleNS+"updateCustomLibraryPackage", customLibrary);}
 }

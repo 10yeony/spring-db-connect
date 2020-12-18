@@ -16,11 +16,22 @@
 		parameterType="kr.com.inspect.dto.CustomLibrary">
 		INSERT INTO
 			audio.custom_library
-			(creator,file_name)
+			(creator,file_name,class_package)
 		VALUES
-			(#{creator}, #{file_name});
+			(#{creator}, #{file_name}, #{class_package});
 	</insert>
-	
+
+	<!-- class파일 package 업데이트 -->
+	<update id="updateCustomLibraryPackage"
+			parameterType="kr.com.inspect.dto.CustomLibrary">
+		UPDATE
+			audio.custom_library
+		SET
+			class_package = #{class_package}
+		WHERE
+			file_name = #{file_name};
+	</update>
+
 	<select id="getAllCustomLibraryByCreator" parameterType="string"
 		resultType="kr.com.inspect.dto.CustomLibrary">
 		SELECT 

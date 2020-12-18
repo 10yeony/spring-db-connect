@@ -323,6 +323,7 @@ public class RuleController {
 		String username = getMemberInfo().get("username");
 		CustomLibrary customLibrary = new CustomLibrary();
 		customLibrary.setCreator(username);
+//		customLibrary.setClass_package(받아온 package값);
 		ruleService.uploadCustomLibrary(multipartFile, customLibrary);
 		return "true";
 	}
