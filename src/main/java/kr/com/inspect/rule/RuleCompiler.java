@@ -130,7 +130,7 @@ public class RuleCompiler {
 
         // CLASS PATH 추가
         optionList.add("-classpath");
-        optionList.add(System.getProperty("java.class.path")+":"+classPath+jarFilePath+":"+customPath+rule.getCreator()+"/");
+        optionList.add(System.getProperty("java.class.path")+":"+classPath+jarFilePath+":"+customPath+rule.getCreator()+File.separator);
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
