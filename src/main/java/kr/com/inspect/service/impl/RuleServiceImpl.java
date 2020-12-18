@@ -391,7 +391,7 @@ public class RuleServiceImpl implements RuleService {
 					String classPackage = customLibrary.getClass_package();
 					String[] classPackageArr = classPackage.split("[.]");
 					String packagePath = fileDir + File.separator;
-					for(int i=0; i<classPackageArr.length; i++) {
+					for(int i=0; i<classPackageArr.length-1; i++) {
 						packagePath += classPackageArr[i] + File.separator;
 						File folder = new File(packagePath);
 						if(!folder.exists()) {
@@ -437,6 +437,7 @@ public class RuleServiceImpl implements RuleService {
 			result = ruleDao.registerCustomLibrary(customLibrary);
 			result = 1;
 		}
+		
 		// class 파일이라면 package 업데이트
 		else if((flag == true)&&(customLibrary.getFile_name().substring(customLibrary.getFile_name().length()-6).equals(".class"))){
 			ruleDao.updateCustomLibraryPackage(customLibrary);
@@ -464,10 +465,31 @@ public class RuleServiceImpl implements RuleService {
 	public int deleteCustomLibrary(CustomLibrary customLibrary) {
 		int result = 0;
 		customLibrary = ruleDao.getCustomLibraryById(customLibrary.getId());
-		File file = new File(customPath 
-								+ customLibrary.getCreator() 
-								+ File.separator 
-								+ customLibrary.getFile_name());
+		
+		File file = null;
+		String fileName = customLibrary.getFile_name();
+		
+		/* class 파일 */
+		if(fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()).equals("class")) {
+			String classPackage = "";
+			String[] classPackageArr = customLibrary.getClass_package().split("[.]");
+			for(int i=0; i<classPackageArr.length-1; i++) {
+				classPackage += classPackageArr[i] + File.separator;
+			}
+			file = new File(customPath 
+					+ customLibrary.getCreator() 
+					+ File.separator 
+					+ classPackage
+					+ customLibrary.getFile_name());
+		}
+		
+		/* jar 파일 */
+		else if(fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()).equals("jar")) {
+			file = new File(customPath 
+					+ customLibrary.getCreator() 
+					+ File.separator 
+					+ customLibrary.getFile_name());
+		}
 		if (file.exists()) {
 			if (file.delete()) {
 				// System.out.println("파일 삭제 성공");
