@@ -148,7 +148,8 @@ CREATE TABLE audio.api_class_method (
 CREATE TABLE audio.custom_library (
 	id SERIAL PRIMARY KEY,
 	creator text,
-	file_name text
+	file_name text,
+	class_package text
 );
 
 auto_increment 값 초기화

@@ -369,7 +369,7 @@ public class RuleServiceImpl implements RuleService {
 	 * @throws Exception 예외
 	 */
 	public void uploadCustomLibrary(List<MultipartFile> customFile, CustomLibrary customLibrary) throws Exception {
-		File fileDir = new File(customPath + customLibrary.getCreator() + File.separator);
+		File fileDir = new File(customPath + customLibrary.getCreator() + File.separator); //Original Directory
 		if(!fileDir.exists()){
 			fileDir.mkdir();
 		}
@@ -384,7 +384,24 @@ public class RuleServiceImpl implements RuleService {
 				
 				/* 업로드 파일 생성 */
 				String filename = cus.getOriginalFilename();
-				File f = new File(fileDir + File.separator + filename);
+				String fileFormat = filename.substring(filename.lastIndexOf(".")+1, filename.length());
+				
+				File f = null;
+				if(fileFormat.equals("class")) { //class 파일일 때
+					String classPackage = customLibrary.getClass_package();
+					String[] classPackageArr = classPackage.split("[.]");
+					String packagePath = fileDir + File.separator;
+					for(int i=0; i<classPackageArr.length; i++) {
+						packagePath += classPackageArr[i] + File.separator;
+						File folder = new File(packagePath);
+						if(!folder.exists()) {
+							folder.mkdir();
+						}
+					}
+					f = new File(packagePath + File.separator + filename);
+				}else if(fileFormat.equals("jar")) { //jar 파일일 때
+					f = new File(fileDir + File.separator + filename);
+				}
 				try {
 					cus.transferTo(f);
 				} catch (IllegalStateException | IOException e) {
