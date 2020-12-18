@@ -80,7 +80,7 @@
 						<!-- Json 파일 업로드 -->
 						<div class="card shadow mb-4">
 							<div class="card-header py-3">
-								<h6 class="m-0 font-weight-bold text-primary">한국어 강의 Json
+								<h6 class="m-0 font-weight-bold text-primary">전사 데이터 Json
 									파일 업로드</h6>
 							</div>
 							<div class="card-body">
