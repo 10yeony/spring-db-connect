@@ -1,16 +1,24 @@
 package kr.com.inspect.service.impl;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -39,8 +47,6 @@ import kr.com.inspect.paging.PagingUtil;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
-
-import javax.servlet.http.HttpServletRequest;
 /**
  * PostgreSQL Service
  * @author Yeonhee Kim
@@ -260,7 +266,9 @@ public class PostgreServiceImpl implements PostgreService{
 			return "null";
 		}
 		
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		format.setTimeZone(zone);
 		String format_time;
 		
 		long beforeTime = System.currentTimeMillis();
