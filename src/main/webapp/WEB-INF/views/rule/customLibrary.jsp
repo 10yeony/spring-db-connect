@@ -20,7 +20,7 @@
 <body>
 
 <!-- Logout Modal-->
-<div class="modal fade" id="ruleCustomModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="customLibraryModal" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
@@ -77,6 +77,6 @@
 	</div>
 </div>
 <script
-	src="${pageContext.request.contextPath}/resource/js/rule/ruleCustom.js"></script>
+	src="${pageContext.request.contextPath}/resource/js/rule/customLibrary.js"></script>
 </body>
 </html>
