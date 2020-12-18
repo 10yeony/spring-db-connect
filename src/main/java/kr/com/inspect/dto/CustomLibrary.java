@@ -23,12 +23,18 @@ public class CustomLibrary {
 	 */
 	private String file_name;
 
+	/**
+	 * class 파일의 패키지명
+	 */
+	private String class_package;
+
 	public CustomLibrary() {}
-	public CustomLibrary(int id, String creator, String file_name) {
+	public CustomLibrary(int id, String creator, String file_name, String class_package) {
 		super();
 		this.id = id;
 		this.creator = creator;
 		this.file_name = file_name;
+		this.class_package = class_package;
 	}
 	
 	public int getId() {
@@ -49,9 +55,11 @@ public class CustomLibrary {
 	public void setFile_name(String file_name) {
 		this.file_name = file_name;
 	}
+	public String getClass_package(){return class_package;}
+	public void setClass_package(String class_package){this.class_package = class_package;}
 	
 	@Override
 	public String toString() {
-		return "CustomLibrary [id=" + id + ", creator=" + creator + ", file_name=" + file_name + "]";
+		return "CustomLibrary [id=" + id + ", creator=" + creator + ", file_name=" + file_name +", class_package=" + class_package + "]";
 	}
 }
