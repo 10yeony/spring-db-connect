@@ -15,16 +15,20 @@ function customUpload() {
 	// 파일 형식 확인
    for(var item of formData.entries()) {
    		var name = item[1]["name"];
+   	if(name != undefined) {
 	   if(name.substring(name.length-4, name.length) != '.jar' && name.substring(name.length-6, name.length) != '.class'){
 			console.log("error");
 			alert("jar 파일 또는 class을 업로드해주세요.");
 			return;
 		}
+		
+		}
 	}
+	
 	
 	$.ajax({
 		type:"POST",
-		enctype: 'multipart/form-data', 
+		enctype: 'form-data', 
 		url: contextPath + "/rule/uploadCustom",
 		data: {formData, pack : $('#pack').val()},
 		processData: false,
@@ -72,6 +76,9 @@ function getAllCustomByCreator(){
 						'<td>' + 
 							result[i].file_name +
 							'<a href="javascript:deleteCustom(' + result[i].id + ')" style="margin-left:5px">삭제</a>' +
+						'</td>' +
+						'<td>' +
+							result[i].class_package +
 						'</td>' +
 					'</tr>'
 				);
