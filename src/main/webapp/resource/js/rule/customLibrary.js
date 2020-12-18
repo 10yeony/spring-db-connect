@@ -93,6 +93,8 @@ function getAllCustomByCreator(){
 							result[i].file_name +
 							'<a href="javascript:deleteCustom(' + result[i].id + ')" style="margin-left:5px">삭제</a>' +
 						'</td>' +
+						'<td>' +
+							result[i].class_package +
 					'</tr>'
 				);
 			}
