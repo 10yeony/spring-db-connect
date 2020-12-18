@@ -319,11 +319,12 @@ public class RuleController {
 	
 	@RequestMapping(value = "/uploadCustom", method = RequestMethod.POST)
 	@ResponseBody
-	public String uploadCustom (@RequestParam("customFile") List<MultipartFile> multipartFile) throws Exception{
+	public String uploadCustom (@RequestParam("customFile") List<MultipartFile> multipartFile, String pack) throws Exception{
+		
 		String username = getMemberInfo().get("username");
 		CustomLibrary customLibrary = new CustomLibrary();
 		customLibrary.setCreator(username);
-//		customLibrary.setClass_package(받아온 package값);
+		customLibrary.setClass_package(pack);
 		ruleService.uploadCustomLibrary(multipartFile, customLibrary);
 		return "true";
 	}
