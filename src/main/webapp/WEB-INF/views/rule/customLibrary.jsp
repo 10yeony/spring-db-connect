@@ -33,18 +33,39 @@
 			</div>
 			<div class="modal-body"><br/>
 				
-				<!-- 라이브러리 파일 업로드 -->
+				<!-- .jar 라이브러리 파일 업로드 -->
 				<div class="card shadow mb-4">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">라이브러리 파일 업로드(.jar, .class)</h6>
+						<h6 class="m-0 font-weight-bold text-primary">라이브러리 파일 업로드(.jar)</h6>
 					</div>
 					<div class="card-body">
-						<form id="customUpload">
-							<input type="file" id="customFile" name="customFile" accept="*"
-								multiple>
-							<input type="text" id="pack" name="pack">
+						<form id="customJarUpload">
+							<input type="file" id="customJarFile" name="customFile" accept="*" multiple>
+							<input type="hidden" name="pack">
 							<hr>
-							<button type="button" onclick="customUpload();"
+							<button type="button" onclick="customUpload('jar');" class="btn btn-primary btn-icon-split" style="float: left;">
+								<span class="icon text-white-50"> 
+									<i class="fas fa-check"></i>
+								</span> 
+								<span class="text">업로드</span>
+							</button>
+						</form>
+					</div>
+				</div><br/>
+				
+				<!-- .class 라이브러리 파일 업로드 -->
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">라이브러리 파일 업로드(.class)</h6>
+					</div>
+					<div class="card-body">
+						<form id="customClassUpload">
+							<input type="file" id="customClassFile" name="customFile" accept="*"><br/><br/>
+							<span><b>Package 이름 : </b></span><br/>
+							<span style="font-size:1em; color:#e74a3b;">예) Test.class ➔ aaa.bbb.Test</span>
+							<input class="form-control" type="text" id="pack" name="pack">
+							<hr>
+							<button type="button" onclick="customUpload('class');"
 								class="btn btn-primary btn-icon-split" style="float: left;">
 								<span class="icon text-white-50"> 
 									<i class="fas fa-check"></i>

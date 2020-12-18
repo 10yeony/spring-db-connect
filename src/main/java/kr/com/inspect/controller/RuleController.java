@@ -316,6 +316,13 @@ public class RuleController {
 		response.getWriter().flush();
 	}
 	
+	/**
+	 * 커스텀 라이브러리를 서버 스토리지에 업로드하고 DB에 등록함
+	 * @param multipartFile 라이브러리 파일(jar, class 파일)
+	 * @param pack 패키지명(class 파일인 경우에만 해당)
+	 * @return 결과값
+	 * @throws Exception 예외
+	 */
 	@RequestMapping(value = "/uploadCustom", method = RequestMethod.POST)
 	@ResponseBody
 	public String uploadCustom (@RequestParam("customFile") List<MultipartFile> multipartFile, 

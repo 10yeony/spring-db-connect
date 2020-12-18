@@ -7,21 +7,39 @@ $(function(){
 	getAllCustomByCreator();
 });
 
-function customUpload() {
+function customUpload(fileType) {
 	var res = '';
+	var formData;
 
-	var formData = new FormData($('#customUpload')[0]);
-	
-	// 파일 형식 확인
-   for(var item of formData.entries()) {
-   		var name = item[1]["name"];
-   		if(name != undefined){
-   			if(name.substring(name.length-4, name.length) != '.jar' && name.substring(name.length-6, name.length) != '.class'){
-				console.log("error");
-				alert("jar 파일 또는 class을 업로드해주세요.");
-				return;
-			}
-   		}
+	if(fileType == 'jar'){
+		formData = new FormData($('#customJarUpload')[0]);
+		
+		// jar 파일 형식 확인
+	   for(var item of formData.entries()) {
+	   		var name = item[1]["name"];
+	   		if(name != undefined){
+	   			if(name.substring(name.length-4, name.length) != '.jar'){
+					console.log("error");
+					alert("jar 파일을 업로드해주세요.");
+					return;
+				}
+	   		}
+		}
+	}
+	else if(fileType == 'class'){
+		formData = new FormData($('#customClassUpload')[0]);
+		
+		// class 파일 형식 확인
+	   for(var item of formData.entries()) {
+	   		var name = item[1]["name"];
+	   		if(name != undefined){
+	   			if(name.substring(name.length-6, name.length) != '.class'){
+					console.log("error");
+					alert("class 파일을 업로드해주세요.");
+					return;
+				}
+	   		}
+		}
 	}
 	
 	$.ajax({
