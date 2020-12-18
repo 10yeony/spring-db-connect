@@ -206,6 +206,7 @@
 									<span class="codeWhite codeRemoveMargin">;</span>
 								</div>
 								<div style="height: 100px;"><br/>
+									<div style="margin-left: 0.23%;">/* 아래에 필요한 라이브러리를 import 하세요 */</div>
 									<textarea id="imp_contents" name="imp_contents" cols="170" rows="20"
 											  style="height: 50px;">${rule.imp_contents}</textarea>
 								</div><br/><br/>
@@ -224,6 +225,7 @@
 									<span class="codeWhite">{</span>
 								</div>
 								<div style="margin-left: 5%; height: 300px;">
+									<div style="margin-left: 1%;">/* 아래에 코드를 입력하세요 */</div>
 									<textarea id="contents" name="contents" cols="170" rows="20"
 											  style="resize: none;">${rule.contents}</textarea>
 								</div>
