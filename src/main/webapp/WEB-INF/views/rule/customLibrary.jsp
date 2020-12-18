@@ -86,6 +86,7 @@
 							<tr>
 								<th>no.</th>
 								<th>라이브러리 이름</th>
+								<th>패키지명</th>
 							</tr>
 						</thead>
 						<tbody id="library-content"></tbody>
