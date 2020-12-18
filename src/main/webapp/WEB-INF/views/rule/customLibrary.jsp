@@ -42,6 +42,7 @@
 						<form id="customUpload">
 							<input type="file" id="customFile" name="customFile" accept="*"
 								multiple>
+							<input type="text" id="pack" name="pack">
 							<hr>
 							<button type="button" onclick="customUpload();"
 								class="btn btn-primary btn-icon-split" style="float: left;">
