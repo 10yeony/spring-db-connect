@@ -18,16 +18,17 @@ function runCodemirror(){
 		matchBrackets: true,
 		theme: "hopscotch"
 	});
+	myCodeMirror.setValue("//여기에 코드를 작성하세요.");
 
 	imp_myCodeMirror = CodeMirror.fromTextArea(imp_contents_textarea, {
 		mode: "text/x-java",
-		lineNumbers: true,
 		lineWrapping: true,
 		styleActiveLine: true,
 		matchBrackets: true,
 		theme: "hopscotch"
 	});
-	imp_myCodeMirror.setSize(500,100);
+	imp_myCodeMirror.setValue("//여기에 라이브러리를 추가하세요.");
+	imp_myCodeMirror.setSize(null,100);
 }
 
 $(function(){

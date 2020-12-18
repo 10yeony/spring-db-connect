@@ -47,7 +47,6 @@
 		}
 
 		.CodeMirror{
-			width:90%;
 			font-size: 1em;
 			font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 		}
@@ -122,7 +121,7 @@
 							<input name="${_csrf.parameterName}" type="hidden"
 								   value="${_csrf.token}" />
 							<div id="code_area" style="font-size: 1.2em; font-weight: bold;">
-								<div>
+								<div style="margin-left:0.23%;">
 									<span class="codeRed">package</span>
 									<span class="codeYellowGreen">kr</span>
 									<span class="codeWhite codeRemoveMargin">.</span>
@@ -133,7 +132,7 @@
 									<span class="codeYellowGreen">rule</span>
 									<span class="codeWhite codeRemoveMargin">;</span>
 								</div><br/>
-								<div>
+								<div style="margin-left: 0.23%;">
 									<span class="codeRed">import</span>
 									<span class="codeYellowGreen">kr</span>
 									<span class="codeWhite codeRemoveMargin">.</span>
@@ -206,11 +205,11 @@
 									<span class="codeYellowGreen">EojeolList</span>
 									<span class="codeWhite codeRemoveMargin">;</span>
 								</div>
-								<div style="height: 100px;">
+								<div style="height: 100px;"><br/>
 									<textarea id="imp_contents" name="imp_contents" cols="170" rows="20"
 											  style="height: 50px;">${rule.imp_contents}</textarea>
-								</div><br/>
-								<div>
+								</div><br/><br/>
+								<div style="margin-left: 0.23%;">
 									<span class="codeRed">public class</span>
 									<span class="codeOrange"> ${rule.file_name}</span>
 									<span class="codeWhite">{</span>
