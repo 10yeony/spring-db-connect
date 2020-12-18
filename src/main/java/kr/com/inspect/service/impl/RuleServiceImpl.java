@@ -370,6 +370,7 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	public void uploadCustomLibrary(List<MultipartFile> customFile, CustomLibrary customLibrary) throws Exception {
 		File fileDir = new File(customPath + customLibrary.getCreator() + File.separator); //Original Directory
+		
 		if(!fileDir.exists()){
 			fileDir.mkdir();
 		}

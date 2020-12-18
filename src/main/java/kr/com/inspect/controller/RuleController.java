@@ -318,10 +318,8 @@ public class RuleController {
 	
 	@RequestMapping(value = "/uploadCustom", method = RequestMethod.POST)
 	@ResponseBody
-	public String uploadCustom (@RequestParam("customFile") List<MultipartFile> multipartFile,
-										@RequestParam("pack") String pack) throws Exception{
-		
-		System.out.println(pack);
+	public String uploadCustom (@RequestParam("customFile") List<MultipartFile> multipartFile, 
+									@RequestParam("pack") String pack) throws Exception{
 		String username = getMemberInfo().get("username");
 		CustomLibrary customLibrary = new CustomLibrary();
 		customLibrary.setCreator(username);
