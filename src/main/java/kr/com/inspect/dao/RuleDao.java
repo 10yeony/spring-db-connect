@@ -193,6 +193,13 @@ public interface RuleDao {
 	public int registerCustomLibrary(CustomLibrary customLibrary);
 	
 	/**
+	 * 아이디로 커스텀 라이브러리를 가져옴
+	 * @param id 커스텀 라이브러리 아이디
+	 * @return 커스텀 라이브러리 객체
+	 */
+	public CustomLibrary getCustomLibraryById(int id);
+	
+	/**
 	 * 사용자 아이디로 사용자가 추가한 커스텀 라이브러리 목록을 가져옴
 	 * @param creator 사용자 아이디
 	 * @return 사용자가 추가한 커스텀 라이브러리 목록

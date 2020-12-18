@@ -339,6 +339,20 @@ public class RuleController {
 	}
 	
 	/**
+	 * 해당되는 커스텀 라이브러리 파일을 삭제하고 DB에서도 삭제함
+	 * @param customLibrary 삭제할 CustomLibrary 객체
+	 * @return 성공 여부
+	 */
+	@PostMapping("deleteCustomLibrary")
+	@ResponseBody
+	public int deleteCustomLibrary(CustomLibrary customLibrary) {
+		String creator = getMemberInfo().get("username");
+		customLibrary.setCreator(creator);
+		int result = ruleService.deleteCustomLibrary(customLibrary);
+		return result;
+	}
+	
+	/**
 	 * 스프링 시큐리티에서 로그인한 사용자의 아이디와 암호화된 비밀번호를 가져옴
 	 * @return 로그인한 사용자의 아이디와 암호화된 비밀번호
 	 */
@@ -355,4 +369,5 @@ public class RuleController {
 		map.put("password", password);
 		return map;
 	}
+	
 }
