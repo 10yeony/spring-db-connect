@@ -401,6 +401,7 @@ public class RuleServiceImpl implements RuleService {
 					}
 					f = new File(packagePath + File.separator + filename);
 				}else if(fileFormat.equals("jar")) { //jar 파일일 때
+					customLibrary.setClass_package("");
 					f = new File(fileDir + File.separator + filename);
 				}
 				try {

@@ -30,7 +30,7 @@ function customUpload(fileType) {
 		formData = new FormData($('#customClassUpload')[0]);
 		
 		// class 파일 형식 확인
-	   for(var item of formData.entries()) {
+		for(var item of formData.entries()) {
 	   		var name = item[1]["name"];
 	   		if(name != undefined){
 	   			if(name.substring(name.length-6, name.length) != '.class'){
@@ -39,6 +39,10 @@ function customUpload(fileType) {
 					return;
 				}
 	   		}
+		}
+		if($('#pack').val() == ''){
+			alert('Package 이름을 입력하세요');
+			return;
 		}
 	}
 	
