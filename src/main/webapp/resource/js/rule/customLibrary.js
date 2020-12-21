@@ -18,7 +18,7 @@ function customUpload(fileType) {
 	   for(var item of formData.entries()) {
 	   		var name = item[1]["name"];
 	   		if(name != undefined){
-	   			if(name.substring(name.length-4, name.length) != '.jar'){
+	   			if(name.substring(name.lastIndexOf('.'), name.length) != '.jar'){
 					console.log("error");
 					alert("jar 파일을 업로드해주세요.");
 					return;
@@ -30,18 +30,43 @@ function customUpload(fileType) {
 		formData = new FormData($('#customClassUpload')[0]);
 		
 		// class 파일 형식 확인
+		var name;
 		for(var item of formData.entries()) {
-	   		var name = item[1]["name"];
-	   		if(name != undefined){
-	   			if(name.substring(name.length-6, name.length) != '.class'){
+	   		if(item[1]["name"] != undefined){
+	   			name = item[1]["name"];
+	   			if(name.substring(name.lastIndexOf('.'), name.length) != '.class'){
 					console.log("error");
 					alert("class 파일을 업로드해주세요.");
 					return;
 				}
 	   		}
 		}
-		if($('#pack').val() == ''){
-			alert('Package 이름을 입력하세요');
+		
+		let packageName = $('#pack').val();
+		let pattern_check = /^[a-zA-Z0-9.$_]{1,}$/; // 패키지명으로 사용가능한 문자 모음
+
+		if(packageName == ''){
+			alert("패키지명을 입력하세요");
+			return;
+		}
+		else if(!isNaN(packageName.substring(0, 1))){
+			alert("숫자로 시작하는 패키지명은 사용할 수 없습니다");
+			return;
+		}
+		else if(!pattern_check.test(packageName)){
+			alert("_ 또는 $를 제외한 특수문자는 패키지명으로 사용할 수 없습니다");
+			return;
+		}
+		else if(packageName.substring(0, 4) == 'java'){
+			alert("java로 시작하는 패키지명은 사용할 수 없습니다");
+			return;
+		}
+		else if(packageName.lastIndexOf('.') == -1){
+			alert("도트(.)가 누락되었습니다");
+			return;
+		}
+		else if(name.substring(0, name.lastIndexOf('.')) != packageName.substring(packageName.lastIndexOf('.')+1, packageName.length)){
+			alert("패키지명에서 클래스 이름을 바르게 입력하세요");
 			return;
 		}
 	}
