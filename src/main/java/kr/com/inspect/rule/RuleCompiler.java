@@ -123,14 +123,14 @@ public class RuleCompiler {
         if(files != null){
             for( File file : files) {
                 if( file.isFile() && file.getName().endsWith(".jar")) {
-                    jarFilePath += (":"+customPath+rule.getCreator()+File.separator+file.getName());
+                    jarFilePath += (File.pathSeparator+customPath+rule.getCreator()+File.separator+file.getName());
                 }
             }
         }
 
         // CLASS PATH 추가
         optionList.add("-classpath");
-        optionList.add(System.getProperty("java.class.path")+":"+classPath+jarFilePath+":"+customPath+rule.getCreator()+File.separator);
+        optionList.add(System.getProperty("java.class.path")+File.pathSeparator+classPath+jarFilePath+File.pathSeparator+customPath+rule.getCreator()+File.separator);
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
@@ -161,14 +161,14 @@ public class RuleCompiler {
         // 사용자가 올린 class파일 path
         urls.add(new File(customPath+rule.getCreator()+File.separator).toURI().toURL());
         // Data.class에서 DB 연결에 쓸 properties 경로 추가
-        urls.add(new URL("file:"+proPath+"db.properties"));
+        urls.add(new URL("file"+File.pathSeparator+proPath+"db.properties"));
 
         // load jar files
         // lib 디렉토리에 있는 jar파일 모두 읽음
         files = new File( lib).listFiles();
         for( File file : files) {
             if( file.isFile() && file.getName().endsWith(".jar")) {
-                urls.add( new URL("file:" + lib + file.getName()));
+                urls.add( new URL("file" + File.pathSeparator + lib + file.getName()));
             }
         }
 
@@ -177,7 +177,7 @@ public class RuleCompiler {
         if(files != null){
             for( File file : files) {
                 if( file.isFile() && file.getName().endsWith(".jar")) {
-                    urls.add( new URL("file:" + customPath + rule.getCreator() + File.separator + file.getName()));
+                    urls.add( new URL("file" + File.pathSeparator + customPath + rule.getCreator() + File.separator + file.getName()));
                 }
             }
         }
