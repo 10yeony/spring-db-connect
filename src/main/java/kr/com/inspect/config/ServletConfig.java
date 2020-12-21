@@ -1,12 +1,17 @@
 package kr.com.inspect.config;
 
-import kr.com.inspect.service.PostgreService;
-import kr.com.inspect.service.impl.PostgreServiceImpl;
+import java.util.Properties;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -16,8 +21,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-
-import java.util.Properties;
+import kr.com.inspect.service.PostgreService;
+import kr.com.inspect.service.impl.PostgreServiceImpl;
 
 /**
  * 각 Servlet에 관한 환경설정(xml 대체)
@@ -60,7 +65,16 @@ public class ServletConfig implements WebMvcConfigurer {
 	    bean.setSuffix(".jsp");
 	    registry.viewResolver((ViewResolver)bean);
 	}
-	  
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@Bean
+	public RequestContextListener requestContextListener(){
+		return new RequestContextListener();
+	}
+
 	/**
 	 * 파일업로드 용량, 인코딩 처리 설정
 	 * @return CommonsMultipartResolver

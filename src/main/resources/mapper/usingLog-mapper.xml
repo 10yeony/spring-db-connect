@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- json 입력 측정 로그 관련 쿼리 -->
+<mapper namespace="UsingLogMapper">
+
+	<!-- UsingLog 테이블에 데이터를 입력함 -->
+	<insert id="insertIntoUsingLog" parameterType="kr.com.inspect.dto.UsingLog">
+		INSERT INTO audio.using_log
+				(ip_addr, 
+				time,
+				content, 
+				member_id)
+			VALUES(#{ip_addr},
+				#{time}, 
+				#{content}, 
+				#{member_id});
+	</insert>
+	
+	<!-- 회원 아이디에 따라 사용 로그를 가지고 옴 -->
+	<select id="getUsingLogByMemberId" parameterType="string" resultType="kr.com.inspect.dto.UsingLog">
+		SELECT
+			*
+		FROM
+			audio.using_log
+		WHERE 
+			member_id = #{member_id};
+	</select>
+</mapper>

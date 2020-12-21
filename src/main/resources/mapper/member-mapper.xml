@@ -77,6 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			audio.member
 			(member_id, 
 			pwd, 
+			name,
 			isAccountNonExpired, 
 			isAccountNonLocked, 
 			isCredentialsNonExpired, 
@@ -85,7 +86,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			email)
 		VALUES
 			(#{member_id}, 
-			#{pwd}, 
+			#{pwd},
+			#{name}, 
 			#{isAccountNonExpired}, 
 			#{isAccountNonLocked}, 
 			#{isCredentialsNonExpired}, 
@@ -100,6 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			audio.member
 		SET
 			pwd = #{pwd}, 
+			name = #{name},
 			isAccountNonExpired = #{isAccountNonExpired}, 
 			isAccountNonLocked = #{isAccountNonLocked}, 
 			isCredentialsNonExpired = #{isCredentialsNonExpired}, 

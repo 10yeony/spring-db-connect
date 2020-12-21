@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
+import kr.com.inspect.dto.UsingLog;
 
 /**
  * 회원정보 DAO
@@ -24,6 +25,7 @@ public class MemberDaoImpl implements MemberDao{
 	
 	private final String memberNs = "MemberMapper.";
 	private final String authorityNs = "AuthorityMapper.";
+	private final String usingLogNs = "UsingLogMapper.";
 
 	/**
 	 * member 회원가입
@@ -171,5 +173,25 @@ public class MemberDaoImpl implements MemberDao{
 	 */
 	public int getMemberCount(){
 		return sqlSession.selectOne(memberNs+"getMemberCount");
+	}
+
+	/**
+	 * 사용 로그에 기록함
+	 * @param usingLog 사용 로그에 기록할 UsingLog 객체
+	 * @return DB에 추가된 row의 수
+	 */
+	@Override
+	public int insertIntoUsingLog(UsingLog usingLog) {
+		return sqlSession.insert(usingLogNs+"insertIntoUsingLog", usingLog);
+	}
+
+	/**
+	 * 회원 아이디에 따라 사용 로그를 가져옴
+	 * @param member_id 회원 아이디
+	 * @return 사용 로그 목록
+	 */
+	@Override
+	public List<UsingLog> getUsingLogByMemberId(String member_id) {
+		return sqlSession.selectList(usingLogNs+"getUsingLogByMemberId", member_id);
 	}
 }

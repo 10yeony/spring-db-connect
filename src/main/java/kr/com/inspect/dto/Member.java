@@ -18,16 +18,26 @@ public class Member implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	
+	
 	/* 아이디 및 비밀번호 */
 	
 	/**
 	 * DB상의 사용자 아이디 컬럼명. 스프링 시큐리티의 username에 해당함.
 	 */
 	private String member_id;
+	
 	/**
 	 * DB상의 비밀번호 컬럼명. 스프링 시큐리티의 password에 해당함.
 	 */
 	private String pwd;
+	
+	/**
+	 * 회원 이름
+	 */
+	private String name;
+	
+	
 	
 	/* 계정 관련 점검 */
 	
@@ -35,18 +45,23 @@ public class Member implements UserDetails {
 	 * 계정이 만료되지 않았는지를 리턴
 	 */
 	private boolean isAccountNonExpired;
+	
 	/**
 	 * 계정이 잠겨있지 않은지를 리턴
 	 */
 	private boolean isAccountNonLocked;
+	
 	/**
 	 * 계정의 패스워드가 만료되지 않았는지를 리턴
 	 */
 	private boolean isCredentialsNonExpired;
+	
 	/**
 	 * 계정이 사용가능한 계정인지를 리턴
 	 */
 	private boolean isEnabled;
+
+	
 	
 	/* 연락처 및 이메일(문자발송 및 메일링 서비스) */
 	
@@ -54,10 +69,13 @@ public class Member implements UserDetails {
 	 * 연락처 정보
 	 */
 	private String phone;
+	
 	/**
 	 * 이메일 정보
 	 */
 	private String email;
+	
+	
 	
 	/* 권한 목록 */
 	
@@ -68,12 +86,13 @@ public class Member implements UserDetails {
 	
 	public Member() {}
 	
-	public Member(String member_id, String pwd, boolean isAccountNonExpired, boolean isAccountNonLocked,
+	public Member(String member_id, String pwd, String name, boolean isAccountNonExpired, boolean isAccountNonLocked,
 			boolean isCredentialsNonExpired, boolean isEnabled, String phone, String email,
 			Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.member_id = member_id;
 		this.pwd = pwd;
+		this.name = name;
 		this.isAccountNonExpired = isAccountNonExpired;
 		this.isAccountNonLocked = isAccountNonLocked;
 		this.isCredentialsNonExpired = isCredentialsNonExpired;
@@ -205,12 +224,12 @@ public class Member implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Member [member_id=" + member_id + ", pwd=" + pwd + ", isAccountNonExpired=" + isAccountNonExpired
-				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
-				+ ", isEnabled=" + isEnabled + ", phone=" + phone + ", email=" + email + ", authorities=" + authorities
-				+ "]";
+		return "Member [member_id=" + member_id + ", pwd=" + pwd + ", name=" + name + ", isAccountNonExpired="
+				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
+				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", phone=" + phone + ", email=" + email
+				+ ", authorities=" + authorities + "]";
 	}
 }
