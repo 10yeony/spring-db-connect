@@ -85,12 +85,14 @@ function customUpload(fileType) {
 			if(res == 'true'){
 				alert("파일을 성공적으로 업로드했습니다.")
 				document.getElementById('loadingArea').style.display='none';
+				$('#pack').val('');
 				getAllCustomByCreator();
 			}
 			
 			else if(res == 'false'){
 				alert("이미 업로드한 파일입니다.") 
 				document.getElementById('loadingArea').style.display='none';
+				$('#pack').val('');
 			}
 		},
 		
