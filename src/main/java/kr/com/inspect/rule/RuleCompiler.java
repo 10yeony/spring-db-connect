@@ -186,8 +186,6 @@ public class RuleCompiler {
         URLClassLoader classLoader = URLClassLoader.newInstance((URL[])urls.toArray( new URL[urls.size()]));
         Class<?> cls = null;
         cls = classLoader.loadClass("kr.com.inspect.rule."+rule.getFile_name());
-//        Class<?> cls1 = classLoader.loadClass("Test");
-//        System.out.println(cls1.getPackageName());
 
         // 가져온 Class 파일에서 메서드 실행
         Class[] params = null;
