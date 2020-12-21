@@ -165,8 +165,9 @@ public class RuleCompiler {
 
         // load jar files
         // lib 디렉토리에 있는 jar파일 모두 읽음
-        files = new File( lib).listFiles();
-        for( File file : files) {
+        files = new File(lib).listFiles();
+        System.out.println(files);
+        for(File file : files) {
             if( file.isFile() && file.getName().endsWith(".jar")) {
                 urls.add( new URL("file:" + lib + file.getName()));
             }
