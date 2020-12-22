@@ -54,7 +54,7 @@
                     <h1 class="h3 mb-2 text-gray-800">
                     	<b>사용 기록 조회</b>
                     	<span style="font-size:18px;">(${searchResult} ${totalCount}건)</span>
-                    	<c:if test="${searchResult != null}">
+                    	<c:if test="${searchResult != '전체'}">
                     		<a href="${pageContext.request.contextPath}/getUsingLog?function_name=getUsingLog&current_page_no=1&count_per_page=10&count_per_list=10&search_word=" 
                     			style="font-size:0.6em;">전체보기</a>
                     	</c:if>
