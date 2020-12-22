@@ -287,4 +287,13 @@ public class MemberController {
 
 		return msg;
 	}
+	
+	/**
+	 * 사용 로그에 로그아웃을 기록함
+	 */
+	@GetMapping("/recordLogout")
+	@ResponseBody
+	public void recordLogout() {
+		memberService.recordLogout();
+	}
 }
