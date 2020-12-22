@@ -2,7 +2,9 @@ package kr.com.inspect.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +20,12 @@ import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
+import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.UsingLog;
+import kr.com.inspect.paging.CommonDto;
+import kr.com.inspect.paging.CommonForm;
+import kr.com.inspect.paging.PagingUtil;
 import kr.com.inspect.sender.SendPwd;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.util.RandomKey;
@@ -306,6 +313,47 @@ public class MemberServiceImpl implements MemberService {
 		List<Member> list = memberDao.getMemberListUsingRole(role);
 		return list;
 	}
+	
+	/**
+	 * Metadata 테이블과 Program 테이블을 조인해서 페이징 처리하여 가져옴
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @return Metadata 테이블과 Program 테이블을 조인하여 페이징 처리한 테이블
+	 */
+	public ResponseData getUsingLog(String function_name, 
+											int current_page_no,
+											int count_per_page,
+											int count_per_list,
+											String search_word){
+    	
+		CommonDto commonDto = new CommonDto();
+		int totalCount = memberDao.getAllCountOfUsingLog(search_word); 
+		if (totalCount != 0) {
+			CommonForm commonForm = new CommonForm();
+			commonForm.setFunction_name(function_name);
+			commonForm.setCurrent_page_no(current_page_no);
+			commonForm.setCount_per_page(count_per_page);
+			commonForm.setCount_per_list(count_per_list);
+			commonForm.setTatal_list_count(totalCount);
+			commonDto = PagingUtil.setPageUtil(commonForm);
+		}
+		int limit = commonDto.getLimit();
+		int offset = commonDto.getOffset();
+		
+		List<UsingLog> list = new ArrayList<>();
+		list = memberDao.getAllUsingLog(limit, offset, search_word);
+		
+		ResponseData responseData = new ResponseData();
+    	Map<String, Object> items = new HashMap<String, Object>();	
+    	items.put("list", list);
+    	items.put("totalCount", totalCount);
+    	items.put("pagination", commonDto.getPagination());
+		responseData.setItem(items);
+		return responseData;
+	}
 
 	/**
 	 * 관리자 권한으로 가입 승인
@@ -321,6 +369,10 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 	
+	/**
+	 * 사용 로그에 로그아웃을 기록함
+	 */
+	@Override
 	public void recordLogout() {
 		UsingLog usingLog = new UsingLog();
 		usingLog.setContent("로그아웃");

@@ -182,17 +182,35 @@ public class MemberDaoImpl implements MemberDao{
 	public int insertIntoUsingLog(UsingLog usingLog) {
 		return sqlSession.insert(usingLogNs+"insertIntoUsingLog", usingLog);
 	}
-
+	
 	/**
-	 * 회원 아이디에 따라 사용 로그를 가져옴
-	 * @param member_id 회원 아이디
+	 * 사용 로그를 모두 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
 	 * @return 사용 로그 목록
 	 */
 	@Override
-	public List<UsingLog> getUsingLogByMemberId(String member_id) {
-		return sqlSession.selectList(usingLogNs+"getUsingLogByMemberId", member_id);
+	public List<UsingLog> getAllUsingLog(int limit, 
+												int offset,
+												String search_word){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("limit", limit);
+		map.put("offset", offset);
+		map.put("search_word", search_word);
+		return sqlSession.selectList(usingLogNs+"getAllUsingLog", map);
 	}
-
+	
+	/**
+	 * 사용 로그 총 개수를 가져옴
+	 * @param search_word 검색어
+	 * @return 사용 로그 총 개수
+	 */
+	@Override
+	public int getAllCountOfUsingLog(String search_word) {
+		return sqlSession.selectOne(usingLogNs+"getAllCountOfUsingLog", search_word);
+	}
+	
 	/**
 	 * 관리자 권한으로 가입 승인
 	 * @param member_id 회원 id

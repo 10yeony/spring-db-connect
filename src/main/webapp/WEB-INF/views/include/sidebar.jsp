@@ -52,22 +52,6 @@
         </div>
     </li>
     
-     <!-- 작업 관리 메뉴 -->
-   <%-- <sec:authorize access="hasRole('ROLE_ADMIN')">
-	   <li class="nav-item">
-	       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#workManage" aria-expanded="true" aria-controls="workManage">
-	           <i class="fas fa-user-friends"></i>
-	           <span>작업 관리</span>
-	       </a>
-	       <div id="workManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-	           <div class="bg-white py-2 collapse-inner rounded">
-	               <h6 class="collapse-header">Work Status Management</h6>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/getWorkList">작업 관리</a>
-	           </div>
-	       </div>
-	   </li>
-   </sec:authorize> --%>
-	
 	<!-- 룰 관리 메뉴 -->
    <sec:authorize access="hasRole('ROLE_ADMIN')">
 	   <li class="nav-item">
@@ -97,6 +81,7 @@
 	           <div class="bg-white py-2 collapse-inner rounded">
 	               <h6 class="collapse-header">Member Management</h6>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getMemberListByAdmin?role=ALL">사용자 관리</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getUsingLog?function_name=getUsingLog&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">사용 기록 조회</a>
 	           </div>
 	       </div>
 	   </li>

@@ -119,11 +119,22 @@ public interface MemberDao {
 	public int insertIntoUsingLog(UsingLog usingLog);
 	
 	/**
-	 * 회원 아이디에 따라 사용 로그를 가져옴
-	 * @param member_id 회원 아이디
+	 * 사용 로그를 모두 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
 	 * @return 사용 로그 목록
 	 */
-	public List<UsingLog> getUsingLogByMemberId(String member_id);
+	public List<UsingLog> getAllUsingLog(int limit, 
+												int offset,
+												String search_word);
+	
+	/**
+	 * 사용 로그 총 개수를 가져옴
+	 * @param search_word 검색어
+	 * @return 사용 로그 총 개수
+	 */
+	public int getAllCountOfUsingLog(String search_word);
 
 	/**
 	 * 관리자 권한으로 가입 승인

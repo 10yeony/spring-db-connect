@@ -7,6 +7,11 @@ package kr.com.inspect.dto;
  */
 public class UsingLog {
 	/**
+	 * 페이징 처리시 필요한 게시글 번호
+	 */
+	private int row_num;
+	
+	/**
 	 * 순번 (primary key이자 auto increment)
 	 */
 	private int no;
@@ -32,15 +37,22 @@ public class UsingLog {
 	private String member_id;
 
 	public UsingLog() {}
-	public UsingLog(int no, String ip_addr, String time, String content, String member_id) {
+	public UsingLog(int row_num, int no, String ip_addr, String time, String content, String member_id) {
 		super();
+		this.row_num = row_num;
 		this.no = no;
 		this.ip_addr = ip_addr;
 		this.time = time;
 		this.content = content;
 		this.member_id = member_id;
 	}
-	
+
+	public int getRow_num() {
+		return row_num;
+	}
+	public void setRow_num(int row_num) {
+		this.row_num = row_num;
+	}
 	public int getNo() {
 		return no;
 	}
@@ -71,10 +83,10 @@ public class UsingLog {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "UsingLog [no=" + no + ", ip_addr=" + ip_addr + ", time=" + time + ", content=" + content
-				+ ", member_id=" + member_id + "]";
+		return "UsingLog [row_num=" + row_num + ", no=" + no + ", ip_addr=" + ip_addr + ", time=" + time + ", content="
+				+ content + ", member_id=" + member_id + "]";
 	}
 }
