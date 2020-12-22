@@ -3,6 +3,7 @@ package kr.com.inspect.dao;
 import java.util.List;
 
 import kr.com.inspect.dto.Member;
+import kr.com.inspect.dto.UsingLog;
 
 /**
  * 회원정보 DAO Interface
@@ -109,4 +110,18 @@ public interface MemberDao {
 	 * @return 회원 수
 	 */
 	public int getMemberCount();
+	
+	/**
+	 * 사용 로그에 기록함
+	 * @param usingLog 사용 로그에 기록할 UsingLog 객체
+	 * @return DB에 추가된 row의 수
+	 */
+	public int insertIntoUsingLog(UsingLog usingLog);
+	
+	/**
+	 * 회원 아이디에 따라 사용 로그를 가져옴
+	 * @param member_id 회원 아이디
+	 * @return 사용 로그 목록
+	 */
+	public List<UsingLog> getUsingLogByMemberId(String member_id);
 }

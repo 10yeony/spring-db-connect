@@ -71,6 +71,7 @@ CREATE TABLE audio.program (
 CREATE TABLE audio.member (
 	member_id text PRIMARY KEY,
 	pwd text NOT NULL,
+	name text,
 	phone text,
 	email text,
 	isAccountNonExpired boolean,
@@ -150,6 +151,14 @@ CREATE TABLE audio.custom_library (
 	creator text,
 	file_name text,
 	class_package text
+);
+
+CREATE TABLE audio.using_log (
+	no SERIAL PRIMARY KEY,
+	ip_addr text,
+	time text,
+	content text,
+	member_id text REFERENCES audio.member ON DELETE CASCADE
 );
 
 auto_increment 값 초기화

@@ -93,36 +93,51 @@ public class DocxReport {
 		XWPFTable table = doc.createTable(list.size()+1, 8);
 
 		/* 헤더 정보 구성 */
+		table.getRow(0).getCell(0).setWidth("500");
 		table.getRow(0).getCell(0).setText(column0);
+		table.getRow(0).getCell(1).setWidth("1800");
 		table.getRow(0).getCell(1).setText("제목");
+		table.getRow(0).getCell(2).setWidth("2000");
 		table.getRow(0).getCell(2).setText("부제");
+		table.getRow(0).getCell(3).setWidth("2000");
 		table.getRow(0).getCell(3).setText(column1);
+		table.getRow(0).getCell(4).setWidth("1000");
 		table.getRow(0).getCell(4).setText("파일명");
+		table.getRow(0).getCell(5).setWidth("800");
 		table.getRow(0).getCell(5).setText("강의 시간");
+		table.getRow(0).getCell(6).setWidth("500");
 		table.getRow(0).getCell(6).setText("문장수");
+		table.getRow(0).getCell(7).setWidth("500");
 		table.getRow(0).getCell(7).setText("어절수");
 
 		Metadata metadata;
 		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
 			metadata = list.get(rowIdx);
+			table.getRow(rowIdx+1).getCell(0).setWidth("500");
 			table.getRow(rowIdx+1).getCell(0).setText(Integer.toString(metadata.getId()));
+			table.getRow(rowIdx+1).getCell(1).setWidth("2000");
+			table.getRow(rowIdx+1).getCell(2).setWidth("2000");
 			if(metadata.getProgram()!= null) {
 				table.getRow(rowIdx+1).getCell(1).setText(metadata.getProgram().getTitle());
 				table.getRow(rowIdx+1).getCell(2).setText(metadata.getProgram().getSubtitle());
 			}
+			table.getRow(rowIdx+1).getCell(3).setWidth("1000");
 			table.getRow(rowIdx+1).getCell(3).setText(metadata.getCreator());
+			table.getRow(rowIdx+1).getCell(4).setWidth("1000");
 			table.getRow(rowIdx+1).getCell(4).setText(metadata.getTitle());
+			table.getRow(rowIdx+1).getCell(5).setWidth("800");
 			if(metadata.getProgram()!= null) {
 				table.getRow(rowIdx+1).getCell(5).setText(metadata.getProgram().getRunning_time());
 			}
+			table.getRow(rowIdx+1).getCell(6).setWidth("500");
 			table.getRow(rowIdx+1).getCell(6).setText(Integer.toString(metadata.getSentence_count()));
+			table.getRow(rowIdx+1).getCell(7).setWidth("500");
 			table.getRow(rowIdx+1).getCell(7).setText(Integer.toString(metadata.getEojeol_total()));
 		}
 
 		/* 입력된 내용 파일로 쓰기 */
 		File file = new File(path + docxFileName);
 		FileOutputStream fos = null;
-		System.out.println(path + docxFileName);
 
 		try {
 			fos = new FileOutputStream(file);
@@ -203,36 +218,35 @@ public class DocxReport {
 		table.setWidth("100%");
 
 		/* 헤더 정보 구성 */
-		table.getRow(0).getCell(0).setWidth("300");
+		table.getRow(0).getCell(0).setWidth("600");
 		table.getRow(0).getCell(0).setText(column0);
-		table.getRow(0).getCell(1).setWidth("2800");
+		table.getRow(0).getCell(1).setWidth("6000");
 		table.getRow(0).getCell(1).setText("form");
-		table.getRow(0).getCell(2).setWidth("400");
+		table.getRow(0).getCell(2).setWidth("800");
 		table.getRow(0).getCell(2).setText("시작시간(단위: 초)");
-		table.getRow(0).getCell(3).setWidth("400");
+		table.getRow(0).getCell(3).setWidth("800");
 		table.getRow(0).getCell(3).setText("종료시간(단위: 초)");
-		table.getRow(0).getCell(4).setWidth("300");
+		table.getRow(0).getCell(4).setWidth("600");
 		table.getRow(0).getCell(4).setText("어절수");
 
 		Utterance utterance;
 		for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
 			utterance = list.get(rowIdx);
-			table.getRow(rowIdx+1).getCell(0).setWidth("300");
+			table.getRow(rowIdx+1).getCell(0).setWidth("600");
 			table.getRow(rowIdx+1).getCell(0).setText(Integer.toString(rowIdx+1));
-			table.getRow(rowIdx+1).getCell(1).setWidth("2800");
+			table.getRow(rowIdx+1).getCell(1).setWidth("6000");
 			table.getRow(rowIdx+1).getCell(1).setText(utterance.getForm());
-			table.getRow(rowIdx+1).getCell(2).setWidth("400");
+			table.getRow(rowIdx+1).getCell(2).setWidth("800");
 			table.getRow(rowIdx+1).getCell(2).setText(Integer.toString((int)utterance.getStart()));
-			table.getRow(rowIdx+1).getCell(3).setWidth("400");
+			table.getRow(rowIdx+1).getCell(3).setWidth("800");
 			table.getRow(rowIdx+1).getCell(3).setText(Integer.toString((int)utterance.getFinish()));
-			table.getRow(rowIdx+1).getCell(4).setWidth("300");
+			table.getRow(rowIdx+1).getCell(4).setWidth("600");
 			table.getRow(rowIdx+1).getCell(4).setText(Integer.toString((int)utterance.getEojeol_count()));
 		}
 
 		// 입력된 내용 파일로 쓰기
 		File file = new File(path + docxFileName);
 		FileOutputStream fos = null;
-		System.out.println(path + docxFileName);
 
 		try {
 			fos = new FileOutputStream(file);
