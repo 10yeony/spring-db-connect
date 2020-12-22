@@ -36,6 +36,14 @@
 					
 					<div class="form-group">
 						<span>
+							<b style="font-size:14px">이름 </b> 
+						</span><br/>
+						<input type="text" class="form-control" name="name"
+							id="edit_name" value="${member.name}"> 
+					</div>
+					
+					<div class="form-group">
+						<span>
 							<b style="font-size:14px">비밀번호 </b> 
 							<span style="font-size:12px; color:red;">(필수)</span>
 							<span style="float:right">

@@ -235,13 +235,22 @@ $(function() {
 	$('#editBtn').click(function(){
 		
 		/* 제출 전 입력폼 검사 */
+		let name = $('#edit_name').val();
 		let pwd = $('#edit_pwd').val();
 		let email = $('#edit_email').val();
 		let phone = $('#edit_phone').val();
 		
 		/* 공백 검사 */
-		if(pwd == '' || email == ''){
-			alert("빈칸을 입력하세요.");
+		if(name == ''){
+			alert("이름을 입력하세요.");
+			return false;
+		}
+		else if(pwd == ''){
+			alert("비밀번호를 입력하세요.");
+			return false;
+		}
+		else if(email == ''){
+			alert("이메일을 입력하세요.");
 			return false;
 		}
 		
