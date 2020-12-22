@@ -42,6 +42,15 @@
 	<form method="post" id="registerFrm" name="register">
 		<div class="form-group">
 			<span>
+				<b style="font-size:14px">이름 </b> 
+				<span style="font-size:12px; color:red;">(필수)</span>
+			</span><br/>
+			<input type="text" class="form-control" name="name"
+				id="register_name" placeholder="이름을 입력하세요." required> 
+		</div>
+	
+		<div class="form-group">
+			<span>
 				<b style="font-size:14px">아이디 </b> 
 				<span style="font-size:12px; color:red;">(필수)</span>
 			</span><br/>

@@ -18,8 +18,6 @@ public class Member implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
-	
 	/* 아이디 및 비밀번호 */
 	
 	/**
@@ -85,7 +83,6 @@ public class Member implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 	
 	public Member() {}
-	
 	public Member(String member_id, String pwd, String name, boolean isAccountNonExpired, boolean isAccountNonLocked,
 			boolean isCredentialsNonExpired, boolean isEnabled, String phone, String email,
 			Collection<? extends GrantedAuthority> authorities) {
@@ -148,6 +145,18 @@ public class Member implements UserDetails {
 		return getPwd();
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	/* 계정 관련 점검 setter/getter */
 	public boolean isAccountNonExpired() {
 		return isAccountNonExpired;
@@ -224,7 +233,7 @@ public class Member implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Member [member_id=" + member_id + ", pwd=" + pwd + ", name=" + name + ", isAccountNonExpired="

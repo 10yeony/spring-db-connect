@@ -121,9 +121,7 @@ public class MemberDaoImpl implements MemberDao{
 	 * @return 이메일 정보 중복 확인 후 변수 result에 담아 값을 리턴
 	 */
 	public int emailCheck(String email) {
-		System.out.println("요청이 들어옴");
 		int result = 0;
-		System.out.println(email);
 		result = sqlSession.selectOne(memberNs+"emailCheck", email);
 		return result;
 	}

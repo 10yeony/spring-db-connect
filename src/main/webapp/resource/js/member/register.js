@@ -264,6 +264,7 @@ $(function() {
 	$('#register_submit').click(function(){
 	
 		/* 제출 전 입력폼 검사 */
+		let name = $('#register_name').val();
 		let member_id = $('#register_member_id').val();
 		let pwd = $('#register_pwd').val();
 		let pwdCheck = $('#register_pwd_check').val();
@@ -271,8 +272,25 @@ $(function() {
 		let phone = $('#register_phone').val();
 		
 		/* 공백 검사 */
-		if(member_id == '' || pwd == '' || pwdCheck == '' || email == ''){
-			alert("빈칸을 입력하세요.");
+		if(name == ''){
+			alert(name);
+			alert("이름을 입력하세요.");
+			return false;
+		}
+		else if(member_id == ''){
+			alert("아이디를 입력하세요.");
+			return false;
+		}
+		else if(pwd == ''){
+			alert("비밀번호를 입력하세요.");
+			return false;
+		}
+		else if(pwdCheck == ''){
+			alert("비밀번호를 한번 더 입력하세요.");
+			return false;
+		}
+		else if(email == ''){
+			alert("이메일을 입력하세요.");
 			return false;
 		}
 		

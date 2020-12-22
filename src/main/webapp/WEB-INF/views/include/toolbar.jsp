@@ -32,7 +32,7 @@
 			aria-expanded="false">
 		<span
 			class="mr-2 d-none d-lg-inline text-gray-600 small">
-			<span style="font-size:19px;"><b>${member.member_id} </b></span>
+			<span style="font-size:19px;"><b>${member.name}</b>(${member.member_id}) </span>
 			<span style="font-size:15px;">님, 환영합니다</span> 
 		</span>
 		<i class="fas fa-user-alt text-gray-400" style="font-size:22px"></i>
