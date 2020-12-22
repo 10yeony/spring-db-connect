@@ -1,6 +1,7 @@
 package kr.com.inspect.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.com.inspect.dto.Member;
+import kr.com.inspect.dto.ResponseData;
+import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.service.MemberService;
 
 /**
@@ -245,6 +248,39 @@ public class MemberController {
 		return "member/getMember";
 	}
 	
+	@GetMapping("/getUsingLog")
+	public String getUsingLog(Model model, 
+								String function_name,
+								int current_page_no,
+								int count_per_page,
+								int count_per_list,
+								String search_word) {
+		
+		ResponseData responseData = memberService.getUsingLog(function_name, 
+																		current_page_no, 
+																		count_per_page, 
+																		count_per_list,
+																		search_word);
+		Map<String, Object> items = (Map<String, Object>) responseData.getItem();
+		List<UsingLog> usingLog = (List<UsingLog>) items.get("list");
+		model.addAttribute("result", usingLog);
+		model.addAttribute("totalCount", items.get("totalCount"));
+		model.addAttribute("pagination",(String)items.get("pagination"));
+		model.addAttribute("count_per_page", count_per_page);
+		model.addAttribute("count_per_list", count_per_list);
+		model.addAttribute("search_word", search_word);
+		
+		String value = "";
+		if(search_word != "") {
+			value = "검색 결과";
+		}else {
+			value = "전체";
+		}
+		model.addAttribute("searchResult", value);
+		
+		return "member/getUsingLogList";
+	}
+	
 	/**
 	 * 스프링 시큐리티에서 로그인한 사용자의 아이디와 암호화된 비밀번호를 가져옴
 	 * @return 로그인한 사용자의 아이디와 암호화된 비밀번호
@@ -272,7 +308,6 @@ public class MemberController {
 	public void approval(String member_id){
 		memberService.updateMemberApprovalUsingId(member_id);
 	}
-
 
 	/**
 	 * 로그인 후 가입 승인 체크
