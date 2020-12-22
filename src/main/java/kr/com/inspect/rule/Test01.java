@@ -16,15 +16,11 @@ public class Test01 {
 		String sol="";
 		
 		for(Metadata r : result) {
-			sol += ("파일명:"+r.getTitle());
-			sol += "\t";
-			sol += ("작성자:"+r.getCreator());
-			sol += "\t";
-			sol += ("문장수:"+r.getSentence_count());
-			sol += "\t";
-			sol += ("어절수:"+r.getEojeol_total());
-			sol += "\t";
-			sol += ("발화자수:"+r.getSpeaker_count());
+			sol += String.format("%-25s", "파일명:"+r.getTitle()+"\t");
+			sol += String.format("%.15s", "문장수:"+ r.getSentence_count()+"\t");
+			sol += String.format("%.15s", "어절수:"+r.getEojeol_total()+"\t");
+			sol += String.format("%.20s", "발화자수:"+r.getSpeaker_count()+"\t");
+          sol += String.format("%-35s", "작성자:"+r.getCreator());
 			sol += "\n";
 			System.out.println(sol);
 		}
