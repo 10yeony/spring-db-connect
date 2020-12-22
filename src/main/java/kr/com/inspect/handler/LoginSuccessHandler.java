@@ -33,8 +33,11 @@ import kr.com.inspect.util.UsingLogUtil;
 @Component("loginSuccessHandler")
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
+	/**
+	 * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
+	 */
 	@Autowired
-	private MemberDao memberDao;
+	private UsingLogUtil usingLogUtil;
 	
 	/**
 	 * 인증이 성공했을 경우 실행되는 로직
@@ -56,10 +59,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		request.getSession().setAttribute("member", member);
 		
 		/* 사용자 접속 정보를 DB 사용 로그 테이블에 저장함 */
-		String content = "로그인";
-		UsingLogUtil usingLogUtil = new UsingLogUtil();
-		UsingLog usingLog = usingLogUtil.setUsingLog(content);
-		memberDao.insertIntoUsingLog(usingLog);
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent("로그인");
+		usingLogUtil.setUsingLog(usingLog);
 		
 		ObjectMapper mapper = new ObjectMapper();	//JSON 변경용
 		

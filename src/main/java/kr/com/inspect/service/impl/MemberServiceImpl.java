@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,9 +18,11 @@ import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
+import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.sender.SendPwd;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.util.RandomKey;
+import kr.com.inspect.util.UsingLogUtil;
 
 /**
  * 회원 Service
@@ -34,6 +37,12 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Autowired
 	private MemberDao memberDao;
+	
+	/**
+	 * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
+	 */
+	@Autowired
+	private UsingLogUtil usingLogUtil;
 	
 	/**
 	 * 패스워드 인코더 필드 선언
@@ -73,6 +82,13 @@ public class MemberServiceImpl implements MemberService {
 		member.setEnabled(true);
 		result += memberDao.registerMember(member);
 		sendPwd.sendApproval(member);
+		
+		if(result > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setMember_id(member.getMember_id());
+			usingLog.setContent("회원가입");
+			usingLogUtil.setUsingLog(usingLog);
+		}
 		
 		/* 권한 추가 */
 		result += memberDao.registerAuthority(member.getMember_id(), "ROLE_VIEW");
@@ -126,8 +142,15 @@ public class MemberServiceImpl implements MemberService {
 		member.setAccountNonLocked(true);
 		member.setCredentialsNonExpired(true);
 		member.setEnabled(true);
-		//System.out.println(member);
-		return memberDao.updateMember(member);
+		int result = memberDao.updateMember(member);
+		
+		if(result > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent("회원 정보 수정");
+			usingLogUtil.setUsingLog(usingLog);
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -137,11 +160,16 @@ public class MemberServiceImpl implements MemberService {
 	 * @return 권한 수정 값 리턴
 	 */
 	@Override
-	public int updateAuthorities(String member_id, String[] authoritiesArr) {		
+	public int updateAuthorities(String member_id, String[] authoritiesArr) {
 		int result = 0;
 		memberDao.deleteAuthorities(member_id); //멤버 아이디로 모든 권한을 삭제함
 		for(String authority : authoritiesArr) {
 			result += memberDao.registerAuthority(member_id, authority);
+		}
+		if(result > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent(member_id + " : 회원 권한 수정");
+			usingLogUtil.setUsingLog(usingLog);
 		}
 		return result;
 	}
@@ -155,7 +183,14 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updatePwd(String member_id, String pwd) {
 		String encodedPassword = new BCryptPasswordEncoder().encode(pwd); //사용자가 입력한 비밀번호를 암호화
-		return memberDao.updatePwd(member_id, encodedPassword);
+		int result = memberDao.updatePwd(member_id, encodedPassword);
+		
+		if(result > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent("비밀번호 변경");
+			usingLogUtil.setUsingLog(usingLog);
+		}
+		return result;
 	}
 	
 	/**
@@ -173,6 +208,11 @@ public class MemberServiceImpl implements MemberService {
 		}else if(!member.getEmail().equals(email)) { //이메일 불일치
 			return "emailNotSame";
 		}else {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setMember_id(member_id);
+			usingLog.setContent("임시 비밀번호 이메일 발송");
+			usingLogUtil.setUsingLog(usingLog);
+			
 			/* 랜덤 비밀번호를 암호화하여 회원정보 수정 */
 			String pwd = new RandomKey().getRamdomString(10); //랜덤 비밀번호 생성
 			String encodedPassword = new BCryptPasswordEncoder().encode(pwd); //비밀번호 암호화
@@ -197,14 +237,25 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public void deleteMember(String member_id) {
+		String username = getUsername();
 		
 		/* 모든 권한 삭제 */
-		memberDao.deleteAuthorities(member_id);
-		//System.out.println("권한 삭제 : "+result);
+		int authDelResult = memberDao.deleteAuthorities(member_id);
+		//System.out.println("삭제된 권한 개수 : " + authDelResult);
 		
 		/* member 삭제 */
-		memberDao.deleteMember(member_id);
-		//System.out.println("+회원 삭제 : "+result);
+		int memDelResult = memberDao.deleteMember(member_id);
+		if(memDelResult == 1) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setMember_id(username);
+			if(member_id.equals(username)) { //스스로 탈퇴된 경우
+				usingLog.setMember_id("admin");
+				usingLog.setContent(member_id + " : 회원 탈퇴(by " + member_id + ")");
+			}else { //관리자에 의해 탈퇴된 경우
+				usingLog.setContent(member_id + " : 회원 탈퇴(by 관리자)");
+			}
+			usingLogUtil.setUsingLog(usingLog);
+		}
 	}
 	
 	/**
@@ -262,6 +313,22 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public void updateMemberApprovalUsingId(String member_id){
-		memberDao.updateMemberApprovalUsingId(member_id);
+		int result = memberDao.updateMemberApprovalUsingId(member_id);
+		if(result > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent(member_id + " : 가입 승인");
+			usingLogUtil.setUsingLog(usingLog);
+		}
+	}
+	
+	/**
+	 * 현재 로그인한 회원의 아이디를 가져옴
+	 * @return 현재 로그인한 회원의 아이디
+	 */
+	public String getUsername() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		UserDetails userDetails = (UserDetails)principal; 
+		String username = userDetails.getUsername();
+		return username;
 	}
 }

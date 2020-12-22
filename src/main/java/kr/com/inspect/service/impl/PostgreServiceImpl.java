@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dao.ElasticDao;
+import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.JsonLog;
@@ -40,6 +41,7 @@ import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Program;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Speaker;
+import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.paging.CommonDto;
 import kr.com.inspect.paging.CommonForm;
@@ -47,6 +49,7 @@ import kr.com.inspect.paging.PagingUtil;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
+import kr.com.inspect.util.UsingLogUtil;
 /**
  * PostgreSQL Service
  * @author Yeonhee Kim
@@ -74,6 +77,12 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	@Autowired
 	private PostgreDao postgreDao;
+	
+	/**
+	 * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
+	 */
+	@Autowired
+	private UsingLogUtil usingLogUtil;
 	
 	/**
 	 * 세션 필드 선언
@@ -231,6 +240,10 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	@Override
 	public void insertJSONUpload(String path, List<MultipartFile> jsonFile) throws Exception {
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent("JSON 파일 업로드");
+		usingLogUtil.setUsingLog(usingLog);
+		
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();
@@ -379,7 +392,11 @@ public class PostgreServiceImpl implements PostgreService{
 	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
-	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile) throws Exception{
+	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile) throws Exception{		
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent("xlsx 파일 업로드");
+		usingLogUtil.setUsingLog(usingLog);
+		
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();
@@ -638,6 +655,10 @@ public class PostgreServiceImpl implements PostgreService{
 	 * @throws Exception 파일 업로드 예외처리
 	 */
 	public void uploadWav(List<MultipartFile> wavFile) throws Exception {
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent("wav 파일 업로드");
+		usingLogUtil.setUsingLog(usingLog);
+		
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();

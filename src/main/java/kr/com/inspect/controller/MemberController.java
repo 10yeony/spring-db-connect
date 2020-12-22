@@ -242,7 +242,6 @@ public class MemberController {
 		Member member = memberService.readMemberById(member_id);
 		model.addAttribute("thisMember", member);
 		model.addAttribute("flag", true);
-		System.out.println(member);
 		return "member/getMember";
 	}
 	
