@@ -41,7 +41,7 @@ function login(){
 		alert("빈칸을 채워주세요");
 		return false;
 	}
-	
+
 	$.ajax({
 		//요청
 		type: "POST",
@@ -50,16 +50,17 @@ function login(){
 		async: false,
 			
 		//응답
-		success : function(response){  
+		success : function(response){
 			var json = JSON.parse(response);
 			if(json.code == "200"){ //로그인 성공
 				successPath = json.item.url; //해당되는 페이지(메인)로 가기
 				location.href = contextPath + successPath;
-			} else { //로그인 실패(아이디, 비밀번호 불일치)
+			} else { //로그인 실패(아이디, 비밀번호 불일치) or (승인 거부)
 				alert(json.message); 
 				$('#login_member_id').val('');
 				$('#login_pwd').val('');
 				$('#login_member_id').focus();
+				location.reload(true);
 			}
 		},
 		error : function(request, status, error) {

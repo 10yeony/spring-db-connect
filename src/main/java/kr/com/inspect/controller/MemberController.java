@@ -242,7 +242,6 @@ public class MemberController {
 		Member member = memberService.readMemberById(member_id);
 		model.addAttribute("thisMember", member);
 		model.addAttribute("flag", true);
-		System.out.println(member);
 		return "member/getMember";
 	}
 	
@@ -264,10 +263,28 @@ public class MemberController {
 		return map;
 	}
 
-
+	/**
+	 * 관리자 권한으로 가입 승인
+	 * @param member_id 승인할 member_id
+	 */
 	@ResponseBody
 	@PostMapping("/approval")
 	public void approval(String member_id){
 		memberService.updateMemberApprovalUsingId(member_id);
+	}
+
+
+	/**
+	 * 로그인 후 가입 승인 체크
+	 * @param session 해당유저의 세션
+	 * @return 검사 결과
+	 */
+	@PostMapping("/approvalCheck")
+	public String approvalCheck(HttpSession session){
+		String msg="";
+		Member member = (Member) session.getAttribute("member");
+		System.out.println(member);
+
+		return msg;
 	}
 }

@@ -27,7 +27,7 @@ public class LoginFailHandler implements AuthenticationFailureHandler {
 	 * @param request 사용자로부터 들어온 요청
 	 * @param response 서버에서 사용자로 가는 응답
 	 * @param exception 인증이 실패한 경우 던져지는 예외
-	 * @exception IOExeption 입출력 예외
+	 * @exception IOException 입출력 예외
 	 * @exception ServletException 서블릿 예외
 	 */
 	@Override
