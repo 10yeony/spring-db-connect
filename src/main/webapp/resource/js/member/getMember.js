@@ -45,7 +45,7 @@ function getContextPath() {
 function approval(){
 	let member_id = $('#thisMember_id').val();
 	$.ajax({
-		url: contextPath+"/approval",
+		url: contextPath + "/approval",
 		data : "member_id=" + member_id,
 		type: "POST",
 
