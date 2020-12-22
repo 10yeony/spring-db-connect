@@ -6,14 +6,10 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import kr.com.inspect.dto.UsingLog;
@@ -32,10 +28,10 @@ public class UsingLogUtil {
 	 */
 	public UsingLog setUsingLog(String content){
 		UsingLog usingLog = new UsingLog();
-        usingLog.setIp_addr(getIpAddr());
-        usingLog.setTime(getTime());
-        usingLog.setMember_id(getMemberId());
-        usingLog.setContent(content);
+		usingLog.setIp_addr(getIpAddr());
+		usingLog.setTime(getTime());
+		usingLog.setMember_id(getMemberId());
+		usingLog.setContent(content);
 		return usingLog;
 	}
 	
