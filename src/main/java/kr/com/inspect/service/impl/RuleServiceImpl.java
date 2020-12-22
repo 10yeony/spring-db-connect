@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.com.inspect.dao.RuleDao;
 import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
 import kr.com.inspect.util.UsingLogUtil;
@@ -138,12 +139,22 @@ public class RuleServiceImpl implements RuleService {
 			id = ruleDao.isExistTopLevel(rule);
 			if (id == 0) { // 존재하지 않는 경우에만 등록
 				result = ruleDao.registerTopLevel(rule);
+				if(result > 0) {
+					UsingLog usingLog = new UsingLog();
+					usingLog.setContent("Rule 대분류 등록 - \""+rule.getTop_level_name()+"\"");
+					usingLogUtil.setUsingLog(usingLog);
+				}
 			}
 			break;
 		case "middle":
 			id = ruleDao.isExistMiddleLevel(rule);
 			if (id == 0) { // 존재하지 않는 경우에만 등록
 				result = ruleDao.registerMiddleLevel(rule);
+				if(result > 0) {
+					UsingLog usingLog = new UsingLog();
+					usingLog.setContent("Rule 중분류 등록 - \""+rule.getMiddle_level_name()+"\"");
+					usingLogUtil.setUsingLog(usingLog);
+				}
 			}
 			break;
 		case "bottom":
@@ -157,6 +168,12 @@ public class RuleServiceImpl implements RuleService {
 				rule.setBottom_level_id(id);
 				rule.setFile_name(fileName);
 				result += ruleDao.updateBottomLevelFileName(rule);
+				
+				if(result > 0) {
+					UsingLog usingLog = new UsingLog();
+					usingLog.setContent("Rule 소분류 등록 - \""+rule.getBottom_level_name()+"\"");
+					usingLogUtil.setUsingLog(usingLog);
+				}
 			}
 			break;
 		}
@@ -170,23 +187,35 @@ public class RuleServiceImpl implements RuleService {
 	 * @return DB에서 삭제한 row의 수
 	 */
 	@Override
-	public int deleteRule(String level, int id) {
+	public int deleteRule(String level, int id, String name) {
 		int result = 0;
+		String content = null;
 		switch (level) {
 		case "top":
+			content = "Rule 대분류 삭제 - \"";
 			result = ruleDao.deleteTopLevel(id);
 			break;
 		case "middle":
+			content = "Rule 중분류 삭제 - \"";
 			result = ruleDao.deleteMiddleLevel(id);
 			break;
 		case "bottom":
+			content = "Rule 소분류 삭제 - \"";
+			
 			/* 자바 파일, 클래스 파일 삭제 */
-			String fileName = ruleDao.getRuleBottomLevel(id).getFile_name();
+			Rule rule = ruleDao.getRuleBottomLevel(id);
+			name = rule.getBottom_level_name();
+			String fileName = rule.getFile_name();
 			deleteJavaClassFile(fileName);
 
 			/* DB에서 소분류 삭제 */
 			result = ruleDao.deleteBottomLevel(id);
 			break;
+		}
+		if(result > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent(content+name+"\"");
+			usingLogUtil.setUsingLog(usingLog);
 		}
 		return result;
 	}
@@ -227,6 +256,11 @@ public class RuleServiceImpl implements RuleService {
 		/* 컴파일 결과값 DB에 등록 */
 		rule.setResult(obj.toString());
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
+		if(updateResult > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent("Rule 작성 - \""+vo.getBottom_level_name()+"\"");
+			usingLogUtil.setUsingLog(usingLog);
+		}
 
 		/* 리턴값 세팅 */
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -277,6 +311,12 @@ public class RuleServiceImpl implements RuleService {
 			}
 		}
 		executor.shutdownNow(); // Task 종료
+		
+		if(list.size() > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent("Rule 실행 - 총 "+list.size()+"개");
+			usingLogUtil.setUsingLog(usingLog);
+		}
 	}
 
 	/**
@@ -423,6 +463,12 @@ public class RuleServiceImpl implements RuleService {
 			}));
 		}
 		closeThread(executor, futures);
+		
+		if(customFile.size() > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent("Rule 관련 라이브러리 등록 - 총 "+customFile.size()+"개");
+			usingLogUtil.setUsingLog(usingLog);
+		}
 	}
 
 	/**
@@ -508,7 +554,14 @@ public class RuleServiceImpl implements RuleService {
 		} else {
 			// System.out.println("파일이 존재하지 않습니다.");
 		}
-		return ruleDao.deleteCustomLibrary(customLibrary.getId());
+		
+		result = ruleDao.deleteCustomLibrary(customLibrary.getId());
+		if(result > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent("Rule 관련 라이브러리 삭제 - \""+fileName+"\"");
+			usingLogUtil.setUsingLog(usingLog);
+		}
+		return result;
 	}
 	
 	/**

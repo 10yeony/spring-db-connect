@@ -167,7 +167,7 @@ public class RuleController {
 	}
 
 	@GetMapping("/deleteRuleLevel")
-	public String deleteRuleLevel(Model model, String level, int id) {
+	public String deleteRuleLevel(Model model, String level, int id, String name) {
 		String levelName = "";
 		switch (level) {
 		case "top":
@@ -182,7 +182,7 @@ public class RuleController {
 		}
 
 		int result = 0;
-		result = ruleService.deleteRule(level, id);
+		result = ruleService.deleteRule(level, id, name);
 		if (result > 0) {
 			model.addAttribute("ruleDelSuccessMsg", levelName + "를 성공적으로 삭제했습니다.");
 			if (level.equals("bottom")) {
