@@ -74,6 +74,7 @@ CREATE TABLE audio.member (
 	name text,
 	phone text,
 	email text,
+	approval text,
 	isAccountNonExpired boolean,
 	isAccountNonLocked boolean,
 	isCredentialsNonExpired boolean,
