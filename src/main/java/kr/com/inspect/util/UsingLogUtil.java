@@ -6,12 +6,15 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.RequestContextListener;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import kr.com.inspect.dto.UsingLog;
 
@@ -42,27 +45,26 @@ public class UsingLogUtil {
 	 */
 	public String getIpAddr() {
 		String ip_addr = null;
-		RequestAttributes attribs = RequestContextHolder.getRequestAttributes();
-	    if (attribs instanceof NativeWebRequest) {
-	        HttpServletRequest request = (HttpServletRequest) ((NativeWebRequest) attribs).getNativeRequest();
-	        ip_addr = request.getHeader("X-Forwarded-For");
-	        if (ip_addr == null) {
-	        	ip_addr = request.getHeader("Proxy-Client-IP");
-	        }
-	        if (ip_addr == null) {
-	        	ip_addr = request.getHeader("WL-Proxy-Client-IP"); 
-	        }
-	        if (ip_addr == null) {
-	        	ip_addr = request.getHeader("HTTP_CLIENT_IP");
-	        }
-	        if (ip_addr == null) {
-	        	ip_addr = request.getHeader("HTTP_X_FORWARDED_FOR");
-	        }
-	        if (ip_addr == null) {
-	        	ip_addr = request.getRemoteAddr();
-	        }
+		ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		HttpServletRequest request = sra.getRequest();
+		
+		ip_addr = request.getHeader("X-Forwarded-For");
+		if (ip_addr == null) {
+			ip_addr = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip_addr == null) {
+			ip_addr = request.getHeader("WL-Proxy-Client-IP"); 
 	    }
-	    return ip_addr;
+		if (ip_addr == null) {
+			ip_addr = request.getHeader("HTTP_CLIENT_IP");
+	    }
+		if (ip_addr == null) {
+			ip_addr = request.getHeader("HTTP_X_FORWARDED_FOR");
+	    }
+		if (ip_addr == null) {
+			ip_addr = request.getRemoteAddr();
+	    }
+		return ip_addr;
 	}
 	
 	/**

@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.RequestContextFilter;
 
 import kr.com.inspect.handler.CustomAccessDeniedHandler;
 import kr.com.inspect.handler.LoginFailHandler;
@@ -97,6 +98,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 		filter.setEncoding("UTF-8");
 		filter.setForceEncoding(true);
 		http.addFilterBefore(filter,CsrfFilter.class);
+		
+		http.addFilterAfter(new RequestContextFilter(), CsrfFilter.class);
 		
 		/* 권한별 접근 페이지 설정 */
 		http.authorizeRequests()
