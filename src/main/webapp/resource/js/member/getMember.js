@@ -41,3 +41,16 @@ function getContextPath() {
     var hostIndex = location.href.indexOf( location.host ) + location.host.length;
     return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
 }
+
+function approval(){
+	let member_id = $('#thisMember_id').val();
+	$.ajax({
+		url: contextPath+"/approval",
+		data : "member_id=" + member_id,
+		type: "POST",
+
+		success : function (){
+			alert("가입 승인 완료");
+		}
+	})
+}
