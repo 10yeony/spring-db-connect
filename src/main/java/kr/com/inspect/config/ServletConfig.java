@@ -67,8 +67,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * HttpServletRequest를 직접 가져오기 위한 RequestContextListener를 Bean으로 등록
+	 * @return RequestContextListener 객체
 	 */
 	@Bean
 	public RequestContextListener requestContextListener(){

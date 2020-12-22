@@ -83,7 +83,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			isCredentialsNonExpired, 
 			isEnabled,
 			phone, 
-			email)
+			email,
+			approval)
 		VALUES
 			(#{member_id}, 
 			#{pwd},
@@ -93,7 +94,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			#{isCredentialsNonExpired}, 
 			#{isEnabled},
 			#{phone}, 
-			#{email});
+			#{email},
+			#{approval});
 	</insert>
 	
 	<!-- 회원정보 수정 -->
@@ -136,4 +138,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		SELECT count(*)
 		FROM audio.member;
 	</select>
+
+	<!-- 관리자 권한으로 가입 승인 -->
+	<update id="updateMemberApprovalUsingId"
+			parameterType="string">
+		UPDATE
+			audio.member
+		SET
+			approval = 'true'
+		WHERE
+			member_id = #{member_id};
+	</update>
+
 </mapper>

@@ -106,6 +106,19 @@
 					                          <a href="javascript:void(0);" data-toggle="modal" data-target="#editAuthoritiesModal">권한 편집</a>
 		                                	</td>
 	                                </tr>
+									<tr>
+										<th>가입 승인</th>
+										<td>
+											<c:if test="${thisMember.approval eq 'true'}">
+												승인 완료
+											</c:if>
+											<c:if test="${thisMember.approval eq 'false'}">
+												<button type="button" onclick="approval()" class="btn btn-primary btn-icon-split">
+													<span class="text">가입 승인하기</span>
+												</button>
+											</c:if>
+										</td>
+									</tr>
                                 </tbody>
                             </table>
                            
