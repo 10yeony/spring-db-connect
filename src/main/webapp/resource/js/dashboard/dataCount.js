@@ -8,7 +8,6 @@ $(function (){
         //응답
         success : function(response){
             var json = JSON.parse(response);
-            console.log(response);
             $('#metadata').append(json.metadata);
             $('#utterance').append(json.utterance);
             $('#eojeol').append(json.eojeol);

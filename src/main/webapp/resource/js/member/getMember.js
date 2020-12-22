@@ -51,6 +51,7 @@ function approval(){
 
 		success : function (){
 			alert("가입 승인 완료");
+			location.reload(true);
 		}
 	})
 }
