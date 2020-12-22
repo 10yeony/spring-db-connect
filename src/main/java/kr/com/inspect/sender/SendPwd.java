@@ -4,6 +4,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
+import kr.com.inspect.dto.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -33,7 +34,6 @@ public class SendPwd {
     /**
      *  비밀번호 변경을 위한 인증번호 발송 메일을 보냄
     * @param email 회원 이메일
-    * @param key 인증번호
     * @throws Exception 예외
      */
     public void sendMail(String email, String pwd) throws Exception{
@@ -59,4 +59,34 @@ public class SendPwd {
             e.printStackTrace();
         }
     }
+
+	/**
+	 * 새로운 멤버 회원가입시 관리자에게 알림
+	 * @param member 회원 가입한 멤버
+	 */
+	public void sendApproval(Member member){
+		try{
+			MimeMessage message = mailSender.createMimeMessage();
+
+			message.addRecipient(RecipientType.TO, new InternetAddress(mailUsername)); // 받는 사람
+			message.setFrom(new InternetAddress(mailUsername)); // 보내는 사람
+			message.setSubject("SDTM 가입 승인"); // 메일 제목 (생략 가능)
+
+			String msg = "";
+			msg += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
+			msg += "<h2><b>새로운 회원가입이 있습니다.</b></h2>";
+			msg += "<div style='font-size: 130%;'>";
+			msg += "<span>승인하러 가기 "+ "http://45.32.55.180:8080/" + "</span><br/><br/>";
+			msg += "<span>member 정보</span><br/>";
+			msg += "이름 : <strong>" + member.getName() + "</strong> <br/>";
+			msg += "ID : <strong>" + member.getMember_id() + "</strong> <br/><br/></div>";
+			message.setContent(msg,"text/html;charset=euc-kr"); // 메일 본문
+
+			/* 메일 발송 */
+			mailSender.send(message);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+	}
 }

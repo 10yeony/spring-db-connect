@@ -115,4 +115,10 @@ public interface MemberService extends UserDetailsService {
 	 * @return 비밀번호 암호화 객체
 	 */
 	public PasswordEncoder passwordEncoder();
+
+	/**
+	 * 관리자 권한으로 가입 승인
+	 * @param id 회원 id
+	 */
+	public void updateMemberApprovalUsingId(String member_id);
 }

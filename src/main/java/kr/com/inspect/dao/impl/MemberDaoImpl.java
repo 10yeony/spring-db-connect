@@ -194,4 +194,14 @@ public class MemberDaoImpl implements MemberDao{
 	public List<UsingLog> getUsingLogByMemberId(String member_id) {
 		return sqlSession.selectList(usingLogNs+"getUsingLogByMemberId", member_id);
 	}
+
+	/**
+	 * 관리자 권한으로 가입 승인
+	 * @param member_id 회원 id
+	 * @return update된 row수
+	 */
+	@Override
+	public int updateMemberApprovalUsingId(String member_id){
+		return sqlSession.update(memberNs+"updateMemberApprovalUsingId", member_id);
+	}
 }
