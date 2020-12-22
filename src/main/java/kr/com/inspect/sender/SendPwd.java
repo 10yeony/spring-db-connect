@@ -30,6 +30,12 @@ public class SendPwd {
      */
     @Value("${mail.username}") 
     private String mailUsername;
+
+	/**
+	 * 발신 이메일2
+	 */
+	@Value("${mail.username2}")
+	private String mailUsername2;
     
     /**
      *  비밀번호 변경을 위한 인증번호 발송 메일을 보냄
@@ -68,18 +74,23 @@ public class SendPwd {
 		try{
 			MimeMessage message = mailSender.createMimeMessage();
 
-			message.addRecipient(RecipientType.TO, new InternetAddress(mailUsername)); // 받는 사람
+			InternetAddress[] toAddr = new InternetAddress[2];
+			toAddr[0] = new InternetAddress (mailUsername);
+			toAddr[1] = new InternetAddress (mailUsername2);
+			message.addRecipients(RecipientType.TO, toAddr); // 받는 사람
 			message.setFrom(new InternetAddress(mailUsername)); // 보내는 사람
 			message.setSubject("SDTM 가입 승인"); // 메일 제목 (생략 가능)
 
 			String msg = "";
 			msg += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
+			msg += "<h2><b>SDTM</b></h2>";
 			msg += "<h2><b>새로운 회원가입이 있습니다.</b></h2>";
 			msg += "<div style='font-size: 130%;'>";
-			msg += "<span>승인하러 가기 "+ "http://45.32.55.180:8080/" + "</span><br/><br/>";
-			msg += "<span>member 정보</span><br/>";
+			msg += "<span>승인하러 가기 "+ "http://45.32.55.180:8080/getMemberByAdmin?member_id=" + member.getMember_id() + "</span><br/><br/>";
+			msg += "<span>사용자 정보</span><br/>";
 			msg += "이름 : <strong>" + member.getName() + "</strong> <br/>";
 			msg += "ID : <strong>" + member.getMember_id() + "</strong> <br/><br/></div>";
+			msg += "<img src='http://45.32.55.180:8080/resource/img/NAMU_Logo_PNG.png' width='300'><br/><br/><br/>";
 			message.setContent(msg,"text/html;charset=euc-kr"); // 메일 본문
 
 			/* 메일 발송 */

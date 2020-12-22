@@ -55,7 +55,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		// 가입 승인이 완료되지 않았을 경우
 		if(((Member)authentication.getPrincipal()).getApproval().equals("false")){
-			System.out.println("onAuthenticationSuccess");
 			ObjectMapper mapper = new ObjectMapper();	//JSON 변경용
 			ResponseData responseData = new ResponseData();
 			responseData.setCode(ResponseDataCode.ERROR); //코드 에러
@@ -66,13 +65,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.getWriter().print(mapper.writeValueAsString(responseData));
 			response.getWriter().flush();
-
-//			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//			if (auth != null){
-//				System.out.println("logout");
-//				new SecurityContextLogoutHandler().logout(request, response, auth);
-//			}
-
 		}
 		else {
 			String url = "/main"; //이동할 페이지
