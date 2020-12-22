@@ -23,6 +23,7 @@ import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
+import kr.com.inspect.util.UsingLogUtil;
 
 /**
  * 전사규칙에 관한 Service 구현 클래스
@@ -41,6 +42,12 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	@Autowired
 	private RuleDao ruleDao;
+	
+	/**
+	 * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
+	 */
+	@Autowired
+	private UsingLogUtil usingLogUtil;
 
 	/**
 	 * Rule 객체

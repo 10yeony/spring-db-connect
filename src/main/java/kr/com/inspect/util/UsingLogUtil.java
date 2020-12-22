@@ -6,12 +6,14 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.UsingLog;
 
 /**
@@ -22,17 +24,27 @@ import kr.com.inspect.dto.UsingLog;
 @Component
 public class UsingLogUtil {
 	/**
+	 * MemberDao dao 필드 선언
+	 */
+	@Autowired
+	private MemberDao memberDao;
+	
+	/**
 	 * 사용 로그에 ip, 접속 시간, 아이디, 로그 내용을 세팅함
 	 * @param content 사용 로그 내용
 	 * @return 사용 로그 정보가 담긴 UsingLog 객체
 	 */
-	public UsingLog setUsingLog(String content){
-		UsingLog usingLog = new UsingLog();
-		usingLog.setIp_addr(getIpAddr());
-		usingLog.setTime(getTime());
-		usingLog.setMember_id(getMemberId());
-		usingLog.setContent(content);
-		return usingLog;
+	public void setUsingLog(UsingLog usingLog){
+		if(usingLog.getIp_addr() == null) {
+			usingLog.setIp_addr(getIpAddr());
+		}
+		if(usingLog.getTime() == null) {
+			usingLog.setTime(getTime());
+		}
+		if(usingLog.getMember_id() == null) {
+			usingLog.setMember_id(getMemberId());
+		}
+		memberDao.insertIntoUsingLog(usingLog);
 	}
 	
 	/**
