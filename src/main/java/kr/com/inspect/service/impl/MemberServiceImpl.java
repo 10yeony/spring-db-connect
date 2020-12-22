@@ -65,12 +65,14 @@ public class MemberServiceImpl implements MemberService {
 		/* member 추가 */
 		String rawPassword = member.getPassword(); //사용자가 입력한 raw한 비밀번호
 		String encodedPassword = new BCryptPasswordEncoder().encode(rawPassword); //암호화된 비밀번호
+		member.setApproval("false"); // 가입 승인이 아직 안됨
 		member.setPwd(encodedPassword); //암호화된 비밀번호로 세팅
 		member.setAccountNonExpired(true); //계정 관련 기본값 true로 세팅
 		member.setAccountNonLocked(true);
 		member.setCredentialsNonExpired(true);
 		member.setEnabled(true);
 		result += memberDao.registerMember(member);
+		sendPwd.sendApproval(member);
 		
 		/* 권한 추가 */
 		result += memberDao.registerAuthority(member.getMember_id(), "ROLE_VIEW");
@@ -252,5 +254,14 @@ public class MemberServiceImpl implements MemberService {
 	public List<Member> getMemberListUsingRole(String role){
 		List<Member> list = memberDao.getMemberListUsingRole(role);
 		return list;
+	}
+
+	/**
+	 * 관리자 권한으로 가입 승인
+	 * @param member_id 회원 id
+	 */
+	@Override
+	public void updateMemberApprovalUsingId(String member_id){
+		memberDao.updateMemberApprovalUsingId(member_id);
 	}
 }

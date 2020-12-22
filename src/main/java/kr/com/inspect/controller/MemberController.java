@@ -242,6 +242,7 @@ public class MemberController {
 		Member member = memberService.readMemberById(member_id);
 		model.addAttribute("thisMember", member);
 		model.addAttribute("flag", true);
+		System.out.println(member);
 		return "member/getMember";
 	}
 	
@@ -261,5 +262,12 @@ public class MemberController {
 		map.put("username", username);
 		map.put("password", password);
 		return map;
+	}
+
+
+	@ResponseBody
+	@PostMapping("/approval")
+	public void approval(String member_id){
+		memberService.updateMemberApprovalUsingId(member_id);
 	}
 }

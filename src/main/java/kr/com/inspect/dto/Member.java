@@ -59,7 +59,7 @@ public class Member implements UserDetails {
 	 */
 	private boolean isEnabled;
 
-	
+
 	
 	/* 연락처 및 이메일(문자발송 및 메일링 서비스) */
 	
@@ -72,6 +72,11 @@ public class Member implements UserDetails {
 	 * 이메일 정보
 	 */
 	private String email;
+
+	/**
+	 * 승인 정보
+	 */
+	private String approval;
 	
 	
 	
@@ -144,14 +149,6 @@ public class Member implements UserDetails {
 	public String getPassword() {
 		return getPwd();
 	}
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -204,7 +201,6 @@ public class Member implements UserDetails {
 		this.authorities = authorities;
 	}
 	
-	
 	/**
 	 * 연락처 getter
 	 * @return
@@ -233,12 +229,36 @@ public class Member implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	/**
+	 * 이름 getter
+	 * @return name
+	 */
+	public String getName(){ return name; }
+
+	/**
+	 * 이름 setter
+	 * @param name
+	 */
+	public void setName(String name){ this.name = name; }
+
+	/**
+	 * 권한 getter
+	 * @return 권한
+	 */
+	public String getApproval(){ return approval; }
+
+	/**
+	 * 권한 setter
+	 * @param approval
+	 */
+	public void setApproval(String approval) { this.approval = approval; }
+
 	@Override
 	public String toString() {
 		return "Member [member_id=" + member_id + ", pwd=" + pwd + ", name=" + name + ", isAccountNonExpired="
 				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
 				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", phone=" + phone + ", email=" + email
-				+ ", authorities=" + authorities + "]";
+				+ ", authorities=" + authorities + ", approval=" + approval + "]";
 	}
 }

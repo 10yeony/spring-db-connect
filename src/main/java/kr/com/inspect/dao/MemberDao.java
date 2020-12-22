@@ -124,4 +124,11 @@ public interface MemberDao {
 	 * @return 사용 로그 목록
 	 */
 	public List<UsingLog> getUsingLogByMemberId(String member_id);
+
+	/**
+	 * 관리자 권한으로 가입 승인
+	 * @param member_id 회원 id
+	 * @return update된 row수
+	 */
+	public int updateMemberApprovalUsingId(String member_id);
 }
