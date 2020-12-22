@@ -48,7 +48,7 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-2 text-gray-800">
-                    	<b>회원 관리</b>
+                    	<b>사용자 관리</b>
                     	<span style="font-size:18px;">(${selectedRole})</span>
                     </h1>
                 </div>

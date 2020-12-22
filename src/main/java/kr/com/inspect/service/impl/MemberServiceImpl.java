@@ -321,6 +321,12 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 	
+	public void recordLogout() {
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent("로그아웃");
+		usingLogUtil.setUsingLog(usingLog);
+	}
+	
 	/**
 	 * 현재 로그인한 회원의 아이디를 가져옴
 	 * @return 현재 로그인한 회원의 아이디

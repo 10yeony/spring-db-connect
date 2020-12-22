@@ -121,4 +121,9 @@ public interface MemberService extends UserDetailsService {
 	 * @param id 회원 id
 	 */
 	public void updateMemberApprovalUsingId(String member_id);
+	
+	/**
+	 * 사용 로그에 로그아웃을 기록함
+	 */
+	public void recordLogout();
 }

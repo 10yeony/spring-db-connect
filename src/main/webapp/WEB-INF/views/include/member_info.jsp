@@ -18,7 +18,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">회원정보 수정</h5>
+				<h5 class="modal-title" id="exampleModalLabel">사용자 정보 수정</h5>
 				<button class="close" type="button" data-dismiss="modal"
 					 id="editX" aria-label="Close">
 					<span aria-hidden="true">x</span>
