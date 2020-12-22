@@ -74,9 +74,9 @@ public class SendPwd {
 		try{
 			MimeMessage message = mailSender.createMimeMessage();
 
-			InternetAddress[] toAddr = new InternetAddress[2];
+			InternetAddress[] toAddr = new InternetAddress[1];
 			toAddr[0] = new InternetAddress (mailUsername);
-			toAddr[1] = new InternetAddress (mailUsername2);
+//			toAddr[1] = new InternetAddress (mailUsername2);
 			message.addRecipients(RecipientType.TO, toAddr); // 받는 사람
 			message.setFrom(new InternetAddress(mailUsername)); // 보내는 사람
 			message.setSubject("SDTM 가입 승인"); // 메일 제목 (생략 가능)
