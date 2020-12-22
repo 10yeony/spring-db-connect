@@ -84,8 +84,6 @@
 			#{top_level_id}, #{middle_level_id});
 	</insert>
 
-
-
 	<!-- 중복검사를 위한 대분류 존재 유무 확인 -->
 	<select id="isExistTopLevel"
 			parameterType="kr.com.inspect.dto.Rule" resultType="int">
