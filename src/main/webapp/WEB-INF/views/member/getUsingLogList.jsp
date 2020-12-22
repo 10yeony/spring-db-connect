@@ -85,7 +85,7 @@
                                     <tr>
                                     	 <th>no.</th>
                                         <th>아이디</th>
-                                        <th>사용 내용</th>
+                                        <th>사용 내역</th>
                                         <th>IP 주소</th>
                                         <th>접속 시간</th>
                                     </tr>
