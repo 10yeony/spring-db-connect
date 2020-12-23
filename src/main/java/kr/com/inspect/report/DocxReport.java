@@ -293,8 +293,12 @@ public class DocxReport {
 		XWPFRun r = p.createRun();
 
 		r.setText("날짜 : " + day);
+		r.addBreak();
+		r.setText("대분류 : " + rule.getTop_level_name());
+		r.addBreak();
+		r.setText("중분류 : " + rule.getMiddle_level_name());
 		r.setFontSize(9);
-		r.addBreak();r.addBreak();
+		r.addBreak();
 
 		XWPFParagraph p1 = doc.createParagraph();
 		p1.setAlignment(ParagraphAlignment.CENTER);
@@ -304,7 +308,7 @@ public class DocxReport {
 		}
 		r1.setBold(true);
 		r1.setFontSize(14);
-		r1.addBreak();r1.addBreak();r1.addBreak();r1.addBreak();
+		r1.addBreak();r1.addBreak();
 		XWPFRun r2 = p1.createRun();
 		if(rule.getResult() != null) {
 			String[] strList = rule.getResult().split("\n");

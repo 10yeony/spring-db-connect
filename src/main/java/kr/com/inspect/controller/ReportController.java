@@ -341,9 +341,6 @@ public class ReportController {
 	@RequestMapping(value = "/resultRuleDocx", method = RequestMethod.GET)
 	public void resultRuleWord(HttpServletResponse response, Integer bottom_level_id) throws Exception {
 		Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);
-		System.out.println(rule);
 		docxReport.resultRuleDocx(response, rule, docxPath);
-
 	}
-
 }
