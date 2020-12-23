@@ -17,6 +17,8 @@ public class Test01 {
 		
 		for(Metadata r : result) {
 			sol += String.format("%-25s", "파일명:"+r.getTitle()+"\t");
+			sol += String.format("%.100s", "강의명:"+r.getProgram().getTitle()+"\t");
+			sol += String.format("%.100s", "부제:"+r.getProgram().getSubtitle()+"\t");
 			sol += String.format("%.15s", "문장수:"+ r.getSentence_count()+"\t");
 			sol += String.format("%.15s", "어절수:"+r.getEojeol_total()+"\t");
 			sol += String.format("%.20s", "발화자수:"+r.getSpeaker_count()+"\t");
@@ -24,5 +26,6 @@ public class Test01 {
 			sol += "\n";
 			System.out.println(sol);
 		}
+		//System.out.println(result);
 	}
 }
