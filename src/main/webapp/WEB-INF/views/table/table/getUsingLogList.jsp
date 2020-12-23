@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<table class="table table-bordered" width="100%" cellspacing="0">
+	<table id="usingLogList" class="table table-bordered" width="100%" cellspacing="0">
 		<thead>
 			<tr>
 				<th>no.</th>
@@ -32,6 +32,11 @@
 			</c:forEach>
 		</tbody>
 	</table>
-</body>
+	<button type="button" style="float: right;" class="btn btn-primary btn-icon-split" onclick="fnExcelReport('usingLogList','usingLog');">
+		<span class="icon text-white-50"><i class="fas fa-download fa-sm text-white-50"></i></span>
+		<span class="text">Excel</span></button>
 
+<script
+		src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
+</body>
 </html>
