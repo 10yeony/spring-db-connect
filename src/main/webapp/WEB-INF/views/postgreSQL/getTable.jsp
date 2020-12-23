@@ -26,13 +26,6 @@
 </head>
 
 <body id="page-top">
-<!-- data type, count_per_page, count_per_list -->
-<input type="hidden" id="show_data_type" value="${data}">
-<input type="hidden" id="show_count_per_page" value="${count_per_page}">
-<input type="hidden" id="show_count_per_list" value="${count_per_list}">
-
-<!-- program_title, subtitle, creator, file_num -->
-<input type="hidden" id="show_search_word" value="${search_word}">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -106,62 +99,8 @@
 
 				<!-- Page Body -->
 				<div class="card shadow mb-4">
-
 					<div class="card-body"><br/>
-						<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
-  							<select class="form-control" id="dataSelect" style="margin-right:3px;">
-    							<option value="all">전체 데이터</option>
-    							<option value="korean_lecture">한국어 강의</option>
-    							<option value="meeting_audio">회의 음성</option>
-    							<option value="customer_reception">고객 응대</option>
-    							<option value="counsel_audio">상담 음성</option>
-  							</select>
-							<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
-								placeholder="Search for..." id="inputSearchText">
-							<button class="btn btn-primary" type="button" id="inputSearchButton">
-								<i class="fas fa-search fa-sm"></i>
-							</button>
-						</div><br/>
-						<div style="display:inline-block; float:right;">
-								<input type="radio" name="views" value="10views"> 
-								<span id="10viewsSpan" style="cursor: pointer">10개씩 보기</span> 
-								<input type="radio" name="views" value="20views" style="margin-left:10px;"> 
-								<span id="20viewsSpan" style="cursor: pointer">20개씩 보기</span>
-								<input type="radio" name="views" value="30views" style="margin-left:10px;"> 
-								<span id="30viewsSpan" style="cursor: pointer">30개씩 보기</span> 
-						</div>
-						<div class="table-responsive">
-							<table class="table table-bordered" id="metadata" width="100%" cellspacing="0">
-								<thead>
-									<tr>
-										<th>no.</th>
-										<th>제목</th>
-										<th>부제</th>
-										<th>Creator</th>
-										<th>Year</th>
-										<th>파일명</th>
-										<th>문장 수</th>
-										<th>어절 수</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${result}" var="item" varStatus="status">
-										<tr>
-											<td>${item.row_num}</td>
-											<td>${item.program.title}</td>
-											<td><a href="getUtteranceTable/${item.id}">${item.program.subtitle}</a></td>
-											<td>${item.creator}</td>
-											<td>${item.year}</td>
-											<td>${item.title}</td>
-											<td><a href="getUtteranceTable/${item.id}">${item.sentence_count}개</a></td>
-											<td><a href="getUtteranceTable/${item.id}">${item.eojeol_total}개</a></td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-							${pagination}
-							<br/><br/>
-						</div>
+						<%@ include file="/WEB-INF/views/table/template.jsp"%>
 					</div>
 				</div>
 
@@ -183,113 +122,8 @@
 <a class="scroll-to-top rounded" href="#page-top">
 	<i class="fas fa-angle-up"></i>
 </a>
-
+<script src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
 <script>
-
-$(document).ready(function() {
-	/* 화면 세팅을 위한 변수 선언 */
-	var data_type = $('#show_data_type').val();
-	var count_per_list = $('#show_count_per_list').val();
-	
-	/* 선택한 데이터 타입 세팅 */
-	$('#dataSelect').val(data_type);
-	
-	/* 한 페이지당 몇개씩 보는지 세팅 */
-	if(count_per_list==10){
-		$('input[value=10views]').prop("checked", true);
-	}else if(count_per_list==20){
-		$('input[value=20views]').prop("checked", true);
-	}else if(count_per_list==30){
-		$('input[value=30views]').prop("checked", true);
-	}
-	
-	/* 검색 기능 (클릭, 엔터) */
-	$('#inputSearchButton').click(function(){
-		searchMetadataAndProgram();
-	});
-	$("#inputSearchText").keydown(function(event) {
-		if(event.keyCode == 13){
-			searchMetadataAndProgram();
-		}
-	});
-	
-	/* 데이터 타입 선택 */
-	$('#dataSelect').change(function(){
-		let selectOption = $(this).val();
-		location.href = '${pageContext.request.contextPath}/' 
-							+ "getMetadataAndProgram?data=" + selectOption
-							+ "&function_name=getMetadataAndProgram"
-							+ "&current_page_no=1"
-							+ "&count_per_page=" + $('#show_count_per_page').val()
-							+ "&count_per_list=" + $('#show_count_per_list').val()
-							+ "&search_word=";
-	});
-	
-	/* 10개씩, 20개씩, 30개씩 보기 */
-	$('input[name=views]').change(function(){
-		let check = $(this).val();
-		if(check == '10views'){
-			setMetadataAndProgramListSize(10);
-		}else if(check == '20views'){
-			setMetadataAndProgramListSize(20);
-		}else if(check == '30views'){
-			setMetadataAndProgramListSize(30);
-		}
-	});
-	$('#10viewsSpan').click(function(){
-		$('input[value=10views]').prop("checked", true);
-		if($('input[value=10views]').is(":checked")){
-			setMetadataAndProgramListSize(10);
-		}
-	});
-	$('#20viewsSpan').click(function(){
-		$('input[value=20views]').prop("checked", true);
-		if($('input[value=20views]').is(":checked")){
-			setMetadataAndProgramListSize(20);
-		}
-	});
-	$('#30viewsSpan').click(function(){
-		$('input[value=30views]').prop("checked", true);
-		if($('input[value=30views]').is(":checked")){
-			setMetadataAndProgramListSize(30);
-		}
-	});
-})
-
-function searchMetadataAndProgram(){
-	let searchWord = $("#inputSearchText").val();
-	location.href = '${pageContext.request.contextPath}/' 
-						+ "getMetadataAndProgram?data=" + $('#show_data_type').val()
-						+ "&function_name=getMetadataAndProgram"
-						+ "&current_page_no=1"
-						+ "&count_per_page=" + $('#show_count_per_page').val()
-						+ "&count_per_list=" + $('#show_count_per_list').val()
-						+ "&search_word=" + searchWord;
-}
-
-function getMetadataAndProgram(currentPageNo){
-	if(currentPageNo === undefined){
-		currentPageNo = "1";
-	}
-	location.href = '${pageContext.request.contextPath}/' 
-		+ "getMetadataAndProgram?data=" + $('#show_data_type').val()
-				+ "&function_name=getMetadataAndProgram"
-				+ "&current_page_no=" + currentPageNo
-				+ "&count_per_page=" + $('#show_count_per_page').val()
-				+ "&count_per_list=" + $('#show_count_per_list').val()
-				+ "&search_word=" + $('#show_search_word').val();
-}
-
-function setMetadataAndProgramListSize(size){
-	location.href = '${pageContext.request.contextPath}/' 
-		+ "getMetadataAndProgram?data=" + $('#show_data_type').val()
-				+ "&function_name=getMetadataAndProgram"
-				+ "&current_page_no=" + 1
-				+ "&count_per_page=" + $('#show_count_per_page').val()
-				+ "&count_per_list=" + size
-				+ "&search_word=" + $('#show_search_word').val();
-}
-
 function send(type, fileurl){
 	var dataType = document.getElementById("show_data_type").value;
 	var url = '${pageContext.request.contextPath}/' + fileurl + '/'+ dataType;

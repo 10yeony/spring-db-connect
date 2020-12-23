@@ -64,51 +64,9 @@
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
                     <div class="card-body"><br/>
-                    	<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
-								<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
-									placeholder="Search for..." id="inputSearchText">
-								<button class="btn btn-primary" type="button" id="inputSearchButton">
-									<i class="fas fa-search fa-sm"></i>
-								</button>
-							</div><br/>
-							<div style="display:inline-block; float:right;">
-									<input type="radio" name="views" value="10views"> 
-									<span id="10viewsSpan" style="cursor: pointer">10개씩 보기</span> 
-									<input type="radio" name="views" value="20views" style="margin-left:10px;"> 
-									<span id="20viewsSpan" style="cursor: pointer">20개씩 보기</span>
-									<input type="radio" name="views" value="30views" style="margin-left:10px;"> 
-									<span id="30viewsSpan" style="cursor: pointer">30개씩 보기</span> 
-							</div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                    	 <th>no.</th>
-                                        <th>아이디</th>
-                                        <th>사용 내역</th>
-                                        <th>IP 주소</th>
-                                        <th>접속 시간</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${result}" var="item" varStatus="status">
-                                        <tr>
-                                            <td>${item.row_num}</td>
-                                            <td><a href="getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
-                                            <td>${item.content}</td>
-                                            <td>${item.ip_addr}</td>
-                                            <td>${item.time}</td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-                            ${pagination}
-                            <br/><br/>
-                        </div>
+                    	<%@ include file="/WEB-INF/views/table/template.jsp"%>
                     </div>
                 </div>
-
-
             </div>
             <!-- /.container-fluid -->
         </div>
@@ -129,7 +87,7 @@
 </a>
 
 <script 
-	src="${pageContext.request.contextPath}/resource/js/member/getUsingLogList.js"></script>
+	src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
 
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
