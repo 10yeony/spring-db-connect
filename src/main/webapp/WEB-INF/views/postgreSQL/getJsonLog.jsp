@@ -60,53 +60,7 @@
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
                     <div class="card-body"><br/>
-                    	<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
-								<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
-									placeholder="Search for..." id="inputSearchText">
-								<button class="btn btn-primary" type="button" id="inputSearchButton">
-									<i class="fas fa-search fa-sm"></i>
-								</button>
-							</div><br/>
-							<div style="display:inline-block; float:right;">
-									<input type="radio" name="views" value="10views"> 
-									<span id="10viewsSpan" style="cursor: pointer">10개씩 보기</span> 
-									<input type="radio" name="views" value="20views" style="margin-left:10px;"> 
-									<span id="20viewsSpan" style="cursor: pointer">20개씩 보기</span>
-									<input type="radio" name="views" value="30views" style="margin-left:10px;"> 
-									<span id="30viewsSpan" style="cursor: pointer">30개씩 보기</span> 
-							</div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>파일명</th>
-                                        <th>제목</th>
-                                        <th>부제</th>
-                                        <th width="90">강의 시간</th>
-                                        <th>입력 시작 시간</th>
-                                        <th>입력 종료 시간</th>
-                                        <th width="150">Parsing 및 <br/>DB 입력 소요시간<br>(단위 분:초)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${jsonLog}" var="item" varStatus="status">
-                                        <tr>
-                                            <td>${item.row_num}</td>
-                                            <td><a href="getUtteranceTable/${item.metadata_id}">${item.title}</a></td>
-                                            <td>${item.program.title}</td>
-                                            <td>${item.program.subtitle}</td>
-                                            <td>${item.program.running_time}</td>
-                                            <td>${item.start}</td>
-                                            <td>${item.finish}</td>
-                                            <td>${item.elapsed}</td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-                            ${pagination}
-                            <br/><br/>
-                        </div>
+                    	<%@ include file="/WEB-INF/views/table/template.jsp"%>
                     </div>
                 </div>
 
@@ -130,92 +84,7 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<script>
-	$(function(){
-		/* 화면 세팅을 위한 변수 선언 */
-		var count_per_list = $('#show_count_per_list').val();
-		
-		/* 한 페이지당 몇개씩 보는지 세팅 */
-		if(count_per_list==10){
-			$('input[value=10views]').prop("checked", true);
-		}else if(count_per_list==20){
-			$('input[value=20views]').prop("checked", true);
-		}else if(count_per_list==30){
-			$('input[value=30views]').prop("checked", true);
-		}
-		
-		/* 검색 기능 (클릭, 엔터) */
-		$('#inputSearchButton').click(function(){
-			searchJsonLog();
-		});
-		$("#inputSearchText").keydown(function(event) {
-			if(event.keyCode == 13){
-				searchJsonLog();
-			}
-		});
-		
-		/* 10개씩, 20개씩, 30개씩 보기 */
-		$('input[name=views]').change(function(){
-			let check = $(this).val();
-			if(check == '10views'){
-				setJsonLogListSize(10);
-			}else if(check == '20views'){
-				setJsonLogListSize(20);
-			}else if(check == '30views'){
-				setJsonLogListSize(30);
-			}
-		});
-		$('#10viewsSpan').click(function(){
-			$('input[value=10views]').prop("checked", true);
-			if($('input[value=10views]').is(":checked")){
-				setJsonLogListSize(10);
-			}
-		});
-		$('#20viewsSpan').click(function(){
-			$('input[value=20views]').prop("checked", true);
-			if($('input[value=20views]').is(":checked")){
-				setJsonLogListSize(20);
-			}
-		});
-		$('#30viewsSpan').click(function(){
-			$('input[value=30views]').prop("checked", true);
-			if($('input[value=30views]').is(":checked")){
-				setJsonLogListSize(30);
-			}
-		});
-	});
-	
-	function searchJsonLog(){
-		let searchWord = $("#inputSearchText").val();
-		location.href = '${pageContext.request.contextPath}/' 
-							+ "getJsonLog?function_name=getJsonLog"
-							+ "&current_page_no=1"
-							+ "&count_per_page=" + $('#show_count_per_page').val()
-							+ "&count_per_list=" + $('#show_count_per_list').val()
-							+ "&search_word=" + searchWord;
-	}
-	
-	function getJsonLog(currentPageNo){
-		if(currentPageNo === undefined){
-			currentPageNo = "1";
-		}
-		location.href = '${pageContext.request.contextPath}/' 
-			+ "getJsonLog?function_name=getJsonLog"
-					+ "&current_page_no=" + currentPageNo
-					+ "&count_per_page=" + $('#show_count_per_page').val()
-					+ "&count_per_list=" + $('#show_count_per_list').val()
-					+ "&search_word=" + $('#show_search_word').val();
-	}
-
-	function setJsonLogListSize(size){
-		location.href = '${pageContext.request.contextPath}/' 
-			+ "getJsonLog?function_name=getJsonLog"
-					+ "&current_page_no=" + 1
-					+ "&count_per_page=" + $('#show_count_per_page').val()
-					+ "&count_per_list=" + size
-					+ "&search_word=" + $('#show_search_word').val();
-	}
-</script>
+<script src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
 
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
