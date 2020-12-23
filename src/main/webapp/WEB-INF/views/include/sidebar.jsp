@@ -46,8 +46,8 @@
                 <sec:authorize access="hasRole('ROLE_INPUT')">
                 	<a class="collapse-item" href="${pageContext.request.contextPath}/insertIntoPostgre">데이터 입력</a>
                 </sec:authorize>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getJsonLog?&function_name=getJsonLog&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">JSON 파일 관리</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram?data=all&function_name=getMetadataAndProgram&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">전사 데이터 목록</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getJsonLog?&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">JSON 파일 관리</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram?data=all&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">전사 데이터 목록</a>
             </div>
         </div>
     </li>
@@ -81,7 +81,7 @@
 	           <div class="bg-white py-2 collapse-inner rounded">
 	               <h6 class="collapse-header">Member Management</h6>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getMemberListByAdmin?role=ALL">사용자 관리</a>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/getUsingLog?function_name=getUsingLog&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">사용 기록 조회</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getUsingLogList?current_page_no=1&count_per_page=10&count_per_list=10&search_word=">사용 기록 조회</a>
 	           </div>
 	       </div>
 	   </li>
