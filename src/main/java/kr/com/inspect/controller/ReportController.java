@@ -1,25 +1,27 @@
 package kr.com.inspect.controller;
 
+import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import kr.com.inspect.dto.Member;
+import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.Utterance;
 
+import kr.com.inspect.service.RuleService;
+import org.apache.lucene.util.packed.DirectMonotonicReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.report.DocxReport;
 import kr.com.inspect.report.XlsxReport;
 import kr.com.inspect.sender.SendReport;
 import kr.com.inspect.service.PostgreService;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 리스트 형식 출력 컨트롤러
@@ -92,6 +94,12 @@ public class ReportController {
 	 */
 	@Value("${report.pptx.directory}")
 	private String pptxPath;
+
+	/**
+	 * 전사규칙에 관한 Service
+	 */
+	@Autowired
+	private RuleService ruleService;
 	
 	/**
 	 * 한국어 강의 목록 리스트 파일로 출력
@@ -322,4 +330,20 @@ public class ReportController {
 		}
 		return title;
 	}
+
+	/**
+	 *
+	 * @param response
+	 * @param bottom_level_id
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/resultRuleDocx", method = RequestMethod.GET)
+	public void resultRuleWord(HttpServletResponse response, Integer bottom_level_id) throws Exception {
+		Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);
+		System.out.println(rule);
+		docxReport.resultRuleDocx(response, rule, docxPath);
+
+	}
+
 }
