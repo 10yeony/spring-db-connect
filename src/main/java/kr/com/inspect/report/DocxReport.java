@@ -9,10 +9,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.sender.SendReport;
+import kr.com.inspect.service.PostgreService;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.*;
@@ -34,7 +36,11 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class DocxReport {
-
+	
+	
+	@Autowired
+	private PostgreService postgreService;
+	
 	/**
 	 * 메일과 sms 전송을 위한 SendReport 필드 선언
 	 */
@@ -52,6 +58,8 @@ public class DocxReport {
 	 */
 	@Value("${table.column1}")
 	private String column1;
+	
+	
 
 	/**
 	 * docx 한국어 강의 목록 리스트 작성
@@ -303,6 +311,8 @@ public class DocxReport {
 		XWPFParagraph p1 = doc.createParagraph();
 		p1.setAlignment(ParagraphAlignment.CENTER);
 		XWPFRun r1 = p1.createRun();
+
+		
 		if(rule.getBottom_level_name() != null) {
 			r1.setText(rule.getBottom_level_name());
 		}
