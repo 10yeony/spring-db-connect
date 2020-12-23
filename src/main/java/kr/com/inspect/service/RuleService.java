@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dto.CustomLibrary;
+import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
 
 /**
@@ -36,6 +37,21 @@ public interface RuleService {
 	public List<Rule> getRuleListUsingJoin(String top_level_id, 
 												String middle_level_id,
 												String bottom_level_id);
+	
+	/**
+	 * 룰 로그 테이블을 페이징 처리하여 가져옴
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @return 룰 로그 테이블
+	 */
+	public ResponseData getRuleLog(String function_name, 
+									int current_page_no,
+									int count_per_page,
+									int count_per_list,
+									String search_word);
 	
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함

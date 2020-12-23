@@ -22,6 +22,10 @@
 		<c:when test="${requestUrl == 'getUsingLogList'}">
 			<%@ include file="/WEB-INF/views/table/table/getUsingLogList.jsp"%>
 		</c:when>
+		
+		<c:when test="${requestUrl == 'getRuleLogList'}">
+			<%@ include file="/WEB-INF/views/table/table/getRuleLogList.jsp"%>
+		</c:when>
 	</c:choose>
 </body>
 

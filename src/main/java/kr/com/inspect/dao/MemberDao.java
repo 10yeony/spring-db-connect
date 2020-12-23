@@ -126,8 +126,8 @@ public interface MemberDao {
 	 * @return 사용 로그 목록
 	 */
 	public List<UsingLog> getAllUsingLog(int limit, 
-												int offset,
-												String search_word);
+										int offset,
+										String search_word);
 	
 	/**
 	 * 아이피, 시간, 내용으로 사용 로그를 가져옴

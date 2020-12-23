@@ -192,8 +192,8 @@ public class MemberDaoImpl implements MemberDao{
 	 */
 	@Override
 	public List<UsingLog> getAllUsingLog(int limit, 
-												int offset,
-												String search_word){
+										int offset,
+										String search_word){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("limit", limit);
 		map.put("offset", offset);

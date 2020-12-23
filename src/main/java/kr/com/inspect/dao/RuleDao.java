@@ -236,8 +236,8 @@ public interface RuleDao {
 	 * @return 룰 로그 목록
 	 */
 	public List<RuleLog> getAllRuleLog(int limit, 
-											int offset,
-											String search_word);
+									int offset,
+									String search_word);
 	
 	/**
 	 * 룰 로그의 총 개수를 가져옴
