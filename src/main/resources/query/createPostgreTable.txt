@@ -78,7 +78,8 @@ CREATE TABLE audio.member (
 	isAccountNonExpired boolean,
 	isAccountNonLocked boolean,
 	isCredentialsNonExpired boolean,
-	isEnabled boolean
+	isEnabled boolean,
+	join_date text
 );
 
 CREATE TABLE audio.authority (
@@ -159,6 +160,7 @@ CREATE TABLE audio.using_log (
 	ip_addr text,
 	time text,
 	content text,
+	
 	member_id text REFERENCES audio.member ON DELETE CASCADE
 );
 
