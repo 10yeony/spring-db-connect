@@ -1,10 +1,16 @@
 package kr.com.inspect.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.Utterance;
@@ -332,7 +338,7 @@ public class ReportController {
 	}
 
 	/**
-	 *
+	 * 룰 결과를 워드파일로 다운
 	 * @param response
 	 * @param bottom_level_id
 	 * @throws Exception

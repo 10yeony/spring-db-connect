@@ -55,7 +55,7 @@
                     	<b>사용 기록 조회</b>
                     	<span style="font-size:18px;">(${searchResult} ${totalCount}건)</span>
                     	<c:if test="${searchResult != '전체'}">
-                    		<a href="${pageContext.request.contextPath}/getUsingLog?function_name=getUsingLog&current_page_no=1&count_per_page=10&count_per_list=10&search_word=" 
+                    		<a href="${pageContext.request.contextPath}/getUsingLogList?current_page_no=1&count_per_page=10&count_per_list=10&search_word=" 
                     			style="font-size:0.6em;">전체보기</a>
                     	</c:if>
                     </h1>
@@ -105,6 +105,7 @@
 <!-- Page level custom scripts -->
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
+
 </body>
 
 </html>

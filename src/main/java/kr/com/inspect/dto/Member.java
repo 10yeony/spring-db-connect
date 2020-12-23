@@ -58,6 +58,11 @@ public class Member implements UserDetails {
 	 * 계정이 사용가능한 계정인지를 리턴
 	 */
 	private boolean isEnabled;
+	
+	/**
+	 * 가입일
+	 */
+	private String join_date;
 
 
 	
@@ -89,8 +94,8 @@ public class Member implements UserDetails {
 	
 	public Member() {}
 	public Member(String member_id, String pwd, String name, boolean isAccountNonExpired, boolean isAccountNonLocked,
-			boolean isCredentialsNonExpired, boolean isEnabled, String phone, String email,
-			Collection<? extends GrantedAuthority> authorities) {
+			boolean isCredentialsNonExpired, boolean isEnabled, String join_date, String phone, String email,
+			String approval, Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.member_id = member_id;
 		this.pwd = pwd;
@@ -99,8 +104,10 @@ public class Member implements UserDetails {
 		this.isAccountNonLocked = isAccountNonLocked;
 		this.isCredentialsNonExpired = isCredentialsNonExpired;
 		this.isEnabled = isEnabled;
+		this.join_date = join_date;
 		this.phone = phone;
 		this.email = email;
+		this.approval = approval;
 		this.authorities = authorities;
 	}
 
@@ -111,6 +118,7 @@ public class Member implements UserDetails {
 	public String getMember_id() {
 		return member_id;
 	}
+	
 	/**
 	 * MyBatis 관련 DB 상의 Id setter
 	 * @param member_id
@@ -118,11 +126,11 @@ public class Member implements UserDetails {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
+	
 	/**
 	 * MyBatis 관련 DB 상의 pwd getter
 	 * @return
 	 */
-	
 	public String getPwd() {
 		return pwd;
 	}
@@ -142,6 +150,7 @@ public class Member implements UserDetails {
 	public String getUsername() {
 		return getMember_id();
 	}
+	
 	/**
 	 * 스프링 시큐리티 관련 비밀번호를 가져옴
 	 */
@@ -154,7 +163,6 @@ public class Member implements UserDetails {
 		return serialVersionUID;
 	}
 
-	/* 계정 관련 점검 setter/getter */
 	public boolean isAccountNonExpired() {
 		return isAccountNonExpired;
 	}
@@ -187,78 +195,59 @@ public class Member implements UserDetails {
 		this.isEnabled = isEnabled;
 	}
 	
-	/**
-	 * 권한 목록 getter
-	 */
+	public String getJoin_date() {
+		return join_date;
+	}
+	
+	public void setJoin_date(String join_date) {
+		this.join_date = join_date;
+	}
+	
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
-	/**
-	 * 권한 목록 setter
-	 * @param authorities
-	 */
+
 	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
 		this.authorities = authorities;
 	}
 	
-	/**
-	 * 연락처 getter
-	 * @return
-	 */
 	public String getPhone() {
 		return phone;
 	}
-	/**
-	 * 연락처 setter
-	 * @param phone
-	 */
+	
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	/**
-	 * 이메일 getter
-	 * @return
-	 */
+	
 	public String getEmail() {
 		return email;
 	}
-	/**
-	 * 이메일 setter
-	 * @param email
-	 */
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getName() { 
+		return name; 
+	}
 
-	/**
-	 * 이름 getter
-	 * @return name
-	 */
-	public String getName(){ return name; }
+	public void setName(String name) { 
+		this.name = name; 
+	}
 
-	/**
-	 * 이름 setter
-	 * @param name
-	 */
-	public void setName(String name){ this.name = name; }
+	public String getApproval() { 
+		return approval; 
+	}
 
-	/**
-	 * 권한 getter
-	 * @return 권한
-	 */
-	public String getApproval(){ return approval; }
-
-	/**
-	 * 권한 setter
-	 * @param approval
-	 */
-	public void setApproval(String approval) { this.approval = approval; }
-
+	public void setApproval(String approval) { 
+		this.approval = approval; 
+	}
+	
 	@Override
 	public String toString() {
 		return "Member [member_id=" + member_id + ", pwd=" + pwd + ", name=" + name + ", isAccountNonExpired="
 				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
-				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", phone=" + phone + ", email=" + email
-				+ ", authorities=" + authorities + ", approval=" + approval + "]";
+				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", join_date=" + join_date + ", phone=" + phone
+				+ ", email=" + email + ", approval=" + approval + ", authorities=" + authorities + "]";
 	}
 }
