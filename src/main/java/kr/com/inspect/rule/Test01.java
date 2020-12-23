@@ -45,7 +45,7 @@ public class Test01 {
 			map.put("외래어", ut.getDialect_form());
 			//map.put("발화자 번호", ut.getSpeaker_no());
 			//map.put("메타 번호", ut.getMetadata_id());
-			map.put("", "\n");
+			map.put("구분","\n");
 			mapList02.add(map);
 			i++;
 			if (i == 1)
