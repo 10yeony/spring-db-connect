@@ -202,7 +202,6 @@ public class Data {
 											+ "metadata_id) sp "
 							+ "ON "
 									+ "m.id = sp.metadata_id";
-		System.out.println(query);
 		
 		conn = getConnect();
 		
