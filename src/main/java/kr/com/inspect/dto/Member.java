@@ -233,6 +233,7 @@ public class Member implements UserDetails {
 
 	public void setName(String name) { 
 		this.name = name; 
+	}
 
 	public String getApproval() { 
 		return approval; 
