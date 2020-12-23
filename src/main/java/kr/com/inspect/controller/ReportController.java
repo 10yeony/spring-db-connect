@@ -1,10 +1,16 @@
 package kr.com.inspect.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.Utterance;
@@ -332,7 +338,7 @@ public class ReportController {
 	}
 
 	/**
-	 *
+	 * 룰 결과를 워드파일로 다운
 	 * @param response
 	 * @param bottom_level_id
 	 * @throws Exception
@@ -340,7 +346,27 @@ public class ReportController {
 	@ResponseBody
 	@RequestMapping(value = "/resultRuleDocx", method = RequestMethod.GET)
 	public void resultRuleWord(HttpServletResponse response, Integer bottom_level_id) throws Exception {
+		System.out.println("start");
 		Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);
 		docxReport.resultRuleDocx(response, rule, docxPath);
+		System.out.println("end");
+
+//		Map<String, Object> map;
+//		String str = "";
+//		int flag = 0;
+//		for(int i=0; i<100; i++){
+//			if(rule.getResult().charAt(i)=='{'){
+//				flag = 1;
+//			}
+//			if(flag == 1){
+//				str += rule.getResult().charAt(i);
+//			}
+//			if(rule.getResult().charAt(i)=='}'){
+//				map = new ObjectMapper().readValue(str, new TypeReference<Map<String, Object>>() { });
+//				flag=0;
+//				System.out.println("map: " + map);
+//				System.out.println("str: " + str);
+//			}
+//		}
 	}
 }

@@ -6,8 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Rule;
@@ -98,11 +97,11 @@ public class DocxReport {
 		/* 헤더 정보 구성 */
 		table.getRow(0).getCell(0).setWidth("500");
 		table.getRow(0).getCell(0).setText(column0);
-		table.getRow(0).getCell(1).setWidth("1800");
+		table.getRow(0).getCell(1).setWidth("2000");
 		table.getRow(0).getCell(1).setText("제목");
 		table.getRow(0).getCell(2).setWidth("2000");
 		table.getRow(0).getCell(2).setText("부제");
-		table.getRow(0).getCell(3).setWidth("2000");
+		table.getRow(0).getCell(3).setWidth("1000");
 		table.getRow(0).getCell(3).setText(column1);
 		table.getRow(0).getCell(4).setWidth("1000");
 		table.getRow(0).getCell(4).setText("파일명");
@@ -308,17 +307,28 @@ public class DocxReport {
 		}
 		r1.setBold(true);
 		r1.setFontSize(14);
-		r1.addBreak();r1.addBreak();
-		XWPFRun r2 = p1.createRun();
+		r1.addBreak();
+
+		XWPFTable table = null;
+		List<String> list = new ArrayList<>();
+		List<String> strList = null;
+		String ruleStr = rule.getResult().substring(2, rule.getResult().length()-2);
+		list = Arrays.asList(ruleStr.split("], \\["));
 		if(rule.getResult() != null) {
-			String[] strList = rule.getResult().split("\n");
-			for(String str : strList){
-				r2.addBreak();
-				r2.setText(str);
+			for(int j=0; j<list.size(); j++){
+				strList = Arrays.asList(list.get(j).split(", "));
+				System.out.println(strList.toString());
+				if(j==0) {
+					table = doc.createTable(list.size(), strList.size());
+				}
+				for(int i=0; i<strList.size(); i++){
+					System.out.println(strList.get(i));
+					double width = 8000.0/strList.size();
+					table.getRow(j).getCell(i).setWidth(Integer.toString((int)Math.ceil(width)));
+					table.getRow(j).getCell(i).setText(strList.get(i));
+				}
 			}
 		}
-
-		r2.addBreak();
 
 		/* 입력된 내용 파일로 쓰기 */
 		File file = new File(path + docxFileName);
@@ -353,6 +363,21 @@ public class DocxReport {
 				//e.printStackTrace();
 			}
 		}
+	}
+
+	public List<List<String>> parsing(String result){
+		List<List<String>> listList = new ArrayList<>();
+		List<String> list = new ArrayList<>();
+		List<String> stringList = new ArrayList<>();
+
+		stringList = Arrays.asList(result.substring(2,result.length()-2).split("}, \\{"));
+
+		for(String str : stringList){
+			list = Arrays.asList(str.split("="));
+		}
+
+
+		return listList;
 	}
 
 	public String is_Null(String str){
