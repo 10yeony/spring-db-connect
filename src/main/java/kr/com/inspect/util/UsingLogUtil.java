@@ -6,6 +6,7 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileSystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import kr.com.inspect.dao.MemberDao;
+import kr.com.inspect.dao.RuleDao;
+import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.dto.UsingLog;
 
 /**
@@ -24,15 +27,21 @@ import kr.com.inspect.dto.UsingLog;
 @Component
 public class UsingLogUtil {
 	/**
-	 * MemberDao dao 필드 선언
+	 * MemberDao Member DAO 필드 선언
 	 */
 	@Autowired
 	private MemberDao memberDao;
 	
 	/**
-	 * 사용 로그에 ip, 접속 시간, 아이디, 로그 내용을 세팅함
-	 * @param content 사용 로그 내용
-	 * @return 사용 로그 정보가 담긴 UsingLog 객체
+	 * RuleDao Rule DAO 필드 선언
+	 */
+	@Autowired
+	private RuleDao ruleDao;
+	
+	/**
+	 * 사용 로그에 ip, 접속 시간, 아이디, 로그 내용을 세팅하고 DB에 등록함<br>
+	 * 룰 로그일 경우 사용 로그, 룰 로그를 동시에 등록함
+	 * @param usingLog 사용 로그 객체
 	 */
 	public void setUsingLog(UsingLog usingLog){
 		if(usingLog.getIp_addr() == null) {
@@ -44,9 +53,26 @@ public class UsingLogUtil {
 		if(usingLog.getMember_id() == null) {
 			usingLog.setMember_id(getMemberId());
 		}
-		memberDao.insertIntoUsingLog(usingLog);
+		
+		int UsingLogResult = memberDao.insertIntoUsingLog(usingLog);
+		if(UsingLogResult > 0 && usingLog instanceof RuleLog) {
+			RuleLog ruleLog = (RuleLog) usingLog;
+			if(ruleLog.getUsing_log_no() == 0) {
+				ruleLog.setUsing_log_no(getNoOfUsingLog(usingLog));
+			}
+			ruleDao.insertIntoRuleLog(ruleLog);
+		}
 	}
 	
+	/**
+	 * 사용 로그의 Primary Key인 순번을 가져옴
+	 * @param usingLog 사용 로그 객체
+	 * @return 사용 로그의 Primary Key인 순번
+	 */
+	public int getNoOfUsingLog(UsingLog usingLog) {
+		return memberDao.getUsingLog(usingLog).getNo();
+	}
+
 	/**
 	 * 클라이언트의 ip 주소를 가져옴
 	 * @return ip 주소

@@ -130,6 +130,12 @@ public interface MemberDao {
 												String search_word);
 	
 	/**
+	 * 아이피, 시간, 내용으로 사용 로그를 가져옴
+	 * @return 아이피, 시간 내용으로 가져온 사용 로그
+	 */
+	public UsingLog getUsingLog(UsingLog usingLog);
+	
+	/**
 	 * 사용 로그 총 개수를 가져옴
 	 * @param search_word 검색어
 	 * @return 사용 로그 총 개수

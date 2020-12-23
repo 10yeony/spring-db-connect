@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Rule 로그 관련 쿼리 -->
+<mapper namespace="RuleLogMapper">
+
+	<!-- RuleLog 테이블에 데이터를 입력함 -->
+	<insert id="insertIntoRuleLog" parameterType="kr.com.inspect.dto.RuleLog">
+		INSERT INTO audio.rule_log
+				(ip_addr, 
+				time,
+				content, 
+				member_id,
+				top_level_name,
+				middle_level_name,
+				bottom_level_name,
+				library_file_name,
+				using_log_no)
+			VALUES(#{ip_addr},
+				#{time}, 
+				#{content}, 
+				#{member_id},
+				#{top_level_name},
+				#{middle_level_name},
+				#{bottom_level_name},
+				#{library_file_name},
+				#{using_log_no});
+	</insert>
+	
+	<!-- 룰 로그를 가지고 옴 -->
+	<sql id="getRuleLog">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			ip_addr,
+			time,
+			content,
+			member_id,
+			top_level_name,
+			middle_level_name,
+			bottom_level_name,
+			library_file_name,
+			using_log_no
+		FROM 
+			(SELECT
+				*
+			FROM
+				audio.rule_log
+			WHERE 
+				top_level_name LIKE '%'||#{search_word}||'%'
+				OR middle_level_name LIKE '%'||#{search_word}||'%'
+				OR bottom_level_name LIKE '%'||#{search_word}||'%'
+				OR ip_addr LIKE '%'||#{search_word}||'%'
+				OR time LIKE '%'||#{search_word}||'%'
+				OR content LIKE '%'||#{search_word}||'%'
+				OR member_id LIKE '%'||#{search_word}||'%'
+				OR library_file_name LIKE '%'||#{search_word}||'%'
+			ORDER BY 
+				time DESC) temp
+	</sql>
+	<select id="getAllRuleLog" parameterType="hashMap"
+		resultType="kr.com.inspect.dto.RuleLog">
+		<include refid="getRuleLog" />
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+	
+	<!-- 사용 기록 총 개수 -->
+	<sql id="getCountOfRuleLog">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			audio.rule_log
+	</sql>
+	<select id="getAllCountOfRuleLog" resultType="int">
+		<include refid="getCountOfRuleLog" />
+		WHERE 
+			top_level_name LIKE '%'||#{search_word}||'%'
+			OR middle_level_name LIKE '%'||#{search_word}||'%'
+			OR bottom_level_name LIKE '%'||#{search_word}||'%'
+			OR ip_addr LIKE '%'||#{search_word}||'%'
+			OR time LIKE '%'||#{search_word}||'%'
+			OR content LIKE '%'||#{search_word}||'%'
+			OR member_id LIKE '%'||#{search_word}||'%'
+	</select>
+</mapper>

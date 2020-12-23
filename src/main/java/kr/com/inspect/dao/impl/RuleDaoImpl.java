@@ -12,6 +12,7 @@ import kr.com.inspect.dao.RuleDao;
 import kr.com.inspect.dto.ApiDesc;
 import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.dto.RuleLog;
 
 /**
  * 전사규칙과 관련된 DAO 구현 클래스
@@ -32,6 +33,8 @@ public class RuleDaoImpl implements RuleDao {
 	 * Rule Mapper 네임스페이스
 	 */
 	private final String ruleNS = "RuleMapper.";
+	
+	private final String ruleLogNS = "RuleLogMapper.";
 
 	/**
 	 * Api Mapper 네임스페이스
@@ -372,5 +375,43 @@ public class RuleDaoImpl implements RuleDao {
 	 * @return 업데이트된 row의 개수
 	 */
 	@Override
-	public int updateCustomLibraryPackage(CustomLibrary customLibrary){return sqlSession.update(ruleNS+"updateCustomLibraryPackage", customLibrary);}
+	public int updateCustomLibraryPackage(CustomLibrary customLibrary){
+		return sqlSession.update(ruleNS+"updateCustomLibraryPackage", customLibrary);
+	}
+
+	/**
+	 * 룰 로그에 기록함
+	 * @param ruleLog 룰 로그에 기록할 RuleLog 객체
+	 * @return DB에 추가된 row의 수
+	 */
+	@Override
+	public int insertIntoRuleLog(RuleLog ruleLog) {
+		return sqlSession.insert(ruleLogNS+"insertIntoRuleLog", ruleLog);
+	}
+
+	/**
+	 * 룰 로그를 모두 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @return 룰 로그 목록
+	 */
+	@Override
+	public List<RuleLog> getAllRuleLog(int limit, int offset, String search_word) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("limit", limit);
+		map.put("offset", offset);
+		map.put("search_word", search_word);
+		return sqlSession.selectList(ruleLogNS+"getAllRuleLog", map);
+	}
+
+	/**
+	 * 룰 로그의 총 개수를 가져옴
+	 * @param search_word 검색어
+	 * @return 룰 로그 총 개수
+	 */
+	@Override
+	public int getAllCountOfRuleLog(String search_word) {
+		return sqlSession.selectOne(ruleLogNS+"getAllCountOfRuleLog", search_word);
+	}
 }

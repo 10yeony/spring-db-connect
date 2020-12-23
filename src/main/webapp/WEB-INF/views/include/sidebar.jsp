@@ -65,6 +65,7 @@
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/registerRule">룰 등록</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/ruleList">룰 목록</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/runRule">룰 실행</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/runRule">룰 기록 조회</a>
 	           </div>
 	       </div>
 	   </li>
