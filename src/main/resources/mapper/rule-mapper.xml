@@ -166,20 +166,30 @@
 	<select id="getBottomLevelById" parameterType="int"
 			resultType="kr.com.inspect.dto.Rule">
 		SELECT
-			id AS bottom_level_id,
-			name AS bottom_level_name,
-			description,
-			creator,
-			contents,
-			imp_contents,
-			result,
-			file_name,
-			top_level_id AS top_level_id,
-			middle_level_id AS middle_level_id
+			b.id AS bottom_level_id,
+			b.name AS bottom_level_name,
+			b.description,
+			b.creator,
+			b.contents,
+			b.imp_contents,
+			b.result,
+			b.file_name,
+			b.top_level_id AS top_level_id,
+			b.middle_level_id AS middle_level_id,
+			t.name AS top_level_name,
+			m.name AS middle_level_name
 		FROM
-			audio.rule_bottom_level
+			audio.rule_bottom_level b
+		LEFT JOIN
+			audio.rule_top_level t
+		ON
+			b.top_level_id = t.id
+		LEFT JOIN
+			audio.rule_middle_level m
+		ON
+			b.middle_level_id = m.id
 		WHERE
-			id = #{id};
+			b.id = #{id};
 	</select>
 
 	<!-- 전사규칙 리스트를 조인하여 모두 가져옴 -->

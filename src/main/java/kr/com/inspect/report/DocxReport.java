@@ -4,14 +4,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.sender.SendReport;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -264,6 +267,80 @@ public class DocxReport {
 			else if(flag.subSequence(0,4).equals("mail")){
 				ms.sendMail(file, docxFileName, flag.substring(4,flag.length()));
 			}
+		} catch (FileNotFoundException e) {
+			//e.printStackTrace();
+		} catch (IOException e) {
+			//e.printStackTrace();
+		} finally {
+			try {
+				if(doc!=null) doc.close();
+				if(fos!=null) fos.close();
+			} catch (IOException e) {
+				//e.printStackTrace();
+			}
+		}
+	}
+
+
+	public void resultRuleDocx(HttpServletResponse response, Rule rule, String path){
+		String docxFileName = rule.getBottom_level_name()+ ".docx";
+		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+		/* doc 파일 생성 */
+		XWPFDocument doc = new XWPFDocument();
+
+		XWPFParagraph p = doc.createParagraph();
+		XWPFRun r = p.createRun();
+
+		r.setText("날짜 : " + day);
+		r.addBreak();
+		r.setText("대분류 : " + rule.getTop_level_name());
+		r.addBreak();
+		r.setText("중분류 : " + rule.getMiddle_level_name());
+		r.setFontSize(9);
+		r.addBreak();
+
+		XWPFParagraph p1 = doc.createParagraph();
+		p1.setAlignment(ParagraphAlignment.CENTER);
+		XWPFRun r1 = p1.createRun();
+		if(rule.getBottom_level_name() != null) {
+			r1.setText(rule.getBottom_level_name());
+		}
+		r1.setBold(true);
+		r1.setFontSize(14);
+		r1.addBreak();r1.addBreak();
+		XWPFRun r2 = p1.createRun();
+		if(rule.getResult() != null) {
+			String[] strList = rule.getResult().split("\n");
+			for(String str : strList){
+				r2.addBreak();
+				r2.setText(str);
+			}
+		}
+
+		r2.addBreak();
+
+		/* 입력된 내용 파일로 쓰기 */
+		File file = new File(path + docxFileName);
+		FileOutputStream fos = null;
+
+		try {
+			fos = new FileOutputStream(file);
+			doc.write(fos);
+
+//			/* 사용자 컴퓨터에 다운로드 */
+			byte fileByte[] = FileUtils.readFileToByteArray(file);
+			response.setContentType("application/octet-stream");
+			response.setContentLength(fileByte.length);
+			response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(docxFileName,"UTF-8")+"\";");
+			response.setHeader("Content-Transfer-Encoding", "binary");
+			response.getOutputStream().write(fileByte);
+
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+
+			file.delete();
+
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
 		} catch (IOException e) {
