@@ -141,8 +141,8 @@ public class Data {
 	 */
 	public List<Metadata> getMetadataAndProgram(int metadata_id) throws Exception{
 		List<Metadata> list = new ArrayList<>();
-		Metadata vo = new Metadata();
-		Program program = new Program();
+		Metadata vo = null;
+		Program program = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -202,6 +202,7 @@ public class Data {
 											+ "metadata_id) sp "
 							+ "ON "
 									+ "m.id = sp.metadata_id";
+		
 		conn = getConnect();
 		
 		if(metadata_id == 0) { //전체
@@ -216,6 +217,7 @@ public class Data {
 		
 		while(rs.next()){
 			vo = new Metadata();
+			program = new Program();
 			vo.setId(rs.getInt("metadata_id"));
 			vo.setCreator(rs.getString("creator"));
 			vo.setAnnotation_level(rs.getString("annotation_level"));
