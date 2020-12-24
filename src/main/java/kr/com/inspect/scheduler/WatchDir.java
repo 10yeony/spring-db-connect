@@ -1,5 +1,7 @@
 package kr.com.inspect.scheduler;
 
+import kr.com.inspect.dto.Member;
+import kr.com.inspect.service.MemberService;
 import kr.com.inspect.service.PostgreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * 디렉토리 감시를 위한 스케쥴러
@@ -59,8 +64,13 @@ public class WatchDir {
 	private PostgreService postgreService;
 
 	/**
+	 * Member 서비스 필드 선언
+	 */
+	@Autowired
+	private MemberService memberService;
+
+	/**
 	 * 10분마다 디렉토리를 감시하며 json 파일을 DB에 파싱
-	 * 
 	 * @throws Exception 예외처리
 	 */
 	@Scheduled(fixedDelay = 600000)
@@ -102,8 +112,43 @@ public class WatchDir {
 			}
 			file.delete();
 		}
-		
+
 		/* uploadJson 디렉토리안의 파일을 파싱하고 삭제 */
 		postgreService.insertJSONDir(pathTo);
+	}
+
+	/**
+	 * 매일 오전 9시에 회원을 검사
+	 * @throws Exception 예외처리
+	 */
+	@Scheduled(cron = "0 0 9 * * *")
+	public void watchUser() throws Exception {
+		List<Member> memberList = memberService.getMemberList();
+		String time;
+		int loginMonth, loginDate, loginYear;
+		int todayYear,todayMonth, todayDate;
+
+		for(Member member : memberList){
+			if(member.getMember_id().equals("dndud")){
+				time = memberService.getUserLoginTime(member.getMember_id());
+				loginYear = Integer.parseInt(time.substring(0,4));
+				loginDate = Integer.parseInt(time.substring(8,10));
+				loginMonth = Integer.parseInt(time.substring(5,7));
+
+				GregorianCalendar gc = new GregorianCalendar( );
+				todayYear = gc.get ( Calendar.YEAR ) ;
+				todayMonth =  gc.get ( Calendar.MONTH ) + 1 ;
+				todayDate = gc.get ( Calendar.DATE ) ;
+
+				if(loginMonth+6 >12){
+					loginYear++;
+					loginMonth = (loginMonth+6)%12;
+				}else{
+					loginMonth += 6;
+				}
+
+//				if(log)
+			}
+		}
 	}
 }

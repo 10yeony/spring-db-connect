@@ -14,6 +14,7 @@ import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.dto.UsingLog;
+import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.service.PostgreService;
 import kr.com.inspect.service.RuleService;
@@ -35,6 +36,25 @@ public class PagingController {
 	
 	@Autowired
 	private RuleService ruleService;
+	
+	@Autowired
+	private PagingResponse pagingResponse;
+	
+	public Model addCommonAttribute(Model model,
+											String requestUrl,
+											ResponseData responseData,
+											int count_per_page,
+											int count_per_list,
+											String search_word) {
+		model.addAttribute("requestUrl", requestUrl);
+		model.addAttribute("totalCount", pagingResponse.getTotalCount(responseData));
+		model.addAttribute("pagination", pagingResponse.getPagination(responseData));
+		model.addAttribute("result", pagingResponse.getList(responseData));
+		model.addAttribute("count_per_page", count_per_page);
+		model.addAttribute("count_per_list", count_per_list);
+		model.addAttribute("search_word", search_word);
+		return model;
+	}
 	
 	/**
 	 * Metadata & Program 조인해서 가져오기
@@ -63,10 +83,9 @@ public class PagingController {
 																count_per_page, 
 																count_per_list,
 																search_word);
-			Map<String, Object> items = (Map<String, Object>) responseData.getItem();
-			metadata = (List<Metadata>) items.get("list");
-			model.addAttribute("totalCount", items.get("totalCount"));
-			model.addAttribute("pagination",(String)items.get("pagination"));
+			addCommonAttribute(model, "getMetadataAndProgram", responseData, 
+									count_per_page, count_per_list, search_word);
+			model.addAttribute("data", data);
 		} else {
 			metadata = postgreService.getMetadataAndProgram(data);
 		}
@@ -109,12 +128,6 @@ public class PagingController {
 			default:
 				break;
 		}
-		model.addAttribute("requestUrl", "getMetadataAndProgram");
-		model.addAttribute("result", metadata);
-		model.addAttribute("data", data);
-		model.addAttribute("count_per_page", count_per_page);
-		model.addAttribute("count_per_list", count_per_list);
-		model.addAttribute("search_word", search_word);
 		return "postgreSQL/getTable";
 	}
 	
@@ -138,15 +151,9 @@ public class PagingController {
 																	count_per_page,
 																	count_per_list,
 																	search_word);
-		Map<String, Object> items = (Map<String, Object>) responseData.getItem();
-		List<JsonLog> list  = (List<JsonLog>) items.get("list");
-		model.addAttribute("requestUrl", "getJsonLog");
-		model.addAttribute("jsonLog", list);
-		model.addAttribute("totalCount", items.get("totalCount"));
-		model.addAttribute("pagination",(String)items.get("pagination"));
-		model.addAttribute("count_per_page", count_per_page);
-		model.addAttribute("count_per_list", count_per_list);
-		model.addAttribute("search_word", search_word);
+		
+		addCommonAttribute(model, "getJsonLog", responseData, 
+							count_per_page, count_per_list, search_word);
 		if(search_word == "") {
 			model.addAttribute("selectedData", "전체");
 		}else {
@@ -167,16 +174,8 @@ public class PagingController {
 																		count_per_page, 
 																		count_per_list,
 																		search_word);
-		Map<String, Object> items = (Map<String, Object>) responseData.getItem();
-		List<UsingLog> usingLog = (List<UsingLog>) items.get("list");
-		model.addAttribute("requestUrl", "getUsingLogList");
-		model.addAttribute("result", usingLog);
-		model.addAttribute("totalCount", items.get("totalCount"));
-		model.addAttribute("pagination",(String)items.get("pagination"));
-		model.addAttribute("count_per_page", count_per_page);
-		model.addAttribute("count_per_list", count_per_list);
-		model.addAttribute("search_word", search_word);
-		
+		addCommonAttribute(model, "getUsingLogList", responseData, 
+								count_per_page, count_per_list, search_word);
 		String value = "";
 		if(search_word != "") {
 			value = "검색 결과";
@@ -184,7 +183,6 @@ public class PagingController {
 			value = "전체";
 		}
 		model.addAttribute("searchResult", value);
-		
 		return "member/getUsingLogList";
 	}
 	
@@ -200,15 +198,8 @@ public class PagingController {
 															count_per_page, 
 															count_per_list,
 															search_word);
-		Map<String, Object> items = (Map<String, Object>) responseData.getItem();
-		List<RuleLog> ruleLog = (List<RuleLog>) items.get("list");
-		model.addAttribute("requestUrl", "getRuleLogList");
-		model.addAttribute("result", ruleLog);
-		model.addAttribute("totalCount", items.get("totalCount"));
-		model.addAttribute("pagination",(String)items.get("pagination"));
-		model.addAttribute("count_per_page", count_per_page);
-		model.addAttribute("count_per_list", count_per_list);
-		model.addAttribute("search_word", search_word);
+		addCommonAttribute(model, "getRuleLogList", responseData, 
+						count_per_page, count_per_list, search_word);
 		
 		String value = "";
 		if(search_word != "") {

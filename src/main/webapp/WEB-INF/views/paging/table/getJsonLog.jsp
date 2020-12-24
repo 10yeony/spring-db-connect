@@ -24,7 +24,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${jsonLog}" var="item" varStatus="status">
+			<c:forEach items="${result}" var="item" varStatus="status">
 				<tr>
 					<td>${item.row_num}</td>
 					<td><a href="getUtteranceTable/${item.metadata_id}">${item.title}</a></td>

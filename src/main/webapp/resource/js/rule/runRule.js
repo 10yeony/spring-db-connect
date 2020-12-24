@@ -24,6 +24,7 @@ $(function(){
 		} else if(bottom_level == 'bottom_level_value'){
 			bottom_level = '';
 		}
+		document.getElementById('loadingArea').style.display='block';
 		runRuleCompiler(top_level, middle_level, bottom_level)
 	});
 });
@@ -47,6 +48,7 @@ function runRuleCompiler(top_level, middle_level, bottom_level){
 			
 			$('#run_rule_result_area').empty();
 			appendRunRuleResultArea(list);
+			document.getElementById('loadingArea').style.display='none';
 		},
 		error : function(request, status, error) {
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");

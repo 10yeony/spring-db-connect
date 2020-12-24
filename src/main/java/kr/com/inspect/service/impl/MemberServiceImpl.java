@@ -2,9 +2,7 @@ package kr.com.inspect.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,12 +18,10 @@ import org.springframework.stereotype.Service;
 
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
-import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.paging.CommonDto;
-import kr.com.inspect.paging.CommonForm;
-import kr.com.inspect.paging.PagingUtil;
+import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.sender.SendPwd;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.util.RandomKey;
@@ -50,6 +46,9 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Autowired
 	private UsingLogUtil usingLogUtil;
+	
+	@Autowired
+	private PagingResponse pagingResponse;
 	
 	/**
 	 * 패스워드 인코더 필드 선언
@@ -331,27 +330,15 @@ public class MemberServiceImpl implements MemberService {
     	
 		CommonDto commonDto = new CommonDto();
 		int totalCount = memberDao.getAllCountOfUsingLog(search_word); 
-		if (totalCount != 0) {
-			CommonForm commonForm = new CommonForm();
-			commonForm.setFunction_name(function_name);
-			commonForm.setCurrent_page_no(current_page_no);
-			commonForm.setCount_per_page(count_per_page);
-			commonForm.setCount_per_list(count_per_list);
-			commonForm.setTatal_list_count(totalCount);
-			commonDto = PagingUtil.setPageUtil(commonForm);
+		if (totalCount > 0) {
+			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
+		List<UsingLog> list = memberDao.getAllUsingLog(limit, offset, search_word);
+		String pagination = commonDto.getPagination();
 		
-		List<UsingLog> list = new ArrayList<>();
-		list = memberDao.getAllUsingLog(limit, offset, search_word);
-		
-		ResponseData responseData = new ResponseData();
-    	Map<String, Object> items = new HashMap<String, Object>();	
-    	items.put("list", list);
-    	items.put("totalCount", totalCount);
-    	items.put("pagination", commonDto.getPagination());
-		responseData.setItem(items);
+		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
 		return responseData;
 	}
 
@@ -388,5 +375,15 @@ public class MemberServiceImpl implements MemberService {
 		UserDetails userDetails = (UserDetails)principal; 
 		String username = userDetails.getUsername();
 		return username;
+	}
+
+	/**
+	 * 회원 id를 이용해서 가장 최근에 로그인 한 시간을 가져옴
+	 * @param member_id 회원 id
+	 * @return 가장 최근에 로그인한 시간
+	 */
+	@Override
+	public String getUserLoginTime(String member_id){
+		return memberDao.getUserLoginTime(member_id);
 	}
 }
