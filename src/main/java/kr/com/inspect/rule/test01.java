@@ -14,44 +14,26 @@ import java.util.*;
 public class test01 {
 	public static void main(String[] args) throws Exception {
 		Data data = new Data();
-		List<Metadata> result = data.getMetadataAndProgram(0);
+		List<Metadata> metadata = data.getMetadataAndProgram(0);
+
 		List<String> list = new ArrayList<>();
-		String sol = "";
+		String str = "";
 
-		for (Metadata r : result) {
-			sol += String.format("%-20s", "파일명" + r.getTitle());
-			sol += String.format("%-40s", "강의명" + r.getProgram().getTitle() + "\t");
-			sol += String.format("%-30s", "부제:" + r.getProgram().getSubtitle());
-//			if (sol.contains(",")) {
-//				sol = sol.replaceAll(",", "/");
-//			}
-			sol += "\n";
-			list.add(sol);
-			System.out.println(list);
+		str += "Title" + "/" + "제목" + "/" + "부제" + "/" + "\n";
+		list.add(str);
+
+		for (Metadata meta : metadata) {
+			str = "";
+			str += meta.getTitle()+"/" + "\t";
+			str += meta.getProgram().getTitle()+ "/" + "\t";
+
+			str += meta.getProgram().getSubtitle()+ "/" + "\t" + "\n";
+			if (str.contains(",")) {
+				str = str.replaceAll(",", " ");
+			}
+			list.add(str);
 		}
-
-//		Data data = new Data();
-//		List<Metadata> metadata = data.getMetadataAndProgram(0);
-//
-//		List<String> list = new ArrayList<>();
-//		String str = "";
-//
-//		str += "Title" + "," + "제목" + "," + "부제" + "\n";
-//		list.add(str);
-//
-//		for (Metadata meta : metadata) {
-//			str = "";
-//			str += meta.getTitle() + "\t";
-//			str += meta.getProgram().getTitle() + "\t";
-//			str += meta.getProgram().getSubtitle() + "\t" + "\n";
-//			str += str.replaceAll("\\r\\n|\\r|\\n", " ");
-//			if(str.contains(",")) {
-//				str= str.replaceAll("//","");
-//			}
-//			list.add(str);
-//			//Collections.replaceAll(list, "(\\r\\n)+|[\\r\\n]+", " ");
-//		}
-//		System.out.println(list);
+		System.out.println(list);
 	}
 
 	public void getreplace() {
