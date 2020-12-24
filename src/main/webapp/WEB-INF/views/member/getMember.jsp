@@ -70,42 +70,30 @@
 	                                    </td>
 	                                </tr>
 	                                <tr>
-	                                		<th>이메일</th>
-	                                		<td>
-	                                			<input type="text" class="form-control" 
-	                                				value="${thisMember.email}" disabled>
-	                                		</td>
+	                                    <th>이름</th>
+	                                    <td>
+	                                    	<input type="text" id="thisName" class="form-control" 
+	                                    		value="${thisMember.name}" disabled>
+	                                    </td>
 	                                </tr>
-	                                	<tr>
+	                                <tr>
+	                                	<th>이메일</th>
+	                                	<td>
+	                                		<input type="text" class="form-control" 
+	                                			value="${thisMember.email}" disabled>
+	                                	</td>
+	                                </tr>
+	                                <tr>
 	                                    <th>연락처</th>
 	                                    <td>
 	                                    	<input type="text" class="form-control" 
 	                                    		value="${thisMember.phone}" disabled>
 	                                    </td>
 	                                </tr>
-	                                <tr>
-	                                		<th>현재 권한</th>
-	                                		<td>
-		                                		<c:forEach items="${thisMember.authorities}" var="item" varStatus="status">
-					                           	<c:if test="${item=='ROLE_VIEW'}">
-					                           		<span style="margin-right:3px">
-					                           					데이터 조회 권한 |
-					                           		</span>
-					                           	</c:if>
-					                           	<c:if test="${item=='ROLE_INPUT'}">
-					                           		<span style="margin-right:3px">
-					                           					데이터 입력 권한 |
-					                           		</span>
-					                           	</c:if>
-					                           	<c:if test="${item=='ROLE_ADMIN'}">
-															<span style="margin-right:3px">
-																관리자 권한 |	
-															</span>
-					                           	</c:if>
-					                          </c:forEach>
-					                          <a href="javascript:void(0);" data-toggle="modal" data-target="#editAuthoritiesModal">권한 편집</a>
-		                                	</td>
-	                                </tr>
+	                            	<tr>
+	                            		<th>가입일</th>
+	                            		<td>${thisMember.join_date}</td>
+	                            	</tr>
 									<tr>
 										<th>가입 승인</th>
 										<td>
@@ -119,6 +107,33 @@
 											</c:if>
 										</td>
 									</tr>
+									<tr>
+	                            		<th>최종 로그인</th>
+	                            		<td></td>
+	                            	</tr>
+									<tr>
+	                                	<th>현재 권한</th>
+	                                	<td>
+		                                	<c:forEach items="${thisMember.authorities}" var="item" varStatus="status">
+						                        <c:if test="${item=='ROLE_VIEW'}">
+							                        <span style="margin-right:3px">
+							                           	데이터 조회 권한 |
+							                        </span>
+						                        </c:if>
+						                        <c:if test="${item=='ROLE_INPUT'}">
+						                        	<span style="margin-right:3px">
+						                           		데이터 입력 권한 |
+						                           	</span>
+						                        </c:if>
+						                        <c:if test="${item=='ROLE_ADMIN'}">
+													<span style="margin-right:3px">
+														관리자 권한 |	
+													</span>
+						                        </c:if>
+						                    </c:forEach>
+						                    <a href="javascript:void(0);" data-toggle="modal" data-target="#editAuthoritiesModal">권한 편집</a>
+			                            </td>
+	                            	</tr>
                                 </tbody>
                             </table>
                            

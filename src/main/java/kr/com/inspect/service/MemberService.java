@@ -56,7 +56,7 @@ public interface MemberService extends UserDetailsService {
 	 * @param role 권한명
 	 * @return 해당 권한을 가진 회원 목록
 	 */
-	public List<Member> getMemberListUsingRole(String role);
+	public List<Member> getMemberList(String role);
 	
 	/**
 	 * 회원 정보 수정

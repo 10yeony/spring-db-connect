@@ -23,7 +23,7 @@
 
 	<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
 		<!-- Select Area -->
-  		<%@ include file="/WEB-INF/views/table/select.jsp"%>
+  		<%@ include file="/WEB-INF/views/paging/select.jsp"%>
   		
   		<!-- Search Area -->
 		<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
@@ -45,7 +45,7 @@
 	
 	<!-- Table -->
 	<div class="table-responsive">
-		<%@ include file="/WEB-INF/views/table/table.jsp"%>
+		<%@ include file="/WEB-INF/views/paging/table.jsp"%>
 		${pagination}
 		<br/><br/>
 	</div>

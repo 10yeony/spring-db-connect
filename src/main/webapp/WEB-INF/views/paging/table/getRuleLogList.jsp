@@ -25,7 +25,29 @@
 				<tr>
 					<td>${item.row_num}</td>
 					<td><a href="getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
-					<td>${item.content}</td>
+					<td>
+						<div><b>${item.content}</b></div>
+						<c:if test="${item.top_level_name != null}">
+						<div>
+							대분류 : ${item.top_level_name}
+						</div>
+						</c:if>
+						<c:if test="${item.middle_level_name != null}">
+						<div>
+							중분류 : ${item.middle_level_name}	
+						</div>
+						</c:if>
+						<c:if test="${item.bottom_level_name != null}">
+						<div>
+							소분류 : ${item.bottom_level_name} 
+						</div>
+						</c:if>
+						<c:if test="${item.library_file_name != null}">
+						<div>
+							라이브러리 : ${item.library_file_name} 
+						</div>
+						</c:if>
+					</td>
 					<td>${item.ip_addr}</td>
 					<td>${item.time}</td>
 				</tr>

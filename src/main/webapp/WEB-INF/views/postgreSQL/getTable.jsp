@@ -100,7 +100,7 @@
 				<!-- Page Body -->
 				<div class="card shadow mb-4">
 					<div class="card-body"><br/>
-						<%@ include file="/WEB-INF/views/table/template.jsp"%>
+						<%@ include file="/WEB-INF/views/paging/template.jsp"%>
 					</div>
 				</div>
 
@@ -122,7 +122,7 @@
 <a class="scroll-to-top rounded" href="#page-top">
 	<i class="fas fa-angle-up"></i>
 </a>
-<script src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
+<script src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
 <script>
 function send(type, fileurl){
 	var dataType = document.getElementById("show_data_type").value;

@@ -12,7 +12,7 @@
 <body>
 	<c:choose>
 		<c:when test="${requestUrl == 'getMetadataAndProgram'}">
-		  	<%@ include file="/WEB-INF/views/table/select/getMetadataAndProgram.jsp"%>
+		  	<%@ include file="/WEB-INF/views/paging/select/getMetadataAndProgram.jsp"%>
 	  	</c:when>
   	</c:choose>
 </body>
