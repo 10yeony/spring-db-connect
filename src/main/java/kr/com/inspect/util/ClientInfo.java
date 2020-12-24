@@ -44,8 +44,6 @@ public class ClientInfo {
 		if (ip_addr == null) {
 			ip_addr = request.getRemoteAddr();
 	    }
-		
-		System.out.println(ip_addr);
 		return ip_addr;
 	}
 	

@@ -49,6 +49,21 @@ public class CommonDto {
 		this.pagination = pagination;
 	}
 	
+	public CommonDto setCommonDto(String function_name, 
+										int current_page_no,
+										int count_per_page,
+										int count_per_list,
+										int totalCount) {
+		CommonForm commonForm = new CommonForm();
+		commonForm.setFunction_name(function_name);
+		commonForm.setCurrent_page_no(current_page_no);
+		commonForm.setCount_per_page(count_per_page);
+		commonForm.setCount_per_list(count_per_list);
+		commonForm.setTatal_list_count(totalCount);
+		CommonDto commonDto = PagingUtil.setPageUtil(commonForm);
+		return commonDto;
+	}
+	
 	@Override
 	public String toString() {
 		return "CommonDTO [limit=" + limit + ", offset=" + offset + ", pagination="

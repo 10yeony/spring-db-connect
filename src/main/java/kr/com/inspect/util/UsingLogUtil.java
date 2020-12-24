@@ -39,7 +39,6 @@ public class UsingLogUtil {
 	 * @param usingLog 사용 로그 객체
 	 */
 	public void setUsingLog(UsingLog usingLog){
-		System.out.println("파라미터 : "+usingLog);
 		if(usingLog.getIp_addr() == null) {
 			usingLog.setIp_addr(clientInfo.getIpAddr());
 		}
@@ -50,21 +49,15 @@ public class UsingLogUtil {
 			usingLog.setMember_id(clientInfo.getMemberId());
 		}
 		
-		System.out.println("세팅 후 : "+usingLog);
 		if(usingLog instanceof RuleLog) {
-			System.out.println("캐스팅 전 : "+usingLog);
 			RuleLog ruleLog = (RuleLog) usingLog;
-			System.out.println("캐스팅 후 : "+ruleLog);
 			if(ruleLog.getUsing_log_no() == 0) { //아직 사용 로그를 등록하지 않은 경우
 				memberDao.insertIntoUsingLog(usingLog);
 				ruleLog.setUsing_log_no(getNoOfUsingLog(usingLog));
-				System.out.println("사용 로그 등록 후 외래키 세팅 : "+ruleLog);
 			}
 			ruleDao.insertIntoRuleLog(ruleLog);
-			System.out.println("룰 로그 등록 : "+ruleLog);
 		}else {
 			memberDao.insertIntoUsingLog(usingLog);
-			System.out.println("사용 로그 등록 : "+usingLog);
 		}
 	}
 	
