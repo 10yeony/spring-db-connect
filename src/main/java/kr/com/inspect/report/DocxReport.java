@@ -323,7 +323,7 @@ public class DocxReport {
 				}
 				for(int i=0; i<strList.size(); i++){
 					System.out.println(strList.get(i));
-					double width = 8200.0/strList.size();
+					double width = 8300.0/strList.size();
 					table.getRow(j).getCell(i).setWidth(Integer.toString((int)Math.ceil(width)));
 					table.getRow(j).getCell(i).setText(strList.get(i));
 				}
