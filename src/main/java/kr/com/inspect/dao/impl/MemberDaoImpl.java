@@ -220,4 +220,14 @@ public class MemberDaoImpl implements MemberDao{
 	public int updateMemberApprovalUsingId(String member_id){
 		return sqlSession.update(memberNs+"updateMemberApprovalUsingId", member_id);
 	}
+
+	/**
+	 * 회원 id를 이용해서 가장 최근에 로그인 한 시간을 가져옴
+	 * @param member_id 회원 id
+	 * @return 가장 최근에 로그인한 시간
+	 */
+	@Override
+	public String getUserLoginTime(String member_id){
+		return sqlSession.selectOne(usingLogNs + "getUserLoginTime", member_id);
+	}
 }

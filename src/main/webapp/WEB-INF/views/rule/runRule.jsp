@@ -19,12 +19,31 @@
 
 	<!-- Custom styles for this template-->
 	<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
+
+	<!-- w3 css -->
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- 로딩 이미지 -->
+<style>
+	.loading {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 80px;
+		height: 80px;
+		margin: -50px 0 0 -50px;
+	}
+</style>
 </head>
 
 <body id="page-top">
 	
 <!-- Page Wrapper -->
 <div id="wrapper">
+	<!-- 업로드시 로딩 화면 -->
+	<div id="loadingArea" class="w3-modal w3-animate-opacity">
+		<img class="loading" width="100px"
+			 src="${pageContext.request.contextPath}/resource/img/loading.gif">
+	</div>
 
 	<!-- 사이드바 include-->
 	<%@ include file="/WEB-INF/views/include/sidebar.jsp"%>

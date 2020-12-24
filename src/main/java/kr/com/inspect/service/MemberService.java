@@ -134,7 +134,7 @@ public interface MemberService extends UserDetailsService {
 
 	/**
 	 * 관리자 권한으로 가입 승인
-	 * @param id 회원 id
+	 * @param member_id 회원 id
 	 */
 	public void updateMemberApprovalUsingId(String member_id);
 	
@@ -142,4 +142,11 @@ public interface MemberService extends UserDetailsService {
 	 * 사용 로그에 로그아웃을 기록함
 	 */
 	public void recordLogout();
+
+	/**
+	 * 회원 id를 이용해서 가장 최근에 로그인 한 시간을 가져옴
+	 * @param member_id 회원 id
+	 * @return 가장 최근에 로그인한 시간
+	 */
+	public String getUserLoginTime(String member_id);
 }
