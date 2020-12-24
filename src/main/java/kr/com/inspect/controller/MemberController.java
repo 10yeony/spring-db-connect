@@ -216,7 +216,7 @@ public class MemberController {
 			model.addAttribute("memberList", memberService.getMemberList());
 			model.addAttribute("selectedRole", "전체 권한");
 		}else {
-			model.addAttribute("memberList", memberService.getMemberListUsingRole(role));
+			model.addAttribute("memberList", memberService.getMemberList(role));
 			switch(role) {
 				case "ROLE_VIEW":
 					model.addAttribute("selectedRole", "데이터 조회 권한");
