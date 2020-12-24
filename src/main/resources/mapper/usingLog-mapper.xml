@@ -33,22 +33,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<sql id="getUsingLog">
 		SELECT
 			(ROW_NUMBER() OVER()) AS row_num,
+			no, 
 			ip_addr,
 			time,
 			content,
 			member_id
 		FROM 
-			(SELECT
-				*
-			FROM
-				audio.using_log
-			WHERE 
-				ip_addr LIKE '%'||#{search_word}||'%'
-				OR time LIKE '%'||#{search_word}||'%'
-				OR content LIKE '%'||#{search_word}||'%'
-				OR member_id LIKE '%'||#{search_word}||'%'
-			ORDER BY 
-				time DESC) temp
+			audio.using_log
+		WHERE 
+			ip_addr LIKE '%'||#{search_word}||'%'
+			OR time LIKE '%'||#{search_word}||'%'
+			OR content LIKE '%'||#{search_word}||'%'
+			OR member_id LIKE '%'||#{search_word}||'%'
+		ORDER BY
+			no DESC 
 	</sql>
 	<select id="getAllUsingLog" parameterType="hashMap"
 		resultType="kr.com.inspect.dto.UsingLog">

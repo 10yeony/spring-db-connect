@@ -338,8 +338,8 @@ public class RuleServiceImpl implements RuleService {
 		UsingLog usingLog = new UsingLog();
 		usingLog.setContent("Rule 실행 - 총 "+list.size()+"개");
 		usingLogUtil.setUsingLog(usingLog);
-		//final int no = usingLogUtil.getNoOfUsingLog(usingLog);
-		final int no = 523;
+		final int no = usingLogUtil.getNoOfUsingLog(usingLog);
+		//final int no = 523;
 		
 		int threadCnt = 5; // 스레드 개수 설정
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);

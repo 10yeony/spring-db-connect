@@ -58,10 +58,13 @@ public class UsingLogUtil {
 			if(ruleLog.getUsing_log_no() == 0) { //아직 사용 로그를 등록하지 않은 경우
 				memberDao.insertIntoUsingLog(usingLog);
 				ruleLog.setUsing_log_no(getNoOfUsingLog(usingLog));
+				System.out.println("사용 로그 등록 후 외래키 세팅 : "+ruleLog);
 			}
 			ruleDao.insertIntoRuleLog(ruleLog);
+			System.out.println("룰 로그 등록 : "+ruleLog);
 		}else {
 			memberDao.insertIntoUsingLog(usingLog);
+			System.out.println("사용 로그 등록 : "+usingLog);
 		}
 	}
 	
