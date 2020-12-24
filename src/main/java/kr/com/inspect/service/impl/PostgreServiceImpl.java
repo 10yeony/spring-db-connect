@@ -33,7 +33,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dao.ElasticDao;
-import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.JsonLog;
@@ -44,8 +43,7 @@ import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.paging.CommonDto;
-import kr.com.inspect.paging.CommonForm;
-import kr.com.inspect.paging.PagingUtil;
+import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
@@ -83,6 +81,9 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	@Autowired
 	private UsingLogUtil usingLogUtil;
+	
+	@Autowired
+	private PagingResponse pagingResponse;
 	
 	/**
 	 * 세션 필드 선언
@@ -182,26 +183,14 @@ public class PostgreServiceImpl implements PostgreService{
 		CommonDto commonDto = new CommonDto();
 		int totalCount = postgreDao.getJsonLogCnt(search_word); //총 JsonLog의 row 수
 		if (totalCount != 0) {
-			CommonForm commonForm = new CommonForm();
-			commonForm.setFunction_name(function_name);
-			commonForm.setCurrent_page_no(current_page_no);
-			commonForm.setCount_per_page(count_per_page);
-			commonForm.setCount_per_list(count_per_list);
-			commonForm.setTatal_list_count(totalCount);
-			commonDto = PagingUtil.setPageUtil(commonForm);
+			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
+		List<JsonLog> list = postgreDao.getJsonLog(limit, offset, search_word);
+		String pagination = commonDto.getPagination();
 		
-		List<JsonLog> list = new ArrayList<>();
-		list = postgreDao.getJsonLog(limit, offset, search_word);
-		
-		ResponseData responseData = new ResponseData();
-    	Map<String, Object> items = new HashMap<String, Object>();	
-    	items.put("list", list);
-    	items.put("totalCount", totalCount);
-    	items.put("pagination", commonDto.getPagination());
-		responseData.setItem(items);
+		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
 		return responseData;	
 	}
 	
@@ -558,26 +547,14 @@ public class PostgreServiceImpl implements PostgreService{
 		CommonDto commonDto = new CommonDto();
 		int totalCount = postgreDao.getMetadataCnt(data, search_word); //총 Metadata의 row 수
 		if (totalCount != 0) {
-			CommonForm commonForm = new CommonForm();
-			commonForm.setFunction_name(function_name);
-			commonForm.setCurrent_page_no(current_page_no);
-			commonForm.setCount_per_page(count_per_page);
-			commonForm.setCount_per_list(count_per_list);
-			commonForm.setTatal_list_count(totalCount);
-			commonDto = PagingUtil.setPageUtil(commonForm);
+			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
+		List<Metadata> list = postgreDao.getMetadataAndProgram(data, limit, offset, search_word);
+		String pagination = commonDto.getPagination();
 		
-		List<Metadata> list = new ArrayList<>();
-		list = postgreDao.getMetadataAndProgram(data, limit, offset, search_word);
-		
-		ResponseData responseData = new ResponseData();
-    	Map<String, Object> items = new HashMap<String, Object>();	
-    	items.put("list", list);
-    	items.put("totalCount", totalCount);
-    	items.put("pagination", commonDto.getPagination());
-		responseData.setItem(items);
+		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
 		return responseData;
 	}
 
