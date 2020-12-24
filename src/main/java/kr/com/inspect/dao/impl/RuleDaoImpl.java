@@ -1,5 +1,6 @@
 package kr.com.inspect.dao.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -391,27 +392,45 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 룰 로그를 모두 가져옴
+	 * @param data RuleLog 테이블의 외래키인 using_log_no
 	 * @param limit SELECT할 row의 수
 	 * @param offset 몇 번째 row부터 가져올지를 결정
 	 * @param search_word 검색어
 	 * @return 룰 로그 목록
 	 */
 	@Override
-	public List<RuleLog> getAllRuleLog(int limit, int offset, String search_word) {
+	public List<RuleLog> getAllRuleLog(int using_log_no, int limit, int offset, String search_word) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		List<RuleLog> list = new ArrayList<>();
 		map.put("limit", limit);
 		map.put("offset", offset);
 		map.put("search_word", search_word);
-		return sqlSession.selectList(ruleLogNS+"getAllRuleLog", map);
+		if(using_log_no > 0) {
+			map.put("using_log_no", using_log_no);
+			list = sqlSession.selectList(ruleLogNS+"getAllRuleLogByUsingLogNo", map);
+		}else {
+			list = sqlSession.selectList(ruleLogNS+"getAllRuleLog", map);
+		}
+		return list;
 	}
 
 	/**
 	 * 룰 로그의 총 개수를 가져옴
+	 * @param data RuleLog 테이블의 외래키인 using_log_no
 	 * @param search_word 검색어
 	 * @return 룰 로그 총 개수
 	 */
 	@Override
-	public int getAllCountOfRuleLog(String search_word) {
-		return sqlSession.selectOne(ruleLogNS+"getAllCountOfRuleLog", search_word);
+	public int getAllCountOfRuleLog(int using_log_no, String search_word) {
+		int count = 0;
+		if(using_log_no > 0) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("using_log_no", using_log_no);
+			map.put("search_word", search_word);
+			count = sqlSession.selectOne(ruleLogNS+"getAllCountOfRuleLogByUsingLogNo", map);
+		}else {
+			count = sqlSession.selectOne(ruleLogNS+"getAllCountOfRuleLog", search_word);
+		}
+		return count;
 	}
 }

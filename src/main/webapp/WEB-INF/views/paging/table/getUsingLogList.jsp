@@ -29,7 +29,7 @@
 					<td>
 					<c:choose>
 					<c:when test="${fn:contains(item.content, 'Rule')}">
-						<a href="">${item.content}</a>
+						<a href="${pageContext.request.contextPath}/getRuleLogList?data=${item.no}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">${item.content}</a>
 					</c:when>
 					<c:otherwise>
 						${item.content}

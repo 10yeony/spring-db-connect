@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>SDTM</title>
 	<!-- chart.js -->
 	<script 
 	src="${pageContext.request.contextPath}/resource/vendor/chart.js/Chart.min.js"></script>

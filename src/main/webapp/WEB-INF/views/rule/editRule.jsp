@@ -13,7 +13,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Home Page</title>
+	<title>SDTM</title>
 
 	<script
 			src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko">
   <head>
+  	<title>SDTM</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
   </head>
   <body>

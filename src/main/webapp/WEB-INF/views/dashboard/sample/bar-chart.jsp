@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
+  <title>SDTM</title>
   <link href="${pageContext.request.contextPath}/resource/css/dashboard.css" rel="stylesheet">
   <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
   <script src="https://d3js.org/d3.v5.min.js"></script>

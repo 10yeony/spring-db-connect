@@ -28,7 +28,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</insert>
 	
 	<!-- 룰 로그를 가지고 옴 -->
-	<sql id="getRuleLog">
+	<select id="getAllRuleLog" parameterType="hashMap"
+		resultType="kr.com.inspect.dto.RuleLog">
 		SELECT
 			(ROW_NUMBER() OVER()) AS row_num,
 			no, 
@@ -42,22 +43,57 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			library_file_name,
 			using_log_no
 		FROM 
-			audio.rule_log
-		WHERE 
-			top_level_name LIKE '%'||#{search_word}||'%'
-			OR middle_level_name LIKE '%'||#{search_word}||'%'
-			OR bottom_level_name LIKE '%'||#{search_word}||'%'
-			OR ip_addr LIKE '%'||#{search_word}||'%'
-			OR time LIKE '%'||#{search_word}||'%'
-			OR content LIKE '%'||#{search_word}||'%'
-			OR member_id LIKE '%'||#{search_word}||'%'
-			OR library_file_name LIKE '%'||#{search_word}||'%'
-		ORDER BY 
-			no DESC
-	</sql>
-	<select id="getAllRuleLog" parameterType="hashMap"
+			(SELECT
+				*
+			FROM
+				audio.rule_log
+			WHERE 
+				top_level_name LIKE '%'||#{search_word}||'%'
+				OR middle_level_name LIKE '%'||#{search_word}||'%'
+				OR bottom_level_name LIKE '%'||#{search_word}||'%'
+				OR ip_addr LIKE '%'||#{search_word}||'%'
+				OR time LIKE '%'||#{search_word}||'%'
+				OR content LIKE '%'||#{search_word}||'%'
+				OR member_id LIKE '%'||#{search_word}||'%'
+				OR library_file_name LIKE '%'||#{search_word}||'%'
+			ORDER BY 
+				time DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+	<select id="getAllRuleLogByUsingLogNo" parameterType="hashMap"
 		resultType="kr.com.inspect.dto.RuleLog">
-		<include refid="getRuleLog" />
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			no, 
+			ip_addr,
+			time,
+			content,
+			member_id,
+			top_level_name,
+			middle_level_name,
+			bottom_level_name,
+			library_file_name,
+			using_log_no
+		FROM 
+			(SELECT
+				*
+			FROM
+				audio.rule_log
+			WHERE 
+				using_log_no = #{using_log_no}
+				AND (top_level_name LIKE '%'||#{search_word}||'%'
+				OR middle_level_name LIKE '%'||#{search_word}||'%'
+				OR bottom_level_name LIKE '%'||#{search_word}||'%'
+				OR ip_addr LIKE '%'||#{search_word}||'%'
+				OR time LIKE '%'||#{search_word}||'%'
+				OR content LIKE '%'||#{search_word}||'%'
+				OR member_id LIKE '%'||#{search_word}||'%'
+				OR library_file_name LIKE '%'||#{search_word}||'%')
+			ORDER BY 
+				time DESC) temp
 		LIMIT 
 			#{limit} 
 		OFFSET 
@@ -81,5 +117,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR time LIKE '%'||#{search_word}||'%'
 			OR content LIKE '%'||#{search_word}||'%'
 			OR member_id LIKE '%'||#{search_word}||'%'
+	</select>
+	<select id="getAllCountOfRuleLogByUsingLogNo" parameterType="hashMap" resultType="int">
+		<include refid="getCountOfRuleLog" />
+		WHERE 
+			using_log_no = #{using_log_no}
+			AND (top_level_name LIKE '%'||#{search_word}||'%'
+			OR middle_level_name LIKE '%'||#{search_word}||'%'
+			OR bottom_level_name LIKE '%'||#{search_word}||'%'
+			OR ip_addr LIKE '%'||#{search_word}||'%'
+			OR time LIKE '%'||#{search_word}||'%'
+			OR content LIKE '%'||#{search_word}||'%'
+			OR member_id LIKE '%'||#{search_word}||'%')
 	</select>
 </mapper>
