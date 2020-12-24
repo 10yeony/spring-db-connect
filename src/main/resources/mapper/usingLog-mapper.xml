@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- json 입력 측정 로그 관련 쿼리 -->
+<!-- 사용자 로그 관련 쿼리 -->
 <mapper namespace="UsingLogMapper">
 
 	<!-- UsingLog 테이블에 데이터를 입력함 -->
@@ -16,6 +16,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				#{content}, 
 				#{member_id});
 	</insert>
+	
+	<select id="getUsingLog" parameterType="kr.com.inspect.dto.UsingLog"
+		resultType="kr.com.inspect.dto.UsingLog">
+		SELECT
+			*
+		FROM
+			audio.using_log
+		WHERE
+			ip_addr = #{ip_addr}
+			AND time = #{time}
+			AND content = #{content}
+	</select>
 	
 	<!-- 사용 로그를 가지고 옴 -->
 	<sql id="getUsingLog">

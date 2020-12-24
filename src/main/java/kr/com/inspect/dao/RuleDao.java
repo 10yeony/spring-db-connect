@@ -5,6 +5,7 @@ import java.util.List;
 import kr.com.inspect.dto.ApiDesc;
 import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.dto.RuleLog;
 
 /**
  * 전사규칙과 관련된 DAO 인터페이스
@@ -219,4 +220,29 @@ public interface RuleDao {
 	 * @return 업데이트된 row의 개수
 	 */
 	public int updateCustomLibraryPackage(CustomLibrary customLibrary);
+	
+	/**
+	 * 룰 로그에 기록함
+	 * @param ruleLog 룰 로그에 기록할 RuleLog 객체
+	 * @return DB에 추가된 row의 수
+	 */
+	public int insertIntoRuleLog(RuleLog ruleLog);
+	
+	/**
+	 * 룰 로그를 모두 가져옴
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @return 룰 로그 목록
+	 */
+	public List<RuleLog> getAllRuleLog(int limit, 
+									int offset,
+									String search_word);
+	
+	/**
+	 * 룰 로그의 총 개수를 가져옴
+	 * @param search_word 검색어
+	 * @return 룰 로그 총 개수
+	 */
+	public int getAllCountOfRuleLog(String search_word);
 }

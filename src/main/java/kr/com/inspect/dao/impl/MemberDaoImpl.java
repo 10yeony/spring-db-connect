@@ -161,7 +161,7 @@ public class MemberDaoImpl implements MemberDao{
 	 * @return 해당 권한을 가진 회원 목록
 	 */
 	@Override
-	public List<Member> getMemberListUsingRole(String role){
+	public List<Member> getMemberList(String role){
 		return sqlSession.selectList(memberNs+"getMemberListUsingRole", role); 
 	}
 
@@ -170,6 +170,15 @@ public class MemberDaoImpl implements MemberDao{
 	 * @return 회원 수
 	 */
 	public int getMemberCount(){
+		return sqlSession.selectOne(memberNs+"getMemberCount");
+	}
+	
+	/**
+	 * 권한명으로 회원 수를 가져옴
+	 * @param role 권한명
+	 * @return 권한명에 따른 회원 수
+	 */
+	public int getMemberCount(String role) {
 		return sqlSession.selectOne(memberNs+"getMemberCount");
 	}
 
@@ -192,13 +201,22 @@ public class MemberDaoImpl implements MemberDao{
 	 */
 	@Override
 	public List<UsingLog> getAllUsingLog(int limit, 
-												int offset,
-												String search_word){
+										int offset,
+										String search_word){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("limit", limit);
 		map.put("offset", offset);
 		map.put("search_word", search_word);
 		return sqlSession.selectList(usingLogNs+"getAllUsingLog", map);
+	}
+	
+	/**
+	 * 아이피, 시간, 내용으로 사용 로그를 가져옴
+	 * @return 아이피, 시간, 내용으로 가져온 사용 로그
+	 */
+	@Override
+	public UsingLog getUsingLog(UsingLog usingLog) {
+		return sqlSession.selectOne(usingLogNs+"getUsingLog", usingLog);
 	}
 	
 	/**

@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -20,10 +21,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dao.RuleDao;
 import kr.com.inspect.dto.CustomLibrary;
+import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.dto.UsingLog;
+import kr.com.inspect.paging.CommonDto;
+import kr.com.inspect.paging.CommonForm;
+import kr.com.inspect.paging.PagingUtil;
 import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
+import kr.com.inspect.util.ClientInfo;
 import kr.com.inspect.util.UsingLogUtil;
 
 /**
@@ -37,6 +44,9 @@ public class RuleServiceImpl implements RuleService {
 
 	@Value("${input.custom.directory}")
 	private String customPath;
+	
+	@Autowired
+	private ClientInfo clientInfo;
 	
 	/**
 	 * 전사규칙에 관한 DAO 인터페이스
@@ -123,6 +133,47 @@ public class RuleServiceImpl implements RuleService {
 		}
 		return list;
 	}
+	
+	/**
+	 * 룰 로그 테이블을 페이징 처리하여 가져옴
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @return 룰 로그 테이블
+	 */
+	public ResponseData getRuleLog(String function_name, 
+									int current_page_no,
+									int count_per_page,
+									int count_per_list,
+									String search_word) {
+		
+		CommonDto commonDto = new CommonDto();
+		int totalCount = ruleDao.getAllCountOfRuleLog(search_word); 
+		if (totalCount != 0) {
+			CommonForm commonForm = new CommonForm();
+			commonForm.setFunction_name(function_name);
+			commonForm.setCurrent_page_no(current_page_no);
+			commonForm.setCount_per_page(count_per_page);
+			commonForm.setCount_per_list(count_per_list);
+			commonForm.setTatal_list_count(totalCount);
+			commonDto = PagingUtil.setPageUtil(commonForm);
+		}
+		int limit = commonDto.getLimit();
+		int offset = commonDto.getOffset();
+		
+		List<RuleLog> list = new ArrayList<>();
+		list = ruleDao.getAllRuleLog(limit, offset, search_word);
+		
+		ResponseData responseData = new ResponseData();
+    	Map<String, Object> items = new HashMap<String, Object>();	
+    	items.put("list", list);
+    	items.put("totalCount", totalCount);
+    	items.put("pagination", commonDto.getPagination());
+		responseData.setItem(items);
+		return responseData;
+	}
 
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함
@@ -133,16 +184,15 @@ public class RuleServiceImpl implements RuleService {
 	public int registerRule(String level, Rule rule) {
 		int id = 0; // 아이디
 		int result = 0; // 등록 후 DB에 추가된 row의 수
-
+		String content = null;
+		
 		switch (level) {
 		case "top":
 			id = ruleDao.isExistTopLevel(rule);
 			if (id == 0) { // 존재하지 않는 경우에만 등록
 				result = ruleDao.registerTopLevel(rule);
 				if(result > 0) {
-					UsingLog usingLog = new UsingLog();
-					usingLog.setContent("Rule 대분류 등록 - \""+rule.getTop_level_name()+"\"");
-					usingLogUtil.setUsingLog(usingLog);
+					content = "Rule 대분류 등록";
 				}
 			}
 			break;
@@ -151,9 +201,7 @@ public class RuleServiceImpl implements RuleService {
 			if (id == 0) { // 존재하지 않는 경우에만 등록
 				result = ruleDao.registerMiddleLevel(rule);
 				if(result > 0) {
-					UsingLog usingLog = new UsingLog();
-					usingLog.setContent("Rule 중분류 등록 - \""+rule.getMiddle_level_name()+"\"");
-					usingLogUtil.setUsingLog(usingLog);
+					content = "Rule 중분류 등록";
 				}
 			}
 			break;
@@ -168,15 +216,19 @@ public class RuleServiceImpl implements RuleService {
 				rule.setBottom_level_id(id);
 				rule.setFile_name(fileName);
 				result += ruleDao.updateBottomLevelFileName(rule);
-				
 				if(result > 0) {
-					UsingLog usingLog = new UsingLog();
-					usingLog.setContent("Rule 소분류 등록 - \""+rule.getBottom_level_name()+"\"");
-					usingLogUtil.setUsingLog(usingLog);
+					content = "Rule 소분류 등록";
 				}
 			}
 			break;
 		}
+		
+		RuleLog ruleLog = new RuleLog();
+		ruleLog.setContent(content);
+		ruleLog.setTop_level_name(rule.getTop_level_name());
+		ruleLog.setMiddle_level_name(rule.getMiddle_level_name());
+		ruleLog.setBottom_level_name(rule.getBottom_level_name());
+		usingLogUtil.setUsingLog(ruleLog);
 		return result;
 	}
 
@@ -192,15 +244,15 @@ public class RuleServiceImpl implements RuleService {
 		String content = null;
 		switch (level) {
 		case "top":
-			content = "Rule 대분류 삭제 - \"";
+			content = "Rule 대분류 삭제";
 			result = ruleDao.deleteTopLevel(id);
 			break;
 		case "middle":
-			content = "Rule 중분류 삭제 - \"";
+			content = "Rule 중분류 삭제";
 			result = ruleDao.deleteMiddleLevel(id);
 			break;
 		case "bottom":
-			content = "Rule 소분류 삭제 - \"";
+			content = "Rule 소분류 삭제";
 			
 			/* 자바 파일, 클래스 파일 삭제 */
 			Rule rule = ruleDao.getRuleBottomLevel(id);
@@ -214,7 +266,7 @@ public class RuleServiceImpl implements RuleService {
 		}
 		if(result > 0) {
 			UsingLog usingLog = new UsingLog();
-			usingLog.setContent(content+name+"\"");
+			usingLog.setContent(content+name);
 			usingLogUtil.setUsingLog(usingLog);
 		}
 		return result;
@@ -257,9 +309,12 @@ public class RuleServiceImpl implements RuleService {
 		rule.setResult(obj.toString());
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
 		if(updateResult > 0) {
-			UsingLog usingLog = new UsingLog();
-			usingLog.setContent("Rule 작성 - \""+vo.getBottom_level_name()+"\"");
-			usingLogUtil.setUsingLog(usingLog);
+			RuleLog ruleLog = new RuleLog();
+			ruleLog.setTop_level_name(vo.getTop_level_name());
+			ruleLog.setMiddle_level_name(vo.getMiddle_level_name());
+			ruleLog.setBottom_level_name(vo.getBottom_level_name());
+			ruleLog.setContent("Rule 작성");
+			usingLogUtil.setUsingLog(ruleLog);
 		}
 
 		/* 리턴값 세팅 */
@@ -277,6 +332,15 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	@Override
 	public void runRuleCompiler(List<Rule> list) throws Exception {
+		if(list.size() == 0) {
+			return;
+		}
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent("Rule 실행 - 총 "+list.size()+"개");
+		usingLogUtil.setUsingLog(usingLog);
+		//final int no = usingLogUtil.getNoOfUsingLog(usingLog);
+		final int no = 523;
+		
 		int threadCnt = 5; // 스레드 개수 설정
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();
@@ -298,6 +362,21 @@ public class RuleServiceImpl implements RuleService {
 				/* 컴파일 결과값 DB에 등록 */
 				rule.setResult(obj.toString());
 				int updateResult = ruleDao.updateRuleCompileResult(rule);
+				
+				System.out.println("실행 전");
+				if(updateResult > 0) {
+					RuleLog ruleLog = new RuleLog();
+					ruleLog.setTop_level_name(rule.getTop_level_name());
+					ruleLog.setMiddle_level_name(rule.getMiddle_level_name());
+					ruleLog.setBottom_level_name(rule.getBottom_level_name());
+					ruleLog.setContent("Rule 실행");
+					ruleLog.setUsing_log_no(no);
+					ruleLog.setIp_addr(clientInfo.getIpAddr());
+					ruleLog.setMember_id(clientInfo.getMemberId());
+					System.out.println("유틸 전");
+					usingLogUtil.setUsingLog(ruleLog);
+					System.out.println("유틸 후");
+				}
 			}));
 		}
 
@@ -311,12 +390,6 @@ public class RuleServiceImpl implements RuleService {
 			}
 		}
 		executor.shutdownNow(); // Task 종료
-		
-		if(list.size() > 0) {
-			UsingLog usingLog = new UsingLog();
-			usingLog.setContent("Rule 실행 - 총 "+list.size()+"개");
-			usingLogUtil.setUsingLog(usingLog);
-		}
 	}
 
 	/**
@@ -416,16 +489,24 @@ public class RuleServiceImpl implements RuleService {
 	 * @throws Exception 예외
 	 */
 	public void uploadCustomLibrary(List<MultipartFile> customFile, CustomLibrary customLibrary) throws Exception {
-		File fileDir = new File(customPath + customLibrary.getCreator() + File.separator); //Original Directory
+		if(customFile.size() == 0) {
+			return;
+		}
 		
+		File fileDir = new File(customPath + customLibrary.getCreator() + File.separator); //Original Directory
 		if(!fileDir.exists()){
 			fileDir.mkdir();
 		}
 		
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent("Rule 관련 라이브러리 등록 - 총 "+customFile.size()+"개");
+		usingLogUtil.setUsingLog(usingLog);
+		final int no = usingLogUtil.getNoOfUsingLog(usingLog);
+			
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
 		List<Future<?>> futures = new ArrayList<>();
-
+		
 		/* 사용자가 업로드한 커스텀 라이브러리 파일을 서버 스토리지에 생성 */
 		for (MultipartFile cus : customFile) {
 			futures.add(executor.submit(() -> {
@@ -459,16 +540,18 @@ public class RuleServiceImpl implements RuleService {
 				
 				/* DB 저장 */
 				customLibrary.setFile_name(filename);
-				registerCustomLibrary(customLibrary);
+				int result = registerCustomLibrary(customLibrary);
+				
+				if(result > 0) {
+					RuleLog ruleLog = new RuleLog();
+					ruleLog.setLibrary_file_name(filename);
+					ruleLog.setContent("Rule 관련 라이브러리 등록");
+					ruleLog.setUsing_log_no(no);
+					usingLogUtil.setUsingLog(ruleLog);
+				}
 			}));
 		}
 		closeThread(executor, futures);
-		
-		if(customFile.size() > 0) {
-			UsingLog usingLog = new UsingLog();
-			usingLog.setContent("Rule 관련 라이브러리 등록 - 총 "+customFile.size()+"개");
-			usingLogUtil.setUsingLog(usingLog);
-		}
 	}
 
 	/**
@@ -557,9 +640,10 @@ public class RuleServiceImpl implements RuleService {
 		
 		result = ruleDao.deleteCustomLibrary(customLibrary.getId());
 		if(result > 0) {
-			UsingLog usingLog = new UsingLog();
-			usingLog.setContent("Rule 관련 라이브러리 삭제 - \""+fileName+"\"");
-			usingLogUtil.setUsingLog(usingLog);
+			RuleLog ruleLog = new RuleLog();
+			ruleLog.setLibrary_file_name(customLibrary.getFile_name());
+			ruleLog.setContent("Rule 관련 라이브러리 삭제");
+			usingLogUtil.setUsingLog(ruleLog);
 		}
 		return result;
 	}
