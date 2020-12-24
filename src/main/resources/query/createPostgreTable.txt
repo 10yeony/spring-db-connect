@@ -160,7 +160,7 @@ CREATE TABLE audio.using_log (
 	ip_addr text,
 	time text,
 	content text,
-	member_id text REFERENCES audio.member ON DELETE CASCADE
+	member_id text
 );
 
 CREATE TABLE audio.rule_log (
@@ -175,7 +175,7 @@ CREATE TABLE audio.rule_log (
 	bottom_level_id integer,
 	bottom_level_name text,
 	library_file_name text,
-	member_id text REFERENCES audio.member ON DELETE CASCADE,
+	member_id text,
 	using_log_no integer REFERENCES audio.using_log ON DELETE CASCADE
 );
 
