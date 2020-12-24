@@ -12,15 +12,19 @@
 <body>
 	<c:choose>
 		<c:when test="${requestUrl == 'getMetadataAndProgram'}">
-			<%@ include file="/WEB-INF/views/table/table/getMetadataAndProgram.jsp"%>
+			<%@ include file="/WEB-INF/views/paging/table/getMetadataAndProgram.jsp"%>
 		</c:when>
 		
 		<c:when test="${requestUrl == 'getJsonLog'}">
-			<%@ include file="/WEB-INF/views/table/table/getJsonLog.jsp"%>
+			<%@ include file="/WEB-INF/views/paging/table/getJsonLog.jsp"%>
 		</c:when>
 		
 		<c:when test="${requestUrl == 'getUsingLogList'}">
-			<%@ include file="/WEB-INF/views/table/table/getUsingLogList.jsp"%>
+			<%@ include file="/WEB-INF/views/paging/table/getUsingLogList.jsp"%>
+		</c:when>
+		
+		<c:when test="${requestUrl == 'getRuleLogList'}">
+			<%@ include file="/WEB-INF/views/paging/table/getRuleLogList.jsp"%>
 		</c:when>
 	</c:choose>
 </body>

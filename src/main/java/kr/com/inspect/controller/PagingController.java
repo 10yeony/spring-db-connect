@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import kr.com.inspect.dto.JsonLog;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.ResponseData;
+import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.service.PostgreService;
+import kr.com.inspect.service.RuleService;
 
 @Controller
 public class PagingController {
@@ -30,6 +32,9 @@ public class PagingController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private RuleService ruleService;
 	
 	/**
 	 * Metadata & Program 조인해서 가져오기
@@ -181,5 +186,38 @@ public class PagingController {
 		model.addAttribute("searchResult", value);
 		
 		return "member/getUsingLogList";
+	}
+	
+	@GetMapping("/getRuleLogList")
+	public String getRuleLogList(Model model, 
+								int current_page_no,
+								int count_per_page,
+								int count_per_list,
+								String search_word) {
+		
+		ResponseData responseData = ruleService.getRuleLog(function_name, 
+															current_page_no, 
+															count_per_page, 
+															count_per_list,
+															search_word);
+		Map<String, Object> items = (Map<String, Object>) responseData.getItem();
+		List<RuleLog> ruleLog = (List<RuleLog>) items.get("list");
+		model.addAttribute("requestUrl", "getRuleLogList");
+		model.addAttribute("result", ruleLog);
+		model.addAttribute("totalCount", items.get("totalCount"));
+		model.addAttribute("pagination",(String)items.get("pagination"));
+		model.addAttribute("count_per_page", count_per_page);
+		model.addAttribute("count_per_list", count_per_list);
+		model.addAttribute("search_word", search_word);
+		
+		String value = "";
+		if(search_word != "") {
+			value = "검색 결과";
+		}else {
+			value = "전체";
+		}
+		model.addAttribute("searchResult", value);
+		
+		return "rule/getRuleLogList";
 	}
 }

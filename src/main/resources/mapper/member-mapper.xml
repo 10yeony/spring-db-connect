@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- 특정 권한을 가진 회원 목록을 가져옴 -->
 	<select id="getMemberListUsingRole" parameterType="string" resultType="kr.com.inspect.dto.Member">
 		SELECT 
-			m.member_id, m.email, m.phone
+			*
 		FROM
 			audio.member m
 		LEFT JOIN 

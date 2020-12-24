@@ -160,8 +160,20 @@ CREATE TABLE audio.using_log (
 	ip_addr text,
 	time text,
 	content text,
-	
 	member_id text REFERENCES audio.member ON DELETE CASCADE
+);
+
+CREATE TABLE audio.rule_log (
+	no SERIAL PRIMARY KEY,
+	ip_addr text,
+	time text,
+	content text,
+	top_level_name text,
+	middle_level_name text,
+	bottom_level_name text,
+	library_file_name text,
+	member_id text REFERENCES audio.member ON DELETE CASCADE,
+	using_log_no integer REFERENCES audio.using_log ON DELETE CASCADE
 );
 
 auto_increment 값 초기화

@@ -25,7 +25,7 @@
 </head>
 
 <body id="page-top">
-<!-- data type, count_per_page, count_per_list -->
+<!-- count_per_page, count_per_list -->
 <input type="hidden" id="show_count_per_page" value="${count_per_page}">
 <input type="hidden" id="show_count_per_list" value="${count_per_list}">
 
@@ -52,8 +52,12 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-2 text-gray-800">
-                    	<b>JSON 파일 관리</b>
-                    	<span style="font-size:18px;">(${selectedData} ${totalCount}건)</span>
+                    	<b>Rule 기록 조회</b>
+                    	<span style="font-size:18px;">(${searchResult} ${totalCount}건)</span>
+                    	<c:if test="${searchResult != '전체'}">
+                    		<a href="${pageContext.request.contextPath}/getUsingLogList?current_page_no=1&count_per_page=10&count_per_list=10&search_word=" 
+                    			style="font-size:0.6em;">전체보기</a>
+                    	</c:if>
                     </h1>
                 </div>
 
@@ -63,8 +67,6 @@
                     	<%@ include file="/WEB-INF/views/paging/template.jsp"%>
                     </div>
                 </div>
-
-
             </div>
             <!-- /.container-fluid -->
         </div>
@@ -84,7 +86,8 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<script src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
+<script 
+	src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
 
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
@@ -102,6 +105,7 @@
 <!-- Page level custom scripts -->
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
+
 </body>
 
 </html>
