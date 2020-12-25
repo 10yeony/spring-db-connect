@@ -14,7 +14,7 @@ public class PagingResponse {
 		Map<String, Object> items = new HashMap<String, Object>();	
 		items.put("list", list);
 		items.put("totalCount", totalCount);
-    	items.put("pagination", pagination);
+		items.put("pagination", pagination);
 		responseData.setItem(items);
 		return responseData;
 	}
