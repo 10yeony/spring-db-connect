@@ -55,16 +55,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		// 가입 승인이 완료되지 않았을 경우
 		if(((Member)authentication.getPrincipal()).getApproval().equals("false")){
-			ObjectMapper mapper = new ObjectMapper();	//JSON 변경용
 			ResponseData responseData = new ResponseData();
 			responseData.setCode(ResponseDataCode.ERROR); //코드 에러
 			responseData.setStatus(ResponseDataStatus.ERROR); //상태 에러
 			responseData.setMessage("가입 승인이 완료되지 않았습니다."); //에러 메세지
-
-			response.setCharacterEncoding("UTF-8"); //UTF-8 인코딩
-			response.setStatus(HttpServletResponse.SC_OK);
-			response.getWriter().print(mapper.writeValueAsString(responseData));
-			response.getWriter().flush();
+			responseData.responseJSON(response, responseData);
 		}
 		else {
 			String url = "/main"; //이동할 페이지
@@ -79,19 +74,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			usingLog.setContent("로그인");
 			usingLogUtil.setUsingLog(usingLog);
 
-			ObjectMapper mapper = new ObjectMapper();    //JSON 변경용
-
 			ResponseData responseData = new ResponseData();
 			responseData.setCode(ResponseDataCode.SUCCESS); //코드 성공
 			responseData.setStatus(ResponseDataStatus.SUCCESS);//상태 성공
 			Map<String, String> items = new HashMap<String, String>();
 			items.put("url", url);    // 이동할 페이지 저장
 			responseData.setItem(items);
-
-			response.setCharacterEncoding("UTF-8");
-			response.setStatus(HttpServletResponse.SC_OK);
-			response.getWriter().print(mapper.writeValueAsString(responseData));
-			response.getWriter().flush();
+			responseData.responseJSON(response, responseData);
 		}
 	}
 }

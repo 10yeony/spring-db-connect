@@ -47,6 +47,7 @@ import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
+import kr.com.inspect.util.ClientInfo;
 import kr.com.inspect.util.UsingLogUtil;
 /**
  * PostgreSQL Service
@@ -77,11 +78,20 @@ public class PostgreServiceImpl implements PostgreService{
 	private PostgreDao postgreDao;
 	
 	/**
+	 * 사용자 정보와 관련된 객체
+	 */
+	@Autowired
+	private ClientInfo clientInfo;
+	
+	/**
 	 * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
 	 */
 	@Autowired
 	private UsingLogUtil usingLogUtil;
 	
+	/**
+	 * 페이징 처리 응답 객체
+	 */
 	@Autowired
 	private PagingResponse pagingResponse;
 	
@@ -268,14 +278,8 @@ public class PostgreServiceImpl implements PostgreService{
 			return "null";
 		}
 		
-		TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		format.setTimeZone(zone);
-		String format_time;
-		
 		long beforeTime = System.currentTimeMillis();
-		format_time = format.format(beforeTime);
-		logger.info(format_time + " JSON 입력 시작");
+		logger.info(clientInfo.getTime() + " JSON 입력 시작");
 		
 		int threadCnt = 3;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -285,7 +289,7 @@ public class PostgreServiceImpl implements PostgreService{
 			futures.add(executor.submit(() -> {
 				/* 확장자가 json인 파일을 읽는다 */
 				if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
-					logger.info("start file " + file.getName());
+					logger.info(clientInfo.getTime() + " start file " + file.getName());
 
 					String fullPath = path + file.getName();
 
@@ -349,7 +353,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 						sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
 					}
-					logger.info("finish file " + file.getName());
+					logger.info(clientInfo.getTime() + " finish file " + file.getName());
 				}
 				file.delete();
 			}));
@@ -357,8 +361,7 @@ public class PostgreServiceImpl implements PostgreService{
 		closeThread(executor, futures);
 		
 		long afterTime = System.currentTimeMillis();
-		format_time = format.format(afterTime);
-		logger.info(format_time + " JSON 입력 끝");
+		logger.info(clientInfo.getTime() + " JSON 입력 끝");
 		
 		long diffTime = (afterTime - beforeTime);
 		logger.info("JSON 입력 소요 시간(ms) : " + diffTime + "밀리초");

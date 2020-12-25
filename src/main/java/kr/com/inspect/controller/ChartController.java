@@ -47,14 +47,8 @@ public class ChartController {
 	@GetMapping("getCountData")
 	@ResponseBody
 	public void getCountData(HttpServletResponse response) throws IOException {
-		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
-
+		ResponseData responseData = new ResponseData();
 		Map<String, Object> items = chartService.getCountData();
-
-		/* 응답시 한글 인코딩 처리 */
-		response.setCharacterEncoding("UTF-8");
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.getWriter().print(mapper.writeValueAsString(items));
-		response.getWriter().flush();
+		responseData.responeJSON(response, items);
 	}
 }

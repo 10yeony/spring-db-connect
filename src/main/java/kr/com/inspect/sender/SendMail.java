@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @PropertySource(value = "classpath:properties/sender.properties")
-public class SendPwd {
+public class SendMail {
 	/**
 	 * 메일전송 기능을 위한 필드 선언
 	 */
@@ -42,7 +42,7 @@ public class SendPwd {
     * @param email 회원 이메일
     * @throws Exception 예외
      */
-    public void sendMail(String email, String pwd) throws Exception{
+    public void sendPwd(String email, String pwd) throws Exception{
     	try{
     		MimeMessage message = mailSender.createMimeMessage();
     		

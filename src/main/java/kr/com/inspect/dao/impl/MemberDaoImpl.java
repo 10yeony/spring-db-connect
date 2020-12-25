@@ -218,7 +218,6 @@ public class MemberDaoImpl implements MemberDao{
 		}else {
 			map.put("member_id", member_id);
 			list = sqlSession.selectList(usingLogNs+"getAllUsingLogByMemberId", map);
-			System.out.println(list);
 		}
 		return list;
 	}
@@ -249,7 +248,6 @@ public class MemberDaoImpl implements MemberDao{
 			map.put("member_id", member_id);
 			map.put("search_word", search_word);
 			count = sqlSession.selectOne(usingLogNs+"getAllCountOfUsingLogByMemberId", map);
-			System.out.println(count);
 		}
 		return count;
 	}

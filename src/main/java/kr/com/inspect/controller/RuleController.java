@@ -8,8 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.service.RuleService;
+import kr.com.inspect.util.ClientInfo;
 
 /**
  * 전사규칙에 관한 Controller
@@ -45,6 +43,11 @@ public class RuleController {
 	@Autowired
 	private RuleService ruleService;
 	
+	/**
+	 * 사용자 정보와 관련된 객체
+	 */
+	@Autowired
+	private ClientInfo clientInfo;
 
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함
@@ -92,8 +95,7 @@ public class RuleController {
 			String level = "bottom";
 			
 			/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
-			Map<String, String> map = getMemberInfo();
-			rule.setCreator(map.get("username"));
+			rule.setCreator(clientInfo.getMemberId());
 
 			result = ruleService.registerRule(level, rule);
 
@@ -121,22 +123,13 @@ public class RuleController {
 	 */
 	@GetMapping("/getRuleCategory")
 	@ResponseBody
-	public void getRuleCategory(HttpServletResponse response, String top_level_id, String middle_level_id)
-			throws IOException {
-
-		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
-
+	public void getRuleCategory(HttpServletResponse response, String top_level_id, String middle_level_id) {
 		ResponseData responseData = new ResponseData();
 		List<Rule> list = ruleService.getRuleCategory(top_level_id, middle_level_id);
 		Map<String, Object> items = new HashMap<String, Object>();
 		items.put("list", list);
 		responseData.setItem(items);
-
-		/* 응답시 한글 인코딩 처리 */
-		response.setCharacterEncoding("UTF-8");
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.getWriter().print(mapper.writeValueAsString(responseData));
-		response.getWriter().flush();
+		responseData.responseJSON(response, responseData);
 	}
 
 	/**
@@ -151,21 +144,13 @@ public class RuleController {
 	@GetMapping("/getRuleList")
 	@ResponseBody
 	public void getRuleList(HttpServletResponse response, String top_level_id, String middle_level_id,
-			String bottom_level_id) throws IOException {
-
-		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
-
+			String bottom_level_id) {
 		ResponseData responseData = new ResponseData();
 		List<Rule> list = ruleService.getRuleListUsingJoin(top_level_id, middle_level_id, bottom_level_id);
 		Map<String, Object> items = new HashMap<String, Object>();
 		items.put("list", list);
 		responseData.setItem(items);
-
-		/* 응답시 한글 인코딩 처리 */
-		response.setCharacterEncoding("UTF-8");
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.getWriter().print(mapper.writeValueAsString(responseData));
-		response.getWriter().flush();
+		responseData.responseJSON(response, responseData);
 	}
 
 	@GetMapping("/deleteRuleLevel")
@@ -227,8 +212,6 @@ public class RuleController {
 										String top_level_id, 
 										String middle_level_id, 
 										String bottom_level_id) throws Exception {
-		
-		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
 		ResponseData responseData = new ResponseData();
 		
 		/* 해당되는 목록 가져오기 */
@@ -243,12 +226,7 @@ public class RuleController {
 		Map<String, Object> items = new HashMap<String, Object>();
 		items.put("list", list);
 		responseData.setItem(items);
-
-		/* 응답시 한글 인코딩 처리 */
-		response.setCharacterEncoding("UTF-8");
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.getWriter().print(mapper.writeValueAsString(responseData));
-		response.getWriter().flush();
+		responseData.responseJSON(response, responseData);
 	}
 
 	@GetMapping("/ruleList/{top_level_id}/{middle_level_id}/{bottom_level_id}")
@@ -270,12 +248,10 @@ public class RuleController {
 	@PostMapping("/saveRuleContents")
 	@ResponseBody
 	public void saveRuleContents(HttpServletResponse response, Rule rule) throws Exception {
-		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
 		ResponseData responseData = new ResponseData(); //ajax 응답 객체
 
 		/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
-		String username = getMemberInfo().get("username");
-		rule.setCreator(username);
+		rule.setCreator(clientInfo.getMemberId());
 
 		/* 컴파일 + DB에 코드 및 결과 업데이트 */
 		Map<String, Object> map = ruleService.updateContents(rule);
@@ -294,12 +270,7 @@ public class RuleController {
 		Object obj = map.get("object").toString();
 		items.put("obj", obj);
 		responseData.setItem(items);
-		
-		/* 응답시 한글 인코딩 처리 */
-		response.setCharacterEncoding("UTF-8");
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.getWriter().print(mapper.writeValueAsString(responseData));
-		response.getWriter().flush();
+		responseData.responseJSON(response, responseData);
 	}
 	
 	/**
@@ -311,17 +282,11 @@ public class RuleController {
 	 */
 	@GetMapping("/getApiDesc")
 	@ResponseBody
-	public void getApiDesc(HttpServletResponse response, int class_id) throws JsonProcessingException, IOException {
-		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
+	public void getApiDesc(HttpServletResponse response, int class_id) {
 		ResponseData responseData = new ResponseData(); //ajax 응답 객체
-		
 		Map<String, Object> items = ruleService.getApiDesc(class_id);
 		responseData.setItem(items);
-		
-		response.setCharacterEncoding("UTF-8");
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.getWriter().print(mapper.writeValueAsString(responseData));
-		response.getWriter().flush();
+		responseData.responseJSON(response, responseData);
 	}
 	
 	/**
@@ -335,9 +300,8 @@ public class RuleController {
 	@ResponseBody
 	public String uploadCustom (@RequestParam("customFile") List<MultipartFile> multipartFile, 
 									@RequestParam("pack") String pack) throws Exception{
-		String username = getMemberInfo().get("username");
 		CustomLibrary customLibrary = new CustomLibrary();
-		customLibrary.setCreator(username);
+		customLibrary.setCreator(clientInfo.getMemberId());
 		customLibrary.setClass_package(pack);
 		ruleService.uploadCustomLibrary(multipartFile, customLibrary);
 		return "true";
@@ -350,7 +314,7 @@ public class RuleController {
 	@GetMapping("getAllCustomByCreator")
 	@ResponseBody
 	public List<CustomLibrary> getAllCustomByCreator() {
-		String creator = getMemberInfo().get("username");
+		String creator = clientInfo.getMemberId();
 		return ruleService.getAllCustomLibraryByCreator(creator);
 	}
 	
@@ -362,28 +326,9 @@ public class RuleController {
 	@PostMapping("deleteCustomLibrary")
 	@ResponseBody
 	public int deleteCustomLibrary(CustomLibrary customLibrary) {
-		String creator = getMemberInfo().get("username");
+		String creator = clientInfo.getMemberId();
 		customLibrary.setCreator(creator);
 		int result = ruleService.deleteCustomLibrary(customLibrary);
 		return result;
 	}
-	
-	/**
-	 * 스프링 시큐리티에서 로그인한 사용자의 아이디와 암호화된 비밀번호를 가져옴
-	 * @return 로그인한 사용자의 아이디와 암호화된 비밀번호
-	 */
-	public Map<String, String> getMemberInfo(){
-		Map<String, String> map = new HashMap<String, String>();
-		
-		/* 로그인한 사용자 아이디를 가져옴 */
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		UserDetails userDetails = (UserDetails)principal; 
-		String username = userDetails.getUsername();
-		String password = userDetails.getPassword();
-		
-		map.put("username", username);
-		map.put("password", password);
-		return map;
-	}
-	
 }

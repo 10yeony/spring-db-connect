@@ -33,17 +33,10 @@ public class LoginFailHandler implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-				
-		ObjectMapper mapper = new ObjectMapper();	//JSON 변경용
-    	
     	ResponseData responseData = new ResponseData(); //에러 응답 담을 변수 생성
     	responseData.setCode(ResponseDataCode.ERROR); //코드 에러
     	responseData.setStatus(ResponseDataStatus.ERROR); //상태 에러
     	responseData.setMessage("아이디 혹은 비밀번호가 일치하지 않습니다."); //에러 메세지
-    	
-    	response.setCharacterEncoding("UTF-8"); //UTF-8 인코딩
-    	response.setStatus(HttpServletResponse.SC_OK);
-    	response.getWriter().print(mapper.writeValueAsString(responseData));
-    	response.getWriter().flush();
+    	responseData.responseJSON(response, responseData);
 	}
 }

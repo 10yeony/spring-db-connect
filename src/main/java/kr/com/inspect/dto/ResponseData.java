@@ -1,5 +1,12 @@
 package kr.com.inspect.dto;
 
+import java.io.IOException;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * JSON 응답을 위한 객체
  * @author Yeonhee Kim
@@ -55,6 +62,34 @@ public class ResponseData {
 	}
 	public void setItem(Object item) {
 		this.item = item;
+	}
+	
+	public void responeJSON(HttpServletResponse response, Map<String, Object> items) {
+		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
+		
+		/* 응답시 한글 인코딩 처리 */
+		response.setCharacterEncoding("UTF-8");
+		response.setStatus(HttpServletResponse.SC_OK);
+		try {
+			response.getWriter().print(mapper.writeValueAsString(items));
+			response.getWriter().flush();
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+	}
+	
+	public void responseJSON(HttpServletResponse response, ResponseData responseData) {
+		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
+		
+		/* 응답시 한글 인코딩 처리 */
+		response.setCharacterEncoding("UTF-8");
+		response.setStatus(HttpServletResponse.SC_OK);
+		try {
+			response.getWriter().print(mapper.writeValueAsString(responseData));
+			response.getWriter().flush();
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
 	}
 	
 	@Override
