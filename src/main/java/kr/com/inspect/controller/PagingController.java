@@ -174,6 +174,7 @@ public class PagingController {
 	/**
 	 * UsingLog 테이블을 페이징 처리하여 가져오기
 	 * @param model Model
+	 * @param data 사용자 아이디
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
@@ -182,12 +183,13 @@ public class PagingController {
 	 */
 	@GetMapping("/getUsingLogList")
 	public String getUsingLogList(Model model, 
+								String data,
 								int current_page_no,
 								int count_per_page,
 								int count_per_list,
 								String search_word) {
-		
-		ResponseData responseData = memberService.getUsingLog(function_name, 
+		ResponseData responseData = memberService.getUsingLog(data,
+															function_name, 
 															current_page_no, 
 															count_per_page, 
 															count_per_list,
@@ -201,6 +203,7 @@ public class PagingController {
 			value = "전체";
 		}
 		model.addAttribute("searchResult", value);
+		model.addAttribute("data", data);
 		return "member/getUsingLogList";
 	}
 	

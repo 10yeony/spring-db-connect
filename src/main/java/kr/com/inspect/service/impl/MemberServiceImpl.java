@@ -315,6 +315,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	/**
 	 * 사용 로그 테이블을 페이징 처리하여 가져옴
+	 * @param member_id 사용자 아이디
 	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
@@ -322,20 +323,21 @@ public class MemberServiceImpl implements MemberService {
 	 * @param search_word 검색어
 	 * @return 사용 로그 테이블
 	 */
-	public ResponseData getUsingLog(String function_name, 
+	public ResponseData getUsingLog(String member_id,
+									String function_name, 
 									int current_page_no,
 									int count_per_page,
 									int count_per_list,
 									String search_word){
     	
 		CommonDto commonDto = new CommonDto();
-		int totalCount = memberDao.getAllCountOfUsingLog(search_word); 
+		int totalCount = memberDao.getAllCountOfUsingLog(member_id, search_word); 
 		if (totalCount > 0) {
 			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
-		List<UsingLog> list = memberDao.getAllUsingLog(limit, offset, search_word);
+		List<UsingLog> list = memberDao.getAllUsingLog(member_id, limit, offset, search_word);
 		String pagination = commonDto.getPagination();
 		
 		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);

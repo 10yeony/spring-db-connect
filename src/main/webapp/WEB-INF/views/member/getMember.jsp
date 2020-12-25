@@ -52,7 +52,10 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-2 text-gray-800"><b>사용자 정보</b></h1>
+                    <h1 class="h3 mb-2 text-gray-800">
+                    	<b>사용자 정보</b>
+                    	<a href="${pageContext.request.contextPath}/getUsingLogList?data=${thisMember.member_id}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=" style="font-size:0.6em;">사용 기록 조회</a>
+                    </h1>
                 </div>
 
                 <!-- Page Body -->
@@ -108,10 +111,6 @@
 										</td>
 									</tr>
 									<tr>
-	                            		<th>최종 로그인</th>
-	                            		<td></td>
-	                            	</tr>
-									<tr>
 	                                	<th>현재 권한</th>
 	                                	<td>
 		                                	<c:forEach items="${thisMember.authorities}" var="item" varStatus="status">
@@ -138,9 +137,9 @@
                             </table>
                            
                             <div>
-						        		<button class="btn btn-danger" type="button" id="deleteBtnByAdmin" style="float:left;">회원탈퇴</button>
+						        		<button class="btn btn-danger" type="button" id="deleteBtnByAdmin" style="float:right; margin-right:10px;">회원탈퇴</button>
 										<button class="btn btn-secondary" type="button" id="backToMemberList"
-											style="float:right; margin-right:10px;">뒤로 가기</button>
+											style="float:left;">뒤로 가기</button>
 						        </div>
                         </div>
                     </div>

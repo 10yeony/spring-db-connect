@@ -227,8 +227,8 @@ public class PostgreDaoImpl implements PostgreDao {
 	 * @return 모든 테이블을 리스트로 담아 리턴
 	 */
 	public List<JsonLog> getJsonLog(int limit, 
-											int offset, 
-											String search_word){
+									int offset, 
+									String search_word){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("limit", limit);
 		map.put("offset", offset);

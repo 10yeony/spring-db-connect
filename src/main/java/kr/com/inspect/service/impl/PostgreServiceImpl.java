@@ -175,10 +175,10 @@ public class PostgreServiceImpl implements PostgreService{
 	 * @return JsonLog 테이블들의 값을 리스트로 담아 리턴
 	 */
 	public ResponseData getJsonLog(String function_name, 
-										int current_page_no,
-										int count_per_page,
-										int count_per_list,
-										String search_word){ 
+									int current_page_no,
+									int count_per_page,
+									int count_per_list,
+									String search_word){ 
 		
 		CommonDto commonDto = new CommonDto();
 		int totalCount = postgreDao.getJsonLogCnt(search_word); //총 JsonLog의 row 수

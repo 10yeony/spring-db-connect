@@ -63,7 +63,7 @@
 	           <div class="bg-white py-2 collapse-inner rounded">
 	               <h6 class="collapse-header">Rule Management</h6>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/registerRule">룰 등록</a>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/ruleList">룰 목록</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/ruleList/0/0/0">룰 목록</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/rule/runRule">룰 실행</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getRuleLogList?data=0&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">룰 기록 조회</a>
 	           </div>
@@ -82,7 +82,7 @@
 	           <div class="bg-white py-2 collapse-inner rounded">
 	               <h6 class="collapse-header">Member Management</h6>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getMemberListByAdmin?role=ALL">사용자 관리</a>
-	               <a class="collapse-item" href="${pageContext.request.contextPath}/getUsingLogList?current_page_no=1&count_per_page=10&count_per_list=10&search_word=">사용 기록 조회</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/getUsingLogList?data=&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">사용 기록 조회</a>
 	           </div>
 	       </div>
 	   </li>

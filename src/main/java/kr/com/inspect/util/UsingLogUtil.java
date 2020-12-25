@@ -62,24 +62,16 @@ public class UsingLogUtil {
 	}
 	
 	/**
-	 * UsingLog 테이블에 사용 로그를 등록하고, RuleLog에 외래키, 아이피, 아이디, 현재 시간, 내용을 세팅하여 리턴함
-	 * @param usingLogContent UsingLog 테이블의 내용
-	 * @param ruleLogContent RuleLog 테이블의 내용
-	 * @return 외래키, 아이피, 아이디, 현재 시간, 내용을 세팅한 RuleLog
+	 * UsingLog 테이블에 사용 로그를 등록하고, RuleLog의 외래키로 사용할 UsingLog의 기본키를 반환
+	 * @param content UsingLog 테이블의 내용
+	 * @return RuleLog의 외래키로 사용할 UsingLog의 기본키
 	 */
-	public RuleLog insertUsingLogAndSetRuleLog(String usingLogContent, String ruleLogContent) {
+	public int insertUsingLog(String content) {
 		UsingLog usingLog = new UsingLog();
-		usingLog.setContent(usingLogContent);
+		usingLog.setContent(content);
 		setUsingLog(usingLog);
-		
-		RuleLog vo = new RuleLog();
-		vo.setUsing_log_no(getNoOfUsingLog(usingLog));
-		vo.setIp_addr(clientInfo.getIpAddr());
-		vo.setMember_id(clientInfo.getMemberId());
-		vo.setTime(clientInfo.getTime());
-		vo.setContent(ruleLogContent);
-		
-		return vo;
+		int key = getNoOfUsingLog(usingLog);
+		return key;
 	}
 	
 	/**

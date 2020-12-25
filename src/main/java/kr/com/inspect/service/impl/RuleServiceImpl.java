@@ -332,8 +332,11 @@ public class RuleServiceImpl implements RuleService {
 			return;
 		}
 		String usingLogContent = "Rule 실행 - 총 "+list.size()+"개";
-		String ruleLogContent = "Rule 실행";
-		final RuleLog vo = usingLogUtil.insertUsingLogAndSetRuleLog(usingLogContent, ruleLogContent);
+		final int no = usingLogUtil.insertUsingLog(usingLogContent);
+		final String ip_addr = clientInfo.getIpAddr();
+		final String member_id = clientInfo.getMemberId();
+		final String time = clientInfo.getTime();
+		final String ruleLogContent = "Rule 실행";
 		
 		int threadCnt = 5; // 스레드 개수 설정
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -358,7 +361,12 @@ public class RuleServiceImpl implements RuleService {
 				int updateResult = ruleDao.updateRuleCompileResult(rule);
 				
 				if(updateResult > 0) {
-					RuleLog ruleLog = vo;
+					RuleLog ruleLog = new RuleLog();
+					ruleLog.setUsing_log_no(no);
+					ruleLog.setIp_addr(ip_addr);
+					ruleLog.setMember_id(member_id);
+					ruleLog.setTime(time);
+					ruleLog.setContent(ruleLogContent);
 					ruleLog.setTop_level_id(rule.getTop_level_id());
 					ruleLog.setTop_level_name(rule.getTop_level_name());
 					ruleLog.setMiddle_level_id(rule.getMiddle_level_id());

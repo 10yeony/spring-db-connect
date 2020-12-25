@@ -107,6 +107,10 @@ function setListSize(size){
 				+ "&search_word=" + $('#show_search_word').val();
 }
 
+function clickBackBtn(){
+	window.history.back();
+}
+
 function fnExcelReport(id, title) {
 	let today = new Date();
 

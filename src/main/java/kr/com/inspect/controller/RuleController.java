@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -249,8 +251,14 @@ public class RuleController {
 		response.getWriter().flush();
 	}
 
-	@GetMapping("/ruleList")
-	public String ruleListPage() {
+	@GetMapping("/ruleList/{top_level_id}/{middle_level_id}/{bottom_level_id}")
+	public String ruleListPage(Model model, 
+							@PathVariable int top_level_id, 
+							@PathVariable int middle_level_id, 
+							@PathVariable int bottom_level_id) {
+		model.addAttribute("top_level_id", top_level_id);
+		model.addAttribute("middle_level_id", middle_level_id);
+		model.addAttribute("bottom_level_id", bottom_level_id);
 		return "rule/ruleList";
 	}
 	
