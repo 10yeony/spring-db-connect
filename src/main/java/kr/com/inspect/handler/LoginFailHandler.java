@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.util.ResponseDataCode;
 import kr.com.inspect.util.ResponseDataStatus;
