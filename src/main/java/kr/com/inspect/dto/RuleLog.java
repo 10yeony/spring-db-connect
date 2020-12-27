@@ -108,6 +108,14 @@ public class RuleLog extends UsingLog {
 	public void setUsing_log_no(int using_log_no) {
 		this.using_log_no = using_log_no;
 	}
+	public void setRule(Rule rule) {
+		setTop_level_id(rule.getTop_level_id());
+		setTop_level_name(rule.getTop_level_name());
+		setMiddle_level_id(rule.getMiddle_level_id());
+		setMiddle_level_name(rule.getMiddle_level_name());
+		setBottom_level_id(rule.getBottom_level_id());
+		setBottom_level_name(rule.getBottom_level_name());
+	}
 	
 	@Override
 	public String toString() {

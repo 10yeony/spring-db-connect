@@ -219,9 +219,7 @@ public class RuleServiceImpl implements RuleService {
 		
 		RuleLog ruleLog = new RuleLog();
 		ruleLog.setContent(content);
-		ruleLog.setTop_level_name(rule.getTop_level_name());
-		ruleLog.setMiddle_level_name(rule.getMiddle_level_name());
-		ruleLog.setBottom_level_name(rule.getBottom_level_name());
+		ruleLog.setRule(rule);
 		usingLogUtil.setUsingLog(ruleLog);
 		return result;
 	}
@@ -365,12 +363,7 @@ public class RuleServiceImpl implements RuleService {
 					ruleLog.setMember_id(member_id);
 					ruleLog.setTime(time);
 					ruleLog.setContent(ruleLogContent);
-					ruleLog.setTop_level_id(rule.getTop_level_id());
-					ruleLog.setTop_level_name(rule.getTop_level_name());
-					ruleLog.setMiddle_level_id(rule.getMiddle_level_id());
-					ruleLog.setMiddle_level_name(rule.getMiddle_level_name());
-					ruleLog.setBottom_level_id(rule.getBottom_level_id());
-					ruleLog.setBottom_level_name(rule.getBottom_level_name());
+					ruleLog.setRule(rule);
 					usingLogUtil.setUsingLog(ruleLog);
 				}
 			}));
