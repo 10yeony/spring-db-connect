@@ -40,6 +40,9 @@
 			href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 			rel="stylesheet">
 
+	<!-- w3 css -->
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 	<style>
 		#code_area{
 			background: #322931;
@@ -121,7 +124,7 @@
 							<div style="font-size: 1.2em;">
 								제시된 양식을 참고하여 Java 코드를 작성하세요 
 								<a class="small" id="goToRuleApi" href="#" data-dismiss="modal" data-toggle="modal"
-									data-target="#ruleApiModal"> API 문서 보기 </a>
+									data-target="#ruleApiModal" style="color: #4e73df;"> API 문서 보기 </a>
 							</div>
 							<br />
 							<form
@@ -218,7 +221,7 @@
 									<div style="margin-left: 0.23%;">
 									/* 아래에 필요한 라이브러리를 import 하세요 */
 									<a class="small" id="goToRuleCustom" href="#" data-dismiss="modal" data-toggle="modal"
-								data-target="#customLibraryModal" style="margin-left:5px; font-size:1em;"> 라이브러리 추가 </a>
+								data-target="#customLibraryModal" style="margin-left:5px; font-size:1em; color: #4e73df;"> 라이브러리 추가 </a>
 									</div>
 									<textarea id="imp_contents" name="imp_contents" cols="170" rows="20"
 											  style="height: 50px;">${rule.imp_contents}</textarea>

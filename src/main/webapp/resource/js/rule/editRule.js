@@ -36,6 +36,7 @@ $(function(){
 	contextPath = $('#contextPath').val();
 
 	$('#ruleUpdateBtn').click(function(){
+		$('#loadingArea').show();
 		saveRuleContents();
 	});
 
@@ -49,27 +50,32 @@ $(function(){
 });
 
 function saveRuleContents(){
-	$.ajax({
-		//요청
-		type: "POST",
-		url: contextPath + "/rule/saveRuleContents",
-		data: {
-			bottom_level_id : $('#bottom_level_id').val(),
-			contents : myCodeMirror.getValue(),
-			imp_contents : imp_myCodeMirror.getValue()
-		},
-		async: false,
+	setTimeout(function () {
+		$.ajax({
+			//요청
+			type: "POST",
+			url: contextPath + "/rule/saveRuleContents",
+			data: {
+				bottom_level_id: $('#bottom_level_id').val(),
+				contents: myCodeMirror.getValue(),
+				imp_contents: imp_myCodeMirror.getValue()
+			},
+			async: false,
 
-		//응답
-		success : function(response){
-			var json = JSON.parse(response);
-			alert(json.message);
-			var obj = json.item.obj;
-			$('#show_result_after_update textarea').empty();
-			$('#show_result_after_update textarea').append(obj);
-		},
-		error : function(request, status, error) {
-			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
-		}
-	}); //ajax
+			//응답
+			success: function (response) {
+				var json = JSON.parse(response);
+				alert(json.message);
+				var obj = json.item.obj;
+				$('#show_result_after_update textarea').empty();
+				$('#show_result_after_update textarea').append(obj);
+			},
+			error: function (request, status, error) {
+				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+			},
+			complete : function (){
+				$('#loadingArea').hide();
+			}
+		}); //ajax
+	}, 0)
 }
