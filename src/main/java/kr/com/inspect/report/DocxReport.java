@@ -327,12 +327,10 @@ public class DocxReport {
 		if(rule.getResult() != null) {
 			for(int j=0; j<list.size(); j++){
 				strList = Arrays.asList(list.get(j).split(", "));
-				System.out.println(strList.toString());
 				if(j==0) {
 					table = doc.createTable(list.size(), strList.size());
 				}
 				for(int i=0; i<strList.size(); i++){
-					System.out.println(strList.get(i));
 					double width = 8300.0/strList.size();
 					table.getRow(j).getCell(i).setWidth(Integer.toString((int)Math.ceil(width)));
 					table.getRow(j).getCell(i).setText(strList.get(i));
