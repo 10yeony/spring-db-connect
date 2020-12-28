@@ -325,7 +325,7 @@ public class MemberServiceImpl implements MemberService {
         }
 		return authorities;
 	}
-
+	
 	/**
 	 * 회원 정보를 모두 가져옴
 	 * @return 회원 목록
@@ -335,16 +335,39 @@ public class MemberServiceImpl implements MemberService {
 		List<Member> list = memberDao.getMemberList();
 		return list;
 	}
-	
+
 	/**
-	 * 권한명으로 회원 정보를 모두 가지고 옴
-	 * @param role 권한명
-	 * @return 해당 권한을 가진 회원 목록
+	 * 사용자 목록 테이블을 페이징 처리하여 가져옴
+	 * @param role 사용자 권한
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @param approval 승인 여부
+	 * @return 사용자 목록 테이블
 	 */
 	@Override
-	public List<Member> getMemberList(String role){
-		List<Member> list = memberDao.getMemberList(role);
-		return list;
+	public ResponseData getMemberList(String role,
+										String function_name, 
+										int current_page_no,
+										int count_per_page,
+										int count_per_list,
+										String search_word,
+										String approval){
+    	
+		CommonDto commonDto = new CommonDto();
+		int totalCount = memberDao.getMemberCount(role, search_word, approval);
+		if (totalCount > 0) {
+			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
+		}
+		int limit = commonDto.getLimit();
+		int offset = commonDto.getOffset();
+		List<Member> list = memberDao.getMemberList(role, limit, offset, search_word, approval);
+		String pagination = commonDto.getPagination();
+		
+		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
+		return responseData;
 	}
 	
 	/**

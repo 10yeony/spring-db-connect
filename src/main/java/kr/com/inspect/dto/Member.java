@@ -18,6 +18,13 @@ public class Member implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	
+	/**
+	 * 게시글 번호
+	 */
+	private int row_num;
+	
+	
 	/* 아이디 및 비밀번호 */
 	
 	/**
@@ -93,10 +100,11 @@ public class Member implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 	
 	public Member() {}
-	public Member(String member_id, String pwd, String name, boolean isAccountNonExpired, boolean isAccountNonLocked,
-			boolean isCredentialsNonExpired, boolean isEnabled, String join_date, String phone, String email,
-			String approval, Collection<? extends GrantedAuthority> authorities) {
+	public Member(int row_num, String member_id, String pwd, String name, boolean isAccountNonExpired,
+			boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled, String join_date,
+			String phone, String email, String approval, Collection<? extends GrantedAuthority> authorities) {
 		super();
+		this.row_num = row_num;
 		this.member_id = member_id;
 		this.pwd = pwd;
 		this.name = name;
@@ -110,7 +118,15 @@ public class Member implements UserDetails {
 		this.approval = approval;
 		this.authorities = authorities;
 	}
-
+	
+	
+	public int getRow_num() {
+		return row_num;
+	}
+	public void setRow_num(int row_num) {
+		this.row_num = row_num;
+	}
+	
 	/**
 	 * MyBatis 관련 DB 상의 Id getter
 	 * @return
@@ -245,9 +261,10 @@ public class Member implements UserDetails {
 	
 	@Override
 	public String toString() {
-		return "Member [member_id=" + member_id + ", pwd=" + pwd + ", name=" + name + ", isAccountNonExpired="
-				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
-				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", join_date=" + join_date + ", phone=" + phone
-				+ ", email=" + email + ", approval=" + approval + ", authorities=" + authorities + "]";
+		return "Member [row_num=" + row_num + ", member_id=" + member_id + ", pwd=" + pwd + ", name=" + name
+				+ ", isAccountNonExpired=" + isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked
+				+ ", isCredentialsNonExpired=" + isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", join_date="
+				+ join_date + ", phone=" + phone + ", email=" + email + ", approval=" + approval + ", authorities="
+				+ authorities + "]";
 	}
 }

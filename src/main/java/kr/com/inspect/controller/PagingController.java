@@ -141,6 +141,59 @@ public class PagingController {
 	}
 	
 	/**
+	 * 관리자 권한으로 로그인시 사용자 목록을 가져옴
+	 * @param model Model
+	 * @param data 권한
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @param approval 승인 여부
+	 * @return 사용자 목록
+	 */
+	@GetMapping("/getMemberListByAdmin")
+	public String getMemberListByAdmin(Model model, 
+											String data,
+											int current_page_no,
+											int count_per_page,
+											int count_per_list,
+											String search_word,
+											String approval) {
+		ResponseData responseData = new ResponseData();
+		responseData = memberService.getMemberList(data,
+														function_name, 
+														current_page_no, 
+														count_per_page, 
+														count_per_list, 
+														search_word, 
+														approval);
+		addCommonAttribute(model, "getMemberListByAdmin", responseData, 
+								count_per_page, count_per_list, search_word);
+		model.addAttribute("data", data);
+		model.addAttribute("approval", approval);
+		
+		switch(data) {
+			case "ALL":
+				System.out.println("전체 권한이당");
+				model.addAttribute("selectedRole", "전체 권한");
+			case "ROLE_VIEW":
+				System.out.println("데이터 조회 권한이당");
+				model.addAttribute("selectedRole", "데이터 조회 권한");
+				break;
+			case "ROLE_INPUT":
+				model.addAttribute("selectedRole", "데이터 입력 권한");
+				break;
+			case "ROLE_ADMIN":
+				model.addAttribute("selectedRole", "관리자 권한");
+				break;
+			default:
+				break;
+		}
+		System.out.println(model);
+		return "member/getMemberList";
+	}
+	
+	/**
 	 * JsonLog 테이블을 페이징 처리하여 가져오기
 	 * @param model Model
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수

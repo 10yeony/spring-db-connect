@@ -149,40 +149,89 @@ public class MemberDaoImpl implements MemberDao{
 	public List<String> readAuthorities(String member_id) {
 		return sqlSession.selectList(authorityNs+"readAuthorities", member_id);
 	}
-
+	
 	/**
 	 * 회원 정보 모두 가지고옴 
 	 * @return 회원 목록
 	 */
+	@Override
 	public List<Member> getMemberList(){ 
 		return sqlSession.selectList(memberNs+"getMemberList"); 	
 	}
 	
 	/**
-	 * 권한명으로 회원 정보를 모두 가지고 옴
+	 * 검색어, 권한명, 승인 여부로 회원 정보를 모두 가지고 옴
 	 * @param role 권한명
-	 * @return 해당 권한을 가진 회원 목록
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @param approval 승인 여부
+	 * @return 검색어, 권한명, 승인 여부에 따른 회원 목록
 	 */
 	@Override
-	public List<Member> getMemberList(String role){
-		return sqlSession.selectList(memberNs+"getMemberListUsingRole", role); 
+	public List<Member> getMemberList(String role, 
+										int limit, 
+										int offset,
+										String search_word, 
+										String approval){
+		List<Member> list = new ArrayList<>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("role", role);
+		map.put("limit", limit);
+		map.put("offset", offset);
+		map.put("search_word", search_word);
+		if(role.equals("ALL")) { //권한과 관계 없이 가져오기
+			if(approval.equals("")) { //승인 여부에 관계 없이 가져오기
+				list = sqlSession.selectList(memberNs+"getMemberList", map);
+			}else { //승인 여부에 따라 가져오기
+				map.put("approval", Boolean.parseBoolean(approval));
+			}
+		}else { //권한에 따라 가져오기
+			if(approval.equals("")) { //승인 여부에 관계 없이 가져오기
+				list = sqlSession.selectList(memberNs+"getMemberListUsingRole", map);
+			}else { //승인 여부에 따라 가져오기
+				map.put("approval", Boolean.parseBoolean(approval));
+			}
+		}
+		return list;
 	}
 
 	/**
 	 * 회원 수를 가져옴
 	 * @return 회원 수
 	 */
+	@Override
 	public int getMemberCount(){
 		return sqlSession.selectOne(memberNs+"getMemberCount");
 	}
 	
 	/**
-	 * 권한명으로 회원 수를 가져옴
+	 * 검색어, 권한명, 승인 여부로 회원 수를 가져옴
 	 * @param role 권한명
-	 * @return 권한명에 따른 회원 수
+	 * @param search_word 검색어
+	 * @param approval 승인 여부
+	 * @return 검색어, 권한명에 따른 회원 수
 	 */
-	public int getMemberCount(String role) {
-		return sqlSession.selectOne(memberNs+"getMemberCount");
+	@Override
+	public int getMemberCount(String role, String search_word, String approval) {
+		int result = 0;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search_word", search_word);
+		if(role.equals("ALL")) { //권한과 관계 없이 가져오기
+			if(approval.equals("")) { //승인 여부에 관계 없이 가져오기
+				result = sqlSession.selectOne(memberNs+"getMemberSearchCount", map);
+			}else { //승인 여부에 따라 가져오기
+				map.put("approval", Boolean.parseBoolean(approval));
+			}
+		}else { //권한에 따라 가져오기
+			map.put("role", role);
+			if(approval.equals("")) { //승인 여부에 관계 없이 가져오기
+				result = sqlSession.selectOne(memberNs+"getMemberCountUsingRole", map);
+			}else { //승인 여부에 따라 가져오기
+				map.put("approval", Boolean.parseBoolean(approval));
+			}
+		}
+		return result;
 	}
 
 	/**

@@ -11,6 +11,7 @@ $(function(){
 	/* 화면 세팅을 위한 변수 선언 */
 	var data_type = $('#show_data_type').val();
 	var count_per_list = $('#show_count_per_list').val();
+	var approval = $('#show_approval').val();
 	
 	/* 선택한 데이터 타입 세팅 */
 	$('#dataSelect').val(data_type);
@@ -37,12 +38,16 @@ $(function(){
 	/* 데이터 타입 선택 */
 	$('#dataSelect').change(function(){
 		let selectOption = $(this).val();
-		location.href = contextPath + "/" + requestUrl
-							+ "?data=" + selectOption
-							+ "&current_page_no=1"
-							+ "&count_per_page=" + $('#show_count_per_page').val()
-							+ "&count_per_list=" + $('#show_count_per_list').val()
-							+ "&search_word=";
+		let link = contextPath + "/" + requestUrl
+					+ "?data=" + selectOption
+					+ "&current_page_no=1"
+					+ "&count_per_page=" + $('#show_count_per_page').val()
+					+ "&count_per_list=" + $('#show_count_per_list').val()
+					+ "&search_word=";
+		if(requestUrl == 'getMemberListByAdmin'){
+			link += "&approval=" + $('#show_approval').val();
+		}
+		location.href = link;
 	});
 	
 	/* 10개씩, 20개씩, 30개씩 보기 */
@@ -78,33 +83,45 @@ $(function(){
 
 function search(){
 	let searchWord = $("#inputSearchText").val();
-	location.href = contextPath + "/" + requestUrl
-						+ "?data=" + $('#show_data_type').val()
-						+ "&current_page_no=1"
-						+ "&count_per_page=" + $('#show_count_per_page').val()
-						+ "&count_per_list=" + $('#show_count_per_list').val()
-						+ "&search_word=" + searchWord;
+	let link = contextPath + "/" + requestUrl
+				+ "?data=" + $('#show_data_type').val()
+				+ "&current_page_no=1"
+				+ "&count_per_page=" + $('#show_count_per_page').val()
+				+ "&count_per_list=" + $('#show_count_per_list').val()
+				+ "&search_word=" + searchWord;
+	if(requestUrl == 'getMemberListByAdmin'){
+		link += "&approval=" + $('#show_approval').val();
+	}
+	location.href = link;
 }
 
 function getTable(currentPageNo){
 	if(currentPageNo === undefined){
 		currentPageNo = "1";
 	}
-	location.href = contextPath + "/" + requestUrl
+	let link = contextPath + "/" + requestUrl
 				+ "?data=" + $('#show_data_type').val()
 				+ "&current_page_no=" + currentPageNo
 				+ "&count_per_page=" + $('#show_count_per_page').val()
 				+ "&count_per_list=" + $('#show_count_per_list').val()
 				+ "&search_word=" + $('#show_search_word').val();
+	if(requestUrl == 'getMemberListByAdmin'){
+		link += "&approval=" + $('#show_approval').val();
+	}
+	location.href = link;
 }
 
 function setListSize(size){
-	location.href = contextPath + "/" + requestUrl
+	let link = contextPath + "/" + requestUrl
 				+ "?data=" + $('#show_data_type').val()
 				+ "&current_page_no=" + 1
 				+ "&count_per_page=" + $('#show_count_per_page').val()
 				+ "&count_per_list=" + size
 				+ "&search_word=" + $('#show_search_word').val();
+	if(requestUrl == 'getMemberListByAdmin'){
+		link += "&approval=" + $('#show_approval').val();
+	}
+	location.href = link;
 }
 
 function clickBackBtn(){

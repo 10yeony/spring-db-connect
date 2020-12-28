@@ -21,9 +21,6 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-	
-	<script 
-		src="${pageContext.request.contextPath}/resource/js/member/getMemberList.js"></script>
 </head>
 
 <body id="page-top">
@@ -55,45 +52,8 @@
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
-                    <div class="card-body">
-                    	<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
-							<select class="form-control" id="roleSelect" style="margin-right:3px;">
-								<option>권한 선택</option>
-    							<option value="ALL">전체</option>
-    							<option value="ROLE_VIEW">데이터 조회</option>
-    							<option value="ROLE_INPUT">데이터 입력</option>
-    							<option value="ROLE_ADMIN">관리자</option>
-  							</select>
-							<input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요"
-								   id="memberSearchText">
-							<button class="btn btn-primary" type="button">
-								<i class="fas fa-search fa-sm"></i>
-							</button>
-						</div><br><br>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="memberTable" width="100%" cellspacing="0">
-                                <thead>
-	                                <tr>
-	                                    <th>no.</th>
-	                                    <th>아이디</th>
-	                                    <th>이름</th>
-	                                    <th>이메일</th>
-	                                    <th>연락처</th>
-	                                </tr>
-                                </thead>
-                                <tbody>
-	                                <c:forEach items="${memberList}" var="item" varStatus="status">
-	                                    <tr>
-	                                        <td>${status.count}</td>
-	                                        <td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
-	                                        <td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.name}</a></td>
-	                                        <td>${item.email}</td>
-	                                        <td>${item.phone}</td>
-	                                    </tr>
-	                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="card-body"><br/>
+                        <%@ include file="/WEB-INF/views/paging/template.jsp"%>
                     </div>
                 </div>
             </div>
@@ -115,6 +75,9 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
+<script 
+	src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
+
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resource/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -125,12 +88,6 @@
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="${pageContext.request.contextPath}/resource/vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
 </body>
 
 </html>

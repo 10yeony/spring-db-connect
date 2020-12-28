@@ -42,11 +42,6 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<button class="btn btn-secondary" type="button" id="backBtn" style="float:left;" onclick="clickBackBtn();">뒤로 가기</button>
-	<button type="button" style="float: right;" class="btn btn-primary btn-icon-split" onclick="fnExcelReport('usingLogList','usingLog');">
-		<span class="icon text-white-50"><i class="fas fa-download fa-sm text-white-50"></i></span>
-		<span class="text">Excel</span>
-	</button>
 
 <script
 		src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
