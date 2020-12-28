@@ -24,7 +24,6 @@ import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.RuleLog;
-import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.paging.CommonDto;
 import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.rule.RuleCompiler;
@@ -479,22 +478,22 @@ public class RuleServiceImpl implements RuleService {
 	 * @param customLibrary 커스텀 라이브러리 객체
 	 * @throws Exception 예외
 	 */
-	public void uploadCustomLibrary(List<MultipartFile> customFile, CustomLibrary customLibrary) throws Exception {
+	public void uploadCustomLibrary(List<MultipartFile> customFile, String class_package) throws Exception {
+		String usingLogContent = "Rule 관련 라이브러리 등록 - 총 "+customFile.size()+"개";
+		final int no = usingLogUtil.insertUsingLog(usingLogContent);
+		final String ip_addr = clientInfo.getIpAddr();
+		final String time = clientInfo.getTime();
+		final String member_id = clientInfo.getMemberId();
+		//final String ruleLogContent = "Rule 관련 라이브러리 등록";
+		
 		if(customFile.size() == 0) {
 			return;
 		}
 		
-		File fileDir = new File(customPath + customLibrary.getCreator() + File.separator); //Original Directory
+		File fileDir = new File(customPath + member_id + File.separator); //Original Directory
 		if(!fileDir.exists()){
 			fileDir.mkdir();
 		}
-		
-		String usingLogContent = "Rule 관련 라이브러리 등록 - 총 "+customFile.size()+"개";
-		final int no = usingLogUtil.insertUsingLog(usingLogContent);
-		final String ip_addr = clientInfo.getIpAddr();
-		final String member_id = clientInfo.getMemberId();
-		final String time = clientInfo.getTime();
-		final String ruleLogContent = "Rule 관련 라이브러리 등록";
 			
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -508,10 +507,14 @@ public class RuleServiceImpl implements RuleService {
 				String filename = cus.getOriginalFilename();
 				String fileFormat = filename.substring(filename.lastIndexOf(".")+1, filename.length());
 				
+				CustomLibrary customLibrary = new CustomLibrary();
+				customLibrary.setCreator(member_id);
+				customLibrary.setFile_name(filename);
+				
 				File f = null;
 				if(fileFormat.equals("class")) { //class 파일일 때
-					String classPackage = customLibrary.getClass_package();
-					String[] classPackageArr = classPackage.split("[.]");
+					customLibrary.setClass_package(class_package);
+					String[] classPackageArr = class_package.split("[.]");
 					String packagePath = fileDir + File.separator;
 					for(int i=0; i<classPackageArr.length-1; i++) {
 						packagePath += classPackageArr[i] + File.separator;
@@ -532,19 +535,15 @@ public class RuleServiceImpl implements RuleService {
 				}
 				
 				/* DB 저장 */
-				customLibrary.setFile_name(filename);
-				int result = registerCustomLibrary(customLibrary);
+				String message = registerCustomLibrary(customLibrary);
 				
-				if(result > 0) {
-					RuleLog ruleLog = new RuleLog();
-					ruleLog.setUsing_log_no(no);
-					ruleLog.setIp_addr(ip_addr);
-					ruleLog.setMember_id(member_id);
-					ruleLog.setTime(time);
-					ruleLog.setContent(ruleLogContent);
-					ruleLog.setLibrary_file_name(filename);
-					usingLogUtil.setUsingLog(ruleLog);
-				}
+				RuleLog ruleLog = new RuleLog();
+				ruleLog.setUsing_log_no(no);
+				ruleLog.setIp_addr(ip_addr);
+				ruleLog.setTime(time);
+				ruleLog.setCustomLibrary(customLibrary);
+				ruleLog.setContent(message);
+				usingLogUtil.setUsingLog(ruleLog);
 			}));
 		}
 		closeThread(executor, futures);
@@ -556,7 +555,8 @@ public class RuleServiceImpl implements RuleService {
 	 * @return DB에 추가된 row의 수
 	 */
 	@Override
-	public int registerCustomLibrary(CustomLibrary customLibrary) {
+	public String registerCustomLibrary(CustomLibrary customLibrary) {
+		String msg = null;
 		int result = 0; // 등록 후 DB에 추가된 row의 수
 		
 		/* 이미 DB에 등록한 파일명인지 중복검사 */
@@ -565,19 +565,21 @@ public class RuleServiceImpl implements RuleService {
 		for(CustomLibrary library : list) {
 			if(customLibrary.getFile_name().equals(library.getFile_name())) {
 				flag = true;
+				msg = "Rule 관련 라이브러리 덮어쓰기";
 			}
 		}
 		if(flag == false) {
 			result = ruleDao.registerCustomLibrary(customLibrary);
-			result = 1;
+			msg = "Rule 관련 라이브러리 등록";
 		}
 		
 		// class 파일이라면 package 업데이트
 		else if((flag == true)&&(customLibrary.getFile_name().substring(customLibrary.getFile_name().lastIndexOf(".")+1).equals("class"))){
 			ruleDao.updateCustomLibraryPackage(customLibrary);
+			msg = "Rule 관련 라이브러리 패키지 업데이트";
 		}
 		
-		return result;
+		return msg;
 	}
 	
 	/**
@@ -637,7 +639,7 @@ public class RuleServiceImpl implements RuleService {
 		result = ruleDao.deleteCustomLibrary(customLibrary.getId());
 		if(result > 0) {
 			RuleLog ruleLog = new RuleLog();
-			ruleLog.setLibrary_file_name(customLibrary.getFile_name());
+			ruleLog.setCustomLibrary(customLibrary);
 			ruleLog.setContent("Rule 관련 라이브러리 삭제");
 			usingLogUtil.setUsingLog(ruleLog);
 		}

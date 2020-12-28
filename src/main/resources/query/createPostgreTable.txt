@@ -175,6 +175,7 @@ CREATE TABLE audio.rule_log (
 	bottom_level_id integer,
 	bottom_level_name text,
 	library_file_name text,
+	class_package text,
 	member_id text,
 	using_log_no integer REFERENCES audio.using_log ON DELETE CASCADE
 );

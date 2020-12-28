@@ -96,17 +96,17 @@ public interface RuleService {
 	/**
 	 * 사용자가 import하고자 하는 커스텀 라이브러리 파일을 업로드함 
 	 * @param customFile 사용자가 업로드한 커스텀 라이브러리 파일
-	 * @param customLibrary 커스텀 라이브러리 객체
+	 * @param class_package 클래스 파일일 경우 패키지명
 	 * @throws Exception 예외
 	 */
-	public void uploadCustomLibrary(List<MultipartFile> customFile, CustomLibrary customLibrary) throws Exception;
+	public void uploadCustomLibrary(List<MultipartFile> customFile, String class_package) throws Exception;
 	
 	/**
 	 * 사용자가 import하고자 하는 커스텀 라이브러리를 등록함
 	 * @param customLibrary 등록하고자 하는 커스텀 라이브러리 객체
-	 * @return DB에 추가된 row의 수
+	 * @return RuleLog에 등록될 메세지
 	 */
-	public int registerCustomLibrary(CustomLibrary customLibrary);
+	public String registerCustomLibrary(CustomLibrary customLibrary);
 	
 	/**
 	 * 사용자 아이디로 사용자가 추가한 커스텀 라이브러리 목록을 가져옴

@@ -42,13 +42,19 @@ public class RuleLog extends UsingLog {
 	private String library_file_name;
 	
 	/**
+	 * 커스텀 라이브러리 파일이 클래스 파일일 경우 패키지명
+	 */
+	private String class_package;
+	
+	/**
 	 * 사용 로그 번호(Foreign Key)
 	 */
 	private int using_log_no;
 
 	public RuleLog() {}
 	public RuleLog(int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
-			int bottom_level_id, String bottom_level_name, String library_file_name, int using_log_no) {
+			int bottom_level_id, String bottom_level_name, String library_file_name, String class_package,
+			int using_log_no) {
 		super();
 		this.top_level_id = top_level_id;
 		this.top_level_name = top_level_name;
@@ -57,9 +63,10 @@ public class RuleLog extends UsingLog {
 		this.bottom_level_id = bottom_level_id;
 		this.bottom_level_name = bottom_level_name;
 		this.library_file_name = library_file_name;
+		this.class_package = class_package;
 		this.using_log_no = using_log_no;
 	}
-	
+
 	public int getTop_level_id() {
 		return top_level_id;
 	}
@@ -102,6 +109,12 @@ public class RuleLog extends UsingLog {
 	public void setLibrary_file_name(String library_file_name) {
 		this.library_file_name = library_file_name;
 	}
+	public String getClass_package() {
+		return class_package;
+	}
+	public void setClass_package(String class_package) {
+		this.class_package = class_package;
+	}
 	public int getUsing_log_no() {
 		return using_log_no;
 	}
@@ -116,12 +129,17 @@ public class RuleLog extends UsingLog {
 		setBottom_level_id(rule.getBottom_level_id());
 		setBottom_level_name(rule.getBottom_level_name());
 	}
+	public void setCustomLibrary(CustomLibrary customLibrary) {
+		setMember_id(customLibrary.getCreator());
+		setLibrary_file_name(customLibrary.getFile_name());
+		setClass_package(customLibrary.getClass_package());
+	}
 	
 	@Override
 	public String toString() {
 		return "RuleLog [top_level_id=" + top_level_id + ", top_level_name=" + top_level_name + ", middle_level_id="
 				+ middle_level_id + ", middle_level_name=" + middle_level_name + ", bottom_level_id=" + bottom_level_id
 				+ ", bottom_level_name=" + bottom_level_name + ", library_file_name=" + library_file_name
-				+ ", using_log_no=" + using_log_no + "]";
+				+ ", class_package=" + class_package + ", using_log_no=" + using_log_no + "]";
 	}
 }
