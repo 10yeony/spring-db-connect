@@ -22,9 +22,7 @@
 </head>
 
 <body id="page-top">
-<!-- contextPath -->
-<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
-	
+
 <!-- Page Wrapper -->
 <div id="wrapper">
 
