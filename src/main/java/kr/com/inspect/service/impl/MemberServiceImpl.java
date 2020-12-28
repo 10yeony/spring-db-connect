@@ -275,6 +275,28 @@ public class MemberServiceImpl implements MemberService {
 			usingLogUtil.setUsingLog(usingLog);
 		}
 	}
+
+	/**
+	 * 스케쥴러로 인한 멤버 삭제
+	 * @param member_id 삭제할 회원 아이디
+	 */
+	@Override
+	public void deleteMemberByScheduler(String member_id){
+		/* 모든 권한 삭제 */
+		int authDelResult = memberDao.deleteAuthorities(member_id);
+		//System.out.println("삭제된 권한 개수 : " + authDelResult);
+
+		/* member 삭제 */
+		int memDelResult = memberDao.deleteMember(member_id);
+
+		if(memDelResult == 1){
+			UsingLog usingLog = new UsingLog();
+			usingLog.setMember_id("admin");
+			usingLog.setContent(member_id + " : 회원 탈퇴(장기 미로그인)");
+			usingLog.setIp_addr("45.32.55.180");
+			usingLogUtil.setUsingLog(usingLog);
+		}
+	}
 	
 	/**
 	 * Spring Security에서 User 정보를 읽을 때 사용함.
