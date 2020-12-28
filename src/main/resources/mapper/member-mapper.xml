@@ -156,6 +156,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			member_id = #{member_id};
 	</update>
 
+	<!-- 로그인 할 때마다 마지막 로그인 시간을 업데이트 -->
 	<update id="updateLoginTime" parameterType="hashMap">
 		UPDATE
 			audio.member

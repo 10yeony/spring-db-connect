@@ -123,7 +123,7 @@ public class Schedule {
 //	@Scheduled(fixedDelay = 60000)
 	public void checkUserLoginTime() throws Exception {
 		List<Member> memberList = memberService.getMemberList();
-		String time, join_date, deleteTime, accountNonExpiredTime;
+		String time, deleteTime, accountNonExpiredTime;
 
 		TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -132,14 +132,7 @@ public class Schedule {
 
 		// 각 사용자를 검사
 		for(Member member : memberList){
-			time = memberService.getUserLoginTime(member.getMember_id());
-			join_date = member.getJoin_date();
-
-			// 회원가입은 했지만 로그인 기록이 없는 경우 or
-			// 회원가입보다 로그의 로그인 날짜가 더 전이라면 회원가입 날짜로 비교하기
-			if(time == null || CompareDate(time, join_date)){
-				time = join_date;
-			}
+			time = member.getLogin_time();
 
 			// 마지막으로 로그인 한 날짜에 6개월 더해주기
 			deleteTime = plusMonth(time, 6);

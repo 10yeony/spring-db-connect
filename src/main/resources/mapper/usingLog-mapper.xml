@@ -106,18 +106,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR time LIKE '%'||#{search_word}||'%'
 			OR content LIKE '%'||#{search_word}||'%')
 	</select>
-
-	<!-- 회원 id를 이용해서 가장 최근에 로그인 한 시간을 가져옴 -->
-	<select id="getUserLoginTime" parameterType="string" resultType="string">
-		SELECT
-			time
-		FROM
-			audio.using_log
-		WHERE
-			member_id = #{member_id}
-			AND content = '로그인'
-		ORDER BY
-			no desc
-		LIMIT 1;
-	</select>
 </mapper>

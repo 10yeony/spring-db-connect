@@ -161,14 +161,7 @@ public interface MemberDao {
 	public int updateMemberApprovalUsingId(String member_id);
 
 	/**
-	 * 회원 id를 이용해서 가장 최근에 로그인 한 시간을 가져옴
-	 * @param member_id 회원 id
-	 * @return 가장 최근에 로그인한 시간
-	 */
-	public String getUserLoginTime(String member_id);
-
-	/**
-	 * 마지막 로그인 시간 업데이트
+	 * 로그인 할 때마다 마지막 로그인 시간을 업데이트
 	 * @param member_id 업데이트 할 계정 id
 	 */
 	public void updateLoginTime(String member_id, String date);
