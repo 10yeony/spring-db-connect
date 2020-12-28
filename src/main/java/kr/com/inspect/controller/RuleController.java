@@ -294,10 +294,7 @@ public class RuleController {
 	@ResponseBody
 	public String uploadCustom (@RequestParam("customFile") List<MultipartFile> multipartFile, 
 									@RequestParam("pack") String pack) throws Exception{
-		CustomLibrary customLibrary = new CustomLibrary();
-		customLibrary.setCreator(clientInfo.getMemberId());
-		customLibrary.setClass_package(pack);
-		ruleService.uploadCustomLibrary(multipartFile, customLibrary);
+		ruleService.uploadCustomLibrary(multipartFile, pack);
 		return "true";
 	}
 	

@@ -18,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				bottom_level_id,
 				bottom_level_name,
 				library_file_name,
+				class_package,
 				using_log_no)
 			VALUES(#{ip_addr},
 				#{time}, 
@@ -30,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				#{bottom_level_id},
 				#{bottom_level_name},
 				#{library_file_name},
+				#{class_package},
 				#{using_log_no});
 	</insert>
 	
@@ -50,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			middle_level_name,
 			bottom_level_name,
 			library_file_name,
+			class_package,
 			using_log_no
 		FROM 
 			(SELECT
@@ -65,6 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				OR content LIKE '%'||#{search_word}||'%'
 				OR member_id LIKE '%'||#{search_word}||'%'
 				OR library_file_name LIKE '%'||#{search_word}||'%'
+				OR class_package LIKE '%'||#{search_word}||'%'
 			ORDER BY 
 				time DESC) temp
 		LIMIT 
@@ -88,6 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			middle_level_name,
 			bottom_level_name,
 			library_file_name,
+			class_package,
 			using_log_no
 		FROM 
 			(SELECT
@@ -103,7 +108,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				OR time LIKE '%'||#{search_word}||'%'
 				OR content LIKE '%'||#{search_word}||'%'
 				OR member_id LIKE '%'||#{search_word}||'%'
-				OR library_file_name LIKE '%'||#{search_word}||'%')
+				OR library_file_name LIKE '%'||#{search_word}||'%'
+				OR class_package LIKE '%'||#{search_word}||'%')
 			ORDER BY 
 				time DESC) temp
 		LIMIT 
@@ -129,6 +135,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR time LIKE '%'||#{search_word}||'%'
 			OR content LIKE '%'||#{search_word}||'%'
 			OR member_id LIKE '%'||#{search_word}||'%'
+			OR library_file_name LIKE '%'||#{search_word}||'%'
+			OR class_package LIKE '%'||#{search_word}||'%'
 	</select>
 	<select id="getAllCountOfRuleLogByUsingLogNo" parameterType="hashMap" resultType="int">
 		<include refid="getCountOfRuleLog" />
@@ -140,6 +148,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR ip_addr LIKE '%'||#{search_word}||'%'
 			OR time LIKE '%'||#{search_word}||'%'
 			OR content LIKE '%'||#{search_word}||'%'
-			OR member_id LIKE '%'||#{search_word}||'%')
+			OR member_id LIKE '%'||#{search_word}||'%'
+			OR library_file_name LIKE '%'||#{search_word}||'%'
+			OR class_package LIKE '%'||#{search_word}||'%')
 	</select>
 </mapper>
