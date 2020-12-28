@@ -135,7 +135,7 @@
 			</div>
 			<div class="modal-footer" style="display:block;">
 				<button class="btn btn-danger" type="button" data-dismiss="modal"
-					data-toggle="modal" data-target="#deleteModal" style="float:left;">회원탈퇴</button>
+					data-toggle="modal" data-target="#deleteModal" style="float:left;">탈퇴</button>
 				<button class="btn btn-primary" id="editBtn" style="float:right;">정보 수정</button>
 				<button class="btn btn-secondary" type="button" data-dismiss="modal"
 					style="float:right;">취소</button>

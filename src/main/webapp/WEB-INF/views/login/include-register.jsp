@@ -37,7 +37,7 @@
 	<%@ include file="/WEB-INF/views/include/csrf-token.jsp"%>
 	
 	<div class="text-center">
-		<h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+		<h1 class="h5 text-gray-900 mb-4">사용자 등록</h1>
 	</div>
 	<form method="post" id="registerFrm" name="register">
 		<div class="form-group">
@@ -184,7 +184,7 @@
 		</div>
 		
 		<div class="form-group">
-			<input type="button" id="register_submit" value="회원가입"
+			<input type="button" id="register_submit" value="등록"
 				class="form-control form-control-user">
 		</div>
 	</form>

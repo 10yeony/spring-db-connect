@@ -81,7 +81,7 @@ $(function(){
 										<%@ include file="/WEB-INF/views/login/include-login.jsp"%>
 										<hr>
 										<div class="text-center">
-											<a id="goToRegister" class="small" href="javascript:void(0);">회원가입</a>
+											<a id="goToRegister" class="small" href="javascript:void(0);">사용자 등록</a>
 										</div><!-- text-center -->
 									</article>
 									
