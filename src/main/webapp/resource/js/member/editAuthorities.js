@@ -3,7 +3,7 @@ var contextPath = '';
 $(function(){
 
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	/* ROLE_VIEW 체크변화시 */
 	$('#role_view_check').change(function(){
@@ -88,11 +88,6 @@ $(function(){
 		}
 	});
 });
-
-function getContextPath() {
-    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
-}
 
 /* 권한 포함 관계(ROLE_VIEW < ROLE_INPUT < ROLE_ADMIN) */
 function view_check_handler(){

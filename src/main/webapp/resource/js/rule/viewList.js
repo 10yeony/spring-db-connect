@@ -2,7 +2,7 @@ var contextPath;
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	/* 메세지 체크 후 띄우기 */
 	var ruleRegSuccessMsg = $('#ruleRegSuccessMsg').val();
@@ -210,10 +210,4 @@ function appendRuleTable(list){
 			"</tr>"
 		);
 	}
-}
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    let contextPath = $('#contextPath').val();
-    return contextPath;
 }

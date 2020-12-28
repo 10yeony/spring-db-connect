@@ -2,7 +2,7 @@ var contextPath;
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	$('#goToRuleApi').click(function(){
 		getApiDesc(1);
@@ -86,10 +86,4 @@ function getApiDesc(class_id){
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 		}
 	}); //ajax
-}
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    let contextPath = $('#contextPath').val();
-    return contextPath;
 }

@@ -2,7 +2,7 @@ var contextPath = '';
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	/* 회원의 이메일로 임시 비밀번호를 발송 */
 	$('#sendPwdBtn').click(function(){
@@ -36,8 +36,3 @@ $(function(){
 		
 	}); //click
 });
-
-function getContextPath() {
-    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
-}

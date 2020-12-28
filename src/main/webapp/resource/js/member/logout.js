@@ -2,18 +2,12 @@ var contextPath = '';
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	$('#logoutFrm').submit(function(){
 		recordLogout();
 	});
 }); //ready
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    let contextPath = $('#contextPath').val();
-    return contextPath;
-}
 
 /* 사용 로그에 로그아웃을 기록함 */
 function recordLogout(){

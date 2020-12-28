@@ -8,7 +8,7 @@ var pieDataList;
 $(function(){
 
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	getRatioOnMetadataByType();
 
@@ -55,12 +55,6 @@ $(function(){
 		);
 	}
 });
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    let contextPath = $('#contextPath').val();
-    return contextPath;
-}
 
 function getRatioOnMetadataByType(){
 	$.ajax({

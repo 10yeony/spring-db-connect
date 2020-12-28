@@ -2,7 +2,7 @@ var contextPath = '';
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	/* 비밀번호 검사 표시 */
 	var pwdOK = false;
@@ -148,8 +148,3 @@ $(function(){
 		});
 	});
 });
-
-function getContextPath() {
-    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
-}

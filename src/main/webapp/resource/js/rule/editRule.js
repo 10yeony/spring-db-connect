@@ -33,7 +33,7 @@ function runCodemirror(){
 $(function(){
 
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 
 	$('#ruleUpdateBtn').click(function(){
 		saveRuleContents();
@@ -72,10 +72,4 @@ function saveRuleContents(){
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 		}
 	}); //ajax
-}
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-	let contextPath = $('#contextPath').val();
-	return contextPath;
 }

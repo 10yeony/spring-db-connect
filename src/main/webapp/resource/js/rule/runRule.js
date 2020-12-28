@@ -2,7 +2,7 @@ var contextPath;
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	$('#run_rule_btn').click(function(){
 		let top_level = $('#top_level').val();
@@ -96,10 +96,4 @@ function appendRunRuleResultArea(list){
 			'</textarea>'
 		);
 	}
-}
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    let contextPath = $('#contextPath').val();
-    return contextPath;
 }

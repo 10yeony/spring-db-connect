@@ -1,4 +1,9 @@
+var contextPath;
+
 $(function (){
+	/* Context Path */
+	contextPath = $('#contextPath').val();
+
     $.ajax({
         //요청
         type: "GET",

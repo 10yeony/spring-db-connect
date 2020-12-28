@@ -2,7 +2,7 @@ var contextPath;
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 
 	getAllRuleTopLevel();
 	
@@ -136,10 +136,4 @@ function getAllRuleBottomLevel(top_level_id, middle_level_id){
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 		}
 	}); //ajax
-}
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    let contextPath = $('#contextPath').val();
-    return contextPath;
 }

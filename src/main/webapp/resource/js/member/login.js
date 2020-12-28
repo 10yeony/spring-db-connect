@@ -2,7 +2,7 @@ var contextPath = '';
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	/* 로그인한 뒤 접근했을 경우 */
 	var member_login = $('#member_login').val();
@@ -27,12 +27,6 @@ $(function(){
 		login();
 	});
 }); //ready
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
-}
 
 /* 스프링 시큐리티 로그인 후 성공/실패시 응답을 받음 */
 function login(){

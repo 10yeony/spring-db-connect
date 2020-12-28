@@ -1,6 +1,8 @@
 var contextPath = '';
 
 $(function() {
+	/* Context Path */
+	contextPath = $('#contextPath').val();
 	
 	/* 비밀번호 인증 */
 	var pwdOK = false;
@@ -17,9 +19,6 @@ $(function() {
    	var emailRegex =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     // 이메일이 적합한지 검사할 정규식
     var phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/; //핸드폰 번호 정규식
-
-	/* Context Path */
-	contextPath = getContextPath();
 	
 	/* 비밀번호 변경 클릭시 현재 모달을 사라지게 함 */
 	$('#goToMemberEdit').click(function(){
@@ -312,8 +311,3 @@ $(function() {
 		});
 	}); //click
 }); //ready
-
-function getContextPath() {
-    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
-}

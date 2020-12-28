@@ -2,7 +2,7 @@ var contextPath;
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	getAllCustomByCreator();
 });
@@ -161,10 +161,4 @@ function deleteCustom(id){
 			}
 		}); //ajax
 	}
-}
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    let contextPath = $('#contextPath').val();
-    return contextPath;
 }

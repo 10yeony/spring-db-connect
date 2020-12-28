@@ -7,7 +7,7 @@ var barData1List = [];
 
 $(function(){
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	getCountListOnJsonLog();
 	
@@ -111,12 +111,6 @@ $(function(){
 	  });
 	}
 });
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    let contextPath = $('#contextPath').val();
-    return contextPath;
-}
 
 function getCountListOnJsonLog(){
 	$.ajax({

@@ -3,7 +3,7 @@ var contextPath;
 $(function(){
 
 	/* Context Path */
-	contextPath = getContextPath();
+	contextPath = $('#contextPath').val();
 	
 	/* 메세지 체크 후 띄우기 */
 	var ruleRegSuccessMsg = $('#ruleRegSuccessMsg').val();
@@ -89,12 +89,6 @@ $(function(){
 		}
 	});
 });
-
-/* ContextPath를 가져옴 */
-function getContextPath() {
-    let contextPath = $('#contextPath').val();
-    return contextPath;
-}
 
 /* 대분류 삭제(프론트에서 확인) */
 function deleteTopLevel(){
