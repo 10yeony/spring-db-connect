@@ -11,7 +11,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Home Page</title>
+	<title>SDTM</title>
 
 	<!-- Custom fonts for this template-->
 	<link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -22,6 +22,10 @@
 </head>
 
 <body id="page-top">
+
+<input id="ruleList_top_level_id" type="hidden" value="${top_level_id}">
+<input id="ruleList_middle_level_id" type="hidden" value="${middle_level_id}">
+<input id="ruleList_bottom_level_id" type="hidden" value="${bottom_level_id}">
 
 <!-- 등록 후 성공메세지 -->
 <input id="ruleRegSuccessMsg" type="hidden" value="${ruleRegSuccessMsg}">

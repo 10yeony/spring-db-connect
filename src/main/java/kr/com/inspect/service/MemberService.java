@@ -119,6 +119,7 @@ public interface MemberService extends UserDetailsService {
 	
 	/**
 	 * 사용 로그 테이블을 페이징 처리하여 가져옴
+	 * @param member_id 사용자 아이디
 	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
@@ -126,11 +127,12 @@ public interface MemberService extends UserDetailsService {
 	 * @param search_word 검색어
 	 * @return 사용 로그 테이블
 	 */
-	public ResponseData getUsingLog(String function_name, 
-											int current_page_no,
-											int count_per_page,
-											int count_per_list,
-											String search_word);
+	public ResponseData getUsingLog(String member_id,
+									String function_name, 
+									int current_page_no,
+									int count_per_page,
+									int count_per_list,
+									String search_word);
 
 	/**
 	 * 관리자 권한으로 가입 승인

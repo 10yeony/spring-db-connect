@@ -127,27 +127,31 @@ public interface MemberDao {
 	
 	/**
 	 * 사용 로그를 모두 가져옴
+	 * @param member_id 사용자 아이디
 	 * @param limit SELECT할 row의 수
 	 * @param offset 몇 번째 row부터 가져올지를 결정
 	 * @param search_word 검색어
 	 * @return 사용 로그 목록
 	 */
-	public List<UsingLog> getAllUsingLog(int limit, 
+	public List<UsingLog> getAllUsingLog(String member_id,
+										int limit, 
 										int offset,
 										String search_word);
 	
 	/**
 	 * 아이피, 시간, 내용으로 사용 로그를 가져옴
-	 * @return 아이피, 시간 내용으로 가져온 사용 로그
+	 * @param usingLog 아이피, 시간, 내용이 담긴 사용 로그
+	 * @return 아이피, 시간, 내용으로 가져온 사용 로그
 	 */
 	public UsingLog getUsingLog(UsingLog usingLog);
 	
 	/**
 	 * 사용 로그 총 개수를 가져옴
+	 * @param member_id 사용자 아이디
 	 * @param search_word 검색어
 	 * @return 사용 로그 총 개수
 	 */
-	public int getAllCountOfUsingLog(String search_word);
+	public int getAllCountOfUsingLog(String member_id, String search_word);
 
 	/**
 	 * 관리자 권한으로 가입 승인

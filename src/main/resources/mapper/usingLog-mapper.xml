@@ -30,7 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	
 	<!-- 사용 로그를 가지고 옴 -->
-	<sql id="getUsingLog">
+	<select id="getAllUsingLog" parameterType="hashMap"
+		resultType="kr.com.inspect.dto.UsingLog">
 		SELECT
 			(ROW_NUMBER() OVER()) AS row_num,
 			no, 
@@ -39,18 +40,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			content,
 			member_id
 		FROM 
-			audio.using_log
-		WHERE 
-			ip_addr LIKE '%'||#{search_word}||'%'
-			OR time LIKE '%'||#{search_word}||'%'
-			OR content LIKE '%'||#{search_word}||'%'
-			OR member_id LIKE '%'||#{search_word}||'%'
-		ORDER BY
-			no DESC 
-	</sql>
-	<select id="getAllUsingLog" parameterType="hashMap"
+			(SELECT
+				*
+			FROM 
+				audio.using_log
+			WHERE 
+				ip_addr LIKE '%'||#{search_word}||'%'
+				OR time LIKE '%'||#{search_word}||'%'
+				OR content LIKE '%'||#{search_word}||'%'
+				OR member_id LIKE '%'||#{search_word}||'%'
+			ORDER BY
+				time DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+	<select id="getAllUsingLogByMemberId" parameterType="hashMap"
 		resultType="kr.com.inspect.dto.UsingLog">
-		<include refid="getUsingLog" />
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			no, 
+			ip_addr,
+			time,
+			content,
+			member_id
+		FROM 
+			(SELECT
+				*
+			FROM 
+				audio.using_log
+			WHERE 
+				member_id = #{member_id}
+				AND (ip_addr LIKE '%'||#{search_word}||'%'
+				OR time LIKE '%'||#{search_word}||'%'
+				OR content LIKE '%'||#{search_word}||'%')
+			ORDER BY
+				time DESC) temp
 		LIMIT 
 			#{limit} 
 		OFFSET 
@@ -71,6 +97,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR time LIKE '%'||#{search_word}||'%'
 			OR content LIKE '%'||#{search_word}||'%'
 			OR member_id LIKE '%'||#{search_word}||'%'
+	</select>
+	<select id="getAllCountOfUsingLogByMemberId" parameterType="hashMap" resultType="int">
+		<include refid="getCountOfUsingLog" />
+		WHERE 
+			member_id = #{member_id}
+			AND (ip_addr LIKE '%'||#{search_word}||'%'
+			OR time LIKE '%'||#{search_word}||'%'
+			OR content LIKE '%'||#{search_word}||'%')
 	</select>
 
 	<!-- 회원 id를 이용해서 가장 최근에 로그인 한 시간을 가져옴 -->

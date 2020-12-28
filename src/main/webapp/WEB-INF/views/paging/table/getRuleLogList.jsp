@@ -28,24 +28,33 @@
 					<td>
 						<div><b>${item.content}</b></div>
 						<c:if test="${item.top_level_name != null}">
-						<div>
-							대분류 : ${item.top_level_name}
-						</div>
+							<div>
+								대분류 : 
+								<a href="${pageContext.request.contextPath}/rule/ruleList/${item.top_level_id}/0/0">
+									${item.top_level_name}
+								</a>
+							</div>
 						</c:if>
 						<c:if test="${item.middle_level_name != null}">
-						<div>
-							중분류 : ${item.middle_level_name}	
-						</div>
+							<div>
+								중분류 : 
+								<a href="${pageContext.request.contextPath}/rule/ruleList/${item.top_level_id}/${item.middle_level_id}/0">
+									${item.middle_level_name}
+								</a>	
+							</div>
 						</c:if>
 						<c:if test="${item.bottom_level_name != null}">
-						<div>
-							소분류 : ${item.bottom_level_name} 
-						</div>
+							<div>
+								소분류 : 
+								<a href="${pageContext.request.contextPath}/rule/ruleList/${item.top_level_id}/${item.middle_level_id}/${item.bottom_level_id}">
+									${item.bottom_level_name}
+								</a> 
+							</div>
 						</c:if>
 						<c:if test="${item.library_file_name != null}">
-						<div>
-							라이브러리 : ${item.library_file_name} 
-						</div>
+							<div>
+								라이브러리 : ${item.library_file_name} 
+							</div>
 						</c:if>
 					</td>
 					<td>${item.ip_addr}</td>
@@ -54,11 +63,13 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<button class="btn btn-secondary" type="button" id="backBtn" style="float:left;" onclick="clickBackBtn();">뒤로 가기</button>
 	<button type="button" style="float: right;" class="btn btn-primary btn-icon-split" onclick="fnExcelReport('usingLogList','usingLog');">
 		<span class="icon text-white-50"><i class="fas fa-download fa-sm text-white-50"></i></span>
-		<span class="text">Excel</span></button>
+		<span class="text">Excel</span>
+	</button>
 
 <script
-		src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
+	src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
 </body>
 </html>

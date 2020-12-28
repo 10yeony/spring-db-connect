@@ -26,9 +26,7 @@ import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.paging.CommonDto;
-import kr.com.inspect.paging.CommonForm;
 import kr.com.inspect.paging.PagingResponse;
-import kr.com.inspect.paging.PagingUtil;
 import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
 import kr.com.inspect.util.ClientInfo;
@@ -140,6 +138,7 @@ public class RuleServiceImpl implements RuleService {
 	
 	/**
 	 * 룰 로그 테이블을 페이징 처리하여 가져옴
+	 * @param data RuleLog 테이블의 외래키인 using_log_no
 	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
@@ -147,20 +146,23 @@ public class RuleServiceImpl implements RuleService {
 	 * @param search_word 검색어
 	 * @return 룰 로그 테이블
 	 */
-	public ResponseData getRuleLog(String function_name, 
+	public ResponseData getRuleLog(int using_log_no,
+									String function_name, 
 									int current_page_no,
 									int count_per_page,
 									int count_per_list,
 									String search_word) {
 		
 		CommonDto commonDto = new CommonDto();
-		int totalCount = ruleDao.getAllCountOfRuleLog(search_word); 
+		int totalCount = 0;
+		totalCount = ruleDao.getAllCountOfRuleLog(using_log_no, search_word); 
+		
 		if (totalCount > 0) {
 			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
-		List<RuleLog> list = ruleDao.getAllRuleLog(limit, offset, search_word);
+		List<RuleLog> list = ruleDao.getAllRuleLog(using_log_no, limit, offset, search_word);
 		String pagination = commonDto.getPagination();
 		
 		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
@@ -217,9 +219,7 @@ public class RuleServiceImpl implements RuleService {
 		
 		RuleLog ruleLog = new RuleLog();
 		ruleLog.setContent(content);
-		ruleLog.setTop_level_name(rule.getTop_level_name());
-		ruleLog.setMiddle_level_name(rule.getMiddle_level_name());
-		ruleLog.setBottom_level_name(rule.getBottom_level_name());
+		ruleLog.setRule(rule);
 		usingLogUtil.setUsingLog(ruleLog);
 		return result;
 	}
@@ -327,14 +327,12 @@ public class RuleServiceImpl implements RuleService {
 		if(list.size() == 0) {
 			return;
 		}
-		UsingLog usingLog = new UsingLog();
-		usingLog.setContent("Rule 실행 - 총 "+list.size()+"개");
-		usingLogUtil.setUsingLog(usingLog);
-		
-		final int no = usingLogUtil.getNoOfUsingLog(usingLog);
+		String usingLogContent = "Rule 실행 - 총 "+list.size()+"개";
+		final int no = usingLogUtil.insertUsingLog(usingLogContent);
 		final String ip_addr = clientInfo.getIpAddr();
 		final String member_id = clientInfo.getMemberId();
 		final String time = clientInfo.getTime();
+		final String ruleLogContent = "Rule 실행";
 		
 		int threadCnt = 5; // 스레드 개수 설정
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -360,14 +358,12 @@ public class RuleServiceImpl implements RuleService {
 				
 				if(updateResult > 0) {
 					RuleLog ruleLog = new RuleLog();
-					ruleLog.setContent("Rule 실행");
-					ruleLog.setTop_level_name(rule.getTop_level_name());
-					ruleLog.setMiddle_level_name(rule.getMiddle_level_name());
-					ruleLog.setBottom_level_name(rule.getBottom_level_name());
 					ruleLog.setUsing_log_no(no);
 					ruleLog.setIp_addr(ip_addr);
 					ruleLog.setMember_id(member_id);
 					ruleLog.setTime(time);
+					ruleLog.setContent(ruleLogContent);
+					ruleLog.setRule(rule);
 					usingLogUtil.setUsingLog(ruleLog);
 				}
 			}));

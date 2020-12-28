@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>JsonLog</title>
+    <title>SDTM</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -55,7 +55,7 @@
                     	<b>Rule 기록 조회</b>
                     	<span style="font-size:18px;">(${searchResult} ${totalCount}건)</span>
                     	<c:if test="${searchResult != '전체'}">
-                    		<a href="${pageContext.request.contextPath}/getUsingLogList?current_page_no=1&count_per_page=10&count_per_list=10&search_word=" 
+                    		<a href="${pageContext.request.contextPath}/getRuleLogList?data=0&current_page_no=1&count_per_page=10&count_per_list=10&search_word=" 
                     			style="font-size:0.6em;">전체보기</a>
                     	</c:if>
                     </h1>

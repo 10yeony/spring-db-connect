@@ -50,10 +50,10 @@ public class CommonDto {
 	}
 	
 	public CommonDto setCommonDto(String function_name, 
-										int current_page_no,
-										int count_per_page,
-										int count_per_list,
-										int totalCount) {
+								int current_page_no, 
+								int count_per_page, 
+								int count_per_list, 
+								int totalCount) {
 		CommonForm commonForm = new CommonForm();
 		commonForm.setFunction_name(function_name);
 		commonForm.setCurrent_page_no(current_page_no);

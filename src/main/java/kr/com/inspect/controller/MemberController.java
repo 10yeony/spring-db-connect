@@ -1,15 +1,9 @@
 package kr.com.inspect.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.com.inspect.dto.Member;
-import kr.com.inspect.dto.ResponseData;
-import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.service.MemberService;
+import kr.com.inspect.util.ClientInfo;
 
 /**
  * 로그인 기능 관련 컨트롤러
@@ -38,6 +31,12 @@ public class MemberController {
 	 */
 	@Autowired
 	private MemberService memberService;
+	
+	/**
+	 * 사용자 정보와 관련된 객체
+	 */
+	@Autowired
+	private ClientInfo clientInfo;
 	
 	/**
 	 * 커스텀 로그인 페이지로 이동(반드시 GET 방식이어야 함)
@@ -96,8 +95,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/ableToEdit")
 	public String ableToEdit(HttpSession session, String pwd) {
-		Map<String, String> map = getMemberInfo();
-		String password = map.get("password");
+		String password = clientInfo.getPwd();
 		PasswordEncoder pwdEncoder = memberService.passwordEncoder(); 
 		boolean pwdMatch = pwdEncoder.matches(pwd, password); // 비밀번호 비교
 		
@@ -247,24 +245,6 @@ public class MemberController {
 		model.addAttribute("flag", true);
 		return "member/getMember";
 	}
-	
-	/**
-	 * 스프링 시큐리티에서 로그인한 사용자의 아이디와 암호화된 비밀번호를 가져옴
-	 * @return 로그인한 사용자의 아이디와 암호화된 비밀번호
-	 */
-	public Map<String, String> getMemberInfo(){
-		Map<String, String> map = new HashMap<String, String>();
-		
-		/* 로그인한 사용자 아이디를 가져옴 */
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		UserDetails userDetails = (UserDetails)principal; 
-		String username = userDetails.getUsername();
-		String password = userDetails.getPassword();
-		
-		map.put("username", username);
-		map.put("password", password);
-		return map;
-	}
 
 	/**
 	 * 관리자 권한으로 가입 승인
@@ -285,8 +265,6 @@ public class MemberController {
 	public String approvalCheck(HttpSession session){
 		String msg="";
 		Member member = (Member) session.getAttribute("member");
-		System.out.println(member);
-
 		return msg;
 	}
 	

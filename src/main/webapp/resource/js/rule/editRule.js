@@ -45,7 +45,7 @@ $(function(){
 	});
 
 	$('#backRuleBtn').click(function(){
-		location.href = contextPath + '/rule/ruleList';
+		location.href = contextPath + '/rule/ruleList/0/0/0';
 	});
 });
 

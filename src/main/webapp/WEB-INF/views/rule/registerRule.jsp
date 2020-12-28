@@ -11,7 +11,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Home Page</title>
+	<title>SDTM</title>
 
 	<!-- Custom fonts for this template-->
 	<link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -89,6 +89,7 @@
 					 							<form method="post" id="add_middle_level_frm" action="${pageContext.request.contextPath}/rule/addRuleLevel">
 							 						<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 							 						<input name="top_level_id" type="hidden"/>
+							 						<input name="top_level_name" type="hidden"/>
 							 						
 							 						<input style="display:inline-block; width:75%;" type="text" class="form-control" 
 							 						name="new_middle_level_name" id="new_middle_level_name" placeholder="20자 이하로 입력하세요" maxlength="20" required> 
@@ -118,7 +119,9 @@
 					 		</table>
 					 			<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 					 			<input name="top_level_id" type="hidden"/>
+					 			<input name="top_level_name" type="hidden"/>
 					 			<input name="middle_level_id" type="hidden"/>
+					 			<input name="middle_level_name" type="hidden"/>
 					 			<button style="display:inline-block; width:18%; float:right;" 
 					 				class="btn btn-primary" id="add_bottom_level_btn">
 									등록

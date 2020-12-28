@@ -62,6 +62,19 @@ public class UsingLogUtil {
 	}
 	
 	/**
+	 * UsingLog 테이블에 사용 로그를 등록하고, RuleLog의 외래키로 사용할 UsingLog의 기본키를 반환
+	 * @param content UsingLog 테이블의 내용
+	 * @return RuleLog의 외래키로 사용할 UsingLog의 기본키
+	 */
+	public int insertUsingLog(String content) {
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent(content);
+		setUsingLog(usingLog);
+		int key = getNoOfUsingLog(usingLog);
+		return key;
+	}
+	
+	/**
 	 * 사용 로그의 Primary Key인 순번을 가져옴
 	 * @param usingLog 사용 로그 객체
 	 * @return 사용 로그의 Primary Key인 순번

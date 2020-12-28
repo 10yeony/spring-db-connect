@@ -33,6 +33,10 @@ $(function(){
 		$('input[name=top_level_id]')[0].value = top_level_id;
 		$('input[name=top_level_id]')[1].value = top_level_id;
 		
+		var top_level_name = $('#top_level option:checked').text();
+		$('input[name=top_level_name]')[0].value = top_level_name;
+		$('input[name=top_level_name]')[1].value = top_level_name;
+		
 		if(top_level_id == 'top_level_input'){
 			$('#add_top_level_area').attr('style', 'display:block');
 			$('#add_top_level_area').attr('style', 'margin-top:7px');
@@ -56,6 +60,9 @@ $(function(){
 	$('#middle_level').change(function(){
 		var middle_level_id = $(this).val();
 		$('input[name=middle_level_id]')[0].value = middle_level_id;
+		
+		var middle_level_name = $('#middle_level option:checked').text();
+		$('input[name=middle_level_name]')[0].value = middle_level_name;
 		
 		if(middle_level_id == 'middle_level_input'){
 			$('#add_middle_level_area').attr('style', 'display:block');

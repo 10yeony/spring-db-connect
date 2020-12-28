@@ -1,11 +1,14 @@
 package kr.com.inspect.dao.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.dto.UsingLog;
@@ -194,24 +197,34 @@ public class MemberDaoImpl implements MemberDao{
 	
 	/**
 	 * 사용 로그를 모두 가져옴
+	 * @param member_id 사용자 아이디
 	 * @param limit SELECT할 row의 수
 	 * @param offset 몇 번째 row부터 가져올지를 결정
 	 * @param search_word 검색어
 	 * @return 사용 로그 목록
 	 */
 	@Override
-	public List<UsingLog> getAllUsingLog(int limit, 
+	public List<UsingLog> getAllUsingLog(String member_id,
+										int limit, 
 										int offset,
 										String search_word){
+		List<UsingLog> list = new ArrayList<>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("limit", limit);
 		map.put("offset", offset);
 		map.put("search_word", search_word);
-		return sqlSession.selectList(usingLogNs+"getAllUsingLog", map);
+		if(member_id == "") {
+			list = sqlSession.selectList(usingLogNs+"getAllUsingLog", map);
+		}else {
+			map.put("member_id", member_id);
+			list = sqlSession.selectList(usingLogNs+"getAllUsingLogByMemberId", map);
+		}
+		return list;
 	}
 	
 	/**
 	 * 아이피, 시간, 내용으로 사용 로그를 가져옴
+	 * @param usingLog 아이피, 시간, 내용이 담긴 사용 로그
 	 * @return 아이피, 시간, 내용으로 가져온 사용 로그
 	 */
 	@Override
@@ -221,12 +234,22 @@ public class MemberDaoImpl implements MemberDao{
 	
 	/**
 	 * 사용 로그 총 개수를 가져옴
+	 * @param member_id 사용자 아이디
 	 * @param search_word 검색어
 	 * @return 사용 로그 총 개수
 	 */
 	@Override
-	public int getAllCountOfUsingLog(String search_word) {
-		return sqlSession.selectOne(usingLogNs+"getAllCountOfUsingLog", search_word);
+	public int getAllCountOfUsingLog(String member_id, String search_word) {
+		int count = 0;
+		if(member_id == "") {
+			count = sqlSession.selectOne(usingLogNs+"getAllCountOfUsingLog", search_word);
+		}else {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("member_id", member_id);
+			map.put("search_word", search_word);
+			count = sqlSession.selectOne(usingLogNs+"getAllCountOfUsingLogByMemberId", map);
+		}
+		return count;
 	}
 	
 	/**

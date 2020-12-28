@@ -16,7 +16,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SDTM Login</title>
+<title>SDTM</title>
 
 <!-- Custom fonts for this template-->
 <link

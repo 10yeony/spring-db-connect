@@ -99,8 +99,8 @@ public interface PostgreDao {
 	 * @return 모든 테이블을 리스트로 담아 리턴
 	 */
 	public List<JsonLog> getJsonLog(int limit, 
-										int offset, 
-										String search_word);
+									int offset, 
+									String search_word);
 
 	/**
 	 * utterance id로 해당되는 utterance 튜플을 가져옴

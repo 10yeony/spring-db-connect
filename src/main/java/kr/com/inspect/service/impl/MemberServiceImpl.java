@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,8 +21,9 @@ import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.paging.CommonDto;
 import kr.com.inspect.paging.PagingResponse;
-import kr.com.inspect.sender.SendPwd;
+import kr.com.inspect.sender.SendMail;
 import kr.com.inspect.service.MemberService;
+import kr.com.inspect.util.ClientInfo;
 import kr.com.inspect.util.RandomKey;
 import kr.com.inspect.util.UsingLogUtil;
 
@@ -42,11 +42,20 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	
 	/**
+	 * 사용자 정보와 관련된 객체
+	 */
+	@Autowired
+	private ClientInfo clientInfo;
+	
+	/**
 	 * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
 	 */
 	@Autowired
 	private UsingLogUtil usingLogUtil;
 	
+	/**
+	 * 페이징 처리 응답 객체
+	 */
 	@Autowired
 	private PagingResponse pagingResponse;
 	
@@ -55,8 +64,11 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	private PasswordEncoder passwordEncoder;
 	
+	/**
+	 * 메일 전송 객체
+	 */
 	@Autowired
-	private SendPwd sendPwd;
+	private SendMail sendMail;
 	
 	/**
 	 * 
@@ -87,7 +99,7 @@ public class MemberServiceImpl implements MemberService {
 		member.setCredentialsNonExpired(true);
 		member.setEnabled(true);
 		result += memberDao.registerMember(member);
-		sendPwd.sendApproval(member);
+		sendMail.sendApproval(member);
 		
 		if(result > 0) {
 			UsingLog usingLog = new UsingLog();
@@ -227,7 +239,7 @@ public class MemberServiceImpl implements MemberService {
 						
 			/* 이메일로 임시 비밀번호 발송 */
 			try {
-				sendPwd.sendMail(email, pwd);
+				sendMail.sendPwd(email, pwd);
 				return "success";
 			} catch (Exception e) {
 				//e.printStackTrace();
@@ -243,7 +255,7 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public void deleteMember(String member_id) {
-		String username = getUsername();
+		String username = clientInfo.getMemberId();
 		
 		/* 모든 권한 삭제 */
 		int authDelResult = memberDao.deleteAuthorities(member_id);
@@ -315,6 +327,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	/**
 	 * 사용 로그 테이블을 페이징 처리하여 가져옴
+	 * @param member_id 사용자 아이디
 	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
@@ -322,20 +335,21 @@ public class MemberServiceImpl implements MemberService {
 	 * @param search_word 검색어
 	 * @return 사용 로그 테이블
 	 */
-	public ResponseData getUsingLog(String function_name, 
+	public ResponseData getUsingLog(String member_id,
+									String function_name, 
 									int current_page_no,
 									int count_per_page,
 									int count_per_list,
 									String search_word){
     	
 		CommonDto commonDto = new CommonDto();
-		int totalCount = memberDao.getAllCountOfUsingLog(search_word); 
+		int totalCount = memberDao.getAllCountOfUsingLog(member_id, search_word); 
 		if (totalCount > 0) {
 			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
-		List<UsingLog> list = memberDao.getAllUsingLog(limit, offset, search_word);
+		List<UsingLog> list = memberDao.getAllUsingLog(member_id, limit, offset, search_word);
 		String pagination = commonDto.getPagination();
 		
 		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
@@ -364,17 +378,6 @@ public class MemberServiceImpl implements MemberService {
 		UsingLog usingLog = new UsingLog();
 		usingLog.setContent("로그아웃");
 		usingLogUtil.setUsingLog(usingLog);
-	}
-	
-	/**
-	 * 현재 로그인한 회원의 아이디를 가져옴
-	 * @return 현재 로그인한 회원의 아이디
-	 */
-	public String getUsername() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		UserDetails userDetails = (UserDetails)principal; 
-		String username = userDetails.getUsername();
-		return username;
 	}
 
 	/**

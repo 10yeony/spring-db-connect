@@ -18,7 +18,18 @@ $(function(){
 		alert(ruleDelErrorMsg);
 	}
 	
-	getRuleList();
+	let ruleList_top_level_id = $('#ruleList_top_level_id').val();
+	let ruleList_middle_level_id = $('#ruleList_middle_level_id').val();
+	let ruleList_bottom_level_id = $('#ruleList_bottom_level_id').val();
+	if(ruleList_top_level_id != 0 && ruleList_middle_level_id == 0 && ruleList_bottom_level_id == 0){
+		getRuleListByTopId(ruleList_top_level_id);
+	}else if(ruleList_top_level_id != 0 && ruleList_middle_level_id != 0 && ruleList_bottom_level_id == 0){
+		getRuleListByTopMiddleId(ruleList_top_level_id, ruleList_middle_level_id);
+	}else if(ruleList_top_level_id != 0 && ruleList_middle_level_id != 0 && ruleList_bottom_level_id != 0){
+		getRuleListByTopMiddleBottomId(ruleList_top_level_id, ruleList_middle_level_id, ruleList_bottom_level_id);
+	}else{
+		getRuleList();
+	}
 	
 	/* 대분류 선택시 */
 	$('#top_level').change(function(){

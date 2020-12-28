@@ -7,14 +7,29 @@ package kr.com.inspect.dto;
  */
 public class RuleLog extends UsingLog {
 	/**
+	 * 대분류 아이디
+	 */
+	private int top_level_id;
+	
+	/**
 	 * 대분류 이름
 	 */
 	private String top_level_name;
+
+	/**
+	 * 중분류 아이디
+	 */
+	private int middle_level_id;
 	
 	/**
 	 * 중분류 이름
 	 */
 	private String middle_level_name;
+	
+	/**
+	 * 소분류 아이디
+	 */
+	private int bottom_level_id;
 	
 	/**
 	 * 소분류 이름
@@ -32,22 +47,36 @@ public class RuleLog extends UsingLog {
 	private int using_log_no;
 
 	public RuleLog() {}
-	public RuleLog(int row_num, int no, String ip_addr, String time, 
-			String content, String member_id, int using_log_no, String library_file_name,
-			String top_level_name, String middle_level_name, String bottom_level_name) {
-		super(row_num, no, ip_addr, time, content, member_id);
-		this.using_log_no = using_log_no;
-		this.library_file_name = library_file_name;
+	public RuleLog(int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
+			int bottom_level_id, String bottom_level_name, String library_file_name, int using_log_no) {
+		super();
+		this.top_level_id = top_level_id;
 		this.top_level_name = top_level_name;
+		this.middle_level_id = middle_level_id;
 		this.middle_level_name = middle_level_name;
+		this.bottom_level_id = bottom_level_id;
 		this.bottom_level_name = bottom_level_name;
+		this.library_file_name = library_file_name;
+		this.using_log_no = using_log_no;
 	}
 	
+	public int getTop_level_id() {
+		return top_level_id;
+	}
+	public void setTop_level_id(int top_level_id) {
+		this.top_level_id = top_level_id;
+	}
 	public String getTop_level_name() {
 		return top_level_name;
 	}
 	public void setTop_level_name(String top_level_name) {
 		this.top_level_name = top_level_name;
+	}
+	public int getMiddle_level_id() {
+		return middle_level_id;
+	}
+	public void setMiddle_level_id(int middle_level_id) {
+		this.middle_level_id = middle_level_id;
 	}
 	public String getMiddle_level_name() {
 		return middle_level_name;
@@ -55,17 +84,17 @@ public class RuleLog extends UsingLog {
 	public void setMiddle_level_name(String middle_level_name) {
 		this.middle_level_name = middle_level_name;
 	}
+	public int getBottom_level_id() {
+		return bottom_level_id;
+	}
+	public void setBottom_level_id(int bottom_level_id) {
+		this.bottom_level_id = bottom_level_id;
+	}
 	public String getBottom_level_name() {
 		return bottom_level_name;
 	}
 	public void setBottom_level_name(String bottom_level_name) {
 		this.bottom_level_name = bottom_level_name;
-	}
-	public int getUsing_log_no() {
-		return using_log_no;
-	}
-	public void setUsing_log_no(int using_log_no) {
-		this.using_log_no = using_log_no;
 	}
 	public String getLibrary_file_name() {
 		return library_file_name;
@@ -73,10 +102,25 @@ public class RuleLog extends UsingLog {
 	public void setLibrary_file_name(String library_file_name) {
 		this.library_file_name = library_file_name;
 	}
+	public int getUsing_log_no() {
+		return using_log_no;
+	}
+	public void setUsing_log_no(int using_log_no) {
+		this.using_log_no = using_log_no;
+	}
+	public void setRule(Rule rule) {
+		setTop_level_id(rule.getTop_level_id());
+		setTop_level_name(rule.getTop_level_name());
+		setMiddle_level_id(rule.getMiddle_level_id());
+		setMiddle_level_name(rule.getMiddle_level_name());
+		setBottom_level_id(rule.getBottom_level_id());
+		setBottom_level_name(rule.getBottom_level_name());
+	}
 	
 	@Override
 	public String toString() {
-		return super.toString() + " & RuleLog [top_level_name=" + top_level_name + ", middle_level_name=" + middle_level_name
+		return "RuleLog [top_level_id=" + top_level_id + ", top_level_name=" + top_level_name + ", middle_level_id="
+				+ middle_level_id + ", middle_level_name=" + middle_level_name + ", bottom_level_id=" + bottom_level_id
 				+ ", bottom_level_name=" + bottom_level_name + ", library_file_name=" + library_file_name
 				+ ", using_log_no=" + using_log_no + "]";
 	}

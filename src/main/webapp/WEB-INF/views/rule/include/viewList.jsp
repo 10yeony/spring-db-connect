@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Home Page</title>
+<title>SDTM</title>
 
 <!-- Custom fonts for this template-->
 <link

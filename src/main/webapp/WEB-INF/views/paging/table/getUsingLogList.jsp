@@ -29,7 +29,7 @@
 					<td>
 					<c:choose>
 					<c:when test="${fn:contains(item.content, 'Rule')}">
-						<a href="">${item.content}</a>
+						<a href="${pageContext.request.contextPath}/getRuleLogList?data=${item.no}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">${item.content}</a>
 					</c:when>
 					<c:otherwise>
 						${item.content}
@@ -42,6 +42,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<button class="btn btn-secondary" type="button" id="backBtn" style="float:left;" onclick="clickBackBtn();">뒤로 가기</button>
 	<button type="button" style="float: right;" class="btn btn-primary btn-icon-split" onclick="fnExcelReport('usingLogList','usingLog');">
 		<span class="icon text-white-50"><i class="fas fa-download fa-sm text-white-50"></i></span>
 		<span class="text">Excel</span>

@@ -134,10 +134,10 @@ public interface PostgreService {
 	 * @return JsonLog 테이블들의 값을 리스트로 담아 리턴
 	 */
 	public ResponseData getJsonLog(String function_name, 
-										int current_page_no,
-										int count_per_page,
-										int count_per_list,
-										String search_word);
+									int current_page_no,
+									int count_per_page,
+									int count_per_list,
+									String search_word);
 
 	/**
 	 * 음성데이터 저장 디렉토리에가서 프론트에서 음성파일에 접근할 수 있도록 webapp/resource/sound/로 음성파일 복사
