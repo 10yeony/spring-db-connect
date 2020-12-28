@@ -48,6 +48,9 @@ $(function(){
 </head>
 
 <body class="bg-gradient-primary">
+<!-- contextPath -->
+<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
+
 	<div class="container">
 
 		<!-- Outer Row -->
