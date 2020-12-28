@@ -70,9 +70,8 @@ public class RuleController {
 		/* 대분류 등록 */
 		if (new_top_level_name != null) {
 			levelName = "대분류";
-
 			String level = "top";
-			Rule vo = new Rule();
+			Rule vo = rule;
 			vo.setTop_level_name(new_top_level_name);
 			result = ruleService.registerRule(level, vo);
 		}
@@ -80,10 +79,8 @@ public class RuleController {
 		/* 중분류 등록 */
 		else if (new_middle_level_name != null) {
 			levelName = "중분류";
-
 			String level = "middle";
-			Rule vo = new Rule();
-			vo.setTop_level_id(rule.getTop_level_id());
+			Rule vo = rule;
 			vo.setMiddle_level_name(new_middle_level_name);
 			result = ruleService.registerRule(level, vo);
 		}
@@ -91,14 +88,11 @@ public class RuleController {
 		/* 소분류 등록 */
 		else {
 			levelName = "Rule";
-
 			String level = "bottom";
 			
 			/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
 			rule.setCreator(clientInfo.getMemberId());
-
 			result = ruleService.registerRule(level, rule);
-
 			if (result != 0) {
 				model.addAttribute("ruleRegSuccessMsg", levelName + "을 성공적으로 등록하였습니다.");
 				return "rule/ruleList";

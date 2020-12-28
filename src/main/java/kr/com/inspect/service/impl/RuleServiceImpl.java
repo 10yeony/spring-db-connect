@@ -187,6 +187,8 @@ public class RuleServiceImpl implements RuleService {
 				result = ruleDao.registerTopLevel(rule);
 				if(result > 0) {
 					content = "Rule 대분류 등록";
+					id = ruleDao.isExistTopLevel(rule); //등록 후 아이디(auto increment된 아이디)
+					rule.setTop_level_id(id);
 				}
 			}
 			break;
@@ -196,6 +198,8 @@ public class RuleServiceImpl implements RuleService {
 				result = ruleDao.registerMiddleLevel(rule);
 				if(result > 0) {
 					content = "Rule 중분류 등록";
+					id = ruleDao.isExistMiddleLevel(rule); //등록 후 아이디(auto increment된 아이디)
+					rule.setMiddle_level_id(id);
 				}
 			}
 			break;
@@ -204,7 +208,7 @@ public class RuleServiceImpl implements RuleService {
 			if (id == 0) { // 존재하지 않는 경우에만 등록
 				result = ruleDao.registerBottomLevel(rule);
 				id = ruleDao.isExistBottomLevel(rule); // 등록 후 아이디(auto increment된 아이디)
-
+				
 				/* 파일명 DB 등록(파일명이 중복되지 않도록 auto increment된 아이디 사용) */
 				String fileName = "Rule" + id;
 				rule.setBottom_level_id(id);
