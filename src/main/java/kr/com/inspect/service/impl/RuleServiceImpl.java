@@ -306,9 +306,7 @@ public class RuleServiceImpl implements RuleService {
 		int updateResult = ruleDao.updateRuleCompileResult(rule);
 		if(updateResult > 0) {
 			RuleLog ruleLog = new RuleLog();
-			ruleLog.setTop_level_name(vo.getTop_level_name());
-			ruleLog.setMiddle_level_name(vo.getMiddle_level_name());
-			ruleLog.setBottom_level_name(vo.getBottom_level_name());
+			ruleLog.setRule(vo);
 			ruleLog.setContent("Rule 작성");
 			usingLogUtil.setUsingLog(ruleLog);
 		}
@@ -398,7 +396,7 @@ public class RuleServiceImpl implements RuleService {
 	}
 
 	/**
-	 * 컴파일 오류시 자바 파일과 클래스 파일을 삭제함
+	 * 자바 파일과 클래스 파일을 삭제함(삭제하지 않으면 컴파일 오류시 이전에 컴파일 성공한 클래스 파일을 읽음)
 	 * @param fileName 자바 및 클래스 파일명
 	 */
 	public void deleteJavaClassFile(String fileName) {
@@ -491,10 +489,12 @@ public class RuleServiceImpl implements RuleService {
 			fileDir.mkdir();
 		}
 		
-		UsingLog usingLog = new UsingLog();
-		usingLog.setContent("Rule 관련 라이브러리 등록 - 총 "+customFile.size()+"개");
-		usingLogUtil.setUsingLog(usingLog);
-		final int no = usingLogUtil.getNoOfUsingLog(usingLog);
+		String usingLogContent = "Rule 관련 라이브러리 등록 - 총 "+customFile.size()+"개";
+		final int no = usingLogUtil.insertUsingLog(usingLogContent);
+		final String ip_addr = clientInfo.getIpAddr();
+		final String member_id = clientInfo.getMemberId();
+		final String time = clientInfo.getTime();
+		final String ruleLogContent = "Rule 관련 라이브러리 등록";
 			
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -537,9 +537,12 @@ public class RuleServiceImpl implements RuleService {
 				
 				if(result > 0) {
 					RuleLog ruleLog = new RuleLog();
-					ruleLog.setLibrary_file_name(filename);
-					ruleLog.setContent("Rule 관련 라이브러리 등록");
 					ruleLog.setUsing_log_no(no);
+					ruleLog.setIp_addr(ip_addr);
+					ruleLog.setMember_id(member_id);
+					ruleLog.setTime(time);
+					ruleLog.setContent(ruleLogContent);
+					ruleLog.setLibrary_file_name(filename);
 					usingLogUtil.setUsingLog(ruleLog);
 				}
 			}));
