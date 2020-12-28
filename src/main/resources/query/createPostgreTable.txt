@@ -79,7 +79,8 @@ CREATE TABLE audio.member (
 	isAccountNonLocked boolean,
 	isCredentialsNonExpired boolean,
 	isEnabled boolean,
-	join_date text
+	join_date text,
+	login_time text
 );
 
 CREATE TABLE audio.authority (

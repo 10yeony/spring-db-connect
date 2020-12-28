@@ -98,6 +98,10 @@
 	                            		<td>${thisMember.join_date}</td>
 	                            	</tr>
 									<tr>
+										<th>마지막 로그인 날짜</th>
+										<td>${thisMember.login_time}</td>
+									</tr>
+									<tr>
 										<th>가입 승인</th>
 										<td>
 											<c:if test="${thisMember.approval eq 'true'}">

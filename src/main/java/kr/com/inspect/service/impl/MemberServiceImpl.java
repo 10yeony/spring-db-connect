@@ -411,4 +411,13 @@ public class MemberServiceImpl implements MemberService {
 	public String getUserLoginTime(String member_id){
 		return memberDao.getUserLoginTime(member_id);
 	}
+
+	/**
+	 * 마지막 로그인 시간 업데이트
+	 * @param member_id 업데이트 할 계정 id
+	 */
+	@Override
+	public void updateLoginTime(String member_id){
+		memberDao.updateLoginTime(member_id, clientInfo.getTime());
+	}
 }

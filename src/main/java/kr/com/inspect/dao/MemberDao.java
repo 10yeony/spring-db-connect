@@ -166,4 +166,10 @@ public interface MemberDao {
 	 * @return 가장 최근에 로그인한 시간
 	 */
 	public String getUserLoginTime(String member_id);
+
+	/**
+	 * 마지막 로그인 시간 업데이트
+	 * @param member_id 업데이트 할 계정 id
+	 */
+	public void updateLoginTime(String member_id, String date);
 }

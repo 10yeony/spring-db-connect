@@ -79,6 +79,8 @@
 	                                    <th>이름</th>
 	                                    <th>이메일</th>
 	                                    <th>연락처</th>
+	                                    <th>마지막 로그인 날짜</th>
+	                                    <th>가입승인 여부</th>
 	                                </tr>
                                 </thead>
                                 <tbody>
@@ -89,6 +91,15 @@
 	                                        <td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.name}</a></td>
 	                                        <td>${item.email}</td>
 	                                        <td>${item.phone}</td>
+	                                        <td>${item.login_time}</td>
+	                                        <td>
+                                                <c:if test="${item.approval eq 'true'}">
+                                                T
+                                                </c:if>
+                                                <c:if test="${item.approval eq 'false'}">
+                                                F
+                                                </c:if>
+                                            </td>
 	                                    </tr>
 	                                </c:forEach>
                                 </tbody>

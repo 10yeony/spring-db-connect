@@ -154,7 +154,13 @@ public interface MemberService extends UserDetailsService {
 
 	/**
 	 * 스케쥴러로 인한 멤버 삭제
-	 * @param member_id 삭제할 회원 아이디
+	 * @param member_id 삭제할 계정 id
 	 */
 	public void deleteMemberByScheduler(String member_id);
+
+	/**
+	 * 마지막 로그인 시간 업데이트
+	 * @param member_id 업데이트 할 계정 id
+	 */
+	public void updateLoginTime(String member_id);
 }

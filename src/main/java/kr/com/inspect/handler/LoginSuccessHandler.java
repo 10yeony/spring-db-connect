@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.com.inspect.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -35,6 +36,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	 */
 	@Autowired
 	private UsingLogUtil usingLogUtil;
+
+	/**
+	 * 로그인 시간 업데이트를 위한 MemberService 객체
+	 */
+	@Autowired
+	private MemberService memberService;
 	
 	/**
 	 * 인증이 성공했을 경우 실행되는 로직
@@ -68,6 +75,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			UsingLog usingLog = new UsingLog();
 			usingLog.setContent("로그인");
 			usingLogUtil.setUsingLog(usingLog);
+			memberService.updateLoginTime(member.getMember_id());
 
 			ResponseData responseData = new ResponseData();
 			responseData.setCode(ResponseDataCode.SUCCESS); //코드 성공
