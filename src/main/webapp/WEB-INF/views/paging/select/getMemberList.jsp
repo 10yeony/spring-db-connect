@@ -10,14 +10,11 @@
 </head>
 
 <body>
-	<c:choose>
-		<c:when test="${requestUrl == 'getMetadataAndProgram'}">
-		  	<%@ include file="/WEB-INF/views/paging/select/getMetadataAndProgram.jsp"%>
-	  	</c:when>
-	  	<c:when test="${requestUrl == 'getMemberListByAdmin'}">
-	  		<%@ include file="/WEB-INF/views/paging/select/getMemberList.jsp"%>
-	  	</c:when>
-  	</c:choose>
+	<select class="form-control" id="dataSelect" style="margin-right:3px;">
+		<option value="ALL">전체 권한</option>
+		<option value="ROLE_VIEW">데이터 조회 권한</option>
+		<option value="ROLE_INPUT">데이터 입력 권한</option>
+		<option value="ROLE_ADMIN">관리자 권한</option>
+	</select>
 </body>
-
 </html>

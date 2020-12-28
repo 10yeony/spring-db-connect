@@ -20,17 +20,9 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
-	
-	<link href="${pageContext.request.contextPath}/resource/css/paging.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
-<!-- count_per_page, count_per_list -->
-<input type="hidden" id="show_count_per_page" value="${count_per_page}">
-<input type="hidden" id="show_count_per_list" value="${count_per_list}">
-
-<!-- program_title, subtitle, creator, file_num -->
-<input type="hidden" id="show_search_word" value="${search_word}">
 
 <!-- Page Wrapper -->
 <div id="wrapper">

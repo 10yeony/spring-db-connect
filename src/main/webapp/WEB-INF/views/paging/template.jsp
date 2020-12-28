@@ -7,6 +7,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Table</title>
+	<link href="${pageContext.request.contextPath}/resource/css/paging.css" rel="stylesheet">
 </head>
 
 <body>
@@ -20,6 +21,8 @@
 
 	<!-- search_word -->
 	<input type="hidden" id="show_search_word" value="${search_word}">
+	
+	<input type="hidden" id="show_approval" value="${approval}">
 
 	<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
 		<!-- Select Area -->

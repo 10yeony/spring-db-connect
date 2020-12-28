@@ -99,11 +99,19 @@ public interface MemberDao {
 	public List<Member> getMemberList();
 	
 	/**
-	 * 권한명으로 회원 정보를 모두 가지고 옴
+	 * 검색어, 권한명, 승인 여부로 회원 정보를 모두 가지고 옴
 	 * @param role 권한명
-	 * @return 해당 권한을 가진 회원 목록
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @param approval 승인 여부
+	 * @return 검색어, 권한명, 승인 여부에 따른 회원 목록
 	 */
-	public List<Member> getMemberList(String role);
+	public List<Member> getMemberList(String role, 
+										int limit, 
+										int offset,
+										String search_word, 
+										String approval);
 
 	/**
 	 * 회원 수를 가져옴
@@ -112,11 +120,13 @@ public interface MemberDao {
 	public int getMemberCount();
 	
 	/**
-	 * 권한명으로 회원 수를 가져옴
+	 * 검색어, 권한명, 승인 여부로 회원 수를 가져옴
 	 * @param role 권한명
-	 * @return 권한명에 따른 회원 수
+	 * @param search_word 검색어
+	 * @param approval 승인 여부
+	 * @return 검색어, 권한명에 따른 회원 수
 	 */
-	public int getMemberCount(String role);
+	public int getMemberCount(String role, String search_word, String approval);
 	
 	/**
 	 * 사용 로그에 기록함
