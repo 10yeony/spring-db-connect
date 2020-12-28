@@ -149,4 +149,10 @@ public interface MemberService extends UserDetailsService {
 	 * @return 가장 최근에 로그인한 시간
 	 */
 	public String getUserLoginTime(String member_id);
+
+	/**
+	 * 스케쥴러로 인한 멤버 삭제
+	 * @param member_id 삭제할 회원 아이디
+	 */
+	public void deleteMemberByScheduler(String member_id);
 }

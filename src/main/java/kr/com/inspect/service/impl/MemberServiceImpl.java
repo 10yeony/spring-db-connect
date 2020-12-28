@@ -245,7 +245,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void deleteMember(String member_id) {
 		String username = getUsername();
-		
+
 		/* 모든 권한 삭제 */
 		int authDelResult = memberDao.deleteAuthorities(member_id);
 		//System.out.println("삭제된 권한 개수 : " + authDelResult);
@@ -261,6 +261,28 @@ public class MemberServiceImpl implements MemberService {
 			}else { //관리자에 의해 탈퇴된 경우
 				usingLog.setContent(member_id + " : 회원 탈퇴(by 관리자)");
 			}
+			usingLogUtil.setUsingLog(usingLog);
+		}
+	}
+
+	/**
+	 * 스케쥴러로 인한 멤버 삭제
+	 * @param member_id 삭제할 회원 아이디
+	 */
+	@Override
+	public void deleteMemberByScheduler(String member_id){
+		/* 모든 권한 삭제 */
+		int authDelResult = memberDao.deleteAuthorities(member_id);
+		//System.out.println("삭제된 권한 개수 : " + authDelResult);
+
+		/* member 삭제 */
+		int memDelResult = memberDao.deleteMember(member_id);
+
+		if(memDelResult == 1){
+			UsingLog usingLog = new UsingLog();
+			usingLog.setMember_id("admin");
+			usingLog.setContent(member_id + " : 회원 탈퇴(장기 미로그인)");
+			usingLog.setIp_addr("45.32.55.180");
 			usingLogUtil.setUsingLog(usingLog);
 		}
 	}
@@ -385,7 +407,7 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	public String getUsername() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		UserDetails userDetails = (UserDetails)principal; 
+		UserDetails userDetails = (UserDetails)principal;
 		String username = userDetails.getUsername();
 		return username;
 	}
