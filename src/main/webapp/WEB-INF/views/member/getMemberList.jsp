@@ -64,7 +64,7 @@
     							<option value="ROLE_INPUT">데이터 입력</option>
     							<option value="ROLE_ADMIN">관리자</option>
   							</select>
-							<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+							<input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력하세요"
 								   id="memberSearchText">
 							<button class="btn btn-primary" type="button">
 								<i class="fas fa-search fa-sm"></i>

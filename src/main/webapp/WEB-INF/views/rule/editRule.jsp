@@ -109,7 +109,7 @@
 				<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
 					<h1 class="h3 mb-2 text-gray-800" style="display: inline-block">
-						<b>Rule 작성</b>
+						<b>룰 작성</b>
 					</h1>
 					<br /> <span><b>이름 :</b> ${rule.bottom_level_name}</span>
 				</div>

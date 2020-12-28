@@ -52,7 +52,7 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-2 text-gray-800">
-                    	<b>Rule 기록 조회</b>
+                    	<b>룰 기록 조회</b>
                     	<span style="font-size:18px;">(${searchResult} ${totalCount}건)</span>
                     	<c:if test="${searchResult != '전체'}">
                     		<a href="${pageContext.request.contextPath}/getRuleLogList?data=0&current_page_no=1&count_per_page=10&count_per_list=10&search_word=" 
