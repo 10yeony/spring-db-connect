@@ -228,7 +228,16 @@ public class RuleCompiler {
                 "\tpublic Object run() throws Exception {\n")
                 .append(rule.getContents())
                 .append("\n\t}"
-                		+ "\n}");
+                		+ "public static Object replace(Object obj) {\n" + 
+                		"		try {\n" + 
+                		"			if (obj.toString().contains(\",\")) {\n" + 
+                		"				obj = obj.toString().replaceAll(\",\", \" \");\n" + 
+                		"			}\n" + 
+                		"		} catch (NullPointerException e) {\n" + 
+                		"			//e.printStackTrace();\n" + 
+                		"		}\n" + 
+                		"		return obj;\n" + 
+                		"	}\n}");
         return sb.toString();
     }
 

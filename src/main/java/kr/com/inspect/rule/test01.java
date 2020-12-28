@@ -33,8 +33,14 @@ public class test01 {
 		}
 	}
 
-	public static Object replace(Object a) {
-		return a;
-
+	public static Object replace(Object obj) {
+		try {
+			if (obj.toString().contains(",")) {
+				obj = obj.toString().replaceAll(",", " ");
+			}
+		} catch (NullPointerException e) {
+			//e.printStackTrace();
+		}
+		return obj;
 	}
 }
