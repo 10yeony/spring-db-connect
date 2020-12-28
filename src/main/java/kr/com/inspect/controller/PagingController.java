@@ -153,29 +153,30 @@ public class PagingController {
 	 */
 	@GetMapping("/getMemberListByAdmin")
 	public String getMemberListByAdmin(Model model, 
-											String data,
-											int current_page_no,
-											int count_per_page,
-											int count_per_list,
-											String search_word,
-											String approval) {
+										String data,
+										int current_page_no,
+										int count_per_page,
+										int count_per_list,
+										String search_word,
+										String approval) {
 		
 		ResponseData responseData = new ResponseData();
 		responseData = memberService.getMemberList(data,
-														function_name, 
-														current_page_no, 
-														count_per_page, 
-														count_per_list, 
-														search_word, 
-														approval);
+												function_name, 
+												current_page_no, 
+												count_per_page, 
+												count_per_list, 
+												search_word, 
+												approval);
 		addCommonAttribute(model, "getMemberListByAdmin", responseData, 
-								count_per_page, count_per_list, search_word);
+						count_per_page, count_per_list, search_word);
 		model.addAttribute("data", data);
 		model.addAttribute("approval", approval);
 		
 		switch(data) {
 			case "ALL":
 				model.addAttribute("selectedRole", "전체 권한");
+				break;
 			case "ROLE_VIEW":
 				model.addAttribute("selectedRole", "데이터 조회 권한");
 				break;

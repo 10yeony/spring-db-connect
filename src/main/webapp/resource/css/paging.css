@@ -10,3 +10,8 @@
 	color: #e74a3b;
 	font-weight: bold;
 }
+
+mark {
+  padding: 0;
+  background: #f1c40f;
+}

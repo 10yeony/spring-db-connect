@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<table class="table table-bordered" width="100%" cellspacing="0">
+	<table class="table table-bordered paging-table" width="100%" cellspacing="0">
 		<thead>
 			<tr>
 				<th>no.</th>
@@ -32,15 +32,12 @@
 					<td>${item.phone}</td>
 					<td>${item.login_time}</td>
 					<td>
-						<c:if test="${item.approval == 'true'}">
-							승인
-						</c:if>
-						<c:if test="${item.approval == 'false'}">
-							<select class="form-control" onchange="approval('${item.member_id}')">
+						<select class="form-control" onchange="approval('${item.member_id}')">
+							<option>승인</option>
+							<c:if test="${item.approval == 'false'}">
 								<option <c:if test="${item.approval == 'false'}">selected</c:if>>미승인</option>
-								<option>승인</option>
-							</select>
-						</c:if>
+							</c:if>
+						</select>
 					</td>
 				</tr>
 			</c:forEach>

@@ -75,9 +75,6 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<script 
-	src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
-
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resource/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

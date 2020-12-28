@@ -11,7 +11,7 @@
 </head>
 
 <body>
-	<table id="usingLogList" class="table table-bordered" width="100%" cellspacing="0">
+	<table class="table table-bordered paging-table" width="100%" cellspacing="0">
 		<thead>
 			<tr>
 				<th>no.</th>

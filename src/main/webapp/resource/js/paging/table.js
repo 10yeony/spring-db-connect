@@ -11,7 +11,10 @@ $(function(){
 	/* 화면 세팅을 위한 변수 선언 */
 	var data_type = $('#show_data_type').val();
 	var count_per_list = $('#show_count_per_list').val();
+	var search_word = $('#show_search_word').val();
 	var approval = $('#show_approval').val();
+	
+	markKeyword(search_word);
 	
 	/* 선택한 데이터 타입 세팅 */
 	$('#dataSelect').val(data_type);
@@ -136,6 +139,12 @@ function setListSize(size){
 		link += "&approval=" + $('#show_approval').val();
 	}
 	location.href = link;
+}
+
+function markKeyword(keyword){
+	var context = document.querySelector(".paging-table"); // requires an element with class "context" to exist
+	var instance = new Mark(context);
+	instance.mark(keyword);
 }
 
 function clickBackBtn(){
