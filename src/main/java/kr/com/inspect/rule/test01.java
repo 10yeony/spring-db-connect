@@ -16,32 +16,25 @@ public class test01 {
 		Data data = new Data();
 		List<Metadata> metadata = data.getMetadataAndProgram(0);
 
-		List<String> list = new ArrayList<>();
-		String str = "";
+		List<List<Object>> result = new ArrayList<>();
+		List<Object> list = new ArrayList<>();
 
-		str += "Title" + "/" + "제목" + "/" + "부제" + "/" + "\n";
-		list.add(str);
+		list.add("Title");
+		list.add("제목");
+		list.add("부제");
+		result.add(list);
 
 		for (Metadata meta : metadata) {
-			str = "";
-			str += meta.getTitle()+"/" + "\t";
-			str += meta.getProgram().getTitle()+ "/" + "\t";
-
-			str += meta.getProgram().getSubtitle()+ "/" + "\t" + "\n";
-			if (str.contains(",")) {
-				str = str.replaceAll(",", " ");
-			}
-			list.add(str);
+			list = new ArrayList<>();
+			list.add(replace(meta.getTitle()));
+			list.add(replace(meta.getProgram().getTitle()));
+			list.add(replace(meta.getProgram().getSubtitle()));
+			result.add(list);
 		}
-		System.out.println(list);
 	}
 
-	public void getreplace() {
-		String str = "";
+	public static Object replace(Object a) {
+		return a;
 
-		if (str.contains(",")) {
-			str = str.replaceAll("//", "");
-			System.out.println(str);
-		}
 	}
 }

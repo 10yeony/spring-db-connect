@@ -227,7 +227,8 @@ public class RuleCompiler {
                 "public class "+rule.getFile_name()+" {\n" +
                 "\tpublic Object run() throws Exception {\n")
                 .append(rule.getContents())
-                .append("\n\t}\n}");
+                .append("\n\t}"
+                		+ "\n}");
         return sb.toString();
     }
 
