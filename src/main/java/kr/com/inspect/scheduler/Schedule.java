@@ -123,7 +123,7 @@ public class Schedule {
 //	@Scheduled(fixedDelay = 60000)
 	public void checkUserLoginTime() throws Exception {
 		List<Member> memberList = memberService.getMemberList();
-		String time, join_date;
+		String time, join_date, deleteTime, accountNonExpiredTime;
 
 		TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -141,10 +141,19 @@ public class Schedule {
 				time = join_date;
 			}
 
-			time = plusMonth(time, 6);
+			// 마지막으로 로그인 한 날짜에 6개월 더해주기
+			deleteTime = plusMonth(time, 6);
 
-			if(CompareDate(time, currentTime)){
-				memberService.deleteMemberByScheduler(member.getMember_id());
+			// 마지막으로 로그인 한 날짜에 3개월 더해주기
+			accountNonExpiredTime = plusMonth(time, 3);
+
+			// 만약 6개월 더한 날짜가 현재 날짜보다 더 예전이라면 계정 삭제
+			if(CompareDate(deleteTime, currentTime)){
+//				memberService.deleteMemberByScheduler(member.getMember_id());
+			}
+			// 3개월 지난 날짜가 현재 날짜보다 더 예전이라면 계정 만료
+			else if(CompareDate(accountNonExpiredTime, currentTime)){
+
 			}
 		}
 	}
