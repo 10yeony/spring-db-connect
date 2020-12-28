@@ -18,6 +18,8 @@
 				<th>이름</th>
 				<th>이메일</th>
 				<th>연락처</th>
+				<th>최종 로그인</th>
+				<th>가입 승인</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,10 +30,23 @@
 					<td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.name}</a></td>
 					<td>${item.email}</td>
 					<td>${item.phone}</td>
+					<td>${item.login_time}</td>
+					<td>
+						<c:if test="${item.approval == 'true'}">
+							승인
+						</c:if>
+						<c:if test="${item.approval == 'false'}">
+							<select class="form-control" onchange="approval('${item.member_id}')">
+								<option <c:if test="${item.approval == 'false'}">selected</c:if>>미승인</option>
+								<option>승인</option>
+							</select>
+						</c:if>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	<script 
+		src="${pageContext.request.contextPath}/resource/js/member/getMember.js"></script>
 </body>
-
 </html>

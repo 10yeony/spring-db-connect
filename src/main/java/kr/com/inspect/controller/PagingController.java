@@ -159,6 +159,7 @@ public class PagingController {
 											int count_per_list,
 											String search_word,
 											String approval) {
+		
 		ResponseData responseData = new ResponseData();
 		responseData = memberService.getMemberList(data,
 														function_name, 
@@ -174,10 +175,8 @@ public class PagingController {
 		
 		switch(data) {
 			case "ALL":
-				System.out.println("전체 권한이당");
 				model.addAttribute("selectedRole", "전체 권한");
 			case "ROLE_VIEW":
-				System.out.println("데이터 조회 권한이당");
 				model.addAttribute("selectedRole", "데이터 조회 권한");
 				break;
 			case "ROLE_INPUT":
@@ -189,7 +188,6 @@ public class PagingController {
 			default:
 				break;
 		}
-		System.out.println(model);
 		return "member/getMemberList";
 	}
 	

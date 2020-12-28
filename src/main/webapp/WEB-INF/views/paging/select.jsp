@@ -15,7 +15,8 @@
 		  	<%@ include file="/WEB-INF/views/paging/select/getMetadataAndProgram.jsp"%>
 	  	</c:when>
 	  	<c:when test="${requestUrl == 'getMemberListByAdmin'}">
-	  		<%@ include file="/WEB-INF/views/paging/select/getMemberList.jsp"%>
+	  		<%@ include file="/WEB-INF/views/paging/select/getMemberListRole.jsp"%>
+	  		<%@ include file="/WEB-INF/views/paging/select/getMemberListApproval.jsp"%>
 	  	</c:when>
   	</c:choose>
 </body>

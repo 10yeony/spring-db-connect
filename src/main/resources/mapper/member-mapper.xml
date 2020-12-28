@@ -54,6 +54,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		OFFSET 
 			#{offset};
 	</select>
+	<select id="getMemberListUsingApproval" parameterType="hashMap" resultType="kr.com.inspect.dto.Member">
+		SELECT 
+			(ROW_NUMBER() OVER()) AS row_num,
+			member_id,
+			pwd,
+			isAccountNonExpired,
+			isAccountNonLocked,
+			isCredentialsNonExpired,
+			isEnabled,
+			phone,
+			email,
+			name,
+			approval,
+			join_date,
+			login_time
+		FROM 
+			(SELECT
+				*
+			FROM 
+				audio.member
+			WHERE 
+				approval = #{approval}
+				AND (member_id LIKE '%'||#{search_word}||'%'
+				OR phone LIKE '%'||#{search_word}||'%'
+				OR email LIKE '%'||#{search_word}||'%'
+				OR name LIKE '%'||#{search_word}||'%'
+				OR login_time LIKE '%'||#{search_word}||'%')
+			ORDER BY 
+				member_id) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
 	
 	<!-- 특정 권한을 가진 회원 목록을 가져옴 -->
 	<select id="getMemberListUsingRole" parameterType="hashMap" resultType="kr.com.inspect.dto.Member">
@@ -82,6 +116,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				OR email LIKE '%'||#{search_word}||'%'
 				OR name LIKE '%'||#{search_word}||'%'
 				OR login_time LIKE '%'||#{search_word}||'%'
+			ORDER BY 
+				member_id) m
+		LEFT JOIN 
+			audio.authority a 
+		ON 
+			m.member_id = a.username 
+		WHERE 
+			a.authority_name = #{role}
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+	<select id="getMemberListUsingRoleAndApproval" parameterType="hashMap" resultType="kr.com.inspect.dto.Member">
+		SELECT 
+			(ROW_NUMBER() OVER()) AS row_num,
+			member_id,
+			pwd,
+			isAccountNonExpired,
+			isAccountNonLocked,
+			isCredentialsNonExpired,
+			isEnabled,
+			phone,
+			email,
+			name,
+			approval,
+			join_date,
+			login_time
+		FROM
+			(SELECT
+				*
+			FROM 
+				audio.member 
+			WHERE 
+				approval = #{approval}
+				AND (member_id LIKE '%'||#{search_word}||'%'
+				OR phone LIKE '%'||#{search_word}||'%'
+				OR email LIKE '%'||#{search_word}||'%'
+				OR name LIKE '%'||#{search_word}||'%'
+				OR login_time LIKE '%'||#{search_word}||'%')
 			ORDER BY 
 				member_id) m
 		LEFT JOIN 
@@ -209,6 +283,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR name LIKE '%'||#{search_word}||'%'
 			OR login_time LIKE '%'||#{search_word}||'%'
 	</select>
+	<select id="getMemberSearchCountUsingApproval" parameterType="hashMap" resultType="int">
+		<include refid="getMemberCount" />
+		WHERE 
+			approval = #{approval}
+			AND (member_id LIKE '%'||#{search_word}||'%'
+			OR phone LIKE '%'||#{search_word}||'%'
+			OR email LIKE '%'||#{search_word}||'%'
+			OR name LIKE '%'||#{search_word}||'%'
+			OR login_time LIKE '%'||#{search_word}||'%')
+	</select>
 	<select id="getMemberCountUsingRole" parameterType="hashMap" resultType="int">
 		SELECT 
 			COUNT(*)
@@ -223,6 +307,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				OR email LIKE '%'||#{search_word}||'%'
 				OR name LIKE '%'||#{search_word}||'%'
 				OR login_time LIKE '%'||#{search_word}||'%'
+			ORDER BY 
+				member_id) m
+		LEFT JOIN 
+			audio.authority a 
+		ON 
+			m.member_id = a.username 
+		WHERE 
+			a.authority_name = #{role};
+	</select>
+	<select id="getMemberCountUsingRoleAndApproval" parameterType="hashMap" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM
+			(SELECT
+				*
+			FROM 
+				audio.member 
+			WHERE 
+				approval = #{approval}
+				AND (member_id LIKE '%'||#{search_word}||'%'
+				OR phone LIKE '%'||#{search_word}||'%'
+				OR email LIKE '%'||#{search_word}||'%'
+				OR name LIKE '%'||#{search_word}||'%'
+				OR login_time LIKE '%'||#{search_word}||'%')
 			ORDER BY 
 				member_id) m
 		LEFT JOIN 

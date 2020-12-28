@@ -108,8 +108,8 @@
 												승인 완료
 											</c:if>
 											<c:if test="${thisMember.approval eq 'false'}">
-												<button type="button" onclick="approval()" class="btn btn-primary btn-icon-split">
-													<span class="text">가입 승인하기</span>
+												<button type="button" onclick="approval('${thisMember.member_id}')" class="btn btn-primary btn-icon-split">
+													<span class="text">가입 승인</span>
 												</button>
 											</c:if>
 										</td>
@@ -176,13 +176,6 @@
 
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<script src="${pageContext.request.contextPath}/resource/vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
 
 <!-- 회원탈퇴 Modal include -->
 <%@ include file="editAuthorities.jsp"%>

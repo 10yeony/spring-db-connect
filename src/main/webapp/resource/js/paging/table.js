@@ -15,6 +15,7 @@ $(function(){
 	
 	/* 선택한 데이터 타입 세팅 */
 	$('#dataSelect').val(data_type);
+	$('#approvalSelect').val(approval);
 	
 	/* 한 페이지당 몇개씩 보는지 세팅 */
 	if(count_per_list==10){
@@ -47,6 +48,19 @@ $(function(){
 		if(requestUrl == 'getMemberListByAdmin'){
 			link += "&approval=" + $('#show_approval').val();
 		}
+		location.href = link;
+	});
+	
+	/* 사용자 목록 - 승인여부 선택 */
+	$('#approvalSelect').change(function(){
+		let selectOption = $(this).val();
+		let link = contextPath + "/" + requestUrl
+					+ "?data=" + $('#show_data_type').val()
+					+ "&current_page_no=1"
+					+ "&count_per_page=" + $('#show_count_per_page').val()
+					+ "&count_per_list=" + $('#show_count_per_list').val()
+					+ "&search_word="
+					+ "&approval=" + selectOption;
 		location.href = link;
 	});
 	

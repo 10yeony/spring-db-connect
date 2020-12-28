@@ -180,17 +180,18 @@ public class MemberDaoImpl implements MemberDao{
 		map.put("limit", limit);
 		map.put("offset", offset);
 		map.put("search_word", search_word);
+		map.put("approval", approval);
 		if(role.equals("ALL")) { //권한과 관계 없이 가져오기
 			if(approval.equals("")) { //승인 여부에 관계 없이 가져오기
 				list = sqlSession.selectList(memberNs+"getMemberList", map);
 			}else { //승인 여부에 따라 가져오기
-				map.put("approval", Boolean.parseBoolean(approval));
+				list = sqlSession.selectList(memberNs+"getMemberListUsingApproval", map);
 			}
 		}else { //권한에 따라 가져오기
 			if(approval.equals("")) { //승인 여부에 관계 없이 가져오기
 				list = sqlSession.selectList(memberNs+"getMemberListUsingRole", map);
 			}else { //승인 여부에 따라 가져오기
-				map.put("approval", Boolean.parseBoolean(approval));
+				list = sqlSession.selectList(memberNs+"getMemberListUsingRoleAndApproval", map);
 			}
 		}
 		return list;
@@ -216,19 +217,20 @@ public class MemberDaoImpl implements MemberDao{
 	public int getMemberCount(String role, String search_word, String approval) {
 		int result = 0;
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("role", role);
 		map.put("search_word", search_word);
+		map.put("approval", approval);
 		if(role.equals("ALL")) { //권한과 관계 없이 가져오기
 			if(approval.equals("")) { //승인 여부에 관계 없이 가져오기
 				result = sqlSession.selectOne(memberNs+"getMemberSearchCount", map);
 			}else { //승인 여부에 따라 가져오기
-				map.put("approval", Boolean.parseBoolean(approval));
+				result = sqlSession.selectOne(memberNs+"getMemberSearchCountUsingApproval", map);
 			}
 		}else { //권한에 따라 가져오기
-			map.put("role", role);
 			if(approval.equals("")) { //승인 여부에 관계 없이 가져오기
 				result = sqlSession.selectOne(memberNs+"getMemberCountUsingRole", map);
 			}else { //승인 여부에 따라 가져오기
-				map.put("approval", Boolean.parseBoolean(approval));
+				result = sqlSession.selectOne(memberNs+"getMemberCountUsingRoleAndApproval", map);
 			}
 		}
 		return result;

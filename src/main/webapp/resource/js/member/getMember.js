@@ -19,7 +19,7 @@ $(function(){
 				success : function(result) {
 					if(result == 'true'){
 						alert("해당 회원이 정상적으로 탈퇴되었습니다.");
-						location.href = contextPath + "/getMemberListByAdmin?role=ALL"
+						location.href = contextPath + "/getMemberListByAdmin?data=ALL&current_page_no=1&count_per_page=10&count_per_list=10&search_word=&approval="
 					}else{
 						alert("해당 회원을 탈퇴시키는 데 실패하였습니다.");
 					}
@@ -37,8 +37,7 @@ $(function(){
 	});
 });
 
-function approval(){
-	let member_id = $('#thisMember_id').val();
+function approval(member_id){
 	$.ajax({
 		url: contextPath + "/approval",
 		data : "member_id=" + member_id,
@@ -46,7 +45,7 @@ function approval(){
 
 		success : function (){
 			alert("가입 승인 완료");
-			location.reload(true);
+			location.reload();
 		}
 	})
 }
