@@ -8,10 +8,12 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.sender.SendReport;
+import kr.com.inspect.service.PostgreService;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.*;
@@ -33,7 +35,11 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 @PropertySource(value = "classpath:properties/report.properties")
 public class DocxReport {
-
+	
+	
+	@Autowired
+	private PostgreService postgreService;
+	
 	/**
 	 * 메일과 sms 전송을 위한 SendReport 필드 선언
 	 */
@@ -51,6 +57,8 @@ public class DocxReport {
 	 */
 	@Value("${table.column1}")
 	private String column1;
+	
+	
 
 	/**
 	 * docx 한국어 강의 목록 리스트 작성
@@ -302,6 +310,8 @@ public class DocxReport {
 		XWPFParagraph p1 = doc.createParagraph();
 		p1.setAlignment(ParagraphAlignment.CENTER);
 		XWPFRun r1 = p1.createRun();
+
+		
 		if(rule.getBottom_level_name() != null) {
 			r1.setText(rule.getBottom_level_name());
 		}
@@ -313,10 +323,11 @@ public class DocxReport {
 		List<String> list = new ArrayList<>();
 		List<String> strList = null;
 		String ruleStr = rule.getResult().substring(2, rule.getResult().length()-2);
+		System.out.println(ruleStr);
 		list = Arrays.asList(ruleStr.split("], \\["));
 		if(rule.getResult() != null) {
 			for(int j=0; j<list.size(); j++){
-				strList = Arrays.asList(list.get(j).split(", "));
+				strList = Arrays.asList(list.get(j).split("/ "));
 				System.out.println(strList.toString());
 				if(j==0) {
 					table = doc.createTable(list.size(), strList.size());
