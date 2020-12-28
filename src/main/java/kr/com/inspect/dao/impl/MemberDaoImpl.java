@@ -271,4 +271,16 @@ public class MemberDaoImpl implements MemberDao{
 	public String getUserLoginTime(String member_id){
 		return sqlSession.selectOne(usingLogNs + "getUserLoginTime", member_id);
 	}
+
+	/**
+	 * 마지막 로그인 시간 업데이트
+	 * @param member_id 업데이트 할 계정 id
+	 */
+	@Override
+	public void updateLoginTime(String member_id, String date){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("date", date);
+		sqlSession.update(memberNs+"updateLoginTime", map);
+	}
 }

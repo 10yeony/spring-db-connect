@@ -83,6 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			isCredentialsNonExpired, 
 			isEnabled,
 			join_date,
+			login_time,
 			phone, 
 			email,
 			approval)
@@ -94,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			#{isAccountNonLocked}, 
 			#{isCredentialsNonExpired}, 
 			#{isEnabled},
+			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
 			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
 			#{phone}, 
 			#{email},
@@ -150,6 +152,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			audio.member
 		SET
 			approval = 'true'
+		WHERE
+			member_id = #{member_id};
+	</update>
+
+	<update id="updateLoginTime" parameterType="hashMap">
+		UPDATE
+			audio.member
+		SET
+			login_time = #{date}
 		WHERE
 			member_id = #{member_id};
 	</update>
