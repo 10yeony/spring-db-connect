@@ -43,7 +43,7 @@
 			<a class="dropdown-item" href="#" data-toggle="modal"
 				data-target="#memberInfoModal"> 
 				<i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
-				사용자 정보 수정
+				정보 수정
 			</a>
 			<a class="dropdown-item" href="#" data-toggle="modal"
 				data-target="#logoutModal">  

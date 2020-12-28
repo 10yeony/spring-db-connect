@@ -62,11 +62,6 @@ public class RuleServiceImpl implements RuleService {
 	private PagingResponse pagingResponse;
 
 	/**
-	 * Rule 객체
-	 */
-	private Rule rule;
-
-	/**
 	 * 전사규칙 자바 컴파일러 객체
 	 */
 	private RuleCompiler ruleCompiler = new RuleCompiler();
@@ -185,7 +180,7 @@ public class RuleServiceImpl implements RuleService {
 			if (id == 0) { // 존재하지 않는 경우에만 등록
 				result = ruleDao.registerTopLevel(rule);
 				if(result > 0) {
-					content = "Rule 대분류 등록";
+					content = "룰 대분류 등록";
 					id = ruleDao.isExistTopLevel(rule); //등록 후 아이디(auto increment된 아이디)
 					rule.setTop_level_id(id);
 				}
@@ -196,7 +191,7 @@ public class RuleServiceImpl implements RuleService {
 			if (id == 0) { // 존재하지 않는 경우에만 등록
 				result = ruleDao.registerMiddleLevel(rule);
 				if(result > 0) {
-					content = "Rule 중분류 등록";
+					content = "룰 중분류 등록";
 					id = ruleDao.isExistMiddleLevel(rule); //등록 후 아이디(auto increment된 아이디)
 					rule.setMiddle_level_id(id);
 				}
@@ -214,7 +209,7 @@ public class RuleServiceImpl implements RuleService {
 				rule.setFile_name(fileName);
 				result += ruleDao.updateBottomLevelFileName(rule);
 				if(result > 0) {
-					content = "Rule 소분류 등록";
+					content = "룰 소분류 등록";
 				}
 			}
 			break;
@@ -239,15 +234,15 @@ public class RuleServiceImpl implements RuleService {
 		String content = null;
 		switch (level) {
 		case "top":
-			content = "Rule 대분류 삭제";
+			content = "룰 대분류 삭제";
 			result = ruleDao.deleteTopLevel(rule.getTop_level_id());
 			break;
 		case "middle":
-			content = "Rule 중분류 삭제";
+			content = "룰 중분류 삭제";
 			result = ruleDao.deleteMiddleLevel(rule.getMiddle_level_id());
 			break;
 		case "bottom":
-			content = "Rule 소분류 삭제";
+			content = "룰 소분류 삭제";
 			
 			/* 자바 파일, 클래스 파일 삭제 */
 			Rule rvo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
@@ -306,7 +301,7 @@ public class RuleServiceImpl implements RuleService {
 		if(updateResult > 0) {
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setRule(vo);
-			ruleLog.setContent("Rule 작성");
+			ruleLog.setContent("룰 작성");
 			usingLogUtil.setUsingLog(ruleLog);
 		}
 
@@ -328,12 +323,12 @@ public class RuleServiceImpl implements RuleService {
 		if(list.size() == 0) {
 			return;
 		}
-		String usingLogContent = "Rule 실행 - 총 "+list.size()+"개";
+		String usingLogContent = "룰 실행 - 총 "+list.size()+"개";
 		final int no = usingLogUtil.insertUsingLog(usingLogContent);
 		final String ip_addr = clientInfo.getIpAddr();
 		final String member_id = clientInfo.getMemberId();
 		final String time = clientInfo.getTime();
-		final String ruleLogContent = "Rule 실행";
+		final String ruleLogContent = "룰 실행";
 		
 		int threadCnt = 5; // 스레드 개수 설정
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -479,12 +474,11 @@ public class RuleServiceImpl implements RuleService {
 	 * @throws Exception 예외
 	 */
 	public void uploadCustomLibrary(List<MultipartFile> customFile, String class_package) throws Exception {
-		String usingLogContent = "Rule 관련 라이브러리 등록 - 총 "+customFile.size()+"개";
+		String usingLogContent = "룰 관련 라이브러리 등록 - 총 "+customFile.size()+"개";
 		final int no = usingLogUtil.insertUsingLog(usingLogContent);
 		final String ip_addr = clientInfo.getIpAddr();
 		final String time = clientInfo.getTime();
 		final String member_id = clientInfo.getMemberId();
-		//final String ruleLogContent = "Rule 관련 라이브러리 등록";
 		
 		if(customFile.size() == 0) {
 			return;
@@ -565,18 +559,18 @@ public class RuleServiceImpl implements RuleService {
 		for(CustomLibrary library : list) {
 			if(customLibrary.getFile_name().equals(library.getFile_name())) {
 				flag = true;
-				msg = "Rule 관련 라이브러리 덮어쓰기";
+				msg = "룰 관련 라이브러리 덮어쓰기";
 			}
 		}
 		if(flag == false) {
 			result = ruleDao.registerCustomLibrary(customLibrary);
-			msg = "Rule 관련 라이브러리 등록";
+			msg = "룰 관련 라이브러리 등록";
 		}
 		
 		// class 파일이라면 package 업데이트
 		else if((flag == true)&&(customLibrary.getFile_name().substring(customLibrary.getFile_name().lastIndexOf(".")+1).equals("class"))){
 			ruleDao.updateCustomLibraryPackage(customLibrary);
-			msg = "Rule 관련 라이브러리 패키지 업데이트";
+			msg = "룰 관련 라이브러리 패키지 업데이트";
 		}
 		
 		return msg;
@@ -640,7 +634,7 @@ public class RuleServiceImpl implements RuleService {
 		if(result > 0) {
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setCustomLibrary(customLibrary);
-			ruleLog.setContent("Rule 관련 라이브러리 삭제");
+			ruleLog.setContent("룰 관련 라이브러리 삭제");
 			usingLogUtil.setUsingLog(ruleLog);
 		}
 		return result;

@@ -27,7 +27,7 @@
   		
   		<!-- Search Area -->
 		<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
-			placeholder="Search for..." id="inputSearchText">
+			placeholder="검색어를 입력하세요" id="inputSearchText">
 		<button class="btn btn-primary" type="button" id="inputSearchButton">
 			<i class="fas fa-search fa-sm"></i>
 		</button>
