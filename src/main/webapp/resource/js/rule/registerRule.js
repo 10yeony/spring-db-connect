@@ -104,7 +104,10 @@ function deleteTopLevel(){
 	}else{
 		let answer = confirm("대분류를 삭제하시면 대분류에 해당되는 전사규칙들이 모두 삭제됩니다. 그래도 삭제하시겠습니까?");
 		if(answer){
-			location.href = contextPath + "/rule/deleteRuleLevel?level=top&id=" + top_level + "&name=" + $('#top_level option:checked').text();
+			location.href = contextPath + 
+								"/rule/deleteRuleLevel?level=top" +
+								"&top_level_id=" + top_level + 
+								"&top_level_name=" + $('#top_level option:checked').text();
 		}else{
 			return false;
 		}
@@ -119,7 +122,12 @@ function deleteMiddleLevel(){
 	}else{
 		let answer = confirm("중분류를 삭제하시면 중분류에 해당되는 전사규칙들이 모두 삭제됩니다. 그래도 삭제하시겠습니까?");
 		if(answer){
-			location.href = contextPath + "/rule/deleteRuleLevel?level=middle&id=" + middle_level + "&name=" + $('#middle_level option:checked').text();
+			location.href = contextPath + 
+								"/rule/deleteRuleLevel?level=middle" + 
+								"&top_level_id=" + $('#top_level').val() + 
+								"&top_level_name=" + $('#top_level option:checked').text() +
+								"&middle_level_id=" + middle_level + 
+								"&middle_level_name=" + $('#middle_level option:checked').text();
 		}else{
 			return false;
 		}

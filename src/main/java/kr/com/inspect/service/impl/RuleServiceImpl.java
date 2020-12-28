@@ -235,35 +235,35 @@ public class RuleServiceImpl implements RuleService {
 	 * @return DB에서 삭제한 row의 수
 	 */
 	@Override
-	public int deleteRule(String level, int id, String name) {
+	public int deleteRule(String level, Rule rule) {
 		int result = 0;
 		String content = null;
 		switch (level) {
 		case "top":
 			content = "Rule 대분류 삭제";
-			result = ruleDao.deleteTopLevel(id);
+			result = ruleDao.deleteTopLevel(rule.getTop_level_id());
 			break;
 		case "middle":
 			content = "Rule 중분류 삭제";
-			result = ruleDao.deleteMiddleLevel(id);
+			result = ruleDao.deleteMiddleLevel(rule.getMiddle_level_id());
 			break;
 		case "bottom":
 			content = "Rule 소분류 삭제";
 			
 			/* 자바 파일, 클래스 파일 삭제 */
-			Rule rule = ruleDao.getRuleBottomLevel(id);
-			name = rule.getBottom_level_name();
-			String fileName = rule.getFile_name();
+			Rule rvo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
+			String fileName = rvo.getFile_name();
 			deleteJavaClassFile(fileName);
 
 			/* DB에서 소분류 삭제 */
-			result = ruleDao.deleteBottomLevel(id);
+			result = ruleDao.deleteBottomLevel(rule.getBottom_level_id());
 			break;
 		}
 		if(result > 0) {
-			UsingLog usingLog = new UsingLog();
-			usingLog.setContent(content+name);
-			usingLogUtil.setUsingLog(usingLog);
+			RuleLog ruleLog = new RuleLog();
+			ruleLog.setContent(content);
+			ruleLog.setRule(rule);
+			usingLogUtil.setUsingLog(ruleLog);
 		}
 		return result;
 	}

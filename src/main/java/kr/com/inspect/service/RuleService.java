@@ -67,7 +67,7 @@ public interface RuleService {
 	 * @param id 대분류/중분류/소분류 아이디
 	 * @return DB에서 삭제한 row의 수
 	 */
-	public int deleteRule(String level, int id, String name);
+	public int deleteRule(String level, Rule rule);
 	
 	public Rule getRuleBottomLevel(int bottom_level_id);
 	

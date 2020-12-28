@@ -70,6 +70,16 @@
 
 <body id="page-top">
 	
+	<form id="deleteRuleFrm">
+		<input type="hidden" name="level" value="bottom">
+		<input type="hidden" name="top_level_id" value="${rule.top_level_id}">
+		<input type="hidden" name="top_level_name" value="${rule.top_level_name}">
+		<input type="hidden" name="middle_level_id" value="${rule.middle_level_id}">
+		<input type="hidden" name="middle_level_name" value="${rule.middle_level_name}">
+		<input type="hidden" name="bottom_level_id" value="${rule.bottom_level_id}">
+		<input type="hidden" name="bottom_level_name" value="${rule.bottom_level_name}">
+	</form>
+	
 	<!-- 라이브러리 업로드시 로딩 화면 -->
 	<div id="loadingArea" class="w3-modal w3-animate-opacity">
 		<img class="loading" width="100px"

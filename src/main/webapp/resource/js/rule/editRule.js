@@ -40,8 +40,7 @@ $(function(){
 	});
 
 	$('#deleteRuleBtn').click(function(){
-		let bottom_level_id = $('#bottom_level_id').val();
-		location.href = contextPath + '/rule/deleteRuleLevel?level=bottom&id='+bottom_level_id;
+		location.href = contextPath + '/rule/deleteRuleLevel?' + $('#deleteRuleFrm').serialize();
 	});
 
 	$('#backRuleBtn').click(function(){
