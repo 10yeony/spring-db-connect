@@ -323,11 +323,10 @@ public class DocxReport {
 		List<String> list = new ArrayList<>();
 		List<String> strList = null;
 		String ruleStr = rule.getResult().substring(2, rule.getResult().length()-2);
-		System.out.println(ruleStr);
 		list = Arrays.asList(ruleStr.split("], \\["));
 		if(rule.getResult() != null) {
 			for(int j=0; j<list.size(); j++){
-				strList = Arrays.asList(list.get(j).split("/ "));
+				strList = Arrays.asList(list.get(j).split(", "));
 				System.out.println(strList.toString());
 				if(j==0) {
 					table = doc.createTable(list.size(), strList.size());
