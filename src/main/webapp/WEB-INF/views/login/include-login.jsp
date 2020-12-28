@@ -42,7 +42,7 @@
 	<input type="hidden" id="member_login" value="${member}">
 	
 	<div class="text-center">
-		<h1 class="h4 text-gray-900 mb-4">Welcome To SDTM</h1>
+		<h1 class="h5 text-gray-900 mb-4">SDTM에 오신 것을 환영합니다!</h1>
 	</div>
 	<form id="loginFrm" method="post">
 		<!-- 폼 제출시 POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->

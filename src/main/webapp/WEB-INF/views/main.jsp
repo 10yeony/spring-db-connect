@@ -42,7 +42,7 @@
 
 				<!-- Page Heading -->
 				<div>
-					<h1 class="h3 mb-0 text-gray-800">Dashboard</h1><br>
+					<h1 class="h3 mb-0 text-gray-800"><b>대시보드</b></h1><br>
 				</div>
 
 				<!-- Content Row -->
