@@ -4,17 +4,19 @@ $(function(){
 	/* Context Path */
 	contextPath = $('#contextPath').val();
 	
-	$('#run_rule_btn').click(function(){
+	$('#run_rule_btn').click(function(event){
+		event.preventDefault();
+
 		let top_level = $('#top_level').val();
 		let middle_level = $('#middle_level').val();
 		let bottom_level = $('#bottom_level').val();
-		
+
 		if(top_level == '' || top_level == 'top_level_value'){
 			$('#run_rule_result_area').empty();
 			$('#run_rule_result_area').append(
 				'<br/>' +
 				'<textarea class="form-control" rows="6" style="resize: none;" readonly>' +
-					'대분류를 입력하세요.' + 
+					'대분류를 입력하세요.' +
 				'</textarea>'
 			);
 			return;
@@ -24,36 +26,40 @@ $(function(){
 		} else if(bottom_level == 'bottom_level_value'){
 			bottom_level = '';
 		}
-		document.getElementById('loadingArea').style.display='block';
+		$('#loadingArea').show();
 		runRuleCompiler(top_level, middle_level, bottom_level)
 	});
 });
 
 function runRuleCompiler(top_level, middle_level, bottom_level){
-	$.ajax({
-		//요청
-		type: "POST",
-		url: contextPath + "/rule/runRuleCompiler", 
-		data: {
-			top_level_id: top_level,
-			middle_level_id: middle_level,
-			bottom_level_id: bottom_level
-		},
-		async: false,
-			
-		//응답
-		success : function(response){  
-			var json = JSON.parse(response);
-			var list = json.item.list;
-			
-			$('#run_rule_result_area').empty();
-			appendRunRuleResultArea(list);
-			document.getElementById('loadingArea').style.display='none';
-		},
-		error : function(request, status, error) {
-			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
-		}
-	}); //ajax
+	setTimeout(function (){
+		$.ajax({
+			//요청
+			type: "POST",
+			url: contextPath + "/rule/runRuleCompiler",
+			data: {
+				top_level_id: top_level,
+				middle_level_id: middle_level,
+				bottom_level_id: bottom_level
+			},
+			async: false,
+
+			//응답
+			success : function(response){
+				var json = JSON.parse(response);
+				var list = json.item.list;
+
+				$('#run_rule_result_area').empty();
+				appendRunRuleResultArea(list);
+			},
+			error : function(request, status, error) {
+				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+			},
+			complete : function (){
+				$('#loadingArea').hide();
+			}
+		}); //ajax
+	}, 0)
 }
 
 function appendRunRuleResultArea(list){
