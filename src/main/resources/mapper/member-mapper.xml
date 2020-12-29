@@ -35,7 +35,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			name,
 			approval,
 			join_date,
-			login_time
+			login_time,
+			organization,
+			profile_img
 		FROM 
 			(SELECT
 				*
@@ -76,7 +78,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			name,
 			approval,
 			join_date,
-			login_time
+			login_time,
+			organization,
+			profile_img
 		FROM 
 			(SELECT
 				*
@@ -112,7 +116,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			name,
 			approval,
 			join_date,
-			login_time
+			login_time,
+			organization,
+			profile_img
 		FROM
 			(SELECT
 				*
@@ -151,7 +157,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			name,
 			approval,
 			join_date,
-			login_time
+			login_time,
+			organization,
+			profile_img
 		FROM
 			(SELECT
 				*
@@ -222,7 +230,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			phone, 
 			email,
 			approval,
-			organization)
+			organization,
+			profile_img)
 		VALUES
 			(#{member_id}, 
 			#{pwd},
@@ -236,7 +245,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			#{phone}, 
 			#{email},
 			#{approval},
-			#{organization});
+			#{organization},
+			#{profile_img});
 	</insert>
 	
 	<!-- 회원정보 수정 -->

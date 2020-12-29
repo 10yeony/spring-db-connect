@@ -1,5 +1,7 @@
 package kr.com.inspect.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.service.MemberService;
@@ -54,9 +58,12 @@ public class MemberController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/register", produces = "application/text; charset=utf8")
-	public String registerMember(Member member) {
+	public String registerMember(MultipartFile[] uploadImgFile, Member member) {
+		System.out.println("요청 웰컴");
+		System.out.println(uploadImgFile);
+		System.out.println(member);
 		String msg = "회원가입에 실패하였습니다.";
-		int result = memberService.registerMember(member);
+		int result = memberService.registerMember(uploadImgFile, member);
 		if (result == 2) { //DB에 있는 회원테이블 정보와 비교시 회원정보가 없을 경우
 			msg = "회원가입 완료! 로그인해주세요.";
 		}

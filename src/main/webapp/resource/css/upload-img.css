@@ -1,0 +1,57 @@
+.uploadTotal {
+	text-align:center;
+}
+
+.uploadArea {
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 100px;
+	position: relative;
+	width: 40%;
+	height: 40%;
+	padding-bottom: 40%;
+	overflow: hidden;
+	margin: 2%;
+}
+
+.uploadImgFile{
+	display: none;
+}
+
+.uploadImgPreview{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.uploadImgPreview:hover{
+	opacity: 0.30;
+}
+
+.uploadResetBtn{
+	position: absolute;
+	top: 87%;
+	left: 50%;
+	width: 110%;
+	height: 30%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	background: transparent;
+	background: #aaa;
+	color: #000000;
+	opacity: 0.70;
+	font-weight: bold;
+	font-size: 15px;
+	border: none;
+	border-radius: 0;
+	padding: 0px 0px;
+	display: none;
+}
+
+.uploadResetBtn:hover{
+	background: #000000;
+	color: white;
+	opacity: 1;
+}

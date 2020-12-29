@@ -357,13 +357,16 @@ $(function() {
 			}
 		}
 		
+		var formData = new FormData($('#registerFrm')[0]);
+		alert(formData);
+		
 		/* ajax로 제출 */
 		$.ajax({
 			url : contextPath + "/register",
 			type : "POST",
-			data : $('#registerFrm').serialize(),
-			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-			async: false,
+			data : formData,
+			processData: false,
+			contentType: false,
 			
 			success : function(data) {
 				alert(data);
