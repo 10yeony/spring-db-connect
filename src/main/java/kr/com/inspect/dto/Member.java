@@ -86,6 +86,11 @@ public class Member implements UserDetails {
 	 * 승인 정보
 	 */
 	private String approval;
+
+	/**
+	 * 조직 정보
+	 */
+	private String organization;
 	
 	
 	
@@ -99,7 +104,7 @@ public class Member implements UserDetails {
 	public Member() {}
 	public Member(String member_id, String pwd, String name, boolean isAccountNonExpired, boolean isAccountNonLocked,
 			boolean isCredentialsNonExpired, boolean isEnabled, String join_date, String phone, String email,
-			String approval, String login_time, Collection<? extends GrantedAuthority> authorities) {
+			String approval, String login_time, String organization,Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.member_id = member_id;
 		this.pwd = pwd;
@@ -112,8 +117,9 @@ public class Member implements UserDetails {
 		this.phone = phone;
 		this.email = email;
 		this.approval = approval;
-		this.authorities = authorities;
 		this.login_time = login_time;
+		this.organization = organization;
+		this.authorities = authorities;
 	}
 
 	/**
@@ -251,12 +257,17 @@ public class Member implements UserDetails {
 	public String getLogin_time() { return login_time; }
 
 	public void setLogin_time(String login_time){ this.login_time = login_time; }
-	
+
+	public String getOrganization() { return organization; }
+
+	public void setOrganization(String organization) { this.organization = organization; }
+
 	@Override
 	public String toString() {
 		return "Member [member_id=" + member_id + ", pwd=" + pwd + ", name=" + name + ", isAccountNonExpired="
 				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
 				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", join_date=" + join_date + ", phone=" + phone
-				+ ", email=" + email + ", approval=" + approval + ", login_time=" + login_time + ", authorities=" + authorities + "]";
+				+ ", email=" + email + ", approval=" + approval + ", login_time=" + login_time + ", organization=" + organization
+				+ ", authorities=" + authorities + "]";
 	}
 }
