@@ -10,7 +10,6 @@
 	<script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" charset="UTF-8"></script>
 	<link href="${pageContext.request.contextPath}/resource/css/paging.css" rel="stylesheet">
-	<script src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
 </head>
 
 <body>
@@ -55,6 +54,7 @@
 		${pagination}
 		<br/><br/>
 	</div>
+	<script src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
 </body>
 
 </html>
