@@ -99,7 +99,7 @@ public class MemberServiceImpl implements MemberService {
 		member.setCredentialsNonExpired(true);
 		member.setEnabled(true);
 		result += memberDao.registerMember(member);
-		sendMail.sendApproval(member);
+//		sendMail.sendApproval(member);
 		
 		if(result > 0) {
 			UsingLog usingLog = new UsingLog();
@@ -442,5 +442,29 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateLoginTime(String member_id){
 		memberDao.updateLoginTime(member_id, clientInfo.getTime());
+	}
+
+	/**
+	 * 3개월 이상 접속하지 않은 계정 만료
+	 * @param member_id 만료할 계정 ID
+	 */
+	@Override
+	public void accountExpired(String member_id){
+		memberDao.accountExpired(member_id);
+	}
+
+	/**
+	 * 관리자 권한으로 계정 활성화
+	 * @param member_id 활성화 할 member_id
+	 */
+	@Override
+	public void updateAccountActivation(String member_id){
+		int result = memberDao.updateAccountActivation(member_id);
+
+		if(result > 0) {
+			UsingLog usingLog = new UsingLog();
+			usingLog.setContent(member_id + " : 계정 활성화");
+			usingLogUtil.setUsingLog(usingLog);
+		}
 	}
 }

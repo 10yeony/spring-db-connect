@@ -4,6 +4,10 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -32,10 +36,21 @@ public class LoginFailHandler implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-    	ResponseData responseData = new ResponseData(); //에러 응답 담을 변수 생성
-    	responseData.setCode(ResponseDataCode.ERROR); //코드 에러
-    	responseData.setStatus(ResponseDataStatus.ERROR); //상태 에러
-    	responseData.setMessage("아이디 혹은 비밀번호가 일치하지 않습니다."); //에러 메세지
-    	responseData.responseJSON(response, responseData);
+		// 아이디 or 비밀번호가 틀렸을 경우
+		if(exception instanceof BadCredentialsException || exception instanceof InternalAuthenticationServiceException){
+			ResponseData responseData = new ResponseData(); //에러 응답 담을 변수 생성
+			responseData.setCode(ResponseDataCode.ERROR); //코드 에러
+			responseData.setStatus(ResponseDataStatus.ERROR); //상태 에러
+			responseData.setMessage("아이디 혹은 비밀번호가 일치하지 않습니다."); //에러 메세지
+			responseData.responseJSON(response, responseData);
+		}
+		// 계정이 만료된 경우
+		else if(exception instanceof AccountExpiredException){
+			ResponseData responseData = new ResponseData(); //에러 응답 담을 변수 생성
+			responseData.setCode(ResponseDataCode.ERROR); //코드 에러
+			responseData.setStatus(ResponseDataStatus.ERROR); //상태 에러
+			responseData.setMessage("계정이 만료되었습니다."); //에러 메세지
+			responseData.responseJSON(response, responseData);
+		}
 	}
 }

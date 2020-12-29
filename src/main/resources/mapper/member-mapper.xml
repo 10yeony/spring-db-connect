@@ -374,4 +374,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			member_id = #{member_id};
 	</update>
 
+	<!-- 3개월 이상 접속하지 않은 계정 만료 -->
+	<update id="accountExpired" parameterType="string">
+		UPDATE
+			audio.member
+		SET
+			isaccountnonexpired = false
+		WHERE
+			member_id = #{member_id};
+	</update>
+
+	<!-- 관리자 권한으로 계정 활성화 -->
+	<update id="updateAccountActivation" parameterType="string">
+		UPDATE
+			audio.member
+		SET
+			isaccountnonexpired = true
+		WHERE
+			member_id = #{member_id};
+	</update>
+
 </mapper>

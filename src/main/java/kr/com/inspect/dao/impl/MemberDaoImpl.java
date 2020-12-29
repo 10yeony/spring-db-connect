@@ -333,4 +333,22 @@ public class MemberDaoImpl implements MemberDao{
 		map.put("date", date);
 		sqlSession.update(memberNs+"updateLoginTime", map);
 	}
+
+	/**
+	 * 3개월 이상 접속하지 않은 계정 만료
+	 * @param member_id 만료할 계정 ID
+	 */
+	@Override
+	public void accountExpired(String member_id){
+		sqlSession.update(memberNs+"accountExpired", member_id);
+	}
+
+	/**
+	 * 관리자 권한으로 계정 활성화
+	 * @param member_id 활성화 할 member_id
+	 */
+	@Override
+	public int updateAccountActivation(String member_id){
+		return sqlSession.update(memberNs+"updateAccountActivation", member_id);
+	}
 }

@@ -49,3 +49,16 @@ function approval(member_id){
 		}
 	})
 }
+
+function accountActivation(member_id){
+	$.ajax({
+		url: contextPath + "/accountActivation",
+		data : "member_id=" + member_id,
+		type: "POST",
+
+		success : function (){
+			alert("계정 활성화 완료");
+			location.reload();
+		}
+	})
+}
