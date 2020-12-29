@@ -76,8 +76,11 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private SendMail sendMail;
 	
-	@Value("${input.profileImg.directory}")
-	private String profileImgPath;
+	/**
+	 * 이미지를 업로드할 경로
+	 */
+	@Value("${input.uploadImg.directory}")
+	private String uploadImgPath;
 	
 	/**
 	 * 
@@ -109,7 +112,7 @@ public class MemberServiceImpl implements MemberService {
 		member.setEnabled(true);
 		
 		if(uploadImgFile.length > 0) {
-			File fileDir = new File(profileImgPath + member.getMember_id() + File.separator); 
+			File fileDir = new File(uploadImgPath + member.getMember_id() + File.separator); 
 			if(!fileDir.exists()){
 				fileDir.mkdir();
 			}
