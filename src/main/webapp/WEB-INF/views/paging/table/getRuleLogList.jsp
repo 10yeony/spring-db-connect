@@ -11,12 +11,8 @@
 </head>
 
 <body>
-<<<<<<< HEAD
 <input type="hidden" id="title" value="룰 기록 조회">
 	<table id="downTable" class="table table-bordered paging-table" width="100%" cellspacing="0">
-=======
-	<table id="getTableForExcel" class="table table-bordered paging-table" width="100%" cellspacing="0">
->>>>>>> yeony
 		<thead>
 			<tr>
 				<th>no.</th>

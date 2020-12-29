@@ -10,13 +10,8 @@
 </head>
 
 <body>
-<<<<<<< HEAD
 <input type="hidden" id="title" value="json파일리스트">
-
 	<table id="downTable" class="table table-bordered paging-table" width="100%" cellspacing="0">
-=======
-	<table id="getTableForExcel" class="table table-bordered paging-table" width="100%" cellspacing="0">
->>>>>>> yeony
 		<thead>
 			<tr>
 				<th>Id</th>
