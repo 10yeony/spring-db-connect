@@ -93,10 +93,16 @@ public interface MemberDao {
 	public List<String> readAuthorities(String memeber_id);
 
 	/**
-	 * 회원 정보 모두 가지고 옴
+	 * 회원 정보를 페이징 처리하여 가져옴
 	 * @return 모든 회원 정보값을 리스트로 담아 리턴
 	 */
 	public List<Member> getMemberList();
+
+	/**
+	 * 회원 정보를 모두 가져옴
+	 * @return 회원 목록
+	 */
+	public List<Member> getAllMemberList();
 	
 	/**
 	 * 검색어, 권한명, 승인 여부로 회원 정보를 모두 가지고 옴

@@ -119,10 +119,10 @@ public class Schedule {
 	 * 매일 오전 9시에 회원을 검사
 	 * @throws Exception 예외처리
 	 */
-	@Scheduled(cron = "0 0 9 * * *")
-//	@Scheduled(fixedDelay = 60000)
+//	@Scheduled(cron = "0 0 9 * * *")
+	@Scheduled(fixedDelay = 60000)
 	public void checkUserLoginTime() throws Exception {
-		List<Member> memberList = memberService.getMemberList();
+		List<Member> memberList = memberService.getAllMemberList();
 		String time, deleteTime, accountNonExpiredTime;
 
 		TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
