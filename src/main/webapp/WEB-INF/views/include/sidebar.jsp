@@ -57,7 +57,7 @@
 	   <li class="nav-item">
 	       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ruleManage" aria-expanded="true" aria-controls="ruleManage">
 	           <i class="fas fa-clipboard-list"></i>
-	           <span>룰 관리</span>
+	           <span>&nbsp;&nbsp;룰 관리</span>
 	       </a>
 	       <div id="ruleManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	           <div class="bg-white py-2 collapse-inner rounded">
