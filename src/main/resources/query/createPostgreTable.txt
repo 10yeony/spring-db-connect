@@ -80,7 +80,8 @@ CREATE TABLE audio.member (
 	isCredentialsNonExpired boolean,
 	isEnabled boolean,
 	join_date text,
-	login_time text
+	login_time text,
+	organization text
 );
 
 CREATE TABLE audio.authority (

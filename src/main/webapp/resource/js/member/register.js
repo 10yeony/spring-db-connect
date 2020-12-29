@@ -270,6 +270,7 @@ $(function() {
 		let pwdCheck = $('#register_pwd_check').val();
 		let email = $('#register_email').val();
 		let phone = $('#register_phone').val();
+		let organization = $('#register_organization').val();
 		
 		/* 공백 검사 */
 		if(name == ''){
@@ -291,6 +292,10 @@ $(function() {
 		}
 		else if(email == ''){
 			alert("이메일을 입력하세요.");
+			return false;
+		}
+		else if(organization == ''){
+			alert("조직명을 입력하세요.");
 			return false;
 		}
 		

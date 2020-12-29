@@ -93,6 +93,11 @@ public class Member implements UserDetails {
 	 * 승인 정보
 	 */
 	private String approval;
+
+	/**
+	 * 조직 정보
+	 */
+	private String organization;
 	
 	
 	
@@ -106,7 +111,7 @@ public class Member implements UserDetails {
 	public Member() {}
 	public Member(int row_num, String member_id, String pwd, String name, boolean isAccountNonExpired,
 			boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled, String join_date,
-			String login_time, String phone, String email, String approval,
+			String login_time, String phone, String email, String organization, String approval,
 			Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.row_num = row_num;
@@ -121,6 +126,7 @@ public class Member implements UserDetails {
 		this.login_time = login_time;
 		this.phone = phone;
 		this.email = email;
+		this.organization = organization;
 		this.approval = approval;
 		this.authorities = authorities;
 	}
@@ -268,16 +274,20 @@ public class Member implements UserDetails {
 		return login_time; 
 	}
 
-	public void setLogin_time(String login_time){ 
+	public void setLogin_time(String login_time){
 		this.login_time = login_time; 
 	}
+
+	public String getOrganization() { return organization; }
+
+	public void setOrganization(String organization) { this.organization = organization; }
 	
 	@Override
 	public String toString() {
 		return "Member [row_num=" + row_num + ", member_id=" + member_id + ", pwd=" + pwd + ", name=" + name
 				+ ", isAccountNonExpired=" + isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked
 				+ ", isCredentialsNonExpired=" + isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", join_date="
-				+ join_date + ", login_time=" + login_time + ", phone=" + phone + ", email=" + email + ", approval="
-				+ approval + ", authorities=" + authorities + "]";
+				+ join_date + ", login_time=" + login_time + ", phone=" + phone + ", email=" + email + ", organization="
+				+ organization + ", approval=" + approval + ", authorities=" + authorities + "]";
 	}
 }

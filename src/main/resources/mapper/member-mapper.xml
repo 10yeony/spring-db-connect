@@ -213,7 +213,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			login_time,
 			phone, 
 			email,
-			approval)
+			approval,
+			organization)
 		VALUES
 			(#{member_id}, 
 			#{pwd},
@@ -226,7 +227,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
 			#{phone}, 
 			#{email},
-			#{approval});
+			#{approval},
+			#{organization});
 	</insert>
 	
 	<!-- 회원정보 수정 -->
