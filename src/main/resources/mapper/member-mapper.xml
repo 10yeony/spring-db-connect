@@ -243,7 +243,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			isCredentialsNonExpired = #{isCredentialsNonExpired}, 
 			isEnabled = #{isEnabled},
 			phone = #{phone}, 
-			email = #{email}
+			email = #{email},
+			organization = #{organization}
 		WHERE
 			member_id = #{member_id};
 	</update>

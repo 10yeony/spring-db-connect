@@ -129,7 +129,15 @@
 							</span>
 						</div>
 						<input style="display:inline-block; width:35%; float:right; margin-top:4px;" 
-							type="button" class="form-control" id="edit_phoneCheck" value="중복체크"><br/><br/>
+							type="button" class="form-control" id="edit_phoneCheck" value="중복체크"><br/>
+					</div>
+
+					<div class="form-group">
+						<span>
+							<b style="font-size:14px">조직 </b>
+						</span><br/>
+						<input type="text" class="form-control" name="organization"
+							   id="edit_organization" value="${member.organization}"><br/><br/>
 					</div>
 				</form>
 			</div>

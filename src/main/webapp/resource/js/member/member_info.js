@@ -238,6 +238,7 @@ $(function() {
 		let pwd = $('#edit_pwd').val();
 		let email = $('#edit_email').val();
 		let phone = $('#edit_phone').val();
+		let organization = $('#edit_organization').val();
 		
 		/* 공백 검사 */
 		if(name == ''){
@@ -250,6 +251,10 @@ $(function() {
 		}
 		else if(email == ''){
 			alert("이메일을 입력하세요.");
+			return false;
+		}
+		else if(organization == ''){
+			alert("조직을 입력하세요.");
 			return false;
 		}
 		
