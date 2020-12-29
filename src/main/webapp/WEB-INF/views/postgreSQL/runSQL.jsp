@@ -27,12 +27,36 @@
     <link
             href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
             rel="stylesheet">
+    <script
+            src="${pageContext.request.contextPath}/resource/codemirror/codemirror.js"></script>
+    <link
+            rel="stylesheet" href="${pageContext.request.contextPath}/resource/codemirror/codemirror.css">
+    <link
+            rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
+    <script
+            src="${pageContext.request.contextPath}/resource/codemirror/clike.js"></script>
 
     <!-- w3 css -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
     <!-- 로딩 이미지 -->
     <style>
+        #code_area{
+            background: #322931;
+            padding: 10px;
+        }
+
+        .CodeMirror{
+            font-size: 1.5em;
+            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        }
+
+        .codeWhite{ color: white; }
+        .codeRed{ color: #dd464c; }
+        .codeOrange{ color: #fd8b19; }
+        .codeYellowGreen{ color: #8fc13e }
+        .codeRemoveMargin{ margin-left:-3px; margin-right:-3px; }
+
         .loading {
             position: absolute;
             top: 50%;
@@ -76,7 +100,14 @@
                 </div>
 
                 <!-- Page Body -->
-                <div>
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <textarea id="query" name="query" cols="170" rows="20"
+                                  style="height: 300px;">${rule.imp_contents}</textarea><br>
+                        <button type="button" onclick="runSQL()" class="btn btn-primary btn-icon-split">
+                            <span class="text">SQL 실행</span>
+                        </button>
+                    </div>
                 </div>
 
             </div>
@@ -122,6 +153,8 @@
         src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
 <script
         src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
+<script
+        src="${pageContext.request.contextPath}/resource/js/sql/runSQL.js"></script>
 </body>
 
 </html>
