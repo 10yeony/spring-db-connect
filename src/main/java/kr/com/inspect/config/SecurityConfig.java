@@ -92,13 +92,15 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		/* 처음으로 요청 속성을 읽는 필터 앞에 CharacterEncodingFilter를 추가
+		/* CsrfFilter 앞에 CharacterEncodingFilter 추가
 		   (이거 없으면 form 값 받을 때 한글 깨짐) */
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
 		filter.setEncoding("UTF-8");
 		filter.setForceEncoding(true);
-		http.addFilterBefore(filter,CsrfFilter.class);
+		http.addFilterBefore(filter, CsrfFilter.class);
 		
+		/* CsrfFilter 뒤에 RequestContextFilter 추가
+		   (이거 있어야 파라미터 없이 HttpServletRequest 받아올 수 있음) */
 		http.addFilterAfter(new RequestContextFilter(), CsrfFilter.class);
 		
 		/* 권한별 접근 페이지 설정 */
