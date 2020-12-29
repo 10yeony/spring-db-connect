@@ -151,8 +151,9 @@ function clickBackBtn(){
 	window.history.back();
 }
 
-function fnExcelReport(id, title) {
+function fnExcelReport(id) {
 	let today = new Date();
+	var title = $('#title').val();
 
 	let year = today.getFullYear(); // 년도
 	let month = today.getMonth() + 1;  // 월
@@ -165,7 +166,7 @@ function fnExcelReport(id, title) {
 	var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
 	tab_text = tab_text + '<head><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8">';
 	tab_text = tab_text + '<xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>'
-	tab_text = tab_text + '<x:Name>Test Sheet</x:Name>';
+	tab_text = tab_text + '<x:Name>'+title+ '</x:Name>';
 	tab_text = tab_text + '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
 	tab_text = tab_text + '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
 	tab_text = tab_text + "<table border='1px'>";

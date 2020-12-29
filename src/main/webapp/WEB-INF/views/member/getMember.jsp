@@ -98,7 +98,7 @@
 	                            		<td>${thisMember.join_date}</td>
 	                            	</tr>
 									<tr>
-										<th>마지막 로그인 날짜</th>
+										<th>마지막 접속일</th>
 										<td>${thisMember.login_time}</td>
 									</tr>
 									<tr>
@@ -117,10 +117,10 @@
 									<tr>
 										<th>계정만료 여부</th>
 										<td>
-											<c:if test="${nonExpired == 'true'}">
+											<c:if test="${thisMember.accountNonExpired == 'true'}">
 												만료되지 않음
 											</c:if>
-											<c:if test="${nonExpired == 'false'}">
+											<c:if test="${thisMember.accountNonExpired == 'false'}">
 												<button type="button" onclick="accountActivation('${thisMember.member_id}')" class="btn btn-primary btn-icon-split">
 													<span class="text">계정 활성화</span>
 												</button>

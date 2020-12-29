@@ -213,11 +213,6 @@ public class MemberController {
 		Member member = memberService.readMemberById(member_id);
 		model.addAttribute("thisMember", member);
 		model.addAttribute("flag", true);
-		// 계정 만료 여부 함께 보냄 (thisMember.isAccountNonExpired 를 읽을 수 없음)
-		if(member.isAccountNonExpired() == false)
-			model.addAttribute("nonExpired", false);
-		else
-			model.addAttribute("nonExpired", true);
 		return "member/getMember";
 	}
 

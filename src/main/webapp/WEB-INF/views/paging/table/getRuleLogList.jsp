@@ -11,7 +11,8 @@
 </head>
 
 <body>
-	<table class="table table-bordered paging-table" width="100%" cellspacing="0">
+<input type="hidden" id="title" value="룰 기록 조회">
+	<table id="downTable" class="table table-bordered paging-table" width="100%" cellspacing="0">
 		<thead>
 			<tr>
 				<th>no.</th>
