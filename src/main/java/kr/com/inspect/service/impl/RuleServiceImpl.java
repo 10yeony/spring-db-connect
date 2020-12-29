@@ -132,7 +132,7 @@ public class RuleServiceImpl implements RuleService {
 	
 	/**
 	 * 룰 로그 테이블을 페이징 처리하여 가져옴
-	 * @param data RuleLog 테이블의 외래키인 using_log_no
+	 * @param using_log_no RuleLog 테이블의 외래키인 using_log_no
 	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
@@ -225,7 +225,7 @@ public class RuleServiceImpl implements RuleService {
 	/**
 	 * 대분류/중분류/소분류 아이디로 해당되는 항목을 삭제함
 	 * @param level 해당되는 분류(대분류/중분류/소분류)
-	 * @param id    대분류/중분류/소분류 아이디
+	 * @param rule    대분류/중분류/소분류 아이디
 	 * @return DB에서 삭제한 row의 수
 	 */
 	@Override
@@ -470,7 +470,7 @@ public class RuleServiceImpl implements RuleService {
 	/**
 	 * 사용자가 import하고자 하는 커스텀 라이브러리 파일을 업로드함 
 	 * @param customFile 사용자가 업로드한 커스텀 라이브러리 파일
-	 * @param customLibrary 커스텀 라이브러리 객체
+	 * @param class_package 커스텀 라이브러리 객체
 	 * @throws Exception 예외
 	 */
 	public void uploadCustomLibrary(List<MultipartFile> customFile, String class_package) throws Exception {

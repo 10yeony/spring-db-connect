@@ -83,6 +83,7 @@
 	               <h6 class="collapse-header">시스템 관리</h6>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getMemberListByAdmin?data=ALL&current_page_no=1&count_per_page=10&count_per_list=10&search_word=&approval=">사용자 관리</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getUsingLogList?data=&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">사용 기록 조회</a>
+	               <a class="collapse-item" href="${pageContext.request.contextPath}/sqlExecute">SQL 실행</a>
 	           </div>
 	       </div>
 	   </li>

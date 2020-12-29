@@ -167,4 +167,9 @@ public class PostgreController {
 		model.addAttribute("utterance",postgreService.getUtteranceUsingId(eojeolLists.get(0).getUtterance_id()));
 		return "postgreSQL/getEojeolList";
 	}
+
+	@GetMapping("/sqlExecute")
+	public String sqlExecutePage(){
+		return "postgreSQL/sqlExecute";
+	}
 }
