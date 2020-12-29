@@ -76,11 +76,11 @@
 	   <li class="nav-item">
 	       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#memberManage" aria-expanded="true" aria-controls="memberManage">
 	           <i class="fas fa-user-friends"></i>
-	           <span>사용자 관리</span>
+	           <span>시스템 관리</span>
 	       </a>
 	       <div id="memberManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	           <div class="bg-white py-2 collapse-inner rounded">
-	               <h6 class="collapse-header">사용자 관리</h6>
+	               <h6 class="collapse-header">시스템 관리</h6>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getMemberListByAdmin?data=ALL&current_page_no=1&count_per_page=10&count_per_list=10&search_word=&approval=">사용자 관리</a>
 	               <a class="collapse-item" href="${pageContext.request.contextPath}/getUsingLogList?data=&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">사용 기록 조회</a>
 	           </div>
