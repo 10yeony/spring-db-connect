@@ -44,6 +44,13 @@ public class Member implements UserDetails {
 	
 	
 	
+	/**
+	 * 프로필 이미지 파일명
+	 */
+	private String profile_img;
+	
+	
+	
 	/* 계정 관련 점검 */
 	
 	/**
@@ -186,6 +193,14 @@ public class Member implements UserDetails {
 		return getPwd();
 	}
 
+	public String getProfile_img() {
+		return profile_img;
+	}
+	
+	public void setProfile_img(String profile_img) {
+		this.profile_img = profile_img;
+	}
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -278,16 +293,21 @@ public class Member implements UserDetails {
 		this.login_time = login_time; 
 	}
 
-	public String getOrganization() { return organization; }
+	public String getOrganization() { 
+		return organization; 
+	}
 
-	public void setOrganization(String organization) { this.organization = organization; }
+	public void setOrganization(String organization) { 
+		this.organization = organization; 
+	}
 	
 	@Override
 	public String toString() {
 		return "Member [row_num=" + row_num + ", member_id=" + member_id + ", pwd=" + pwd + ", name=" + name
-				+ ", isAccountNonExpired=" + isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked
-				+ ", isCredentialsNonExpired=" + isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", join_date="
-				+ join_date + ", login_time=" + login_time + ", phone=" + phone + ", email=" + email + ", organization="
-				+ organization + ", approval=" + approval + ", authorities=" + authorities + "]";
+				+ ", profile_img=" + profile_img + ", isAccountNonExpired=" + isAccountNonExpired
+				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
+				+ ", isEnabled=" + isEnabled + ", join_date=" + join_date + ", login_time=" + login_time + ", phone="
+				+ phone + ", email=" + email + ", approval=" + approval + ", organization=" + organization
+				+ ", authorities=" + authorities + "]";
 	}
 }

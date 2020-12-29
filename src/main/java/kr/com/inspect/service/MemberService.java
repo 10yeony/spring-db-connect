@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dto.Member;
 import kr.com.inspect.dto.ResponseData;
@@ -25,10 +26,11 @@ public interface MemberService extends UserDetailsService {
 	
 	/**
 	 * 회원가입
+	 * @param uploadImgFile 업로드한 이미지 파일
 	 * @param member 회원 정보
 	 * @return 회원정보값을 리턴
 	 */
-	public int registerMember(Member member); 
+	public int registerMember(MultipartFile[] uploadImgFile, Member member); 
 	
 	/**
 	 * 아이디로 회원정보를 가져옴

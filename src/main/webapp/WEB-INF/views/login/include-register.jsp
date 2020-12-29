@@ -26,6 +26,10 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
+	
+<link
+	href="${pageContext.request.contextPath}/resource/css/upload-img.css"
+	rel="stylesheet" type="text/css">
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 <script 
@@ -40,6 +44,18 @@
 		<h1 class="h5 text-gray-900 mb-4">사용자 등록</h1>
 	</div>
 	<form method="post" id="registerFrm" name="register">
+		<div class="form-group uploadTotal">
+			<div class="uploadArea">
+				<input type="file" id="uploadImgFile" class="uploadImgFile" name="uploadImgFile" 
+					onchange="handleImgFile('uploadImgFile', 'uploadImgPreview', 'uploadResetBtn', event)"> 
+	          <img src="${pageContext.request.contextPath}/resource/img/user.png"
+	          		id="uploadImgPreview" class="uploadImgPreview" 
+	          		onclick='document.getElementById("uploadImgFile").click()'>
+	          <button type="button" id="uploadResetBtn" class="uploadResetBtn" 
+	          	onclick="resetUploadImg('uploadImgFile', 'uploadImgPreview', 'uploadResetBtn')">삭제</button>
+			</div>
+		</div>
+	
 		<div class="form-group">
 			<span>
 				<b style="font-size:14px">이름 </b> 
@@ -196,5 +212,7 @@
 				class="form-control form-control-user">
 		</div>
 	</form>
+	<script 
+		src="${pageContext.request.contextPath}/resource/js/member/upload_img.js"></script>
 </body>
 </html>

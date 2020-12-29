@@ -81,7 +81,8 @@ CREATE TABLE audio.member (
 	isEnabled boolean,
 	join_date text,
 	login_time text,
-	organization text
+	organization text,
+	profile_img text
 );
 
 CREATE TABLE audio.authority (

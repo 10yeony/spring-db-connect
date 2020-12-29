@@ -1,5 +1,7 @@
 package kr.com.inspect.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -7,6 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dao.MemberDao;
 import kr.com.inspect.dto.Member;
@@ -34,6 +39,7 @@ import kr.com.inspect.util.UsingLogUtil;
  *
  */
 @Service("memberService")
+@PropertySource(value = "classpath:properties/directory.properties")
 public class MemberServiceImpl implements MemberService {
 	/**
 	 * 회원 dao 필드 선언
@@ -70,6 +76,9 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private SendMail sendMail;
 	
+	@Value("${input.profileImg.directory}")
+	private String profileImgPath;
+	
 	/**
 	 * 
 	 * @return 사용할 PasswordEncoder를 리턴해줌
@@ -86,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
 	 * @return 회원 정보 가입 값 리턴
 	 */
 	@Override
-	public int registerMember(Member member) {
+	public int registerMember(MultipartFile[] uploadImgFile, Member member) {
 		int result = 0;
 		
 		/* member 추가 */
@@ -98,9 +107,26 @@ public class MemberServiceImpl implements MemberService {
 		member.setAccountNonLocked(true);
 		member.setCredentialsNonExpired(true);
 		member.setEnabled(true);
-		result += memberDao.registerMember(member);
-//		sendMail.sendApproval(member);
 		
+		if(uploadImgFile.length > 0) {
+			File fileDir = new File(profileImgPath + member.getMember_id() + File.separator); 
+			if(!fileDir.exists()){
+				fileDir.mkdir();
+			}
+			for (MultipartFile uploadImg : uploadImgFile) {
+				String filename = uploadImg.getOriginalFilename();
+				member.setProfile_img(filename);
+				File file= new File(fileDir + File.separator + filename);
+				try {
+					uploadImg.transferTo(file);
+				} catch (IllegalStateException | IOException e) {
+					//e.printStackTrace();
+				}
+			}
+		}
+		
+		result += memberDao.registerMember(member);
+		sendMail.sendApproval(member);
 		if(result > 0) {
 			UsingLog usingLog = new UsingLog();
 			usingLog.setMember_id(member.getMember_id());
