@@ -181,4 +181,16 @@ public interface MemberDao {
 	 * @param member_id 업데이트 할 계정 id
 	 */
 	public void updateLoginTime(String member_id, String date);
+
+	/**
+	 * 3개월 이상 접속하지 않은 계정 만료
+	 * @param member_id 만료할 계정 ID
+	 */
+	public void accountExpired(String member_id);
+
+	/**
+	 * 관리자 권한으로 계정 활성화
+	 * @param member_id 활성화 할 member_id
+	 */
+	public int updateAccountActivation(String member_id);
 }

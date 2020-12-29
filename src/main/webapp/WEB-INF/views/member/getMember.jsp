@@ -115,6 +115,19 @@
 										</td>
 									</tr>
 									<tr>
+										<th>계정만료 여부</th>
+										<td>
+											<c:if test="${nonExpired == 'true'}">
+												만료되지 않음
+											</c:if>
+											<c:if test="${nonExpired == 'false'}">
+												<button type="button" onclick="accountActivation('${thisMember.member_id}')" class="btn btn-primary btn-icon-split">
+													<span class="text">계정 활성화</span>
+												</button>
+											</c:if>
+										</td>
+									</tr>
+									<tr>
 	                                	<th>현재 권한</th>
 	                                	<td>
 		                                	<c:forEach items="${thisMember.authorities}" var="item" varStatus="status">
