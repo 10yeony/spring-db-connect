@@ -6,11 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import kr.com.inspect.dto.Member;
-import kr.com.inspect.dto.Rule;
-import kr.com.inspect.dto.Utterance;
+import kr.com.inspect.dto.*;
 
 import kr.com.inspect.service.RuleService;
+import kr.com.inspect.util.UsingLogUtil;
 import org.apache.lucene.util.packed.DirectMonotonicReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.report.DocxReport;
 import kr.com.inspect.report.XlsxReport;
 import kr.com.inspect.sender.SendReport;
@@ -97,6 +95,12 @@ public class ReportController {
 	private String pptxPath;
 
 	/**
+	 * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
+	 */
+	@Autowired
+	private UsingLogUtil usingLogUtil;
+
+	/**
 	 * 전사규칙에 관한 Service
 	 */
 	@Autowired
@@ -116,6 +120,8 @@ public class ReportController {
 		
 		/* 데이터 타입에 맞는 문서 제목 부여 */
 		String title = getTitleByDataType(data);
+
+		UsingLog usingLog = new UsingLog();
 		
 		switch(format) {
 			case ("hwp"): //한글 파일
@@ -123,10 +129,12 @@ public class ReportController {
 				break;
 			case ("docx"): //docx 파일
 				docxReport.writeDocxMetadata(response, docxPath, metadata, "download", title);
+				usingLog.setContent(title + ".docx 다운로드");
 				//System.out.println();
 				break;
 			case ("xlsx"): //xlsx 파일
 				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "download", title);
+				usingLog.setContent(title + ".xlsx 다운로드");
 				break;
 			case ("pptx"): //pptx 파일 
 				// pptxReport.writePptx(pptxPath, list);
@@ -134,6 +142,7 @@ public class ReportController {
 			default:
 				break;
 		}
+		usingLogUtil.setUsingLog(usingLog);
 	}
 
 	/**
@@ -149,6 +158,9 @@ public class ReportController {
 		utterances = postgreService.getUtteranceUsingMetadataId(format);
 
 		docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "download");
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent(meta.getTitle() + ".docx 다운로드");
+		usingLogUtil.setUsingLog(usingLog);
 	}
 
 	/**
@@ -166,6 +178,10 @@ public class ReportController {
 		utterances = postgreService.getUtteranceUsingMetadataId(format);
 
 		xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "download");
+
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent(meta.getTitle() + ".xls 다운로드");
+		usingLogUtil.setUsingLog(usingLog);
 	}
 
 	/**
@@ -189,17 +205,24 @@ public class ReportController {
 		String email = member.getEmail();
 		// 파일에 출력할 metadata table
 		metadata = postgreService.getMetadataAndProgram(data);
+
+		UsingLog usingLog = new UsingLog();
+
 		switch(format) {
 			case ("docx"): //docx 파일 , mail이라는 표시와 email정보를 함께 보냄
 				docxReport.writeDocxMetadata(response, docxPath, metadata, "mail"+email, title);
+				usingLog.setContent(title + ".docx 메일전송");
 				break;
 			case ("xlsx"): //xlsx 파일, mail이라는 표시와 email정보를 함께 보냄
 				//System.out.println("xlsx파일 mail");
 				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "mail"+email, title);
+				usingLog.setContent(title + ".xlsx 메일전송");
 				break;
 			default:
 				break;
 		}
+
+		usingLogUtil.setUsingLog(usingLog);
 	}
 
 	/**
@@ -224,18 +247,24 @@ public class ReportController {
 		// 파일에 출력할 utterance table
 		utterances = postgreService.getUtteranceUsingMetadataId(format);
 
+		UsingLog usingLog = new UsingLog();
+
 		switch(request.getParameter("file")) {
 			case ("docx"): //docx 파일
 				//System.out.println("docx");
 				docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "mail"+email);
+				usingLog.setContent(meta.getTitle() + ".docx 메일전송");
 				break;
 			case ("xlsx"): //xlsx 파일
 				//System.out.println("xlsxl");
 				xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "mail"+email);
+				usingLog.setContent(meta.getTitle() + ".xlsx 메일전송");
 				break;
 			default:
 				break;
 		}
+
+		usingLogUtil.setUsingLog(usingLog);
 	}
 
 	/**
@@ -343,5 +372,21 @@ public class ReportController {
 	public void resultRuleWord(HttpServletResponse response, Integer bottom_level_id) throws Exception {
 		Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);
 		docxReport.resultRuleDocx(response, rule, docxPath);
+
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent(rule.getBottom_level_name() + ".docx 다운로드");
+		usingLogUtil.setUsingLog(usingLog);
+	}
+
+	/**
+	 * 관리자 권한으로 가입 승인
+	 * @param title 엑셀 다운로드한 제목
+	 */
+	@ResponseBody
+	@PostMapping("/downloadExcel")
+	public void approval(String title){
+		UsingLog usingLog = new UsingLog();
+		usingLog.setContent(title + ".xls 다운로드");
+		usingLogUtil.setUsingLog(usingLog);
 	}
 }

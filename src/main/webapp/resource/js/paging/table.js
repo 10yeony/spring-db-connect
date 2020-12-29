@@ -199,4 +199,10 @@ function fnExcelReport(id) {
 		elem.click();
 		document.body.removeChild(elem);
 	}
+
+	$.ajax({
+		url: contextPath + "/downloadExcel",
+		data : "title=" + title,
+		type: "POST"
+	})
 }
