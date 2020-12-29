@@ -46,7 +46,7 @@ public interface MemberService extends UserDetailsService {
 	public int registerCheck(String object, String value);
 
 	/**
-	 * 회원 정보를 모두 가져옴
+	 * 회원 정보를 페이징 처리하여 가져옴
 	 * @return 회원 목록
 	 */
 	public List<Member> getMemberList();
@@ -168,4 +168,10 @@ public interface MemberService extends UserDetailsService {
 	 * @param member_id 업데이트 할 계정 id
 	 */
 	public void updateLoginTime(String member_id);
+
+	/**
+	 * 회원 정보를 모두 가져옴
+	 * @return 회원 목록
+	 */
+	public List<Member> getAllMemberList();
 }

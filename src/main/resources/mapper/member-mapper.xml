@@ -54,6 +54,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		OFFSET 
 			#{offset};
 	</select>
+
+	<select id="getAllMemberList" resultType="kr.com.inspect.dto.Member">
+		SELECT
+			*
+		FROM
+			audio.member;
+	</select>
+
 	<select id="getMemberListUsingApproval" parameterType="hashMap" resultType="kr.com.inspect.dto.Member">
 		SELECT 
 			(ROW_NUMBER() OVER()) AS row_num,

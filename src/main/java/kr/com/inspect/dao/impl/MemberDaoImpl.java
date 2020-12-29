@@ -151,12 +151,21 @@ public class MemberDaoImpl implements MemberDao{
 	}
 	
 	/**
-	 * 회원 정보 모두 가지고옴 
+	 * 회원 정보를 페이징 처리하여 가져옴
 	 * @return 회원 목록
 	 */
 	@Override
 	public List<Member> getMemberList(){ 
 		return sqlSession.selectList(memberNs+"getMemberList"); 	
+	}
+
+	/**
+	 * 회원 정보를 모두 가져옴
+	 * @return 회원 목록
+	 */
+	@Override
+	public List<Member> getAllMemberList(){
+		return sqlSession.selectList(memberNs+"getAllMemberList");
 	}
 	
 	/**

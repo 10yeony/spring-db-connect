@@ -327,12 +327,22 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	/**
-	 * 회원 정보를 모두 가져옴
+	 * 회원 정보를 페이징 처리하여 가져옴
 	 * @return 회원 목록
 	 */
 	@Override
 	public List<Member> getMemberList() {
 		List<Member> list = memberDao.getMemberList();
+		return list;
+	}
+
+	/**
+	 * 회원 정보를 모두 가져옴
+	 * @return 회원 목록
+	 */
+	@Override
+	public List<Member> getAllMemberList() {
+		List<Member> list = memberDao.getAllMemberList();
 		return list;
 	}
 
