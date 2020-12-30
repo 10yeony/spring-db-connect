@@ -32,30 +32,19 @@
     <link
             rel="stylesheet" href="${pageContext.request.contextPath}/resource/codemirror/codemirror.css">
     <link
-            rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
+            rel="stylesheet" href="https://codemirror.net/theme/duotone-light.css">
     <script
-            src="${pageContext.request.contextPath}/resource/codemirror/clike.js"></script>
+            src="${pageContext.request.contextPath}/resource/codemirror/sql.js"></script>
 
     <!-- w3 css -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
     <!-- 로딩 이미지 -->
     <style>
-        #code_area{
-            background: #322931;
-            padding: 10px;
-        }
-
         .CodeMirror{
             font-size: 1.5em;
             font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
         }
-
-        .codeWhite{ color: white; }
-        .codeRed{ color: #dd464c; }
-        .codeOrange{ color: #fd8b19; }
-        .codeYellowGreen{ color: #8fc13e }
-        .codeRemoveMargin{ margin-left:-3px; margin-right:-3px; }
 
         .loading {
             position: absolute;
@@ -112,6 +101,7 @@
                             <b>실행결과</b>
                             <textarea class="form-control" rows="5" style="resize: none;"
                                       readonly></textarea>
+                            <div id="select_table" class="card-body"></div>
                         </div>
                     </div>
                 </div>
