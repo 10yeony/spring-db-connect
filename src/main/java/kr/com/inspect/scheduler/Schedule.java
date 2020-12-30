@@ -119,8 +119,7 @@ public class Schedule {
 	 * 매일 오전 9시에 회원을 검사
 	 * @throws Exception 예외처리
 	 */
-//	@Scheduled(cron = "0 0 9 * * *")
-	@Scheduled(fixedDelay = 60000)
+	@Scheduled(cron = "0 0 9 * * *")
 	public void checkUserLoginTime() throws Exception {
 		List<Member> memberList = memberService.getAllMemberList();
 		String time, deleteTime, accountExpiredTime;
@@ -142,7 +141,7 @@ public class Schedule {
 
 			// 만약 6개월 더한 날짜가 현재 날짜보다 더 예전이라면 계정 삭제
 			if(CompareDate(deleteTime, currentTime)){
-//				memberService.deleteMemberByScheduler(member.getMember_id());
+				memberService.deleteMemberByScheduler(member.getMember_id());
 			}
 			// 3개월 지난 날짜가 현재 날짜보다 더 예전이라면 계정 만료
 			else if(CompareDate(accountExpiredTime, currentTime)){

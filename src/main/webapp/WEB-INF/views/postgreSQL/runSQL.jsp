@@ -106,7 +106,13 @@
                                   style="height: 300px;">${rule.imp_contents}</textarea><br>
                         <button type="button" onclick="runSQL()" class="btn btn-primary btn-icon-split">
                             <span class="text">SQL 실행</span>
-                        </button>
+                        </button><br><br>
+
+                        <div id="show_result_after_update">
+                            <b>실행결과</b>
+                            <textarea class="form-control" rows="5" style="resize: none;"
+                                      readonly></textarea>
+                        </div>
                     </div>
                 </div>
 
