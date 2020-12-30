@@ -4,7 +4,11 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
-
+<head>
+	<link
+		href="${pageContext.request.contextPath}/resource/css/upload-img.css"
+		rel="stylesheet" type="text/css">
+</head>
 <body>
 <!-- contextPath -->
 <input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
@@ -35,17 +39,22 @@
 			<span style="font-size:19px;"><b>${member.name}</b>(${member.member_id}) </span>
 			<span style="font-size:15px;">님, 환영합니다</span> 
 		</span>
-		<img 
-			src=
-				<c:choose>
-					<c:when test="${member.profile_img != null}">
-						"${pageContext.request.contextPath}/user/${member.member_id}/profileImg/${member.profile_img}"
-					</c:when>
-					<c:otherwise>
-						"${pageContext.request.contextPath}/resource/img/user.png"
-					</c:otherwise>
-				</c:choose> 
-			width="40px">
+		<div>
+			<span class="uploadArea" style="width: 40px; height: 40px; padding-bottom: 40px;">
+				<img 
+					class="uploadImgPreview"
+					src=
+						<c:choose>
+							<c:when test="${member.profile_img != null}">
+								"${pageContext.request.contextPath}/user/${member.member_id}/profileImg/${member.profile_img}"
+							</c:when>
+							<c:otherwise>
+								"${pageContext.request.contextPath}/resource/img/user.png"
+							</c:otherwise>
+						</c:choose> 
+				>
+			</span>
+		</div>
 	</a> <!-- Dropdown - User Information -->
 		<div
 			class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

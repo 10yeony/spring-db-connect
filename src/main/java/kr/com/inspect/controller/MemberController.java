@@ -118,8 +118,10 @@ public class MemberController {
 	 */
 	@ResponseBody
 	@PostMapping("/updateMember")
-	public String UpdateMember(HttpSession session, Member member) {
-		int result = memberService.updateMember(session, member);
+	public String UpdateMember(HttpSession session, 
+						MultipartFile[] uploadImgFile, 
+						Member member, boolean changeToDefaultImg) {
+		int result = memberService.updateMember(uploadImgFile, member, changeToDefaultImg);
 		if(result==1) {
 			Member vo = memberService.readMemberById(member.getMember_id());
 			session.setAttribute("member", vo); //회원정보를 수정했으므로 세션 재설정

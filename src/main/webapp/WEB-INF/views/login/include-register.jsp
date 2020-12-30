@@ -48,11 +48,11 @@
 			<div class="uploadArea">
 				<input type="file" id="uploadImgFile" class="uploadImgFile" name="uploadImgFile" 
 					onchange="handleImgFile('uploadImgFile', 'uploadImgPreview', 'uploadResetBtn', event)"> 
-	          <img src="${pageContext.request.contextPath}/resource/img/user.png"
+				<img src="${pageContext.request.contextPath}/resource/img/user.png"
 	          		id="uploadImgPreview" class="uploadImgPreview" 
 	          		onclick='document.getElementById("uploadImgFile").click()'>
-	          <button type="button" id="uploadResetBtn" class="uploadResetBtn" style="display: none;"
-	          	onclick="resetUploadImg('uploadImgFile', 'uploadImgPreview', 'uploadResetBtn')">삭제</button>
+	          	<button type="button" id="uploadResetBtn" class="uploadResetBtn" style="display: none;"
+	          		onclick="resetUploadImg('uploadImgFile', 'uploadImgPreview', 'uploadResetBtn')">삭제</button>
 			</div>
 		</div>
 	

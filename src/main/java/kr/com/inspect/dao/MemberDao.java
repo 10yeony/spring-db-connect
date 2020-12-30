@@ -23,9 +23,16 @@ public interface MemberDao {
 	/**
 	 * 회원 정보 수정
 	 * @param member 회원정보
-	 * @return 회원정보 리턴
+	 * @return 수정된 row의 수
 	 */
 	public int updateMember(Member member);
+	
+	/**
+	 * 파일 업로드를 포함한 회원 정보 수정
+	 * @param member 회원정보
+	 * @return 수정된 row의 수
+	 */
+	public int updateMemberWithFileUpload(Member member);
 	
 	/**
 	 * 비밀번호 변경

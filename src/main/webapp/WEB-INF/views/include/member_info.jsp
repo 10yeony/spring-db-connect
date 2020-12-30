@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
+<c:set var="defaultProfileImgPath" value="${pageContext.request.contextPath}/resource/img/user.png" />
 <head>
 	<link
 		href="${pageContext.request.contextPath}/resource/css/upload-img.css"
@@ -13,6 +14,7 @@
 		src="${pageContext.request.contextPath}/resource/js/member/member_info.js"></script>
 </head>
 <body>
+<input type="hidden" id="defaultProfileImgPath" value="${defaultProfileImgPath}">
 <input type="hidden" class="session_email" value="${member.email}">
 <input type="hidden" class="session_phone" value="${member.phone}">
 <!-- Logout Modal-->
@@ -29,6 +31,7 @@
 			</div>
 			<div class="modal-body">
 				<form method="post" id="editFrm" name="edit">
+					<input type="hidden" name="changeToDefaultImg">
 					<div class="form-group uploadTotal">
 						<div class="uploadArea">
 							<input type="file" id="uploadImgFile" class="uploadImgFile" name="uploadImgFile" 
@@ -41,7 +44,7 @@
 											"${pageContext.request.contextPath}/user/${member.member_id}/profileImg/${member.profile_img}"
 										</c:when>
 										<c:otherwise>
-											"${pageContext.request.contextPath}/resource/img/user.png"
+											"${defaultProfileImgPath}"
 										</c:otherwise>
 									</c:choose>
 							>

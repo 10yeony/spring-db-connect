@@ -33,7 +33,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * member 회원가입
 	 * @param member 회원 정보
-	 * @return 회원 정보값을 세션값 함께 리턴
+	 * @return 추가된 row의 수
 	 */
 	@Override
 	public int registerMember(Member member) {
@@ -43,17 +43,26 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * 회원 정보 수정
 	 * @param member 회원정보
-	 * @return 회원정보값을 세션값과 함께 리턴
+	 * @return 수정된 row의 수
 	 */
 	public int updateMember(Member member) {
 		return sqlSession.update(memberNs+"updateMember", member);
 	}
 	
 	/**
+	 * 파일 업로드를 포함한 회원 정보 수정
+	 * @param member 회원정보
+	 * @return 수정된 row의 수
+	 */
+	public int updateMemberWithFileUpload(Member member) {
+		return sqlSession.update(memberNs+"updateMemberWithFileUpload", member);
+	}
+	
+	/**
 	 * 비밀번호 변경
 	 * @param member_id 회원 아이디
 	 * @param pwd 회원 비밀번호
-	 * @return 회원 비밀번호 값을 세션값과 함께 리턴
+	 * @return 수정된 row의 수
 	 */
 	public int updatePwd(String member_id, String pwd) {
 		Map<String, String> map = new HashMap<>();
@@ -65,7 +74,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * member 탈퇴
 	 * @param member_id 회원 아이디
-	 * @return 회원 아이디 값과 세션값을 리턴
+	 * @return 삭제된 row의 수
 	 */
 	public int deleteMember(String member_id) {
 		return sqlSession.delete(memberNs+"deleteMember", member_id);
@@ -75,7 +84,7 @@ public class MemberDaoImpl implements MemberDao{
 	 * 권한 등록 
 	 * @param member_id 회원 아이디
 	 * @param authority 권한
-	 * @return 회원 아이디와 권한 값을 map으로 담아 세션값과 함께 리턴 
+	 * @return 추가된 row의 수
 	 */
 	public int registerAuthority(String member_id, String authority) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -87,7 +96,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * 권한을 모두 삭제
 	 * @param member_id 회원 아이디
-	 * @return 회원아이디에 해당하는 권한을 0으로 설정후 세션값과 함께 리턴
+	 * @return 삭제된 row의 수
 	 */
 	public int deleteAuthorities(String member_id) {
 		int result = 0;
@@ -97,7 +106,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * 아이디로 회원정보를 읽음
 	 * @param member_id 회원 아이디
-	 * @return 회원 아이디로 읽어온 회원 정보와 세션값을 변수 member에 담아 값을 리턴
+	 * @return 회원 아이디로 읽어온 회원 정보를 리턴
 	 */
 	@Override
 	public Member readMemberById(String member_id) {
@@ -109,7 +118,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * 아이디 중복확인
 	 * @param member_id 회원아이디
-	 * @return 회원 아이디로 중복 확인 후 변수 result에 담아 값을 리턴
+	 * @return 존재하는 row의 수
 	 */
 	@Override
 	public int idCheck(String member_id) {
@@ -121,7 +130,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * 이메일 중복확인
 	 * @param email 이메일 정보
-	 * @return 이메일 정보 중복 확인 후 변수 result에 담아 값을 리턴
+	 * @return 존재하는 row의 수
 	 */
 	public int emailCheck(String email) {
 		int result = 0;
@@ -132,7 +141,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * 연락처 중복확인
 	 * @param phone 연락처 정보
-	 * @return 연락처 정보 중복확인 후 변수 result 값에 담아 리턴
+	 * @return 존재하는 row의 수
 	 */
 	public int phoneCheck(String phone) {
 		int result = 0;
@@ -143,7 +152,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * id로 가지고 있는 권한들을 가져옴
 	 * @param member_id 회원 아이디
-	 * @return 회원 아이디로 권한정보를 불러온후 세션값과 함께 리스트로 담아 리턴
+	 * @return 회원 아이디로 권한정보를 불러온 후 리스트에 담아 리턴
 	 */
 	@Override
 	public List<String> readAuthorities(String member_id) {

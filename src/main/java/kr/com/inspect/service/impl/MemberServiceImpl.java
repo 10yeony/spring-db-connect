@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -29,6 +27,7 @@ import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.sender.SendMail;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.util.ClientInfo;
+import kr.com.inspect.util.FileManager;
 import kr.com.inspect.util.RandomKey;
 import kr.com.inspect.util.UsingLogUtil;
 
@@ -98,7 +97,45 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	/**
+	 * 
+	 * @param uploadImgFile 업로드한 이미지 파일
+	 * @param member 회원 정보
+	 * @param changeToDefaultImg 프로필 이미지를 기본 이미지로 바꾸는지 여부
+	 * @return 이미지를 업로드되었을 때 파일명이 세팅된 Member 객체
+	 */
+	public Member uploadProfileImg(MultipartFile[] uploadImgFile, Member member, boolean changeToDefaultImg) {
+		FileManager fileManager = new FileManager();
+		String path = userPath + member.getMember_id() + File.separator + profileImgDir;
+		File fileDir = new File(path + File.separator); 
+		
+		if(!uploadImgFile[0].getOriginalFilename().equals("")) {
+			if(fileDir.exists()){
+				fileManager.deleteFolder(path);
+			}
+			fileDir.mkdir();
+			for (MultipartFile uploadImg : uploadImgFile) {
+				String filename = uploadImg.getOriginalFilename();
+				member.setProfile_img(filename);
+				File file= new File(path + File.separator + filename + File.separator);
+				try {
+					uploadImg.transferTo(file);
+				} catch (IllegalStateException | IOException e) {
+					//e.printStackTrace();
+				}
+			}
+		}else {
+			if(changeToDefaultImg) {
+				if(fileDir.exists()){
+					fileManager.deleteFolder(path);
+				}
+			}
+		}
+		return member;
+	}
+	
+	/**
 	 * 회원가입
+	 * @param uploadImgFile 업로드한 이미지 파일
 	 * @param member 회원 정보
 	 * @return 회원 정보 가입 값 리턴
 	 */
@@ -115,25 +152,7 @@ public class MemberServiceImpl implements MemberService {
 		member.setAccountNonLocked(true);
 		member.setCredentialsNonExpired(true);
 		member.setEnabled(true);
-		
-		String path = userPath + member.getMember_id() + File.separator + profileImgDir;
-		
-		if(!uploadImgFile[0].getOriginalFilename().equals("")) {
-			File fileDir = new File(path + File.separator); 
-			if(!fileDir.exists()){
-				fileDir.mkdir();
-			}
-			for (MultipartFile uploadImg : uploadImgFile) {
-				String filename = uploadImg.getOriginalFilename();
-				member.setProfile_img(filename);
-				File file= new File(path + File.separator + filename + File.separator);
-				try {
-					uploadImg.transferTo(file);
-				} catch (IllegalStateException | IOException e) {
-					//e.printStackTrace();
-				}
-			}
-		}
+		member = uploadProfileImg(uploadImgFile, member, false);
 		
 		result += memberDao.registerMember(member);
 		sendMail.sendApproval(member);
@@ -183,27 +202,29 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * 회원 정보 수정
-	 * @param session 해당유저의 세션
+	 * @param uploadImgFile 업로드한 이미지 파일
 	 * @param member 회원정보
+	 * @param changeToDefaultImg 프로필 이미지를 기본 이미지로 바꾸는지 여부
 	 * @return 수정된 회원정보 값 리턴
 	 */
 	@Override
-	public int updateMember(HttpSession session, Member member) {
-		Member vo = (Member) session.getAttribute("member");
-		member.setMember_id(vo.getMember_id()); //세션에서 아이디, 비밀번호를 가져옴
-		member.setPwd(vo.getPwd());
-		member.setAccountNonExpired(true); //계정 관련 기본값 true로 세팅
-		member.setAccountNonLocked(true);
-		member.setCredentialsNonExpired(true);
-		member.setEnabled(true);
-		int result = memberDao.updateMember(member);
+	public int updateMember(MultipartFile[] uploadImgFile, Member member, boolean changeToDefaultImg) {
+		member.setMember_id(clientInfo.getMemberId()); //세션에서 아이디, 비밀번호를 가져옴
+		member.setPwd(clientInfo.getPwd());
+		member = uploadProfileImg(uploadImgFile, member, changeToDefaultImg);
 		
+		int result = 0;
+		/* 프로필 업로드를 안 했는데 기존 이미지가 디폴트 이미지가 아닌 경우 */
+		if(uploadImgFile[0].getOriginalFilename().equals("") && !changeToDefaultImg) {
+			result = memberDao.updateMember(member);
+		}else {
+			result = memberDao.updateMemberWithFileUpload(member);
+		}
 		if(result > 0) {
 			UsingLog usingLog = new UsingLog();
 			usingLog.setContent("회원 정보 수정");
 			usingLogUtil.setUsingLog(usingLog);
 		}
-		
 		return result;
 	}
 	

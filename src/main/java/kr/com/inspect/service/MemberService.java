@@ -74,11 +74,12 @@ public interface MemberService extends UserDetailsService {
 	
 	/**
 	 * 회원 정보 수정
-	 * @param session 해당 유저의 세션
+	 * @param uploadImgFile 업로드한 이미지 파일
 	 * @param member 회원 정보
+	 * @param changeToDefaultImg 프로필 이미지를 기본 이미지로 바꾸는지 여부
 	 * @return member 테이블에 수정된 row의 수
 	 */
-	public int updateMember(HttpSession session, Member member);
+	public int updateMember(MultipartFile[] uploadImgFile, Member member, boolean changeToDefaultImg);
 	
 	/**
 	 * 관리자 권한으로 회원 정보(권한) 수정

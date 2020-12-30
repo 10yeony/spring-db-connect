@@ -256,13 +256,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		SET
 			pwd = #{pwd}, 
 			name = #{name},
-			isAccountNonExpired = #{isAccountNonExpired}, 
-			isAccountNonLocked = #{isAccountNonLocked}, 
-			isCredentialsNonExpired = #{isCredentialsNonExpired}, 
-			isEnabled = #{isEnabled},
 			phone = #{phone}, 
 			email = #{email},
 			organization = #{organization}
+		WHERE
+			member_id = #{member_id};
+	</update>
+	<!-- 회원정보 수정 - 파일 업로드 포함 -->
+	<update id="updateMemberWithFileUpload" parameterType="kr.com.inspect.dto.Member">
+		UPDATE
+			audio.member
+		SET
+			pwd = #{pwd}, 
+			name = #{name},
+			phone = #{phone}, 
+			email = #{email},
+			organization = #{organization},
+			profile_img = #{profile_img}
 		WHERE
 			member_id = #{member_id};
 	</update>

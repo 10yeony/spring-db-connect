@@ -33,8 +33,7 @@ $(function() {
 	
 	/* 모달 닫기 클릭시 새로고침 */
 	$('.close').click(function(){
-		$('#uploadImgPreview').attr('src', profileImgPath);
-		$('#uploadResetBtn').attr('style', uploadResetBtnDisplay);
+		location.reload();
 	});
 
 	/* 비밀번호가 일치하는지 확인 */
@@ -244,6 +243,7 @@ $(function() {
 	
 	/* 회원가입 제출 */
 	$('#editBtn').click(function(){
+		$('input[name="changeToDefaultImg"]').val(false);
 		
 		/* 제출 전 입력폼 검사 */
 		let name = $('#edit_name').val();
@@ -307,24 +307,42 @@ $(function() {
 			}
 		}
 		
-		/* ajax로 제출 */
-		$.ajax({
-			url : contextPath + "/updateMember",
-			type : "POST",
-			data : $('#editFrm').serialize(),
-			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-			async: false,
-			
-			success : function(result) {
-				if(result == 'true'){
-					alert("회원 정보가 수정되었습니다.");
-					location.reload(true);
-				}
-			},
-			
-			error : function(request, status, error) {
-				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+		var formData = new FormData($('#editFrm')[0]);
+		
+		var file = document.getElementById('uploadImgFile').files[0];
+		
+		/* 파일을 업로드하지 않은 경우(화면상에 디폴트 프로필일 경우) */
+		if(file == undefined){ 
+			/* 기존의 프로필 주소와 현재 프로필 주소가 다르며(이미지 변화가 있으며)
+				기존의 프로필 주소가 디폴트 프로필 주소가 아닌 경우 */
+			if(profileImgPath != $('#uploadImgPreview').attr('src') && profileImgPath != $('#defaultProfileImgPath').val()){
+				$('input[name="changeToDefaultImg"]').val(true);
 			}
-		});
+		}
+		submit();
 	}); //click
 }); //ready
+
+function submit(){
+	var formData = new FormData($('#editFrm')[0]);
+	
+	/* ajax로 제출 */
+	$.ajax({
+		url : contextPath + "/updateMember",
+		type : "POST",
+		data : formData,
+		processData: false,
+		contentType: false,
+			
+		success : function(result) {
+			if(result == 'true'){
+				alert("회원 정보가 수정되었습니다.");
+				location.reload(true);
+			}
+		},
+			
+		error : function(request, status, error) {
+			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+		}
+	});
+}
