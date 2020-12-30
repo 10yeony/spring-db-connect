@@ -37,7 +37,7 @@
 		</span>
 		<c:choose>
 			<c:when test="${member.profile_img != null}">
-				<img src="${pageContext.request.contextPath}/user/${member.member_id}/uploadImg/${member.profile_img}" width="40px">
+				<img src="${pageContext.request.contextPath}/user/${member.member_id}/profileImg/${member.profile_img}" width="40px">
 			</c:when>
 			<c:otherwise>
 				<img src="${pageContext.request.contextPath}/resource/img/user.png" width="40px">

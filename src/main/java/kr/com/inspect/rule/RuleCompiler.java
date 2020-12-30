@@ -61,7 +61,7 @@ public class RuleCompiler {
     /**
      * 사용자가 올린 라이브러리, 클래스 파일이 저장되는 디렉토리
      */
-    private String customDir;
+    private String customDir = "custom";
 
     /**
      * 객체를 생성할 때 각 path를 지정
@@ -79,7 +79,6 @@ public class RuleCompiler {
             this.lib = properties.getProperty("rule.lib.directory");
             this.proPath = properties.getProperty("rule.properties.directory");
             this.userPath = properties.getProperty("user.root.directory");
-            this.customDir = properties.getProperty("user.custom.directory");
         }catch (Exception e){
             e.printStackTrace();
         }

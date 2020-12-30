@@ -46,10 +46,9 @@ public class RuleServiceImpl implements RuleService {
 	private String userPath;
 	
 	/**
-	 * 
+	 * 사용자가 올린 라이브러리, 클래스 파일이 저장되는 디렉토리
 	 */
-	@Value("${user.custom.directory}")
-	private String customDir;
+	private String customDir = "custom";
 	
 	/**
 	 * 사용자 정보(아이피, 아이디, 암호화된 비밀번호)와 관련된 객체
