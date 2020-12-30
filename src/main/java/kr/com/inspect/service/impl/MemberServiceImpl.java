@@ -48,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	
 	/**
-	 * 사용자 정보와 관련된 객체
+	 * 사용자 정보(아이피, 아이디, 암호화된 비밀번호)와 관련된 객체
 	 */
 	@Autowired
 	private ClientInfo clientInfo;
@@ -77,10 +77,16 @@ public class MemberServiceImpl implements MemberService {
 	private SendMail sendMail;
 	
 	/**
-	 * 업로드한 이미지를 보관하는 경로
+	 * 사용자 개별로 특화된 경로
 	 */
-	@Value("${input.uploadImg.directory}")
-	private String uploadImgPath;
+	@Value("${user.root.directory}")
+	private String userPath;
+	
+	/**
+	 * 프로필 이미지 디렉토리
+	 */
+	@Value("${user.profileImg.directory}")
+	private String profileImgDir;
 	
 	/**
 	 * 
@@ -112,7 +118,7 @@ public class MemberServiceImpl implements MemberService {
 		member.setEnabled(true);
 		
 		if(!uploadImgFile[0].getOriginalFilename().equals("")) {
-			File fileDir = new File(uploadImgPath + member.getMember_id() + File.separator); 
+			File fileDir = new File(userPath + member.getMember_id() + profileImgDir); 
 			if(!fileDir.exists()){
 				fileDir.mkdir();
 			}

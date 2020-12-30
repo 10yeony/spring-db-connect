@@ -39,8 +39,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	/**
 	 * 업로드한 이미지를 보관하는 경로
 	 */
-	@Value("${input.uploadImg.directory}")
-	private String uploadImgPath;
+	@Value("${user.root.directory}")
+	private String userPath;
 	
 	/**
 	 * 발신 이메일
@@ -60,8 +60,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resource/**")
 				.addResourceLocations("/resource/");
-		registry.addResourceHandler("/uploadImg/**")
-				.addResourceLocations("file:"+uploadImgPath);
+		registry.addResourceHandler("/user/**")
+				.addResourceLocations("file:"+userPath);
 	}
 	  
 	/**

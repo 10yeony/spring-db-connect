@@ -21,6 +21,7 @@ import javax.tools.ToolProvider;
 
 import kr.com.inspect.dto.Rule;
 import org.apache.ibatis.io.Resources;
+import org.springframework.beans.factory.annotation.Value;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 
@@ -35,27 +36,32 @@ public class RuleCompiler {
     /**
      * java 파일을 저장할 위치
      */
-    String path;
+	private String path;
 
     /**
      * class 파일을 저장할 위치
      */
-    String classPath;
+    private String classPath;
 
     /**
      * 프로젝트에서 쓰이는 라이브러리들이 저장된 위치
      */
-    String lib;
+    private String lib;
 
     /**
      * properties 파일이 저장된 위치
      */
-    String proPath;
+    private String proPath;
+    
+    /**
+	 * 사용자 개별로 특화된 경로
+	 */
+	private String userPath;
 
     /**
-     * 사용자가 올린 라이브러리, 클래스 파일이 저장되는 위치
+     * 사용자가 올린 라이브러리, 클래스 파일이 저장되는 디렉토리
      */
-    String customPath;
+    private String customDir;
 
     /**
      * 객체를 생성할 때 각 path를 지정
@@ -72,7 +78,8 @@ public class RuleCompiler {
             this.classPath = properties.getProperty("rule.class.directory");
             this.lib = properties.getProperty("rule.lib.directory");
             this.proPath = properties.getProperty("rule.properties.directory");
-            this.customPath = properties.getProperty("input.custom.directory");
+            this.userPath = properties.getProperty("user.root.directory");
+            this.customDir = properties.getProperty("user.custom.directory");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -119,21 +126,23 @@ public class RuleCompiler {
 
         // 컴파일할때 추가할 custom/userId 에 있는 jar파일 path
         String jarFilePath = "";
-        File[] files = new File(customPath+rule.getCreator()+File.separator).listFiles();
+        File[] files = new File(userPath+rule.getCreator()+customDir).listFiles();
         if(files != null){
             for( File file : files) {
                 if( file.isFile() && file.getName().endsWith(".jar")) {
-                    jarFilePath += (File.pathSeparator+customPath+rule.getCreator()+File.separator+file.getName());
+                    jarFilePath += (File.pathSeparator+userPath+rule.getCreator()+customDir+file.getName());
                 }
             }
         }
 
         // CLASS PATH 추가
         optionList.add("-classpath");
-        optionList.add(System.getProperty("java.class.path")+File.pathSeparator+classPath+jarFilePath+File.pathSeparator+customPath+rule.getCreator()+File.separator);
+        optionList.add(System.getProperty("java.class.path")+File.pathSeparator+classPath+jarFilePath+File.pathSeparator+userPath+rule.getCreator()+customDir);
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
+        
+        System.out.println(optionList);
 
         // 만들어진 Java 파일을 컴파일
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -159,7 +168,7 @@ public class RuleCompiler {
         // 현재 프로젝트의 class파일 디렉토리 경로 추가
         urls.add(new File(classPath).toURI().toURL());
         // 사용자가 올린 class파일 path
-        urls.add(new File(customPath+rule.getCreator()+File.separator).toURI().toURL());
+        urls.add(new File(userPath+rule.getCreator()+customDir).toURI().toURL());
         // Data.class에서 DB 연결에 쓸 properties 경로 추가
         urls.add(new URL("file:"+proPath+"db.properties"));
 
@@ -173,11 +182,11 @@ public class RuleCompiler {
         }
 
         // custom / userId 디렉토리에 있는 jar파일 모두 읽음 (사용자가 올린 파일)
-        files = new File(customPath+rule.getCreator()+File.separator).listFiles();
+        files = new File(userPath+rule.getCreator()+customDir).listFiles();
         if(files != null){
             for( File file : files) {
                 if( file.isFile() && file.getName().endsWith(".jar")) {
-                    urls.add( new URL("file:" + customPath + rule.getCreator() + File.separator + file.getName()));
+                    urls.add( new URL("file:" + userPath + rule.getCreator() + customDir + file.getName()));
                 }
             }
         }
