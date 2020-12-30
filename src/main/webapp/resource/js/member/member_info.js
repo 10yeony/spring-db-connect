@@ -1,6 +1,12 @@
 var contextPath = '';
+var profileImgPath = '';
+var uploadResetBtnDisplay = '';
 
 $(function() {
+	/* 프로필 이미지 주소 및 삭제 버튼 보이기 여부 */
+	profileImgPath = $('#uploadImgPreview').attr('src');
+	uploadResetBtnDisplay = $('#uploadResetBtn').attr('style');
+
 	/* Context Path */
 	contextPath = $('#contextPath').val();
 	
@@ -23,6 +29,12 @@ $(function() {
 	/* 비밀번호 변경 클릭시 현재 모달을 사라지게 함 */
 	$('#goToMemberEdit').click(function(){
 		$('#memberInfoModal').attr('style', 'display:none');
+	});
+	
+	/* 모달 닫기 클릭시 새로고침 */
+	$('.close').click(function(){
+		$('#uploadImgPreview').attr('src', profileImgPath);
+		$('#uploadResetBtn').attr('style', uploadResetBtnDisplay);
 	});
 
 	/* 비밀번호가 일치하는지 확인 */

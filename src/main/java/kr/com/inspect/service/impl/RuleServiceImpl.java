@@ -29,6 +29,7 @@ import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
 import kr.com.inspect.util.ClientInfo;
+import kr.com.inspect.util.FileManager;
 import kr.com.inspect.util.UsingLogUtil;
 
 /**
@@ -410,22 +411,14 @@ public class RuleServiceImpl implements RuleService {
 		String classPath = ruleCompiler.getClassPath() + packagePath + fileName + ".class";
 		// System.out.println("javaPath : " + javaPath);
 		// System.out.println("classPath : " + classPath);
+		
+		FileManager fileManager = new FileManager();
+		fileManager.deleteFile(javaPath);
+		fileManager.deleteFile(classPath);
 
 		File[] fileArr = new File[2];
 		fileArr[0] = new File(javaPath);
 		fileArr[1] = new File(classPath);
-
-		for (File file : fileArr) {
-			if (file.exists()) {
-				if (file.delete()) {
-					// System.out.println("파일 삭제 성공");
-				} else {
-					// System.out.println("파일 삭제 실패");
-				}
-			} else {
-				// System.out.println("파일이 존재하지 않습니다.");
-			}
-		}
 	}
 
 	/**
@@ -494,7 +487,7 @@ public class RuleServiceImpl implements RuleService {
 			return;
 		}
 		
-		File fileDir = new File(userPath + member_id + customDir); //Original Directory
+		File fileDir = new File(userPath + member_id + File.separator + customDir + File.separator); //Original Directory
 		if(!fileDir.exists()){
 			fileDir.mkdir();
 		}
@@ -606,7 +599,7 @@ public class RuleServiceImpl implements RuleService {
 		int result = 0;
 		customLibrary = ruleDao.getCustomLibraryById(customLibrary.getId());
 		
-		File file = null;
+		String path = null;
 		String fileName = customLibrary.getFile_name();
 		
 		/* class 파일 */
@@ -616,29 +609,27 @@ public class RuleServiceImpl implements RuleService {
 			for(int i=0; i<classPackageArr.length-1; i++) {
 				classPackage += classPackageArr[i] + File.separator;
 			}
-			file = new File(userPath 
+			path = userPath 
 					+ customLibrary.getCreator() 
+					+ File.separator
 					+ customDir 
+					+ File.separator
 					+ classPackage
-					+ customLibrary.getFile_name());
+					+ customLibrary.getFile_name();
 		}
 		
 		/* jar 파일 */
 		else if(fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()).equals("jar")) {
-			file = new File(userPath 
+			path = userPath 
 					+ customLibrary.getCreator() 
+					+ File.separator
 					+ customDir
-					+ customLibrary.getFile_name());
+					+ File.separator
+					+ customLibrary.getFile_name();
 		}
-		if (file.exists()) {
-			if (file.delete()) {
-				// System.out.println("파일 삭제 성공");
-			} else {
-				// System.out.println("파일 삭제 실패");
-			}
-		} else {
-			// System.out.println("파일이 존재하지 않습니다.");
-		}
+		
+		FileManager fileManager = new FileManager();
+		fileManager.deleteFile(path);
 		
 		result = ruleDao.deleteCustomLibrary(customLibrary.getId());
 		if(result > 0) {

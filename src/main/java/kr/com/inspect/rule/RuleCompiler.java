@@ -125,18 +125,18 @@ public class RuleCompiler {
 
         // 컴파일할때 추가할 custom/userId 에 있는 jar파일 path
         String jarFilePath = "";
-        File[] files = new File(userPath+rule.getCreator()+customDir).listFiles();
+        File[] files = new File(userPath+rule.getCreator()+File.separator+customDir+File.separator).listFiles();
         if(files != null){
             for( File file : files) {
                 if( file.isFile() && file.getName().endsWith(".jar")) {
-                    jarFilePath += (File.pathSeparator+userPath+rule.getCreator()+customDir+file.getName());
+                    jarFilePath += (File.pathSeparator+userPath+rule.getCreator()+File.separator+customDir+File.separator+file.getName());
                 }
             }
         }
 
         // CLASS PATH 추가
         optionList.add("-classpath");
-        optionList.add(System.getProperty("java.class.path")+File.pathSeparator+classPath+jarFilePath+File.pathSeparator+userPath+rule.getCreator()+customDir);
+        optionList.add(System.getProperty("java.class.path")+File.pathSeparator+classPath+jarFilePath+File.pathSeparator+userPath+rule.getCreator()+File.separator+customDir+File.separator);
         // CLASS 파일 저장할 디렉토리
         optionList.add("-d");
         optionList.add(classPath);
@@ -167,7 +167,7 @@ public class RuleCompiler {
         // 현재 프로젝트의 class파일 디렉토리 경로 추가
         urls.add(new File(classPath).toURI().toURL());
         // 사용자가 올린 class파일 path
-        urls.add(new File(userPath+rule.getCreator()+customDir).toURI().toURL());
+        urls.add(new File(userPath+rule.getCreator()+File.separator+customDir+File.separator).toURI().toURL());
         // Data.class에서 DB 연결에 쓸 properties 경로 추가
         urls.add(new URL("file:"+proPath+"db.properties"));
 
@@ -181,11 +181,11 @@ public class RuleCompiler {
         }
 
         // custom / userId 디렉토리에 있는 jar파일 모두 읽음 (사용자가 올린 파일)
-        files = new File(userPath+rule.getCreator()+customDir).listFiles();
+        files = new File(userPath+rule.getCreator()+File.separator+customDir+File.separator).listFiles();
         if(files != null){
             for( File file : files) {
                 if( file.isFile() && file.getName().endsWith(".jar")) {
-                    urls.add( new URL("file:" + userPath + rule.getCreator() + customDir + file.getName()));
+                    urls.add( new URL("file:" + userPath + rule.getCreator() + File.separator + customDir + File.separator + file.getName()));
                 }
             }
         }
