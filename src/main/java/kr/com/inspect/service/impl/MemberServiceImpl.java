@@ -99,7 +99,7 @@ public class MemberServiceImpl implements MemberService {
 		member.setCredentialsNonExpired(true);
 		member.setEnabled(true);
 		result += memberDao.registerMember(member);
-//		sendMail.sendApproval(member);
+		sendMail.sendApproval(member);
 		
 		if(result > 0) {
 			UsingLog usingLog = new UsingLog();
