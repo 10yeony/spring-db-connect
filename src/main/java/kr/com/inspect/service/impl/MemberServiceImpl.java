@@ -42,13 +42,7 @@ import kr.com.inspect.util.UsingLogUtil;
  */
 @Service("memberService")
 @PropertySource(value = "classpath:properties/directory.properties")
-public class MemberServiceImpl implements MemberService {
-	
-	/**
-	 * 로그 출력을 위한 logger
-	 */
-	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
-	
+public class MemberServiceImpl implements MemberService {	
 	/**
 	 * 회원 dao 필드 선언
 	 */
@@ -125,21 +119,16 @@ public class MemberServiceImpl implements MemberService {
 		member.setEnabled(true);
 		
 		String path = userPath + member.getMember_id() + File.separator + profileImgDir;
-		logger.info(clientInfo.getTime() + " 회원가입 path : " + path);
 		
 		if(!uploadImgFile[0].getOriginalFilename().equals("")) {
 			File fileDir = new File(path + File.separator); 
-			logger.info(clientInfo.getTime() + " 회원가입 fileDir : " + fileDir.toString());
 			if(!fileDir.exists()){
-				logger.info(clientInfo.getTime() + " 회원가입 fileDir 존재하지 않음 : " + fileDir);
 				fileDir.mkdir();
 			}
 			for (MultipartFile uploadImg : uploadImgFile) {
 				String filename = uploadImg.getOriginalFilename();
-				logger.info(clientInfo.getTime() + " 회원가입 filename : " + filename);
 				member.setProfile_img(filename);
 				File file= new File(path + File.separator + filename + File.separator);
-				logger.info(clientInfo.getTime() + " 회원가입 file : " + file.toString());
 				try {
 					uploadImg.transferTo(file);
 				} catch (IllegalStateException | IOException e) {
