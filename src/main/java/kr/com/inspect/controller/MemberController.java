@@ -59,9 +59,6 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/register", produces = "application/text; charset=utf8")
 	public String registerMember(MultipartFile[] uploadImgFile, Member member) {
-		System.out.println("요청 웰컴");
-		System.out.println(uploadImgFile);
-		System.out.println(member);
 		String msg = "회원가입에 실패하였습니다.";
 		int result = memberService.registerMember(uploadImgFile, member);
 		if (result == 2) { //DB에 있는 회원테이블 정보와 비교시 회원정보가 없을 경우

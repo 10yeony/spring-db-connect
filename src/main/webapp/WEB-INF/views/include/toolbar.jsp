@@ -35,7 +35,14 @@
 			<span style="font-size:19px;"><b>${member.name}</b>(${member.member_id}) </span>
 			<span style="font-size:15px;">님, 환영합니다</span> 
 		</span>
-		<i class="fas fa-user-alt text-gray-400" style="font-size:22px"></i>
+		<c:choose>
+			<c:when test="${member.profile_img != null}">
+				<img src="${pageContext.request.contextPath}/uploadImg/${member.member_id}/${member.profile_img}" width="40px">
+			</c:when>
+			<c:otherwise>
+				<img src="${pageContext.request.contextPath}/resource/img/user.png" width="40px">
+			</c:otherwise>
+		</c:choose>
 	</a> <!-- Dropdown - User Information -->
 		<div
 			class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
