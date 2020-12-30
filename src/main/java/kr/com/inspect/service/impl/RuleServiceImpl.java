@@ -39,10 +39,20 @@ import kr.com.inspect.util.UsingLogUtil;
 @Service
 @PropertySource(value = "classpath:properties/directory.properties")
 public class RuleServiceImpl implements RuleService {
-
-	@Value("${input.custom.directory}")
-	private String customPath;
+	/**
+	 * 사용자 개별로 특화된 경로
+	 */
+	@Value("${user.root.directory}")
+	private String userPath;
 	
+	/**
+	 * 사용자가 올린 라이브러리, 클래스 파일이 저장되는 디렉토리
+	 */
+	private String customDir = "custom";
+	
+	/**
+	 * 사용자 정보(아이피, 아이디, 암호화된 비밀번호)와 관련된 객체
+	 */
 	@Autowired
 	private ClientInfo clientInfo;
 	
@@ -484,7 +494,7 @@ public class RuleServiceImpl implements RuleService {
 			return;
 		}
 		
-		File fileDir = new File(customPath + member_id + File.separator); //Original Directory
+		File fileDir = new File(userPath + member_id + customDir); //Original Directory
 		if(!fileDir.exists()){
 			fileDir.mkdir();
 		}
@@ -606,18 +616,18 @@ public class RuleServiceImpl implements RuleService {
 			for(int i=0; i<classPackageArr.length-1; i++) {
 				classPackage += classPackageArr[i] + File.separator;
 			}
-			file = new File(customPath 
+			file = new File(userPath 
 					+ customLibrary.getCreator() 
-					+ File.separator 
+					+ customDir 
 					+ classPackage
 					+ customLibrary.getFile_name());
 		}
 		
 		/* jar 파일 */
 		else if(fileName.substring(fileName.lastIndexOf(".")+1, fileName.length()).equals("jar")) {
-			file = new File(customPath 
+			file = new File(userPath 
 					+ customLibrary.getCreator() 
-					+ File.separator 
+					+ customDir
 					+ customLibrary.getFile_name());
 		}
 		if (file.exists()) {

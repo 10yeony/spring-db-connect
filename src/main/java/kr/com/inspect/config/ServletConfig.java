@@ -34,8 +34,14 @@ import kr.com.inspect.service.impl.PostgreServiceImpl;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"kr.com.inspect"}, useDefaultFilters = false, includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class}))
-@PropertySource(value = "classpath:properties/sender.properties")
+@PropertySource(value = {"classpath:properties/directory.properties", "classpath:properties/sender.properties"})
 public class ServletConfig implements WebMvcConfigurer {
+	/**
+	 * 업로드한 이미지를 보관하는 경로
+	 */
+	@Value("${user.root.directory}")
+	private String userPath;
+	
 	/**
 	 * 발신 이메일
 	 */
@@ -52,7 +58,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	 * 정적 자원 관리
 	 */
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resource/**").addResourceLocations("/resource/");
+		registry.addResourceHandler("/resource/**")
+				.addResourceLocations("/resource/");
+		registry.addResourceHandler("/user/**")
+				.addResourceLocations("file:"+userPath);
 	}
 	  
 	/**

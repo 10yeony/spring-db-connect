@@ -358,7 +358,6 @@ $(function() {
 		}
 		
 		var formData = new FormData($('#registerFrm')[0]);
-		alert(formData);
 		
 		/* ajax로 제출 */
 		$.ajax({

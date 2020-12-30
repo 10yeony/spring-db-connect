@@ -5,6 +5,11 @@
 <html lang="en">
 <head>
 	<title>SDTM</title>
+	<style>
+		.normal-weight{
+			font-weight:normal;
+		}
+	</style>
 </head>
 <body>
 	<h3>
@@ -12,14 +17,20 @@
 	</h3>
 	<span id="class-description"></span><br/><br/>
 	<h5>
-		<b>Field Summary</b>
+		<b>필드 요약</b>(Field Summary)
 	</h5>
 	<div class="table-responsive">
 		<table class="table table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr>
-					<th>Modifier and Type</th>
-					<th>Field and Description</th>
+					<th>
+						제한자 및 타입<br/>
+						<span class="normal-weight">(Modifier and Type)</span>
+					</th>
+					<th>
+						필드 및 설명<br/>
+						<span class="normal-weight">Field and Description</span>
+					</th>
 				</tr>
 			</thead>
 			<tbody id="class-field">
@@ -27,13 +38,16 @@
 		</table>
 	</div><br/>
 	<h5>
-		<b>Constructor Summary</b>
+		<b>생성자 요약</b>(Constructor Summary)
 	</h5>
 	<div class="table-responsive">
 		<table class="table table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr>
-					<th>Constructor and Description</th>
+					<th>
+						생성자 및 설명<br/>
+						<span class="normal-weight">(Constructor and Description)</span>
+					</th>
 				</tr>
 			</thead>
 			<tbody id="class-constructor">
@@ -41,14 +55,20 @@
 		</table>
 	</div><br/>
 	<h5>
-		<b>Method Summary</b>
+		<b>메소드 요약</b>(Method Summary)
 	</h5>
 	<div class="table-responsive">
 		<table class="table table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr>
-					<th>Modifier and Type</th>
-					<th>Method and Description</th>
+					<th>
+						제한자와 타입<br/>
+						<span class="normal-weight">Modifier and Type</span>
+					</th>
+					<th>
+						메소드 및 설명<br/>
+						<span class="normal-weight">Method and Description</span>
+					</th>
 				</tr>
 			</thead>
 			<tbody id="class-method">

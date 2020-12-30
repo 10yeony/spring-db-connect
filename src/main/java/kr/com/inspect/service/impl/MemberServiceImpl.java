@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -41,6 +43,12 @@ import kr.com.inspect.util.UsingLogUtil;
 @Service("memberService")
 @PropertySource(value = "classpath:properties/directory.properties")
 public class MemberServiceImpl implements MemberService {
+	
+	/**
+	 * 로그 출력을 위한 logger
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
+	
 	/**
 	 * 회원 dao 필드 선언
 	 */
@@ -48,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	
 	/**
-	 * 사용자 정보와 관련된 객체
+	 * 사용자 정보(아이피, 아이디, 암호화된 비밀번호)와 관련된 객체
 	 */
 	@Autowired
 	private ClientInfo clientInfo;
@@ -76,8 +84,16 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private SendMail sendMail;
 	
-	@Value("${input.profileImg.directory}")
-	private String profileImgPath;
+	/**
+	 * 사용자 개별로 특화된 경로
+	 */
+	@Value("${user.root.directory}")
+	private String userPath;
+	
+	/**
+	 * 프로필 이미지 디렉토리
+	 */
+	private String profileImgDir = "profileImg";
 	
 	/**
 	 * 
@@ -108,15 +124,22 @@ public class MemberServiceImpl implements MemberService {
 		member.setCredentialsNonExpired(true);
 		member.setEnabled(true);
 		
-		if(uploadImgFile.length > 0) {
-			File fileDir = new File(profileImgPath + member.getMember_id() + File.separator); 
+		String path = userPath + member.getMember_id() + File.separator + profileImgDir;
+		logger.info(clientInfo.getTime() + " 회원가입 path : " + path);
+		
+		if(!uploadImgFile[0].getOriginalFilename().equals("")) {
+			File fileDir = new File(path + File.separator); 
+			logger.info(clientInfo.getTime() + " 회원가입 fileDir : " + fileDir.toString());
 			if(!fileDir.exists()){
+				logger.info(clientInfo.getTime() + " 회원가입 fileDir 존재하지 않음 : " + fileDir);
 				fileDir.mkdir();
 			}
 			for (MultipartFile uploadImg : uploadImgFile) {
 				String filename = uploadImg.getOriginalFilename();
+				logger.info(clientInfo.getTime() + " 회원가입 filename : " + filename);
 				member.setProfile_img(filename);
-				File file= new File(fileDir + File.separator + filename);
+				File file= new File(path + File.separator + filename + File.separator);
+				logger.info(clientInfo.getTime() + " 회원가입 file : " + file.toString());
 				try {
 					uploadImg.transferTo(file);
 				} catch (IllegalStateException | IOException e) {
