@@ -38,7 +38,7 @@ function handleImgFile(fileId, imgId, btnId, e){
 
 /* 업로드 이미지 삭제 */
 function resetUploadImg(fileId, imgId, btnId) {
-	let answer = confirm("업로드한 이미지를 삭제합니다.");
+	let answer = confirm("기본 프로필 사진으로 변경합니다 .");
 	
 	if(answer){
 		/* 파일 업로드된 파일을 삭제해서 리셋시킴 */

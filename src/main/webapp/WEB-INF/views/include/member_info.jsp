@@ -4,6 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
+	<link
+		href="${pageContext.request.contextPath}/resource/css/upload-img.css"
+		rel="stylesheet" type="text/css">
 	<script
 		src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 	<script 
@@ -26,6 +29,35 @@
 			</div>
 			<div class="modal-body">
 				<form method="post" id="editFrm" name="edit">
+					<div class="form-group uploadTotal">
+						<div class="uploadArea">
+							<input type="file" id="uploadImgFile" class="uploadImgFile" name="uploadImgFile" 
+								onchange="handleImgFile('uploadImgFile', 'uploadImgPreview', 'uploadResetBtn', event)"> 
+							<img id="uploadImgPreview" class="uploadImgPreview" 
+				          	onclick='document.getElementById("uploadImgFile").click()'
+								src= 
+									<c:choose>
+										<c:when test='${member.profile_img != null}'>
+											"${pageContext.request.contextPath}/user/${member.member_id}/profileImg/${member.profile_img}"
+										</c:when>
+										<c:otherwise>
+											"${pageContext.request.contextPath}/resource/img/user.png"
+										</c:otherwise>
+									</c:choose>
+							>
+							<button type="button" id="uploadResetBtn" class="uploadResetBtn" 
+								style="display:
+									<c:choose>
+										<c:when test='${member.profile_img != null}'>
+											inline-block
+										</c:when>
+										<c:otherwise>
+											none
+										</c:otherwise>
+									</c:choose>"
+				          	onclick="resetUploadImg('uploadImgFile', 'uploadImgPreview', 'uploadResetBtn')">삭제</button>
+						</div>
+					</div>
 					<div class="form-group">
 						<span>
 							<b style="font-size:14px">아이디 </b> 
@@ -151,6 +183,9 @@
 		</div>
 	</div>
 </div>
+<script 
+	src="${pageContext.request.contextPath}/resource/js/member/upload_img.js"></script>
+
 <!-- 임시 비밀번호 발송 Modal include -->
 <%@ include file="/WEB-INF/views/login/send_pwd.jsp"%>
 
