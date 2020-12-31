@@ -22,6 +22,7 @@
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resource/css/paging.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link
@@ -91,11 +92,15 @@
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
+                        <div>
+                            <b>실행할 쿼리를 입력해주세요.</b>
+                            <button type="button" onclick="runSQL()" class="btn btn-primary btn-icon-split float-right">
+                                <span class="text">SQL 실행</span>
+                            </button>
+                        </div><br><br>
                         <textarea id="query" name="query" cols="170" rows="20"
                                   style="height: 300px;">${rule.imp_contents}</textarea><br>
-                        <button type="button" onclick="runSQL()" class="btn btn-primary btn-icon-split">
-                            <span class="text">SQL 실행</span>
-                        </button><br><br>
+                        <br><hr><br>
 
                         <div id="show_result_after_update">
                             <b>실행결과</b>
