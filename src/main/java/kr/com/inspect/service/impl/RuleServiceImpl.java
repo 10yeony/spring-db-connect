@@ -486,6 +486,10 @@ public class RuleServiceImpl implements RuleService {
 		if(customFile.size() == 0) {
 			return;
 		}
+		File fileUserPath = new File(userPath + member_id + File.separator);
+		if(!fileUserPath.exists()){
+			fileUserPath.mkdir();
+		}
 		
 		File fileDir = new File(userPath + member_id + File.separator + customDir + File.separator); //Original Directory
 		if(!fileDir.exists()){
