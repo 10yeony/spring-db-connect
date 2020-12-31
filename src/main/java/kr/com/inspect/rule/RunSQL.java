@@ -82,7 +82,6 @@ public class RunSQL {
             data.closeAll(resultSet, preparedStatement, con);
         }
         catch (Exception e){
-            System.out.println("exception");
             responseData.setCode("error");
             responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
             return responseData;

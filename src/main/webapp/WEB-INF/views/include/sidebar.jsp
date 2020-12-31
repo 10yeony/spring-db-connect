@@ -75,7 +75,7 @@
    <sec:authorize access="hasRole('ROLE_ADMIN')">
 	   <li class="nav-item">
 	       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#memberManage" aria-expanded="true" aria-controls="memberManage">
-	           <i class="fas fa-user-friends"></i>
+	           <i class="fas fa-cog"></i>
 	           <span>시스템 관리</span>
 	       </a>
 	       <div id="memberManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
