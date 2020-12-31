@@ -335,11 +335,11 @@ public class RuleServiceImpl implements RuleService {
 			return;
 		}
 		String usingLogContent = "룰 실행 - 총 "+list.size()+"개";
-		final int no = usingLogUtil.insertUsingLog(usingLogContent);
-		final String ip_addr = clientInfo.getIpAddr();
-		final String member_id = clientInfo.getMemberId();
-		final String time = clientInfo.getTime();
-		final String ruleLogContent = "룰 실행";
+		final int NO = usingLogUtil.insertUsingLog(usingLogContent);
+		final String IP_ADDR = clientInfo.getIpAddr();
+		final String MEMBER_ID = clientInfo.getMemberId();
+		final String TIME = clientInfo.getTime();
+		final String RULELOG_CONTENT = "룰 실행";
 		
 		int threadCnt = 5; // 스레드 개수 설정
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -365,11 +365,11 @@ public class RuleServiceImpl implements RuleService {
 				
 				if(updateResult > 0) {
 					RuleLog ruleLog = new RuleLog();
-					ruleLog.setUsing_log_no(no);
-					ruleLog.setIp_addr(ip_addr);
-					ruleLog.setMember_id(member_id);
-					ruleLog.setTime(time);
-					ruleLog.setContent(ruleLogContent);
+					ruleLog.setUsing_log_no(NO);
+					ruleLog.setIp_addr(IP_ADDR);
+					ruleLog.setMember_id(MEMBER_ID);
+					ruleLog.setTime(TIME);
+					ruleLog.setContent(RULELOG_CONTENT);
 					ruleLog.setRule(rule);
 					usingLogUtil.setUsingLog(ruleLog);
 				}
@@ -478,20 +478,20 @@ public class RuleServiceImpl implements RuleService {
 	 */
 	public void uploadCustomLibrary(List<MultipartFile> customFile, String class_package) throws Exception {
 		String usingLogContent = "룰 관련 라이브러리 등록 - 총 "+customFile.size()+"개";
-		final int no = usingLogUtil.insertUsingLog(usingLogContent);
-		final String ip_addr = clientInfo.getIpAddr();
-		final String time = clientInfo.getTime();
-		final String member_id = clientInfo.getMemberId();
+		final int NO = usingLogUtil.insertUsingLog(usingLogContent);
+		final String IP_ADDR = clientInfo.getIpAddr();
+		final String TIME = clientInfo.getTime();
+		final String MEMBER_ID = clientInfo.getMemberId();
 		
 		if(customFile.size() == 0) {
 			return;
 		}
-		File fileUserPath = new File(userPath + member_id + File.separator);
+		File fileUserPath = new File(userPath + MEMBER_ID + File.separator);
 		if(!fileUserPath.exists()){
 			fileUserPath.mkdir();
 		}
 		
-		File fileDir = new File(userPath + member_id + File.separator + customDir + File.separator); //Original Directory
+		File fileDir = new File(userPath + MEMBER_ID + File.separator + customDir + File.separator); //Original Directory
 		if(!fileDir.exists()){
 			fileDir.mkdir();
 		}
@@ -509,7 +509,7 @@ public class RuleServiceImpl implements RuleService {
 				String fileFormat = filename.substring(filename.lastIndexOf(".")+1, filename.length());
 				
 				CustomLibrary customLibrary = new CustomLibrary();
-				customLibrary.setCreator(member_id);
+				customLibrary.setCreator(MEMBER_ID);
 				customLibrary.setFile_name(filename);
 				
 				File f = null;
@@ -539,9 +539,9 @@ public class RuleServiceImpl implements RuleService {
 				String message = registerCustomLibrary(customLibrary);
 				
 				RuleLog ruleLog = new RuleLog();
-				ruleLog.setUsing_log_no(no);
-				ruleLog.setIp_addr(ip_addr);
-				ruleLog.setTime(time);
+				ruleLog.setUsing_log_no(NO);
+				ruleLog.setIp_addr(IP_ADDR);
+				ruleLog.setTime(TIME);
 				ruleLog.setCustomLibrary(customLibrary);
 				ruleLog.setContent(message);
 				usingLogUtil.setUsingLog(ruleLog);
