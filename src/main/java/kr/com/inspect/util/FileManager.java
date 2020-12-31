@@ -37,19 +37,50 @@ public class FileManager {
 			if(folder.exists()){
 				File[] folderList = folder.listFiles(); 
 				for (int i = 0; i < folderList.length; i++) {
-					if(folderList[i].isFile()) {
-						folderList[i].delete();
-						//System.out.println("파일이 삭제되었습니다.");
-					}else {
+					if(!folderList[i].isFile()) {
 						deleteFolder(folderList[i].getPath()); 
-						//System.out.println("폴더가 삭제되었습니다.");
 					}
 					folderList[i].delete();
 				}
 				folder.delete(); 
 			}
-		} catch (Exception e) {
+		}catch (Exception e) {
 			//e.printStackTrace();
 		}
+	}
+	
+	public static void main(String[] args) {
+		FileManager fileManager = new FileManager();
+		String path = "C:\\Users\\10yeo\\Documents\\resources\\abc";
+		fileManager.deleteEmptyFolder(path);
+	}
+	
+	public void deleteEmptyFolder(String path) {
+		if(checkFileCount(path) == 0) {
+			File folder = new File(path);
+			if(folder.exists()){
+				folder.delete();
+			}
+		}
+	}
+	
+	public int checkFileCount(String path) {
+		int fileCount = 0;
+		File folder = new File(path);
+		try {
+			if(folder.exists()){
+				File[] folderList = folder.listFiles(); 
+				for (int i = 0; i < folderList.length; i++) {
+					if(!folderList[i].isFile()) {
+						fileCount += checkFileCount(folderList[i].getPath()); 
+					}else {
+						fileCount++;
+					}
+				}
+			}
+		}catch (Exception e) {
+			//e.printStackTrace();
+		}
+		return fileCount;
 	}
 }

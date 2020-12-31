@@ -314,6 +314,11 @@ public class MemberServiceImpl implements MemberService {
 	public void deleteMember(String member_id) {
 		String username = clientInfo.getMemberId();
 		
+		/* 사용자 폴더 삭제 */
+		FileManager fileManager = new FileManager();
+		String path = userPath + member_id;
+		fileManager.deleteFolder(path);
+		
 		/* 모든 권한 삭제 */
 		int authDelResult = memberDao.deleteAuthorities(member_id);
 		//System.out.println("삭제된 권한 개수 : " + authDelResult);
