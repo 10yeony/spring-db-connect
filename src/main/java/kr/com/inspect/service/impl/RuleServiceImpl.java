@@ -603,6 +603,7 @@ public class RuleServiceImpl implements RuleService {
 		int result = 0;
 		customLibrary = ruleDao.getCustomLibraryById(customLibrary.getId());
 		
+		FileManager fileManager = new FileManager();
 		String path = null;
 		String fileName = customLibrary.getFile_name();
 		
@@ -617,9 +618,10 @@ public class RuleServiceImpl implements RuleService {
 					+ customLibrary.getCreator() 
 					+ File.separator
 					+ customDir 
-					+ File.separator
-					+ classPackage
-					+ customLibrary.getFile_name();
+					+ File.separator;
+			
+			fileManager.deleteFile(path + classPackage + customLibrary.getFile_name());
+			fileManager.deleteEmptyFolder(path + classPackageArr[0] + File.separator);
 		}
 		
 		/* jar 파일 */
@@ -628,12 +630,11 @@ public class RuleServiceImpl implements RuleService {
 					+ customLibrary.getCreator() 
 					+ File.separator
 					+ customDir
-					+ File.separator
-					+ customLibrary.getFile_name();
+					+ File.separator;
+			
+			fileManager.deleteFile(path + customLibrary.getFile_name());
+			fileManager.deleteEmptyFolder(path);
 		}
-		
-		FileManager fileManager = new FileManager();
-		fileManager.deleteFile(path);
 		
 		result = ruleDao.deleteCustomLibrary(customLibrary.getId());
 		if(result > 0) {
