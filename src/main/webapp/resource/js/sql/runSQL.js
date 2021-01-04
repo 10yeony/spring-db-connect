@@ -31,11 +31,12 @@ $(function(){
 })
 
 function runSQL(){
+    var query = myCodeMirror.getValue();
+    console.log(query);
     $.ajax({
         url: contextPath + "/runSQL",
-        data: { "query" : myCodeMirror.getValue() },
+        data: { 'query' : query } ,
         type: "POST",
-        async: false,
 
         success: function (response){
             var json = JSON.parse(response);
@@ -48,7 +49,7 @@ function runSQL(){
                 startPage = 1;
 
                 $('#show_result_after_update textarea').empty();
-                $('#show_result_after_update textarea').append((selectList.length-1) + '개의 데이터가 검색되었습니다.');
+                $('#show_result_after_update textarea').append((selectList.length-1) + '개의 데이터를 조회했습니다.');
                 run(1);
             }
             else {
@@ -56,6 +57,9 @@ function runSQL(){
                 $('#show_result_after_update textarea').empty();
                 $('#show_result_after_update textarea').append(json.item);
             }
+        },
+        onerror : function(error) {
+            alert(error)
         }
     })
 }
