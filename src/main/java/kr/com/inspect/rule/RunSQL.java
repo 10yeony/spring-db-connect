@@ -23,6 +23,7 @@ public class RunSQL {
      * @param query 실행할 쿼리문
      */
     public ResponseData run(ResponseData responseData, String query) {
+        System.out.println("RunSQL run query: " + query);
         if(query.length() < 6){
             System.out.println(query.length() < 6);
             responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
@@ -71,6 +72,7 @@ public class RunSQL {
                     responseData.setItem(listList);
                     break;
                 case "delete" :
+                    System.out.println("RunSQL - case delete");
                     result = statement.executeUpdate(query);
                     responseData.setCode("delete");
                     responseData.setItem(result + "개의 데이터가 삭제되었습니다.");
@@ -82,6 +84,7 @@ public class RunSQL {
             data.closeAll(resultSet, preparedStatement, con);
         }
         catch (Exception e){
+            System.out.println("RunSQL - Exception");
             responseData.setCode("error");
             responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
             return responseData;

@@ -4,9 +4,7 @@ import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.rule.RunSQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,19 +35,18 @@ public class SQLController {
 
     /**
      * query를 받아서 SQL을 실행
-     * @param request 사용자의 입력
      * @param response
      * @throws Exception 예외처리
      */
     @ResponseBody
-    @PostMapping("/runSQL")
-    public void runSQL(HttpServletResponse response, HttpServletRequest request) throws Exception {
+    @RequestMapping(value = "/runSQL", method = RequestMethod.POST)
+    public void runSQL(HttpServletResponse response, @RequestParam("query") String query) throws Exception {
+        System.out.println("runSQL PostMapping");
         ResponseData responseData = new ResponseData(); //ajax 응답 객체
 
         // 앞뒤 공백 제거, 소문자 전환
-        String query = request.getParameter("query").toLowerCase().trim();
-
-        responseData = runSQL.run(responseData, query.toLowerCase());
+        System.out.println("controller query : " + query);
+        responseData = runSQL.run(responseData, query.toLowerCase().trim());
         responseData.responseJSON(response, responseData);
     }
 }

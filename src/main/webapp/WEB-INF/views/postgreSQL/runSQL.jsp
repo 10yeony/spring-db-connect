@@ -62,6 +62,8 @@
 
 <!-- Page Wrapper -->
 <div id="wrapper">
+    <!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
+    <%@ include file="/WEB-INF/views/include/csrf-token.jsp"%>
 
     <!-- 업로드시 로딩 화면 -->
     <div id="loadingArea" class="w3-modal w3-animate-opacity">

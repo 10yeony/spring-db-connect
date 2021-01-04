@@ -141,8 +141,6 @@ public class RuleCompiler {
         optionList.add("-d");
         optionList.add(classPath);
         
-        System.out.println(optionList);
-
         // 만들어진 Java 파일을 컴파일
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         List<String> sources = Arrays.asList(new String[]{path + rule.getFile_name() + ".java"});
