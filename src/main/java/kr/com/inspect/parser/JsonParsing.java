@@ -16,6 +16,7 @@ import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
+import kr.com.inspect.util.Singleton;
 
 /**
  * JSON Parsing Class
@@ -23,9 +24,11 @@ import kr.com.inspect.dto.Utterance;
  * @version 1.0
  *
  */
-
-
 public class JsonParsing {
+	/**
+	 * Thread Safe하게 자원을 공유하기 위한 싱글톤 객체
+	 */
+	private Singleton singletone = Singleton.getInstance();
 	
 	/**
 	 * JSON 파일을 읽어 JSON객체로 파싱
@@ -34,9 +37,12 @@ public class JsonParsing {
 	 */
 	public JSONObject getJSONObject(String fullPath) {
 		JSONParser parser = new JSONParser();
-	    Object obj = null;
+		Object obj = null;
 		try {
+			long beforeTimeCheck = System.currentTimeMillis();
 			obj = parser.parse(new FileReader(fullPath));
+			long afterTimeCheck = System.currentTimeMillis();
+			singletone.setTimeRecorder("parseJsonFile", afterTimeCheck-beforeTimeCheck);
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
 		} catch (IOException e) {
@@ -53,6 +59,7 @@ public class JsonParsing {
 	 * @return map에 담은 metadata 값을 변수 metadata로 리턴
 	 */
 	public Metadata setMetadata(JSONObject obj) {
+		long beforeTimeCheck = System.currentTimeMillis();
 		Map map = new HashMap();
 		Metadata metadata = new Metadata();
 		map = (Map) obj.get("metadata");
@@ -67,6 +74,8 @@ public class JsonParsing {
 		metadata.setDistributor(map.get("distributor").toString());
 		map = (Map) obj.get("setting");
 		metadata.setRelation(map.get("relation").toString());
+		long afterTimeCheck = System.currentTimeMillis();
+		singletone.setTimeRecorder("parseMetadata", afterTimeCheck-beforeTimeCheck);
 		return metadata;
 	}
 	
@@ -77,6 +86,7 @@ public class JsonParsing {
 	 * @return Speaker 테이블의 값을 리스트에 담아 변수 speakerList로 리턴
 	 */
 	public List<Speaker> setSpeaker(JSONObject obj, int metadata_id){
+		long beforeTimeCheck = System.currentTimeMillis();
 		List<Speaker> speakerList = new ArrayList<>();
 		JSONArray arr = (JSONArray) obj.get("speaker");
 		for(int i=0; i<arr.size(); i++) {
@@ -114,8 +124,10 @@ public class JsonParsing {
 				speaker.setEducation(element.get("education").toString());
 			}
 			speaker.setMetadata_id(metadata_id); //foreign key
-		    speakerList.add(speaker);
+			speakerList.add(speaker);
 		}
+		long afterTimeCheck = System.currentTimeMillis();
+		singletone.setTimeRecorder("parseSpeaker", afterTimeCheck-beforeTimeCheck);
 		return speakerList;
 	}
 	
@@ -126,6 +138,7 @@ public class JsonParsing {
 	 * @return
 	 */
 	public List<Utterance> setUtterance(JSONObject obj, int metadata_id){
+		long beforeTimeCheck = System.currentTimeMillis();
 		List<Utterance> utteranceList = new ArrayList<>();
 		JSONArray arr = (JSONArray) obj.get("utterance");
 		for(int i=0; i<arr.size(); i++) {
@@ -163,6 +176,8 @@ public class JsonParsing {
 		    utterance.setEojoelList(setEojeolList(eojoelArr, utterance_id, metadata_id)); //EojeolList 목록 추가
 		    utteranceList.add(utterance);
 		}
+		long afterTimeCheck = System.currentTimeMillis();
+		singletone.setTimeRecorder("parseUtterance", afterTimeCheck-beforeTimeCheck);
 		return utteranceList;
 	}
 	
@@ -174,6 +189,7 @@ public class JsonParsing {
 	 * @return 파싱값을 리스트에 담아 eojeolListList로 리턴
 	 */
 	public List<EojeolList> setEojeolList(JSONArray arr, String utterance_id, int metadata_id){
+		long beforeTimeCheck = System.currentTimeMillis();
 		List<EojeolList> eojeolListList = new ArrayList<>();
 		if(arr != null) {
 			for(int i=0; i<arr.size(); i++) {
@@ -202,6 +218,8 @@ public class JsonParsing {
 			    eojeolListList.add(eojeolList);
 			}
 		}
+		long afterTimeCheck = System.currentTimeMillis();
+		singletone.setTimeRecorder("parseEojeolList", afterTimeCheck-beforeTimeCheck);
 		return eojeolListList;
 	}
 }
