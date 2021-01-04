@@ -46,6 +46,7 @@ import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
 import kr.com.inspect.util.ClientInfo;
+import kr.com.inspect.util.Singleton;
 import kr.com.inspect.util.UsingLogUtil;
 /**
  * PostgreSQL Service
@@ -62,7 +63,12 @@ public class PostgreServiceImpl implements PostgreService{
 	 * 로그 출력을 위한 logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(PostgreServiceImpl.class);
-
+	
+	/**
+	 * Thread Safe하게 자원을 공유하기 위한 싱글톤 객체
+	 */
+	private Singleton singletone = Singleton.getInstance();
+	
 	/**
 	 * 엘라스틱 dao 필드 선언
 	 */
@@ -136,11 +142,6 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	@Value("${input.sound.directory}")
 	private String soundPath;
-	
-	/**
-	 * 중복된 데이터 체크(아직 DB에 등록되지 않은 데이터일 경우 true)
-	 */
-	private boolean check;
 	
 	/**
 	 * 엘라스틱 서치에서 받아온 인덱스를 PostgreSQL에 넣음(테스트)
@@ -271,7 +272,8 @@ public class PostgreServiceImpl implements PostgreService{
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
 		
-		check = false;
+		singletone.setNewData(0);
+		
 		if(fileList.length == 0) {
 			return "null";
 		}
@@ -285,6 +287,9 @@ public class PostgreServiceImpl implements PostgreService{
 		
 		for(File file : fileList){
 			futures.add(executor.submit(() -> {
+				long beforeTimeCheck;
+				long afterTimeCheck;
+				
 				/* 확장자가 json인 파일을 읽는다 */
 				if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("json")){
 					logger.info(clientInfo.getTime() + " start file " + file.getName());
@@ -296,47 +301,69 @@ public class PostgreServiceImpl implements PostgreService{
 					/* jsonLog 테이블 시작시간 측정 */
 					jsonLog.setStart(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 					long startTime = System.currentTimeMillis();
-
+					
 					/* json 파일을 읽어서 객체로 파싱 */
 					JSONObject obj = jsonParsing.getJSONObject(fullPath);
 
-					/* metadata 테이블 입력 */
+					/* metadata 객체 파싱 */
 					Metadata metadata  = jsonParsing.setMetadata(obj);
 
 					/* metadata_id를 가져옴(creator, title) */
 					Map map = new HashMap();
 					map.put("creator", metadata.getCreator());
 					map.put("title", metadata.getTitle());
+					beforeTimeCheck = System.currentTimeMillis();
 					String isExistId = sqlSession.selectOne(metadataNS+"isExistMetadataId", map);
-
+					afterTimeCheck = System.currentTimeMillis();
+					singletone.setTimeRecorder("getMetadataId", afterTimeCheck-beforeTimeCheck);
+					
 					if(isExistId == null) { //등록된 데이터가 아닐 경우
-						check = true;
+						singletone.setNewData(singletone.getNewData() + 1);
 
 						/* metadata 테이블 입력 */
+						beforeTimeCheck = System.currentTimeMillis();
 						sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
+						afterTimeCheck = System.currentTimeMillis();
+						singletone.setTimeRecorder("insertIntoMetadata", afterTimeCheck-beforeTimeCheck);
 
 						/* auto increment로 등록된 id를 가져옴 */
+						beforeTimeCheck = System.currentTimeMillis();
 						int metadata_id = sqlSession.selectOne(metadataNS+"getMetadataId", map);
-
-						/* jsonLog 테이블에 파일명과 metadata_id 입력 */
+						afterTimeCheck = System.currentTimeMillis();
+						singletone.setTimeRecorder("getAutoIncrementMetadataId", afterTimeCheck-beforeTimeCheck);
+						
+						/* jsonLog 객체에 파일명과 metadata_id 세팅 */
 						jsonLog.setTitle(metadata.getTitle());
 						jsonLog.setMetadata_id(metadata_id);
 
-						/* speaker 테이블 입력 */
+						/* speaker 객체 파싱 */
 						List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
+						
+						/* speaker 테이블 입력 */
+						beforeTimeCheck = System.currentTimeMillis();
 						for(Speaker speaker : speakerList) {
 							sqlSession.insert(speakerNS+"insertIntoSpeaker", speaker);
 						}
+						afterTimeCheck = System.currentTimeMillis();
+						singletone.setTimeRecorder("insertIntoSpeaker", afterTimeCheck-beforeTimeCheck);
 
-						/* utterance 테이블 입력 */
+						/* utterance 객체 파싱(EojeolList 포함) */
 						List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
+						
+						/* utterance 테이블 입력(EojeolList 포함) */
 						for(Utterance utterance : utteranceList) {
+							beforeTimeCheck = System.currentTimeMillis();
 							sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
+							afterTimeCheck = System.currentTimeMillis();
+							singletone.setTimeRecorder("insertIntoUtterance", afterTimeCheck-beforeTimeCheck);
 							
+							beforeTimeCheck = System.currentTimeMillis();
 							List<EojeolList> eojeolListList = utterance.getEojoelList();
 							for(EojeolList eojeolList : eojeolListList) {
 								sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
 							}
+							afterTimeCheck = System.currentTimeMillis();
+							singletone.setTimeRecorder("insertIntoEojeolList", afterTimeCheck-beforeTimeCheck);
 						}
 
 						/* jsonLog 테이블 종료시간 측정 */
@@ -349,7 +376,10 @@ public class PostgreServiceImpl implements PostgreService{
 						int sec = elapsed - min*60;
 						jsonLog.setElapsed(""+min+":"+sec);
 
+						beforeTimeCheck = System.currentTimeMillis();
 						sqlSession.insert(jsonLogNS+"insertIntoJsonLog", jsonLog);
+						afterTimeCheck = System.currentTimeMillis();
+						singletone.setTimeRecorder("insertIntoJsonLog", afterTimeCheck-beforeTimeCheck);
 					}
 					logger.info(clientInfo.getTime() + " finish file " + file.getName());
 				}
@@ -361,13 +391,55 @@ public class PostgreServiceImpl implements PostgreService{
 		long afterTime = System.currentTimeMillis();
 		logger.info(clientInfo.getTime() + " JSON 입력 끝");
 		
+		logger.info("########## JSON 입력 결과 요약 ##########");
+		
 		long diffTime = (afterTime - beforeTime);
 		logger.info("JSON 입력 소요 시간(ms) : " + diffTime + "밀리초");
-		
 		long secDiffTime = diffTime/1000;
 		logger.info("JSON 입력 소요 시간(s) : " + secDiffTime + "초");
+		
+		logger.info("########## JSON 입력 결과 세부항목 ##########");
 
-		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
+		logger.info("JSON 파일 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseJsonFile")) + "밀리초");
+		logger.info(" 소요 시간(s) : " + (singletone.getTimeRecorder("parseJsonFile")/1000) + "초");
+
+		logger.info("Metadata 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseMetadata")) + "밀리초");
+		logger.info("Metadata 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseMetadata")/1000) + "초");
+
+		logger.info("Metadata 기본키 가져오기(중복 등록 방지) 소요 시간(ms) : " + (singletone.getTimeRecorder("getMetadataId")) + "밀리초");
+		logger.info("Metadata 기본키 가져오기(중복 등록 방지) 소요 시간(s) : " + (singletone.getTimeRecorder("getMetadataId")/1000) + "초");
+
+		logger.info("Metadata DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoMetadata")) + "밀리초");
+		logger.info("Metadata DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoMetadata")/1000) + "초");
+
+		logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(ms) : " + (singletone.getTimeRecorder("getAutoIncrementMetadataId")) + "밀리초");
+		logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(s) : " + (singletone.getTimeRecorder("getAutoIncrementMetadataId")/1000) + "초");
+
+		logger.info("Speaker 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseSpeaker")) + "밀리초");
+		logger.info("Speaker 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseSpeaker")/1000) + "초");
+
+		logger.info("Speaker DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoSpeaker")) + "밀리초");
+		logger.info("Speaker DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoSpeaker")/1000) + "초");
+
+		logger.info("Utterance(with EojeolList) 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseUtterance")) + "밀리초");
+		logger.info("Utterance(with EojeolList) 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseUtterance")/1000) + "초");
+
+		logger.info("Utterance(only Utterance) 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseUtterance")-singletone.getTimeRecorder("parseEojeolList")) + "밀리초");
+		logger.info("Utterance(only Utterance) 객체 파싱 소요 시간(s) : " + ((singletone.getTimeRecorder("parseUtterance")-singletone.getTimeRecorder("parseEojeolList"))/1000) + "초");
+		
+		logger.info("EojeolList 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseEojeolList")) + "밀리초");
+		logger.info("EojeolList 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseEojeolList")/1000) + "초");
+
+		logger.info("Utterance DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoUtterance")) + "밀리초");
+		logger.info("Utterance DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoUtterance")/1000) + "초");
+
+		logger.info("EojeolList DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoEojeolList")) + "밀리초");
+		logger.info("EojeolList DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoEojeolList")/1000) + "초");
+
+		logger.info("JsonLog DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoJsonLog")) + "밀리초");
+		logger.info("JsonLog DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoJsonLog")/1000) + "초");
+
+		if(singletone.getNewData() > 0) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return "true";
 		}else { //모두 중복된 데이터일 경우
 			return "false";
@@ -407,7 +479,7 @@ public class PostgreServiceImpl implements PostgreService{
 		
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
-		check = false;
+		singletone.setNewData(0);
 
 		threadCnt = 5;
 		executor = Executors.newFixedThreadPool(threadCnt);
@@ -422,7 +494,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 			    	for(Program p : list) {
 			    		if(sqlSession.selectOne(programNS+"getProgramByFileNum", p.getFile_num()) == null) {
-			    			check = true;
+			    			singletone.setNewData(singletone.getNewData() + 1);
 			    			sqlSession.insert(programNS+"insertIntoProgram", p);
 			    		}
 			    	}
@@ -450,7 +522,7 @@ public class PostgreServiceImpl implements PostgreService{
 		}
 		closeThread(executor, futures);
 
-		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
+		if(singletone.getNewData() > 0) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return true;
 		}else { //모두 중복된 데이터일 경우
 			return false;
@@ -467,7 +539,7 @@ public class PostgreServiceImpl implements PostgreService{
 	public String insertXlsxDir(String path) throws Exception{
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
-		check = false;
+		singletone.setNewData(0);
 		
 		int threadCnt = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -485,7 +557,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 					for(Program p : list) {
 						if(sqlSession.selectOne(programNS+"getProgramByFileNum", p.getFile_num()) == null) {
-							check = true;
+							singletone.setNewData(singletone.getNewData() + 1);
 							sqlSession.insert(programNS+"insertIntoProgram", p);
 						}
 					}
@@ -494,7 +566,7 @@ public class PostgreServiceImpl implements PostgreService{
 		}
 		closeThread(executor, futures);
 
-		if(check == true) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
+		if(singletone.getNewData() > 0) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return "true";
 		}else { //모두 중복된 데이터일 경우
 			return "false";
