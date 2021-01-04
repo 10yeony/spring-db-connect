@@ -563,23 +563,27 @@ public class RuleServiceImpl implements RuleService {
 		/* 이미 DB에 등록한 파일명인지 중복검사 */
 		boolean flag = false;
 		List<CustomLibrary> list = ruleDao.getAllCustomLibraryByCreator(customLibrary.getCreator());
+		String fileName = customLibrary.getFile_name();
+		String fileFormat = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length());
 		for(CustomLibrary library : list) {
-			if(customLibrary.getFile_name().equals(library.getFile_name())) {
-				flag = true;
-				msg = "룰 관련 라이브러리 덮어쓰기";
+			if(fileName.equals(library.getFile_name())) {
+				if(fileFormat.equals("jar")) {
+					flag = true;
+					break;
+				}else if(fileFormat.equals("class")) {
+					if(customLibrary.getClass_package().equals(library.getClass_package())) {
+						flag = true;
+						break;
+					}
+				}
 			}
 		}
 		if(flag == false) {
 			result = ruleDao.registerCustomLibrary(customLibrary);
 			msg = "룰 관련 라이브러리 등록";
+		}else {
+			msg = "룰 관련 라이브러리 덮어쓰기";
 		}
-		
-		// class 파일이라면 package 업데이트
-		else if((flag == true)&&(customLibrary.getFile_name().substring(customLibrary.getFile_name().lastIndexOf(".")+1).equals("class"))){
-			ruleDao.updateCustomLibraryPackage(customLibrary);
-			msg = "룰 관련 라이브러리 패키지 업데이트";
-		}
-		
 		return msg;
 	}
 	
