@@ -27,18 +27,28 @@ public class Singleton {
 		private static final Singleton INSTANCE = new Singleton();  
 	}
 	
-	/* 아직 DB에 등록되지 않은 새로운 데이터의 개수(중복 방지) */
+	/**
+	 * 아직 DB에 등록되지 않은 새로운 데이터의 개수(중복 방지)
+	 */
 	private int newData;
 	
-	/* 시간 기록을 위한 timeRecorder */
+	/**
+	 * 시간 기록을 위한 timeRecorder
+	 */
 	private Map<String, Long> timeRecorder = new HashMap<String, Long>();
 	
-	/* 아직 DB에 등록되지 않은 새로운 데이터의 개수 getter */
+	/**
+	 * 아직 DB에 등록되지 않은 새로운 데이터의 개수 getter
+	 * @return 아직 DB에 등록되지 않은 새로운 데이터의 개수
+	 */
 	public int getNewData() {
 		return newData;
 	}
 
-	/* 아직 DB에 등록되지 않은 새로운 데이터의 개수 setter */
+	/**
+	 * 아직 DB에 등록되지 않은 새로운 데이터의 개수 setter
+	 * @param newData 아직 DB에 등록되지 않은 새로운 데이터의 개수
+	 */
 	public void setNewData(int newData) {
 		this.newData = newData;
 	}
