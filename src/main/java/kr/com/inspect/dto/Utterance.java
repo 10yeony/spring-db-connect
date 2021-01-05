@@ -67,11 +67,11 @@ public class Utterance {
 	/**
 	 * Speaker 테이블
 	 */
-	private List<Speaker> speaker;
+	private Speaker speaker;
 	
 	public Utterance() {}
 	public Utterance(String id, String note, String form, String standard_form, String dialect_form, String speaker_no, double start,
-			double finish, int eojeol_count, int metadata_id, List<EojeolList> eojoelList, List<Speaker> speaker) {
+			double finish, int eojeol_count, int metadata_id, List<EojeolList> eojoelList, Speaker speaker) {
 		super();
 		this.id = id;
 		this.note = note;
@@ -153,10 +153,10 @@ public class Utterance {
 	public void setEojoelList(List<EojeolList> eojoelList) {
 		this.eojoelList = eojoelList;
 	}
-	public List<Speaker> getSpeaker() {
+	public Speaker getSpeaker() {
 		return speaker;
 	}
-	public void setSpeaker(List<Speaker> speaker) {
+	public void setSpeaker(Speaker speaker) {
 		this.speaker = speaker;
 	}
 	

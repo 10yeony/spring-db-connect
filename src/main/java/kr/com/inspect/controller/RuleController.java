@@ -87,7 +87,7 @@ public class RuleController {
 
 		/* 소분류 등록 */
 		else {
-			levelName = "Rule";
+			levelName = "룰";
 			String level = "bottom";
 			
 			/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
@@ -158,7 +158,7 @@ public class RuleController {
 			levelName = "중분류";
 			break;
 		case "bottom":
-			levelName = "Rule";
+			levelName = "룰";
 			break;
 		}
 

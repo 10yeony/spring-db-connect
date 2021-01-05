@@ -141,11 +141,13 @@ public class Data {
 	 */
 	public List<Metadata> getMetadataAndProgram(int metadata_id) throws Exception{
 		List<Metadata> list = new ArrayList<>();
+		List<Speaker> speakerList = null;
 		Metadata vo = null;
 		Program program = null;
+		Speaker speaker = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
+		ResultSet rs, rsSpeaker = null;
 		
 		String query = "SELECT "
 									+ "m.id metadata_id, "
@@ -204,7 +206,7 @@ public class Data {
 									+ "m.id = sp.metadata_id";
 		
 		conn = getConnect();
-		
+
 		if(metadata_id == 0) { //전체
 			ps = conn.prepareStatement(query);
 		}else { //특정 아이디
@@ -214,11 +216,33 @@ public class Data {
 		}
 		
 		rs = ps.executeQuery();
+		String querySpeaker = "SELECT * FROM audio.speaker WHERE metadata_id=? ORDER BY no";
 		
 		while(rs.next()){
 			vo = new Metadata();
 			program = new Program();
+			speakerList = new ArrayList<>();
 			vo.setId(rs.getInt("metadata_id"));
+			ps = conn.prepareStatement(querySpeaker);
+			ps.setInt(1, vo.getId());
+			rsSpeaker = ps.executeQuery();
+			while(rsSpeaker.next()){
+				speaker = new Speaker();
+				speaker.setId(rsSpeaker.getInt("id"));
+				speaker.setNo(rsSpeaker.getInt("no"));
+				speaker.setShortcut(rsSpeaker.getInt("shortcut"));
+				speaker.setOccupation(rsSpeaker.getString("occupation"));
+				speaker.setSex(rsSpeaker.getString("sex"));
+				speaker.setName(rsSpeaker.getString("name"));
+				speaker.setAge(rsSpeaker.getString("age"));
+				speaker.setBirthplace(rsSpeaker.getString("birthplace"));
+				speaker.setCurrent_residence(rsSpeaker.getString("current_residence"));
+				speaker.setPricipal_residence(rsSpeaker.getString("pricipal_residence"));
+				speaker.setEducation(rsSpeaker.getString("education"));
+				speaker.setMetadata_id(rsSpeaker.getInt("metadata_id"));
+				speakerList.add(speaker);
+			}
+
 			vo.setCreator(rs.getString("creator"));
 			vo.setAnnotation_level(rs.getString("annotation_level"));
 			vo.setYear(rs.getString("metadata_year"));
@@ -237,6 +261,7 @@ public class Data {
 			vo.setSentence_count(rs.getInt("sentence_count"));
 			vo.setEojeol_total(rs.getInt("eojeol_total"));
 			vo.setSpeaker_count(rs.getInt("speaker_count"));
+			vo.setSpeaker(speakerList);
 			list.add(vo);
 		}
 		
@@ -298,10 +323,12 @@ public class Data {
 	 */
 	public List<Utterance> getUtterance(int metadata_id) throws Exception{
 		List<Utterance> list = new ArrayList<>();
+		List<Speaker> speakerList = null;
 		Utterance vo = new Utterance();
+		Speaker speaker = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
+		ResultSet rs, rsSpeaker = null;
 		
 		conn = getConnect();
 		
@@ -315,9 +342,11 @@ public class Data {
 		}
 		
 		rs = ps.executeQuery();
+		String querySpeaker = "SELECT * FROM audio.speaker WHERE metadata_id=? and no = ?";
 		
 		while(rs.next()){
 			vo = new Utterance();
+			speakerList = new ArrayList<>();
 			vo.setId(rs.getString("id"));
 			vo.setNote(rs.getString("note"));
 			vo.setForm(rs.getString("form"));
@@ -327,6 +356,31 @@ public class Data {
 			vo.setStart(rs.getDouble("start"));
 			vo.setFinish(rs.getDouble("finish"));
 			vo.setMetadata_id(rs.getInt("metadata_id"));
+			if(vo.getSpeaker_no() == null){
+				vo.setSpeaker(null);
+			}
+			else{
+				ps = conn.prepareStatement(querySpeaker);
+				ps.setInt(1, vo.getMetadata_id());
+				ps.setInt(2, Integer.valueOf(vo.getSpeaker_no()));
+				rsSpeaker = ps.executeQuery();
+				while(rsSpeaker.next()){
+					speaker = new Speaker();
+					speaker.setId(rsSpeaker.getInt("id"));
+					speaker.setNo(rsSpeaker.getInt("no"));
+					speaker.setShortcut(rsSpeaker.getInt("shortcut"));
+					speaker.setOccupation(rsSpeaker.getString("occupation"));
+					speaker.setSex(rsSpeaker.getString("sex"));
+					speaker.setName(rsSpeaker.getString("name"));
+					speaker.setAge(rsSpeaker.getString("age"));
+					speaker.setBirthplace(rsSpeaker.getString("birthplace"));
+					speaker.setCurrent_residence(rsSpeaker.getString("current_residence"));
+					speaker.setPricipal_residence(rsSpeaker.getString("pricipal_residence"));
+					speaker.setEducation(rsSpeaker.getString("education"));
+					speaker.setMetadata_id(rsSpeaker.getInt("metadata_id"));
+				}
+				vo.setSpeaker(speaker);
+			}
 			list.add(vo);
 		}
 		closeAll(rs, ps, conn);
