@@ -273,6 +273,7 @@ public class PostgreServiceImpl implements PostgreService{
 		File[] fileList = dir.listFiles();
 		
 		singletone.setNewData(0);
+		singletone.resetTimeRecorder();
 		
 		if(fileList.length == 0) {
 			return "null";
@@ -357,13 +358,13 @@ public class PostgreServiceImpl implements PostgreService{
 							afterTimeCheck = System.currentTimeMillis();
 							singletone.setTimeRecorder("insertIntoUtterance", afterTimeCheck-beforeTimeCheck);
 							
-							beforeTimeCheck = System.currentTimeMillis();
 							List<EojeolList> eojeolListList = utterance.getEojoelList();
 							for(EojeolList eojeolList : eojeolListList) {
+								long newBeforeTimeCheck = System.currentTimeMillis();
 								sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
+								long newAfterTimeCheck = System.currentTimeMillis();
+								singletone.setTimeRecorder("insertIntoEojeolList", newAfterTimeCheck-newBeforeTimeCheck);
 							}
-							afterTimeCheck = System.currentTimeMillis();
-							singletone.setTimeRecorder("insertIntoEojeolList", afterTimeCheck-beforeTimeCheck);
 						}
 
 						/* jsonLog 테이블 종료시간 측정 */
@@ -401,7 +402,7 @@ public class PostgreServiceImpl implements PostgreService{
 		logger.info("########## JSON 입력 결과 세부항목 ##########");
 
 		logger.info("JSON 파일 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseJsonFile")) + "밀리초");
-		logger.info(" 소요 시간(s) : " + (singletone.getTimeRecorder("parseJsonFile")/1000) + "초");
+		logger.info("JSON 파일 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseJsonFile")/1000) + "초");
 
 		logger.info("Metadata 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseMetadata")) + "밀리초");
 		logger.info("Metadata 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseMetadata")/1000) + "초");

@@ -52,6 +52,10 @@ public class Singleton {
 	public void setNewData(int newData) {
 		this.newData = newData;
 	}
+	
+	public void resetTimeRecorder() {
+		this.timeRecorder = new HashMap<String, Long>();
+	}
 
 	/**
 	 * 해당되는 키에 시간을 더함
