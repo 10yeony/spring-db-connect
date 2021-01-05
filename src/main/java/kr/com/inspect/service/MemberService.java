@@ -153,7 +153,7 @@ public interface MemberService extends UserDetailsService {
 	 * 관리자 권한으로 가입 승인
 	 * @param member_id 회원 id
 	 */
-	public void updateMemberApprovalUsingId(String member_id);
+	public void updateMemberApprovalUsingId(Member member);
 	
 	/**
 	 * 사용 로그에 로그아웃을 기록함
