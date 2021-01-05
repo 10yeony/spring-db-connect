@@ -141,10 +141,14 @@ public class Schedule {
 
 			// 만약 6개월 더한 날짜가 현재 날짜보다 더 예전이라면 계정 삭제
 			if(CompareDate(deleteTime, currentTime)){
+				System.out.println("delete " + member.getMember_id());
+				System.out.println("deleteTime : " + deleteTime);
 				memberService.deleteMemberByScheduler(member.getMember_id());
 			}
 			// 3개월 지난 날짜가 현재 날짜보다 더 예전이라면 계정 만료
 			else if(CompareDate(accountExpiredTime, currentTime)){
+				System.out.println("accountExpired " + member.getMember_id());
+				System.out.println("accountExpiredTime : " + accountExpiredTime);
 				memberService.accountExpired(member.getMember_id());
 			}
 		}
@@ -164,12 +168,12 @@ public class Schedule {
 		int secondYear, secondMonth, secondDate;
 
 		firstYear = Integer.parseInt(first.substring(0,4));
-		firstMonth = Integer.parseInt(first.substring(8,10));
-		firstDate = Integer.parseInt(first.substring(5,7));
+		firstMonth = Integer.parseInt(first.substring(5,7));
+		firstDate = Integer.parseInt(first.substring(8,10));
 
 		secondYear = Integer.parseInt(second.substring(0,4));
-		secondMonth = Integer.parseInt(second.substring(8,10));
-		secondDate = Integer.parseInt(second.substring(5,7));
+		secondMonth = Integer.parseInt(second.substring(5,7));
+		secondDate = Integer.parseInt(second.substring(8,10));
 
 		// 첫번째 연도가 두번째 연도보다 크다면 return false
 		if(firstYear > secondYear){

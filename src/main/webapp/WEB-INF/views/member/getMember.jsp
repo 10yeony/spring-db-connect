@@ -108,7 +108,7 @@
 												승인 완료
 											</c:if>
 											<c:if test="${thisMember.approval eq 'false'}">
-												<button type="button" onclick="approval('${thisMember.member_id}')" class="btn btn-primary btn-icon-split">
+												<button type="button" onclick="approval('${thisMember.member_id}', '${thisMember.name}', '${thisMember.email}')" class="btn btn-primary btn-icon-split">
 													<span class="text">가입 승인</span>
 												</button>
 											</c:if>

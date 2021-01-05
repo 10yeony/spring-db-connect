@@ -38,7 +38,7 @@
 							승인
 						</c:if>
 						<c:if test="${item.approval == 'false'}">
-							<select class="form-control" onchange="approval('${item.member_id}')">
+							<select class="form-control" onchange="approval('${item.member_id}', '${item.name}', '${item.email}')">
 								<option <c:if test="${item.approval == 'false'}">selected</c:if>>미승인</option>
 								<option>승인</option>
 							</select>
