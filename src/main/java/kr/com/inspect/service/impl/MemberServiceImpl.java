@@ -478,11 +478,12 @@ public class MemberServiceImpl implements MemberService {
 	 * @param member_id 회원 id
 	 */
 	@Override
-	public void updateMemberApprovalUsingId(String member_id){
-		int result = memberDao.updateMemberApprovalUsingId(member_id);
+	public void updateMemberApprovalUsingId(Member member){
+		int result = memberDao.updateMemberApprovalUsingId(member.getMember_id());
 		if(result > 0) {
+			sendMail.sendApprovalState(member); //회원 메일 발송
 			UsingLog usingLog = new UsingLog();
-			usingLog.setContent(member_id + " : 가입 승인");
+			usingLog.setContent(member.getMember_id() + " : 가입 승인");
 			usingLogUtil.setUsingLog(usingLog);
 		}
 	}

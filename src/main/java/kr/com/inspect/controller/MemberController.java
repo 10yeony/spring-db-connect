@@ -222,11 +222,12 @@ public class MemberController {
 	/**
 	 * 관리자 권한으로 가입 승인
 	 * @param member_id 승인할 member_id
+	 * @throws ParseException 
 	 */
 	@ResponseBody
 	@PostMapping("/approval")
-	public void approval(String member_id){
-		memberService.updateMemberApprovalUsingId(member_id);
+	public void approval(Member member) {
+		memberService.updateMemberApprovalUsingId(member);
 	}
 
 	/**

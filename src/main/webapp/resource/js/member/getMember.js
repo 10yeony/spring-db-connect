@@ -37,10 +37,14 @@ $(function(){
 	});
 });
 
-function approval(member_id){
+function approval(member_id, name, email){
 	$.ajax({
 		url: contextPath + "/approval",
-		data : "member_id=" + member_id,
+		data : {
+			member_id : member_id,
+			name : name,
+			email : email
+		},
 		type: "POST",
 
 		success : function (){
