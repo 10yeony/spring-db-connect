@@ -186,50 +186,53 @@ public class RuleServiceImpl implements RuleService {
 		String content = null;
 		
 		switch (level) {
-		case "top":
-			id = ruleDao.isExistTopLevel(rule);
-			if (id == 0) { // 존재하지 않는 경우에만 등록
-				result = ruleDao.registerTopLevel(rule);
-				if(result > 0) {
-					content = "룰 대분류 등록";
-					id = ruleDao.isExistTopLevel(rule); //등록 후 아이디(auto increment된 아이디)
-					rule.setTop_level_id(id);
+			case "top":
+				id = ruleDao.isExistTopLevel(rule);
+				if (id == 0) { // 존재하지 않는 경우에만 등록
+					result = ruleDao.registerTopLevel(rule);
+					if(result > 0) {
+						content = "룰 대분류 등록";
+						id = ruleDao.isExistTopLevel(rule); //등록 후 아이디(auto increment된 아이디)
+						rule.setTop_level_id(id);
+					}
 				}
-			}
-			break;
-		case "middle":
-			id = ruleDao.isExistMiddleLevel(rule);
-			if (id == 0) { // 존재하지 않는 경우에만 등록
-				result = ruleDao.registerMiddleLevel(rule);
-				if(result > 0) {
-					content = "룰 중분류 등록";
-					id = ruleDao.isExistMiddleLevel(rule); //등록 후 아이디(auto increment된 아이디)
-					rule.setMiddle_level_id(id);
+				break;
+			case "middle":
+				id = ruleDao.isExistMiddleLevel(rule);
+				if (id == 0) { // 존재하지 않는 경우에만 등록
+					result = ruleDao.registerMiddleLevel(rule);
+					if(result > 0) {
+						content = "룰 중분류 등록";
+						id = ruleDao.isExistMiddleLevel(rule); //등록 후 아이디(auto increment된 아이디)
+						rule.setMiddle_level_id(id);
+					}
 				}
-			}
-			break;
-		case "bottom":
-			id = ruleDao.isExistBottomLevel(rule); // 등록 전 아이디(중복 확인)
-			if (id == 0) { // 존재하지 않는 경우에만 등록
-				result = ruleDao.registerBottomLevel(rule);
-				id = ruleDao.isExistBottomLevel(rule); // 등록 후 아이디(auto increment된 아이디)
-				
-				/* 파일명 DB 등록(파일명이 중복되지 않도록 auto increment된 아이디 사용) */
-				String fileName = "Rule" + id;
-				rule.setBottom_level_id(id);
-				rule.setFile_name(fileName);
-				result += ruleDao.updateBottomLevelFileName(rule);
-				if(result > 0) {
-					content = "룰 소분류 등록";
+				break;
+			case "bottom":
+				id = ruleDao.isExistBottomLevel(rule); // 등록 전 아이디(중복 확인)
+				if (id == 0) { // 존재하지 않는 경우에만 등록
+					result = ruleDao.registerBottomLevel(rule);
+					id = ruleDao.isExistBottomLevel(rule); // 등록 후 아이디(auto increment된 아이디)
+					
+					/* 파일명 DB 등록(파일명이 중복되지 않도록 auto increment된 아이디 사용) */
+					String fileName = "Rule" + id;
+					rule.setBottom_level_id(id);
+					rule.setFile_name(fileName);
+					result += ruleDao.updateBottomLevelFileName(rule);
+					if(result > 0) {
+						content = "룰 소분류 등록";
+					}
 				}
-			}
-			break;
+				break;
 		}
 		
-		RuleLog ruleLog = new RuleLog();
-		ruleLog.setContent(content);
-		ruleLog.setRule(rule);
-		usingLogUtil.setUsingLog(ruleLog);
+		if (id == 0) {
+			RuleLog ruleLog = new RuleLog();
+			ruleLog.setContent(content);
+			ruleLog.setRule(rule);
+			usingLogUtil.setUsingLog(ruleLog);
+		}
+		
 		return result;
 	}
 
