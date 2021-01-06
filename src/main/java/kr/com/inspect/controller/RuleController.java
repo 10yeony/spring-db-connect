@@ -180,8 +180,12 @@ public class RuleController {
 
 	@GetMapping("/editRule")
 	public String editRulepage(Model model, int bottom_level_id) {
-		model.addAttribute("rule", ruleService.getRuleBottomLevel(bottom_level_id));
-		return "rule/editRule";
+		Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);
+		model.addAttribute("rule", rule);
+		if(rule.getRule_type().equals("method"))
+			return "rule/editRule";
+		else
+			return "rule/editRuleSQL";
 	}
 
 	@GetMapping("/registerRule")

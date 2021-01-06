@@ -1,10 +1,13 @@
 package kr.com.inspect.controller;
 
 import kr.com.inspect.dto.ResponseData;
+import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.rule.RunSQL;
+import kr.com.inspect.util.ClientInfo;
 import kr.com.inspect.util.UsingLogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +36,12 @@ public class SQLController {
     private UsingLogUtil usingLogUtil;
 
     /**
+     * 사용자 정보와 관련된 객체
+     */
+    @Autowired
+    private ClientInfo clientInfo;
+
+    /**
      * SQL 실행 페이지로 이동
      * @return SQL 실행 페이지
      */
@@ -53,13 +62,24 @@ public class SQLController {
         ResponseData responseData = new ResponseData(); //ajax 응답 객체
 
         // 앞뒤 공백 제거, 소문자 전환
-        System.out.println("controller query : " + query);
         responseData = runSQL.run(responseData, query.toLowerCase().trim());
 
         UsingLog usingLog = new UsingLog();
         usingLog.setContent("SQL 실행 : " + query);
         usingLogUtil.setUsingLog(usingLog);
 
+        responseData.responseJSON(response, responseData);
+    }
+
+    @ResponseBody
+    @PostMapping("/runRuleSQL")
+    public void runRuleSQL(HttpServletResponse response, Rule rule) throws Exception{
+        ResponseData responseData = new ResponseData();
+
+        /* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
+        rule.setCreator(clientInfo.getMemberId());
+
+        responseData = runSQL.run(responseData, rule);
         responseData.responseJSON(response, responseData);
     }
 }
