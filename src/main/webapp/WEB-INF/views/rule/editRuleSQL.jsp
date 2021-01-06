@@ -59,9 +59,20 @@
 </head>
 
 <body id="page-top">
+<form id="deleteRuleFrm">
+    <input type="hidden" name="level" value="bottom">
+    <input type="hidden" name="top_level_id" value="${rule.top_level_id}">
+    <input type="hidden" name="top_level_name" value="${rule.top_level_name}">
+    <input type="hidden" name="middle_level_id" value="${rule.middle_level_id}">
+    <input type="hidden" name="middle_level_name" value="${rule.middle_level_name}">
+    <input type="hidden" name="bottom_level_id" value="${rule.bottom_level_id}">
+    <input type="hidden" name="bottom_level_name" value="${rule.bottom_level_name}">
+</form>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
+    <input name="bottom_level_id" type="hidden" id="bottom_level_id"
+           value="${rule.bottom_level_id}">
     <!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
     <%@ include file="/WEB-INF/views/include/csrf-token.jsp"%>
 
@@ -88,20 +99,23 @@
                 <!-- Page Heading -->
                 <div
                         class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-2 text-gray-800"><b>SQL 실행</b></h1>
+                    <h1 class="h3 mb-2 text-gray-800"><b>룰 작성 - SQL</b></h1>
                 </div>
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <div>
-                            <b>실행할 쿼리를 입력해주세요.</b>
-                            <button type="button" onclick="runSQL()" class="btn btn-primary btn-icon-split float-right">
-                                <span class="text">SQL 실행</span>
-                            </button>
-                        </div><br><br>
+                        <b>실행할 쿼리를 입력해주세요.</b>
+                        <br><br>
                         <textarea id="query" name="query" cols="170" rows="20"
                                   style="height: 300px;">${rule.contents}</textarea><br>
+                        <button class="btn btn-danger float-left" type="button" id="deleteRuleBtn">삭제</button>
+                        <button type="button" onclick="runRuleSQL()" class="btn btn-primary btn-icon-split float-right">
+                            <span class="text">작성</span>
+                        <button class="btn btn-secondary" type="button"
+                                id="backRuleBtn" style="float: right; margin-right: 5px;">돌아가기</button>
+                        </button>
+                        <br>
                         <br><hr><br>
 
                         <div id="show_result_after_update">
@@ -157,7 +171,7 @@
 <script
         src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
 <script
-        src="${pageContext.request.contextPath}/resource/js/rule/runRuleSQL.js"></script>
+        src="${pageContext.request.contextPath}/resource/js/rule/editRuleSQL.js"></script>
 </body>
 
 </html>

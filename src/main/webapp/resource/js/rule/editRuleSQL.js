@@ -28,14 +28,25 @@ function runCodemirror(){
 $(function(){
     /* Context Path */
     contextPath = $('#contextPath').val();
+
+    $('#deleteRuleBtn').click(function(){
+        location.href = contextPath + '/rule/deleteRuleLevel?' + $('#deleteRuleFrm').serialize();
+    });
+
+    $('#backRuleBtn').click(function(){
+        location.href = contextPath + '/rule/ruleList/0/0/0';
+    });
 })
 
-function runSQL(){
+function runRuleSQL(){
     var query = myCodeMirror.getValue();
     console.log(query);
     $.ajax({
-        url: contextPath + "/runSQL",
-        data: { 'query' : query } ,
+        url: contextPath + "/runRuleSQL",
+        data: {
+            bottom_level_id: $('#bottom_level_id').val(),
+            contents : query
+        } ,
         type: "POST",
 
         success: function (response){
