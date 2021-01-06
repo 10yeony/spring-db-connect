@@ -73,11 +73,16 @@ public class Rule {
 	 */
 	private String imp_contents;
 
+	/**
+	 * 룰 타입
+	 */
+	private String rule_type;
+
 
 
 	public Rule(int row_num, int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
 				int bottom_level_id, String bottom_level_name, String description, String file_name, String creator,
-				String contents, String result, String imp_contents) {
+				String contents, String result, String imp_contents, String rule_type) {
 		super();
 		this.row_num = row_num;
 		this.top_level_id = top_level_id;
@@ -92,6 +97,7 @@ public class Rule {
 		this.contents = contents;
 		this.result = result;
 		this.imp_contents = imp_contents;
+		this.rule_type = rule_type;
 	}
 
 	public Rule() {}
@@ -174,6 +180,12 @@ public class Rule {
 	public void setImp_contents(String imp_contents) {
 		this.imp_contents = imp_contents;
 	}
+	public String getRule_type(){
+		return rule_type;
+	}
+	public void setRule_type(String rule_type){
+		this.rule_type = rule_type;
+	}
 
 	@Override
 	public String toString() {
@@ -181,7 +193,7 @@ public class Rule {
 				+ ", middle_level_id=" + middle_level_id + ", middle_level_name=" + middle_level_name
 				+ ", bottom_level_id=" + bottom_level_id + ", bottom_level_name=" + bottom_level_name + ", description="
 				+ description + ", file_name=" + file_name + ", creator=" + creator + ", contents=" + contents
-				+ ", result=" + result + ", imp_contents=" + imp_contents + "]";
+				+ ", result=" + result + ", imp_contents=" + imp_contents + ", rule_type=" + rule_type + "]";
 	}
 
 

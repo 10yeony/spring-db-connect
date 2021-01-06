@@ -60,7 +60,6 @@ public class RuleController {
 	@PostMapping("/addRuleLevel")
 	public String addRuleLevel(Model model, String new_top_level_name,
 			String new_middle_level_name, Rule rule) {
-		
 		/* DB 등록 후 row의 수 */
 		int result = 0;
 
@@ -89,7 +88,7 @@ public class RuleController {
 		else {
 			levelName = "룰";
 			String level = "bottom";
-			
+
 			/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
 			rule.setCreator(clientInfo.getMemberId());
 			result = ruleService.registerRule(level, rule);

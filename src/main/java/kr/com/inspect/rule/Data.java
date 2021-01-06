@@ -142,12 +142,14 @@ public class Data {
 	public List<Metadata> getMetadataAndProgram(int metadata_id) throws Exception{
 		List<Metadata> list = new ArrayList<>();
 		List<Speaker> speakerList = null;
+		List<Utterance> utteranceList = null;
 		Metadata vo = null;
 		Program program = null;
 		Speaker speaker = null;
+		Utterance utterance = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
-		ResultSet rs, rsSpeaker = null;
+		ResultSet rs, rsSpeaker, rsUtterance = null;
 		
 		String query = "SELECT "
 									+ "m.id metadata_id, "
@@ -216,32 +218,15 @@ public class Data {
 		}
 		
 		rs = ps.executeQuery();
-		String querySpeaker = "SELECT * FROM audio.speaker WHERE metadata_id=? ORDER BY no";
-		
+		String querySpeaker = "SELECT * FROM audio.speaker WHERE metadata_id=? and no = ?";
+		String queryUtterance = "SELECT * FROM audio.utterance WHERE metadata_id=? ORDER BY start";
+
 		while(rs.next()){
 			vo = new Metadata();
 			program = new Program();
 			speakerList = new ArrayList<>();
+			utteranceList = new ArrayList<>();
 			vo.setId(rs.getInt("metadata_id"));
-			ps = conn.prepareStatement(querySpeaker);
-			ps.setInt(1, vo.getId());
-			rsSpeaker = ps.executeQuery();
-			while(rsSpeaker.next()){
-				speaker = new Speaker();
-				speaker.setId(rsSpeaker.getInt("id"));
-				speaker.setNo(rsSpeaker.getInt("no"));
-				speaker.setShortcut(rsSpeaker.getInt("shortcut"));
-				speaker.setOccupation(rsSpeaker.getString("occupation"));
-				speaker.setSex(rsSpeaker.getString("sex"));
-				speaker.setName(rsSpeaker.getString("name"));
-				speaker.setAge(rsSpeaker.getString("age"));
-				speaker.setBirthplace(rsSpeaker.getString("birthplace"));
-				speaker.setCurrent_residence(rsSpeaker.getString("current_residence"));
-				speaker.setPricipal_residence(rsSpeaker.getString("pricipal_residence"));
-				speaker.setEducation(rsSpeaker.getString("education"));
-				speaker.setMetadata_id(rsSpeaker.getInt("metadata_id"));
-				speakerList.add(speaker);
-			}
 
 			vo.setCreator(rs.getString("creator"));
 			vo.setAnnotation_level(rs.getString("annotation_level"));
@@ -261,7 +246,6 @@ public class Data {
 			vo.setSentence_count(rs.getInt("sentence_count"));
 			vo.setEojeol_total(rs.getInt("eojeol_total"));
 			vo.setSpeaker_count(rs.getInt("speaker_count"));
-			vo.setSpeaker(speakerList);
 			list.add(vo);
 		}
 		

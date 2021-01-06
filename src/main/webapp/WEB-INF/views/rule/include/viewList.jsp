@@ -39,6 +39,7 @@
 					<th>중분류</th>
 					<th>소분류</th>
 					<th>설명</th>
+					<th>룰 타입</th>
 					<th>작성자</th>
 				</tr>
 			</thead>
@@ -55,5 +56,5 @@
 <!-- Core plugin JavaScript-->
 <script
 	src="${pageContext.request.contextPath}/resource/vendor/jquery-easing/jquery.easing.min.js"></script>
-
+</body>
 </html>

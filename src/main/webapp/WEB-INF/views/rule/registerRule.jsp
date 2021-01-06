@@ -102,6 +102,15 @@
 					 			</thead>
 					 			<form method="post" id="add_bottom_level_frm"action="${pageContext.request.contextPath}/rule/addRuleLevel">
 					 			<tbody>
+									<tr>
+										<th>종류</th>
+										<td>
+											<input type="radio" name="rule_type" id="method" value="method" checked>
+												<label for="method">메서드</label>
+											<input type="radio" name="rule_type" id="sql" value="sql">
+											<label for="sql">SQL</label>
+										</td>
+									</tr>
 					 				<tr>
 					 					<th>이름</th>
 					 					<td>
@@ -116,7 +125,7 @@
 					 					</td>
 					 				</tr>
 					 			</tbody>
-					 		</table>
+							</table>
 					 			<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 					 			<input name="top_level_id" type="hidden"/>
 					 			<input name="top_level_name" type="hidden"/>
