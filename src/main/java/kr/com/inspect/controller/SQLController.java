@@ -58,7 +58,6 @@ public class SQLController {
     @ResponseBody
     @RequestMapping(value = "/runSQL", method = RequestMethod.POST)
     public void runSQL(HttpServletResponse response, @RequestParam("query") String query) throws Exception {
-        System.out.println("runSQL PostMapping");
         ResponseData responseData = new ResponseData(); //ajax 응답 객체
 
         // 앞뒤 공백 제거, 소문자 전환

@@ -304,6 +304,8 @@ public class DocxReport {
 		r.setText("대분류 : " + rule.getTop_level_name());
 		r.addBreak();
 		r.setText("중분류 : " + rule.getMiddle_level_name());
+		r.addBreak();
+		r.setText("설명 : " + rule.getDescription());
 		r.setFontSize(9);
 		r.addBreak();
 

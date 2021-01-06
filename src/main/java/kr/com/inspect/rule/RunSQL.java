@@ -141,14 +141,20 @@ public class RunSQL {
                     responseData.setCode("select");
                     columnCount = resultSet.getMetaData().getColumnCount();
                     for(int i=1; i<columnCount+1; i++){
-                        list.add(resultSet.getMetaData().getColumnName(i));
+                        if(resultSet.getMetaData().getColumnName(i) == null)
+                            list.add(resultSet.getMetaData().getColumnName(i));
+                        else
+                            list.add(resultSet.getMetaData().getColumnName(i).replace(",", ""));
                     }
                     listList.add(list);
 
                     while (resultSet.next()){
                         list = new ArrayList<>();
                         for(int i=1; i<columnCount+1; i++){
-                            list.add(resultSet.getString(i));
+                            if(resultSet.getString(i) == null)
+                                list.add(resultSet.getString(i));
+                            else
+                                list.add(resultSet.getString(i).replace(",", ""));
                         }
                         listList.add(list);
                     }
@@ -168,9 +174,16 @@ public class RunSQL {
         catch (Exception e){
             responseData.setCode("error");
             responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
+            e.printStackTrace();
         }
-
-        rule.setResult(responseData.getItem().toString());
+        if(type.equals("select")){
+            rule.setResult(responseData.getItem().toString());
+            rule.setImp_contents(listList.size() +"개의 데이터를 조회하였습니다.");
+        }
+        else{
+            rule.setImp_contents(responseData.getItem().toString());
+            rule.setResult("");
+        }
         ruleDao.updateRuleCompileResult(rule);
 
         return responseData;

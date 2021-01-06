@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import kr.com.inspect.rule.RunSQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -76,6 +77,12 @@ public class RuleServiceImpl implements RuleService {
 	 * 전사규칙 자바 컴파일러 객체
 	 */
 	private RuleCompiler ruleCompiler = new RuleCompiler();
+
+	/**
+	 * SQL 실행 객체를 필드로 선언
+	 */
+	@Autowired
+	private RunSQL runSQL;
 
 
 	/**
@@ -350,23 +357,39 @@ public class RuleServiceImpl implements RuleService {
 
 		for (Rule rule : list) {
 			futures.add(executor.submit(() -> {
-				// String threadName = Thread.currentThread().getName();
 				Object obj = null;
-				try {
-					ruleCompiler.create(rule);
-					obj = ruleCompiler.runObject(rule); // 실행 결과값
-				} catch (Exception e) {
-					obj = getStringOfException(e); // 예외 문자열
+				if(rule.getRule_type().equals("method")) {
+					// String threadName = Thread.currentThread().getName();
+					try {
+						ruleCompiler.create(rule);
+						obj = ruleCompiler.runObject(rule); // 실행 결과값
+					} catch (Exception e) {
+						obj = getStringOfException(e); // 예외 문자열
+					}
+
+					/* 자바 파일 및 클래스 파일 삭제 */
+					deleteJavaClassFile(rule.getFile_name());
+
+					/* 컴파일 결과값 DB에 등록 */
+					rule.setResult(obj.toString());
+
+					int updateResult = ruleDao.updateRuleCompileResult(rule);
+
+					if(updateResult > 0) {
+						RuleLog ruleLog = new RuleLog();
+						ruleLog.setUsing_log_no(NO);
+						ruleLog.setIp_addr(IP_ADDR);
+						ruleLog.setMember_id(MEMBER_ID);
+						ruleLog.setTime(TIME);
+						ruleLog.setContent(RULELOG_CONTENT);
+						ruleLog.setRule(rule);
+						usingLogUtil.setUsingLog(ruleLog);
+					}
 				}
+				else if(rule.getRule_type().equals("sql")){
+					ResponseData responseData = new ResponseData();
+					runSQL.run(responseData, rule);
 
-				/* 자바 파일 및 클래스 파일 삭제 */
-				deleteJavaClassFile(rule.getFile_name());
-
-				/* 컴파일 결과값 DB에 등록 */
-				rule.setResult(obj.toString());
-				int updateResult = ruleDao.updateRuleCompileResult(rule);
-				
-				if(updateResult > 0) {
 					RuleLog ruleLog = new RuleLog();
 					ruleLog.setUsing_log_no(NO);
 					ruleLog.setIp_addr(IP_ADDR);

@@ -386,7 +386,8 @@
 		UPDATE
 			audio.rule_bottom_level
 		SET
-			result = #{result}
+			result = #{result},
+			imp_contents = #{imp_contents}
 		WHERE
 			id = #{bottom_level_id};
 	</update>
