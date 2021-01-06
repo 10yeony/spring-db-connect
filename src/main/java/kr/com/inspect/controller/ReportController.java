@@ -379,7 +379,7 @@ public class ReportController {
 	}
 
 	/**
-	 * 관리자 권한으로 가입 승인
+	 * 엑셀 다운 로그
 	 * @param title 엑셀 다운로드한 제목
 	 */
 	@ResponseBody
