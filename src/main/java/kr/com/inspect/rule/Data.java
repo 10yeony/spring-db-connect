@@ -340,7 +340,7 @@ public class Data {
 			vo.setStart(rs.getDouble("start"));
 			vo.setFinish(rs.getDouble("finish"));
 			vo.setMetadata_id(rs.getInt("metadata_id"));
-			if(vo.getSpeaker_no() == null){
+			if(vo.getSpeaker_no() == 0){
 				vo.setSpeaker(null);
 			}
 			else{
