@@ -160,9 +160,12 @@ function appendRunRuleResultArea(list){
 			}
 			append += '</tr></thead><tbody>';
 
-			for(let a=1; a<5; a++){
-				append += '<tr>';
+			var end = 5;
+			if(resultList.length<5)
+				end = resultList.length;
 
+			for(let a=1; a<end; a++){
+				append += '<tr>';
 				for(let j=0; j<resultList[a].length; j++)
 					append += '<td>'+ resultList[a][j] +'</td>';
 				append += '</tr>';

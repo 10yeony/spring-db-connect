@@ -352,6 +352,7 @@ public class DocxReport {
 			byte fileByte[] = FileUtils.readFileToByteArray(file);
 			response.setContentType("application/octet-stream");
 			response.setContentLength(fileByte.length);
+			docxFileName = docxFileName.replace(" ", "_");
 			response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(docxFileName,"UTF-8")+"\";");
 			response.setHeader("Content-Transfer-Encoding", "binary");
 			response.getOutputStream().write(fileByte);

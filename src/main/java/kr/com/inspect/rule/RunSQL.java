@@ -144,7 +144,6 @@ public class RunSQL {
                         if (resultSet.getMetaData().getColumnName(i) == null)
                             list.add(resultSet.getMetaData().getColumnName(i));
                         else {
-                            System.out.println(resultSet.getMetaData().getColumnName(i));
                             list.add(resultSet.getMetaData().getColumnName(i).replace(",", ""));
                         }
                     }
@@ -182,7 +181,7 @@ public class RunSQL {
         }
         if(type.equals("select")){
             rule.setResult(responseData.getItem().toString());
-            rule.setImp_contents(listList.size() +"개의 데이터를 조회하였습니다.");
+            rule.setImp_contents(listList.size()-1 +"개의 데이터를 조회하였습니다.");
         }
         else{
             rule.setImp_contents(responseData.getItem().toString());
