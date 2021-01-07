@@ -115,7 +115,7 @@
 					 					<th>이름</th>
 					 					<td>
 					 						<input type="text" class="form-control" name="bottom_level_name" 
-					 							placeholder="20자 이하로 입력하세요" maxlength="20" required> 
+					 							placeholder="30자 이하로 입력하세요" maxlength="30" required>
 					 					</td>
 					 				</tr>
 					 				<tr>
