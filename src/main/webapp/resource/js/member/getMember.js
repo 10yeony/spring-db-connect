@@ -38,17 +38,22 @@ function handleMember(cmd){
 	let idList = [];
 	let nameList = [];
 	let emailList = [];
+	let approvalList = [];
+	let expiredList = [];
 	let checkCnt = 0;
 	for(let i=0; i<selectItem.length; i++){
 		if(selectItem[i].checked){
-			let firstTd = selectItem[i].parentNode;
-			let secondTd = firstTd.nextSibling.nextSibling;
-			let thirdTd = secondTd.nextSibling.nextSibling; //id
-			let fourthTd = thirdTd.nextSibling.nextSibling; //name
-			let fifthTd = fourthTd.nextSibling.nextSibling; //email
-			idList.push(thirdTd.firstChild.innerHTML);
-			nameList.push(fourthTd.firstChild.innerHTML);
-			emailList.push(fifthTd.innerHTML);
+			let tr = selectItem[i].parentNode.parentNode;
+			let idTd = tr.childNodes[5].firstChild.innerHTML; //id
+			let nameTd = tr.childNodes[7].firstChild.innerHTML; //name
+			let emailTd = tr.childNodes[9].innerHTML; //email
+			let approvalTd = tr.childNodes[15].innerHTML; //가입 승인
+			let expiredTd = tr.childNodes[17].innerHTML; //계정만료
+			idList.push(idTd);
+			nameList.push(nameTd);
+			emailList.push(emailTd);
+			approvalList.push(approvalTd);
+			expiredList.push(expiredTd);
 			checkCnt++;
 		}
 	}
@@ -60,7 +65,9 @@ function handleMember(cmd){
 		let result = confirm('선택한 회원의 가입을 승인하시겠습니까?');
 		if(result){
 			for(let i=0; i<idList.length; i++){
-				approval(idList[i], nameList[i], emailList[i]);
+				if(approvalList[i] != '승인'){
+					approval(idList[i], nameList[i], emailList[i]);
+				}
 			}
 		}
 	}
@@ -68,7 +75,9 @@ function handleMember(cmd){
 		let result = confirm('선택한 회원의 계정을 활성화하시겠습니까?');
 		if(result){
 			for(let i=0; i<idList.length; i++){
-				accountActivation(idList[i]);
+				if(expiredList[i] != '만료되지 않음'){
+					accountActivation(idList[i]);
+				}
 			}
 		}
 	}

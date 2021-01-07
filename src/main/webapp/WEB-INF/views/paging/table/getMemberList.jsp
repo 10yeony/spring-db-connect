@@ -37,28 +37,8 @@
 					<td>${item.email}</td>
 					<td>${item.phone}</td>
 					<td>${item.login_time}</td>
-					<td>
-						<c:if test="${item.approval == 'true'}">
-							승인
-						</c:if>
-						<c:if test="${item.approval == 'false'}">
-							<select class="form-control" onchange="approval('${item.member_id}', '${item.name}', '${item.email}')">
-								<option <c:if test="${item.approval == 'false'}">selected</c:if>>미승인</option>
-								<option>승인</option>
-							</select>
-						</c:if>
-					</td>
-					<td>
-						<c:if test="${item.accountNonExpired == true}">
-							만료되지 않음
-						</c:if>
-						<c:if test="${item.accountNonExpired == false}">
-							<select class="form-control" onchange="accountActivation('${item.member_id}')">
-								<option <c:if test="${item.approval == 'false'}">selected</c:if>>만료됨</option>
-								<option>활성화</option>
-							</select>
-						</c:if>
-					</td>
+					<td><c:if test="${item.approval == 'true'}">승인</c:if><c:if test="${item.approval == 'false'}"><select class="form-control" onchange="approval('${item.member_id}', '${item.name}', '${item.email}')"><option <c:if test="${item.approval == 'false'}">selected</c:if>>미승인</option><option>승인</option></select></c:if></td>
+					<td><c:if test="${item.accountNonExpired == true}">만료되지 않음</c:if><c:if test="${item.accountNonExpired == false}"><select class="form-control" onchange="accountActivation('${item.member_id}')"><option <c:if test="${item.approval == 'false'}">selected</c:if>>만료됨</option><option>활성화</option></select></c:if></td>
 				</tr>
 			</c:forEach>
 		</tbody>
