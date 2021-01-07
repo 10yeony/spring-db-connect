@@ -335,7 +335,13 @@ public class DocxReport {
 				for(int i=0; i<strList.size(); i++){
 					double width = 8300.0/strList.size();
 					table.getRow(j).getCell(i).setWidth(Integer.toString((int)Math.ceil(width)));
-					table.getRow(j).getCell(i).setText(strList.get(i));
+					table.getRow(j).getCell(i).getParagraphArray(0).setSpacingAfter(0);
+					XWPFParagraph tempParagraph = table.getRow(j).getCell(i).getParagraphs().get(0);
+					tempParagraph.setAlignment(ParagraphAlignment.CENTER);
+					XWPFRun tempRun = tempParagraph.createRun();
+					tempRun.setFontSize(9);
+					tempRun.setText(strList.get(i));
+					table.getRow(j).getCell(i).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
 				}
 			}
 		}
