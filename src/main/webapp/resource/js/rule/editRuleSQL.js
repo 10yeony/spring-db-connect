@@ -39,8 +39,9 @@ $(function(){
 })
 
 function runRuleSQL(){
+    $('#loadingArea').show();
+
     var query = myCodeMirror.getValue();
-    console.log(query);
     $.ajax({
         url: contextPath + "/runRuleSQL",
         data: {
@@ -68,6 +69,8 @@ function runRuleSQL(){
                 $('#show_result_after_update textarea').empty();
                 $('#show_result_after_update textarea').append(json.item);
             }
+
+            $('#loadingArea').hide();
         },
         onerror : function(error) {
             alert(error)
@@ -107,44 +110,49 @@ function run(current){
     }
     append += '</tr></thead>';
 
-    for(var i = 1 +(currentPage-1)*countPerPage; i<end; i++){
-        if(i==1 +(currentPage-1)*countPerPage){
-            append += '<tbody><tr>';
-            for(var j=0; j<selectList[i].length; j++){
-                append += '<td>' + selectList[i][j] + '</td>';
+    if(selectList.length != 1){
+        for(var i = 1 +(currentPage-1)*countPerPage; i<end; i++){
+            if(i==1 +(currentPage-1)*countPerPage){
+                append += '<tbody><tr>';
+                for(var j=0; j<selectList[i].length; j++){
+                    append += '<td>' + selectList[i][j] + '</td>';
+                }
+                append += '</tr>';
             }
-            append += '</tr>';
-        }
-        else if(i == end-1){
-            append += '<tr>';
-            for(var j=0; j<selectList[i].length; j++){
-                append += '<td>' + selectList[i][j] + '</td>';
+            else if(i == end-1){
+                append += '<tr>';
+                for(var j=0; j<selectList[i].length; j++){
+                    append += '<td>' + selectList[i][j] + '</td>';
+                }
+                append += '</tr></tbody>';
             }
-            append += '</tr></tbody>';
-        }
-        else{
-            append += '<tr>';
-            for(var j=0; j<selectList[i].length; j++){
-                append += '<td>' + selectList[i][j] + '</td>';
+            else{
+                append += '<tr>';
+                for(var j=0; j<selectList[i].length; j++){
+                    append += '<td>' + selectList[i][j] + '</td>';
+                }
+                append += '</tr>';
             }
-            append += '</tr>';
         }
     }
     append += '</table></div><br><br>' +
         '<div style="text-align:center">';
-    append += '<a onclick="run(1)" style="cursor: pointer;" class="other_page">[<<]</a>'+'&nbsp;';
-    append += '<a onclick="run(' + ((Math.floor(current/countPerPage) - 1)*countPerPage + 1) + ')" style="cursor: pointer;" class="other_page">[<]</a>'+'&nbsp;';
 
-    for(var i=startPage; i<=endPage; i++){
-        if(i == currentPage){
-            append += '<a onclick="run('+ i +')" class="on_page" style="cursor: pointer;">[' + i + ']</a>';
+    if(selectList.length != 1){
+        append += '<a onclick="run(1)" style="cursor: pointer;" class="other_page">[<<]</a>'+'&nbsp;';
+        append += '<a onclick="run(' + ((Math.floor(current/countPerPage) - 1)*countPerPage + 1) + ')" style="cursor: pointer;" class="other_page">[<]</a>'+'&nbsp;';
+
+        for(var i=startPage; i<=endPage; i++){
+            if(i == currentPage){
+                append += '<a onclick="run('+ i +')" class="on_page" style="cursor: pointer;">[' + i + ']</a>';
+            }
+            else{
+                append += '<a onclick="run('+ i +')" class="other_page" style="cursor: pointer;">[' + i + ']</a>';
+            }
         }
-        else{
-            append += '<a onclick="run('+ i +')" class="other_page" style="cursor: pointer;">[' + i + ']</a>';
-        }
+        append += '<a onclick="run(' + ((Math.floor(current/countPerPage) + 1)*countPerPage + 1) + ')" style="cursor: pointer;" class="other_page">[>]</a>'+'&nbsp;';
+        append += '<a onclick="run(' + Math.ceil((selectList.length-1)/countPerPage) + ')" style="cursor: pointer;" class="other_page">[>>]</a>';
     }
-    append += '<a onclick="run(' + ((Math.floor(current/countPerPage) + 1)*countPerPage + 1) + ')" style="cursor: pointer;" class="other_page">[>]</a>'+'&nbsp;';
-    append += '<a onclick="run(' + Math.ceil((selectList.length-1)/countPerPage) + ')" style="cursor: pointer;" class="other_page">[>>]</a>';
 
     append += '</div>';
     $('#select_table').append(append);

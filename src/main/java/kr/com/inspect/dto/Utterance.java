@@ -37,7 +37,7 @@ public class Utterance {
 	/**
 	 * 발화자 번호
 	 */
-	private String speaker_no;
+	private int speaker_no;
 	
 	/**
 	 * 시작 시간
@@ -70,7 +70,7 @@ public class Utterance {
 	private Speaker speaker;
 	
 	public Utterance() {}
-	public Utterance(String id, String note, String form, String standard_form, String dialect_form, String speaker_no, double start,
+	public Utterance(String id, String note, String form, String standard_form, String dialect_form, int speaker_no, double start,
 			double finish, int eojeol_count, int metadata_id, List<EojeolList> eojoelList, Speaker speaker) {
 		super();
 		this.id = id;
@@ -117,10 +117,10 @@ public class Utterance {
 	public void setDialect_form(String dialect_form) {
 		this.dialect_form = dialect_form;
 	}
-	public String getSpeaker_no() {
+	public int getSpeaker_no() {
 		return speaker_no;
 	}
-	public void setSpeaker_no(String speaker_no) {
+	public void setSpeaker_no(int speaker_no) {
 		this.speaker_no = speaker_no;
 	}
 	public double getStart() {

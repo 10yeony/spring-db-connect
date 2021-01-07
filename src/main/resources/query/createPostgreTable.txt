@@ -34,7 +34,7 @@ CREATE TABLE audio.utterance (
 	form text,
 	standard_form text,
 	dialect_form text,
-	speaker_no text,
+	speaker_no integer,
 	start numeric,
 	finish numeric,
 	metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
@@ -117,6 +117,7 @@ CREATE TABLE audio.rule_bottom_level (
 	contents text,
 	result text,
 	imp_contents text,
+	rule_type text,
 	top_level_id integer REFERENCES audio.rule_top_level ON DELETE CASCADE,
 	middle_level_id integer REFERENCES audio.rule_middle_level ON DELETE CASCADE
 );
