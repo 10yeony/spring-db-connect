@@ -114,8 +114,12 @@
 					<h1 class="h3 mb-2 text-gray-800" style="display: inline-block">
 						<b>룰 작성 - 메서드</b>
 					</h1>
-					<br /> <span><b>이름 :</b> ${rule.bottom_level_name}</span>
 				</div>
+				<div style="margin-bottom:5px;" class="h5">
+					<b>대분류 : </b>${rule.top_level_name}<br/>
+					<b>중분류 : </b>${rule.middle_level_name}<br/>
+					<b>소분류 : </b>${rule.bottom_level_name}<br/>
+				</div><br>
 
 					<!-- Page Body -->
 					<div class="card shadow mb-4">
