@@ -162,7 +162,7 @@ public class JsonParsing {
 		    	utterance.setDialect_form(element.get("dialect_form").toString());
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("speaker_id"))) {
-		    	utterance.setSpeaker_no(element.get("speaker_id").toString());
+		    	utterance.setSpeaker_no(Integer.parseInt(element.get("speaker_id").toString()));
 		    }
 		    if(!ObjectUtils.isEmpty(element.get("start"))) {
 		    	utterance.setStart(Double.parseDouble(element.get("start").toString()));
