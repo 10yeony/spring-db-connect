@@ -107,7 +107,7 @@ public class RunSQL {
     public ResponseData run(ResponseData responseData, Rule rule) {
         ruleDao.updateContents(rule);
 
-        String query = rule.getContents().toLowerCase().trim();
+        String query = rule.getContents().trim();
         if(query.length() < 6){
             responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
             return responseData;
@@ -140,22 +140,26 @@ public class RunSQL {
                     resultSet = statement.executeQuery(query);
                     responseData.setCode("select");
                     columnCount = resultSet.getMetaData().getColumnCount();
-                    for(int i=1; i<columnCount+1; i++){
-                        if(resultSet.getMetaData().getColumnName(i) == null)
+                    for(int i=1; i<columnCount+1; i++) {
+                        if (resultSet.getMetaData().getColumnName(i) == null)
                             list.add(resultSet.getMetaData().getColumnName(i));
-                        else
+                        else {
+                            System.out.println(resultSet.getMetaData().getColumnName(i));
                             list.add(resultSet.getMetaData().getColumnName(i).replace(",", ""));
+                        }
                     }
                     listList.add(list);
 
                     while (resultSet.next()){
                         list = new ArrayList<>();
-                        for(int i=1; i<columnCount+1; i++){
-                            if(resultSet.getString(i) == null)
+                        for(int i=1; i<columnCount+1; i++) {
+                            if (resultSet.getString(i) == null)
                                 list.add(resultSet.getString(i));
-                            else
+                            else {
                                 list.add(resultSet.getString(i).replace(",", ""));
+                            }
                         }
+
                         listList.add(list);
                     }
                     responseData.setItem(listList);

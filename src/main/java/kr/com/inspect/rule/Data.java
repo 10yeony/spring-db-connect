@@ -336,7 +336,7 @@ public class Data {
 			vo.setForm(rs.getString("form"));
 			vo.setStandard_form(rs.getString("standard_form"));
 			vo.setDialect_form(rs.getString("dialect_form"));
-			vo.setSpeaker_no(rs.getString("speaker_no"));
+			vo.setSpeaker_no(rs.getInt("speaker_no"));
 			vo.setStart(rs.getDouble("start"));
 			vo.setFinish(rs.getDouble("finish"));
 			vo.setMetadata_id(rs.getInt("metadata_id"));

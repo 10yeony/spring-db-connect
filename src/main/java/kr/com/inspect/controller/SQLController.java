@@ -61,7 +61,7 @@ public class SQLController {
         ResponseData responseData = new ResponseData(); //ajax 응답 객체
 
         // 앞뒤 공백 제거, 소문자 전환
-        responseData = runSQL.run(responseData, query.toLowerCase().trim());
+        responseData = runSQL.run(responseData, query.trim());
 
         UsingLog usingLog = new UsingLog();
         usingLog.setContent("SQL 실행 : " + query);

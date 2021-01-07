@@ -108,11 +108,33 @@ function appendRunRuleResultArea(list){
 				'</textarea>'
 			);
 		}
-		else if(rule_type == 'sql'){
+		else if(rule_type == 'sql' && result == ''){
+			$('#run_rule_result_area').append(
+				'<br xmlns="http://www.w3.org/1999/html"/>' +
+				'<hr><div style="margin-bottom:5px;">' +
+				'<b>대분류 : </b>' + top_level_name + '<br/>' +
+				'<b>중분류 : </b>' + middle_level_name + '<br/>' +
+				'<b>소분류 : </b>' + bottom_level_name + '<br/>'+
+				'<b>타입 : </b>' + rule_type + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+				'<form action="'+ contextPath+'/resultRuleDocx' +'" method="get" target="ifrm">' +
+				'<input type="hidden" value="'+ bottom_level_id +'" name="bottom_level_id">'+
+				'<button type="submit" class="btn btn-primary btn-icon-split" style="float: right;">'+
+				'<span class="icon text-white-50"><i class="fas fa-download fa-sm text-white-50"></i></span>' +
+				'<span class="text"> Word</span></button>'+
+				'<iframe name="ifrm" width="0" height="0" frameborder="0"></iframe>' +
+				'</form>'+
+				'</div><br/><br/>' +
+				'<textarea class="form-control" rows="6" style="resize: none;" readonly>' +
+				imp_contents +
+				'</textarea>'
+			);
+		}
+		else if(rule_type == 'sql' && result != ''){
 			var resultList = result.substring(2, result.length-2).split('], [');
 			for(let j=0; j<resultList.length; j++){
 				resultList[j] = resultList[j].split(', ');
 			}
+
 			var append = '<br xmlns="http://www.w3.org/1999/html"/>' +
 				'<hr><div style="margin-bottom:5px;">' +
 				'<b>대분류 : </b>' + top_level_name + '<br/>' +
