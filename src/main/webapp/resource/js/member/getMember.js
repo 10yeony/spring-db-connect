@@ -54,6 +54,20 @@ function approval(member_id, name, email){
 	})
 }
 
+function checkAllMemberInThisPage(event){
+	if(event.target.checked){
+		$('.selectItem').prop('checked', true);
+	}else{
+		$('.selectItem').prop('checked', false);
+	}
+}
+
+function handleMember(cmd){
+	if(cmd == 'delete'){
+		alert('삭제');
+	}
+}
+
 function accountActivation(member_id){
 	$.ajax({
 		url: contextPath + "/accountActivation",

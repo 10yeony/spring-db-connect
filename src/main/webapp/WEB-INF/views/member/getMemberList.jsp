@@ -46,7 +46,7 @@
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-2 text-gray-800">
                     	<b>사용자 관리</b>
-                    	<span style="font-size:18px;">(${selectedRole})</span>
+                    	<span style="font-size:18px;">(${selectedRole} ${totalCount}명)</span>
                     </h1>
                 </div>
 

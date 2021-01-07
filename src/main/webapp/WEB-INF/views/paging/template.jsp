@@ -38,6 +38,15 @@
 		</button>
 	</div><br/>
 	
+	<br/>
+	<div style="float:left;">
+		<a href="javascript:handleMember('delete')" 
+
+>&nbsp;가입승인&nbsp;</a>&nbsp;
+		<a href="javascript:handleMember('delete')" style="color:#e74a3b">만료해제</a>&nbsp;
+		<a href="javascript:handleMember('delete')" style="color:#e74a3b">회원탈퇴</a>
+	</div>
+	
 	<!-- Select View -->
 	<div style="display:inline-block; float:right;">
 		<input type="radio" name="views" value="10views"> 
