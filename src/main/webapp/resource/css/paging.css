@@ -1,17 +1,43 @@
-.pagination{
+.pagination {
 	display: block;
 	text-align: center;
 }
-.direction_left01, .direction_right01, .on_page, .other_page{
+
+.direction_left01, .direction_right01, .on_page, .other_page {
 	color: #717384;
 	margin-right: 10px;
 }
-.on_page{
+
+.on_page {
 	color: #e74a3b;
 	font-weight: bold;
 }
 
 mark {
-  padding: 0;
-  background: #f1c40f;
+	padding: 0;
+	background: #f1c40f;
+}
+
+.button {
+	font-family: "Roboto", sans-serif;
+	font-size: 13px;
+	outline: none;
+	height: 25px;
+	text-align: center;
+	width: 68px;
+	background: #4e73df;
+	border: 2px solid #4e73df;
+	border-radius: 4px;
+	color: white;
+	letter-spacing: 1px;
+	text-shadow: 0;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.25s ease;
+	margin-bottom: 10px;
+}
+
+.button:hover {
+	color: #4e73df;
+	background: white;
 }

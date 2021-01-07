@@ -38,14 +38,16 @@
 		</button>
 	</div><br/>
 	
-	<br/>
-	<div style="float:left;">
-		<a href="javascript:handleMember('delete')" 
-
->&nbsp;가입승인&nbsp;</a>&nbsp;
-		<a href="javascript:handleMember('delete')" style="color:#e74a3b">만료해제</a>&nbsp;
-		<a href="javascript:handleMember('delete')" style="color:#e74a3b">회원탈퇴</a>
-	</div>
+	<c:choose>
+		<c:when test="${requestUrl == 'getMemberListByAdmin'}">
+			<br/>
+			<div style="float:left;">
+		  		<button class="button" onclick="javascript:handleMember('approval')">가입승인</button>
+				<button class="button" onclick="javascript:handleMember('active')" style="width:90px;">계정 활성화</button>
+				<button class="button" onclick="javascript:handleMember('delete')">회원탈퇴</button>
+			</div>
+		</c:when>
+	</c:choose>
 	
 	<!-- Select View -->
 	<div style="display:inline-block; float:right;">

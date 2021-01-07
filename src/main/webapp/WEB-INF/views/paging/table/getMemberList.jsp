@@ -30,9 +30,7 @@
 		<tbody>
 			<c:forEach items="${result}" var="item" varStatus="status">
 				<tr>
-					<td>
-						<input type="checkbox" class="selectItem">
-					</td>
+					<td><input type="checkbox" class="selectItem"></td>
 					<td>${item.row_num}</td>
 					<td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
 					<td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.name}</a></td>
