@@ -388,61 +388,60 @@ public class PostgreServiceImpl implements PostgreService{
 			}));
 		}
 		closeThread(executor, futures);
-		
-		long afterTime = System.currentTimeMillis();
 		logger.info(clientInfo.getTime() + " JSON 입력 끝");
-		
-		logger.info("########## JSON 입력 결과 요약 ##########");
-		
-		long diffTime = (afterTime - beforeTime);
-		logger.info("JSON 입력 소요 시간(ms) : " + diffTime + "밀리초");
-		long secDiffTime = diffTime/1000;
-		logger.info("JSON 입력 소요 시간(s) : " + secDiffTime + "초");
-		
-		logger.info("########## JSON 입력 결과 세부항목 ##########");
-
-		logger.info("JSON 파일 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseJsonFile")) + "밀리초");
-		logger.info("JSON 파일 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseJsonFile")/1000) + "초");
-
-		logger.info("Metadata 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseMetadata")) + "밀리초");
-		logger.info("Metadata 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseMetadata")/1000) + "초");
-
-		logger.info("Metadata 기본키 가져오기(중복 등록 방지) 소요 시간(ms) : " + (singletone.getTimeRecorder("getMetadataId")) + "밀리초");
-		logger.info("Metadata 기본키 가져오기(중복 등록 방지) 소요 시간(s) : " + (singletone.getTimeRecorder("getMetadataId")/1000) + "초");
-
-		logger.info("Metadata DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoMetadata")) + "밀리초");
-		logger.info("Metadata DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoMetadata")/1000) + "초");
-
-		logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(ms) : " + (singletone.getTimeRecorder("getAutoIncrementMetadataId")) + "밀리초");
-		logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(s) : " + (singletone.getTimeRecorder("getAutoIncrementMetadataId")/1000) + "초");
-
-		logger.info("Speaker 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseSpeaker")) + "밀리초");
-		logger.info("Speaker 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseSpeaker")/1000) + "초");
-
-		logger.info("Speaker DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoSpeaker")) + "밀리초");
-		logger.info("Speaker DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoSpeaker")/1000) + "초");
-
-		logger.info("Utterance(with EojeolList) 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseUtterance")) + "밀리초");
-		logger.info("Utterance(with EojeolList) 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseUtterance")/1000) + "초");
-
-		logger.info("Utterance(only Utterance) 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseUtterance")-singletone.getTimeRecorder("parseEojeolList")) + "밀리초");
-		logger.info("Utterance(only Utterance) 객체 파싱 소요 시간(s) : " + ((singletone.getTimeRecorder("parseUtterance")-singletone.getTimeRecorder("parseEojeolList"))/1000) + "초");
-		
-		logger.info("EojeolList 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseEojeolList")) + "밀리초");
-		logger.info("EojeolList 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseEojeolList")/1000) + "초");
-
-		logger.info("Utterance DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoUtterance")) + "밀리초");
-		logger.info("Utterance DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoUtterance")/1000) + "초");
-
-		logger.info("EojeolList DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoEojeolList")) + "밀리초");
-		logger.info("EojeolList DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoEojeolList")/1000) + "초");
-
-		logger.info("JsonLog DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoJsonLog")) + "밀리초");
-		logger.info("JsonLog DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoJsonLog")/1000) + "초");
 
 		if(singletone.getNewData() > 0) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
+			long afterTime = System.currentTimeMillis();
+			logger.info("########## JSON 입력 결과 요약 ##########");
+			
+			long diffTime = (afterTime - beforeTime);
+			logger.info("JSON 입력 소요 시간(ms) : " + diffTime + "밀리초");
+			long secDiffTime = diffTime/1000;
+			logger.info("JSON 입력 소요 시간(s) : " + secDiffTime + "초");
+			
+			logger.info("########## JSON 입력 결과 세부항목 ##########");
+
+			logger.info("JSON 파일 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseJsonFile")) + "밀리초");
+			logger.info("JSON 파일 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseJsonFile")/1000) + "초");
+
+			logger.info("Metadata 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseMetadata")) + "밀리초");
+			logger.info("Metadata 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseMetadata")/1000) + "초");
+
+			logger.info("Metadata 기본키 가져오기(중복 등록 방지) 소요 시간(ms) : " + (singletone.getTimeRecorder("getMetadataId")) + "밀리초");
+			logger.info("Metadata 기본키 가져오기(중복 등록 방지) 소요 시간(s) : " + (singletone.getTimeRecorder("getMetadataId")/1000) + "초");
+
+			logger.info("Metadata DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoMetadata")) + "밀리초");
+			logger.info("Metadata DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoMetadata")/1000) + "초");
+
+			logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(ms) : " + (singletone.getTimeRecorder("getAutoIncrementMetadataId")) + "밀리초");
+			logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(s) : " + (singletone.getTimeRecorder("getAutoIncrementMetadataId")/1000) + "초");
+
+			logger.info("Speaker 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseSpeaker")) + "밀리초");
+			logger.info("Speaker 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseSpeaker")/1000) + "초");
+
+			logger.info("Speaker DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoSpeaker")) + "밀리초");
+			logger.info("Speaker DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoSpeaker")/1000) + "초");
+
+			logger.info("Utterance(with EojeolList) 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseUtterance")) + "밀리초");
+			logger.info("Utterance(with EojeolList) 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseUtterance")/1000) + "초");
+
+			logger.info("Utterance(only Utterance) 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseUtterance")-singletone.getTimeRecorder("parseEojeolList")) + "밀리초");
+			logger.info("Utterance(only Utterance) 객체 파싱 소요 시간(s) : " + ((singletone.getTimeRecorder("parseUtterance")-singletone.getTimeRecorder("parseEojeolList"))/1000) + "초");
+			
+			logger.info("EojeolList 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseEojeolList")) + "밀리초");
+			logger.info("EojeolList 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseEojeolList")/1000) + "초");
+
+			logger.info("Utterance DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoUtterance")) + "밀리초");
+			logger.info("Utterance DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoUtterance")/1000) + "초");
+
+			logger.info("EojeolList DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoEojeolList")) + "밀리초");
+			logger.info("EojeolList DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoEojeolList")/1000) + "초");
+
+			logger.info("JsonLog DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoJsonLog")) + "밀리초");
+			logger.info("JsonLog DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoJsonLog")/1000) + "초");
 			return "true";
 		}else { //모두 중복된 데이터일 경우
+			logger.info("이미 DB에 등록된 중복 데이터 파일들입니다.");
 			return "false";
 		}
 	}

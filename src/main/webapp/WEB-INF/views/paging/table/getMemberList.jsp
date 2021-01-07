@@ -14,6 +14,9 @@
 	<table id="downTable" class="table table-bordered paging-table" width="100%" cellspacing="0">
 		<thead>
 			<tr>
+				<th>
+					<input type="checkbox" onchange="checkAllMemberInThisPage(event);">
+				</th>
 				<th>no.</th>
 				<th>아이디</th>
 				<th>이름</th>
@@ -27,6 +30,9 @@
 		<tbody>
 			<c:forEach items="${result}" var="item" varStatus="status">
 				<tr>
+					<td>
+						<input type="checkbox" class="selectItem">
+					</td>
 					<td>${item.row_num}</td>
 					<td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
 					<td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.name}</a></td>
