@@ -3,7 +3,11 @@ package kr.com.inspect.util;
 import java.util.HashMap;
 import java.util.Map;
 
-/* Thread-Safe하게 자원을 공유하기 위한 싱글톤 객체 */
+/**
+ * Thread-Safe하게 자원을 공유하기 위한 싱글톤 객체
+ * @author Yeonhee Kim
+ *
+ */
 public class Singleton {
 	
 	/**
