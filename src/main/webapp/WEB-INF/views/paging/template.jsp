@@ -43,7 +43,7 @@
 			<br/>
 			<div style="float:left;">
 		  		<button class="button" onclick="javascript:handleMember('approval')">가입승인</button>
-				<button class="button" onclick="javascript:handleMember('active')" style="width:90px;">계정 활성화</button>
+				<button class="button" onclick="javascript:handleMember('active')">계정 활성화</button>
 				<button class="button" onclick="javascript:handleMember('delete')">회원탈퇴</button>
 			</div>
 		</c:when>
