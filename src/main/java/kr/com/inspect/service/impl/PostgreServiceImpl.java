@@ -273,6 +273,7 @@ public class PostgreServiceImpl implements PostgreService{
 		File[] fileList = dir.listFiles();
 		
 		singletone.setNewData(0);
+		singletone.resetDbRowCount();
 		singletone.resetTimeRecorder();
 		
 		if(fileList.length == 0) {
@@ -339,6 +340,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 						/* speaker 객체 파싱 */
 						List<Speaker> speakerList = jsonParsing.setSpeaker(obj, metadata_id);
+						singletone.setDbRowCount("speaker", speakerList.size());
 						
 						/* speaker 테이블 입력 */
 						beforeTimeCheck = System.currentTimeMillis();
@@ -350,6 +352,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 						/* utterance 객체 파싱(EojeolList 포함) */
 						List<Utterance> utteranceList = jsonParsing.setUtterance(obj, metadata_id);
+						singletone.setDbRowCount("utterance", utteranceList.size());
 						
 						/* utterance 테이블 입력(EojeolList 포함) */
 						for(Utterance utterance : utteranceList) {
@@ -359,6 +362,7 @@ public class PostgreServiceImpl implements PostgreService{
 							singletone.setTimeRecorder("insertIntoUtterance", afterTimeCheck-beforeTimeCheck);
 							
 							List<EojeolList> eojeolListList = utterance.getEojoelList();
+							singletone.setDbRowCount("eojeolList", eojeolListList.size());
 							for(EojeolList eojeolList : eojeolListList) {
 								long newBeforeTimeCheck = System.currentTimeMillis();
 								sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList); //eojeolList 입력
@@ -412,7 +416,8 @@ public class PostgreServiceImpl implements PostgreService{
 
 			logger.info("Metadata DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoMetadata")) + "밀리초");
 			logger.info("Metadata DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoMetadata")/1000) + "초");
-
+			logger.info("Metadata DB에 입력된 총 row의 수 : "+ singletone.getNewData());
+			
 			logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(ms) : " + (singletone.getTimeRecorder("getAutoIncrementMetadataId")) + "밀리초");
 			logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(s) : " + (singletone.getTimeRecorder("getAutoIncrementMetadataId")/1000) + "초");
 
@@ -421,7 +426,8 @@ public class PostgreServiceImpl implements PostgreService{
 
 			logger.info("Speaker DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoSpeaker")) + "밀리초");
 			logger.info("Speaker DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoSpeaker")/1000) + "초");
-
+			logger.info("Speaker DB에 입력된 총 row의 수 : " + singletone.getDbRowCount("speaker"));
+			
 			logger.info("Utterance(with EojeolList) 객체 파싱 소요 시간(ms) : " + (singletone.getTimeRecorder("parseUtterance")) + "밀리초");
 			logger.info("Utterance(with EojeolList) 객체 파싱 소요 시간(s) : " + (singletone.getTimeRecorder("parseUtterance")/1000) + "초");
 
@@ -433,12 +439,15 @@ public class PostgreServiceImpl implements PostgreService{
 
 			logger.info("Utterance DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoUtterance")) + "밀리초");
 			logger.info("Utterance DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoUtterance")/1000) + "초");
-
+			logger.info("Utterance DB에 입력된 총 row의 수 : "+ singletone.getDbRowCount("utterance"));
+			
 			logger.info("EojeolList DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoEojeolList")) + "밀리초");
 			logger.info("EojeolList DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoEojeolList")/1000) + "초");
-
+			logger.info("EojeolList DB에 입력된 총 row의 수 : "+ singletone.getDbRowCount("eojeolList"));
+			
 			logger.info("JsonLog DB 입력 소요 시간(ms) : " + (singletone.getTimeRecorder("insertIntoJsonLog")) + "밀리초");
 			logger.info("JsonLog DB 입력 소요 시간(s) : " + (singletone.getTimeRecorder("insertIntoJsonLog")/1000) + "초");
+			logger.info("JsonLog DB에 입력된 총 row의 수 : "+ singletone.getNewData());
 			return "true";
 		}else { //모두 중복된 데이터일 경우
 			logger.info("이미 DB에 등록된 중복 데이터 파일들입니다.");

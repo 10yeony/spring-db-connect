@@ -33,6 +33,11 @@ public class Singleton {
 	private int newData;
 	
 	/**
+	 * 해당되는 DB에 입력되는 총 row의 수
+	 */
+	private Map<String, Integer> dbRowCount = new HashMap<String, Integer>();
+	
+	/**
 	 * 시간 기록을 위한 timeRecorder
 	 */
 	private Map<String, Long> timeRecorder = new HashMap<String, Long>();
@@ -53,6 +58,37 @@ public class Singleton {
 		this.newData = newData;
 	}
 	
+	/**
+	 * 합산한 해당 DB들에 추가된 총 row의 수를 리셋함
+	 */
+	public void resetDbRowCount() {
+		this.dbRowCount = new HashMap<String, Integer>();
+	}
+	
+	/**
+	 * 해당되는 DB에 추가된 총 row의 수를 더함
+	 * @param dbName 해당되는 DB 이름
+	 * @param count 해당되는 DB에 추가된 총 row의 수
+	 */
+	public void setDbRowCount(String dbName, int count) {
+		if(dbRowCount.get(dbName) == null) {
+			this.dbRowCount.put(dbName, 0);
+		}
+		this.dbRowCount.put(dbName, dbRowCount.get(dbName)+count);
+	}
+	
+	/**
+	 * 해당되는 DB에 추가된 총 row의 수를 반환함
+	 * @param dbName 해당되는 DB 이름
+	 * @return 해당되는 DB에 추가된 총 row의 수
+	 */
+	public Integer getDbRowCount(String dbName) {
+		return dbRowCount.get(dbName);
+	}
+	
+	/**
+	 * 측정한 시간 기록들을 리셋함
+	 */
 	public void resetTimeRecorder() {
 		this.timeRecorder = new HashMap<String, Long>();
 	}
