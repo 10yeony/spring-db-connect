@@ -39,8 +39,6 @@ $(function(){
 })
 
 function runRuleSQL(){
-    $('#loadingArea').show();
-
     var query = myCodeMirror.getValue();
     $.ajax({
         url: contextPath + "/runRuleSQL",
@@ -69,13 +67,17 @@ function runRuleSQL(){
                 $('#show_result_after_update textarea').empty();
                 $('#show_result_after_update textarea').append(json.item);
             }
-
-            $('#loadingArea').hide();
         },
-        onerror : function(error) {
-            alert(error)
+        error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
-    })
+    });
+    $(document).ajaxStart(function (){
+        $('#loadingArea').show();
+    });
+    $(document).ajaxStop(function (){
+        $('#loadingArea').hide();
+    });
 }
 
 function run(current){
@@ -140,7 +142,7 @@ function run(current){
 
     if(selectList.length != 1){
         append += '<a onclick="run(1)" style="cursor: pointer;" class="other_page">[<<]</a>'+'&nbsp;';
-        append += '<a onclick="run(' + ((Math.floor(current/countPerPage) - 1)*countPerPage + 1) + ')" style="cursor: pointer;" class="other_page">[<]</a>'+'&nbsp;';
+        append += '<a onclick="run(' + ((Math.floor((current-1)/countPerPage) - 1)*countPerPage + 1) + ')" style="cursor: pointer;" class="other_page">[<]</a>'+'&nbsp;';
 
         for(var i=startPage; i<=endPage; i++){
             if(i == currentPage){
@@ -150,7 +152,7 @@ function run(current){
                 append += '<a onclick="run('+ i +')" class="other_page" style="cursor: pointer;">[' + i + ']</a>';
             }
         }
-        append += '<a onclick="run(' + ((Math.floor(current/countPerPage) + 1)*countPerPage + 1) + ')" style="cursor: pointer;" class="other_page">[>]</a>'+'&nbsp;';
+        append += '<a onclick="run(' + ((Math.floor((current-1) /countPerPage) + 1)*countPerPage + 1) + ')" style="cursor: pointer;" class="other_page">[>]</a>'+'&nbsp;';
         append += '<a onclick="run(' + Math.ceil((selectList.length-1)/countPerPage) + ')" style="cursor: pointer;" class="other_page">[>>]</a>';
     }
 

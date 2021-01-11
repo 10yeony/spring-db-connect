@@ -34,7 +34,7 @@ public class RunSQL {
      */
     public ResponseData run(ResponseData responseData, String query) {
         if(query.length() < 6){
-            responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
+            responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n쿼리문이 너무 짧습니다.");
             return responseData;
         }
         String type = query.substring(0, 6);
@@ -52,16 +52,19 @@ public class RunSQL {
 
             switch (type){
                 case "insert" :
+                case "INSERT" :
                     result = statement.executeUpdate(query);
                     responseData.setCode("insert");
                     responseData.setItem(result + "개의 데이터가 삽입되었습니다.");
                     break;
                 case "update" :
+                case "UPDATE" :
                     result = statement.executeUpdate(query);
                     responseData.setCode("update");
                     responseData.setItem(result + "개의 데이터가 업데이트되었습니다.");
                     break;
                 case "select" :
+                case "SELECT" :
                     resultSet = statement.executeQuery(query);
                     responseData.setCode("select");
                     columnCount = resultSet.getMetaData().getColumnCount();
@@ -80,19 +83,26 @@ public class RunSQL {
                     responseData.setItem(listList);
                     break;
                 case "delete" :
+                case "DELETE" :
                     result = statement.executeUpdate(query);
                     responseData.setCode("delete");
                     responseData.setItem(result + "개의 데이터가 삭제되었습니다.");
                     break;
+                case "create" :
+                case "CREATE" :
+                    statement.executeUpdate(query);
+                    responseData.setCode("create");
+                    responseData.setItem("성공적으로 생성하였습니다.");
+                    break;
                 default:
                     responseData.setCode("error");
-                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
+                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\nselect, update, insert, delete, create 로 시작하는 쿼리문을 입력해주세요.");
             }
             data.closeAll(resultSet, preparedStatement, con);
         }
         catch (Exception e){
             responseData.setCode("error");
-            responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
+            responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n" + e.getMessage());
             return responseData;
         }
         return responseData;
@@ -109,7 +119,7 @@ public class RunSQL {
 
         String query = rule.getContents().trim();
         if(query.length() < 6){
-            responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
+            responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n쿼리문이 너무 짧습니다.");
             return responseData;
         }
         String type = query.substring(0, 6);
@@ -127,16 +137,19 @@ public class RunSQL {
 
             switch (type){
                 case "insert" :
+                case "INSERT" :
                     result = statement.executeUpdate(query);
                     responseData.setCode("insert");
                     responseData.setItem(result + "개의 데이터가 삽입되었습니다.");
                     break;
                 case "update" :
+                case "UPDATE" :
                     result = statement.executeUpdate(query);
                     responseData.setCode("update");
                     responseData.setItem(result + "개의 데이터가 업데이트되었습니다.");
                     break;
                 case "select" :
+                case "SELECT" :
                     resultSet = statement.executeQuery(query);
                     responseData.setCode("select");
                     columnCount = resultSet.getMetaData().getColumnCount();
@@ -164,20 +177,26 @@ public class RunSQL {
                     responseData.setItem(listList);
                     break;
                 case "delete" :
+                case "DELETE":
                     result = statement.executeUpdate(query);
                     responseData.setCode("delete");
                     responseData.setItem(result + "개의 데이터가 삭제되었습니다.");
                     break;
+                case "create" :
+                case "CREATE":
+                    statement.executeUpdate(query);
+                    responseData.setCode("create");
+                    responseData.setItem("성공적으로 생성하였습니다.");
+                    break;
                 default:
                     responseData.setCode("error");
-                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
+                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\nselect, update, insert, delete, create 로 시작하는 쿼리문을 입력해주세요.");
             }
             data.closeAll(resultSet, preparedStatement, con);
         }
         catch (Exception e){
             responseData.setCode("error");
-            responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요.");
-            e.printStackTrace();
+            responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n" + e.getMessage());
         }
         if(type.equals("select")){
             rule.setResult(responseData.getItem().toString());
