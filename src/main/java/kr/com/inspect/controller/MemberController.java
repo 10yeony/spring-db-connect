@@ -221,8 +221,7 @@ public class MemberController {
 
 	/**
 	 * 관리자 권한으로 가입 승인
-	 * @param member_id 승인할 member_id
-	 * @throws ParseException 
+	 * @param member 승인할 member
 	 */
 	@ResponseBody
 	@PostMapping("/approval")
