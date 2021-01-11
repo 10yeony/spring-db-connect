@@ -40,8 +40,8 @@
 			<!-- Begin Page Content -->
 			<div class="container-fluid">
 				<div style="text-align:center; padding-top:100px;">
-					<img src="${pageContext.request.contextPath}/resource/img/warning.png"
-						width="150px">
+					<img src="${pageContext.request.contextPath}/resource/img/NAMU_Logo_PNG.png"
+						width="300px"><br><br>
 					<div style="margin-top:30px; font-size:1.5em;">${errorMsg}</div>
 				</div>
 			</div>

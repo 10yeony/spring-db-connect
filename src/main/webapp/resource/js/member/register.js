@@ -358,6 +358,8 @@ $(function() {
 		}
 		
 		var formData = new FormData($('#registerFrm')[0]);
+
+		$('#loadingArea').show();
 		
 		/* ajax로 제출 */
 		$.ajax({
@@ -370,6 +372,7 @@ $(function() {
 			success : function(data) {
 				alert(data);
 				location.href = contextPath + "/index.jsp";
+				$('#loadingArea').hide();
 			},
 			
 			error : function(request, status, error) {

@@ -34,11 +34,31 @@
 	src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 <script 
 	src="${pageContext.request.contextPath}/resource/js/member/register.js"></script>
+
+<!-- w3 css -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<style>
+	.loading {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 80px;
+		height: 80px;
+		margin: -50px 0 0 -50px;
+	}
+</style>
 </head>
 
 <body>
 	<!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
 	<%@ include file="/WEB-INF/views/include/csrf-token.jsp"%>
+
+	<!-- 로딩 화면 -->
+	<div id="loadingArea" class="w3-modal w3-animate-opacity">
+		<img class="loading" width="100px"
+			 src="${pageContext.request.contextPath}/resource/img/loading.gif">
+	</div>
 	
 	<div class="text-center">
 		<h1 class="h5 text-gray-900 mb-4">사용자 등록</h1>

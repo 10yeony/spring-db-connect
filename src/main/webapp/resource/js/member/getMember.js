@@ -15,7 +15,8 @@ $(function(){
 		let result = confirm('해당 회원을 정말로 탈퇴시키겠습니까?');
 		if(result){
 			let member_id = $('#thisMember_id').val();
-			deleteMember(member_id);
+			console.log(member_id)
+			deleteMemberByAdmin(member_id);
 		}
 	});
 
@@ -85,7 +86,7 @@ function handleMember(cmd){
 		let result = confirm('선택한 회원을 정말로 탈퇴시키겠습니까?');
 		if(result){
 			for(let i=0; i<idList.length; i++){
-				deleteMember(idList[i]);
+				deleteMemberByAdmin(idList[i]);
 			}
 		}
 	}
@@ -121,7 +122,7 @@ function accountActivation(member_id){
 	})
 }
 
-function deleteMember(member_id){
+function deleteMemberByAdmin(member_id){
 	$.ajax({
 		url : contextPath + "/deleteMemberByAdmin",
 		type : "GET",

@@ -1,6 +1,8 @@
 package kr.com.inspect.dao;
 
 import java.util.List;
+import java.util.Map;
+
 import kr.com.inspect.dto.*;
 
 /**
@@ -109,21 +111,5 @@ public interface PostgreDao {
 	 */
 	public Utterance getUtteranceUsingId(String id);
 
-	/**
-	 * Metadata 테이블 데이터 개수를 가져옴
-	 * @return Metadata 테이블 데이터 개수
-	 */
-	public int getMetadataCount();
-
-	/**
-	 * utterance 테이블 데이터 개수를 가져옴
-	 * @return utterance 테이블 데이터 개수
-	 */
-	public int getUtteranceCount();
-
-	/**
-	 * eojeolList 테이블 데이터 개수를 가져옴
-	 * @return eojeolList 테이블 데이터 개수
-	 */
-	public int getEojeolListCount();
+	public Map<String, Object> getDashboardCount();
 }

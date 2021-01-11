@@ -483,9 +483,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			m.id = #{metaId};
 	</select>
 
-	<!-- metadata 데이터 개수 리턴 -->
-	<select id="getMetadataCount" resultType="int">
-		SELECT count(*)
-		FROM audio.metadata;
+	<!-- 대쉬보드에 쓰일 데이터 개수 리턴 -->
+	<select id="getDashboardCount" resultMap="getCountMapList">
+		select
+		(select count(*) from audio.member) "member",
+		(select count(*) from audio.metadata) "metadata",
+		(select count(*) from audio.utterance) "utterance",
+		(select count(*) from audio.eojeollist) "eojeol"
 	</select>
+	<resultMap id="getCountMapList" type="map">
+		<result column="member" property="member"/>
+		<result column="metadata" property="metadata"/>
+		<result column="utterance" property="utterance"/>
+		<result column="eojeol" property="eojeol"/>
+	</resultMap>
 </mapper>

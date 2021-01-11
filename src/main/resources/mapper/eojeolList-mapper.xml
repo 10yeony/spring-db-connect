@@ -35,9 +35,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			begin;
 	</select>
 
-	<!-- eojeolList 데이터 개수 리턴 -->
-	<select id="getEojeolListCount" resultType="int">
-		SELECT count(*)
-		FROM audio.eojeollist;
-	</select>
 </mapper>

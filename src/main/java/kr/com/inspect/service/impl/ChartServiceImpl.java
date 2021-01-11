@@ -154,49 +154,7 @@ public class ChartServiceImpl implements ChartService {
 	 */
 	@Override
 	public Map<String, Object> getCountData(){
-		Map<String, Object> items = new HashMap<String, Object>();
-
-		Thread thread1 = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				items.put("metadata", postgreDao.getMetadataCount());
-			}
-		});
-
-		Thread thread2 = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				items.put("utterance", postgreDao.getUtteranceCount());
-			}
-		});
-
-		Thread thread3 = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				items.put("eojeol", postgreDao.getEojeolListCount());
-			}
-		});
-
-		Thread thread4 = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				items.put("member", memberDao.getMemberCount());
-			}
-		});
-
-		thread1.start();
-		thread2.start();
-		thread3.start();
-		thread4.start();
-
-		try{
-			thread1.join();
-			thread2.join();
-			thread3.join();
-			thread4.join();
-		}catch (Exception e){
-			e.printStackTrace();
-		}
+		Map<String, Object> items = postgreDao.getDashboardCount();
 
 		return items;
 	}

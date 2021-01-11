@@ -1,5 +1,12 @@
 var contextPath;
 
+$(document).ajaxStart(function (){
+	$('#loadingArea').show();
+});
+$(document).ajaxStop(function (){
+	$('#loadingArea').hide();
+});
+
 $(function(){
 	/* Context Path */
 	contextPath = $('#contextPath').val();
@@ -26,40 +33,33 @@ $(function(){
 		} else if(bottom_level == 'bottom_level_value'){
 			bottom_level = '';
 		}
-		$('#loadingArea').show();
 		runRuleCompiler(top_level, middle_level, bottom_level)
 	});
 });
 
 function runRuleCompiler(top_level, middle_level, bottom_level){
-	setTimeout(function (){
-		$.ajax({
-			//요청
-			type: "POST",
-			url: contextPath + "/rule/runRuleCompiler",
-			data: {
-				top_level_id: top_level,
-				middle_level_id: middle_level,
-				bottom_level_id: bottom_level
-			},
-			async: false,
+	$.ajax({
+		//요청
+		type: "POST",
+		url: contextPath + "/rule/runRuleCompiler",
+		data: {
+			top_level_id: top_level,
+			middle_level_id: middle_level,
+			bottom_level_id: bottom_level
+		},
 
-			//응답
-			success : function(response){
-				var json = JSON.parse(response);
-				var list = json.item.list;
+		//응답
+		success : function(response){
+			var json = JSON.parse(response);
+			var list = json.item.list;
 
-				$('#run_rule_result_area').empty();
-				appendRunRuleResultArea(list);
-			},
-			error : function(request, status, error) {
-				//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
-			},
-			complete : function (){
-				$('#loadingArea').hide();
-			}
-		}); //ajax
-	}, 0)
+			$('#run_rule_result_area').empty();
+			appendRunRuleResultArea(list);
+		},
+		error : function(request, status, error) {
+			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+		}
+	}); //ajax
 }
 
 function appendRunRuleResultArea(list){

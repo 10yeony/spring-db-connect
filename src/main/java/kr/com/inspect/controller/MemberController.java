@@ -59,7 +59,7 @@ public class MemberController {
 		String msg = "회원가입에 실패하였습니다.";
 		int result = memberService.registerMember(uploadImgFile, member);
 		if (result == 2) { //DB에 있는 회원테이블 정보와 비교시 회원정보가 없을 경우
-			msg = "회원가입 완료! 로그인해주세요.";
+			msg = "회원가입 완료!";
 		}
 		return msg; //실패 메세지
 	}
@@ -221,8 +221,7 @@ public class MemberController {
 
 	/**
 	 * 관리자 권한으로 가입 승인
-	 * @param member_id 승인할 member_id
-	 * @throws ParseException 
+	 * @param member 승인할 member
 	 */
 	@ResponseBody
 	@PostMapping("/approval")

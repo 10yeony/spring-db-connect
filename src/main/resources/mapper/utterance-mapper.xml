@@ -56,10 +56,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			FROM audio.utterance u
 			WHERE u.id = #{id};
 	</select>
-
-	<!-- utterance 데이터 개수 리턴 -->
-	<select id="getUtteranceCount" resultType="int">
-		SELECT count(*)
-		FROM audio.utterance;
-	</select>
 </mapper>
