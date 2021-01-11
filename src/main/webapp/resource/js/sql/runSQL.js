@@ -25,6 +25,13 @@ function runCodemirror(){
 
 }
 
+$(document).ajaxStart(function (){
+    $('#loadingArea').show();
+});
+$(document).ajaxStop(function (){
+    $('#loadingArea').hide();
+});
+
 $(function(){
     /* Context Path */
     contextPath = $('#contextPath').val();
@@ -60,12 +67,6 @@ function runSQL(){
         onerror : function(error) {
             alert(error)
         }
-    });
-    $(document).ajaxStart(function (){
-        $('#loadingArea').show();
-    });
-    $(document).ajaxStop(function (){
-        $('#loadingArea').hide();
     });
 }
 

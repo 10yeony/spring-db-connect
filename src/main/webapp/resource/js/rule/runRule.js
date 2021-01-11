@@ -1,5 +1,12 @@
 var contextPath;
 
+$(document).ajaxStart(function (){
+	$('#loadingArea').show();
+});
+$(document).ajaxStop(function (){
+	$('#loadingArea').hide();
+});
+
 $(function(){
 	/* Context Path */
 	contextPath = $('#contextPath').val();
@@ -40,7 +47,6 @@ function runRuleCompiler(top_level, middle_level, bottom_level){
 			middle_level_id: middle_level,
 			bottom_level_id: bottom_level
 		},
-		async: false,
 
 		//응답
 		success : function(response){
@@ -54,12 +60,6 @@ function runRuleCompiler(top_level, middle_level, bottom_level){
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
 		}
 	}); //ajax
-	$(document).ajaxStart(function (){
-		$('#loadingArea').show();
-	});
-	$(document).ajaxStop(function (){
-		$('#loadingArea').hide();
-	});
 }
 
 function appendRunRuleResultArea(list){

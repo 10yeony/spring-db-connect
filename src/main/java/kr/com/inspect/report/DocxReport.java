@@ -36,10 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 @PropertySource(value = "classpath:properties/report.properties")
 public class DocxReport {
 	
-	
-	@Autowired
-	private PostgreService postgreService;
-	
 	/**
 	 * 메일과 sms 전송을 위한 SendReport 필드 선언
 	 */
@@ -288,7 +284,12 @@ public class DocxReport {
 		}
 	}
 
-
+	/**
+	 * rule을 워드로 다운받기 위한 메서드
+	 * @param response 파일 다운을 위한 응답
+	 * @param rule 워드로 다운받을 rule
+	 * @param path 파일을 다운받기 위해 임시 저장할 경로
+	 */
 	public void resultRuleDocx(HttpServletResponse response, Rule rule, String path){
 		String docxFileName = rule.getBottom_level_name()+ ".docx";
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -351,14 +352,14 @@ public class DocxReport {
 		// rule의 result가 배열이 아닌경우 1x1 표로 결과 출력
 		else{
 			table = doc.createTable(1,1);
-			table.getRow(1).getCell(1).setWidth(Integer.toString((int) Math.ceil(8300)));
-			table.getRow(1).getCell(1).getParagraphArray(0).setSpacingAfter(0);
-			XWPFParagraph tempParagraph = table.getRow(1).getCell(1).getParagraphs().get(0);
+			table.getRow(0).getCell(0).setWidth(Integer.toString((int) Math.ceil(8300)));
+			table.getRow(0).getCell(0).getParagraphArray(0).setSpacingAfter(0);
+			XWPFParagraph tempParagraph = table.getRow(0).getCell(0).getParagraphs().get(0);
 			tempParagraph.setAlignment(ParagraphAlignment.CENTER);
 			XWPFRun tempRun = tempParagraph.createRun();
 			tempRun.setFontSize(9);
 			tempRun.setText(rule.getResult());
-			table.getRow(1).getCell(1).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+			table.getRow(0).getCell(0).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
 		}
 
 		/* 입력된 내용 파일로 쓰기 */

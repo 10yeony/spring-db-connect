@@ -25,6 +25,14 @@ function runCodemirror(){
 
 }
 
+
+$(document).ajaxStart(function (){
+    $('#loadingArea').show();
+});
+$(document).ajaxStop(function (){
+    $('#loadingArea').hide();
+});
+
 $(function(){
     /* Context Path */
     contextPath = $('#contextPath').val();
@@ -71,12 +79,6 @@ function runRuleSQL(){
         error:function(request,status,error){
             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
         }
-    });
-    $(document).ajaxStart(function (){
-        $('#loadingArea').show();
-    });
-    $(document).ajaxStop(function (){
-        $('#loadingArea').hide();
     });
 }
 

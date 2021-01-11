@@ -30,13 +30,19 @@ function runCodemirror(){
 	imp_myCodeMirror.setSize(null,100);
 }
 
+$(document).ajaxStart(function (){
+	$('#loadingArea').show();
+});
+$(document).ajaxStop(function (){
+	$('#loadingArea').hide();
+});
+
 $(function(){
 
 	/* Context Path */
 	contextPath = $('#contextPath').val();
 
 	$('#ruleUpdateBtn').click(function(){
-		$('#loadingArea').show();
 		saveRuleContents();
 	});
 
@@ -59,7 +65,6 @@ function saveRuleContents(){
 			contents: myCodeMirror.getValue(),
 			imp_contents: imp_myCodeMirror.getValue()
 		},
-		async: false,
 
 		//응답
 		success: function (response) {
@@ -71,10 +76,6 @@ function saveRuleContents(){
 		},
 		error: function (request, status, error) {
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
-		},
-		complete : function (){
-			$('#loadingArea').hide();
 		}
 	}); //ajax
-
 }

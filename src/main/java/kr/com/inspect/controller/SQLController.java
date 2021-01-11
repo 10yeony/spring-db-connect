@@ -53,11 +53,10 @@ public class SQLController {
     /**
      * query를 받아서 SQL을 실행
      * @param response
-     * @throws Exception 예외처리
      */
     @ResponseBody
     @RequestMapping(value = "/runSQL", method = RequestMethod.POST)
-    public void runSQL(HttpServletResponse response, @RequestParam("query") String query) throws Exception {
+    public void runSQL(HttpServletResponse response, @RequestParam("query") String query) {
         ResponseData responseData = new ResponseData(); //ajax 응답 객체
 
         // 앞뒤 공백 제거, 소문자 전환
@@ -70,9 +69,14 @@ public class SQLController {
         responseData.responseJSON(response, responseData);
     }
 
+    /**
+     * query를 받아서 sql 쿼리문을 실행하고 그 결과를 DB에 저장
+     * @param response 사용자에게 전달할 응답
+     * @param rule query문이 담긴 Rule 객체
+     */
     @ResponseBody
     @PostMapping("/runRuleSQL")
-    public void runRuleSQL(HttpServletResponse response, Rule rule) throws Exception{
+    public void runRuleSQL(HttpServletResponse response, Rule rule){
         ResponseData responseData = new ResponseData();
 
         /* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
