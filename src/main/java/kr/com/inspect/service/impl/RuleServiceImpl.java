@@ -112,40 +112,55 @@ public class RuleServiceImpl implements RuleService {
 		}
 		return list;
 	}
+	
+	/**
+	 * 해당되는 전사규칙 리스트를 가지고 옴
+	 * @param top_level_id 전사규칙 대분류 아이디
+	 * @param middle_level_id 전사규칙 중분류 아이디
+	 * @param bottom_level_id 전사규칙 소분류 아이디
+	 * @return 해당되는 전사규칙 리스트
+	 */
+	public List<Rule> getRuleList(String top_level_id, 
+										String middle_level_id, 
+										String bottom_level_id){
+		return ruleDao.getRuleList(top_level_id, middle_level_id, bottom_level_id);
+	}
 
 	/**
 	 * 선택된 카테고리에 해당되는 전사규칙 리스트를 조인해서 가져옴
 	 * @param top_level_id    전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
-	 * @return 선택된 카테고리에 해당되는 전사규칙 리스트
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @return 선택된 카테고리에 해당되는 전사규칙 테이블
 	 */
 	@Override
-	public List<Rule> getRuleListUsingJoin(String top_level_id, String middle_level_id, String bottom_level_id) {
-
-		List<Rule> list = new ArrayList<>();
-
-		/* 전사규칙 리스트를 조인 */
-		if (top_level_id == "" && middle_level_id == "" && bottom_level_id == "") {
-			list = ruleDao.getRuleList();
+	public ResponseData getRuleListByPaging(String top_level_id, 
+											String middle_level_id, 
+											String bottom_level_id,
+											String function_name, 
+											int current_page_no,
+											int count_per_page,
+											int count_per_list,
+											String search_word) {
+		CommonDto commonDto = new CommonDto();
+		int totalCount = 0;
+		totalCount = ruleDao.getAllCountOfRuleList(top_level_id, middle_level_id, bottom_level_id, search_word);
+		
+		if (totalCount > 0) {
+			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
-
-		/* 대분류 아이디를 통해 전사규칙 리스트를 조인 */
-		else if (middle_level_id == "" && bottom_level_id == "") {
-			list = ruleDao.getRuleListByTopId(Integer.parseInt(top_level_id));
-		}
-
-		/* 대분류, 중분류 아이디를 통해 전사규칙 리스트를 조인 */
-		else if (bottom_level_id == "") {
-			list = ruleDao.getRuleListByTopMiddleId(Integer.parseInt(top_level_id), Integer.parseInt(middle_level_id));
-		}
-
-		/* 대분류, 중분류, 소분류 아이디를 통해 전사규칙 리스트를 조인 */
-		else {
-			list = ruleDao.getRuleListByTopMiddleBottomId(Integer.parseInt(top_level_id),
-					Integer.parseInt(middle_level_id), Integer.parseInt(bottom_level_id));
-		}
-		return list;
+		int limit = commonDto.getLimit();
+		int offset = commonDto.getOffset();
+		List<Rule> list = ruleDao.getRuleListByPaging(top_level_id, middle_level_id, bottom_level_id, limit, offset, search_word);
+		String pagination = commonDto.getPagination();
+		
+		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
+		return responseData;
 	}
 	
 	/**

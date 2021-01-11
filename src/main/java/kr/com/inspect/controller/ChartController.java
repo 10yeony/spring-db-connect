@@ -46,6 +46,6 @@ public class ChartController {
 	public void getCountData(HttpServletResponse response) throws IOException {
 		ResponseData responseData = new ResponseData();
 		Map<String, Object> items = chartService.getCountData();
-		responseData.responeJSON(response, items);
+		responseData.responseJSON(response, items);
 	}
 }

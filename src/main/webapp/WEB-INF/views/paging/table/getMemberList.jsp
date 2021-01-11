@@ -7,6 +7,20 @@
 <head>
 	<meta charset="utf-8">
 	<title>Table</title>
+	<script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$('#selectAndHandle').empty();
+			$('#selectAndHandle').append(
+				'<br/>' +
+				'<div style="float:left;">' +
+				  	'<button class="button" onclick="javascript:handleMember(' + "'approval'" + ')">가입승인</button>' +
+					'<button class="button" onclick="javascript:handleMember(' + "'active'" + ')">계정 활성화</button>' +
+					'<button class="button" onclick="javascript:handleMember(' + "'delete'" + ')">회원탈퇴</button>' +
+				'</div>'
+			);
+		});
+	</script>
 </head>
 
 <body>

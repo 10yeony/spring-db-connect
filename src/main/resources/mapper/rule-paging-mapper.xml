@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 룰 페이징 처리 관련 쿼리 -->
+<mapper namespace="RulePagingMapper">
+	<!-- 룰 목록 총 개수 -->
+	<select id="getAllCountOfRuleList" parameterType="hashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			audio.rule_bottom_level b
+		LEFT JOIN
+			audio.rule_top_level t
+		ON
+			b.top_level_id = t.id
+		LEFT JOIN
+			audio.rule_middle_level m
+		ON
+			b.middle_level_id = m.id
+		WHERE 
+			t.name LIKE '%'||#{search_word}||'%' OR
+			m.name LIKE '%'||#{search_word}||'%' OR
+			b.name LIKE '%'||#{search_word}||'%' OR
+			b.description LIKE '%'||#{search_word}||'%';
+	</select>
+	<select id="getAllCountOfRuleListByTopId" parameterType="hashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			audio.rule_bottom_level b
+		LEFT JOIN
+			audio.rule_top_level t
+		ON
+			b.top_level_id = t.id
+		LEFT JOIN
+			audio.rule_middle_level m
+		ON
+			b.middle_level_id = m.id
+		WHERE 
+			t.id = #{top_level_id} 
+			AND (t.name LIKE '%'||#{search_word}||'%' 
+			OR m.name LIKE '%'||#{search_word}||'%' 
+			OR b.name LIKE '%'||#{search_word}||'%' 
+			OR b.description LIKE '%'||#{search_word}||'%');
+	</select>
+	<select id="getAllCountOfRuleListByTopMiddleId" parameterType="hashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			audio.rule_bottom_level b
+		LEFT JOIN
+			audio.rule_top_level t
+		ON
+			b.top_level_id = t.id
+		LEFT JOIN
+			audio.rule_middle_level m
+		ON
+			b.middle_level_id = m.id
+		WHERE 
+			t.id = #{top_level_id}
+			AND m.id = #{middle_level_id}
+			AND (t.name LIKE '%'||#{search_word}||'%' 
+			OR m.name LIKE '%'||#{search_word}||'%' 
+			OR b.name LIKE '%'||#{search_word}||'%' 
+			OR b.description LIKE '%'||#{search_word}||'%');
+	</select>
+	<select id="getAllCountOfRuleListByTopMiddleBottomId" parameterType="hashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			audio.rule_bottom_level b
+		LEFT JOIN
+			audio.rule_top_level t
+		ON
+			b.top_level_id = t.id
+		LEFT JOIN
+			audio.rule_middle_level m
+		ON
+			b.middle_level_id = m.id
+		WHERE 
+			t.id = #{top_level_id}
+			AND m.id = #{middle_level_id}
+			AND b.id = #{bottom_level_id}
+			AND (t.name LIKE '%'||#{search_word}||'%' 
+			OR m.name LIKE '%'||#{search_word}||'%' 
+			OR b.name LIKE '%'||#{search_word}||'%' 
+			OR b.description LIKE '%'||#{search_word}||'%');
+	</select>
+	
+	<!-- 페이징 처리된 룰 목록 가져오기 -->
+	<select id="getRuleListByPaging" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			temp.bottom_level_id,
+			temp.bottom_level_name,
+			temp.description,
+			temp.file_name,
+			temp.creator,
+			temp.contents,
+			temp.imp_contents,
+			temp.result,
+			temp.top_level_id,
+			temp.rule_type,
+			temp.top_level_name,
+			temp.middle_level_id,
+			temp.middle_level_name
+		FROM
+			(SELECT
+				b.id AS bottom_level_id,
+				b.name AS bottom_level_name,
+				b.description,
+				b.file_name,
+				b.creator,
+				b.contents,
+				b.imp_contents,
+				b.result,
+				b.top_level_id,
+				b.rule_type,
+				t.name AS top_level_name,
+				b.middle_level_id,
+				m.name AS middle_level_name
+			FROM
+				audio.rule_bottom_level b
+			LEFT JOIN
+				audio.rule_top_level t
+			ON
+				b.top_level_id = t.id
+			LEFT JOIN
+				audio.rule_middle_level m
+			ON
+				b.middle_level_id = m.id
+			WHERE 
+				t.name LIKE '%'||#{search_word}||'%' OR
+				m.name LIKE '%'||#{search_word}||'%' OR
+				b.name LIKE '%'||#{search_word}||'%' OR
+				b.description LIKE '%'||#{search_word}||'%'
+			ORDER BY
+				b.id DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+	<select id="getRuleListUsingTopIdByPaging" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			temp.bottom_level_id,
+			temp.bottom_level_name,
+			temp.description,
+			temp.file_name,
+			temp.creator,
+			temp.contents,
+			temp.imp_contents,
+			temp.result,
+			temp.top_level_id,
+			temp.rule_type,
+			temp.top_level_name,
+			temp.middle_level_id,
+			temp.middle_level_name
+		FROM
+			(SELECT
+				b.id AS bottom_level_id,
+				b.name AS bottom_level_name,
+				b.description,
+				b.file_name,
+				b.creator,
+				b.contents,
+				b.imp_contents,
+				b.result,
+				b.top_level_id,
+				b.rule_type,
+				t.name AS top_level_name,
+				b.middle_level_id,
+				m.name AS middle_level_name
+			FROM
+				audio.rule_bottom_level b
+			LEFT JOIN
+				audio.rule_top_level t
+			ON
+				b.top_level_id = t.id
+			LEFT JOIN
+				audio.rule_middle_level m
+			ON
+				b.middle_level_id = m.id
+			WHERE 
+				t.id = #{top_level_id} 
+				AND (t.name LIKE '%'||#{search_word}||'%' 
+				OR m.name LIKE '%'||#{search_word}||'%' 
+				OR b.name LIKE '%'||#{search_word}||'%' 
+				OR b.description LIKE '%'||#{search_word}||'%')
+			ORDER BY
+				b.id DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+	<select id="getRuleListUsingTopMiddleIdByPaging">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			temp.bottom_level_id,
+			temp.bottom_level_name,
+			temp.description,
+			temp.file_name,
+			temp.creator,
+			temp.contents,
+			temp.imp_contents,
+			temp.result,
+			temp.top_level_id,
+			temp.rule_type,
+			temp.top_level_name,
+			temp.middle_level_id,
+			temp.middle_level_name
+		FROM
+			(SELECT
+				b.id AS bottom_level_id,
+				b.name AS bottom_level_name,
+				b.description,
+				b.file_name,
+				b.creator,
+				b.contents,
+				b.imp_contents,
+				b.result,
+				b.top_level_id,
+				b.rule_type,
+				t.name AS top_level_name,
+				b.middle_level_id,
+				m.name AS middle_level_name
+			FROM
+				audio.rule_bottom_level b
+			LEFT JOIN
+				audio.rule_top_level t
+			ON
+				b.top_level_id = t.id
+			LEFT JOIN
+				audio.rule_middle_level m
+			ON
+				b.middle_level_id = m.id
+			WHERE 
+				t.id = #{top_level_id}
+				AND m.id = #{middle_level_id}
+				AND (t.name LIKE '%'||#{search_word}||'%' 
+				OR m.name LIKE '%'||#{search_word}||'%' 
+				OR b.name LIKE '%'||#{search_word}||'%' 
+				OR b.description LIKE '%'||#{search_word}||'%');
+			ORDER BY
+				b.id DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+	<select id="getRuleListUsingTopMiddleBottomIdByPaging">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			temp.bottom_level_id,
+			temp.bottom_level_name,
+			temp.description,
+			temp.file_name,
+			temp.creator,
+			temp.contents,
+			temp.imp_contents,
+			temp.result,
+			temp.top_level_id,
+			temp.rule_type,
+			temp.top_level_name,
+			temp.middle_level_id,
+			temp.middle_level_name
+		FROM
+			(SELECT
+				b.id AS bottom_level_id,
+				b.name AS bottom_level_name,
+				b.description,
+				b.file_name,
+				b.creator,
+				b.contents,
+				b.imp_contents,
+				b.result,
+				b.top_level_id,
+				b.rule_type,
+				t.name AS top_level_name,
+				b.middle_level_id,
+				m.name AS middle_level_name
+			FROM
+				audio.rule_bottom_level b
+			LEFT JOIN
+				audio.rule_top_level t
+			ON
+				b.top_level_id = t.id
+			LEFT JOIN
+				audio.rule_middle_level m
+			ON
+				b.middle_level_id = m.id
+			WHERE 
+				t.id = #{top_level_id}
+				AND m.id = #{middle_level_id}
+				AND b.id = #{bottom_level_id}
+				AND (t.name LIKE '%'||#{search_word}||'%' 
+				OR m.name LIKE '%'||#{search_word}||'%' 
+				OR b.name LIKE '%'||#{search_word}||'%' 
+				OR b.description LIKE '%'||#{search_word}||'%')
+			ORDER BY
+				b.id DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+</mapper>

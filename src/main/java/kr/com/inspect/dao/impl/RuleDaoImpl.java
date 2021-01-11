@@ -35,6 +35,14 @@ public class RuleDaoImpl implements RuleDao {
 	 */
 	private final String ruleNS = "RuleMapper.";
 	
+	/**
+	 * Rule Paging Mapper 네임스페이스
+	 */
+	private final String rulePagingNS = "RulePagingMapper.";
+	
+	/**
+	 * RuleLog Mapper 네임스페이스
+	 */
 	private final String ruleLogNS = "RuleLogMapper.";
 
 	/**
@@ -88,63 +96,126 @@ public class RuleDaoImpl implements RuleDao {
 	public Rule getRuleBottomLevel(int bottom_level_id) {
 		return sqlSession.selectOne(ruleNS + "getBottomLevelById", bottom_level_id);
 	}
-
+	
 	/**
-	 * 전사규칙 리스트를 조인하여 리턴함
-	 * 
-	 * @return 조인한 전사규칙 리스트
-	 */
-	@Override
-	public List<Rule> getRuleList() {
-		return sqlSession.selectList(ruleNS + "getRuleList");
-	}
-
-	/**
-	 * 대분류 아이디를 통해 전사규칙 리스트를 조인하여 리턴함
-	 * 
+	 * 해당되는 전사규칙 리스트를 가지고 옴
 	 * @param top_level_id 전사규칙 대분류 아이디
-	 * @return 조인한 전사규칙 리스트
-	 */
-	@Override
-	public List<Rule> getRuleListByTopId(int top_level_id) {
-		return sqlSession.selectList(ruleNS + "getRuleListByTopId", top_level_id);
-	}
-
-	/**
-	 * 대분류, 중분류 아이디를 통해 전사규칙 리스트를 조인하여 리턴함
-	 * 
-	 * @param top_level_id    전사규칙 대분류 아이디
-	 * @param middle_level_id 전사규칙 중분류 아이디
-	 * @return 조인한 전사규칙 리스트
-	 */
-	@Override
-	public List<Rule> getRuleListByTopMiddleId(int top_level_id, int middle_level_id) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("top_level_id", top_level_id);
-		map.put("middle_level_id", middle_level_id);
-		return sqlSession.selectList(ruleNS + "getRuleListByTopMiddleId", map);
-	}
-
-	/**
-	 * 대분류, 중분류, 소분류 아이디를 통해 전사규칙 리스트를 조인하여 리턴함
-	 * 
-	 * @param top_level_id    전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
-	 * @return 조인한 전사규칙 리스트
+	 * @return 해당되는 전사규칙 리스트
+	 */
+	public List<Rule> getRuleList(String top_level_id, 
+									String middle_level_id, 
+									String bottom_level_id){
+		if (top_level_id == "" && middle_level_id == "" && bottom_level_id == "") {
+			return sqlSession.selectList(ruleNS + "getRuleList");
+		}
+		
+		/* 대분류 아이디를 통해 전사규칙 리스트를 조인 */
+		else if (middle_level_id == "" && bottom_level_id == "") {
+			return sqlSession.selectList(ruleNS + "getRuleListByTopId", Integer.parseInt(top_level_id));
+		}
+
+		/* 대분류, 중분류 아이디를 통해 전사규칙 리스트를 조인 */
+		else if (bottom_level_id == "") {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("top_level_id", Integer.parseInt(top_level_id));
+			map.put("middle_level_id", Integer.parseInt(middle_level_id));
+			return sqlSession.selectList(ruleNS + "getRuleListByTopMiddleId", map);
+		}
+
+		/* 대분류, 중분류, 소분류 아이디를 통해 전사규칙 리스트를 조인 */
+		else {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("top_level_id", Integer.parseInt(top_level_id));
+			map.put("middle_level_id", Integer.parseInt(middle_level_id));
+			map.put("bottom_level_id", Integer.parseInt(bottom_level_id));
+			return sqlSession.selectList(ruleNS + "getRuleListByTopMiddleBottomId", map);
+		}
+	}
+
+	/**
+	 * 전사규칙 리스트를 페이징 처리하여 리턴함
+	 * @param top_level_id 전사규칙 대분류 아이디
+	 * @param middle_level_id 전사규칙 중분류 아이디
+	 * @param bottom_level_id 전사규칙 소분류 아이디
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @return 페이징 처리된 전사규칙 리스트
 	 */
 	@Override
-	public List<Rule> getRuleListByTopMiddleBottomId(int top_level_id, int middle_level_id, int bottom_level_id) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("top_level_id", top_level_id);
-		map.put("middle_level_id", middle_level_id);
-		map.put("bottom_level_id", bottom_level_id);
-		return sqlSession.selectList(ruleNS + "getRuleListByTopMiddleBottomId", map);
+	public List<Rule> getRuleListByPaging(String top_level_id, 
+										String middle_level_id, 
+										String bottom_level_id,
+										int limit, 
+										int offset,
+										String search_word) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("limit", limit);
+		map.put("offset", offset);
+		map.put("search_word", search_word);
+		if (top_level_id == "" && middle_level_id == "" && bottom_level_id == "") {
+			return sqlSession.selectList(rulePagingNS + "getRuleListByPaging", map);
+		}
+
+		/* 대분류 아이디를 통해 전사규칙 리스트를 조인 */
+		else if (middle_level_id == "" && bottom_level_id == "") {
+			map.put("top_level_id", Integer.parseInt(top_level_id));
+			return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopIdByPaging", map);
+		}
+
+		/* 대분류, 중분류 아이디를 통해 전사규칙 리스트를 조인 */
+		else if (bottom_level_id == "") {
+			map.put("top_level_id", Integer.parseInt(top_level_id));
+			map.put("middle_level_id", Integer.parseInt(middle_level_id));
+			return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopMiddleIdByPaging", map);
+		}
+
+		/* 대분류, 중분류, 소분류 아이디를 통해 전사규칙 리스트를 조인 */
+		else {
+			map.put("top_level_id", Integer.parseInt(top_level_id));
+			map.put("middle_level_id", Integer.parseInt(middle_level_id));
+			map.put("bottom_level_id", Integer.parseInt(bottom_level_id));
+			return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopMiddleBottomIdByPaging", map);
+		}
+	}
+	
+	@Override
+	public int getAllCountOfRuleList(String top_level_id, 
+									String middle_level_id, 
+									String bottom_level_id, 
+									String search_word) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search_word", search_word);
+		if (top_level_id == "" && middle_level_id == "" && bottom_level_id == "") {
+			return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleList", map);
+		}
+
+		/* 대분류 아이디를 통해 전사규칙 리스트를 조인 */
+		else if (middle_level_id == "" && bottom_level_id == "") {
+			map.put("top_level_id", Integer.parseInt(top_level_id));
+			return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopId", map);
+		}
+
+		/* 대분류, 중분류 아이디를 통해 전사규칙 리스트를 조인 */
+		else if (bottom_level_id == "") {
+			map.put("top_level_id", Integer.parseInt(top_level_id));
+			map.put("middle_level_id", Integer.parseInt(middle_level_id));
+			return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopMiddleId", map);
+		}
+
+		/* 대분류, 중분류, 소분류 아이디를 통해 전사규칙 리스트를 조인 */
+		else {
+			map.put("top_level_id", Integer.parseInt(top_level_id));
+			map.put("middle_level_id", Integer.parseInt(middle_level_id));
+			map.put("bottom_level_id", Integer.parseInt(bottom_level_id));
+			return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopMiddleBottomId", map);
+		}
 	}
 
 	/**
 	 * 대분류를 등록함
-	 * 
 	 * @param rule 대분류 등록을 위한 Rule 객체
 	 * @return 등록된 대분류 DB row의 수
 	 */
@@ -155,7 +226,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 중분류를 등록함
-	 * 
 	 * @param rule 중분류 등록을 위한 Rule 객체
 	 * @return 등록된 중분류 DB row의 수
 	 */
@@ -166,7 +236,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 전사규칙을 등록함
-	 * 
 	 * @param rule 전사규칙 등록을 위한 Rule 객체
 	 * @return 등록된 소분류 DB row의 수
 	 */
@@ -177,7 +246,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 대분류가 중복되지 않았는지 해당되는 row 개수를 가져옴
-	 * 
 	 * @param rule 대분류 중복검사를 위한 Rule 객체
 	 * @return 존재하는 row의 개수
 	 */
@@ -194,7 +262,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 중분류가 중복되지 않았는지 해당되는 row 개수를 가져옴
-	 * 
 	 * @param rule 중분류 중복검사를 위한 Rule 객체
 	 * @return 존재하는 row의 개수
 	 */
@@ -211,7 +278,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 전사규칙(소분류)이 중복되지 않았는지 해당되는 row 개수를 가져옴
-	 * 
 	 * @param rule 전사규칙(소분류) 중복검사를 위한 Rule 객체
 	 * @return 존재하는 row의 개수
 	 */
@@ -228,7 +294,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 전사규칙(소분류)의 파일명을 업데이트함
-	 * 
 	 * @param rule 전사규칙(소분류) 파일명 업데이트를 위한 Rule 객체
 	 * @return 업데이트된 row의 개수
 	 */
@@ -239,7 +304,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 해당되는 대분류와 종속된 중분류, 소분류를 삭제함
-	 * 
 	 * @param id 대분류 아이디
 	 * @return 삭제된 row의 수
 	 */
@@ -250,7 +314,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 해당되는 중분류와 종속된 소분류를 삭제함
-	 * 
 	 * @param id 중분류 아이디
 	 * @return 삭제된 row의 수
 	 */
@@ -261,7 +324,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 해당되는 전사규칙(소분류)를 삭제함
-	 * 
 	 * @param id 전사규칙(소분류) 아이디
 	 * @return 삭제된 row의 수
 	 */
@@ -272,7 +334,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 사용자가 작성한 전사규칙(소분류) 코드 내용을 DB에 저장함
-	 * 
 	 * @param rule 전사규칙(소분류) 코드 내용 업데이트를 위한 Rule 객체
 	 * @return 업데이트된 row의 수
 	 */
@@ -283,7 +344,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 사용자가 작성한 전사규칙(소분류)을 컴파일하고 결과값을 DB에 저장함
-	 * 
 	 * @param rule 전사규칙(소분류) 컴파일 결과값 업데이트를 위한 Rule 객체
 	 * @return 업데이트된 row의 수
 	 */
@@ -293,7 +353,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 클래스 아이디로 해당되는 클래스 정보를 가져옴
-	 * 
 	 * @param class_id DB 상의 클래스 아이디
 	 * @return 해당되는 클래스 정보가 담긴 List
 	 */
@@ -303,7 +362,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 클래스 아이디로 해당되는 클래스 필드 정보를 가져옴
-	 * 
 	 * @param class_id DB 상의 클래스 아이디
 	 * @return 해당되는 클래스 필드 정보가 담긴 List
 	 */
@@ -313,7 +371,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 클래스 아이디로 해당되는 클래스 생성자 정보를 가져옴
-	 * 
 	 * @param class_id DB 상의 클래스 아이디
 	 * @return 해당되는 클래스 생성자 정보가 담긴 List
 	 */
@@ -323,7 +380,6 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 클래스 아이디로 해당되는 클래스 메소드 정보를 가져옴
-	 * 
 	 * @param class_id DB 상의 클래스 아이디
 	 * @return 해당되는 클래스 메소드 정보가 담긴 List
 	 */

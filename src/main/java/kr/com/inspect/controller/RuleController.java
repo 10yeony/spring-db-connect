@@ -125,27 +125,6 @@ public class RuleController {
 		responseData.responseJSON(response, responseData);
 	}
 
-	/**
-	 * 해당되는 전사규칙 리스트를 Ajax로 응답함
-	 * 
-	 * @param response        HttpServletResponse 객체
-	 * @param top_level_id    전사규칙 대분류 아이디
-	 * @param middle_level_id 전사규칙 중분류 아이디
-	 * @param bottom_level_id 전사규칙 소분류 아이디
-	 * @throws IOException 입출력 예외
-	 */
-	@GetMapping("/getRuleList")
-	@ResponseBody
-	public void getRuleList(HttpServletResponse response, String top_level_id, String middle_level_id,
-			String bottom_level_id) {
-		ResponseData responseData = new ResponseData();
-		List<Rule> list = ruleService.getRuleListUsingJoin(top_level_id, middle_level_id, bottom_level_id);
-		Map<String, Object> items = new HashMap<String, Object>();
-		items.put("list", list);
-		responseData.setItem(items);
-		responseData.responseJSON(response, responseData);
-	}
-
 	@GetMapping("/deleteRuleLevel")
 	public String deleteRuleLevel(Model model, String level, Rule rule) {
 		String levelName = "";
@@ -212,29 +191,18 @@ public class RuleController {
 		ResponseData responseData = new ResponseData();
 		
 		/* 해당되는 목록 가져오기 */
-		List<Rule> list = ruleService.getRuleListUsingJoin(top_level_id, middle_level_id, bottom_level_id);
+		List<Rule> list = ruleService.getRuleList(top_level_id, middle_level_id, bottom_level_id);
 		
 		/* 컴파일 후 결과값 DB에 저장 */
 		ruleService.runRuleCompiler(list);
 		
 		/* 해당되는 목록 다시 가져오기 */
-		list = ruleService.getRuleListUsingJoin(top_level_id, middle_level_id, bottom_level_id);
+		list = ruleService.getRuleList(top_level_id, middle_level_id, bottom_level_id);
 		
 		Map<String, Object> items = new HashMap<String, Object>();
 		items.put("list", list);
 		responseData.setItem(items);
 		responseData.responseJSON(response, responseData);
-	}
-
-	@GetMapping("/ruleList/{top_level_id}/{middle_level_id}/{bottom_level_id}")
-	public String ruleListPage(Model model, 
-							@PathVariable int top_level_id, 
-							@PathVariable int middle_level_id, 
-							@PathVariable int bottom_level_id) {
-		model.addAttribute("top_level_id", top_level_id);
-		model.addAttribute("middle_level_id", middle_level_id);
-		model.addAttribute("bottom_level_id", bottom_level_id);
-		return "rule/ruleList";
 	}
 	
 	/**

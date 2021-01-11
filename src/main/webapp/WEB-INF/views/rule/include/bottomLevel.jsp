@@ -29,9 +29,6 @@
 
 	<select class="form-control" id="bottom_level" style="margin-right:3px;">
 		<option value="bottom_level_value">소분류</option>
-		<!-- 티맥스 중분류 -->
-		<option class="bottom_level_collection tmax_bottom_level" 
-			value="tmax_bottom_level1">테스트</option>
 	</select>
 
 	<!-- Bootstrap core JavaScript-->

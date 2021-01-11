@@ -42,37 +42,45 @@ public interface RuleDao {
 	public Rule getRuleBottomLevel(int bottom_level_id);
 	
 	/**
-	 * 전사규칙 리스트를 조인하여 리턴함
-	 * @return 조인한 전사규칙 리스트
-	 */
-	public List<Rule> getRuleList();
-	
-	/**
-	 * 대분류 아이디를 통해 전사규칙 리스트를 조인하여 리턴함
-	 * @param top_level_id 전사규칙 대분류 아이디
-	 * @return 조인한 전사규칙 리스트
-	 */
-	public List<Rule> getRuleListByTopId(int top_level_id);
-	
-	/**
-	 * 대분류, 중분류 아이디를 통해 전사규칙 리스트를 조인하여 리턴함
-	 * @param top_level_id 전사규칙 대분류 아이디
-	 * @param middle_level_id 전사규칙 중분류 아이디
-	 * @return 조인한 전사규칙 리스트
-	 */
-	public List<Rule> getRuleListByTopMiddleId(int top_level_id, 
-														int middle_level_id);
-	
-	/**
-	 * 대분류, 중분류, 소분류 아이디를 통해 전사규칙 리스트를 조인하여 리턴함
+	 * 전사규칙 리스트의 총 개수를 가져옴
 	 * @param top_level_id 전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
-	 * @return 조인한 전사규칙 리스트
+	 * @param search_word 검색어
+	 * @return 전사규칙 리스트의 총 개수
 	 */
-	public List<Rule> getRuleListByTopMiddleBottomId(int top_level_id,
-																int middle_level_id,
-																int bottom_level_id);
+	public int getAllCountOfRuleList(String top_level_id, 
+										String middle_level_id, 
+										String bottom_level_id, 
+										String search_word);
+	
+	/**
+	 * 해당되는 전사규칙 리스트를 가지고 옴
+	 * @param top_level_id 전사규칙 대분류 아이디
+	 * @param middle_level_id 전사규칙 중분류 아이디
+	 * @param bottom_level_id 전사규칙 소분류 아이디
+	 * @return 해당되는 전사규칙 리스트
+	 */
+	public List<Rule> getRuleList(String top_level_id, 
+									String middle_level_id, 
+									String bottom_level_id);
+	
+	/**
+	 * 전사규칙 리스트를 페이징 처리하여 리턴함
+	 * @param top_level_id 전사규칙 대분류 아이디
+	 * @param middle_level_id 전사규칙 중분류 아이디
+	 * @param bottom_level_id 전사규칙 소분류 아이디
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @return 페이징 처리된 전사규칙 리스트
+	 */
+	public List<Rule> getRuleListByPaging(String top_level_id, 
+									String middle_level_id, 
+									String bottom_level_id,
+									int limit, 
+									int offset,
+									String search_word);
 	
 	/**
 	 * 대분류를 등록함

@@ -1,4 +1,5 @@
 var contextPath;
+var top_level_id, middle_level_id, bottom_level_id;
 
 $(function(){
 	/* Context Path */
@@ -18,164 +19,86 @@ $(function(){
 		alert(ruleDelErrorMsg);
 	}
 	
-	let ruleList_top_level_id = $('#ruleList_top_level_id').val();
-	let ruleList_middle_level_id = $('#ruleList_middle_level_id').val();
-	let ruleList_bottom_level_id = $('#ruleList_bottom_level_id').val();
-	if(ruleList_top_level_id != 0 && ruleList_middle_level_id == 0 && ruleList_bottom_level_id == 0){
-		getRuleListByTopId(ruleList_top_level_id);
-	}else if(ruleList_top_level_id != 0 && ruleList_middle_level_id != 0 && ruleList_bottom_level_id == 0){
-		getRuleListByTopMiddleId(ruleList_top_level_id, ruleList_middle_level_id);
-	}else if(ruleList_top_level_id != 0 && ruleList_middle_level_id != 0 && ruleList_bottom_level_id != 0){
-		getRuleListByTopMiddleBottomId(ruleList_top_level_id, ruleList_middle_level_id, ruleList_bottom_level_id);
-	}else{
-		getRuleList();
+	top_level_id = $('#ruleList_top_level_id').val();
+	middle_level_id = $('#ruleList_middle_level_id').val();
+	bottom_level_id = $('#ruleList_bottom_level_id').val();
+	if(top_level_id == 0 && middle_level_id == 0 && bottom_level_id == 0){
+		top_level_id = '';
+		middle_level_id = '';
+		bottom_level_id = '';
+	}else if(top_level_id != 0 && middle_level_id == 0 && bottom_level_id == 0){
+		middle_level_id = '';
+		bottom_level_id = '';
+	}else if(top_level_id != 0 && middle_level_id != 0 && bottom_level_id == 0){
+		bottom_level_id = '';
 	}
+	startPagingHandling();
 	
 	/* 대분류 선택시 */
 	$('#top_level').change(function(){
 		$('#ruleListTbody').empty(); //Rule 테이블 리셋
-		
-		var top_level_id = $(this).val();
+		top_level_id = $(this).val();
+		middle_level_id = '';
+		bottom_level_id = '';
 		if(top_level_id == 'top_level_value'){
-			getRuleList();
-			return;
+			top_level_id = '';
 		}
-		
-		getRuleListByTopId(top_level_id);
+		startPagingHandling();
 	});
 	
 	/* 중분류 선택시 */
 	$('#middle_level').change(function(){
 		$('#ruleListTbody').empty(); //Rule 테이블 리셋
-		
-		var top_level_id = $('#top_level').val();
-		var middle_level_id = $(this).val();
+		top_level_id = $('#top_level').val();
+		middle_level_id = $(this).val();
+		bottom_level_id = '';
 		if(middle_level_id == 'middle_level_value'){
-			getRuleListByTopId(top_level_id);
-			return;
+			middle_level_id = '';
 		}
-		
-		getRuleListByTopMiddleId(top_level_id, middle_level_id);
+		startPagingHandling();
 	});
 	
 	/* 소분류 선택시 */
 	$('#bottom_level').change(function(){
 		$('#ruleListTbody').empty(); //Rule 테이블 리셋
-		
-		var top_level_id = $('#top_level').val();
-		var middle_level_id = $('#middle_level').val();
-		var bottom_level_id = $(this).val();
+		top_level_id = $('#top_level').val();
+		middle_level_id = $('#middle_level').val();
+		bottom_level_id = $(this).val();
 		if(bottom_level_id == 'bottom_level_value'){
-			getRuleListByTopMiddleId(top_level_id, middle_level_id);
-			return;
+			bottom_level_id = '';
 		}
-		
-		getRuleListByTopMiddleBottomId(top_level_id, middle_level_id, bottom_level_id);
+		startPagingHandling();
 	});
 });
 
 /* 전사규칙 리스트를 가져옴 */
-function getRuleList(){
-	$.ajax({
-		//요청
-		type: "GET",
-		url: contextPath + "/rule/getRuleList", 
-		data: {
-			top_level_id: '',
-			middle_level_id: '',
-			bottom_level_id: ''
-		},
-		async: false,
-			
-		//응답
-		success : function(response){  
-			var json = JSON.parse(response);
-			var list = json.item.list;
-			appendRuleTable(list);
-		},
-		error : function(request, status, error) {
-			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
-		}
-	}); //ajax
-}
-
-/* 대분류 아이디를 통해 전사규칙 리스트를 가져옴 */
-function getRuleListByTopId(top_level_id){
-	$.ajax({
-		//요청
-		type: "GET",
-		url: contextPath + "/rule/getRuleList", 
-		data: {
-			top_level_id: top_level_id,
-			middle_level_id: '',
-			bottom_level_id: ''
-		},
-		async: false,
-			
-		//응답
-		success : function(response){  
-			var json = JSON.parse(response);
-			var list = json.item.list;
-			appendRuleTable(list);
-		},
-		error : function(request, status, error) {
-			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
-		}
-	}); //ajax
-}
-
-/* 대분류, 중분류 아이디를 통해 전사규칙 리스트를 가져옴 */
-function getRuleListByTopMiddleId(top_level_id, middle_level_id){
-	$.ajax({
-		//요청
-		type: "GET",
-		url: contextPath + "/rule/getRuleList", 
-		data: {
-			top_level_id: top_level_id,
-			middle_level_id: middle_level_id,
-			bottom_level_id: ''
-		},
-		async: false,
-			
-		//응답
-		success : function(response){  
-			var json = JSON.parse(response);
-			var list = json.item.list;
-			appendRuleTable(list);
-		},
-		error : function(request, status, error) {
-			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
-		}
-	}); //ajax
-}
-
-/* 대분류, 중분류, 소분류 아이디를 통해 전사규칙 리스트를 가져옴 */
-function getRuleListByTopMiddleBottomId(top_level_id, middle_level_id, bottom_level_id){
-	$.ajax({
-		//요청
-		type: "GET",
-		url: contextPath + "/rule/getRuleList", 
-		data: {
-			top_level_id: top_level_id,
-			middle_level_id: middle_level_id,
-			bottom_level_id: bottom_level_id
-		},
-		async: false,
-			
-		//응답
-		success : function(response){  
-			var json = JSON.parse(response);
-			var list = json.item.list;
-			appendRuleTable(list);
-		},
-		error : function(request, status, error) {
-			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
-		}
-	}); //ajax
+function startPagingHandling(){
+	/*
+	var data = {
+		top_level_id: top_level_id,
+		middle_level_id: middle_level_id,
+		bottom_level_id: bottom_level_id,
+		current_page_no: $('#current_page_no').val(),
+		count_per_page: $('#show_count_per_page').val(),
+		count_per_list: $('#show_count_per_list').val(),
+		search_word: $("#inputSearchText").val()
+	}
+	*/
+	var data = 
+	"?top_level_id=" + top_level_id +
+	"&middle_level_id=" + middle_level_id + 
+	"&bottom_level_id=" + bottom_level_id + 
+	"&current_page_no=" + $('#current_page_no').val() + 
+	"&count_per_page=" + $('#show_count_per_page').val() + 
+	"&count_per_list=" + $('#show_count_per_list').val() +
+	"&search_word=" + $("#inputSearchText").val();
+	var json = JSON.parse(getPagingResult(data));
+	//var list = json.item.list;
+	//appendTable(list);
 }
 
 /* 전사규칙 표를 덧붙임 */
-function appendRuleTable(list){
+function appendTable(list){
 	for(let i=0; i<list.length; i++){
 		var row_num = JSON.stringify(list[i].row_num);
 			
@@ -205,6 +128,7 @@ function appendRuleTable(list){
 				
 		$('#ruleListTbody').append(
 			"<tr>" +
+				"<td><input type='checkbox' class='selectItem'></td>" +
 				"<td>" + row_num + "</td>" +
 				"<td>" + top_level_name + "</td>" +
 				"<td>" + middle_level_name + "</td>" +
@@ -215,4 +139,16 @@ function appendRuleTable(list){
 			"</tr>"
 		);
 	}
+}
+
+function checkAllRuleInThisPage(event){
+	if(event.target.checked){
+		$('.selectItem').prop('checked', true);
+	}else{
+		$('.selectItem').prop('checked', false);
+	}
+}
+
+function deleteRule(){
+	alert("삭제");
 }

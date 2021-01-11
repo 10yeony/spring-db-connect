@@ -10,6 +10,7 @@
 </head>
 
 <body>
+	<!-- 페이지 이동 및 ajax 처리시 보여지는 테이블 -->
 	<c:choose>
 		<c:when test="${requestUrl == 'getMetadataAndProgram'}">
 			<%@ include file="/WEB-INF/views/paging/table/getMetadataAndProgram.jsp"%>
@@ -30,7 +31,15 @@
 		<c:when test="${requestUrl == 'getMemberListByAdmin'}">
 			<%@ include file="/WEB-INF/views/paging/table/getMemberList.jsp"%>
 		</c:when>
+		
+		<c:otherwise>
+			<div>
+				<%@ include file="/WEB-INF/views/paging/table/getRuleList.jsp"%>
+			</div>
+		</c:otherwise>
 	</c:choose>
+	
+	<!-- 하단 버튼 -->	
 	<c:choose>
 		<c:when test="${requestUrl != 'getMetadataAndProgram'}">
 			<button class="btn btn-secondary" type="button" id="backBtn" style="float:left;" onclick="clickBackBtn();">뒤로 가기</button>

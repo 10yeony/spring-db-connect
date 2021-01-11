@@ -27,26 +27,30 @@
 <link
 	href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
 	rel="stylesheet">
+	
+<link href="${pageContext.request.contextPath}/resource/css/paging.css" rel="stylesheet">
 </head>
 
 <body>
-	<div class="table-responsive">
-		<table class="table table-bordered" id="ruleList" width="100%" cellspacing="0">
-			<thead>
-				<tr>
-					<th>no.</th>
-					<th>대분류</th>
-					<th>중분류</th>
-					<th>소분류</th>
-					<th>설명</th>
-					<th>룰 타입</th>
-					<th>작성자</th>
-				</tr>
-			</thead>
-			<tbody id="ruleListTbody">
-			</tbody>
-		</table>
-	</div>					
+<input type="hidden" id="title" value="룰 목록">
+	<table id="downTable" class="table table-bordered paging-table" width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<th>
+					<input type="checkbox" onchange="checkAllRuleInThisPage(event)">
+				</th>
+				<th>no.</th>
+				<th>대분류</th>
+				<th>중분류</th>
+				<th>소분류</th>
+				<th>설명</th>
+				<th>룰 타입</th>
+				<th>작성자</th>
+			</tr>
+		</thead>
+		<tbody id="ruleListTbody">
+		</tbody>
+	</table>
 <!-- Bootstrap core JavaScript-->
 <script
 	src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>

@@ -1,11 +1,21 @@
 package kr.com.inspect.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.com.inspect.dto.ResponseData;
+import kr.com.inspect.dto.Rule;
 import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.service.PostgreService;
@@ -53,20 +63,33 @@ public class PagingController {
 	 * @param search_word 검색어 
 	 * @return Model
 	 */
-	public Model addCommonAttribute(Model model,
+	public Object addCommonAttribute(boolean isAjax,
+									Model model,
 									String requestUrl,
 									ResponseData responseData,
 									int count_per_page,
 									int count_per_list,
 									String search_word) {
-		model.addAttribute("requestUrl", requestUrl);
-		model.addAttribute("totalCount", pagingResponse.getTotalCount(responseData));
-		model.addAttribute("pagination", pagingResponse.getPagination(responseData));
-		model.addAttribute("result", pagingResponse.getList(responseData));
-		model.addAttribute("count_per_page", count_per_page);
-		model.addAttribute("count_per_list", count_per_list);
-		model.addAttribute("search_word", search_word);
-		return model;
+		if(isAjax) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("requestUrl", requestUrl);
+			map.put("totalCount", pagingResponse.getTotalCount(responseData));
+			map.put("pagination", pagingResponse.getPagination(responseData));
+			map.put("result", pagingResponse.getPagination(responseData));
+			map.put("count_per_page", count_per_page);
+			map.put("count_per_list", count_per_list);
+			map.put("search_word", search_word);
+			return map;
+		}else {
+			model.addAttribute("requestUrl", requestUrl);
+			model.addAttribute("totalCount", pagingResponse.getTotalCount(responseData));
+			model.addAttribute("pagination", pagingResponse.getPagination(responseData));
+			model.addAttribute("result", pagingResponse.getList(responseData));
+			model.addAttribute("count_per_page", count_per_page);
+			model.addAttribute("count_per_list", count_per_list);
+			model.addAttribute("search_word", search_word);
+			return model;
+		}
 	}
 	
 	/**
@@ -77,7 +100,7 @@ public class PagingController {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
-	 * @return 해당 페이지로 값 리턴
+	 * @return 해당되는 페이지 리턴
 	 */
 	@GetMapping("/getMetadataAndProgram")
 	public String getMetadataAndProgram(Model model, 
@@ -94,7 +117,7 @@ public class PagingController {
 															count_per_page, 
 															count_per_list,
 															search_word);
-		addCommonAttribute(model, "getMetadataAndProgram", responseData, 
+		addCommonAttribute(false, model, "getMetadataAndProgram", responseData, 
 							count_per_page, count_per_list, search_word);
 		model.addAttribute("data", data);
 		
@@ -149,7 +172,7 @@ public class PagingController {
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
 	 * @param approval 승인 여부
-	 * @return 사용자 목록
+	 * @return 해당되는 페이지 리턴
 	 */
 	@GetMapping("/getMemberListByAdmin")
 	public String getMemberListByAdmin(Model model, 
@@ -168,7 +191,7 @@ public class PagingController {
 												count_per_list, 
 												search_word, 
 												approval);
-		addCommonAttribute(model, "getMemberListByAdmin", responseData, 
+		addCommonAttribute(false, model, "getMemberListByAdmin", responseData, 
 						count_per_page, count_per_list, search_word);
 		model.addAttribute("data", data);
 		model.addAttribute("approval", approval);
@@ -199,7 +222,7 @@ public class PagingController {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
-	 * @return 해당 페이지로 값 리턴
+	 * @return 해당되는 페이지 리턴
 	 */
 	@GetMapping("/getJsonLog")
 	public String getJsonLog(Model model,
@@ -213,7 +236,7 @@ public class PagingController {
 															count_per_list,
 															search_word);
 		
-		addCommonAttribute(model, "getJsonLog", responseData, 
+		addCommonAttribute(false, model, "getJsonLog", responseData, 
 							count_per_page, count_per_list, search_word);
 		if(search_word == "") {
 			model.addAttribute("selectedData", "전체");
@@ -231,7 +254,7 @@ public class PagingController {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
-	 * @return 해당 페이지로 값 리턴
+	 * @return 해당되는 페이지 리턴
 	 */
 	@GetMapping("/getUsingLogList")
 	public String getUsingLogList(Model model, 
@@ -246,7 +269,7 @@ public class PagingController {
 															count_per_page, 
 															count_per_list,
 															search_word);
-		addCommonAttribute(model, "getUsingLogList", responseData, 
+		addCommonAttribute(false, model, "getUsingLogList", responseData, 
 								count_per_page, count_per_list, search_word);
 		String value = "";
 		if(search_word != "") {
@@ -267,7 +290,7 @@ public class PagingController {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
-	 * @return 해당 페이지로 값 리턴
+	 * @return 해당되는 페이지 리턴
 	 */
 	@GetMapping("/getRuleLogList")
 	public String getRuleLogList(Model model, 
@@ -284,7 +307,7 @@ public class PagingController {
 															count_per_list,
 															search_word);
 		
-		addCommonAttribute(model, "getRuleLogList", responseData, 
+		addCommonAttribute(false, model, "getRuleLogList", responseData, 
 						count_per_page, count_per_list, search_word);
 		
 		String value = "";
@@ -297,5 +320,64 @@ public class PagingController {
 		model.addAttribute("searchResult", value);
 		
 		return "rule/getRuleLogList";
+	}
+	
+	/**
+	 * 룰의 대분류/중분류/소분류 아이디를 저장하고 해당되는 페이지로 이동함
+	 * @param model
+	 * @param top_level_id 룰 대분류 아이디
+	 * @param middle_level_id 룰 중분류 아이디 
+	 * @param bottom_level_id 룰 소분류 아이디
+	 * @return 해당되는 페이지 리턴
+	 */
+	@GetMapping("/rule/ruleList/{top_level_id}/{middle_level_id}/{bottom_level_id}")
+	public String ruleListPage(Model model, 
+							@PathVariable int top_level_id, 
+							@PathVariable int middle_level_id, 
+							@PathVariable int bottom_level_id) {
+		model.addAttribute("top_level_id", top_level_id);
+		model.addAttribute("middle_level_id", middle_level_id);
+		model.addAttribute("bottom_level_id", bottom_level_id);
+		return "rule/ruleList";
+	}
+	
+	/**
+	 * 해당되는 전사규칙 리스트를 Ajax로 응답함
+	 * @param response        HttpServletResponse 객체
+	 * @param top_level_id    전사규칙 대분류 아이디
+	 * @param middle_level_id 전사규칙 중분류 아이디
+	 * @param bottom_level_id 전사규칙 소분류 아이디
+	 * @throws IOException 입출력 예외
+	 */
+	@GetMapping("/rule/getRuleList")
+	@ResponseBody
+	public void getRuleList(HttpServletResponse response, 
+								String top_level_id, 
+								String middle_level_id,
+								String bottom_level_id,
+								int current_page_no,
+								int count_per_page,
+								int count_per_list,
+								String search_word) {
+		System.out.println(top_level_id);
+		System.out.println(middle_level_id);
+		System.out.println(bottom_level_id);
+		System.out.println(current_page_no);
+		System.out.println(count_per_page);
+		System.out.println(count_per_list);
+		System.out.println(search_word);
+		ResponseData responseData = new ResponseData();
+		responseData = ruleService.getRuleListByPaging(top_level_id, 
+																	middle_level_id, 
+																	bottom_level_id,
+																	function_name, 
+																	current_page_no,
+																	count_per_page,
+																	count_per_list,
+																	search_word);
+		Map<String, Object> map = 
+				(Map<String, Object>) addCommonAttribute(true, null, "getJsonLog", responseData, 
+										count_per_page, count_per_list, search_word);
+		responseData.responseJSON(response, map);
 	}
 }

@@ -33,6 +33,7 @@ mark {
 	cursor: pointer;
 	transition: all 0.25s ease;
 	margin-bottom: 10px;
+	margin-right: 3px;
 }
 
 .button:hover {

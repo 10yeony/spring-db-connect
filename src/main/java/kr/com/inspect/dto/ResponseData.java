@@ -87,7 +87,7 @@ public class ResponseData {
 	 * @param response HttpServletResponse
 	 * @param items 객체가 담긴 Map
 	 */
-	public void responeJSON(HttpServletResponse response, Map<String, Object> items) {
+	public void responseJSON(HttpServletResponse response, Map<String, Object> items) {
 		ObjectMapper mapper = new ObjectMapper(); // JSON 변경용
 		
 		/* 응답시 한글 인코딩 처리 */

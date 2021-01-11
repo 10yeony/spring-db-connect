@@ -13,22 +13,18 @@
 </head>
 
 <body>
-	<!-- requestMapping -->
-	<input type="hidden" id="requestUrl" value="${requestUrl}">
-
-	<!-- data type, count_per_page, count_per_list -->
-	<input type="hidden" id="show_data_type" value="${data}">
-	<input type="hidden" id="show_count_per_page" value="${count_per_page}">
-	<input type="hidden" id="show_count_per_list" value="${count_per_list}">
+	<!-- data type, count_per_page, count_per_list, current_page_no -->
+	<input type="hidden" id="show_data_type">
+	<input type="hidden" id="show_count_per_page">
+	<input type="hidden" id="show_count_per_list">
+	<input type="hidden" id="current_page_no">
 
 	<!-- search_word -->
-	<input type="hidden" id="show_search_word" value="${search_word}">
-	
-	<input type="hidden" id="show_approval" value="${approval}">
+	<input type="hidden" id="show_search_word">
 
 	<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
 		<!-- Select Area -->
-  		<%@ include file="/WEB-INF/views/paging/select.jsp"%>
+  		<span id="selectArea"></span>
   		
   		<!-- Search Area -->
 		<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
@@ -53,11 +49,13 @@
 	
 	<!-- Table -->
 	<div class="table-responsive">
-		<%@ include file="/WEB-INF/views/paging/table.jsp"%>
-		${pagination}
+		<div id="tableArea">
+			<%@ include file="/WEB-INF/views/paging/table.jsp"%>
+		</div>
+		<div id="pagination"></div>
 		<br/><br/>
 	</div>
-	<script src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
+	<script src="${pageContext.request.contextPath}/resource/js/paging/ajax_table.js"></script>
 </body>
 
 </html>
