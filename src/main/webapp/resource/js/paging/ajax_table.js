@@ -5,9 +5,6 @@ $(function(){
 	/* Context Path */
 	contextPath = $('#contextPath').val();
 	
-	/* Request URL */
-	requestUrl = $('#requestUrl').val();
-	
 	/* 화면 세팅을 위한 변수 선언 */
 	$('#current_page_no').val(1);
 	$('#show_count_per_page').val(10);
@@ -24,11 +21,11 @@ $(function(){
 	
 	/* 검색 기능 (클릭, 엔터) */
 	$('#inputSearchButton').click(function(){
-		search();
+		startPagingHandling();
 	});
 	$("#inputSearchText").keydown(function(event) {
 		if(event.keyCode == 13){
-			search();
+			startPagingHandling();
 		}
 	});
 	
@@ -63,12 +60,6 @@ $(function(){
 	});
 })
 
-function search(){
-	let searchWord = $("#inputSearchText").val();
-	markKeyword(searchWord);
-	startPagingHandling();
-}
-
 function getTable(currentPageNo){
 	if(currentPageNo === undefined){
 		$('#current_page_no').val(1);
@@ -89,15 +80,40 @@ function markKeyword(keyword){
 	instance.mark(keyword);
 }
 
-function getPagingResult(data){
+function setEmptyPagingValue(){
+	if($('#current_page_no').val() == ''){
+		$('#current_page_no').val(1);
+	}
+	if($('#show_count_per_page').val() == ''){
+		$('#show_count_per_page').val(10);
+	}
+	if($('#show_count_per_list').val() == ''){
+		$('#show_count_per_list').val(10);		
+	}
+}
+
+function getPagingResult(requestUrl, data){
+	setEmptyPagingValue();
+	data.current_page_no = $('#current_page_no').val();
+	data.count_per_page = $('#show_count_per_page').val();
+	data.count_per_list = $('#show_count_per_list').val();
+	data.search_word = $("#inputSearchText").val();
 	$.ajax({
 		//요청
 		type: "GET",
-		url: contextPath + requestUrl + data, 
+		url: contextPath + requestUrl,
+		data: data, 
 			
 		//응답
 		success : function(response){  
-			return response;
+			var json = JSON.parse(response);
+			$('#show_count_per_page').val(json.count_per_page);
+			$('#show_count_per_list').val(json.count_per_list);
+			$('#pagination').empty();
+			$('#pagination').append(json.pagination);
+			appendTable(json.result);
+			searchResultArea(json.search_word, json.totalCount);
+			markKeyword($("#inputSearchText").val());
 		},
 		error : function(request, status, error) {
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");

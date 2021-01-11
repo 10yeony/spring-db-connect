@@ -195,7 +195,7 @@
 		OFFSET 
 			#{offset};
 	</select>
-	<select id="getRuleListUsingTopMiddleIdByPaging">
+	<select id="getRuleListUsingTopMiddleIdByPaging" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
 		SELECT
 			(ROW_NUMBER() OVER()) AS row_num,
 			temp.bottom_level_id,
@@ -242,7 +242,7 @@
 				AND (t.name LIKE '%'||#{search_word}||'%' 
 				OR m.name LIKE '%'||#{search_word}||'%' 
 				OR b.name LIKE '%'||#{search_word}||'%' 
-				OR b.description LIKE '%'||#{search_word}||'%');
+				OR b.description LIKE '%'||#{search_word}||'%')
 			ORDER BY
 				b.id DESC) temp
 		LIMIT 
@@ -250,7 +250,7 @@
 		OFFSET 
 			#{offset};
 	</select>
-	<select id="getRuleListUsingTopMiddleBottomIdByPaging">
+	<select id="getRuleListUsingTopMiddleBottomIdByPaging" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
 		SELECT
 			(ROW_NUMBER() OVER()) AS row_num,
 			temp.bottom_level_id,

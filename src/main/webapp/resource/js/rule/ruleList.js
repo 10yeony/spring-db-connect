@@ -73,32 +73,17 @@ $(function(){
 
 /* 전사규칙 리스트를 가져옴 */
 function startPagingHandling(){
-	/*
 	var data = {
 		top_level_id: top_level_id,
 		middle_level_id: middle_level_id,
 		bottom_level_id: bottom_level_id,
-		current_page_no: $('#current_page_no').val(),
-		count_per_page: $('#show_count_per_page').val(),
-		count_per_list: $('#show_count_per_list').val(),
-		search_word: $("#inputSearchText").val()
 	}
-	*/
-	var data = 
-	"?top_level_id=" + top_level_id +
-	"&middle_level_id=" + middle_level_id + 
-	"&bottom_level_id=" + bottom_level_id + 
-	"&current_page_no=" + $('#current_page_no').val() + 
-	"&count_per_page=" + $('#show_count_per_page').val() + 
-	"&count_per_list=" + $('#show_count_per_list').val() +
-	"&search_word=" + $("#inputSearchText").val();
-	var json = JSON.parse(getPagingResult(data));
-	//var list = json.item.list;
-	//appendTable(list);
+	getPagingResult($('#requestUrl').val(), data)
 }
 
 /* 전사규칙 표를 덧붙임 */
 function appendTable(list){
+	$('#ruleListTbody').empty();
 	for(let i=0; i<list.length; i++){
 		var row_num = JSON.stringify(list[i].row_num);
 			
@@ -125,7 +110,7 @@ function appendTable(list){
 		var rule_type = JSON.stringify(list[i].rule_type);
 		rule_type = rule_type.replace(/"/g, ""); //큰 따옴표 제거
 		console.log('rule_type' + rule_type)
-				
+		
 		$('#ruleListTbody').append(
 			"<tr>" +
 				"<td><input type='checkbox' class='selectItem'></td>" +
@@ -138,6 +123,15 @@ function appendTable(list){
 				"<td>" + creator + "</td>" +
 			"</tr>"
 		);
+	}
+}
+
+function searchResultArea(search_word, totalCount){
+	$('#searchResultArea').empty();
+	if(search_word == ''){
+		$('#searchResultArea').append('(전체 ' + totalCount + '건)');
+	}else{
+		$('#searchResultArea').append('("' + search_word + '" 검색 결과 ' + totalCount + '건)');
 	}
 }
 

@@ -2,7 +2,6 @@ package kr.com.inspect.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,14 +14,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.com.inspect.dto.ResponseData;
-import kr.com.inspect.dto.Rule;
 import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.service.PostgreService;
 import kr.com.inspect.service.RuleService;
+import kr.com.inspect.util.ClientInfo;
 
 @Controller
 public class PagingController {
+	
+	@Autowired
+	ClientInfo clientInfo;
 	
 	/**
 	 * 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
@@ -75,7 +77,7 @@ public class PagingController {
 			map.put("requestUrl", requestUrl);
 			map.put("totalCount", pagingResponse.getTotalCount(responseData));
 			map.put("pagination", pagingResponse.getPagination(responseData));
-			map.put("result", pagingResponse.getPagination(responseData));
+			map.put("result", pagingResponse.getList(responseData));
 			map.put("count_per_page", count_per_page);
 			map.put("count_per_list", count_per_list);
 			map.put("search_word", search_word);
@@ -352,29 +354,22 @@ public class PagingController {
 	@GetMapping("/rule/getRuleList")
 	@ResponseBody
 	public void getRuleList(HttpServletResponse response, 
-								String top_level_id, 
-								String middle_level_id,
-								String bottom_level_id,
-								int current_page_no,
-								int count_per_page,
-								int count_per_list,
-								String search_word) {
-		System.out.println(top_level_id);
-		System.out.println(middle_level_id);
-		System.out.println(bottom_level_id);
-		System.out.println(current_page_no);
-		System.out.println(count_per_page);
-		System.out.println(count_per_list);
-		System.out.println(search_word);
+							String top_level_id, 
+							String middle_level_id,
+							String bottom_level_id,
+							int current_page_no,
+							int count_per_page,
+							int count_per_list,
+							String search_word) {
 		ResponseData responseData = new ResponseData();
 		responseData = ruleService.getRuleListByPaging(top_level_id, 
-																	middle_level_id, 
-																	bottom_level_id,
-																	function_name, 
-																	current_page_no,
-																	count_per_page,
-																	count_per_list,
-																	search_word);
+													middle_level_id, 
+													bottom_level_id,
+													function_name, 
+													current_page_no,
+													count_per_page,
+													count_per_list,
+													search_word);
 		Map<String, Object> map = 
 				(Map<String, Object>) addCommonAttribute(true, null, "getJsonLog", responseData, 
 										count_per_page, count_per_list, search_word);

@@ -94,7 +94,7 @@ public class ResponseData {
 		response.setCharacterEncoding("UTF-8");
 		response.setStatus(HttpServletResponse.SC_OK);
 		try {
-			response.getWriter().print(mapper.writeValueAsString(items));
+			response.getWriter().print(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(items));
 			response.getWriter().flush();
 		} catch (Exception e) {
 			//e.printStackTrace();

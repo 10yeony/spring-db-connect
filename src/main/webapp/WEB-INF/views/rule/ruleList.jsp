@@ -73,8 +73,13 @@
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-2 text-gray-800">
                     	<b>룰 목록</b>
-                    	<span style="font-size:18px;">(${searchResult} ${totalCount}건)</span>
+                    	<span id="searchResultArea" style="font-size:18px;"></span>
                     </h1>
+                    <span style="font-size:18px; float:right">
+                    	<input type="radio" name="rule_type" value="all" style="margin-right: 5px;"> 전체
+                    	<input type="radio" name="rule_type" value="sql" style="margin-right: 5px;"> SQL
+                    	<input type="radio" name="rule_type" value="method"> 메서드
+                    </span>
                 </div>
 
                 <!-- Page Body -->
@@ -86,7 +91,7 @@
 								<%@ include file="/WEB-INF/views/rule/include/bottomLevel.jsp"%>
 							</div>
 							<script src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>
-							<script src="${pageContext.request.contextPath}/resource/js/rule/viewList.js"></script>
+							<script src="${pageContext.request.contextPath}/resource/js/rule/ruleList.js"></script>
                     	<%@ include file="/WEB-INF/views/paging/ajax_template.jsp"%>
                     </div>
                 </div>

@@ -40,3 +40,61 @@ mark {
 	color: #4e73df;
 	background: white;
 }
+
+#selections {
+  position: absolute;
+  top: 260px;
+  left: 50px;
+}
+
+.selectBox {
+  position: absolute;
+  background: transparent;
+  background: #006fdd;
+  z-index: 1;
+}
+.selectBox:after {
+  content: "<";
+  position: absolute;
+  line-height: 40px;
+  text-align: center;
+  transform: rotate(-90deg);
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+  color: #dddddd;
+  top: 0px;
+  left: 210px;
+  width: 40px;
+  height: 40px;
+  background: #0062c4;
+  cursor: pointer;
+  z-index: -2;
+}
+.selectBox option {
+  background: #0062c4;
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+  color: #dddddd;
+  outline: none;
+  border: none;
+  z-index: -2;
+}
+.selectBox option:hover {
+  background: #006fdd;
+  cursor: pointer;
+}
+
+#select {
+  width: 250px;
+  height: 40px;
+  padding-left: 5px;
+  background: transparent;
+  outline: none;
+  border: none;
+  font-family: Helvetica, sans-serif;
+  font-size: 14px;
+  color: #dddddd;
+  appearance: none;
+  cursor: pointer;
+  z-index: 1;
+}
