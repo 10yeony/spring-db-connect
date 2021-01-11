@@ -35,8 +35,8 @@
 			<thead>
 				<tr>
 					<th>no.</th>
-					<th>대분류</th>
-					<th>중분류</th>
+					<th width="120">대분류</th>
+					<th width="120">중분류</th>
 					<th>소분류</th>
 					<th>설명</th>
 					<th>룰 타입</th>
