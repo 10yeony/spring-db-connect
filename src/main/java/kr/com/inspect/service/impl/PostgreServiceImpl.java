@@ -321,7 +321,8 @@ public class PostgreServiceImpl implements PostgreService{
 					
 					if(isExistId == null) { //등록된 데이터가 아닐 경우
 						singletone.setNewData(singletone.getNewData() + 1);
-
+						singletone.setDbRowCount("metadata", 1);
+						
 						/* metadata 테이블 입력 */
 						beforeTimeCheck = System.currentTimeMillis();
 						sqlSession.insert(metadataNS+"insertIntoMetadata", metadata);
@@ -445,7 +446,7 @@ public class PostgreServiceImpl implements PostgreService{
 
 			logger.info("Metadata DB 입력 소요 시간(ms) : " + insertIntoMetadata + "밀리초");
 			logger.info("Metadata DB 입력 소요 시간(s) : " + (insertIntoMetadata/1000) + "초");
-			logger.info("Metadata DB에 입력된 총 row의 수 : "+ singletone.getNewData());
+			logger.info("Metadata DB에 입력된 총 row의 수 : "+ singletone.getDbRowCount("metadata"));
 			
 			logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(ms) : " + getAutoIncrementMetadataId + "밀리초");
 			logger.info("Metadata auto increment 기본키 가져오기(외래키 세팅) 소요 시간(s) : " + (getAutoIncrementMetadataId/1000) + "초");
@@ -476,7 +477,7 @@ public class PostgreServiceImpl implements PostgreService{
 			
 			logger.info("JsonLog DB 입력 소요 시간(ms) : " + insertIntoJsonLog + "밀리초");
 			logger.info("JsonLog DB 입력 소요 시간(s) : " + (insertIntoJsonLog/1000) + "초");
-			logger.info("JsonLog DB에 입력된 총 row의 수 : "+ singletone.getNewData());
+			logger.info("JsonLog DB에 입력된 총 row의 수 : "+ singletone.getDbRowCount("metadata"));
 			return "true";
 		}else { //모두 중복된 데이터일 경우
 			logger.info("이미 DB에 등록된 중복 데이터 파일들입니다.");
