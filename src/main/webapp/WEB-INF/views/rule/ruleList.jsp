@@ -75,15 +75,16 @@
                     	<b>룰 목록</b>
                     	<span id="searchResultArea" style="font-size:18px;"></span>
                     </h1>
-                    <span style="font-size:18px; float:right">
-                    	<input type="radio" name="rule_type" value="all" checked onchange="startPagingHandling();">
-                    	<span style="cursor:pointer" onclick="clickRuleType('all');">&nbsp;전체</span>
-                    	<input type="radio" name="rule_type" value="method" style="margin-left: 5px;" onchange="startPagingHandling();">
-                    	<span style="cursor:pointer" onclick="clickRuleType('method');">&nbsp;메서드</span>
-                    	<input type="radio" name="rule_type" value="sql" style="margin-left: 5px;" onchange="startPagingHandling();">
-                    	<span style="cursor:pointer" onclick="clickRuleType('sql');">&nbsp;SQL</span>
+                    <span style="font-size:18px; float:right;">
+                    	<input type="radio" name="rule_type" id="all" value="all" checked onchange="startPagingHandling();">
+                    	<label for="all">전체</label>
+                    	<input type="radio" name="rule_type" id="sql" value="sql" style="margin-left: 5px;" onchange="startPagingHandling();">
+                    	<label for="sql">SQL</label>
+                    	<input type="radio" name="rule_type" id="method" value="method" style="margin-left: 5px;" onchange="startPagingHandling();">
+                    	<label for="method">메서드</label>
                     </span>
                 </div>
+                <br/>
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">

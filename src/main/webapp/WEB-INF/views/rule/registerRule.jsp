@@ -105,10 +105,10 @@
 									<tr>
 										<th>종류</th>
 										<td>
-											<input type="radio" name="rule_type" id="method" value="method" checked>
-												<label for="method">메서드</label>
-											<input type="radio" name="rule_type" id="sql" value="sql">
+											<input type="radio" name="rule_type" id="sql" value="sql" checked>
 											<label for="sql">SQL</label>
+											<input type="radio" name="rule_type" id="method" value="method">
+											<label for="method">메서드</label>
 										</td>
 									</tr>
 					 				<tr>

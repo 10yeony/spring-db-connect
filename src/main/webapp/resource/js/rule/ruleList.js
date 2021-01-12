@@ -135,11 +135,6 @@ function searchResultArea(search_word, totalCount){
 	}
 }
 
-function clickRuleType(rule_type) {
-	$("input[value=" + rule_type + "]").prop('checked', true);
-	startPagingHandling();
-}
-
 function checkAllRuleInThisPage(event){
 	if(event.target.checked){
 		$('.selectItem').prop('checked', true);
