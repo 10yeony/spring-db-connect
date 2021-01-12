@@ -128,6 +128,7 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 선택된 카테고리에 해당되는 전사규칙 리스트를 조인해서 가져옴
+	 * @param rule_type 룰 타입(전체/SQL/메서드)
 	 * @param top_level_id    전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
@@ -139,7 +140,8 @@ public class RuleServiceImpl implements RuleService {
 	 * @return 선택된 카테고리에 해당되는 전사규칙 테이블
 	 */
 	@Override
-	public ResponseData getRuleListByPaging(String top_level_id, 
+	public ResponseData getRuleListByPaging(String rule_type,
+											String top_level_id, 
 											String middle_level_id, 
 											String bottom_level_id,
 											String function_name, 
@@ -149,14 +151,14 @@ public class RuleServiceImpl implements RuleService {
 											String search_word) {
 		CommonDto commonDto = new CommonDto();
 		int totalCount = 0;
-		totalCount = ruleDao.getAllCountOfRuleList(top_level_id, middle_level_id, bottom_level_id, search_word);
+		totalCount = ruleDao.getAllCountOfRuleList(rule_type, top_level_id, middle_level_id, bottom_level_id, search_word);
 		
 		if (totalCount > 0) {
 			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
-		List<Rule> list = ruleDao.getRuleListByPaging(top_level_id, middle_level_id, bottom_level_id, limit, offset, search_word);
+		List<Rule> list = ruleDao.getRuleListByPaging(rule_type, top_level_id, middle_level_id, bottom_level_id, limit, offset, search_word);
 		String pagination = commonDto.getPagination();
 		
 		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);

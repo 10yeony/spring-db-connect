@@ -74,9 +74,10 @@ $(function(){
 /* 전사규칙 리스트를 가져옴 */
 function startPagingHandling(){
 	var data = {
+		rule_type: $("input[name='rule_type']:checked").val(),
 		top_level_id: top_level_id,
 		middle_level_id: middle_level_id,
-		bottom_level_id: bottom_level_id,
+		bottom_level_id: bottom_level_id
 	}
 	getPagingResult($('#requestUrl').val(), data)
 }
@@ -109,7 +110,6 @@ function appendTable(list){
 
 		var rule_type = JSON.stringify(list[i].rule_type);
 		rule_type = rule_type.replace(/"/g, ""); //큰 따옴표 제거
-		console.log('rule_type' + rule_type)
 		
 		$('#ruleListTbody').append(
 			"<tr>" +
@@ -133,6 +133,11 @@ function searchResultArea(search_word, totalCount){
 	}else{
 		$('#searchResultArea').append('("' + search_word + '" 검색 결과 ' + totalCount + '건)');
 	}
+}
+
+function clickRuleType(rule_type) {
+	$("input[value=" + rule_type + "]").prop('checked', true);
+	startPagingHandling();
 }
 
 function checkAllRuleInThisPage(event){

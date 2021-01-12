@@ -354,6 +354,7 @@ public class PagingController {
 	@GetMapping("/rule/getRuleList")
 	@ResponseBody
 	public void getRuleList(HttpServletResponse response, 
+							String rule_type, 
 							String top_level_id, 
 							String middle_level_id,
 							String bottom_level_id,
@@ -362,7 +363,8 @@ public class PagingController {
 							int count_per_list,
 							String search_word) {
 		ResponseData responseData = new ResponseData();
-		responseData = ruleService.getRuleListByPaging(top_level_id, 
+		responseData = ruleService.getRuleListByPaging(rule_type, 
+													top_level_id, 
 													middle_level_id, 
 													bottom_level_id,
 													function_name, 

@@ -23,6 +23,26 @@
 			b.name LIKE '%'||#{search_word}||'%' OR
 			b.description LIKE '%'||#{search_word}||'%';
 	</select>
+	<select id="getAllCountOfRuleListWithRuleType" parameterType="hashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			audio.rule_bottom_level b
+		LEFT JOIN
+			audio.rule_top_level t
+		ON
+			b.top_level_id = t.id
+		LEFT JOIN
+			audio.rule_middle_level m
+		ON
+			b.middle_level_id = m.id
+		WHERE 
+			rule_type = #{rule_type} 
+			AND (t.name LIKE '%'||#{search_word}||'%' 
+			OR m.name LIKE '%'||#{search_word}||'%' 
+			OR b.name LIKE '%'||#{search_word}||'%' 
+			OR b.description LIKE '%'||#{search_word}||'%');
+	</select>
 	<select id="getAllCountOfRuleListByTopId" parameterType="hashMap" resultType="int">
 		SELECT
 			COUNT(*)
@@ -38,6 +58,27 @@
 			b.middle_level_id = m.id
 		WHERE 
 			t.id = #{top_level_id} 
+			AND (t.name LIKE '%'||#{search_word}||'%' 
+			OR m.name LIKE '%'||#{search_word}||'%' 
+			OR b.name LIKE '%'||#{search_word}||'%' 
+			OR b.description LIKE '%'||#{search_word}||'%');
+	</select>
+	<select id="getAllCountOfRuleListByTopIdWithRuleType" parameterType="hashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			audio.rule_bottom_level b
+		LEFT JOIN
+			audio.rule_top_level t
+		ON
+			b.top_level_id = t.id
+		LEFT JOIN
+			audio.rule_middle_level m
+		ON
+			b.middle_level_id = m.id
+		WHERE 
+			rule_type = #{rule_type} 
+			AND t.id = #{top_level_id} 
 			AND (t.name LIKE '%'||#{search_word}||'%' 
 			OR m.name LIKE '%'||#{search_word}||'%' 
 			OR b.name LIKE '%'||#{search_word}||'%' 
@@ -64,6 +105,28 @@
 			OR b.name LIKE '%'||#{search_word}||'%' 
 			OR b.description LIKE '%'||#{search_word}||'%');
 	</select>
+	<select id="getAllCountOfRuleListByTopMiddleIdWithRuleType" parameterType="hashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			audio.rule_bottom_level b
+		LEFT JOIN
+			audio.rule_top_level t
+		ON
+			b.top_level_id = t.id
+		LEFT JOIN
+			audio.rule_middle_level m
+		ON
+			b.middle_level_id = m.id
+		WHERE 
+			rule_type = #{rule_type} 
+			AND t.id = #{top_level_id}
+			AND m.id = #{middle_level_id}
+			AND (t.name LIKE '%'||#{search_word}||'%' 
+			OR m.name LIKE '%'||#{search_word}||'%' 
+			OR b.name LIKE '%'||#{search_word}||'%' 
+			OR b.description LIKE '%'||#{search_word}||'%');
+	</select>
 	<select id="getAllCountOfRuleListByTopMiddleBottomId" parameterType="hashMap" resultType="int">
 		SELECT
 			COUNT(*)
@@ -79,6 +142,29 @@
 			b.middle_level_id = m.id
 		WHERE 
 			t.id = #{top_level_id}
+			AND m.id = #{middle_level_id}
+			AND b.id = #{bottom_level_id}
+			AND (t.name LIKE '%'||#{search_word}||'%' 
+			OR m.name LIKE '%'||#{search_word}||'%' 
+			OR b.name LIKE '%'||#{search_word}||'%' 
+			OR b.description LIKE '%'||#{search_word}||'%');
+	</select>
+	<select id="getAllCountOfRuleListByTopMiddleBottomIdWithRuleType" parameterType="hashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			audio.rule_bottom_level b
+		LEFT JOIN
+			audio.rule_top_level t
+		ON
+			b.top_level_id = t.id
+		LEFT JOIN
+			audio.rule_middle_level m
+		ON
+			b.middle_level_id = m.id
+		WHERE 
+			rule_type = #{rule_type} 
+			AND t.id = #{top_level_id}
 			AND m.id = #{middle_level_id}
 			AND b.id = #{bottom_level_id}
 			AND (t.name LIKE '%'||#{search_word}||'%' 
@@ -141,6 +227,60 @@
 		OFFSET 
 			#{offset};
 	</select>
+	<select id="getRuleListByPagingWithRuleType" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			temp.bottom_level_id,
+			temp.bottom_level_name,
+			temp.description,
+			temp.file_name,
+			temp.creator,
+			temp.contents,
+			temp.imp_contents,
+			temp.result,
+			temp.top_level_id,
+			temp.rule_type,
+			temp.top_level_name,
+			temp.middle_level_id,
+			temp.middle_level_name
+		FROM
+			(SELECT
+				b.id AS bottom_level_id,
+				b.name AS bottom_level_name,
+				b.description,
+				b.file_name,
+				b.creator,
+				b.contents,
+				b.imp_contents,
+				b.result,
+				b.top_level_id,
+				b.rule_type,
+				t.name AS top_level_name,
+				b.middle_level_id,
+				m.name AS middle_level_name
+			FROM
+				audio.rule_bottom_level b
+			LEFT JOIN
+				audio.rule_top_level t
+			ON
+				b.top_level_id = t.id
+			LEFT JOIN
+				audio.rule_middle_level m
+			ON
+				b.middle_level_id = m.id
+			WHERE 
+				rule_type = #{rule_type} 
+				AND (t.name LIKE '%'||#{search_word}||'%' 
+				OR m.name LIKE '%'||#{search_word}||'%' 
+				OR b.name LIKE '%'||#{search_word}||'%' 
+				OR b.description LIKE '%'||#{search_word}||'%')
+			ORDER BY
+				b.id DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
 	<select id="getRuleListUsingTopIdByPaging" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
 		SELECT
 			(ROW_NUMBER() OVER()) AS row_num,
@@ -184,6 +324,61 @@
 				b.middle_level_id = m.id
 			WHERE 
 				t.id = #{top_level_id} 
+				AND (t.name LIKE '%'||#{search_word}||'%' 
+				OR m.name LIKE '%'||#{search_word}||'%' 
+				OR b.name LIKE '%'||#{search_word}||'%' 
+				OR b.description LIKE '%'||#{search_word}||'%')
+			ORDER BY
+				b.id DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+	<select id="getRuleListUsingTopIdByPagingWithRuleType" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			temp.bottom_level_id,
+			temp.bottom_level_name,
+			temp.description,
+			temp.file_name,
+			temp.creator,
+			temp.contents,
+			temp.imp_contents,
+			temp.result,
+			temp.top_level_id,
+			temp.rule_type,
+			temp.top_level_name,
+			temp.middle_level_id,
+			temp.middle_level_name
+		FROM
+			(SELECT
+				b.id AS bottom_level_id,
+				b.name AS bottom_level_name,
+				b.description,
+				b.file_name,
+				b.creator,
+				b.contents,
+				b.imp_contents,
+				b.result,
+				b.top_level_id,
+				b.rule_type,
+				t.name AS top_level_name,
+				b.middle_level_id,
+				m.name AS middle_level_name
+			FROM
+				audio.rule_bottom_level b
+			LEFT JOIN
+				audio.rule_top_level t
+			ON
+				b.top_level_id = t.id
+			LEFT JOIN
+				audio.rule_middle_level m
+			ON
+				b.middle_level_id = m.id
+			WHERE 
+				rule_type = #{rule_type} 
+				AND t.id = #{top_level_id} 
 				AND (t.name LIKE '%'||#{search_word}||'%' 
 				OR m.name LIKE '%'||#{search_word}||'%' 
 				OR b.name LIKE '%'||#{search_word}||'%' 
@@ -250,6 +445,62 @@
 		OFFSET 
 			#{offset};
 	</select>
+	<select id="getRuleListUsingTopMiddleIdByPagingWithRuleType" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			temp.bottom_level_id,
+			temp.bottom_level_name,
+			temp.description,
+			temp.file_name,
+			temp.creator,
+			temp.contents,
+			temp.imp_contents,
+			temp.result,
+			temp.top_level_id,
+			temp.rule_type,
+			temp.top_level_name,
+			temp.middle_level_id,
+			temp.middle_level_name
+		FROM
+			(SELECT
+				b.id AS bottom_level_id,
+				b.name AS bottom_level_name,
+				b.description,
+				b.file_name,
+				b.creator,
+				b.contents,
+				b.imp_contents,
+				b.result,
+				b.top_level_id,
+				b.rule_type,
+				t.name AS top_level_name,
+				b.middle_level_id,
+				m.name AS middle_level_name
+			FROM
+				audio.rule_bottom_level b
+			LEFT JOIN
+				audio.rule_top_level t
+			ON
+				b.top_level_id = t.id
+			LEFT JOIN
+				audio.rule_middle_level m
+			ON
+				b.middle_level_id = m.id
+			WHERE 
+				rule_type = #{rule_type} 
+				AND t.id = #{top_level_id}
+				AND m.id = #{middle_level_id}
+				AND (t.name LIKE '%'||#{search_word}||'%' 
+				OR m.name LIKE '%'||#{search_word}||'%' 
+				OR b.name LIKE '%'||#{search_word}||'%' 
+				OR b.description LIKE '%'||#{search_word}||'%')
+			ORDER BY
+				b.id DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
 	<select id="getRuleListUsingTopMiddleBottomIdByPaging" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
 		SELECT
 			(ROW_NUMBER() OVER()) AS row_num,
@@ -293,6 +544,63 @@
 				b.middle_level_id = m.id
 			WHERE 
 				t.id = #{top_level_id}
+				AND m.id = #{middle_level_id}
+				AND b.id = #{bottom_level_id}
+				AND (t.name LIKE '%'||#{search_word}||'%' 
+				OR m.name LIKE '%'||#{search_word}||'%' 
+				OR b.name LIKE '%'||#{search_word}||'%' 
+				OR b.description LIKE '%'||#{search_word}||'%')
+			ORDER BY
+				b.id DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
+	<select id="getRuleListUsingTopMiddleBottomIdByPagingWithRuleType" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			temp.bottom_level_id,
+			temp.bottom_level_name,
+			temp.description,
+			temp.file_name,
+			temp.creator,
+			temp.contents,
+			temp.imp_contents,
+			temp.result,
+			temp.top_level_id,
+			temp.rule_type,
+			temp.top_level_name,
+			temp.middle_level_id,
+			temp.middle_level_name
+		FROM
+			(SELECT
+				b.id AS bottom_level_id,
+				b.name AS bottom_level_name,
+				b.description,
+				b.file_name,
+				b.creator,
+				b.contents,
+				b.imp_contents,
+				b.result,
+				b.top_level_id,
+				b.rule_type,
+				t.name AS top_level_name,
+				b.middle_level_id,
+				m.name AS middle_level_name
+			FROM
+				audio.rule_bottom_level b
+			LEFT JOIN
+				audio.rule_top_level t
+			ON
+				b.top_level_id = t.id
+			LEFT JOIN
+				audio.rule_middle_level m
+			ON
+				b.middle_level_id = m.id
+			WHERE 
+				rule_type = #{rule_type} 
+				AND t.id = #{top_level_id}
 				AND m.id = #{middle_level_id}
 				AND b.id = #{bottom_level_id}
 				AND (t.name LIKE '%'||#{search_word}||'%' 
