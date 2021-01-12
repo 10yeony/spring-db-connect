@@ -43,13 +43,15 @@ public interface RuleDao {
 	
 	/**
 	 * 전사규칙 리스트의 총 개수를 가져옴
+	 * @param rule_type 룰 타입(전체/SQL/메서드)
 	 * @param top_level_id 전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
 	 * @param search_word 검색어
 	 * @return 전사규칙 리스트의 총 개수
 	 */
-	public int getAllCountOfRuleList(String top_level_id, 
+	public int getAllCountOfRuleList(String rule_type,
+										String top_level_id, 
 										String middle_level_id, 
 										String bottom_level_id, 
 										String search_word);
@@ -67,6 +69,7 @@ public interface RuleDao {
 	
 	/**
 	 * 전사규칙 리스트를 페이징 처리하여 리턴함
+	 * @param rule_type 룰 타입(전체/SQL/메서드)
 	 * @param top_level_id 전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
@@ -75,7 +78,8 @@ public interface RuleDao {
 	 * @param search_word 검색어
 	 * @return 페이징 처리된 전사규칙 리스트
 	 */
-	public List<Rule> getRuleListByPaging(String top_level_id, 
+	public List<Rule> getRuleListByPaging(String rule_type,
+									String top_level_id, 
 									String middle_level_id, 
 									String bottom_level_id,
 									int limit, 

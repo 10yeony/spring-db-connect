@@ -76,9 +76,12 @@
                     	<span id="searchResultArea" style="font-size:18px;"></span>
                     </h1>
                     <span style="font-size:18px; float:right">
-                    	<input type="radio" name="rule_type" value="all" style="margin-right: 5px;"> 전체
-                    	<input type="radio" name="rule_type" value="sql" style="margin-right: 5px;"> SQL
-                    	<input type="radio" name="rule_type" value="method"> 메서드
+                    	<input type="radio" name="rule_type" value="all" checked onchange="startPagingHandling();">
+                    	<span style="cursor:pointer" onclick="clickRuleType('all');">&nbsp;전체</span>
+                    	<input type="radio" name="rule_type" value="method" style="margin-left: 5px;" onchange="startPagingHandling();">
+                    	<span style="cursor:pointer" onclick="clickRuleType('method');">&nbsp;메서드</span>
+                    	<input type="radio" name="rule_type" value="sql" style="margin-left: 5px;" onchange="startPagingHandling();">
+                    	<span style="cursor:pointer" onclick="clickRuleType('sql');">&nbsp;SQL</span>
                     </span>
                 </div>
 

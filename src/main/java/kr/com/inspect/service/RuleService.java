@@ -38,6 +38,7 @@ public interface RuleService {
 	
 	/**
 	 * 선택된 카테고리에 해당되는 전사규칙 리스트를 조인해서 가져옴
+	 * @param rule_type 룰 타입(전체/SQL/메서드)
 	 * @param top_level_id 전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
@@ -48,7 +49,8 @@ public interface RuleService {
 	 * @param search_word 검색어
 	 * @return 선택된 카테고리에 해당되는 전사규칙 리스트
 	 */
-	public ResponseData getRuleListByPaging(String top_level_id, 
+	public ResponseData getRuleListByPaging(String rule_type,
+												String top_level_id, 
 												String middle_level_id,
 												String bottom_level_id,
 												String function_name, 

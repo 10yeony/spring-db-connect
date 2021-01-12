@@ -136,6 +136,7 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 전사규칙 리스트를 페이징 처리하여 리턴함
+	 * @param rule_type 룰 타입(전체/SQL/메서드)
 	 * @param top_level_id 전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
@@ -145,31 +146,45 @@ public class RuleDaoImpl implements RuleDao {
 	 * @return 페이징 처리된 전사규칙 리스트
 	 */
 	@Override
-	public List<Rule> getRuleListByPaging(String top_level_id, 
+	public List<Rule> getRuleListByPaging(String rule_type,
+										String top_level_id, 
 										String middle_level_id, 
 										String bottom_level_id,
 										int limit, 
 										int offset,
 										String search_word) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("rule_type", rule_type);
 		map.put("limit", limit);
 		map.put("offset", offset);
 		map.put("search_word", search_word);
 		if (top_level_id == "" && middle_level_id == "" && bottom_level_id == "") {
-			return sqlSession.selectList(rulePagingNS + "getRuleListByPaging", map);
+			if(rule_type.equals("all")) {
+				return sqlSession.selectList(rulePagingNS + "getRuleListByPaging", map);
+			}else {
+				return sqlSession.selectList(rulePagingNS + "getRuleListByPagingWithRuleType", map);
+			}
 		}
 
 		/* 대분류 아이디를 통해 전사규칙 리스트를 조인 */
 		else if (middle_level_id == "" && bottom_level_id == "") {
 			map.put("top_level_id", Integer.parseInt(top_level_id));
-			return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopIdByPaging", map);
+			if(rule_type.equals("all")) {
+				return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopIdByPaging", map);
+			}else {
+				return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopIdByPagingWithRuleType", map);
+			}
 		}
 
 		/* 대분류, 중분류 아이디를 통해 전사규칙 리스트를 조인 */
 		else if (bottom_level_id == "") {
 			map.put("top_level_id", Integer.parseInt(top_level_id));
 			map.put("middle_level_id", Integer.parseInt(middle_level_id));
-			return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopMiddleIdByPaging", map);
+			if(rule_type.equals("all")) {
+				return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopMiddleIdByPaging", map);
+			}else {
+				return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopMiddleIdByPagingWithRuleType", map);
+			}
 		}
 
 		/* 대분류, 중분류, 소분류 아이디를 통해 전사규칙 리스트를 조인 */
@@ -177,32 +192,59 @@ public class RuleDaoImpl implements RuleDao {
 			map.put("top_level_id", Integer.parseInt(top_level_id));
 			map.put("middle_level_id", Integer.parseInt(middle_level_id));
 			map.put("bottom_level_id", Integer.parseInt(bottom_level_id));
-			return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopMiddleBottomIdByPaging", map);
+			if(rule_type.equals("all")) {
+				return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopMiddleBottomIdByPaging", map);
+			}else {
+				return sqlSession.selectList(rulePagingNS + "getRuleListUsingTopMiddleBottomIdByPagingWithRuleType", map);
+			}
 		}
 	}
 	
+	/**
+	 * 전사규칙 리스트의 총 개수를 가져옴
+	 * @param rule_type 룰 타입(전체/SQL/메서드)
+	 * @param top_level_id 전사규칙 대분류 아이디
+	 * @param middle_level_id 전사규칙 중분류 아이디
+	 * @param bottom_level_id 전사규칙 소분류 아이디
+	 * @param search_word 검색어
+	 * @return 전사규칙 리스트의 총 개수
+	 */
 	@Override
-	public int getAllCountOfRuleList(String top_level_id, 
+	public int getAllCountOfRuleList(String rule_type,
+									String top_level_id, 
 									String middle_level_id, 
 									String bottom_level_id, 
 									String search_word) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("rule_type", rule_type);
 		map.put("search_word", search_word);
 		if (top_level_id == "" && middle_level_id == "" && bottom_level_id == "") {
-			return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleList", map);
+			if(rule_type.equals("all")) {
+				return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleList", map);
+			}else {
+				return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListWithRuleType", map);
+			}
 		}
 
 		/* 대분류 아이디를 통해 전사규칙 리스트를 조인 */
 		else if (middle_level_id == "" && bottom_level_id == "") {
 			map.put("top_level_id", Integer.parseInt(top_level_id));
-			return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopId", map);
+			if(rule_type.equals("all")) {
+				return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopId", map);
+			}else {
+				return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopIdWithRuleType", map);
+			}
 		}
 
 		/* 대분류, 중분류 아이디를 통해 전사규칙 리스트를 조인 */
 		else if (bottom_level_id == "") {
 			map.put("top_level_id", Integer.parseInt(top_level_id));
 			map.put("middle_level_id", Integer.parseInt(middle_level_id));
-			return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopMiddleId", map);
+			if(rule_type.equals("all")) {
+				return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopMiddleId", map);
+			}else {
+				return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopMiddleIdWithRuleType", map);
+			}
 		}
 
 		/* 대분류, 중분류, 소분류 아이디를 통해 전사규칙 리스트를 조인 */
@@ -210,7 +252,11 @@ public class RuleDaoImpl implements RuleDao {
 			map.put("top_level_id", Integer.parseInt(top_level_id));
 			map.put("middle_level_id", Integer.parseInt(middle_level_id));
 			map.put("bottom_level_id", Integer.parseInt(bottom_level_id));
-			return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopMiddleBottomId", map);
+			if(rule_type.equals("all")) {
+				return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopMiddleBottomId", map);
+			}else {
+				return sqlSession.selectOne(rulePagingNS+"getAllCountOfRuleListByTopMiddleBottomIdWithRuleType", map);
+			}
 		}
 	}
 
