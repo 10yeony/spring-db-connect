@@ -299,6 +299,7 @@ public class DocxReport {
 
 		XWPFParagraph p = doc.createParagraph();
 		XWPFRun r = p.createRun();
+		p.setAlignment(ParagraphAlignment.LEFT);
 
 		r.setText("날짜 : " + day);
 		r.setFontSize(9);
