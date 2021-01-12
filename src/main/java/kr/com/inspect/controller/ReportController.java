@@ -1,5 +1,6 @@
 package kr.com.inspect.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -364,18 +365,24 @@ public class ReportController {
 	/**
 	 * 룰 결과를 워드파일로 다운
 	 * @param response
-	 * @param bottom_level_id
 	 * @throws Exception
 	 */
-	@ResponseBody
 	@RequestMapping(value = "/resultRuleDocx", method = RequestMethod.GET)
-	public void resultRuleWord(HttpServletResponse response, Integer bottom_level_id) throws Exception {
-		Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);
-		docxReport.resultRuleDocx(response, rule, docxPath);
-
-		UsingLog usingLog = new UsingLog();
-		usingLog.setContent(rule.getBottom_level_name() + ".docx 다운로드");
-		usingLogUtil.setUsingLog(usingLog);
+	public void resultRuleWord(HttpServletResponse response, HttpServletRequest request) throws Exception {
+		String[] arr = request.getParameterValues("ruleReport");
+		System.out.println("request.getParameterValues(\"ruleReport\") : " + request.getParameterValues("ruleReport"));
+		System.out.println("resultRuleDocx");
+		System.out.println(arr);
+//		List<Rule> ruleList = new ArrayList<>();
+//		for(int i=0; i<ruleReport.size(); i++){
+//			ruleList.add(ruleService.getRuleBottomLevel(ruleReport.get(i)));
+//		}
+//		Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);
+//		docxReport.resultRuleDocx(response, ruleList, docxPath);
+//
+//		UsingLog usingLog = new UsingLog();
+//		usingLog.setContent(rule.getBottom_level_name() + ".docx 다운로드");
+//		usingLogUtil.setUsingLog(usingLog);
 	}
 
 	/**
