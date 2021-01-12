@@ -524,15 +524,12 @@ public class PostgreServiceImpl implements PostgreService{
 		executor = Executors.newFixedThreadPool(threadCnt);
 		futures = new ArrayList<>();
 
-		System.out.println("파싱시작");
 		for(File file : fileList){
 			futures.add(executor.submit(() -> {
 				/* 확장자가 xlsx인 파일을 읽는다 */
 			    if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
 			    	String fullPath = path + file.getName();
-					System.out.println("xlsxParsing.setProgramList 호출");
 			    	List<Program> list = xlsxParsing.setProgramList(fullPath);
-					System.out.println("가져온 리스트:" + list);
 
 			    	for(Program p : list) {
 			    		if(sqlSession.selectOne(programNS+"getProgramByFileNum", p.getFile_num()) == null) {
@@ -544,12 +541,10 @@ public class PostgreServiceImpl implements PostgreService{
 			}));
 		}
 		closeThread(executor, futures);
-		System.out.println("파싱완료");
 		threadCnt = 5;
 		executor = Executors.newFixedThreadPool(threadCnt);
 		futures = new ArrayList<>();
 
-		System.out.println("파일 삭제");
 		/* 서버 디렉토리에 파일 삭제 */
 		try{
 			while (dir.listFiles().length != 0){
@@ -564,7 +559,6 @@ public class PostgreServiceImpl implements PostgreService{
 		}catch (Exception e){
 		}
 		closeThread(executor, futures);
-		System.out.println("파일 삭제 완료");
 
 		if(singletone.getNewData() > 0) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			return true;

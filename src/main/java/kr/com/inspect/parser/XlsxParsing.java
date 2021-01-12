@@ -30,9 +30,7 @@ public class XlsxParsing {
 	 * @return 파싱값을 리스트에 담아 변수 list에 리턴
 	 */
 	public List<Program> setProgramList(String fullPath) {
-		System.out.println("start setProgramList");
 		// 반환할 객체를 생성
-		
 		List<Program> list = new ArrayList<Program>();
 		
 		FileInputStream fis = null;
@@ -52,64 +50,63 @@ public class XlsxParsing {
 			
 			curSheet = workbook.getSheetAt(0);
 			// row 탐색 for문
-				for(int rowIndex=0; rowIndex < curSheet.getPhysicalNumberOfRows()-1; rowIndex++) {
-					// row 0은 헤더정보이기 때문에 무시
-					if(rowIndex != 0) {
-						// 현재 row 반환
-						curRow = curSheet.getRow(rowIndex);
-						program = new Program();
-						String value;
-						
-						// row의 두번째 cell값이 비어있지 않은 경우 만 cell탐색
-						if(curRow.getCell(1).getStringCellValue() != null) {							
-							for(int cellIndex=0;cellIndex<curRow.getPhysicalNumberOfCells(); cellIndex++) {
-								curCell = curRow.getCell(cellIndex);
-								switch (cellIndex) {
-									case 0: // 아이디
-										System.out.println("아이디 저장 : " + curCell.getNumericCellValue());
-										program.setId((int)curCell.getNumericCellValue());
-										break;
-										
-									case 1: // 파일번호
-										System.out.println("파일번호 저장 : " + curCell.getStringCellValue());
-										program.setFile_num(curCell.getStringCellValue());
-										break;
-										
-									case 2: // 프로그램명
-										System.out.println("프로그램명 저장 : " + curCell.getStringCellValue());
-										program.setTitle(curCell.getStringCellValue());
-										break;
-										
-									case 3: // 부제
-										System.out.println("부제 저장 : " + curCell.getStringCellValue());
-										program.setSubtitle(curCell.getStringCellValue());
-										break;
-										
-									case 4: // 방송시간
-										Date time = curCell.getDateCellValue();
-										String timeString = new SimpleDateFormat("hh:mm:ss").format(time);
-										if(timeString.substring(0,2).equals("12"))
-											timeString = "00"+timeString.substring(2,timeString.length());
-										program.setRunning_time(timeString);
-										break;
-									case 5: // 이름
-										System.out.println("이름 저장 : " + curCell.getStringCellValue());
+			for(int rowIndex=0; rowIndex < curSheet.getPhysicalNumberOfRows()-1; rowIndex++) {
+				// row 0은 헤더정보이기 때문에 무시
+				if(rowIndex != 0) {
+					// 현재 row 반환
+					curRow = curSheet.getRow(rowIndex);
+					program = new Program();
+					String value;
+
+					// row의 두번째 cell값이 비어있지 않은 경우 만 cell탐색
+					if(curRow.getCell(1).getStringCellValue() != null) {
+						for(int cellIndex=0;cellIndex<curRow.getPhysicalNumberOfCells(); cellIndex++) {
+							curCell = curRow.getCell(cellIndex);
+							switch (cellIndex) {
+								case 0: // 아이디
+									program.setId((int)curCell.getNumericCellValue());
+									break;
+
+								case 1: // 파일번호
+									program.setFile_num(curCell.getStringCellValue());
+									break;
+
+								case 2: // 프로그램명
+									program.setTitle(curCell.getStringCellValue());
+									break;
+
+								case 3: // 부제
+									program.setSubtitle(curCell.getStringCellValue());
+									break;
+
+								case 4: // 방송시간
+									Date time = curCell.getDateCellValue();
+									String timeString = new SimpleDateFormat("hh:mm:ss").format(time);
+									if(timeString.substring(0,2).equals("12"))
+										timeString = "00"+timeString.substring(2,timeString.length());
+									program.setRunning_time(timeString);
+									break;
+								case 5: // 이름
+									if(curCell.getStringCellValue()==null)
+										program.setName("");
+									else
 										program.setName(curCell.getStringCellValue());
-										break;
-									case 6: // 성별
-										System.out.println("성별 저장 : " + curCell.getStringCellValue());
+									break;
+								case 6: // 성별
+									if(curCell.getStringCellValue()==null)
+										program.setSex("");
+									else
 										program.setSex(curCell.getStringCellValue());
-										break;
-									default:
-										break;
-								}
+									break;
+								default:
+									break;
 							}
-							System.out.println("프로그램  : "  + program);
-							// cell 탐색 이후 vo 추가
-							list.add(program);
 						}
+						// cell 탐색 이후 vo 추가
+						list.add(program);
 					}
 				}
+			}
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -126,7 +123,6 @@ public class XlsxParsing {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("파싱한 리스트 : " + list);
 		return list;
 	}
 }
