@@ -113,7 +113,7 @@ function appendTable(list){
 		
 		$('#ruleListTbody').append(
 			"<tr>" +
-				"<td><input type='checkbox' class='selectItem'></td>" +
+				"<td><input type='checkbox' class='selectItem'><input type='hidden' value="+ bottom_level_id +"></td>" +
 				"<td>" + row_num + "</td>" +
 				"<td>" + top_level_name + "</td>" +
 				"<td>" + middle_level_name + "</td>" +
@@ -149,5 +149,33 @@ function checkAllRuleInThisPage(event){
 }
 
 function deleteRule(){
-	alert("삭제");
+	let selectItem = document.getElementsByClassName('selectItem');
+	let deleteRuleList = [];
+	for(let i=0; i<selectItem.length; i++){
+		if(selectItem[i].checked){
+			deleteRuleList.push(selectItem[i].nextSibling.value);
+		}
+	}
+	$.ajax({
+		//요청
+		type: "GET",
+		url: contextPath + "/rule/deleteCheckedRuleBottomLevel",
+		traditional : true,
+		data: {
+			deleteRuleList : deleteRuleList
+		}, 
+			
+		//응답
+		success : function(response){
+			if(response){
+				alert("룰을 성공적으로 삭제했습니다.");
+			}else{
+				alert("룰 삭제에 실패했습니다.");
+			}
+			location.reload();
+		},
+		error : function(request, status, error) {
+			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
+		}
+	}); //ajax
 }

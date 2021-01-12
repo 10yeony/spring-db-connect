@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +126,13 @@ public class RuleController {
 		responseData.responseJSON(response, responseData);
 	}
 
+	/**
+	 * 대분류/중분류/소분류 룰을 삭제함
+	 * @param model
+	 * @param level 대분류/중분류/소분류
+	 * @param rule 룰 아이디를 담고 있는 룰 객체
+	 * @return 삭제 후 이동할 url
+	 */
 	@GetMapping("/deleteRuleLevel")
 	public String deleteRuleLevel(Model model, String level, Rule rule) {
 		String levelName = "";
@@ -156,7 +164,34 @@ public class RuleController {
 		}
 		return "rule/registerRule";
 	}
+	
+	/**
+	 * 선택한 룰을 삭제함
+	 * @param deleteRuleList 삭제할 룰 소분류 아이디 배열
+	 * @return 룰 삭제 성공/실패 여부
+	 */
+	@ResponseBody
+	@GetMapping("/deleteCheckedRuleBottomLevel")
+	public boolean deleteCheckedRuleBottomLevel(int[] deleteRuleList) {
+		int result = 0;
+		for(int bottom_level_id : deleteRuleList) {
+			Rule rule = new Rule();
+			rule.setBottom_level_id(bottom_level_id);
+			result += ruleService.deleteRule("bottom", rule);
+		}
+		if(result > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
+	/**
+	 * 룰을 작성하는 페이지로 이동함
+	 * @param model
+	 * @param bottom_level_id 소분류 아이디
+	 * @return 룰 작성 페이지(메서드/SQL) url
+	 */
 	@GetMapping("/editRule")
 	public String editRulepage(Model model, int bottom_level_id) {
 		Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);

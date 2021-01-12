@@ -271,25 +271,25 @@ public class RuleServiceImpl implements RuleService {
 		int result = 0;
 		String content = null;
 		switch (level) {
-		case "top":
-			content = "룰 대분류 삭제";
-			result = ruleDao.deleteTopLevel(rule.getTop_level_id());
-			break;
-		case "middle":
-			content = "룰 중분류 삭제";
-			result = ruleDao.deleteMiddleLevel(rule.getMiddle_level_id());
-			break;
-		case "bottom":
-			content = "룰 소분류 삭제";
-			
-			/* 자바 파일, 클래스 파일 삭제 */
-			Rule rvo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
-			String fileName = rvo.getFile_name();
-			deleteJavaClassFile(fileName);
-
-			/* DB에서 소분류 삭제 */
-			result = ruleDao.deleteBottomLevel(rule.getBottom_level_id());
-			break;
+			case "top":
+				content = "룰 대분류 삭제";
+				result = ruleDao.deleteTopLevel(rule.getTop_level_id());
+				break;
+			case "middle":
+				content = "룰 중분류 삭제";
+				result = ruleDao.deleteMiddleLevel(rule.getMiddle_level_id());
+				break;
+			case "bottom":
+				content = "룰 소분류 삭제";
+				
+				/* 자바 파일, 클래스 파일 삭제 */
+				Rule rvo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
+				String fileName = rvo.getFile_name();
+				deleteJavaClassFile(fileName);
+	
+				/* DB에서 소분류 삭제 */
+				result = ruleDao.deleteBottomLevel(rule.getBottom_level_id());
+				break;
 		}
 		if(result > 0) {
 			RuleLog ruleLog = new RuleLog();
