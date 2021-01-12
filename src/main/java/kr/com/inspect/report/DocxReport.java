@@ -16,6 +16,7 @@ import kr.com.inspect.sender.SendReport;
 import kr.com.inspect.service.PostgreService;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.xssf.usermodel.XSSFPivotTable;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -287,86 +288,100 @@ public class DocxReport {
 	/**
 	 * rule을 워드로 다운받기 위한 메서드
 	 * @param response 파일 다운을 위한 응답
-	 * @param rule 워드로 다운받을 rule
+	 * @param ruleList 워드로 다운받을 rule
 	 * @param path 파일을 다운받기 위해 임시 저장할 경로
 	 */
-	public void resultRuleDocx(HttpServletResponse response, Rule rule, String path){
-		String docxFileName = rule.getBottom_level_name()+ ".docx";
+	public void resultRuleDocx(HttpServletResponse response, List<Rule> ruleList, String path){
 		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		String docxFileName = day+ ".docx";
+		Rule rule;
 
 		/* doc 파일 생성 */
 		XWPFDocument doc = new XWPFDocument();
 
-		XWPFParagraph p = doc.createParagraph();
-		XWPFRun r = p.createRun();
-		p.setAlignment(ParagraphAlignment.LEFT);
+		for(int x=0; x<ruleList.size(); x++) {
+			rule = ruleList.get(x);
 
-		r.setText("날짜 : " + day);
-		r.setFontSize(9);
-		r.addBreak();
-		XWPFRun r2 = p.createRun();
-		r2.setText("대분류 : " + rule.getTop_level_name());
-		r2.setFontSize(9);
-		r2.addBreak();
-		XWPFRun r3 = p.createRun();
-		r3.setText("중분류 : " + rule.getMiddle_level_name());
-		r3.setFontSize(9);
-		r3.addBreak();
-		XWPFRun r4 = p.createRun();
-		r4.setText("설명 : " + rule.getDescription());
-		r4.setFontSize(9);
-		r4.addBreak();
+			XWPFParagraph p = doc.createParagraph();
+			XWPFRun r = p.createRun();
+			p.setAlignment(ParagraphAlignment.LEFT);
 
-		XWPFParagraph p1 = doc.createParagraph();
-		p1.setAlignment(ParagraphAlignment.CENTER);
-		XWPFRun r1 = p1.createRun();
+			if(x==0){
+				r.setText("날짜 : " + day);
+				r.setFontSize(9);
+				r.addBreak();
+			}
+			else{
+				r.setFontSize(20);
+				r.addBreak();
+			}
+			XWPFRun r2 = p.createRun();
+			r2.setText("대분류 : " + rule.getTop_level_name());
+			r2.setFontSize(9);
+			r2.addBreak();
+			XWPFRun r3 = p.createRun();
+			r3.setText("중분류 : " + rule.getMiddle_level_name());
+			r3.setFontSize(9);
+			r3.addBreak();
+			XWPFRun r4 = p.createRun();
+			r4.setText("설명 : " + rule.getDescription());
+			r4.setFontSize(9);
+			r4.addBreak();
 
-		
-		if(rule.getBottom_level_name() != null) {
-			r1.setText(rule.getBottom_level_name());
-		}
-		r1.setBold(true);
-		r1.setFontSize(14);
-		r1.addBreak();
+			XWPFParagraph p1 = doc.createParagraph();
+			p1.setAlignment(ParagraphAlignment.CENTER);
+			XWPFRun r1 = p1.createRun();
 
-		XWPFTable table = null;
-		List<String> list ;
-		List<String> strList;
-		// rule의 result가 배열일 경우 테이블 생성하여 출력
-		if(rule.getResult().charAt(0) == '[') {
-			String ruleStr = rule.getResult().substring(2, rule.getResult().length() - 2);
-			list = Arrays.asList(ruleStr.split("], \\["));
-			if (rule.getResult() != null) {
-				for (int j = 0; j < list.size(); j++) {
-					strList = Arrays.asList(list.get(j).split(", "));
-					if (j == 0) {
-						table = doc.createTable(list.size(), strList.size());
-					}
-					for (int i = 0; i < strList.size(); i++) {
-						double width = 8300.0 / strList.size();
-						table.getRow(j).getCell(i).setWidth(Integer.toString((int) Math.ceil(width)));
-						table.getRow(j).getCell(i).getParagraphArray(0).setSpacingAfter(0);
-						XWPFParagraph tempParagraph = table.getRow(j).getCell(i).getParagraphs().get(0);
-						tempParagraph.setAlignment(ParagraphAlignment.CENTER);
-						XWPFRun tempRun = tempParagraph.createRun();
-						tempRun.setFontSize(9);
-						tempRun.setText(strList.get(i));
-						table.getRow(j).getCell(i).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+
+			if (rule.getBottom_level_name() != null) {
+				r1.setText(rule.getBottom_level_name());
+			}
+			r1.setBold(true);
+			r1.setFontSize(14);
+			r1.addBreak();
+
+			XWPFTable table = null;
+			List<String> list;
+			List<String> strList;
+			// result가 null일 경우
+			if (rule.getResult() == null || rule.getResult().length() == 0) {
+			}
+			// rule의 result가 배열일 경우 테이블 생성하여 출력
+			else if (rule.getResult().charAt(0) == '[') {
+				String ruleStr = rule.getResult().substring(2, rule.getResult().length() - 2);
+				list = Arrays.asList(ruleStr.split("], \\["));
+				if (rule.getResult() != null) {
+					for (int j = 0; j < list.size(); j++) {
+						strList = Arrays.asList(list.get(j).split(", "));
+						if (j == 0) {
+							table = doc.createTable(list.size(), strList.size());
+						}
+						for (int i = 0; i < strList.size(); i++) {
+							double width = 8300.0 / strList.size();
+							table.getRow(j).getCell(i).setWidth(Integer.toString((int) Math.ceil(width)));
+							table.getRow(j).getCell(i).getParagraphArray(0).setSpacingAfter(0);
+							XWPFParagraph tempParagraph = table.getRow(j).getCell(i).getParagraphs().get(0);
+							tempParagraph.setAlignment(ParagraphAlignment.CENTER);
+							XWPFRun tempRun = tempParagraph.createRun();
+							tempRun.setFontSize(9);
+							tempRun.setText(strList.get(i));
+							table.getRow(j).getCell(i).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+						}
 					}
 				}
 			}
-		}
-		// rule의 result가 배열이 아닌경우 1x1 표로 결과 출력
-		else{
-			table = doc.createTable(1,1);
-			table.getRow(0).getCell(0).setWidth(Integer.toString((int) Math.ceil(8300)));
-			table.getRow(0).getCell(0).getParagraphArray(0).setSpacingAfter(0);
-			XWPFParagraph tempParagraph = table.getRow(0).getCell(0).getParagraphs().get(0);
-			tempParagraph.setAlignment(ParagraphAlignment.CENTER);
-			XWPFRun tempRun = tempParagraph.createRun();
-			tempRun.setFontSize(9);
-			tempRun.setText(rule.getResult());
-			table.getRow(0).getCell(0).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+			// rule의 result가 배열이 아닌경우 1x1 표로 결과 출력
+			else {
+				table = doc.createTable(1, 1);
+				table.getRow(0).getCell(0).setWidth(Integer.toString((int) Math.ceil(8300)));
+				table.getRow(0).getCell(0).getParagraphArray(0).setSpacingAfter(0);
+				XWPFParagraph tempParagraph = table.getRow(0).getCell(0).getParagraphs().get(0);
+				tempParagraph.setAlignment(ParagraphAlignment.CENTER);
+				XWPFRun tempRun = tempParagraph.createRun();
+				tempRun.setFontSize(9);
+				tempRun.setText(rule.getResult());
+				table.getRow(0).getCell(0).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+			}
 		}
 
 		/* 입력된 내용 파일로 쓰기 */
@@ -389,7 +404,7 @@ public class DocxReport {
 			response.getOutputStream().flush();
 			response.getOutputStream().close();
 
-			file.delete();
+//			file.delete();
 
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();

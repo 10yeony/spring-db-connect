@@ -292,6 +292,13 @@
 			<version>2.2</version>
 		</dependency>
 
+		<!-- 차트관련 -->
+		<dependency>
+			<groupId>org.knowm.xchart</groupId>
+			<artifactId>xchart</artifactId>
+			<version>3.8.0</version>
+		</dependency>
+
 
 	</dependencies>
 
