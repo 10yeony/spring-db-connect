@@ -108,7 +108,7 @@ function appendRunRuleResultArea(list){
 				'</textarea>'
 			);
 		}
-		else if(rule_type == 'sql' && result == ''){
+		else if((rule_type == 'sql' && result == '')||result==null){
 			$('#run_rule_result_area').append(
 				'<br xmlns="http://www.w3.org/1999/html"/>' +
 				'<hr><div style="margin-bottom:5px;">' +
