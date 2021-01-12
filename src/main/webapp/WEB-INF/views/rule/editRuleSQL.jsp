@@ -101,11 +101,9 @@
                         class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-2 text-gray-800"><b>룰 작성 - SQL</b></h1>
                 </div>
-                <div style="margin-bottom:5px;" class="h5">
-                    <b>대분류 : </b>${rule.top_level_name}<br/>
-                    <b>중분류 : </b>${rule.middle_level_name}<br/>
-                    <b>소분류 : </b>${rule.bottom_level_name}<br/>
-                </div><br>
+					
+					<!-- 룰 정보 -->
+					 <%@ include file="/WEB-INF/views/rule/include/ruleInfo.jsp"%>
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
@@ -165,16 +163,8 @@
 <!-- Custom scripts for all pages-->
 <script
         src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<script
-        src="${pageContext.request.contextPath}/resource/vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script
-        src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
-<script
-        src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
+<script 
+		src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>
 <script
         src="${pageContext.request.contextPath}/resource/js/rule/editRuleSQL.js"></script>
 </body>

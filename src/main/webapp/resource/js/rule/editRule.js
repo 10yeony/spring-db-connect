@@ -41,6 +41,11 @@ $(function(){
 
 	/* Context Path */
 	contextPath = $('#contextPath').val();
+	
+	handleDropDown('top', $('input[name="top_level_id"]').val(), null);
+	$('#top_level').val($('input[name="top_level_id"]').val());
+	handleDropDown('middle', $('input[name="top_level_id"]').val(), $('input[name="middle_level_id"]').val());
+	$('#middle_level').val($('input[name="middle_level_id"]').val());
 
 	$('#ruleUpdateBtn').click(function(){
 		saveRuleContents();
@@ -56,12 +61,30 @@ $(function(){
 });
 
 function saveRuleContents(){
+	if($('#top_level').val() == 'top_level_value'){
+		alert("대분류를 선택하세요");
+		return;
+	}
+	if($('#middle_level').val() == 'middle_level_value'){
+		alert("중분류를 선택하세요");
+		return;
+	}
+	if($('#ruleInfoName').val() == ''){
+		alert("이름을 입력하세요");
+		return;
+	}
+
 	$.ajax({
 		//요청
 		type: "POST",
 		url: contextPath + "/rule/saveRuleContents",
 		data: {
+			top_level_id : $('#top_level').val(),
+        	middle_level_id : $('#middle_level').val(),
 			bottom_level_id: $('#bottom_level_id').val(),
+			bottom_level_name : $('#ruleInfoName').val(),
+			description : $('#ruleInfoDesc').val(),
+          rule_type : $('input[name=rule_type]:checked').val(),
 			contents: myCodeMirror.getValue(),
 			imp_contents: imp_myCodeMirror.getValue()
 		},

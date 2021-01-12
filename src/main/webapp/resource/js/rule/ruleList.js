@@ -129,7 +129,7 @@ function appendTable(list){
 function searchResultArea(search_word, totalCount){
 	$('#searchResultArea').empty();
 	if(search_word == ''){
-		$('#searchResultArea').append('(전체 ' + totalCount + '건)');
+		$('#searchResultArea').append('(총 ' + totalCount + '건)');
 	}else{
 		$('#searchResultArea').append('("' + search_word + '" 검색 결과 ' + totalCount + '건)');
 	}

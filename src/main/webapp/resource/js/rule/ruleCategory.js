@@ -8,6 +8,16 @@ $(function(){
 	
 	/* 드롭다운 핸들링 */
 	$('#top_level').change(function(){ //대분류 선택시
+		handleDropDown('top', $(this).val(), null);
+	});
+	$('#middle_level').change(function(){ //중분류 선택시
+		handleDropDown('middle', $('#top_level').val(), $(this).val());
+	});
+});
+
+/* 드롭다운 핸들링 */
+function handleDropDown(cmd, selectedTopValue, selectedMiddleValue){
+	if(cmd == 'top'){
 		/* bottom_level 내용을 리셋 */
 		$('#bottom_level').empty();
 		$('#bottom_level').append('<option value="bottom_level_value">소분류</option>');
@@ -19,31 +29,28 @@ $(function(){
 		$('#middle_level').val('middle_level_value');
 		
 		/* middle_level 내용을 새롭게 세팅 */
-		let selectedValue = $(this).val(); //선택한 대분류 아이디 값 할당
-		if(selectedValue == 'top_level_value' || selectedValue == 'top_level_input'){
+		if(selectedTopValue == 'top_level_value' || selectedTopValue == 'top_level_input'){
 			return false;
 		}
-		getAllRuleMiddleLevel(selectedValue); //중분류 드롭다운 목록 호출
-		let className = 'top_level_' + selectedValue;
+		getAllRuleMiddleLevel(selectedTopValue); //중분류 드롭다운 목록 호출
+		let className = 'top_level_' + selectedTopValue;
 		$('.' + className).attr('style', 'display:block');
-	});
-	$('#middle_level').change(function(){ //중분류 선택시
+	}
+	else if(cmd == 'middle'){
 		/* bottom_level 내용을 리셋 */
 		$('#bottom_level').empty();
 		$('#bottom_level').append('<option value="bottom_level_value">소분류</option>');
 		$('#bottom_level').val('bottom_level_value');
 		
 		/* bottom_level 내용을 새롭게 세팅 */
-		let topLevelValue = $('#top_level').val(); //선택한 대분류 아이디 값 할당
-		let selectedValue = $(this).val(); //선택한 중분류 아이디 값 할당
-		if(selectedValue == 'middle_level_value' || selectedValue == 'middle_level_input'){
+		if(selectedMiddleValue == 'middle_level_value' || selectedMiddleValue == 'middle_level_input'){
 			return false;
 		}
-		getAllRuleBottomLevel(topLevelValue, selectedValue); //소분류 드롭다운 목록 호출
-		let className = 'middle_level_' + selectedValue;
+		getAllRuleBottomLevel(selectedTopValue, selectedMiddleValue); //소분류 드롭다운 목록 호출
+		let className = 'middle_level_' + selectedMiddleValue;
 		$('.' + className).attr('style', 'display:block');
-	});
-});
+	}
+}
 
 /* 대분류 드롭다운 목록을 가져옴 */
 function getAllRuleTopLevel(){

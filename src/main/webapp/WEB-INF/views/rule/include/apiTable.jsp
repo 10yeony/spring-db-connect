@@ -6,6 +6,12 @@
 <head>
 	<title>SDTM</title>
 	<style>
+		.api-table th{
+			background: #96BEE0;
+		}
+		.api-table tr:nth-child(even){
+			background: #D8DEE1;
+		}
 		.normal-weight{
 			font-weight:normal;
 		}
@@ -20,7 +26,7 @@
 		<b>필드 요약</b>(Field Summary)
 	</h5>
 	<div class="table-responsive">
-		<table class="table table-bordered" width="100%" cellspacing="0">
+		<table class="table table-bordered api-table" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>
@@ -41,7 +47,7 @@
 		<b>생성자 요약</b>(Constructor Summary)
 	</h5>
 	<div class="table-responsive">
-		<table class="table table-bordered" width="100%" cellspacing="0">
+		<table class="table table-bordered api-table" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>
@@ -58,7 +64,7 @@
 		<b>메소드 요약</b>(Method Summary)
 	</h5>
 	<div class="table-responsive">
-		<table class="table table-bordered" width="100%" cellspacing="0">
+		<table class="table table-bordered api-table" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>

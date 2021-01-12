@@ -6,10 +6,10 @@
 <head>
 	<title>SDTM</title>
 	<style>
-		th{
+		.api-table th{
 			background: #96BEE0;
 		}
-		tr:nth-child(even){
+		.api-table tr:nth-child(even){
 			background: #D8DEE1;
 		}
 		.class-component-bold {
