@@ -115,11 +115,9 @@
 						<b>룰 작성 - 메서드</b>
 					</h1>
 				</div>
-				<div style="margin-bottom:5px;" class="h5">
-					<b>대분류 : </b>${rule.top_level_name}<br/>
-					<b>중분류 : </b>${rule.middle_level_name}<br/>
-					<b>소분류 : </b>${rule.bottom_level_name}<br/>
-				</div><br>
+				
+				<!-- 룰 정보 -->
+				<%@ include file="/WEB-INF/views/rule/include/ruleInfo.jsp"%>
 
 					<!-- Page Body -->
 					<div class="card shadow mb-4">
@@ -321,7 +319,8 @@
 <!-- Custom scripts for all pages-->
 <script
 		src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
-
+<script 
+		src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>
 <script
 		src="${pageContext.request.contextPath}/resource/js/rule/editRule.js"></script>
 <script

@@ -385,6 +385,7 @@ public class RuleDaoImpl implements RuleDao {
 	 */
 	@Override
 	public int updateContents(Rule rule) {
+		System.out.println(rule);
 		return sqlSession.update(ruleNS + "updateContents", rule);
 	}
 
