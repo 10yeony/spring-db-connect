@@ -9,12 +9,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				(id, 
 				file_num, 
 				title, 
-				subtitle, 
+				subtitle,
+				name,
+				sex,
 				running_time)
 			VALUES(#{id}, 
 				#{file_num}, 
 				#{title}, 
-				#{subtitle}, 
+				#{subtitle},
+				#{name},
+				#{sex},
 				#{running_time});
 	</insert>
 	
