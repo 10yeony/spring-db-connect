@@ -104,6 +104,7 @@ public class XlsxParsing {
 										break;
 								}
 							}
+							System.out.println("프로그램  : "  + program);
 							// cell 탐색 이후 vo 추가
 							list.add(program);
 						}
@@ -125,6 +126,7 @@ public class XlsxParsing {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("파싱한 리스트 : " + list);
 		return list;
 	}
 }
