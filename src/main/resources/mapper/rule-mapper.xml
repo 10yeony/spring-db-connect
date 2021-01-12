@@ -377,7 +377,6 @@
 			middle_level_id = #{middle_level_id},
 			name = #{bottom_level_name},
 			description = #{description},
-			rule_type = #{rule_type},
 			creator = #{creator},
 			contents = #{contents},
 			imp_contents = #{imp_contents}

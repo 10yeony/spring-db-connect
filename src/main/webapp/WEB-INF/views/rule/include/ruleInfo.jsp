@@ -6,15 +6,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	th, td{
+	.ruleInfo tr:nth-child(even), .ruleInfo th, .ruleInfo td{
 		padding-bottom: 15px;
+		background: transparent;
 	}
 </style>
 </head>
 <body>
 <div class="card shadow mb-4">
 	<div class="card-body">
-		<table width="100%">
+		<table class="ruleInfo" width="100%">
 			<tr>
 				<th>대분류</th>
 				<td>
@@ -30,10 +31,10 @@
 			<tr>
 				<th style="padding-top:5px;">종류</th>
 				<td style="padding-bottom:10px;">
-					<input type="radio" name="rule_type" value="method" <c:if test="${rule.rule_type eq 'method'}">checked</c:if>> 
-					<span style="cursor:pointer;" onclick="document.getElementsByName('rule_type')[0].checked = true">&nbsp;메서드</span>&nbsp;&nbsp;
-					<input type="radio" name="rule_type" value="sql" <c:if test="${rule.rule_type eq 'sql'}">checked</c:if>> 
-					<span style="cursor:pointer;" onclick="document.getElementsByName('rule_type')[1].checked = true">&nbsp;SQL</span>
+					<input type="radio" name="rule_type" value="method" <c:if test="${rule.rule_type eq 'method'}">checked</c:if> disabled> 
+					<span>&nbsp;메서드</span>&nbsp;&nbsp;
+					<input type="radio" name="rule_type" value="sql" <c:if test="${rule.rule_type eq 'sql'}">checked</c:if> disabled> 
+					<span>&nbsp;SQL</span>
 				</td>
 			</tr>
 			<tr>

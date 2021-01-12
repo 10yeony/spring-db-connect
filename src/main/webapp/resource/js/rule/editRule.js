@@ -84,7 +84,6 @@ function saveRuleContents(){
 			bottom_level_id: $('#bottom_level_id').val(),
 			bottom_level_name : $('#ruleInfoName').val(),
 			description : $('#ruleInfoDesc').val(),
-          rule_type : $('input[name=rule_type]:checked').val(),
 			contents: myCodeMirror.getValue(),
 			imp_contents: imp_myCodeMirror.getValue()
 		},
