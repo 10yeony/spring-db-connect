@@ -301,14 +301,20 @@ public class DocxReport {
 		XWPFRun r = p.createRun();
 
 		r.setText("날짜 : " + day);
-		r.addBreak();
-		r.setText("대분류 : " + rule.getTop_level_name());
-		r.addBreak();
-		r.setText("중분류 : " + rule.getMiddle_level_name());
-		r.addBreak();
-		r.setText("설명 : " + rule.getDescription());
 		r.setFontSize(9);
 		r.addBreak();
+		XWPFRun r2 = p.createRun();
+		r2.setText("대분류 : " + rule.getTop_level_name());
+		r2.setFontSize(9);
+		r2.addBreak();
+		XWPFRun r3 = p.createRun();
+		r3.setText("중분류 : " + rule.getMiddle_level_name());
+		r3.setFontSize(9);
+		r3.addBreak();
+		XWPFRun r4 = p.createRun();
+		r4.setText("설명 : " + rule.getDescription());
+		r4.setFontSize(9);
+		r4.addBreak();
 
 		XWPFParagraph p1 = doc.createParagraph();
 		p1.setAlignment(ParagraphAlignment.CENTER);
