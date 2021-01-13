@@ -54,8 +54,6 @@ public class DocxReport {
 	 */
 	@Value("${table.column1}")
 	private String column1;
-	
-	
 
 	/**
 	 * docx 한국어 강의 목록 리스트 작성
@@ -373,6 +371,14 @@ public class DocxReport {
 							table.getRow(j).getCell(i).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
 						}
 					}
+					XWPFParagraph p00 = doc.createParagraph();
+					p00.setAlignment(ParagraphAlignment.LEFT);
+					XWPFRun r00 = p00.createRun();
+					r00.setText("");
+					r00.setFontSize(15);
+					r00.addBreak();
+					ChartHelper chartHelper = new ChartHelper();
+					doc = chartHelper.addHistogramAboutRuleResult(doc, rule, path);
 				}
 			}
 			// rule의 result가 배열이 아닌경우 1x1 표로 결과 출력

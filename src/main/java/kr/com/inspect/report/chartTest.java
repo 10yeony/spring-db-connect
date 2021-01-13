@@ -42,8 +42,8 @@ public class chartTest {
 //            chart.addSeries("test 1", Arrays.asList(new Integer[] { 0, 1, 2, 3, 4 }), Arrays.asList(new Integer[] { 4, 5, 9, 6, 5 }));
 
             // Create Chart
-            CategoryChart chart = new CategoryChartBuilder().width(800).height(600).theme(Styler.ChartTheme.GGPlot2).title(title).xAxisTitle(list.get(0)).yAxisTitle("Count").build();
-
+            CategoryChart chart = new CategoryChartBuilder().width(800).height(600).theme(Styler.ChartTheme.GGPlot2).title(title).xAxisTitle(list.get(0)).yAxisTitle("").build();
+            
             // Customize Chart
             // 속성 상자 위치
             chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
@@ -84,13 +84,13 @@ public class chartTest {
 
 
             // Create and store a jpg image of the chart, then append it to the document
-            BitmapEncoder.saveBitmapWithDPI(chart, "/home/wooyoung/tmp.jpg", BitmapEncoder.BitmapFormat.JPG, 300);
-            document.createParagraph().createRun().addPicture(new FileInputStream("/home/wooyoung/tmp.jpg"), XWPFDocument.PICTURE_TYPE_JPEG, "tmp.jpg", Units.toEMU(500), Units.toEMU(400));
+            BitmapEncoder.saveBitmapWithDPI(chart, "/home/namu/Documents/tmp.jpg", BitmapEncoder.BitmapFormat.JPG, 300);
+            document.createParagraph().createRun().addPicture(new FileInputStream("/home/namu/Documents/tmp.jpg"), XWPFDocument.PICTURE_TYPE_JPEG, "tmp.jpg", Units.toEMU(500), Units.toEMU(400));
 
 
-            new File("/home/wooyoung/tmp.jpg").delete();
+            new File("/home/namu/Documents/tmp.jpg").delete();
 
-            FileOutputStream fileOutputStream = new FileOutputStream("/home/wooyoung/doc1.docx");
+            FileOutputStream fileOutputStream = new FileOutputStream("/home/namu/Documents/doc1.docx");
             document.write(fileOutputStream);
         }catch (Exception e){
             e.printStackTrace();
