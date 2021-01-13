@@ -91,6 +91,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		/* i-frame 관련 에러 방지 */
+		http.headers().frameOptions().disable();
 		
 		/* CsrfFilter 앞에 CharacterEncodingFilter 추가
 		   (이거 없으면 form 값 받을 때 한글 깨짐) */

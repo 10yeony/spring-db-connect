@@ -367,22 +367,19 @@ public class ReportController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/resultRuleDocx", method = RequestMethod.GET)
-	public void resultRuleWord(HttpServletResponse response, HttpServletRequest request) throws Exception {
-		String[] arr = request.getParameterValues("ruleReport");
-		System.out.println("request.getParameterValues(\"ruleReport\") : " + request.getParameterValues("ruleReport"));
-		System.out.println("resultRuleDocx");
-		System.out.println(arr);
-//		List<Rule> ruleList = new ArrayList<>();
-//		for(int i=0; i<ruleReport.size(); i++){
-//			ruleList.add(ruleService.getRuleBottomLevel(ruleReport.get(i)));
-//		}
-//		Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);
-//		docxReport.resultRuleDocx(response, ruleList, docxPath);
-//
-//		UsingLog usingLog = new UsingLog();
-//		usingLog.setContent(rule.getBottom_level_name() + ".docx 다운로드");
-//		usingLogUtil.setUsingLog(usingLog);
+	@GetMapping("/resultRuleDocx")
+	@ResponseBody
+	public void resultRuleWord(HttpServletResponse response, int[] ruleReport) throws Exception {
+		List<Rule> ruleList = new ArrayList<>();
+		for(int i=0; i<ruleReport.length; i++){
+			Rule rule = ruleService.getRuleBottomLevel(ruleReport[i]);
+			RuleLog ruleLog = new RuleLog();
+			ruleLog.setContent(rule.getBottom_level_name() + ".docx 다운로드");
+			ruleLog.setRule(rule);
+			usingLogUtil.setUsingLog(ruleLog);
+			ruleList.add(rule);
+		}
+		docxReport.resultRuleDocx(response, ruleList, docxPath);
 	}
 
 	/**

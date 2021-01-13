@@ -303,6 +303,7 @@ public class DocxReport {
 			rule = ruleList.get(x);
 
 			XWPFParagraph p = doc.createParagraph();
+			
 			XWPFRun r = p.createRun();
 			p.setAlignment(ParagraphAlignment.LEFT);
 
@@ -345,6 +346,10 @@ public class DocxReport {
 			List<String> strList;
 			// result가 null일 경우
 			if (rule.getResult() == null || rule.getResult().length() == 0) {
+				XWPFRun r0 = p1.createRun();
+				r0.setText("~ 해당되는 결과를 찾을 수 없습니다. ~");
+				r0.setFontSize(11);
+				r0.addBreak();
 			}
 			// rule의 result가 배열일 경우 테이블 생성하여 출력
 			else if (rule.getResult().charAt(0) == '[') {
@@ -381,6 +386,19 @@ public class DocxReport {
 				tempRun.setFontSize(9);
 				tempRun.setText(rule.getResult());
 				table.getRow(0).getCell(0).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+			}
+			
+			/* 하단 여백 및 구분선 추가(맨 마지막 표 제외) */
+			if(x<ruleList.size()-1) {
+				XWPFParagraph p01 = doc.createParagraph();
+				p01.setAlignment(ParagraphAlignment.LEFT);
+				XWPFRun r01 = p01.createRun();
+				r01.setText("");
+				r01.setFontSize(60);
+				r01.addBreak();
+				
+				XWPFParagraph p02 = doc.createParagraph();
+				p02.setBorderBottom(Borders.SINGLE);
 			}
 		}
 

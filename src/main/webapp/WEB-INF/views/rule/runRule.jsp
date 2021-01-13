@@ -74,16 +74,18 @@
 						</div>
 						<button style="display:inline-block;" 
 					 		class="btn btn-primary" id="run_rule_btn">실행</button>
-						<button id="ruleReportBtn" type="button" class="btn btn-primary btn-icon-split" style="float: right;" onclick="test();">
+						<button id="ruleReportBtn" type="button" class="btn btn-primary btn-icon-split" style="float: right;" onclick="document.getElementById('ruleForm').submit()">
 							<span class="icon text-white-50"><i class="fas fa-download fa-sm text-white-50"></i></span>
 							<span class="text"> Word</span>
 						</button>
-					 	<div id="run_rule_result_area">
-					 		<br/>
-					 		<textarea class="form-control" rows="5" style="resize: none;" readonly>
+						<form action="${pageContext.request.contextPath}/resultRuleDocx" id="ruleForm" target="ifrm">
+					 		<div id="run_rule_result_area">
+					 			<br/>
+					 			<textarea class="form-control" rows="5" style="resize: none;" readonly>
 전사규칙을 선택하고 실행하세요.
-					 		</textarea>
-					 	</div>
+					 			</textarea>
+					 		</div>
+					 	</form>
 					</div><br/><br/>
 				</div>
 			</div>
@@ -114,13 +116,6 @@
 
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<script src="${pageContext.request.contextPath}/resource/vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
 
 <script src="${pageContext.request.contextPath}/resource/js/rule/ruleCategory.js"></script>
 <script src="${pageContext.request.contextPath}/resource/js/rule/runRule.js"></script>

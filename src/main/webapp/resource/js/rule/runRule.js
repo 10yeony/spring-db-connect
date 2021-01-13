@@ -70,15 +70,6 @@ function runRuleCompiler(top_level, middle_level, bottom_level){
 	}); //ajax
 }
 
-function test(){
-	var uleReport = $('input[name=ruleReport]');
-	for(let i=0; i<uleReport.length; i++){
-		if(uleReport[i].checked){
-			alert(uleReport[i].value);
-		}
-	}
-}
-
 function appendRunRuleResultArea(list){
 	if(list == ''){
 		$('#run_rule_result_area').append(
@@ -87,10 +78,18 @@ function appendRunRuleResultArea(list){
 				'작성된 전사규칙이 없습니다.' + 
 			'</textarea>'
 		);
+	}else{
+		$('#run_rule_result_area').append(
+			'<iframe name="ifrm" width="0" height="0" frameborder="0"></iframe>' +
+			'<hr>' +
+				'<span style="float: right;">' +
+					'<label>' +
+						'<input type="checkbox" data-toggle="checkbox" onchange="checkAllRuleResult(event)"> 전체선택' +
+					'</label>' +
+				'</span>'
+		);
 	}
 
-	$('#run_rule_result_area').append('<form action="'+contextPath+'/resultRuleDocx" method="get" id="ruleForm" target="ifrm">' +
-		'<iframe name="ifrm" width="0" height="0" frameborder="0"></iframe>');
 	for(let i=0; i<list.length; i++){
 		var top_level_name = list[i].top_level_name;
 				
@@ -106,31 +105,34 @@ function appendRunRuleResultArea(list){
 
 		var imp_contents = list[i].imp_contents;
 
-		if(rule_type == 'method'){
-			$('#run_rule_result_area').append(
-				'<br xmlns="http://www.w3.org/1999/html"/>' +
-				'<hr><div style="margin-bottom:5px;">' +
-				'<b>대분류 : </b>' + top_level_name + '<input type="checkbox" name="ruleReport" data-toggle="checkbox" value="' + bottom_level_id +'" style="float: right;"><br/>' +
+		var append = 
+			'<br xmlns="http://www.w3.org/1999/html"/>' +
+			'<hr>' + 
+			'<div style="margin-bottom:5px;">' +
+				'<b>대분류 : </b>' + top_level_name + 
+				'<span style="float: right;">' +
+					'<label>' +
+						'<input type="checkbox" name="ruleReport" data-toggle="checkbox" value="' + bottom_level_id + '"> 선택' +
+					'</label>' +
+				'</span><br/>' +
 				'<b>중분류 : </b>' + middle_level_name + '<br/>' +
 				'<b>소분류 : </b>' + bottom_level_name + '<br/>'+
 				'<b>타입 : </b>' + rule_type + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
-				'</div><br/><br/>' +
+			'</div><br/><br/>';
+
+		if(rule_type == 'method'){
+			$('#run_rule_result_area').append(
+				append +
 				'<textarea class="form-control" rows="6" style="resize: none;" readonly>' +
-				result +
+					result +
 				'</textarea>'
 			);
 		}
 		else if((rule_type == 'sql' && result == '')||result==null){
 			$('#run_rule_result_area').append(
-				'<br xmlns="http://www.w3.org/1999/html"/>' +
-				'<hr><div style="margin-bottom:5px;">' +
-				'<b>대분류 : </b>' + top_level_name + '<input type="checkbox" name="ruleReport" data-toggle="checkbox" value="' + bottom_level_id +'" style="float: right;"><br/>' +
-				'<b>중분류 : </b>' + middle_level_name + '<br/>' +
-				'<b>소분류 : </b>' + bottom_level_name + '<br/>'+
-				'<b>타입 : </b>' + rule_type + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
-				'</div><br/><br/>' +
+				append +
 				'<textarea class="form-control" rows="6" style="resize: none;" readonly>' +
-				imp_contents +
+					imp_contents +
 				'</textarea>'
 			);
 		}
@@ -139,20 +141,17 @@ function appendRunRuleResultArea(list){
 			for(let j=0; j<resultList.length; j++){
 				resultList[j] = resultList[j].split(', ');
 			}
-
-			var append = '<br xmlns="http://www.w3.org/1999/html"/>' +
-				'<hr><div style="margin-bottom:5px;">' +
-				'<b>대분류 : </b>' + top_level_name + '<input type="checkbox" name="ruleReport" data-toggle="checkbox" value="' + bottom_level_id +'" style="float: right;"><br/>' +
-				'<b>중분류 : </b>' + middle_level_name + '<br/>' +
-				'<b>소분류 : </b>' + bottom_level_name + '<br/>'+
-				'<b>타입 : </b>' + rule_type + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
-				'</div><br/><br/>' +
+			
+			append += 
 				'<textarea class="form-control" rows="6" style="resize: none;" readonly>' +
-				imp_contents +
+					imp_contents +
 				'</textarea>' +
-				'<br><div class="table-responsive">' +
-				'<b>전체 테이블은 워드를 다운받아 확인할 수 있습니다.</b><br>' +
-				'<table class="table table-bordered" width="100%" cellspacing="0"><thead><tr>';
+				'<br>' +
+				'<div class="table-responsive">' +
+					'<b>전체 테이블은 워드를 다운받아 확인할 수 있습니다.</b><br>' +
+					'<table class="table table-bordered" width="100%" cellspacing="0">' + 
+						'<thead>'+
+							'<tr>';
 			for(let j=0; j<resultList[0].length; j++){
 				append += '<td>'+ resultList[0][j] +'</td>';
 			}
@@ -175,6 +174,12 @@ function appendRunRuleResultArea(list){
 			$('#run_rule_result_area').append(append);
 		}
 	}
-	$('#run_rule_result_area').append('</form>');
 }
 
+function checkAllRuleResult(event){
+	if(event.target.checked){
+		$('input[name=ruleReport]').prop('checked', true);
+	}else{
+		$('input[name=ruleReport]').prop('checked', false);
+	}
+}
