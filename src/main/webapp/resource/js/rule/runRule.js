@@ -1,4 +1,5 @@
 var contextPath;
+var runRule;
 
 $(document).ajaxStart(function (){
 	$('#loadingArea').show();
@@ -10,6 +11,9 @@ $(document).ajaxStop(function (){
 $(function(){
 	/* Context Path */
 	contextPath = $('#contextPath').val();
+	
+	/* 룰 실행 여부 */
+	runRule = false;
 	
 	$('#run_rule_btn').click(function(event){
 		event.preventDefault();
@@ -71,6 +75,8 @@ function runRuleCompiler(top_level, middle_level, bottom_level){
 }
 
 function appendRunRuleResultArea(list){
+	runRule = true;
+
 	if(list == ''){
 		$('#run_rule_result_area').append(
 			'<br/>' +
@@ -181,5 +187,13 @@ function checkAllRuleResult(event){
 		$('input[name=ruleReport]').prop('checked', true);
 	}else{
 		$('input[name=ruleReport]').prop('checked', false);
+	}
+}
+
+function checkRunRule(){
+	if(runRule){
+		document.getElementById('ruleForm').submit()
+	}else{
+		alert("룰을 실행해주세요");
 	}
 }
