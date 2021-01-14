@@ -2,26 +2,37 @@ package kr.com.inspect.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import kr.com.inspect.dto.*;
-
-import kr.com.inspect.service.RuleService;
-import kr.com.inspect.util.UsingLogUtil;
-import org.apache.lucene.util.packed.DirectMonotonicReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.com.inspect.dto.Member;
+import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Rule;
+import kr.com.inspect.dto.RuleLog;
+import kr.com.inspect.dto.UsingLog;
+import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.report.DocxReport;
 import kr.com.inspect.report.XlsxReport;
 import kr.com.inspect.sender.SendReport;
 import kr.com.inspect.service.PostgreService;
+import kr.com.inspect.service.RuleService;
+import kr.com.inspect.util.ClientInfo;
+import kr.com.inspect.util.UsingLogUtil;
 
 /**
  * 리스트 형식 출력 컨트롤러
@@ -106,6 +117,12 @@ public class ReportController {
 	 */
 	@Autowired
 	private RuleService ruleService;
+	
+	/**
+	 * 사용자 접속 정보를 가져오는 객체
+	 */
+	@Autowired
+	private ClientInfo clientInfo;
 	
 	/**
 	 * 한국어 강의 목록 리스트 파일로 출력
@@ -371,9 +388,12 @@ public class ReportController {
 	@ResponseBody
 	public void resultRuleWord(HttpServletResponse response, int[] ruleReport) throws Exception {
 		List<Rule> ruleList = new ArrayList<>();
+		String usingLogContent = "룰 실행 결과 보고서 다운로드 - 총 "+ruleReport.length+"개";
+		int usingLogNo = usingLogUtil.insertUsingLog(usingLogContent);
 		for(int i=0; i<ruleReport.length; i++){
 			Rule rule = ruleService.getRuleBottomLevel(ruleReport[i]);
 			RuleLog ruleLog = new RuleLog();
+			ruleLog.setUsing_log_no(usingLogNo);
 			ruleLog.setContent(rule.getBottom_level_name() + ".docx 다운로드");
 			ruleLog.setRule(rule);
 			usingLogUtil.setUsingLog(ruleLog);

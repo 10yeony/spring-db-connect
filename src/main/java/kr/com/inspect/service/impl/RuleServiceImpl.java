@@ -418,17 +418,7 @@ public class RuleServiceImpl implements RuleService {
 				}
 			}));
 		}
-
-		for (Future<?> future : futures) {
-			try {
-				future.get(); // 스레드 작업이 종료될 때까지 기다림
-			} catch (InterruptedException e) {
-				// e.printStackTrace();
-			} catch (ExecutionException e) {
-				// e.printStackTrace();
-			}
-		}
-		executor.shutdownNow(); // Task 종료
+		closeThread(executor, futures);
 	}
 
 	/**
