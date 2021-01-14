@@ -74,6 +74,7 @@
 	          	<button type="button" id="uploadResetBtn" class="uploadResetBtn" style="display: none;"
 	          		onclick="resetUploadImg('uploadImgFile', 'uploadImgPreview', 'uploadResetBtn')">삭제</button>
 			</div>
+			<div style="font-size:12px;">이미지를 클릭하면 프로필 사진을 올릴 수 있습니다</div>
 		</div>
 	
 		<div class="form-group">
