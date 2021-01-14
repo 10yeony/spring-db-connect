@@ -310,10 +310,6 @@ public class DocxReport {
 				r.setFontSize(9);
 				r.addBreak();
 			}
-			else{
-				r.setFontSize(20);
-				r.addBreak();
-			}
 			XWPFRun r2 = p.createRun();
 			r2.setText("대분류 : " + rule.getTop_level_name());
 			r2.setFontSize(9);
@@ -375,8 +371,7 @@ public class DocxReport {
 					p00.setAlignment(ParagraphAlignment.LEFT);
 					XWPFRun r00 = p00.createRun();
 					r00.setText("");
-					r00.setFontSize(15);
-					r00.addBreak();
+					r00.setFontSize(10);
 					ChartHelper chartHelper = new ChartHelper();
 					doc = chartHelper.addHistogramAboutRuleResult(doc, rule, path);
 				}
@@ -400,11 +395,8 @@ public class DocxReport {
 				p01.setAlignment(ParagraphAlignment.LEFT);
 				XWPFRun r01 = p01.createRun();
 				r01.setText("");
-				r01.setFontSize(60);
+				r01.setFontSize(10);
 				r01.addBreak();
-				
-				XWPFParagraph p02 = doc.createParagraph();
-				p02.setBorderBottom(Borders.SINGLE);
 			}
 		}
 

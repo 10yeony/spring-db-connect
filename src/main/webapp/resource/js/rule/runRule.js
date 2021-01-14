@@ -1,5 +1,6 @@
 var contextPath;
 var runRule;
+var list;
 
 $(document).ajaxStart(function (){
 	$('#loadingArea').show();
@@ -40,13 +41,6 @@ $(function(){
 		runRuleCompiler(top_level, middle_level, bottom_level)
 	});
 
-	// $('#ruleReportBtn').click(function(){
-	// 	 var checkedValued = [];
-	// 	 $("input[type='checkbox']:checked").each(function (index, item){
-	// 	 	checkedValued.push($(item).val());
-	// 	 });
-	// 	 $.get(contextPath+"/resultRuleDocx", {ruleReport:checkedValued},function (data){},"json")
-	// });
 });
 
 function runRuleCompiler(top_level, middle_level, bottom_level){
@@ -63,8 +57,8 @@ function runRuleCompiler(top_level, middle_level, bottom_level){
 		//응답
 		success : function(response){
 			var json = JSON.parse(response);
-			var list = json.item.list;
-
+			list = json.item.list;
+			ruleList =[];
 			$('#run_rule_result_area').empty();
 			appendRunRuleResultArea(list);
 		},
@@ -90,7 +84,7 @@ function appendRunRuleResultArea(list){
 			'<hr>' +
 				'<span style="float: right;">' +
 					'<label>' +
-						'<input type="checkbox" data-toggle="checkbox" onchange="checkAllRuleResult(event)"> 전체선택' +
+						'<input type="checkbox" data-toggle="checkbox" onchange="checkAllRuleResult(event)" onclick="checkAllChkBox()"> 전체선택' +
 					'</label>' +
 				'</span>'
 		);
@@ -118,7 +112,7 @@ function appendRunRuleResultArea(list){
 				'<b>대분류 : </b>' + top_level_name + 
 				'<span style="float: right;">' +
 					'<label>' +
-						'<input type="checkbox" name="ruleReport" data-toggle="checkbox" value="' + bottom_level_id + '"> 선택' +
+						'<input type="checkbox" data-toggle="checkbox" onclick="clickChkBox('+ bottom_level_id +')"> 선택' +
 					'</label>' +
 				'</span><br/>' +
 				'<b>중분류 : </b>' + middle_level_name + '<br/>' +
@@ -182,16 +176,42 @@ function appendRunRuleResultArea(list){
 	}
 }
 
-function checkAllRuleResult(event){
-	if(event.target.checked){
-		$('input[name=ruleReport]').prop('checked', true);
-	}else{
-		$('input[name=ruleReport]').prop('checked', false);
+// function checkAllRuleResult(event){
+// 	if(event.target.checked){
+// 		$('input[name=ruleReport]').prop('checked', true);
+// 	}else{
+// 		$('input[name=ruleReport]').prop('checked', false);
+// 	}
+// }
+
+var ruleList = new Array();
+function clickChkBox(idx){
+	if(ruleList.indexOf(idx)>=0){
+		ruleList.splice(ruleList.indexOf(idx),1);
+	}
+	else{
+		ruleList.push(idx);
+	}
+}
+function checkAllChkBox(){
+	if(ruleList.length == list.length){
+		ruleList = [];
+		return;
+	}
+	ruleList = [];
+	for(let i=0; i<list.length; i++){
+		ruleList.push(list[i].bottom_level_id);
 	}
 }
 
+
 function checkRunRule(){
 	if(runRule){
+		if(ruleList.length == 0){
+			alert("다운받을 룰 결과를 선택해주세요.");
+			return;
+		}
+		$("input[type=hidden][name=hiddenRule]").val(ruleList);
 		document.getElementById('ruleForm').submit()
 	}else{
 		alert("룰을 실행해주세요");

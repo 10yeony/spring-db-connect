@@ -79,6 +79,7 @@
 							<span class="text"> Word</span>
 						</button>
 						<form action="${pageContext.request.contextPath}/resultRuleDocx" id="ruleForm" target="ifrm">
+							<input type="hidden" id="hiddenRule" name="hiddenRule">
 					 		<div id="run_rule_result_area">
 					 			<br/>
 					 			<textarea class="form-control" rows="5" style="resize: none;" readonly>

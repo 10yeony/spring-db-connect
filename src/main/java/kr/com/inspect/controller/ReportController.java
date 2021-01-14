@@ -386,12 +386,12 @@ public class ReportController {
 	 */
 	@GetMapping("/resultRuleDocx")
 	@ResponseBody
-	public void resultRuleWord(HttpServletResponse response, int[] ruleReport) throws Exception {
+	public void resultRuleWord(HttpServletResponse response, int[] hiddenRule) throws Exception {
 		List<Rule> ruleList = new ArrayList<>();
-		String usingLogContent = "룰 실행 결과 보고서 다운로드 - 총 "+ruleReport.length+"개";
+		String usingLogContent = "룰 실행 결과 보고서 다운로드 - 총 "+hiddenRule.length+"개";
 		int usingLogNo = usingLogUtil.insertUsingLog(usingLogContent);
-		for(int i=0; i<ruleReport.length; i++){
-			Rule rule = ruleService.getRuleBottomLevel(ruleReport[i]);
+		for(int i=0; i<hiddenRule.length; i++){
+			Rule rule = ruleService.getRuleBottomLevel(hiddenRule[i]);
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setUsing_log_no(usingLogNo);
 			ruleLog.setContent(rule.getBottom_level_name() + ".docx 다운로드");
