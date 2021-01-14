@@ -386,7 +386,10 @@ public class ReportController {
 	 */
 	@GetMapping("/resultRuleDocx")
 	@ResponseBody
-	public void resultRuleWord(HttpServletResponse response, int[] hiddenRule) throws Exception {
+	public void resultRuleWord(HttpSession session, HttpServletResponse response, int[] hiddenRule) throws Exception {
+		// 사용자의 이메일 정보를 받아옴
+		Member member = (Member)session.getAttribute("member");
+		String name = member.getName();
 		List<Rule> ruleList = new ArrayList<>();
 		String usingLogContent = "룰 실행 결과 보고서 다운로드 - 총 "+hiddenRule.length+"개";
 		int usingLogNo = usingLogUtil.insertUsingLog(usingLogContent);
@@ -399,7 +402,7 @@ public class ReportController {
 			usingLogUtil.setUsingLog(ruleLog);
 			ruleList.add(rule);
 		}
-		docxReport.resultRuleDocx(response, ruleList, docxPath);
+		docxReport.resultRuleDocx(response, ruleList, docxPath, name);
 	}
 
 	/**

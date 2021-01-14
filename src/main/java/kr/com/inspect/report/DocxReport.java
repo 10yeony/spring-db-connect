@@ -8,16 +8,18 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.sender.SendReport;
-import kr.com.inspect.service.PostgreService;
 
+import kr.com.inspect.util.ClientInfo;
 import org.apache.commons.io.FileUtils;
-import org.apache.poi.xssf.usermodel.XSSFPivotTable;
+import org.apache.poi.wp.usermodel.HeaderFooterType;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
+import org.apache.xmlbeans.impl.xb.xmlschema.SpaceAttribute;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -42,6 +44,12 @@ public class DocxReport {
 	 */
 	@Autowired
 	private SendReport ms;
+
+	/**
+	 * 사용자 접속 정보를 가져오는 객체
+	 */
+	@Autowired
+	private ClientInfo clientInfo;
 
 	/**
 	 * metadata의 id 컬럼
@@ -289,8 +297,8 @@ public class DocxReport {
 	 * @param ruleList 워드로 다운받을 rule
 	 * @param path 파일을 다운받기 위해 임시 저장할 경로
 	 */
-	public void resultRuleDocx(HttpServletResponse response, List<Rule> ruleList, String path){
-		String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+	public void resultRuleDocx(HttpServletResponse response, List<Rule> ruleList, String path, String name){
+		String day = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 		String docxFileName = day+ ".docx";
 		Rule rule;
 
@@ -302,26 +310,24 @@ public class DocxReport {
 
 			XWPFParagraph p = doc.createParagraph();
 			
-			XWPFRun r = p.createRun();
 			p.setAlignment(ParagraphAlignment.LEFT);
 
 			if(x==0){
-				r.setText("날짜 : " + day);
+				XWPFRun r = p.createRun();
+				r.setText("작성일 : " + day);
 				r.setFontSize(9);
+				r.addBreak();
+				r.setText("작성자 : " + name);
 				r.addBreak();
 			}
 			XWPFRun r2 = p.createRun();
 			r2.setText("대분류 : " + rule.getTop_level_name());
 			r2.setFontSize(9);
 			r2.addBreak();
-			XWPFRun r3 = p.createRun();
-			r3.setText("중분류 : " + rule.getMiddle_level_name());
-			r3.setFontSize(9);
-			r3.addBreak();
-			XWPFRun r4 = p.createRun();
-			r4.setText("설명 : " + rule.getDescription());
-			r4.setFontSize(9);
-			r4.addBreak();
+			r2.setText("중분류 : " + rule.getMiddle_level_name());
+			r2.addBreak();
+			r2.setText("설명 : " + rule.getDescription());
+			r2.addBreak();
 
 			XWPFParagraph p1 = doc.createParagraph();
 			p1.setAlignment(ParagraphAlignment.CENTER);
@@ -394,11 +400,20 @@ public class DocxReport {
 				XWPFParagraph p01 = doc.createParagraph();
 				p01.setAlignment(ParagraphAlignment.LEFT);
 				XWPFRun r01 = p01.createRun();
-				r01.setText("");
-				r01.setFontSize(10);
-				r01.addBreak();
+ 				r01.addBreak(BreakType.PAGE);
 			}
 		}
+		try {
+			XWPFParagraph p1 = doc.createParagraph();
+			XWPFRun r1 = p1.createRun();
+			r1.setText("Page ");
+			r1.getCTR().addNewPgNum();
+			r1.setText(" of 9");
+			p1.setAlignment(ParagraphAlignment.RIGHT);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
 
 		/* 입력된 내용 파일로 쓰기 */
 		File file = new File(path + docxFileName);

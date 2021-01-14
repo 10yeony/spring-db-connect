@@ -82,6 +82,7 @@ function appendRunRuleResultArea(list){
 		$('#run_rule_result_area').append(
 			'<iframe name="ifrm" width="0" height="0" frameborder="0"></iframe>' +
 			'<hr>' +
+			'<b style="float:right">선택한 순서대로 보고서가 만들어집니다.</b><br>' +
 				'<span style="float: right;">' +
 					'<label>' +
 						'<input type="checkbox" data-toggle="checkbox" onchange="checkAllRuleResult(event)" onclick="checkAllChkBox()"> 전체선택' +
