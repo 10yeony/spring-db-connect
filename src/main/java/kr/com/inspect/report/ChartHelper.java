@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.poi.util.Units;
@@ -102,7 +104,7 @@ public class ChartHelper {
 				if(rowCount == 1) {
 					Double.parseDouble(list.get(1).get(i).substring(0, list.get(1).get(i).length()-1));
 					if(list.get(1).get(i).charAt(list.get(1).get(i).length()-1) == '%') {
-						addPieChartAboutRuleResult(doc);
+						drawPieChartAboutRuleResult(doc);
 						break;
 					}
 				}
@@ -113,7 +115,7 @@ public class ChartHelper {
 			}
 		}
 		if(!containsChar && rowCount <= 10) {
-			doc = addHistogramAboutRuleResult(doc);
+			doc = drawBarChartAboutRuleResult(doc);
 		}
 		return doc;
 	}
@@ -123,7 +125,7 @@ public class ChartHelper {
 	 * @param doc 워드 문서 객체
 	 * @return 막대그래프가 추가된 워드 문서 객체
 	 */
-	public XWPFDocument addHistogramAboutRuleResult(XWPFDocument doc) {
+	public XWPFDocument drawBarChartAboutRuleResult(XWPFDocument doc) {
 		try {
 			String xAxisTitle = list.get(0).get(0);
 			CategoryChart chart = new CategoryChartBuilder().width(chartWidth).height(chartHeight).theme(Styler.ChartTheme.GGPlot2).title(title).xAxisTitle(xAxisTitle).yAxisTitle("").build();
@@ -134,19 +136,8 @@ public class ChartHelper {
 			chart.getStyler().setPlotBackgroundColor(ChartColor.getAWTColor(ChartColor.WHITE)); // 차트 배경색
 			chart.getStyler().setHasAnnotations(true);
 			
-			String[] xDataArr = new String[rowCount];
-			Number[][] yDataArr = new Number[rowCount][columnCount];
-			for(int i=0; i<rowCount+1; i++) {
-				if(i==0) continue;
-				xDataArr[i-1] = list.get(i).get(0);
-			}
-			for(int i=0; i<columnCount+1; i++) {
-				for(int j=0; j<rowCount+1; j++) {
-					if(i==0 || j==0) continue;
-					yDataArr[j-1][i-1] = Double.parseDouble(list.get(j).get(i));
-				}
-			}
-			//System.out.println(new ArrayList<String>(Arrays.asList(xDataArr)));
+			String[] xDataArr = (String[]) getXYData("multiple").get("xDataArr");
+			Number[][] yDataArr = (Number[][]) getXYData("multiple").get("yDataArr");
 			for(int i=0; i<columnCount; i++) {
 				Number[] thisYDataArr = new Number[rowCount];
 				for(int j=0; j<rowCount; j++) {
@@ -170,7 +161,7 @@ public class ChartHelper {
 	 * @param doc 워드 문서 객체
 	 * @return 원그래프가 추가된 워드 문서 객체
 	 */
-	public XWPFDocument addPieChartAboutRuleResult(XWPFDocument doc) {
+	public XWPFDocument drawPieChartAboutRuleResult(XWPFDocument doc) {
 		try {
 			String xAxisTitle = list.get(0).get(0);
 			PieChart chart = new PieChartBuilder().width(chartWidth).height(chartHeight).theme(Styler.ChartTheme.GGPlot2).title(title).build();
@@ -185,8 +176,11 @@ public class ChartHelper {
 				sliceColors[i] = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
 			}
 			chart.getStyler().setSeriesColors(sliceColors);
-			for(int i=1; i<columnCount+1; i++) {
-				chart.addSeries(list.get(0).get(i), Double.parseDouble(list.get(1).get(i).substring(0, list.get(1).get(i).length()-1)));
+			
+			String[] xDataArr = (String[]) getXYData("oneRow").get("xDataArr");
+			Number[] yDataArr = (Number[]) getXYData("oneRow").get("yDataArr");
+			for(int i=0; i<columnCount; i++) {
+				chart.addSeries(xDataArr[i], yDataArr[i]);
 			}
 			
 			BitmapEncoder.saveBitmapWithDPI(chart, this.path+chartImgName, BitmapEncoder.BitmapFormat.JPG, 300);
@@ -198,13 +192,49 @@ public class ChartHelper {
 		return doc;
 	}
 	
+	/**
+	 * 차트에 들어갈 x축, y축 데이터를 정리하여 담아서 리턴함
+	 * @param tableType 테이블 유형
+	 * @return 정리된 차트에 들어갈 x축, y축 데이터
+	 */
+	public Map<String, Object> getXYData(String tableType) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(tableType.equals("multiple")) {
+			String[] xDataArr = new String[rowCount];
+			Number[][] yDataArr = new Number[rowCount][columnCount];
+			for(int i=0; i<rowCount+1; i++) {
+				if(i==0) continue;
+				xDataArr[i-1] = list.get(i).get(0);
+			}
+			for(int i=0; i<columnCount+1; i++) {
+				for(int j=0; j<rowCount+1; j++) {
+					if(i==0 || j==0) continue;
+					yDataArr[j-1][i-1] = Double.parseDouble(list.get(j).get(i));
+				}
+			}
+			//System.out.println(new ArrayList<String>(Arrays.asList(xDataArr)));
+			map.put("xDataArr", xDataArr);
+			map.put("yDataArr", yDataArr);
+		}else if(tableType.equals("oneRow")) {
+			String[] xDataArr = new String[columnCount];
+			Number[] yDataArr = new Number[columnCount];
+			for(int i=1; i<columnCount+1; i++) {
+				xDataArr[i-1] = list.get(0).get(i);
+				yDataArr[i-1] = Double.parseDouble(list.get(1).get(i).substring(0, list.get(1).get(i).length()-1));
+			}
+			map.put("xDataArr", xDataArr);
+			map.put("yDataArr", yDataArr);
+		}
+		return map;
+	}
+	
 //	public static void main(String[] args) {
 //		ChartHelper chartHelper = new ChartHelper();
 //		Rule rule = new Rule();
 //		rule.setBottom_level_name("아스키코드 이외의 기호를 사용한 전사자");
-//		rule.setResult("[[전사자, 데이터1, 데이터2, 데이터3, 데이터4, 데이터5], [이민지(als3o@naver.com), 10%, 15%, 25%, 35%, 15%]]");
+//		//rule.setResult("[[전사자, 데이터1, 데이터2, 데이터3, 데이터4, 데이터5], [이민지(als3o@naver.com), 10%, 15%, 25%, 35%, 15%]]");
 //		//rule.setResult("[[전사자, 맞음, 틀림], [이민지(als3o@naver.com), 맞는 내용, 틀린 내용]]");
-//		//rule.setResult("[[학년, 여 (단위: 분), 남 (단위: 분), 미기입 (단위: 분)], [1, 4313.54, 1678.85, 1629.71], [2, 2427.36, 2141.98, 1453.73], [3, 1557.38, 6862.85, 2519.35]]");
+//		rule.setResult("[[학년, 여 (단위: 분), 남 (단위: 분), 미기입 (단위: 분)], [1, 4313.54, 1678.85, 1629.71], [2, 2427.36, 2141.98, 1453.73], [3, 1557.38, 6862.85, 2519.35]]");
 //		
 //		XWPFDocument doc = new XWPFDocument();
 //		String path = "/home/namu/Documents/test/report/docx/";
