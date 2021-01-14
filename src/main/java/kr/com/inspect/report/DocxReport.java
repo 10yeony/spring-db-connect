@@ -377,8 +377,10 @@ public class DocxReport {
 					r00.setText("");
 					r00.setFontSize(15);
 					r00.addBreak();
+					
+					
 					ChartHelper chartHelper = new ChartHelper();
-					doc = chartHelper.addHistogramAboutRuleResult(doc, rule, path);
+					doc = chartHelper.checkChartForm(doc, rule, path);
 				}
 			}
 			// rule의 result가 배열이 아닌경우 1x1 표로 결과 출력
