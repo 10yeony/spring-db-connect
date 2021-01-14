@@ -184,7 +184,9 @@ function appendRunRuleResultArea(list){
 // 	}
 // }
 
+
 var ruleList = new Array();
+// 선택한 순서대로 룰 보고서가 만들어지도록 컨트롤러에 넘길때 선택한 순으로 정렬된 배열을 넘김
 function clickChkBox(idx){
 	if(ruleList.indexOf(idx)>=0){
 		ruleList.splice(ruleList.indexOf(idx),1);
@@ -206,6 +208,8 @@ function checkAllChkBox(){
 
 
 function checkRunRule(){
+	if(!click) return ;
+	overClick();
 	if(runRule){
 		if(ruleList.length == 0){
 			alert("다운받을 룰 결과를 선택해주세요.");
@@ -217,3 +221,16 @@ function checkRunRule(){
 		alert("룰을 실행해주세요");
 	}
 }
+
+// 다운버튼 더블클릭시 폼이 여러번 제출되어 발생하는 에러 해결
+var click = true;
+function overClick() {
+	if (click) {
+		click = !click;
+		// 2초뒤 다시 click = true
+		setTimeout(function () {
+			click = true;
+		}, 2000)
+	}
+}
+
