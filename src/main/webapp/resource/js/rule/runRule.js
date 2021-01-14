@@ -112,7 +112,7 @@ function appendRunRuleResultArea(list){
 				'<b>대분류 : </b>' + top_level_name + 
 				'<span style="float: right;">' +
 					'<label>' +
-						'<input type="checkbox" data-toggle="checkbox" onclick="clickChkBox('+ bottom_level_id +')"> 선택' +
+						'<input type="checkbox" data-toggle="checkbox" name="ruleReport" onclick="clickChkBox('+ bottom_level_id +')"> 선택' +
 					'</label>' +
 				'</span><br/>' +
 				'<b>중분류 : </b>' + middle_level_name + '<br/>' +
@@ -176,13 +176,13 @@ function appendRunRuleResultArea(list){
 	}
 }
 
-// function checkAllRuleResult(event){
-// 	if(event.target.checked){
-// 		$('input[name=ruleReport]').prop('checked', true);
-// 	}else{
-// 		$('input[name=ruleReport]').prop('checked', false);
-// 	}
-// }
+function checkAllRuleResult(event){
+	if(event.target.checked){
+		$('input[name=ruleReport]').prop('checked', true);
+	}else{
+		$('input[name=ruleReport]').prop('checked', false);
+	}
+}
 
 
 var ruleList = new Array();
