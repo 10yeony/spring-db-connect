@@ -289,6 +289,16 @@ public class RuleDaoImpl implements RuleDao {
 	public int registerBottomLevel(Rule rule) {
 		return sqlSession.insert(ruleNS + "registerBottomLevel", rule);
 	}
+	
+	/**
+	 * 이전 전사규칙을 등록함
+	 * @param rule 이전 전사규칙 기록을 위한 Rule 객체
+	 * @return 등록된 이전 전사규칙 DB row의 수
+	 */
+	@Override
+	public int registerPrevBottomLevel(Rule rule) {
+		return sqlSession.insert(ruleNS + "registerPrevBottomLevel", rule);
+	}
 
 	/**
 	 * 대분류가 중복되지 않았는지 해당되는 row 개수를 가져옴
@@ -377,6 +387,16 @@ public class RuleDaoImpl implements RuleDao {
 	public int deleteBottomLevel(int id) {
 		return sqlSession.delete(ruleNS + "deleteBottomLevel", id);
 	}
+	
+	/**
+	 * 해당되는 이전 전사규칙(소분류)를 삭제함
+	 * @param id 전사규칙(소분류) 아이디
+	 * @return 삭제된 row의 수
+	 */
+	@Override
+	public int deletePrevBottomLevel(int id) {
+		return sqlSession.delete(ruleNS + "deletePrevBottomLevel", id);
+	}
 
 	/**
 	 * 사용자가 작성한 전사규칙(소분류) 코드 내용을 DB에 저장함
@@ -384,8 +404,8 @@ public class RuleDaoImpl implements RuleDao {
 	 * @return 업데이트된 row의 수
 	 */
 	@Override
-	public int updateContents(Rule rule) {
-		return sqlSession.update(ruleNS + "updateContents", rule);
+	public int updateRuleContents(Rule rule) {
+		return sqlSession.update(ruleNS + "updateRuleContents", rule);
 	}
 
 	/**

@@ -233,9 +233,9 @@ public class RuleServiceImpl implements RuleService {
 				}
 				break;
 			case "bottom":
+				System.out.println(rule);
 				id = ruleDao.isExistBottomLevel(rule); // 등록 전 아이디(중복 확인)
 				if (id == 0) { // 존재하지 않는 경우에만 등록
-					System.out.println(rule);
 					result = ruleDao.registerBottomLevel(rule);
 					id = ruleDao.isExistBottomLevel(rule); // 등록 후 아이디(auto increment된 아이디)
 					
@@ -243,6 +243,7 @@ public class RuleServiceImpl implements RuleService {
 					String fileName = "Rule" + id;
 					rule.setBottom_level_id(id);
 					rule.setFile_name(fileName);
+					result += ruleDao.registerPrevBottomLevel(rule);
 					result += ruleDao.updateBottomLevelFileName(rule);
 					if(result > 0) {
 						content = "룰 소분류 등록";
@@ -289,7 +290,8 @@ public class RuleServiceImpl implements RuleService {
 				deleteJavaClassFile(fileName);
 	
 				/* DB에서 소분류 삭제 */
-				result = ruleDao.deleteBottomLevel(rule.getBottom_level_id());
+				result = ruleDao.deletePrevBottomLevel(rule.getBottom_level_id());
+				result += ruleDao.deleteBottomLevel(rule.getBottom_level_id());
 				break;
 		}
 		if(result > 0) {
@@ -313,12 +315,11 @@ public class RuleServiceImpl implements RuleService {
 	 * @throws Exception 예외
 	 */
 	@Override
-	public Map<String, Object> updateContents(Rule rule) {
+	public Map<String, Object> updateRuleContents(Rule rule) {
 		boolean compile = false;
-		int result = ruleDao.updateContents(rule);
-		// System.out.println(result);
+		int result = ruleDao.updateRuleContents(rule);
 		Rule vo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
-		// System.out.println(vo);
+		result += ruleDao.registerPrevBottomLevel(vo);
 		Object obj = null;
 		try {
 			ruleCompiler.create(vo);

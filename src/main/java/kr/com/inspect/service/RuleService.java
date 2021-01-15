@@ -100,7 +100,7 @@ public interface RuleService {
 	 * @return 컴파일 성공 여부, DB 업데이트 여부, 실행 결과값 또는 예외 메세지
 	 * @throws Exception 예외
 	 */
-	public Map<String, Object> updateContents(Rule rule) throws Exception;
+	public Map<String, Object> updateRuleContents(Rule rule) throws Exception;
 	
 	/**
 	 * Rule 클래스 파일을 실행시킴

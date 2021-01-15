@@ -17,6 +17,12 @@
 	<div class="card-body">
 		<table class="ruleInfo" width="100%">
 			<tr>
+				<th>최근 작성일</th>
+				<td>
+					<input type="text" class="form-control" value="${rule.date}" disabled>
+				</td>
+			</tr>
+			<tr>
 				<th>대분류</th>
 				<td>
 					<%@ include file="/WEB-INF/views/rule/include/topLevel.jsp"%>
@@ -42,6 +48,12 @@
 				<td>
 					<input type="text" id="ruleInfoName" class="form-control" value="${rule.bottom_level_name}"
 						placeholder="30자 이하로 입력하세요.">
+				</td>
+			</tr>
+			<tr>
+				<th>버전</th>
+				<td>
+					<input type="text" name="version" class="form-control" value="${rule.version}">
 				</td>
 			</tr>
 			<tr>

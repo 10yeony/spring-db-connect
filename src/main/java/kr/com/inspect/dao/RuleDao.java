@@ -108,6 +108,13 @@ public interface RuleDao {
 	public int registerBottomLevel(Rule rule);
 	
 	/**
+	 * 이전 전사규칙을 등록함
+	 * @param rule 이전 전사규칙 기록을 위한 Rule 객체
+	 * @return 등록된 이전 전사규칙 DB row의 수
+	 */
+	public int registerPrevBottomLevel(Rule rule);
+	
+	/**
 	 * 대분류가 중복되지 않았는지 해당되는 row 개수를 가져옴
 	 * @param rule 대분류 중복검사를 위한 Rule 객체
 	 * @return 존재하는 row의 개수
@@ -136,11 +143,11 @@ public interface RuleDao {
 	public int updateBottomLevelFileName(Rule rule);
 	
 	/**
-	 * 사용자가 작성한 전사규칙(소분류) 코드 내용을 DB에 저장함
-	 * @param rule 전사규칙(소분류) 코드 내용 업데이트를 위한 Rule 객체
+	 * 사용자가 작성한 전사규칙(소분류) 코드 내용 및 정보를 DB에 저장함
+	 * @param rule 전사규칙(소분류) 코드 내용 및 정보 업데이트를 위한 Rule 객체
 	 * @return 업데이트된 row의 수
 	 */
-	public int updateContents(Rule rule);
+	public int updateRuleContents(Rule rule);
 	
 	/**
 	 * 사용자가 작성한 전사규칙(소분류)을 컴파일하고 결과값을 DB에 저장함
@@ -169,6 +176,13 @@ public interface RuleDao {
 	 * @return 삭제된 row의 수
 	 */
 	public int deleteBottomLevel(int id);
+	
+	/**
+	 * 해당되는 이전 전사규칙(소분류)를 삭제함
+	 * @param id 전사규칙(소분류) 아이디
+	 * @return 삭제된 row의 수
+	 */
+	public int deletePrevBottomLevel(int id);
 	
 	/**
 	 * 클래스 아이디로 해당되는 클래스 정보를 가져옴

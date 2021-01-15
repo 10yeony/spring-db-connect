@@ -85,6 +85,22 @@
 			#{top_level_id}, #{middle_level_id}, #{rule_type},
 			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), #{version});
 	</insert>
+	
+	<!-- 이전 소분류 모음 -->
+	<insert id="registerPrevBottomLevel"
+			parameterType="kr.com.inspect.dto.Rule">
+		INSERT INTO
+			audio.prev_rule_bottom_level
+			(bottom_level_id,
+			top_level_name, middle_level_name, bottom_level_name, 
+			description, creator, rule_type,
+			date, version)
+		VALUES
+			(#{bottom_level_id},
+			#{top_level_name}, #{middle_level_name}, #{bottom_level_name}, 
+			#{description}, #{creator}, #{rule_type},
+			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), #{version});
+	</insert>
 
 	<!-- 중복검사를 위한 대분류 존재 유무 확인 -->
 	<select id="isExistTopLevel"
@@ -178,6 +194,8 @@
 			b.result,
 			b.file_name,
 			b.rule_type,
+			b.date,
+			b.version,
 			b.top_level_id AS top_level_id,
 			b.middle_level_id AS middle_level_id,
 			t.name AS top_level_name,
@@ -346,18 +364,6 @@
 			id = #{middle_level_id};
 	</update>
 
-	<!-- 소분류 이름, 설명 수정 -->
-	<update id="updateBottomLevelContents"
-			parameterType="kr.com.inspect.dto.Rule">
-		UPDATE
-			audio.rule_bottom_level
-		SET
-			name = #{bottom_level_name},
-			description = #{description}
-		WHERE
-			id = #{bottom_level_id};
-	</update>
-
 	<!-- 소분류 파일명 작성 -->
 	<update id="updateBottomLevelFileName"
 			parameterType="kr.com.inspect.dto.Rule">
@@ -370,7 +376,7 @@
 	</update>
 
 	<!-- 코드 작성 -->
-	<update id="updateContents"
+	<update id="updateRuleContents"
 			parameterType="kr.com.inspect.dto.Rule">
 		UPDATE
 			audio.rule_bottom_level
@@ -381,7 +387,9 @@
 			description = #{description},
 			creator = #{creator},
 			contents = #{contents},
-			imp_contents = #{imp_contents}
+			imp_contents = #{imp_contents},
+			date = to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
+			version = #{version}
 		WHERE
 			id = #{bottom_level_id};
 	</update>
@@ -420,5 +428,12 @@
 			audio.rule_bottom_level
 		WHERE
 			id = #{id};
+	</delete>
+	<!-- 이전 소분류 삭제 -->
+	<delete id="deletePrevBottomLevel" parameterType="int">
+		DELETE FROM
+			audio.prev_rule_bottom_level
+		WHERE
+			bottom_level_id = #{id};
 	</delete>
 </mapper>

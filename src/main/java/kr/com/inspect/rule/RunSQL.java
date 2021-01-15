@@ -114,7 +114,7 @@ public class RunSQL {
      * @return
      */
     public ResponseData run(ResponseData responseData, Rule rule) {
-        ruleDao.updateContents(rule);
+        ruleDao.updateRuleContents(rule);
 
         String query = rule.getContents().trim();
         if(query.length() < 6){

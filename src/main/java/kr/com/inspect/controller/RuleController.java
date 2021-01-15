@@ -254,7 +254,7 @@ public class RuleController {
 		rule.setCreator(clientInfo.getMemberId());
 
 		/* 컴파일 + DB에 코드 및 결과 업데이트 */
-		Map<String, Object> map = ruleService.updateContents(rule);
+		Map<String, Object> map = ruleService.updateRuleContents(rule);
 
 		/* 컴파일 성공 및 실패 처리 */
 		if((int)map.get("updateResult") == 0) {

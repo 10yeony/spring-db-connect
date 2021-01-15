@@ -118,8 +118,26 @@ CREATE TABLE audio.rule_bottom_level (
 	result text,
 	imp_contents text,
 	rule_type text,
+	date text,
+	version text
 	top_level_id integer REFERENCES audio.rule_top_level ON DELETE CASCADE,
 	middle_level_id integer REFERENCES audio.rule_middle_level ON DELETE CASCADE
+);
+
+CREATE TABLE audio.prev_rule_bottom_level (
+	id SERIAL PRIMARY KEY,
+	top_level_name text,
+	middle_level_name text,
+	bottom_level_name text,
+	description text,
+	creator text,
+	contents text,
+	result text,
+	imp_contents text,
+	rule_type text,
+	date text,
+	version text,
+	bottom_level_id integer REFERENCES audio.rule_bottom_level ON DELETE CASCADE
 );
 
 CREATE TABLE audio.api_class (
