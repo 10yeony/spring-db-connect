@@ -171,10 +171,12 @@ public class ChartHelper {
 				this.isOneX = false;
 			}finally {
 				setXYData();
-				if(rowCount <= 10) { //데이터의 개수가 너무 많지 않은 경우
+				if((columnCount == 1 && rowCount <= 10) ||
+					(columnCount == 2 && rowCount <= 7) ||
+					(columnCount == 3 && rowCount <= 5)) { //데이터의 개수가 너무 많지 않은 경우
 					doc = drawBarChart(doc);
 				}
-				else if(rowCount > 10) { //데이터의 개수가 너무 않은 경우
+				else { //데이터의 개수가 너무 않은 경우
 					doc = drawBoxChart(doc);
 				}
 			}
@@ -188,29 +190,46 @@ public class ChartHelper {
 	 * @return 막대그래프가 추가된 워드 문서 객체
 	 */
 	public XWPFDocument drawBarChart(XWPFDocument doc) {
-		try {
-			String xAxisTitle = "";
-			if(!isOneX) xAxisTitle = list.get(0).get(0);
-			CategoryChart chart = new CategoryChartBuilder().width(chartWidth).height(chartHeight).theme(Styler.ChartTheme.GGPlot2).title(title).xAxisTitle(xAxisTitle).yAxisTitle("").build();
-			
-			chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW); //속성 상자 위치
-			chart.getStyler().setAvailableSpaceFill(.96); //막대 간 간격
-//			chart.getStyler().setOverlapped(true); //막대 겹치게 
-			chart.getStyler().setPlotBackgroundColor(ChartColor.getAWTColor(ChartColor.WHITE)); // 차트 배경색
-			chart.getStyler().setHasAnnotations(true);
-			
-			String[] xDataArr = (String[]) map.get("xDataArr");
-			List<Number[]> yDataList = (List<Number[]>) map.get("yDataList");
-			for(int i=0; i<yDataList.size(); i++) {
-				if(isOneX) chart.addSeries(list.get(0).get(i), new ArrayList<String>(Arrays.asList(xDataArr)), new ArrayList<Number>(Arrays.asList(yDataList.get(i))));
-				else chart.addSeries(list.get(0).get(i+1), new ArrayList<String>(Arrays.asList(xDataArr)), new ArrayList<Number>(Arrays.asList(yDataList.get(i))));
+		for(int idx=0; idx<getChartCount(); idx++) {
+			try {
+				String xAxisTitle = "";
+				if(!isOneX) xAxisTitle = list.get(0).get(0);
+				CategoryChart chart = new CategoryChartBuilder().width(chartWidth).height(chartHeight).theme(Styler.ChartTheme.GGPlot2).title(title).xAxisTitle(xAxisTitle).yAxisTitle("").build();
+
+				chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW); //속성 상자 위치
+				chart.getStyler().setAvailableSpaceFill(.96); //막대 간 간격
+				chart.getStyler().setPlotBackgroundColor(ChartColor.getAWTColor(ChartColor.WHITE)); // 차트 배경색
+				chart.getStyler().setHasAnnotations(true);
+
+				String[] xDataArr;
+				if(isOneX) {
+					xDataArr = new String[rowCount];
+					for(int i=0; i<rowCount; i++) {
+						xDataArr[i] = " ";
+					}
+				}else {
+					xDataArr = (String[]) map.get("xDataArr");
+				}
+				List<Number[]> yDataList = (List<Number[]>) map.get("yDataList");
+				if(getChartCount() > 1 && rowCount > 1) {
+					if(isOneX) chart.addSeries(list.get(0).get(idx), new ArrayList<String>(Arrays.asList(xDataArr)), new ArrayList<Number>(Arrays.asList(yDataList.get(idx))));
+					else chart.addSeries(list.get(0).get(idx+1), new ArrayList<String>(Arrays.asList(xDataArr)), new ArrayList<Number>(Arrays.asList(yDataList.get(idx))));
+					BitmapEncoder.saveBitmapWithDPI(chart, this.path+chartImgName, BitmapEncoder.BitmapFormat.JPG, 300);
+					doc.createParagraph().createRun().addPicture(new FileInputStream(this.path+chartImgName), XWPFDocument.PICTURE_TYPE_JPEG, chartImgName, Units.toEMU(insertChartWidth), Units.toEMU(insertChartHeight));
+					new File(path+chartImgName).delete();
+				}else {
+					for(int i=0; i<yDataList.size(); i++) {
+						if(isOneX) chart.addSeries(list.get(0).get(i), new ArrayList<String>(Arrays.asList(xDataArr)), new ArrayList<Number>(Arrays.asList(yDataList.get(i))));
+						else chart.addSeries(list.get(0).get(i+1), new ArrayList<String>(Arrays.asList(xDataArr)), new ArrayList<Number>(Arrays.asList(yDataList.get(i))));
+					}
+					BitmapEncoder.saveBitmapWithDPI(chart, this.path+chartImgName, BitmapEncoder.BitmapFormat.JPG, 300);
+					doc.createParagraph().createRun().addPicture(new FileInputStream(this.path+chartImgName), XWPFDocument.PICTURE_TYPE_JPEG, chartImgName, Units.toEMU(insertChartWidth), Units.toEMU(insertChartHeight));
+					new File(path+chartImgName).delete();
+					break;
+				}
+			}catch (Exception e){
+				//e.printStackTrace();
 			}
-			
-			BitmapEncoder.saveBitmapWithDPI(chart, this.path+chartImgName, BitmapEncoder.BitmapFormat.JPG, 300);
-			doc.createParagraph().createRun().addPicture(new FileInputStream(this.path+chartImgName), XWPFDocument.PICTURE_TYPE_JPEG, chartImgName, Units.toEMU(insertChartWidth), Units.toEMU(insertChartHeight));
-			new File(path+chartImgName).delete();
-		}catch (Exception e){
-			//e.printStackTrace();
 		}
 		return doc;
 	}
@@ -239,7 +258,11 @@ public class ChartHelper {
 			String[] xDataArr = (String[]) map.get("xDataArr");
 			Number[] yDataArr = (Number[]) map.get("yDataArr");
 			for(int i=0; i<columnCount; i++) {
-				chart.addSeries(xDataArr[i], yDataArr[i]);
+				if(isOneX) {
+					chart.addSeries(xDataArr[i], yDataArr[i]);
+				}else {
+					chart.addSeries(list.get(0).get(i+1), yDataArr[i]);
+				}
 			}
 			
 			BitmapEncoder.saveBitmapWithDPI(chart, this.path+chartImgName, BitmapEncoder.BitmapFormat.JPG, 300);
@@ -252,38 +275,68 @@ public class ChartHelper {
 	}
 	
 	public XWPFDocument drawBoxChart(XWPFDocument doc) {
-		try {
-			String xAxisTitle = list.get(0).get(0);
-			BoxChart chart = new BoxChartBuilder().width(chartWidth).height(chartHeight).theme(Styler.ChartTheme.GGPlot2).title(title).build();
-			
-			chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW); //속성 상자 위치
-			chart.getStyler().setPlotBackgroundColor(ChartColor.getAWTColor(ChartColor.WHITE)); // 차트 배경색
-			chart.getStyler().setHasAnnotations(true);
-			chart.getStyler().setBoxplotCalCulationMethod(BoxplotCalCulationMethod.N_LESS_1_PLUS_1);
-			
-			int startIndex = 0;
-			int xDataArrLength = columnCount;
-			if(!isOneX) {
-				startIndex = 1;
-				xDataArrLength++;
+		String xAxisTitle = list.get(0).get(0);
+		for(int idx=0; idx<columnCount; idx++) {
+			try {
+				BoxChart chart = new BoxChartBuilder().width(chartWidth).height(chartHeight).theme(Styler.ChartTheme.GGPlot2).title(title).build();
+
+				chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW); //속성 상자 위치
+				chart.getStyler().setPlotBackgroundColor(ChartColor.getAWTColor(ChartColor.WHITE)); // 차트 배경색
+				chart.getStyler().setHasAnnotations(true);
+				chart.getStyler().setBoxplotCalCulationMethod(BoxplotCalCulationMethod.N_LESS_1_PLUS_1);
+
+				int startIndex = 0;
+				int xDataArrLength = columnCount;
+				if(!isOneX) {
+					startIndex = 1;
+					xDataArrLength++;
+				}
+				String[] xDataArr = new String[xDataArrLength];
+				for(int i=startIndex; i<xDataArrLength; i++) {
+					if(isOneX) xDataArr[i] = list.get(0).get(i);
+					else xDataArr[i-1] = list.get(0).get(i);
+				}
+				List<Number[]> yDataList = (List<Number[]>) map.get("yDataList");
+				chart.addSeries(xDataArr[idx], Arrays.asList(yDataList.get(idx)));
+				BitmapEncoder.saveBitmapWithDPI(chart, this.path+chartImgName, BitmapEncoder.BitmapFormat.JPG, 300);
+				doc.createParagraph().createRun().addPicture(new FileInputStream(this.path+chartImgName), XWPFDocument.PICTURE_TYPE_JPEG, chartImgName, Units.toEMU(insertChartWidth), Units.toEMU(insertChartHeight));
+				new File(path+chartImgName).delete();
+			}catch (Exception e){
+				//e.printStackTrace();
 			}
-			String[] xDataArr = new String[xDataArrLength];
-			for(int i=startIndex; i<xDataArrLength; i++) {
-				if(isOneX) xDataArr[i] = list.get(0).get(i);
-				else xDataArr[i-1] = list.get(0).get(i);
-			}
-			List<Number[]> yDataList = (List<Number[]>) map.get("yDataList");
-			for(int i=0; i<columnCount; i++) {
-				chart.addSeries(xDataArr[i], Arrays.asList(yDataList.get(i)));
-			}
-			
-			BitmapEncoder.saveBitmapWithDPI(chart, this.path+chartImgName, BitmapEncoder.BitmapFormat.JPG, 300);
-			doc.createParagraph().createRun().addPicture(new FileInputStream(this.path+chartImgName), XWPFDocument.PICTURE_TYPE_JPEG, chartImgName, Units.toEMU(insertChartWidth), Units.toEMU(insertChartHeight));
-			new File(path+chartImgName).delete();
-		}catch (Exception e){
-			//e.printStackTrace();
 		}
 		return doc;
+	}
+	
+	public int getChartCount() {
+		double[][] tempArr = new double[columnCount][rowCount];
+		double[] avgArr = new double[columnCount];
+		if(isOneX) {
+			for(int i=0; i<columnCount; i++) {
+				for(int j=0; j<rowCount; j++) {
+					tempArr[i][j] = Double.parseDouble(list.get(j+1).get(i));
+				}
+			}
+			for(int i=0; i<columnCount; i++) {
+				avgArr[i] = 0;
+				for(int j=0; j<rowCount; j++) {
+					if(avgArr[i] == 0) {
+						avgArr[i] += tempArr[i][j];
+					}else {
+						avgArr[i] = (avgArr[i]+tempArr[i][j])/2;
+					}
+				}
+			}
+			for(int i=0; i<columnCount-1; i++) {
+				double diff = Math.abs(avgArr[i]-avgArr[i+1]);
+				if(diff > Math.pow(avgArr[i], 2)) {
+					return columnCount;
+				}
+			}
+		}else {
+			
+		}
+		return 1;
 	}
 	
 	/**
@@ -374,13 +427,7 @@ public class ChartHelper {
 //		ChartHelper chartHelper = new ChartHelper();
 //		Rule rule = new Rule();
 //		rule.setBottom_level_name("테스트 제목");
-//		//rule.setResult("[[전사자, 데이터1, 데이터2, 데이터3, 데이터4, 데이터5], [이민지(als3o@naver.com), 10%, 15%, 25%, 35%, 15%]]");
-//		//rule.setResult("[[전사자, 맞음, 틀림], [이민지(als3o@naver.com), 맞는 내용, 틀린 내용]]");
-//		//rule.setResult("[[학년, 여 (단위: 분), 남 (단위: 분), 미기입 (단위: 분)], [1학년, 4313.54, 1678.85, 1629.71], [2학년, 2427.36, 2141.98, 1453.73], [3학년, 1557.38, 6862.85, 2519.35]]");
-//		//rule.setResult("[[이중전사의 형태를 잘못 입력한 문장, 이중전사 형태에 문제가 없는 문장], [30%, 70%]]");
-//		//rule.setResult("[[아스키코드 이외의 문자가 포함된 문장 수, 전체 문장수], [14, 25]]");
-//		rule.setResult("[[이중전사의 형태를 잘못 입력한 문장수, 입력한 총 문장수], [9, 2240], [16, 4857], [17, 2425], [17, 2370], [20, 6525], [16, 902], [10, 1723], [16, 4954], [39, 3572], [16, 6538], [14, 2026]]");
-//		//rule.setResult("[[전사자, 이중전사의 형태를 잘못 입력한 문장수, 입력한 총 문장수], [나성진(5878997@naver.com), 9, 2240], [이민지(als3o@naver.com), 16, 4857], [목가현(alsdudtnl@naver.com), 17, 2425], [김희경(banila778@gmail.com), 17, 2370], [이정민(betty2793@naver.com), 20, 6525], [김우진(biff4933@gmail.com), 16, 902], [김경문(brightsome_s@naver.com), 10, 1723], [성종호(cameata@naver.com), 16, 4954], [조민서(ccmmss0902@naver.com), 39, 3572], [채창완(changwanei@gmail.com), 16, 6538], [최고은(choigoeun93@naver.com), 14, 2026]]");
+//		rule.setResult("[[전사자, 데이터1, 데이터2, 데이터3, 데이터4, 데이터5], [이민지(als3o@naver.com), 10%, 15%, 25%, 35%, 15%]]");
 //		XWPFDocument doc = new XWPFDocument();
 //		String path = "/home/namu/Documents/test/report/docx/";
 //		doc = chartHelper.checkChartForm(doc, rule, path);
