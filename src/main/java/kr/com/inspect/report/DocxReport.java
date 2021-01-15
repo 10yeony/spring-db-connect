@@ -15,7 +15,6 @@ import kr.com.inspect.sender.SendReport;
 
 import kr.com.inspect.util.ClientInfo;
 import org.apache.commons.io.FileUtils;
-import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.impl.xb.xmlschema.SpaceAttribute;
@@ -305,6 +304,27 @@ public class DocxReport {
 		/* doc 파일 생성 */
 		XWPFDocument doc = new XWPFDocument();
 
+		XWPFParagraph xwpfParagraph = doc.createParagraph();
+		xwpfParagraph.setAlignment(ParagraphAlignment.CENTER);
+		XWPFRun xwpfRun = xwpfParagraph.createRun();
+		xwpfRun.setText("목차");
+		xwpfRun.setBold(true);
+		xwpfRun.setFontSize(25);
+		xwpfRun.addBreak();
+		xwpfRun.addBreak();
+
+		XWPFParagraph xwpfParagraph1 = doc.createParagraph();
+		xwpfParagraph1.setAlignment(ParagraphAlignment.LEFT);
+		XWPFRun xwpfRun1 = xwpfParagraph1.createRun();
+		for(int i=0; i<ruleList.size(); i++) {
+			xwpfRun1.setText((i+1) +". "+ ruleList.get(i).getBottom_level_name());
+			xwpfRun1.addBreak();
+			xwpfRun1.addBreak();
+			xwpfRun1.addBreak();
+		}
+		xwpfRun1.setFontSize(15);
+		xwpfRun1.addBreak(BreakType.PAGE);
+
 		for(int x=0; x<ruleList.size(); x++) {
 			rule = ruleList.get(x);
 
@@ -332,7 +352,6 @@ public class DocxReport {
 			XWPFParagraph p1 = doc.createParagraph();
 			p1.setAlignment(ParagraphAlignment.CENTER);
 			XWPFRun r1 = p1.createRun();
-
 
 			if (rule.getBottom_level_name() != null) {
 				r1.setText(rule.getBottom_level_name());
@@ -378,6 +397,7 @@ public class DocxReport {
 					XWPFRun r00 = p00.createRun();
 					r00.setText("");
 					r00.setFontSize(10);
+					r00.addBreak();
 					ChartHelper chartHelper = new ChartHelper();
 					doc = chartHelper.checkChartForm(doc, rule, path);
 				}
@@ -403,16 +423,56 @@ public class DocxReport {
  				r01.addBreak(BreakType.PAGE);
 			}
 		}
-		try {
-			XWPFParagraph p1 = doc.createParagraph();
-			XWPFRun r1 = p1.createRun();
-			r1.setText("Page ");
-			r1.getCTR().addNewPgNum();
-			r1.setText(" of 9");
-			p1.setAlignment(ParagraphAlignment.RIGHT);
-		}catch (Exception e){
-			e.printStackTrace();
-		}
+
+		XWPFParagraph p1;
+		XWPFParagraph[] pars;
+
+		// create footer
+		CTSectPr sectPr = doc.getDocument().getBody().addNewSectPr();
+		XWPFHeaderFooterPolicy policy = new XWPFHeaderFooterPolicy(doc, sectPr);
+		CTP ctpFooter = CTP.Factory.newInstance();
+
+		XWPFParagraph[] parsFooter;
+
+		// add style (s.th.)
+		CTPPr ctppr = ctpFooter.addNewPPr();
+		CTString pst = ctppr.addNewPStyle();
+		pst.setVal("style21");
+		CTJc ctjc = ctppr.addNewJc();
+		ctjc.setVal(STJc.CENTER);
+		ctppr.addNewRPr();
+
+		// Add in word "Page "
+		CTR ctr = ctpFooter.addNewR();
+		CTText t = ctr.addNewT();
+		t.setStringValue("-");
+		t.setSpace(SpaceAttribute.Space.PRESERVE);
+
+		// add everything from the footerXXX.xml you need
+		ctr = ctpFooter.addNewR();
+		ctr.addNewRPr();
+		CTFldChar fch = ctr.addNewFldChar();
+		fch.setFldCharType(STFldCharType.BEGIN);
+
+		ctr = ctpFooter.addNewR();
+		ctr.addNewInstrText().setStringValue(" PAGE ");
+
+		ctpFooter.addNewR().addNewFldChar().setFldCharType(STFldCharType.SEPARATE);
+
+		ctpFooter.addNewR().addNewT().setStringValue("1");
+
+		ctpFooter.addNewR().addNewFldChar().setFldCharType(STFldCharType.END);
+
+		ctr = ctpFooter.addNewR();
+		ctr.addNewT().setStringValue("-");
+
+		XWPFParagraph footerParagraph = new XWPFParagraph(ctpFooter, doc);
+
+		parsFooter = new XWPFParagraph[1];
+
+		parsFooter[0] = footerParagraph;
+
+		policy.createFooter(XWPFHeaderFooterPolicy.DEFAULT, parsFooter);
 
 
 		/* 입력된 내용 파일로 쓰기 */
