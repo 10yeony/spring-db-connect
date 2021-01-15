@@ -119,6 +119,13 @@
 					 					</td>
 					 				</tr>
 					 				<tr>
+					 					<th>버전</th>
+					 					<td>
+					 						<input type="text" class="form-control" name="version" 
+					 							placeholder="룰 버전을 입력하세요" maxlength="10" required>
+					 					</td>
+					 				</tr>
+					 				<tr>
 					 					<th>설명</th>
 					 					<td>
 					 						<textarea class="form-control" name="description" rows="5" style="resize: none;"></textarea>

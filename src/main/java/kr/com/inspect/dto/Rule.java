@@ -78,11 +78,20 @@ public class Rule {
 	 */
 	private String rule_type;
 
+	/**
+	 * 룰 생성일
+	 */
+	private String date;
+	
+	/**
+	 * 룰 버전 
+	 */
+	private String version;
 
-
+	public Rule() {}
 	public Rule(int row_num, int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
-				int bottom_level_id, String bottom_level_name, String description, String file_name, String creator,
-				String contents, String result, String imp_contents, String rule_type) {
+			int bottom_level_id, String bottom_level_name, String description, String file_name, String creator,
+			String contents, String result, String imp_contents, String rule_type, String date, String version) {
 		super();
 		this.row_num = row_num;
 		this.top_level_id = top_level_id;
@@ -98,9 +107,9 @@ public class Rule {
 		this.result = result;
 		this.imp_contents = imp_contents;
 		this.rule_type = rule_type;
+		this.date = date;
+		this.version = version;
 	}
-
-	public Rule() {}
 
 	public int getRow_num() {
 		return row_num;
@@ -186,15 +195,26 @@ public class Rule {
 	public void setRule_type(String rule_type){
 		this.rule_type = rule_type;
 	}
-
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	
 	@Override
 	public String toString() {
 		return "Rule [row_num=" + row_num + ", top_level_id=" + top_level_id + ", top_level_name=" + top_level_name
 				+ ", middle_level_id=" + middle_level_id + ", middle_level_name=" + middle_level_name
 				+ ", bottom_level_id=" + bottom_level_id + ", bottom_level_name=" + bottom_level_name + ", description="
 				+ description + ", file_name=" + file_name + ", creator=" + creator + ", contents=" + contents
-				+ ", result=" + result + ", imp_contents=" + imp_contents + ", rule_type=" + rule_type + "]";
+				+ ", result=" + result + ", imp_contents=" + imp_contents + ", rule_type=" + rule_type + ", date="
+				+ date + ", version=" + version + "]";
 	}
-
-
 }

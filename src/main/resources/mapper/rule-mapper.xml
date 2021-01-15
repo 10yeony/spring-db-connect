@@ -78,10 +78,12 @@
 		INSERT INTO
 			audio.rule_bottom_level
 			(name, description, creator,
-			top_level_id, middle_level_id, rule_type)
+			top_level_id, middle_level_id, rule_type,
+			date, version)
 		VALUES
 			(#{bottom_level_name}, #{description}, #{creator},
-			#{top_level_id}, #{middle_level_id}, #{rule_type});
+			#{top_level_id}, #{middle_level_id}, #{rule_type},
+			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), #{version});
 	</insert>
 
 	<!-- 중복검사를 위한 대분류 존재 유무 확인 -->
