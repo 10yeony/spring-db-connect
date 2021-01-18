@@ -207,7 +207,6 @@ public class RunSQL {
             rule.setResult("");
         }
         ruleDao.updateRuleCompileResult(rule);
-        System.out.println(rule);
         Rule vo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
         ruleDao.registerPrevBottomLevel(vo);
 
