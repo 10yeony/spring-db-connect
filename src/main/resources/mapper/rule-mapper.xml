@@ -94,12 +94,14 @@
 			(bottom_level_id,
 			top_level_name, middle_level_name, bottom_level_name, 
 			description, creator, rule_type,
-			date, version)
+			date, version,
+			contents, result, imp_contents)
 		VALUES
 			(#{bottom_level_id},
 			#{top_level_name}, #{middle_level_name}, #{bottom_level_name}, 
 			#{description}, #{creator}, #{rule_type},
-			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), #{version});
+			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), #{version},
+			#{contents}, #{result}, #{imp_contents});
 	</insert>
 
 	<!-- 중복검사를 위한 대분류 존재 유무 확인 -->

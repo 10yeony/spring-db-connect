@@ -319,7 +319,6 @@ public class RuleServiceImpl implements RuleService {
 		boolean compile = false;
 		int result = ruleDao.updateRuleContents(rule);
 		Rule vo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
-		result += ruleDao.registerPrevBottomLevel(vo);
 		Object obj = null;
 		try {
 			ruleCompiler.create(vo);
@@ -336,8 +335,9 @@ public class RuleServiceImpl implements RuleService {
 		deleteJavaClassFile(vo.getFile_name());
 
 		/* 컴파일 결과값 DB에 등록 */
-		rule.setResult(obj.toString());
-		int updateResult = ruleDao.updateRuleCompileResult(rule);
+		vo.setResult(obj.toString());
+		int updateResult = ruleDao.updateRuleCompileResult(vo);
+		updateResult += ruleDao.registerPrevBottomLevel(vo);
 		if(updateResult > 0) {
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setRule(vo);

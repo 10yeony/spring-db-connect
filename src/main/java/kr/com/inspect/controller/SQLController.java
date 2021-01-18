@@ -7,14 +7,10 @@ import kr.com.inspect.rule.RunSQL;
 import kr.com.inspect.util.ClientInfo;
 import kr.com.inspect.util.UsingLogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * SQL 실행 관련 Controller

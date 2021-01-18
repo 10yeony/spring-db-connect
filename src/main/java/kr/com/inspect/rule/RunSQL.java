@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * SQL 실행
  * @author Wooyoung
+ * @author Yeonhee Kim
  * @version 1.0
  */
 @Component
@@ -114,7 +115,7 @@ public class RunSQL {
      * @return
      */
     public ResponseData run(ResponseData responseData, Rule rule) {
-        ruleDao.updateRuleContents(rule);
+        int updateResult = ruleDao.updateRuleContents(rule);
 
         String query = rule.getContents().trim();
         if(query.length() < 6){
@@ -206,6 +207,9 @@ public class RunSQL {
             rule.setResult("");
         }
         ruleDao.updateRuleCompileResult(rule);
+        System.out.println(rule);
+        Rule vo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
+        ruleDao.registerPrevBottomLevel(vo);
 
         return responseData;
     }
