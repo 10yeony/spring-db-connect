@@ -2,8 +2,10 @@ package kr.com.inspect.controller;
 
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.rule.RunSQL;
+import kr.com.inspect.service.RuleService;
 import kr.com.inspect.util.ClientInfo;
 import kr.com.inspect.util.UsingLogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class SQLController {
      */
     @Autowired
     private RunSQL runSQL;
+    
+    @Autowired
+    private RuleService ruleService;
 
     /**
      * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
@@ -79,6 +84,25 @@ public class SQLController {
         rule.setCreator(clientInfo.getMemberId());
 
         responseData = runSQL.run(responseData, rule);
+        
+        switch(responseData.getCode()) {
+	        case "insert" :
+	        case "INSERT" :
+	        case "update" :
+	        case "UPDATE" :
+	        case "select" :
+	        case "SELECT" :
+	        case "delete" :
+	        case "DELETE" :
+	        case "create" :
+	        case "CREATE" :
+	        	  Rule vo = ruleService.getRuleBottomLevel(rule.getBottom_level_id());
+	            RuleLog ruleLog = new RuleLog();
+	            ruleLog.setRule(vo);
+	            ruleLog.setContent("룰(SQL) 작성");
+	            usingLogUtil.setUsingLog(ruleLog);
+	            break;
+        }
         responseData.responseJSON(response, responseData);
     }
 }

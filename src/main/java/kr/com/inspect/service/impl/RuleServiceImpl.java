@@ -341,7 +341,7 @@ public class RuleServiceImpl implements RuleService {
 		if(updateResult > 0) {
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setRule(vo);
-			ruleLog.setContent("룰 작성");
+			ruleLog.setContent("룰(메서드) 작성");
 			usingLogUtil.setUsingLog(ruleLog);
 		}
 
