@@ -73,6 +73,7 @@ function runRuleSQL(){
         	middle_level_id : $('#middle_level').val(),
           bottom_level_id : $('#bottom_level_id').val(),
           bottom_level_name : $('#ruleInfoName').val(),
+          version : $('input[name=version]').val(),
           description : $('#ruleInfoDesc').val(),
           contents : query
         } ,
