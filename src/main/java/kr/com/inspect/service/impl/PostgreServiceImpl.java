@@ -360,6 +360,9 @@ public class PostgreServiceImpl implements PostgreService{
 							beforeTimeCheck = System.currentTimeMillis();
 							sqlSession.insert(utteranceNS+"insertIntoUtterance", utterance); //utterance 입력
 							afterTimeCheck = System.currentTimeMillis();
+							double finish = utterance.getFinish();
+							double start = utterance.getStart();
+							singletone.setTimeRecorder("getSpeakTime", (long) (finish - start));
 							singletone.setTimeRecorder("insertIntoUtterance", afterTimeCheck-beforeTimeCheck);
 							
 							List<EojeolList> eojeolListList = utterance.getEojoelList();
@@ -394,6 +397,9 @@ public class PostgreServiceImpl implements PostgreService{
 		}
 		closeThread(executor, futures);
 		logger.info(clientInfo.getTime() + " JSON 입력 끝");
+		
+		/* 추후 삭제 */
+		logger.info("총 발화 시간 : " + singletone.getTimeRecorder("getSpeakTime")+"초");
 
 		if(singletone.getNewData() > 0) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
 			long afterTime = System.currentTimeMillis();
