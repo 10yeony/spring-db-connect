@@ -38,6 +38,11 @@ public class RunSQL {
             return responseData;
         }
         String type = query.substring(0, 6);
+        if(query.substring(0,4).toLowerCase().equals("with")){
+            System.out.println("with");
+            type = query.substring(0,4);
+        }
+
         List<Object> list = new ArrayList<>();
         List<List<Object>> listList = new ArrayList<>();
 
@@ -65,6 +70,8 @@ public class RunSQL {
                     break;
                 case "select" :
                 case "SELECT" :
+                case "WITH" :
+                case "with" :
                     resultSet = statement.executeQuery(query);
                     responseData.setCode("select");
                     columnCount = resultSet.getMetaData().getColumnCount();
@@ -123,6 +130,10 @@ public class RunSQL {
             return responseData;
         }
         String type = query.substring(0, 6);
+        if(query.substring(0,4).toLowerCase().equals("with")){
+            System.out.println("with");
+            type = query.substring(0,4);
+        }
         List<Object> list = new ArrayList<>();
         List<List<Object>> listList = new ArrayList<>();
 
@@ -150,6 +161,8 @@ public class RunSQL {
                     break;
                 case "select" :
                 case "SELECT" :
+                case "with" :
+                case "WITH" :
                     resultSet = statement.executeQuery(query);
                     responseData.setCode("select");
                     columnCount = resultSet.getMetaData().getColumnCount();
