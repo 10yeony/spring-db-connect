@@ -371,11 +371,13 @@ public class RuleServiceImpl implements RuleService {
 		if(list.size() == 0) {
 			return;
 		}
+		
 		String usingLogContent = "룰 실행 - 총 "+list.size()+"개";
 		final int NO = usingLogUtil.insertUsingLog(usingLogContent);
-		final String IP_ADDR = clientInfo.getIpAddr();
-		final String MEMBER_ID = clientInfo.getMemberId();
-		final String TIME = clientInfo.getTime();
+		RuleLog ruleLog = new RuleLog();
+		ruleLog.setContent(usingLogContent);
+		ruleLog.setUsing_log_no(NO);
+		usingLogUtil.setUsingLog(ruleLog);
 		
 		int threadCnt = 5; // 스레드 개수 설정
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -402,28 +404,21 @@ public class RuleServiceImpl implements RuleService {
 					int updateResult = ruleDao.updateRuleCompileResult(rule);
 
 					if(updateResult > 0) {
-						RuleLog ruleLog = new RuleLog();
-						ruleLog.setUsing_log_no(NO);
-						ruleLog.setIp_addr(IP_ADDR);
-						ruleLog.setMember_id(MEMBER_ID);
-						ruleLog.setTime(TIME);
-						ruleLog.setContent("룰 실행("+rule.getBottom_level_name()+")");
-						ruleLog.setRule(rule);
-						usingLogUtil.setUsingLog(ruleLog);
+						RuleLog ruleLogDetail = new RuleLog();
+						ruleLogDetail.setUsing_log_no(NO);
+						ruleLogDetail.setContent("룰 실행");
+						ruleLogDetail.setRule(rule);
+						usingLogUtil.insertRuleLogDetail(ruleLogDetail);
 					}
 				}
 				else if(rule.getRule_type().equals("sql")){
 					ResponseData responseData = new ResponseData();
 					runSQL.run(responseData, rule);
-
-					RuleLog ruleLog = new RuleLog();
-					ruleLog.setUsing_log_no(NO);
-					ruleLog.setIp_addr(IP_ADDR);
-					ruleLog.setMember_id(MEMBER_ID);
-					ruleLog.setTime(TIME);
-					ruleLog.setContent("룰 실행("+rule.getBottom_level_name()+")");
-					ruleLog.setRule(rule);
-					usingLogUtil.setUsingLog(ruleLog);
+					RuleLog ruleLogDetail = new RuleLog();
+					ruleLogDetail.setUsing_log_no(NO);
+					ruleLogDetail.setContent("룰 실행");
+					ruleLogDetail.setRule(rule);
+					usingLogUtil.insertRuleLogDetail(ruleLogDetail);
 				}
 			}));
 		}

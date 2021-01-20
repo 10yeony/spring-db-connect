@@ -391,15 +391,20 @@ public class ReportController {
 		Member member = (Member)session.getAttribute("member");
 		String name = member.getName();
 		List<Rule> ruleList = new ArrayList<>();
+		
 		String usingLogContent = "룰 실행 결과 보고서 다운로드 - 총 "+hiddenRule.length+"개";
-		int usingLogNo = usingLogUtil.insertUsingLog(usingLogContent);
+		final int USING_LOG_NO = usingLogUtil.insertUsingLog(usingLogContent);
+		RuleLog ruleLog = new RuleLog();
+		ruleLog.setContent(usingLogContent);
+		ruleLog.setUsing_log_no(USING_LOG_NO);
+		usingLogUtil.setUsingLog(ruleLog);
 		for(int i=0; i<hiddenRule.length; i++){
 			Rule rule = ruleService.getRuleBottomLevel(hiddenRule[i]);
-			RuleLog ruleLog = new RuleLog();
-			ruleLog.setUsing_log_no(usingLogNo);
-			ruleLog.setContent("룰 결과 보고서("+rule.getBottom_level_name()+")");
-			ruleLog.setRule(rule);
-			usingLogUtil.setUsingLog(ruleLog);
+			RuleLog ruleLogDetail = new RuleLog();
+			ruleLogDetail.setUsing_log_no(USING_LOG_NO);
+			ruleLogDetail.setContent("룰 실행 결과 보고서 다운로드");
+			ruleLogDetail.setRule(rule);
+			usingLogUtil.insertRuleLogDetail(ruleLogDetail);
 			ruleList.add(rule);
 		}
 		docxReport.resultRuleDocx(response, ruleList, docxPath, name);
