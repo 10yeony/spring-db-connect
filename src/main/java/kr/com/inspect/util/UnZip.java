@@ -1,17 +1,16 @@
 package kr.com.inspect.util;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import kr.com.inspect.dto.Rule;
 
 /**
  * zip 파일을 압축 해제하는 클래스
@@ -52,7 +51,7 @@ public class UnZip {
 					try { 
 						createFile(file, zis); 
 					} catch (Throwable e) { 
-						e.printStackTrace(); 
+						//e.printStackTrace(); 
 					} 
 				}
 			}
@@ -64,7 +63,7 @@ public class UnZip {
 				try { 
 					zis.close(); 
 				} catch (IOException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				} 
 			} 
 			if (fis != null) { 
@@ -110,10 +109,7 @@ public class UnZip {
 		if (!parentDir.exists()) { 
 			parentDir.mkdirs(); 
 		} 
-		System.out.println(file.getName());
 		FileOutputStream fos = null; 		
-		FileReader fr = null;
-		BufferedReader br = null;
 		try { 
 			fos = new FileOutputStream(file); 
 			byte[] buffer = new byte[256]; 
@@ -121,18 +117,10 @@ public class UnZip {
 			while ((size = zis.read(buffer)) > 0) { 
 				fos.write(buffer, 0, size); 
 			} 
-			fr = new FileReader(file);
-			br = new BufferedReader(fr);
-			String line = "";
-			while((line = br.readLine()) != null){
-				System.out.println(line);
-            }
 		} catch (Throwable e) { 
 			throw e; 
 		} finally { 
 			try {
-				if(br != null) br.close();
-				if(fr != null) fr.close();
 				if(fos != null) fos.close(); 
 			}catch(IOException e) {
 				//e.printStackTrace();

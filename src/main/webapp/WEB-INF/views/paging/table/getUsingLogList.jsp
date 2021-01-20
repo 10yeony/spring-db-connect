@@ -28,14 +28,14 @@
 					<td>${item.row_num}</td>
 					<td><a href="getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
 					<td>
-					<c:choose>
-						<c:when test="${fn:contains(item.content, '룰')}">
-							<a href="${pageContext.request.contextPath}/getRuleLogList?data=${item.no}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">${item.content}</a>
-						</c:when>
-						<c:otherwise>
-							${item.content}
-						</c:otherwise>
-					</c:choose>
+						<c:choose>
+							<c:when test="${fn:contains(item.content, '룰')}">
+								<a href="${pageContext.request.contextPath}/getRuleLogList?data=${item.no}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">${item.content}</a>
+							</c:when>
+							<c:otherwise>
+								${item.content}
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td>${item.ip_addr}</td>
 					<td>${item.time}</td>

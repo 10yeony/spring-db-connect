@@ -2,6 +2,7 @@ package kr.com.inspect.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.com.inspect.dto.ResponseData;
+import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.service.MemberService;
 import kr.com.inspect.service.PostgreService;
@@ -301,6 +303,10 @@ public class PagingController {
 								int count_per_page,
 								int count_per_list,
 								String search_word) {
+		if(data > 0) {
+			List<RuleLog> ruleLogDetail = ruleService.getAllRuleLogDetailByUsingLogNo(data);
+			model.addAttribute("ruleLogDetail", ruleLogDetail);
+		}
 		
 		ResponseData responseData = ruleService.getRuleLog(data,
 															function_name, 

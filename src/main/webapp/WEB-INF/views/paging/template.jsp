@@ -26,35 +26,43 @@
 	
 	<input type="hidden" id="show_approval" value="${approval}">
 
-	<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
-		<!-- Select Area -->
-  		<%@ include file="/WEB-INF/views/paging/select.jsp"%>
-  		
-  		<!-- Search Area -->
-		<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
-			placeholder="검색어를 입력하세요" id="inputSearchText">
-		<button class="btn btn-primary" type="button" id="inputSearchButton">
-			<i class="fas fa-search fa-sm"></i>
-		</button>
-	</div><br/>
+	<c:choose>
+		<c:when test="${requestUrl != 'getRuleLogList' || data == 0}">
+			<div class="d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
+				<!-- Select Area -->
+		  		<%@ include file="/WEB-INF/views/paging/select.jsp"%>
+		  		
+		  		<!-- Search Area -->
+				<input type="text" class="form-control bg-light border-0 small" style="width:300px;"
+					placeholder="검색어를 입력하세요" id="inputSearchText">
+				<button class="btn btn-primary" type="button" id="inputSearchButton">
+					<i class="fas fa-search fa-sm"></i>
+				</button>
+			</div><br/>
 	
-	<!-- 일괄처리 영역 -->
-	<div id="selectAndHandle"></div>
+			<!-- 일괄처리 영역 -->
+			<div id="selectAndHandle"></div>
 	
-	<!-- Select View -->
-	<div style="display:inline-block; float:right;">
-		<input type="radio" name="views" value="10views"> 
-		<span id="10viewsSpan" style="cursor: pointer">10개씩 보기</span> 
-		<input type="radio" name="views" value="20views" style="margin-left:10px;"> 
-		<span id="20viewsSpan" style="cursor: pointer">20개씩 보기</span>
-		<input type="radio" name="views" value="30views" style="margin-left:10px;"> 
-		<span id="30viewsSpan" style="cursor: pointer">30개씩 보기</span> 
-	</div>
+			<!-- Select View -->
+			<div style="display:inline-block; float:right;">
+				<input type="radio" name="views" value="10views"> 
+				<span id="10viewsSpan" style="cursor: pointer">10개씩 보기</span> 
+				<input type="radio" name="views" value="20views" style="margin-left:10px;"> 
+				<span id="20viewsSpan" style="cursor: pointer">20개씩 보기</span>
+				<input type="radio" name="views" value="30views" style="margin-left:10px;"> 
+				<span id="30viewsSpan" style="cursor: pointer">30개씩 보기</span> 
+			</div>
+		</c:when>
+	</c:choose>
 	
 	<!-- Table -->
 	<div class="table-responsive">
 		<%@ include file="/WEB-INF/views/paging/table.jsp"%>
-		${pagination}
+		<c:choose>
+			<c:when test="${requestUrl != 'getRuleLogList' || data == 0}">
+				${pagination}
+			</c:when>
+		</c:choose>
 		<br/><br/>
 	</div>
 	<script src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>

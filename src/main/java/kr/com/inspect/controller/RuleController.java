@@ -1,18 +1,21 @@
 package kr.com.inspect.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,11 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import kr.com.inspect.dao.RuleDao;
 import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.service.RuleService;
 import kr.com.inspect.util.ClientInfo;
+import kr.com.inspect.util.UsingLogUtil;
 
 /**
  * 전사규칙에 관한 Controller
@@ -45,10 +51,22 @@ public class RuleController {
 	private RuleService ruleService;
 	
 	/**
+	 * 전사규칙에 관한 Dao
+	 */
+	@Autowired
+	private RuleDao ruleDao;
+	
+	/**
 	 * 사용자 정보와 관련된 객체
 	 */
 	@Autowired
 	private ClientInfo clientInfo;
+	
+	/**
+	 * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
+	 */
+	@Autowired
+	private UsingLogUtil usingLogUtil;
 
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함
@@ -173,17 +191,37 @@ public class RuleController {
 	@ResponseBody
 	@GetMapping("/deleteCheckedRuleBottomLevel")
 	public boolean deleteCheckedRuleBottomLevel(int[] deleteRuleList) {
-		int result = 0;
+		String content = "룰 소분류 삭제 - 총 "+deleteRuleList.length+"개";
+		final int NO = usingLogUtil.insertUsingLog(content);
+		RuleLog ruleLog = new RuleLog();
+		ruleLog.setContent(content);
+		ruleLog.setUsing_log_no(NO);
+		usingLogUtil.setUsingLog(ruleLog);
+		int threadCnt = 5;
+		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
+		List<Future<?>> futures = new ArrayList<>();
 		for(int bottom_level_id : deleteRuleList) {
-			Rule rule = new Rule();
-			rule.setBottom_level_id(bottom_level_id);
-			result += ruleService.deleteRule("bottom", rule);
+			futures.add(executor.submit(() -> {
+				Rule rule = ruleService.getRuleBottomLevel(bottom_level_id);
+				RuleLog ruleLogDetail = new RuleLog();
+				ruleLogDetail.setUsing_log_no(NO);
+				ruleLogDetail.setContent("룰 소분류 삭제");
+				ruleLogDetail.setRule(rule);
+				usingLogUtil.insertRuleLogDetail(ruleLogDetail);
+				ruleDao.deleteBottomLevel(bottom_level_id);
+			}));
 		}
-		if(result > 0) {
-			return true;
-		}else {
-			return false;
+		for (Future<?> future : futures) {
+			try {
+				future.get(); // 스레드 작업이 종료될 때까지 기다림
+			} catch (InterruptedException e) {
+				// e.printStackTrace();
+			} catch (ExecutionException e) {
+				// e.printStackTrace();
+			}
 		}
+		executor.shutdownNow(); // Task 종료
+		return true;
 	}
 
 	/**

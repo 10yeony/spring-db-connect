@@ -12,9 +12,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>SDTM</title>
-
 </head>
-
 <body>
 	<!-- 로그인한 경우 -->
 	<sec:authorize access="isAuthenticated()">

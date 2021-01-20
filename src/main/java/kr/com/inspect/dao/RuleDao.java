@@ -255,6 +255,20 @@ public interface RuleDao {
 	public int insertIntoRuleLog(RuleLog ruleLog);
 	
 	/**
+	 * 디테일 룰 로그(2개 이상 실행/다운로드/삭제)에 기록함
+	 * @param ruleLogDetail 디테일 룰 로그에 기록할 RuleLog 객체
+	 * @return DB에 추가된 row의 수
+	 */
+	public int insertIntoRuleLogDetail(RuleLog ruleLogDetail);
+	
+	/**
+	 * 사용 기록 번호로 디테일한 룰 로그 목록을 가져옴
+	 * @param using_log_no 사용 기록 번호
+	 * @return 디테일한 룰 로그 목록
+	 */
+	public List<RuleLog> getAllRuleLogDetailByUsingLogNo(int using_log_no);
+	
+	/**
 	 * 룰 로그를 모두 가져옴
 	 * @param data RuleLog 테이블의 외래키인 using_log_no
 	 * @param limit SELECT할 row의 수

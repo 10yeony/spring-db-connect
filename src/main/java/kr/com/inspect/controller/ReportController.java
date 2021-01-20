@@ -397,7 +397,7 @@ public class ReportController {
 			Rule rule = ruleService.getRuleBottomLevel(hiddenRule[i]);
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setUsing_log_no(usingLogNo);
-			ruleLog.setContent(rule.getBottom_level_name() + ".docx 다운로드");
+			ruleLog.setContent("룰 결과 보고서("+rule.getBottom_level_name()+")");
 			ruleLog.setRule(rule);
 			usingLogUtil.setUsingLog(ruleLog);
 			ruleList.add(rule);

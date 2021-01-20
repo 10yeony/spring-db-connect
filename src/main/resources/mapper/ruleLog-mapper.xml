@@ -34,7 +34,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				#{using_log_no});
 	</insert>
 	
+	<!-- RuleLogDetail 테이블에 데이터를 입력함 -->
+	<insert id="insertIntoRuleLogDetail" parameterType="kr.com.inspect.dto.RuleLog">
+		INSERT INTO audio.rule_log_detail
+				(content, 
+				top_level_id,
+				top_level_name,
+				middle_level_id,
+				middle_level_name,
+				bottom_level_id,
+				bottom_level_name,
+				using_log_no)
+			VALUES(#{content}, 
+				#{top_level_id},
+				#{top_level_name},
+				#{middle_level_id},
+				#{middle_level_name},
+				#{bottom_level_id},
+				#{bottom_level_name},
+				#{using_log_no});
+	</insert>
+	
 	<!-- 룰 로그를 가지고 옴 -->
+	<select id="getRuleLogDetail" parameterType="int" resultType="kr.com.inspect.dto.RuleLog">
+		SELECT 
+			* 
+		FROM 
+			audio.rule_log_detail 
+		WHERE 
+			using_log_no = #{using_log_no};
+	</select>
 	<select id="getAllRuleLog" parameterType="hashMap"
 		resultType="kr.com.inspect.dto.RuleLog">
 		SELECT
@@ -117,7 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			#{offset};
 	</select>
 	
-	<!-- 사용 기록 총 개수 -->
+	<!-- 룰 기록 총 개수 -->
 	<sql id="getCountOfRuleLog">
 		SELECT 
 			COUNT(*) 
