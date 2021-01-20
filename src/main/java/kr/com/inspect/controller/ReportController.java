@@ -392,7 +392,7 @@ public class ReportController {
 		String name = member.getName();
 		List<Rule> ruleList = new ArrayList<>();
 		
-		String usingLogContent = "룰 실행 결과 보고서 다운로드 - 총 "+hiddenRule.length+"개";
+		String usingLogContent = "룰 결과 보고서 다운로드 - 총 "+hiddenRule.length+"개";
 		final int USING_LOG_NO = usingLogUtil.insertUsingLog(usingLogContent);
 		RuleLog ruleLog = new RuleLog();
 		ruleLog.setContent(usingLogContent);
@@ -402,7 +402,7 @@ public class ReportController {
 			Rule rule = ruleService.getRuleBottomLevel(hiddenRule[i]);
 			RuleLog ruleLogDetail = new RuleLog();
 			ruleLogDetail.setUsing_log_no(USING_LOG_NO);
-			ruleLogDetail.setContent("룰 실행 결과 보고서 다운로드");
+			ruleLogDetail.setContent("룰 결과 보고서 다운로드");
 			ruleLogDetail.setRule(rule);
 			usingLogUtil.insertRuleLogDetail(ruleLogDetail);
 			ruleList.add(rule);

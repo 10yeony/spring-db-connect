@@ -113,6 +113,13 @@
 				<table class="table table-bordered paging-table" width="100%" cellspacing="0">
 					<thead>
 						<tr>
+							<c:choose>
+								<c:when test="${fn:contains(item.content, '실행')}">
+									<th>
+										<input type="checkbox" onchange="checkAllRuleLogDetailInThisPage(event);">
+									</th>
+								</c:when>
+							</c:choose>
 							<th>no.</th>
 							<th>사용 내역</th>
 							<th>대분류</th>
@@ -123,6 +130,11 @@
 					<tbody>
 						<c:forEach items="${ruleLogDetail}" var="subItem" varStatus="subStatus">
 							<tr>
+								<c:choose>
+									<c:when test="${fn:contains(subItem.content, '실행')}">
+										<td><input type="checkbox" class="selectItem" name="통일해서 쓰기..." value="${subItem.bottom_level_id}"></td>
+									</c:when>
+								</c:choose>
 								<td>${subStatus.count}</td>
 								<td>${subItem.content}</td>
 								<td>
