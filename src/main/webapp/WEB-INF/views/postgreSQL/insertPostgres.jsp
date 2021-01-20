@@ -77,6 +77,7 @@
 
 					<!-- Page Body -->
 					<div>
+						<h1 class="h6 mb-2 text-gray-800"><b>한번에 1GB까지 업로드 가능합니다.</b></h1><br>
 						<!-- Json 파일 업로드 -->
 						<div class="card shadow mb-4">
 							<div class="card-header py-3">
@@ -189,7 +190,7 @@
             success:function (result){
                 res = result;
                 if(res == 'true'){
-                    alert("파일을 성공적으로 업로드했습니다.")
+                    alert("파일을 성공적으로 업로드했습니다.\n곧 데이터가 등록됩니다.")
                     document.getElementById('loadingArea').style.display='none';
                 }
                 else if(res == 'false'){

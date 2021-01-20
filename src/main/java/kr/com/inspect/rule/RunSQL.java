@@ -42,6 +42,10 @@ public class RunSQL {
             System.out.println("with");
             type = query.substring(0,4);
         }
+        else if(query.substring(0,7).toLowerCase().equals("explain")){
+            System.out.println("explain");
+            type = query.substring(0,7);
+        }
 
         List<Object> list = new ArrayList<>();
         List<List<Object>> listList = new ArrayList<>();
@@ -72,6 +76,8 @@ public class RunSQL {
                 case "SELECT" :
                 case "WITH" :
                 case "with" :
+                case "explain" :
+                case "EXPLAIN" :
                     resultSet = statement.executeQuery(query);
                     responseData.setCode("select");
                     columnCount = resultSet.getMetaData().getColumnCount();
@@ -103,7 +109,7 @@ public class RunSQL {
                     break;
                 default:
                     responseData.setCode("error");
-                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\nselect, update, insert, delete, create 로 시작하는 쿼리문을 입력해주세요.");
+                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\nselect, update, insert, delete, create, with, explain으로 시작하는 쿼리문을 입력해주세요.");
             }
             data.closeAll(resultSet, preparedStatement, con);
         }
@@ -131,8 +137,11 @@ public class RunSQL {
         }
         String type = query.substring(0, 6);
         if(query.substring(0,4).toLowerCase().equals("with")){
-            System.out.println("with");
             type = query.substring(0,4);
+        }
+        else if(query.substring(0,7).toLowerCase().equals("explain")){
+            System.out.println("explain");
+            type = query.substring(0,7);
         }
         List<Object> list = new ArrayList<>();
         List<List<Object>> listList = new ArrayList<>();
@@ -163,6 +172,8 @@ public class RunSQL {
                 case "SELECT" :
                 case "with" :
                 case "WITH" :
+                case "explain" :
+                case "EXPLAIN" :
                     resultSet = statement.executeQuery(query);
                     responseData.setCode("select");
                     columnCount = resultSet.getMetaData().getColumnCount();
@@ -203,7 +214,7 @@ public class RunSQL {
                     break;
                 default:
                     responseData.setCode("error");
-                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\nselect, update, insert, delete, create 로 시작하는 쿼리문을 입력해주세요.");
+                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\nselect, update, insert, delete, create, with, explain으로 시작하는 쿼리문을 입력해주세요.");
             }
             data.closeAll(resultSet, preparedStatement, con);
         }
