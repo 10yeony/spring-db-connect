@@ -202,6 +202,18 @@ CREATE TABLE audio.rule_log (
 	using_log_no integer REFERENCES audio.using_log ON DELETE CASCADE
 );
 
+CREATE TABLE audio.rule_log_detail (
+	no SERIAL PRIMARY KEY,
+	content text,
+	top_level_id integer,
+	top_level_name text,
+	middle_level_id integer,
+	middle_level_name text,
+	bottom_level_id integer,
+	bottom_level_name text,
+	using_log_no integer REFERENCES audio.using_log ON DELETE CASCADE
+);
+
 auto_increment 값 초기화
 truncate table audio.metadata restart identity cascade;
 

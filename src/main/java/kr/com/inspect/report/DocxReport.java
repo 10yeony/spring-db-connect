@@ -495,7 +495,7 @@ public class DocxReport {
 			response.getOutputStream().flush();
 			response.getOutputStream().close();
 
-//			file.delete();
+			file.delete();
 
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();

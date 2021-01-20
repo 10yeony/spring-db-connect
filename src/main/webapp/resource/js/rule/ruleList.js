@@ -167,7 +167,7 @@ function deleteRule(){
 			}else{
 				alert("룰 삭제에 실패했습니다.");
 			}
-			location.reload();
+			location.href= contextPath + "/rule/ruleList/0/0/0";
 		},
 		error : function(request, status, error) {
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");

@@ -64,6 +64,10 @@ function runRuleSQL(){
 		alert("이름을 입력하세요");
 		return;
 	}
+	if($('input[name=version]').val() == ''){
+		alert("버전을 입력하세요");
+		return;
+	}
 
     var query = myCodeMirror.getValue();
     $.ajax({

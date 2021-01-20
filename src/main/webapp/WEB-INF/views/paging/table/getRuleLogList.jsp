@@ -28,7 +28,18 @@
 					<td>${item.row_num}</td>
 					<td><a href="getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
 					<td>
-						<div><b>${item.content}</b></div>
+						<div>
+							<b>
+								<c:choose>
+									<c:when test="${fn:contains(item.content, '총')}">
+										<a href="${pageContext.request.contextPath}/getRuleLogList?data=${item.using_log_no}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">${item.content}</a>
+									</c:when>
+									<c:otherwise>
+										${item.content}
+									</c:otherwise>
+								</c:choose>
+							</b>
+						</div>
 						<c:if test="${item.top_level_name != null}">
 							<div>
 								대분류 : 
@@ -94,6 +105,67 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<c:forEach items="${result}" var="item" varStatus="status">
+		<c:choose>
+			<c:when test="${fn:contains(item.content, '총') && data != 0}">
+				<br/>
+				<h5><b>세부사항</b></h5>
+				<table class="table table-bordered paging-table" width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<c:choose>
+								<c:when test="${fn:contains(item.content, '실행')}">
+									<th>
+										<input type="checkbox" onchange="checkAllRuleLogDetailInThisPage(event);">
+									</th>
+								</c:when>
+							</c:choose>
+							<th>no.</th>
+							<th>사용 내역</th>
+							<th>대분류</th>
+							<th>중분류</th>
+							<th>소분류</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${ruleLogDetail}" var="subItem" varStatus="subStatus">
+							<tr>
+								<c:choose>
+									<c:when test="${fn:contains(subItem.content, '실행')}">
+										<td><input type="checkbox" class="selectItem" name="통일해서 쓰기..." value="${subItem.bottom_level_id}"></td>
+									</c:when>
+								</c:choose>
+								<td>${subStatus.count}</td>
+								<td>${subItem.content}</td>
+								<td>
+									<a href="${pageContext.request.contextPath}/rule/ruleList/${subItem.top_level_id}/0/0">
+										${subItem.top_level_name}
+									</a>
+								</td>
+								<td>
+									<a href="${pageContext.request.contextPath}/rule/ruleList/${subItem.top_level_id}/${subItem.middle_level_id}/0">
+										${subItem.middle_level_name}
+									</a>
+								</td>
+								<td>
+									<c:choose>
+										<c:when test="${fn:contains(item.content, '삭제')}">
+											${subItem.bottom_level_name}
+										</c:when>
+										<c:otherwise>
+											<a href="${pageContext.request.contextPath}/rule/ruleList/${subItem.top_level_id}/${subItem.middle_level_id}/${subItem.bottom_level_id}">
+												${subItem.bottom_level_name}
+											</a> 
+										</c:otherwise>
+									</c:choose>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</c:when>
+		</c:choose>
+	</c:forEach>
 <script
 	src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
 </body>

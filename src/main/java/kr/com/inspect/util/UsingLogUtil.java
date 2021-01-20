@@ -82,4 +82,13 @@ public class UsingLogUtil {
 	public int getNoOfUsingLog(UsingLog usingLog) {
 		return memberDao.getUsingLog(usingLog).getNo();
 	}
+	
+	/**
+	 * 디테일한 룰 로그를 DB에 등록함
+	 * @param ruleLogDetail 디테일한 룰 로그
+	 * @return DB에 추가된 row의 수
+	 */
+	public int insertRuleLogDetail(RuleLog ruleLogDetail) {
+		return ruleDao.insertIntoRuleLogDetail(ruleLogDetail);
+	}
 }

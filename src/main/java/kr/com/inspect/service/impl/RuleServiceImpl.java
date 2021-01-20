@@ -197,6 +197,15 @@ public class RuleServiceImpl implements RuleService {
 		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
 		return responseData;
 	}
+	
+	/**
+	 * 사용 기록 번호로 디테일한 룰 로그 목록을 가져옴
+	 * @param using_log_no 사용 기록 번호
+	 * @return 디테일한 룰 로그 목록
+	 */
+	public List<RuleLog> getAllRuleLogDetailByUsingLogNo(int using_log_no){
+		return ruleDao.getAllRuleLogDetailByUsingLogNo(using_log_no);
+	}
 
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함
@@ -233,7 +242,6 @@ public class RuleServiceImpl implements RuleService {
 				}
 				break;
 			case "bottom":
-				System.out.println(rule);
 				id = ruleDao.isExistBottomLevel(rule); // 등록 전 아이디(중복 확인)
 				if (id == 0) { // 존재하지 않는 경우에만 등록
 					result = ruleDao.registerBottomLevel(rule);
@@ -252,7 +260,7 @@ public class RuleServiceImpl implements RuleService {
 				break;
 		}
 		
-		if (id == 0) {
+		if (id > 0) {
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setContent(content);
 			ruleLog.setRule(rule);
@@ -341,7 +349,7 @@ public class RuleServiceImpl implements RuleService {
 		if(updateResult > 0) {
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setRule(vo);
-			ruleLog.setContent("룰 작성");
+			ruleLog.setContent("룰(메서드) 작성");
 			usingLogUtil.setUsingLog(ruleLog);
 		}
 
@@ -363,12 +371,13 @@ public class RuleServiceImpl implements RuleService {
 		if(list.size() == 0) {
 			return;
 		}
+		
 		String usingLogContent = "룰 실행 - 총 "+list.size()+"개";
 		final int NO = usingLogUtil.insertUsingLog(usingLogContent);
-		final String IP_ADDR = clientInfo.getIpAddr();
-		final String MEMBER_ID = clientInfo.getMemberId();
-		final String TIME = clientInfo.getTime();
-		final String RULELOG_CONTENT = "룰 실행";
+		RuleLog ruleLog = new RuleLog();
+		ruleLog.setContent(usingLogContent);
+		ruleLog.setUsing_log_no(NO);
+		usingLogUtil.setUsingLog(ruleLog);
 		
 		int threadCnt = 5; // 스레드 개수 설정
 		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
@@ -395,28 +404,21 @@ public class RuleServiceImpl implements RuleService {
 					int updateResult = ruleDao.updateRuleCompileResult(rule);
 
 					if(updateResult > 0) {
-						RuleLog ruleLog = new RuleLog();
-						ruleLog.setUsing_log_no(NO);
-						ruleLog.setIp_addr(IP_ADDR);
-						ruleLog.setMember_id(MEMBER_ID);
-						ruleLog.setTime(TIME);
-						ruleLog.setContent(RULELOG_CONTENT);
-						ruleLog.setRule(rule);
-						usingLogUtil.setUsingLog(ruleLog);
+						RuleLog ruleLogDetail = new RuleLog();
+						ruleLogDetail.setUsing_log_no(NO);
+						ruleLogDetail.setContent("룰 실행");
+						ruleLogDetail.setRule(rule);
+						usingLogUtil.insertRuleLogDetail(ruleLogDetail);
 					}
 				}
 				else if(rule.getRule_type().equals("sql")){
 					ResponseData responseData = new ResponseData();
 					runSQL.run(responseData, rule);
-
-					RuleLog ruleLog = new RuleLog();
-					ruleLog.setUsing_log_no(NO);
-					ruleLog.setIp_addr(IP_ADDR);
-					ruleLog.setMember_id(MEMBER_ID);
-					ruleLog.setTime(TIME);
-					ruleLog.setContent(RULELOG_CONTENT);
-					ruleLog.setRule(rule);
-					usingLogUtil.setUsingLog(ruleLog);
+					RuleLog ruleLogDetail = new RuleLog();
+					ruleLogDetail.setUsing_log_no(NO);
+					ruleLogDetail.setContent("룰 실행");
+					ruleLogDetail.setRule(rule);
+					usingLogUtil.insertRuleLogDetail(ruleLogDetail);
 				}
 			}));
 		}

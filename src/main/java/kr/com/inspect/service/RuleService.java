@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.com.inspect.dto.CustomLibrary;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.dto.RuleLog;
 
 /**
  * 전사규칙에 관한 Service 인터페이스
@@ -75,6 +76,13 @@ public interface RuleService {
 									int count_per_page,
 									int count_per_list,
 									String search_word);
+	
+	/**
+	 * 사용 기록 번호로 디테일한 룰 로그 목록을 가져옴
+	 * @param using_log_no 사용 기록 번호
+	 * @return 디테일한 룰 로그 목록
+	 */
+	public List<RuleLog> getAllRuleLogDetailByUsingLogNo(int using_log_no);
 	
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함
