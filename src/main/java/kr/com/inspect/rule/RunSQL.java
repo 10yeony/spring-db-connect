@@ -39,11 +39,9 @@ public class RunSQL {
         }
         String type = query.substring(0, 6);
         if(query.substring(0,4).toLowerCase().equals("with")){
-            System.out.println("with");
             type = query.substring(0,4);
         }
         else if(query.substring(0,7).toLowerCase().equals("explain")){
-            System.out.println("explain");
             type = query.substring(0,7);
         }
 
@@ -140,7 +138,6 @@ public class RunSQL {
             type = query.substring(0,4);
         }
         else if(query.substring(0,7).toLowerCase().equals("explain")){
-            System.out.println("explain");
             type = query.substring(0,7);
         }
         List<Object> list = new ArrayList<>();
