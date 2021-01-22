@@ -119,7 +119,7 @@ CREATE TABLE audio.rule_bottom_level (
 	imp_contents text,
 	rule_type text,
 	date text,
-	version text
+	version text,
 	top_level_id integer REFERENCES audio.rule_top_level ON DELETE CASCADE,
 	middle_level_id integer REFERENCES audio.rule_middle_level ON DELETE CASCADE
 );
