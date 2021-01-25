@@ -346,8 +346,10 @@ public class DocxReport {
 			r2.addBreak();
 			r2.setText("중분류 : " + rule.getMiddle_level_name());
 			r2.addBreak();
-			r2.setText("설명 : " + rule.getDescription());
-			r2.addBreak();
+			if(rule.getDescription() != ""){
+				r2.setText("설명 : " + rule.getDescription());
+				r2.addBreak();
+			}
 
 			XWPFParagraph p1 = doc.createParagraph();
 			p1.setAlignment(ParagraphAlignment.CENTER);

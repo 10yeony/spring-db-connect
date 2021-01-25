@@ -15,7 +15,7 @@ $(function (){
             var json = JSON.parse(response);
             $('#metadata').append(json.metadata);
             $('#utterance').append(json.utterance);
-            $('#eojeol').append(json.eojeol);
+            // $('#eojeol').append(json.eojeol);
             $('#member').append(json.member);
         },
         error : function(request, status, error) {
