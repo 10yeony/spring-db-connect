@@ -1,5 +1,6 @@
 package kr.com.inspect.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -27,6 +28,7 @@ import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.report.DocxReport;
+import kr.com.inspect.report.PrevRuleResult;
 import kr.com.inspect.report.XlsxReport;
 import kr.com.inspect.sender.SendReport;
 import kr.com.inspect.service.PostgreService;
@@ -378,6 +380,17 @@ public class ReportController {
 		}
 		return title;
 	}
+	
+	@GetMapping("/downloadPrevRuleReport")
+	public void downloadPrevRuleReport(HttpServletResponse response, String time) {
+		time = time.replace(" ", "_");
+		time = time.replace(":", "_");
+		try {
+			docxReport.downloadPrevRuleReport(response, docxPath, time);
+		} catch (UnsupportedEncodingException e) {
+			//e.printStackTrace();
+		}
+	}
 
 	/**
 	 * 룰 결과를 워드파일로 다운
@@ -386,26 +399,33 @@ public class ReportController {
 	 */
 	@GetMapping("/resultRuleDocx")
 	@ResponseBody
-	public void resultRuleWord(HttpSession session, HttpServletResponse response, int[] hiddenRule) throws Exception {
+	public void resultRuleWord(HttpSession session, HttpServletResponse response, int[] hiddenRule, String time) throws Exception {
 		// 사용자의 이메일 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String name = member.getName();
 		List<Rule> ruleList = new ArrayList<>();
 		
-		String usingLogContent = "룰 결과 보고서 다운로드 - 총 "+hiddenRule.length+"개";
-		final int USING_LOG_NO = usingLogUtil.insertUsingLog(usingLogContent);
-		RuleLog ruleLog = new RuleLog();
-		ruleLog.setContent(usingLogContent);
-		ruleLog.setUsing_log_no(USING_LOG_NO);
-		usingLogUtil.setUsingLog(ruleLog);
-		for(int i=0; i<hiddenRule.length; i++){
-			Rule rule = ruleService.getRuleBottomLevel(hiddenRule[i]);
-			RuleLog ruleLogDetail = new RuleLog();
-			ruleLogDetail.setUsing_log_no(USING_LOG_NO);
-			ruleLogDetail.setContent("룰 결과 보고서 다운로드");
-			ruleLogDetail.setRule(rule);
-			usingLogUtil.insertRuleLogDetail(ruleLogDetail);
-			ruleList.add(rule);
+		if(time == null) {
+			String usingLogContent = "룰 결과 보고서 다운로드 - 총 "+hiddenRule.length+"개";
+			final int USING_LOG_NO = usingLogUtil.insertUsingLog(usingLogContent);
+			RuleLog ruleLog = new RuleLog();
+			ruleLog.setContent(usingLogContent);
+			ruleLog.setUsing_log_no(USING_LOG_NO);
+			usingLogUtil.setUsingLog(ruleLog);
+			for(int i=0; i<hiddenRule.length; i++){
+				Rule rule = ruleService.getRuleBottomLevel(hiddenRule[i]);
+				RuleLog ruleLogDetail = new RuleLog();
+				ruleLogDetail.setUsing_log_no(USING_LOG_NO);
+				ruleLogDetail.setContent("룰 결과 보고서 다운로드");
+				ruleLogDetail.setRule(rule);
+				usingLogUtil.insertRuleLogDetail(ruleLogDetail);
+				ruleList.add(rule);
+			}
+		}else {
+			time = time.replace(" ", "_");
+			time = time.replace(":", "_");
+			PrevRuleResult prevRuleResult = new PrevRuleResult();
+			ruleList = prevRuleResult.unZip(time, hiddenRule);
 		}
 		docxReport.resultRuleDocx(response, ruleList, docxPath, name);
 	}

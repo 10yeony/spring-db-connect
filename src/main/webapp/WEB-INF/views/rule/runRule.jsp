@@ -74,7 +74,7 @@
 						</div>
 						<button style="display:inline-block;" 
 					 		class="btn btn-primary" id="run_rule_btn">실행</button>
-						<button id="ruleReportBtn" type="button" class="btn btn-primary btn-icon-split" style="float: right;" onclick="checkRunRule()">
+						<button id="ruleReportBtn" type="button" class="btn btn-primary btn-icon-split" style="float: right;" onclick="checkRunRule('runRulePage')">
 							<span class="icon text-white-50"><i class="fas fa-download fa-sm text-white-50"></i></span>
 							<span class="text"> Word</span>
 						</button>

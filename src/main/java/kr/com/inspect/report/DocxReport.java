@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -495,7 +496,7 @@ public class DocxReport {
 			response.getOutputStream().flush();
 			response.getOutputStream().close();
 
-			file.delete();
+			//file.delete();
 
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
@@ -508,6 +509,23 @@ public class DocxReport {
 			} catch (IOException e) {
 				//e.printStackTrace();
 			}
+		}
+	}
+	
+	public void downloadPrevRuleReport(HttpServletResponse response, String path, String time) throws UnsupportedEncodingException {
+		File file = new File(path + time);
+		try { /* 사용자 컴퓨터에 다운로드 */
+			byte fileByte[];
+			fileByte = FileUtils.readFileToByteArray(file);
+			response.setContentType("application/octet-stream");
+			response.setContentLength(fileByte.length);
+			response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(time,"UTF-8")+"\";");
+			response.setHeader("Content-Transfer-Encoding", "binary");
+			response.getOutputStream().write(fileByte);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		} catch (IOException e) {
+			//e.printStackTrace();
 		}
 	}
 

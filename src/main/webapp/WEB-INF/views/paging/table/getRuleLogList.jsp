@@ -109,14 +109,33 @@
 		<c:choose>
 			<c:when test="${fn:contains(item.content, '총') && data != 0}">
 				<br/>
-				<h5><b>세부사항</b></h5>
+				<h5>
+					<b>세부사항</b>
+					<br/>
+					<span style="font-size:0.8em;">선택한 순서대로 보고서가 만들어집니다.</span>
+					<c:choose>
+						<c:when test="${fn:contains(item.content, '실행') || fn:contains(item.content, '다운로드')}">
+							<button id="ruleReportBtn" type="button" class="btn btn-primary btn-icon-split" style="float: right; margin-bottom: 5px;" 
+								<c:if test="${fn:contains(item.content, '실행')}">
+									onclick="checkRunRule('nonRunRulePage')"
+								</c:if>
+								<c:if test="${fn:contains(item.content, '다운로드')}">
+									onclick="document.getElementById('ruleReportForm').submit()"
+								</c:if>
+							>
+								<span class="icon text-white-50"><i class="fas fa-download fa-sm text-white-50"></i></span>
+								<span class="text"> Word</span>
+							</button>
+						</c:when>
+					</c:choose>	
+				</h5>
 				<table class="table table-bordered paging-table" width="100%" cellspacing="0">
 					<thead>
 						<tr>
 							<c:choose>
 								<c:when test="${fn:contains(item.content, '실행')}">
 									<th>
-										<input type="checkbox" onchange="checkAllRuleLogDetailInThisPage(event);">
+										<input type="checkbox" data-toggle="checkbox" onchange="checkAllRuleResult(event)">
 									</th>
 								</c:when>
 							</c:choose>
@@ -132,7 +151,17 @@
 							<tr>
 								<c:choose>
 									<c:when test="${fn:contains(subItem.content, '실행')}">
-										<td><input type="checkbox" class="selectItem" name="통일해서 쓰기..." value="${subItem.bottom_level_id}"></td>
+										<td>
+											<form action="${pageContext.request.contextPath}/downloadPrevRuleReport" id="ruleReportForm">
+												<c:forEach items="${result}" var="item" varStatus="status">
+													<input type="hidden" name="time" value="${item.time}">
+												</c:forEach>
+											</form>
+											<form action="${pageContext.request.contextPath}/resultRuleDocx" id="ruleForm" target="ifrm">
+												<input type="hidden"  id="hiddenRule" name="hiddenRule">
+												<input type="checkbox" data-toggle="checkbox" name="ruleReport" onclick="clickChkBox(${subItem.bottom_level_id})" value="${subItem.bottom_level_id}">
+											</form>
+										</td>
 									</c:when>
 								</c:choose>
 								<td>${subStatus.count}</td>
@@ -167,6 +196,6 @@
 		</c:choose>
 	</c:forEach>
 <script
-	src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
+	src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
 </body>
 </html>

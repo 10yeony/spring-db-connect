@@ -6,11 +6,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.TimeZone;
+
+import org.apache.ibatis.io.Resources;
 
 import kr.com.inspect.dto.Rule;
 import kr.com.inspect.util.CompressZip;
@@ -18,9 +22,37 @@ import kr.com.inspect.util.FileManager;
 import kr.com.inspect.util.UnZip;
 
 public class PrevRuleResult {
-	private String compressZipPath = "/home/namu/Documents/test/rule/prevResult/compressZip/";
-	private String unZipPath = "/home/namu/Documents/test/rule/prevResult/unZip/";
-	private FileManager fileManager = new FileManager();
+	/**
+	 * 압축한 zip 파일을 보관하는 경로
+	 */
+	private String compressZipPath;
+	
+	/**
+	 * 압축해제한 디렉토리를 보관하는 경로
+	 */
+	private String unZipPath;
+	
+	/**
+	 * 파일 또는 폴더를 처리할 객체
+	 */
+	private FileManager fileManager;
+	
+	/**
+	 * 경로와 파일 및 폴더 처리 객체를 할당하는 생성자
+	 */
+	public PrevRuleResult() {
+        String resource = "properties" + File.separator +"directory.properties";
+        Properties properties = new Properties();
+        try{
+            Reader reader = Resources.getResourceAsReader(resource);
+            properties.load(reader);
+            this.compressZipPath = properties.getProperty("rule.prevResult.compressZip.directory");
+            this.unZipPath = properties.getProperty("rule.prevResult.unZip.directory");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+		this.fileManager = new FileManager();
+	}
 	
 	/**
 	 * 룰 실행 결과를 텍스트 파일로 쓰기
@@ -135,8 +167,9 @@ public class PrevRuleResult {
 		rule.setResult("[[전사자, 아스키코드 이외의 기호를 사용한 문장수, 입력한 총 문장수, 잘못된 문장 비율], [이민지(als3o@naver.com), 1, 4857, 0.02%], [김희경(banila778@gmail.com), 1, 2370, 0.04%], [김우진(biff4933@gmail.com), 2, 902, 0.22%], [조원기(chowk1109@naver.com), 1, 6005, 0.02%], [홍철(cjfl2564@naver.com), 1, 2932, 0.03%], [김수현(clousy23@gmail.com), 1, 2129, 0.05%], [박찬석(ict.cspark@gmail.com), 1, 4074, 0.02%], [문영웅(moonoo3@naver.com), 1, 3264, 0.03%], [정준영(suj710101@gmail.com), 2, 8494, 0.02%], [김효원(sun4131@gmail.com), 3, 4767, 0.06%]]");
 		PrevRuleResult prevRuleResult = new PrevRuleResult();
 		String TIME = prevRuleResult.getTime();
+		TIME = TIME.replace(" ", "_");
+		TIME = TIME.replace(":", "_");
 		prevRuleResult.writeRuleResultTxtFile(rule, TIME);
-		
 		rule.setBottom_level_id(23);
 		prevRuleResult.writeRuleResultTxtFile(rule, TIME);
 		

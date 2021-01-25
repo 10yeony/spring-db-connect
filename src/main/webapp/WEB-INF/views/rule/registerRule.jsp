@@ -100,7 +100,7 @@
 					 					</td>
 					 				</tr>
 					 			</thead>
-					 			<form method="post" id="add_bottom_level_frm"action="${pageContext.request.contextPath}/rule/addRuleLevel">
+					 			<form method="post" id="add_bottom_level_frm" action="${pageContext.request.contextPath}/rule/addRuleLevel">
 					 			<tbody>
 									<tr>
 										<th>종류</th>
@@ -116,13 +116,6 @@
 					 					<td>
 					 						<input type="text" class="form-control" name="bottom_level_name" 
 					 							placeholder="30자 이하로 입력하세요" maxlength="30" required>
-					 					</td>
-					 				</tr>
-					 				<tr>
-					 					<th>버전</th>
-					 					<td>
-					 						<input type="text" class="form-control" name="version" 
-					 							placeholder="룰 버전을 입력하세요" maxlength="10" required>
 					 					</td>
 					 				</tr>
 					 				<tr>
