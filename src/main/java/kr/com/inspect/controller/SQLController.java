@@ -83,7 +83,7 @@ public class SQLController {
         /* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
         rule.setCreator(clientInfo.getMemberId());
 
-        responseData = runSQL.run(responseData, rule);
+        responseData = runSQL.run(responseData, rule, null);
         
         switch(responseData.getCode()) {
 	        case "insert" :

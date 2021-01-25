@@ -45,6 +45,6 @@
 	</table>
 
 <script
-		src="${pageContext.request.contextPath}/resource/js/table/table.js"></script>
+		src="${pageContext.request.contextPath}/resource/js/paging/table.js"></script>
 </body>
 </html>

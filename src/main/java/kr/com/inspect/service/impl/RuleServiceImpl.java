@@ -27,6 +27,7 @@ import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.RuleLog;
 import kr.com.inspect.paging.CommonDto;
 import kr.com.inspect.paging.PagingResponse;
+import kr.com.inspect.report.PrevRuleResult;
 import kr.com.inspect.rule.RuleCompiler;
 import kr.com.inspect.service.RuleService;
 import kr.com.inspect.util.ClientInfo;
@@ -374,7 +375,11 @@ public class RuleServiceImpl implements RuleService {
 		
 		String usingLogContent = "룰 실행 - 총 "+list.size()+"개";
 		final int NO = usingLogUtil.insertUsingLog(usingLogContent);
+		String time = clientInfo.getTime();
+		time = time.replace(" ", "_");
+		final String TIME = time.replace(":", "_");
 		RuleLog ruleLog = new RuleLog();
+		ruleLog.setTime(time);
 		ruleLog.setContent(usingLogContent);
 		ruleLog.setUsing_log_no(NO);
 		usingLogUtil.setUsingLog(ruleLog);
@@ -400,6 +405,8 @@ public class RuleServiceImpl implements RuleService {
 
 					/* 컴파일 결과값 DB에 등록 */
 					rule.setResult(obj.toString());
+					PrevRuleResult prevRuleResult = new PrevRuleResult();
+					prevRuleResult.writeRuleResultTxtFile(rule, TIME);
 
 					int updateResult = ruleDao.updateRuleCompileResult(rule);
 
@@ -413,7 +420,7 @@ public class RuleServiceImpl implements RuleService {
 				}
 				else if(rule.getRule_type().equals("sql")){
 					ResponseData responseData = new ResponseData();
-					runSQL.run(responseData, rule);
+					runSQL.run(responseData, rule, TIME);
 					RuleLog ruleLogDetail = new RuleLog();
 					ruleLogDetail.setUsing_log_no(NO);
 					ruleLogDetail.setContent("룰 실행");
@@ -423,6 +430,8 @@ public class RuleServiceImpl implements RuleService {
 			}));
 		}
 		closeThread(executor, futures);
+		PrevRuleResult prevRuleResult = new PrevRuleResult();
+		prevRuleResult.compressZip(TIME);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 var contextPath;
 var runRule;
 var list;
+var ruleList;
 
 $(document).ajaxStart(function (){
 	$('#loadingArea').show();
@@ -15,6 +16,8 @@ $(function(){
 	
 	/* 룰 실행 여부 */
 	runRule = false;
+	
+	ruleList = [];
 	
 	$('#run_rule_btn').click(function(event){
 		event.preventDefault();
@@ -85,7 +88,7 @@ function appendRunRuleResultArea(list){
 			'<b style="float:right">선택한 순서대로 보고서가 만들어집니다.</b><br>' +
 				'<span style="float: right;">' +
 					'<label>' +
-						'<input type="checkbox" data-toggle="checkbox" onchange="checkAllRuleResult(event)" onclick="checkAllChkBox()"> 전체선택' +
+						'<input type="checkbox" data-toggle="checkbox" onchange="checkAllRuleResult(event)"> 전체선택' +
 					'</label>' +
 				'</span>'
 		);
@@ -113,7 +116,7 @@ function appendRunRuleResultArea(list){
 				'<b>대분류 : </b>' + top_level_name + 
 				'<span style="float: right;">' +
 					'<label>' +
-						'<input type="checkbox" data-toggle="checkbox" name="ruleReport" onclick="clickChkBox('+ bottom_level_id +')"> 선택' +
+						'<input type="checkbox" data-toggle="checkbox" name="ruleReport" onclick="clickChkBox('+ bottom_level_id +')" value="'+ bottom_level_id +'"> 선택' +
 					'</label>' +
 				'</span><br/>' +
 				'<b>중분류 : </b>' + middle_level_name + '<br/>' +
@@ -178,15 +181,20 @@ function appendRunRuleResultArea(list){
 }
 
 function checkAllRuleResult(event){
+	ruleList = [];
+	let ruleReport = $('input[name=ruleReport]');
 	if(event.target.checked){
 		$('input[name=ruleReport]').prop('checked', true);
+		for(let i=0; i<ruleReport.length; i++){
+			if(ruleReport[i].checked){
+				ruleList.push(ruleReport[i].value);
+			}
+		}
 	}else{
 		$('input[name=ruleReport]').prop('checked', false);
 	}
 }
 
-
-var ruleList = new Array();
 // 선택한 순서대로 룰 보고서가 만들어지도록 컨트롤러에 넘길때 선택한 순으로 정렬된 배열을 넘김
 function clickChkBox(idx){
 	if(ruleList.indexOf(idx)>=0){
@@ -196,24 +204,13 @@ function clickChkBox(idx){
 		ruleList.push(idx);
 	}
 }
-function checkAllChkBox(){
-	if(ruleList.length == list.length){
-		ruleList = [];
-		return;
-	}
-	ruleList = [];
-	for(let i=0; i<list.length; i++){
-		ruleList.push(list[i].bottom_level_id);
-	}
-}
 
-
-function checkRunRule(){
+function checkRunRule(page){
 	if(!click) return ;
 	overClick();
-	if(runRule){
+	if(runRule || page == 'nonRunRulePage'){
 		if(ruleList.length == 0){
-			alert("다운받을 룰 결과를 선택해주세요.");
+			alert("다운받을 룰 실행 결과를 선택해주세요.");
 			return;
 		}
 		$("input[type=hidden][name=hiddenRule]").val(ruleList);

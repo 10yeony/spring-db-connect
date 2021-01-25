@@ -3,6 +3,8 @@ package kr.com.inspect.rule;
 import kr.com.inspect.dao.RuleDao;
 import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Rule;
+import kr.com.inspect.report.PrevRuleResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -125,7 +127,7 @@ public class RunSQL {
      * @param rule 입력할 rule
      * @return
      */
-    public ResponseData run(ResponseData responseData, Rule rule) {
+    public ResponseData run(ResponseData responseData, Rule rule, String TIME) {
         int updateResult = ruleDao.updateRuleContents(rule);
 
         String query = rule.getContents().trim();
@@ -230,7 +232,13 @@ public class RunSQL {
         ruleDao.updateRuleCompileResult(rule);
         Rule vo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
         ruleDao.registerPrevBottomLevel(vo);
-
+        
+        if(TIME != null) {
+        	PrevRuleResult prevRuleResult = new PrevRuleResult();
+        	prevRuleResult.writeRuleResultTxtFile(vo, TIME);
+        }
+        
+        
         return responseData;
     }
 }
