@@ -105,14 +105,21 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<form action="${pageContext.request.contextPath}/downloadPrevRuleReport" id="ruleReportForm">
+		<c:forEach items="${result}" var="item" varStatus="status2">
+			<input type="hidden" name="time" value="${item.time}">
+		</c:forEach>
+	</form>
 	<c:forEach items="${result}" var="item" varStatus="status">
 		<c:choose>
 			<c:when test="${fn:contains(item.content, '총') && data != 0}">
 				<br/>
 				<h5>
 					<b>세부사항</b>
-					<br/>
-					<span style="font-size:0.8em;">선택한 순서대로 보고서가 만들어집니다.</span>
+					<c:if test="${fn:contains(item.content, '실행')}">
+						<br/>
+						<span style="font-size:0.8em;">선택한 순서대로 보고서가 만들어집니다.</span>
+					</c:if>
 					<c:choose>
 						<c:when test="${fn:contains(item.content, '실행') || fn:contains(item.content, '다운로드')}">
 							<button id="ruleReportBtn" type="button" class="btn btn-primary btn-icon-split" style="float: right; margin-bottom: 5px;" 
@@ -152,11 +159,6 @@
 								<c:choose>
 									<c:when test="${fn:contains(subItem.content, '실행')}">
 										<td>
-											<form action="${pageContext.request.contextPath}/downloadPrevRuleReport" id="ruleReportForm">
-												<c:forEach items="${result}" var="item" varStatus="status">
-													<input type="hidden" name="time" value="${item.time}">
-												</c:forEach>
-											</form>
 											<form action="${pageContext.request.contextPath}/resultRuleDocx" id="ruleForm" target="ifrm">
 												<input type="hidden"  id="hiddenRule" name="hiddenRule">
 												<input type="checkbox" data-toggle="checkbox" name="ruleReport" onclick="clickChkBox(${subItem.bottom_level_id})" value="${subItem.bottom_level_id}">

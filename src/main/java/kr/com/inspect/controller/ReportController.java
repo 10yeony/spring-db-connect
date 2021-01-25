@@ -382,6 +382,7 @@ public class ReportController {
 	}
 	
 	@GetMapping("/downloadPrevRuleReport")
+	@ResponseBody
 	public void downloadPrevRuleReport(HttpServletResponse response, String time) {
 		time = time.replace(" ", "_");
 		time = time.replace(":", "_");

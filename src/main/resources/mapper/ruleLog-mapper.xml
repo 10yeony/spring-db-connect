@@ -98,7 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				OR library_file_name LIKE '%'||#{search_word}||'%'
 				OR class_package LIKE '%'||#{search_word}||'%'
 			ORDER BY 
-				time DESC) temp
+				no DESC) temp
 		LIMIT 
 			#{limit} 
 		OFFSET 
@@ -139,7 +139,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				OR library_file_name LIKE '%'||#{search_word}||'%'
 				OR class_package LIKE '%'||#{search_word}||'%')
 			ORDER BY 
-				time DESC) temp
+				no DESC) temp
 		LIMIT 
 			#{limit} 
 		OFFSET 

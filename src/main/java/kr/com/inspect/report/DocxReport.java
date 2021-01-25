@@ -1,31 +1,51 @@
 package kr.com.inspect.report;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Rule;
-import kr.com.inspect.dto.Utterance;
-import kr.com.inspect.sender.SendReport;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
-import kr.com.inspect.util.ClientInfo;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
-import org.apache.poi.xwpf.usermodel.*;
+import org.apache.poi.xwpf.usermodel.BreakType;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.xmlbeans.impl.xb.xmlschema.SpaceAttribute;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTFldChar;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTJc;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTString;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTText;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STFldCharType;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
+import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Rule;
+import kr.com.inspect.dto.Utterance;
+import kr.com.inspect.sender.SendReport;
+import kr.com.inspect.util.ClientInfo;
 
 /**
  * docx 타입으로 리스트 파일 작성
@@ -298,8 +318,10 @@ public class DocxReport {
 	 * @param path 파일을 다운받기 위해 임시 저장할 경로
 	 */
 	public void resultRuleDocx(HttpServletResponse response, List<Rule> ruleList, String path, String name){
-		String day = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-		String docxFileName = day+ ".docx";
+		String day = clientInfo.getTime();
+		String docxFileName = day.replace(" ", "_");
+		docxFileName = docxFileName.replace(":", "_");
+		docxFileName = docxFileName+ ".docx";
 		Rule rule;
 
 		/* doc 파일 생성 */
@@ -490,7 +512,6 @@ public class DocxReport {
 			byte fileByte[] = FileUtils.readFileToByteArray(file);
 			response.setContentType("application/octet-stream");
 			response.setContentLength(fileByte.length);
-			docxFileName = docxFileName.replace(" ", "_");
 			response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(docxFileName,"UTF-8")+"\";");
 			response.setHeader("Content-Transfer-Encoding", "binary");
 			response.getOutputStream().write(fileByte);
@@ -515,17 +536,20 @@ public class DocxReport {
 	}
 	
 	public void downloadPrevRuleReport(HttpServletResponse response, String path, String time) throws UnsupportedEncodingException {
-		File file = new File(path + time);
+		String fileName = time + ".docx";
+		File file = new File(path + fileName);
+		System.out.println(file);
 		try { /* 사용자 컴퓨터에 다운로드 */
-			byte fileByte[];
-			fileByte = FileUtils.readFileToByteArray(file);
-			response.setContentType("application/octet-stream");
-			response.setContentLength(fileByte.length);
-			response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(time,"UTF-8")+"\";");
-			response.setHeader("Content-Transfer-Encoding", "binary");
-			response.getOutputStream().write(fileByte);
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
+			if (file.exists() && file.isFile()) {
+				byte fileByte[] = FileUtils.readFileToByteArray(file);
+				response.setContentType("application/octet-stream");
+				response.setContentLength(fileByte.length);
+				response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(fileName,"UTF-8")+"\";");
+				response.setHeader("Content-Transfer-Encoding", "binary");
+				response.getOutputStream().write(fileByte);
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
 		} catch (IOException e) {
 			//e.printStackTrace();
 		}
