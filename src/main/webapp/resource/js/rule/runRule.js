@@ -217,6 +217,7 @@ function checkRunRule(){
 			return;
 		}
 		$("input[type=hidden][name=hiddenRule]").val(ruleList);
+		alert("곧 보고서가 다운로드됩니다.");
 		document.getElementById('ruleForm').submit()
 	}else{
 		alert("룰을 실행해주세요");
