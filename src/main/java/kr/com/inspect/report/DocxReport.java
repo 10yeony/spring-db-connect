@@ -369,7 +369,8 @@ public class DocxReport {
 			r2.addBreak();
 			r2.setText("중분류 : " + rule.getMiddle_level_name());
 			r2.addBreak();
-			if(rule.getDescription() != ""){
+			if(!(rule.getDescription().equals("") || rule.getDescription() == null)){
+				System.out.println("not null");
 				r2.setText("설명 : " + rule.getDescription());
 				r2.addBreak();
 			}
@@ -406,7 +407,7 @@ public class DocxReport {
 							table = doc.createTable(list.size(), strList.size());
 						}
 						for (int i = 0; i < strList.size(); i++) {
-							double width = 8300.0 / strList.size();
+							double width = 9000.0 / strList.size();
 							table.getRow(j).getCell(i).setWidth(Integer.toString((int) Math.ceil(width)));
 							table.getRow(j).getCell(i).getParagraphArray(0).setSpacingAfter(0);
 							XWPFParagraph tempParagraph = table.getRow(j).getCell(i).getParagraphs().get(0);
