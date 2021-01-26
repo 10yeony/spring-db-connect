@@ -318,6 +318,10 @@ public class DocxReport {
 	 * @param path 파일을 다운받기 위해 임시 저장할 경로
 	 */
 	public void resultRuleDocx(HttpServletResponse response, List<Rule> ruleList, String path, String name){
+		File folder = new File(path);
+		if(!folder.exists()) {
+			folder.mkdir();
+		}
 		String day = clientInfo.getTime();
 		String docxFileName = day.replace(" ", "_");
 		docxFileName = docxFileName.replace(":", "_");
@@ -535,10 +539,20 @@ public class DocxReport {
 		}
 	}
 	
-	public void downloadPrevRuleReport(HttpServletResponse response, String path, String time) throws UnsupportedEncodingException {
+	/**
+	 * 룰 기록 조회에서 이전에 다운받았던 룰 보고서 파일을 다운 받음
+	 * @param response HttpServletResponse
+	 * @param path 이전 룰 보고서 파일이 있는 폴더
+	 * @param time 파일명(이전에 다운받은 시간)
+	 * @throws UnsupportedEncodingException 지원되지 않는 인코딩 예외
+	 */
+	public void downloadPrevRuleReport(HttpServletResponse response, String path, String time) {
+		File folder = new File(path);
+		if(!folder.exists()) {
+			folder.mkdir();
+		}
 		String fileName = time + ".docx";
 		File file = new File(path + fileName);
-		System.out.println(file);
 		try { /* 사용자 컴퓨터에 다운로드 */
 			if (file.exists() && file.isFile()) {
 				byte fileByte[] = FileUtils.readFileToByteArray(file);

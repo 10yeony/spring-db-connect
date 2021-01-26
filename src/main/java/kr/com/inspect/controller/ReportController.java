@@ -1,5 +1,6 @@
 package kr.com.inspect.controller;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -381,16 +382,18 @@ public class ReportController {
 		return title;
 	}
 	
+	/**
+	 * 룰 기록 조회에서 이전에 다운받았던 룰 보고서 파일을 다운 받음
+	 * @param response HttpServletResponse
+	 * @param time 파일명(이전에 다운받은 시간)
+	 */
 	@GetMapping("/downloadPrevRuleReport")
 	@ResponseBody
 	public void downloadPrevRuleReport(HttpServletResponse response, String time) {
 		time = time.replace(" ", "_");
 		time = time.replace(":", "_");
-		try {
-			docxReport.downloadPrevRuleReport(response, docxPath, time);
-		} catch (UnsupportedEncodingException e) {
-			//e.printStackTrace();
-		}
+		String ruleReportPath = docxPath + "ruleReport" + File.separator;
+		docxReport.downloadPrevRuleReport(response, ruleReportPath, time);
 	}
 
 	/**
@@ -428,7 +431,8 @@ public class ReportController {
 			PrevRuleResult prevRuleResult = new PrevRuleResult();
 			ruleList = prevRuleResult.unZip(time, hiddenRule);
 		}
-		docxReport.resultRuleDocx(response, ruleList, docxPath, name);
+		String ruleReportPath = docxPath + "ruleReport" + File.separator;
+		docxReport.resultRuleDocx(response, ruleList, ruleReportPath, name);
 	}
 
 	/**
