@@ -13,6 +13,7 @@
 </style>
 </head>
 <body>
+<input type="hidden" id="version" value="${rule.version}">
 <div class="card shadow mb-4">
 	<div class="card-body">
 		<table class="ruleInfo" width="100%">

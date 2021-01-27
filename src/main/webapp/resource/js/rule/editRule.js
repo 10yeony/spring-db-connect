@@ -77,6 +77,10 @@ function saveRuleContents(){
 		alert("버전을 입력하세요");
 		return;
 	}
+	if($('input[name=version]').val() <= $('#version').val()){
+		alert("이전 버전보다 높은 버전으로 입력하세요\n(이전 버전 : " + $('#version').val()+")");
+		return;
+	}
 
 	$.ajax({
 		//요청
@@ -100,6 +104,7 @@ function saveRuleContents(){
 			var obj = json.item.obj;
 			$('#show_result_after_update textarea').empty();
 			$('#show_result_after_update textarea').append(obj);
+			$('#version').val($('input[name=version]').val());
 		},
 		error: function (request, status, error) {
 			//alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error + "서버에러");
