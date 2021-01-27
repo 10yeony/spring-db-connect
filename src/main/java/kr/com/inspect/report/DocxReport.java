@@ -372,11 +372,18 @@ public class DocxReport {
 			r2.addBreak();
 			r2.setText("중분류 : " + rule.getMiddle_level_name());
 			r2.addBreak();
-			if(!(rule.getDescription().equals("") || rule.getDescription() == null)){
-				r2.setText("설명 : " + rule.getDescription());
-				r2.addBreak();
+			try {
+				if(!(rule.getDescription().equals("") || rule.getDescription() == null)){
+					r2.setText("설명 : " + rule.getDescription());
+					r2.addBreak();
+				}
+				if(!(rule.getVersion().equals("") || rule.getVersion() == null)){
+					r2.setText("버전 : " + rule.getVersion());
+					r2.addBreak();
+				}
+			}catch(NullPointerException e) {
+				//e.printStackTrace();
 			}
-
 			XWPFParagraph p1 = doc.createParagraph();
 			p1.setAlignment(ParagraphAlignment.CENTER);
 			XWPFRun r1 = p1.createRun();

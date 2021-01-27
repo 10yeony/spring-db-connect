@@ -72,7 +72,10 @@ public class PrevRuleResult {
 			writer.write(rule.getMiddle_level_name()+"\n");
 			writer.write(rule.getBottom_level_name()+"\n");
 			writer.write(rule.getDescription()+"\n");
-			writer.write(rule.getResult());
+			writer.write(rule.getResult()+"\n");
+			if(rule.getVersion() != null) {
+				writer.write(rule.getVersion());
+			}
 			writer.close();
 		} catch (IOException e) {
 			//e.printStackTrace();
@@ -135,6 +138,9 @@ public class PrevRuleResult {
 							case 4 : 
 								rule.setResult(line);
 								break;
+							case 5 :
+								rule.setVersion(line);
+								break;
 							}
 							index++;
 						}
@@ -165,12 +171,14 @@ public class PrevRuleResult {
 		rule.setBottom_level_name("소분류");
 		rule.setDescription("[한국어 음성 전사규칙 1.1.10 : 단일 발화의 음성 길이는 최대 20초를 넘지 않도록 한다.] 규칙을 전사자 별로 검사한다.");
 		rule.setResult("[[전사자, 아스키코드 이외의 기호를 사용한 문장수, 입력한 총 문장수, 잘못된 문장 비율], [이민지(als3o@naver.com), 1, 4857, 0.02%], [김희경(banila778@gmail.com), 1, 2370, 0.04%], [김우진(biff4933@gmail.com), 2, 902, 0.22%], [조원기(chowk1109@naver.com), 1, 6005, 0.02%], [홍철(cjfl2564@naver.com), 1, 2932, 0.03%], [김수현(clousy23@gmail.com), 1, 2129, 0.05%], [박찬석(ict.cspark@gmail.com), 1, 4074, 0.02%], [문영웅(moonoo3@naver.com), 1, 3264, 0.03%], [정준영(suj710101@gmail.com), 2, 8494, 0.02%], [김효원(sun4131@gmail.com), 3, 4767, 0.06%]]");
+		rule.setVersion("1.0");
 		PrevRuleResult prevRuleResult = new PrevRuleResult();
 		String TIME = prevRuleResult.getTime();
 		TIME = TIME.replace(" ", "_");
 		TIME = TIME.replace(":", "_");
 		prevRuleResult.writeRuleResultTxtFile(rule, TIME);
 		rule.setBottom_level_id(23);
+		rule.setVersion(null);
 		prevRuleResult.writeRuleResultTxtFile(rule, TIME);
 		
 		/* 압축 */
@@ -179,6 +187,7 @@ public class PrevRuleResult {
 		/* 압축해제 */
 		int[] bottom_level_id_arr = {22, 23};
 		List<Rule> ruleList = prevRuleResult.unZip(TIME, bottom_level_id_arr);
+		System.out.println(ruleList);
 	}
 	
 	public String getTime() {
