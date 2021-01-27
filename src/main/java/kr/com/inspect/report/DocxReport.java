@@ -317,13 +317,12 @@ public class DocxReport {
 	 * @param ruleList 워드로 다운받을 rule
 	 * @param path 파일을 다운받기 위해 임시 저장할 경로
 	 */
-	public void resultRuleDocx(HttpServletResponse response, List<Rule> ruleList, String path, String name){
+	public void resultRuleDocx(HttpServletResponse response, List<Rule> ruleList, String path, String name, String time){
 		File folder = new File(path);
 		if(!folder.exists()) {
 			folder.mkdir();
 		}
-		String day = clientInfo.getTime();
-		String docxFileName = day.replace(" ", "_");
+		String docxFileName = time.replace(" ", "_");
 		docxFileName = docxFileName.replace(":", "_");
 		docxFileName = docxFileName+ ".docx";
 		Rule rule;
@@ -361,7 +360,7 @@ public class DocxReport {
 
 			if(x==0){
 				XWPFRun r = p.createRun();
-				r.setText("작성일 : " + day);
+				r.setText("작성일 : " + time);
 				r.setFontSize(9);
 				r.addBreak();
 				r.setText("작성자 : " + name);
@@ -374,7 +373,6 @@ public class DocxReport {
 			r2.setText("중분류 : " + rule.getMiddle_level_name());
 			r2.addBreak();
 			if(!(rule.getDescription().equals("") || rule.getDescription() == null)){
-				System.out.println("not null");
 				r2.setText("설명 : " + rule.getDescription());
 				r2.addBreak();
 			}

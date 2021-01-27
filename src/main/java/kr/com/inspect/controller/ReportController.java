@@ -412,9 +412,11 @@ public class ReportController {
 		if(time == null) {
 			String usingLogContent = "룰 결과 보고서 다운로드 - 총 "+hiddenRule.length+"개";
 			final int USING_LOG_NO = usingLogUtil.insertUsingLog(usingLogContent);
+			time = clientInfo.getTime();
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setContent(usingLogContent);
 			ruleLog.setUsing_log_no(USING_LOG_NO);
+			ruleLog.setTime(time);
 			usingLogUtil.setUsingLog(ruleLog);
 			for(int i=0; i<hiddenRule.length; i++){
 				Rule rule = ruleService.getRuleBottomLevel(hiddenRule[i]);
@@ -426,13 +428,13 @@ public class ReportController {
 				ruleList.add(rule);
 			}
 		}else {
-			time = time.replace(" ", "_");
-			time = time.replace(":", "_");
+			String editTime = time.replace(" ", "_");
+			editTime = editTime.replace(":", "_");
 			PrevRuleResult prevRuleResult = new PrevRuleResult();
-			ruleList = prevRuleResult.unZip(time, hiddenRule);
+			ruleList = prevRuleResult.unZip(editTime, hiddenRule);
 		}
 		String ruleReportPath = docxPath + "ruleReport" + File.separator;
-		docxReport.resultRuleDocx(response, ruleList, ruleReportPath, name);
+		docxReport.resultRuleDocx(response, ruleList, ruleReportPath, name, time);
 	}
 
 	/**
