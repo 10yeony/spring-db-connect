@@ -221,7 +221,7 @@ public class RunSQL {
             responseData.setCode("error");
             responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n" + e.getMessage());
         }
-        if(type.equals("select")){
+        if(responseData.getCode().equals("select")){
             rule.setResult(responseData.getItem().toString());
             rule.setImp_contents(listList.size()-1 +"개의 데이터를 조회하였습니다.");
         }
