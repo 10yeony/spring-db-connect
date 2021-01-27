@@ -68,6 +68,10 @@ function runRuleSQL(){
 		alert("버전을 입력하세요");
 		return;
 	}
+	if($('input[name=version]').val() <= $('#version').val()){
+		alert("이전 버전보다 높은 버전으로 입력하세요\n(이전 버전 : " + $('#version').val()+")");
+		return;
+	}
 
     var query = myCodeMirror.getValue();
     $.ajax({
