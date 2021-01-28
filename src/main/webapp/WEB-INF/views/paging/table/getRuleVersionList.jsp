@@ -24,8 +24,12 @@
 			<c:forEach items="${result}" var="item" varStatus="status">
 				<tr>
 					<td>${item.row_num}</td>
-					<td>${item.date}</td>
-					<td>${item.version}</td>
+					<td>
+						<a href="">${item.date}</a>
+					</td>
+					<td>
+						<a href="">${item.version}</a>
+					</td>
 					<td>${item.creator}</td>
 				</tr>
 			</c:forEach>

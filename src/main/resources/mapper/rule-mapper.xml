@@ -79,11 +79,11 @@
 			audio.rule_bottom_level
 			(name, description, creator,
 			top_level_id, middle_level_id, rule_type,
-			date)
+			date, version)
 		VALUES
 			(#{bottom_level_name}, #{description}, #{creator},
 			#{top_level_id}, #{middle_level_id}, #{rule_type},
-			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'));
+			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), '1.0');
 	</insert>
 	
 	<!-- 이전 소분류 모음 -->

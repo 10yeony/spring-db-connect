@@ -296,4 +296,23 @@ public interface RuleDao {
 	 */
 	public int getAllCountOfRuleLog(int using_log_no, String search_word,
 			String log_type, Map<String, Object> searchMap);
+	
+	/**
+	 * 해당되는 룰의 버전 관리 목록을 가져옴
+	 * @param bottom_level_id 룰 소분류 아이디
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @return 룰의 버전 관리 목록
+	 */
+	public List<Rule> getPrevRuleVersionList(int bottom_level_id, 
+			int limit, int offset, String search_word);
+	
+	/**
+	 * 해당되는 룰의 버전 관리 개수를 가져옴
+	 * @param bottom_level_id
+	 * @param search_word 검색어
+	 * @return 룰의 버전 관리 개수
+	 */
+	public int getCountOfPrevRuleVersion(int bottom_level_id, String search_word);
 }

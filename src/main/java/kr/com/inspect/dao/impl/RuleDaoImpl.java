@@ -591,4 +591,36 @@ public class RuleDaoImpl implements RuleDao {
 		}
 		return count;
 	}
+
+	/**
+	 * 해당되는 룰의 버전 관리 목록을 가져옴
+	 * @param bottom_level_id 룰 소분류 아이디
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @return 룰의 버전 관리 목록
+	 */
+	@Override
+	public List<Rule> getPrevRuleVersionList(int bottom_level_id, int limit, int offset, String search_word) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("bottom_level_id", bottom_level_id);
+		map.put("limit", limit);
+		map.put("offset", offset);
+		map.put("search_word", search_word);
+		return sqlSession.selectList(rulePagingNS + "getPrevRuleVersionList", map);
+	}
+
+	/**
+	 * 해당되는 룰의 버전 관리 개수를 가져옴
+	 * @param bottom_level_id
+	 * @param search_word 검색어
+	 * @return 룰의 버전 관리 개수
+	 */
+	@Override
+	public int getCountOfPrevRuleVersion(int bottom_level_id, String search_word) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("bottom_level_id", bottom_level_id);
+		map.put("search_word", search_word);
+		return sqlSession.selectOne(rulePagingNS + "getCountOfPrevRuleVersion", map);
+	}
 }

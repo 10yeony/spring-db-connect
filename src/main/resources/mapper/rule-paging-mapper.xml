@@ -614,4 +614,41 @@
 		OFFSET 
 			#{offset};
 	</select>
+	
+	<!-- 버전 관리 관련 이전 버전 룰 개수 -->
+	<select id="getCountOfPrevRuleVersion" parameterType="hashMap" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			audio.prev_rule_bottom_level
+		WHERE 
+			bottom_level_id = #{bottom_level_id} 
+			AND (date LIKE '%'||#{search_word}||'%'
+			OR version LIKE '%'||#{search_word}||'%' 
+			OR creator LIKE '%'||#{search_word}||'%');
+	</select>
+	<select id="getPrevRuleVersionList" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			temp.id AS prev_bottom_level_id,
+			temp.date,
+			temp.version,
+			temp.creator
+		FROM
+			(SELECT
+				*
+			FROM
+				audio.prev_rule_bottom_level p
+			WHERE 
+				bottom_level_id = #{bottom_level_id} 
+				AND (date LIKE '%'||#{search_word}||'%'
+				OR version LIKE '%'||#{search_word}||'%'
+				OR creator LIKE '%'||#{search_word}||'%')
+			ORDER BY
+				p.id DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
 </mapper>

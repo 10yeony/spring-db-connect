@@ -77,13 +77,13 @@ public class SQLController {
      */
     @ResponseBody
     @PostMapping("/runRuleSQL")
-    public void runRuleSQL(HttpServletResponse response, Rule rule){
-        ResponseData responseData = new ResponseData();
+    public void runRuleSQL(HttpServletResponse response, String presentVersion, Rule rule){
+    	ResponseData responseData = new ResponseData();
 
         /* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
         rule.setCreator(clientInfo.getMemberId());
 
-        responseData = runSQL.run(responseData, rule, null);
+        responseData = runSQL.run(responseData, presentVersion, rule, null);
         
         switch(responseData.getCode()) {
 	        case "insert" :

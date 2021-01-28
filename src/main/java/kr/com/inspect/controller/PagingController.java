@@ -397,8 +397,30 @@ public class PagingController {
 	 * @return 해당되는 룰의 버전 관리 목록 페이지
 	 */
 	@GetMapping("/rule/getRuleVersionList")
-	public String getRuleVersionList(Model model, int bottom_level_id) {
-		model.addAttribute("requestUrl", "rule/getRuleVersionList");
+	public String getRuleVersionList(Model model, 
+											String data,
+											int current_page_no,
+											int count_per_page,
+											int count_per_list,
+											String search_word) {
+		ResponseData responseData = ruleService.getPrevRuleVersionList(
+															Integer.parseInt(data),
+															function_name, 
+															current_page_no, 
+															count_per_page, 
+															count_per_list,
+															search_word);
+		addCommonAttribute(false, model, "rule/getRuleVersionList", responseData, 
+				count_per_page, count_per_list, search_word);
+		
+		String value = "";
+		if(search_word != "") {
+			value = "검색 결과";
+		}else {
+			value = "전체";
+		}
+		model.addAttribute("data", data);
+		model.addAttribute("searchResult", value);
 		return "rule/getRuleVersionList";
 	}
 	
