@@ -23,8 +23,6 @@
 
 	<!-- search_word -->
 	<input type="hidden" id="show_search_word" value="${search_word}">
-	
-	<input type="hidden" id="show_approval" value="${approval}">
 
 	<c:choose>
 		<c:when test="${requestUrl != 'getRuleLogList' || data == 0}">

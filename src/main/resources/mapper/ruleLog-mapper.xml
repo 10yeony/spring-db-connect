@@ -104,6 +104,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		OFFSET 
 			#{offset};
 	</select>
+	<select id="getAllRuleLogByDetailSearch" parameterType="hashMap"
+		resultType="kr.com.inspect.dto.RuleLog">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			no, 
+			ip_addr,
+			time,
+			content,
+			member_id,
+			top_level_id,
+			middle_level_id,
+			bottom_level_id,
+			top_level_name,
+			middle_level_name,
+			bottom_level_name,
+			library_file_name,
+			class_package,
+			using_log_no
+		FROM 
+			(SELECT
+				*
+			FROM
+				audio.rule_log
+			WHERE 
+				(top_level_name LIKE '%'||#{search_using_list}||'%'
+				OR middle_level_name LIKE '%'||#{search_using_list}||'%'
+				OR bottom_level_name LIKE '%'||#{search_using_list}||'%'
+				OR content LIKE '%'||#{search_using_list}||'%'
+				OR library_file_name LIKE '%'||#{search_using_list}||'%'
+				OR class_package LIKE '%'||#{search_using_list}||'%')
+				AND ip_addr LIKE '%'||#{search_ip_addr}||'%'
+				AND time LIKE '%'||#{search_access_time}||'%'
+				AND member_id LIKE '%'||#{search_member_id}||'%'
+			ORDER BY 
+				no DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
 	<select id="getAllRuleLogByUsingLogNo" parameterType="hashMap"
 		resultType="kr.com.inspect.dto.RuleLog">
 		SELECT
@@ -165,6 +205,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR member_id LIKE '%'||#{search_word}||'%'
 			OR library_file_name LIKE '%'||#{search_word}||'%'
 			OR class_package LIKE '%'||#{search_word}||'%'
+	</select>
+	<select id="getAllCountOfRuleLogByDetailSearch" parameterType="hashMap" resultType="int">
+		<include refid="getCountOfRuleLog" />
+		WHERE 
+			(top_level_name LIKE '%'||#{search_using_list}||'%'
+			OR middle_level_name LIKE '%'||#{search_using_list}||'%'
+			OR bottom_level_name LIKE '%'||#{search_using_list}||'%'
+			OR content LIKE '%'||#{search_using_list}||'%'
+			OR library_file_name LIKE '%'||#{search_using_list}||'%'
+			OR class_package LIKE '%'||#{search_using_list}||'%')
+			AND ip_addr LIKE '%'||#{search_ip_addr}||'%'
+			AND time LIKE '%'||#{search_access_time}||'%'
+			AND member_id LIKE '%'||#{search_member_id}||'%'
 	</select>
 	<select id="getAllCountOfRuleLogByUsingLogNo" parameterType="hashMap" resultType="int">
 		<include refid="getCountOfRuleLog" />

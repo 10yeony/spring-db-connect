@@ -280,19 +280,20 @@ public class RuleController {
 	
 	/**
 	 * Ajax 요청이 들어오면 작성한 Rule 코드를 컴파일하고 DB에 등록 후 사용자에게 결과를 보여줌
+	 * @param 현재 룰 버전(버전을 수정했는지 검사할 때 사용)
 	 * @param rule Rule 코드 작성을 위한 Rule 객체
 	 * @throws Exception
 	 */
 	@PostMapping("/saveRuleContents")
 	@ResponseBody
-	public void saveRuleContents(HttpServletResponse response, Rule rule) throws Exception {
+	public void saveRuleContents(HttpServletResponse response, String presentVersion, Rule rule) throws Exception {
 		ResponseData responseData = new ResponseData(); //ajax 응답 객체
 
 		/* 로그인한 사용자 아이디를 가져와서 룰 작성자로 세팅 */
 		rule.setCreator(clientInfo.getMemberId());
 
 		/* 컴파일 + DB에 코드 및 결과 업데이트 */
-		Map<String, Object> map = ruleService.updateRuleContents(rule);
+		Map<String, Object> map = ruleService.updateRuleContents(presentVersion, rule);
 
 		/* 컴파일 성공 및 실패 처리 */
 		if((int)map.get("updateResult") == 0) {

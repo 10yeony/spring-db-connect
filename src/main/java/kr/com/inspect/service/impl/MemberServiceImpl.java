@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -450,6 +451,8 @@ public class MemberServiceImpl implements MemberService {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
+	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
+	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 사용 로그 테이블
 	 */
 	public ResponseData getUsingLog(String member_id,
@@ -457,16 +460,18 @@ public class MemberServiceImpl implements MemberService {
 									int current_page_no,
 									int count_per_page,
 									int count_per_list,
-									String search_word){
+									String search_word,
+									String log_type,
+									Map<String, Object> searchMap){
     	
 		CommonDto commonDto = new CommonDto();
-		int totalCount = memberDao.getAllCountOfUsingLog(member_id, search_word); 
+		int totalCount = memberDao.getAllCountOfUsingLog(member_id, search_word, log_type, searchMap); 
 		if (totalCount > 0) {
 			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
-		List<UsingLog> list = memberDao.getAllUsingLog(member_id, limit, offset, search_word);
+		List<UsingLog> list = memberDao.getAllUsingLog(member_id, limit, offset, search_word, log_type, searchMap);
 		String pagination = commonDto.getPagination();
 		
 		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);

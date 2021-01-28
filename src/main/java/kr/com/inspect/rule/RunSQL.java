@@ -127,7 +127,7 @@ public class RunSQL {
      * @param rule 입력할 rule
      * @return
      */
-    public ResponseData run(ResponseData responseData, Rule rule, String TIME) {
+    public ResponseData run(ResponseData responseData, String presentVersion, Rule rule, String TIME) {
         int updateResult = ruleDao.updateRuleContents(rule);
 
         String query = rule.getContents().trim();
@@ -231,13 +231,14 @@ public class RunSQL {
         }
         ruleDao.updateRuleCompileResult(rule);
         Rule vo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
-        ruleDao.registerPrevBottomLevel(vo);
+        if(!(presentVersion.equals(vo.getVersion()) || presentVersion.equals("0"))) {
+        	ruleDao.registerPrevBottomLevel(vo);
+        }
         
         if(TIME != null) {
         	PrevRuleResult prevRuleResult = new PrevRuleResult();
         	prevRuleResult.writeRuleResultTxtFile(vo, TIME);
         }
-        
         
         return responseData;
     }

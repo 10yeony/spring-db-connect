@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -94,6 +95,30 @@ public class PagingController {
 			model.addAttribute("search_word", search_word);
 			return model;
 		}
+	}
+	
+	/**
+	 * 프론트로 보낼 Model에 로그(룰 로그/사용 로그)와 관련된 attribute를 추가함 
+	 * @param model Model
+	 * @param log_type 로그 타입(사용자 아이디/사용 내역/IP 주소/접속 시간)
+	 * @param member_id 사용자 아이디
+	 * @param using_list 사용 내역
+	 * @param ip_addr IP 주소
+	 * @param access_time 접속 시간
+	 * @return
+	 */
+	public Model addLogAttribute(Model model, 
+								String log_type, 
+								String member_id,
+								String using_list,
+								String ip_addr,
+								String access_time) {
+		model.addAttribute("search_logType", log_type);
+		model.addAttribute("search_memberId", member_id);
+		model.addAttribute("search_usingList", using_list);
+		model.addAttribute("search_ipAddr", ip_addr);
+		model.addAttribute("search_accessTime", access_time);
+		return model;
 	}
 	
 	/**
@@ -258,6 +283,11 @@ public class PagingController {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
+	 * @param log_type 로그 타입(사용자 아이디/사용 내역/IP 주소/접속 시간)
+	 * @param member_id 사용자 아이디
+	 * @param using_list 사용 내역
+	 * @param ip_addr IP 주소
+	 * @param access_time 접속 시간
 	 * @return 해당되는 페이지 리턴
 	 */
 	@GetMapping("/getUsingLogList")
@@ -266,15 +296,29 @@ public class PagingController {
 								int current_page_no,
 								int count_per_page,
 								int count_per_list,
-								String search_word) {
+								String search_word,
+								String log_type,
+								String member_id,
+								String using_list,
+								String ip_addr,
+								String access_time) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search_member_id", member_id);
+		map.put("search_using_list", using_list);
+		map.put("search_ip_addr", ip_addr);
+		map.put("search_access_time", access_time);
+		
 		ResponseData responseData = memberService.getUsingLog(data,
 															function_name, 
 															current_page_no, 
 															count_per_page, 
 															count_per_list,
-															search_word);
+															search_word,
+															log_type,
+															map);
 		addCommonAttribute(false, model, "getUsingLogList", responseData, 
 								count_per_page, count_per_list, search_word);
+		addLogAttribute(model, log_type, member_id, using_list, ip_addr, access_time);
 		String value = "";
 		if(search_word != "") {
 			value = "검색 결과";
@@ -294,6 +338,11 @@ public class PagingController {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
+	 * @param log_type 로그 타입(사용자 아이디/사용 내역/IP 주소/접속 시간)
+	 * @param member_id 사용자 아이디
+	 * @param using_list 사용 내역
+	 * @param ip_addr IP 주소
+	 * @param access_time 접속 시간
 	 * @return 해당되는 페이지 리턴
 	 */
 	@GetMapping("/getRuleLogList")
@@ -302,21 +351,33 @@ public class PagingController {
 								int current_page_no,
 								int count_per_page,
 								int count_per_list,
-								String search_word) {
+								String search_word,
+								String log_type,
+								String member_id,
+								String using_list,
+								String ip_addr,
+								String access_time) {
 		if(data > 0) {
 			List<RuleLog> ruleLogDetail = ruleService.getAllRuleLogDetailByUsingLogNo(data);
 			model.addAttribute("ruleLogDetail", ruleLogDetail);
 		}
-		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search_member_id", member_id);
+		map.put("search_using_list", using_list);
+		map.put("search_ip_addr", ip_addr);
+		map.put("search_access_time", access_time);
 		ResponseData responseData = ruleService.getRuleLog(data,
 															function_name, 
 															current_page_no, 
 															count_per_page, 
 															count_per_list,
-															search_word);
+															search_word,
+															log_type,
+															map);
 		
 		addCommonAttribute(false, model, "getRuleLogList", responseData, 
 						count_per_page, count_per_list, search_word);
+		addLogAttribute(model, log_type, member_id, using_list, ip_addr, access_time);
 		
 		String value = "";
 		if(search_word != "") {
@@ -336,8 +397,30 @@ public class PagingController {
 	 * @return 해당되는 룰의 버전 관리 목록 페이지
 	 */
 	@GetMapping("/rule/getRuleVersionList")
-	public String getRuleVersionList(Model model, int bottom_level_id) {
-		model.addAttribute("requestUrl", "rule/getRuleVersionList");
+	public String getRuleVersionList(Model model, 
+											String data,
+											int current_page_no,
+											int count_per_page,
+											int count_per_list,
+											String search_word) {
+		ResponseData responseData = ruleService.getPrevRuleVersionList(
+															Integer.parseInt(data),
+															function_name, 
+															current_page_no, 
+															count_per_page, 
+															count_per_list,
+															search_word);
+		addCommonAttribute(false, model, "rule/getRuleVersionList", responseData, 
+				count_per_page, count_per_list, search_word);
+		
+		String value = "";
+		if(search_word != "") {
+			value = "검색 결과";
+		}else {
+			value = "전체";
+		}
+		model.addAttribute("data", data);
+		model.addAttribute("searchResult", value);
 		return "rule/getRuleVersionList";
 	}
 	

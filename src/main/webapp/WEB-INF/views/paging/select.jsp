@@ -18,6 +18,9 @@
 	  		<%@ include file="/WEB-INF/views/paging/select/getMemberListRole.jsp"%>
 	  		<%@ include file="/WEB-INF/views/paging/select/getMemberListApproval.jsp"%>
 	  	</c:when>
+	  	<c:when test="${requestUrl == 'getUsingLogList' || requestUrl == 'getRuleLogList'}">
+	  		<%@ include file="/WEB-INF/views/paging/select/getUsingRuleLogList.jsp"%>
+	  	</c:when>
   	</c:choose>
 </body>
 

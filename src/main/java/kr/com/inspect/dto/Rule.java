@@ -36,6 +36,11 @@ public class Rule {
 	 * 소분류 primary key(auto increment)
 	 */
 	private int bottom_level_id;
+	
+	/**
+	 * 버전 관리 목록에서의 이전 버전 룰 아이디
+	 */
+	private int prev_bottom_level_id;
 
 	/**
 	 * 소분류 이름(디테일한 규칙명)
@@ -90,8 +95,9 @@ public class Rule {
 
 	public Rule() {}
 	public Rule(int row_num, int top_level_id, String top_level_name, int middle_level_id, String middle_level_name,
-			int bottom_level_id, String bottom_level_name, String description, String file_name, String creator,
-			String contents, String result, String imp_contents, String rule_type, String date, String version) {
+			int bottom_level_id, int prev_bottom_level_id, String bottom_level_name, String description,
+			String file_name, String creator, String contents, String result, String imp_contents, String rule_type,
+			String date, String version) {
 		super();
 		this.row_num = row_num;
 		this.top_level_id = top_level_id;
@@ -99,6 +105,7 @@ public class Rule {
 		this.middle_level_id = middle_level_id;
 		this.middle_level_name = middle_level_name;
 		this.bottom_level_id = bottom_level_id;
+		this.prev_bottom_level_id = prev_bottom_level_id;
 		this.bottom_level_name = bottom_level_name;
 		this.description = description;
 		this.file_name = file_name;
@@ -207,14 +214,21 @@ public class Rule {
 	public void setVersion(String version) {
 		this.version = version;
 	}
+	public int getPrev_bottom_level_id() {
+		return prev_bottom_level_id;
+	}
+	public void setPrev_bottom_level_id(int prev_bottom_level_id) {
+		this.prev_bottom_level_id = prev_bottom_level_id;
+	}
 	
 	@Override
 	public String toString() {
 		return "Rule [row_num=" + row_num + ", top_level_id=" + top_level_id + ", top_level_name=" + top_level_name
 				+ ", middle_level_id=" + middle_level_id + ", middle_level_name=" + middle_level_name
-				+ ", bottom_level_id=" + bottom_level_id + ", bottom_level_name=" + bottom_level_name + ", description="
-				+ description + ", file_name=" + file_name + ", creator=" + creator + ", contents=" + contents
-				+ ", result=" + result + ", imp_contents=" + imp_contents + ", rule_type=" + rule_type + ", date="
-				+ date + ", version=" + version + "]";
+				+ ", bottom_level_id=" + bottom_level_id + ", prev_bottom_level_id=" + prev_bottom_level_id
+				+ ", bottom_level_name=" + bottom_level_name + ", description=" + description + ", file_name="
+				+ file_name + ", creator=" + creator + ", contents=" + contents + ", result=" + result
+				+ ", imp_contents=" + imp_contents + ", rule_type=" + rule_type + ", date=" + date + ", version="
+				+ version + "]";
 	}
 }

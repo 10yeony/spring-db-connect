@@ -74,11 +74,7 @@ function saveRuleContents(){
 		return;
 	}
 	if($('input[name=version]').val() == ''){
-		alert("버전을 입력하세요");
-		return;
-	}
-	if($('input[name=version]').val() <= $('#version').val()){
-		alert("이전 버전보다 높은 버전으로 입력하세요\n(이전 버전 : " + $('#version').val()+")");
+		alert("버전을 입력하세요\n(현재 버전 : " + $('#version').val()+")");
 		return;
 	}
 
@@ -94,7 +90,8 @@ function saveRuleContents(){
 			version : $('input[name=version]').val(),
 			description : $('#ruleInfoDesc').val(),
 			contents: myCodeMirror.getValue(),
-			imp_contents: imp_myCodeMirror.getValue()
+			imp_contents: imp_myCodeMirror.getValue(),
+			presentVersion: $('#version').val()
 		},
 
 		//응답

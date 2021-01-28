@@ -65,11 +65,7 @@ function runRuleSQL(){
 		return;
 	}
 	if($('input[name=version]').val() == ''){
-		alert("버전을 입력하세요");
-		return;
-	}
-	if($('input[name=version]').val() <= $('#version').val()){
-		alert("이전 버전보다 높은 버전으로 입력하세요\n(이전 버전 : " + $('#version').val()+")");
+		alert("버전을 입력하세요\n(현재 버전 : " + $('#version').val()+")");
 		return;
 	}
 
@@ -83,7 +79,8 @@ function runRuleSQL(){
           bottom_level_name : $('#ruleInfoName').val(),
           version : $('input[name=version]').val(),
           description : $('#ruleInfoDesc').val(),
-          contents : query
+          contents : query,
+			presentVersion: $('#version').val()
         } ,
         type: "POST",
 

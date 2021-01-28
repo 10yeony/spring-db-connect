@@ -56,6 +56,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		OFFSET 
 			#{offset};
 	</select>
+	<select id="getAllUsingLogByDetailSearch" parameterType="hashMap"
+		resultType="kr.com.inspect.dto.UsingLog">
+		SELECT
+			(ROW_NUMBER() OVER()) AS row_num,
+			no, 
+			ip_addr,
+			time,
+			content,
+			member_id
+		FROM 
+			(SELECT
+				*
+			FROM 
+				audio.using_log
+			WHERE 
+				ip_addr LIKE '%'||#{search_ip_addr}||'%'
+				AND time LIKE '%'||#{search_access_time}||'%'
+				AND content LIKE '%'||#{search_using_list}||'%'
+				AND member_id LIKE '%'||#{search_member_id}||'%'
+			ORDER BY
+				time DESC) temp
+		LIMIT 
+			#{limit} 
+		OFFSET 
+			#{offset};
+	</select>
 	<select id="getAllUsingLogByMemberId" parameterType="hashMap"
 		resultType="kr.com.inspect.dto.UsingLog">
 		SELECT
@@ -97,6 +123,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			OR time LIKE '%'||#{search_word}||'%'
 			OR content LIKE '%'||#{search_word}||'%'
 			OR member_id LIKE '%'||#{search_word}||'%'
+	</select>
+	<select id="getAllCountOfUsingLogByDetailSearch" parameterType="hashMap" resultType="int">
+		<include refid="getCountOfUsingLog" />
+		WHERE 
+			ip_addr LIKE '%'||#{search_ip_addr}||'%'
+			AND time LIKE '%'||#{search_access_time}||'%'
+			AND content LIKE '%'||#{search_using_list}||'%'
+			AND member_id LIKE '%'||#{search_member_id}||'%'
 	</select>
 	<select id="getAllCountOfUsingLogByMemberId" parameterType="hashMap" resultType="int">
 		<include refid="getCountOfUsingLog" />

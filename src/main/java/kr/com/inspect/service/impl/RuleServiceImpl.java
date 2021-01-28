@@ -174,6 +174,8 @@ public class RuleServiceImpl implements RuleService {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
+	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
+	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 룰 로그 테이블
 	 */
 	public ResponseData getRuleLog(int using_log_no,
@@ -181,18 +183,53 @@ public class RuleServiceImpl implements RuleService {
 									int current_page_no,
 									int count_per_page,
 									int count_per_list,
-									String search_word) {
+									String search_word,
+									String log_type,
+									Map<String, Object> searchMap) {
 		
 		CommonDto commonDto = new CommonDto();
 		int totalCount = 0;
-		totalCount = ruleDao.getAllCountOfRuleLog(using_log_no, search_word); 
+		totalCount = ruleDao.getAllCountOfRuleLog(using_log_no, search_word, log_type, searchMap); 
 		
 		if (totalCount > 0) {
 			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
-		List<RuleLog> list = ruleDao.getAllRuleLog(using_log_no, limit, offset, search_word);
+		List<RuleLog> list = ruleDao.getAllRuleLog(using_log_no, limit, offset, search_word,
+				log_type, searchMap);
+		String pagination = commonDto.getPagination();
+		
+		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
+		return responseData;
+	}
+	
+	/**
+	 * 해당되는 룰의 버전 관리 목록을 페이징 처리하여 가져옴
+	 * @param bottom_level_id 룰 소분류 아이디
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @return 해당되는 룰의 버전 관리 목록
+	 */
+	public ResponseData getPrevRuleVersionList(int bottom_level_id,
+														String function_name, 
+														int current_page_no,
+														int count_per_page,
+														int count_per_list,
+														String search_word) {
+		CommonDto commonDto = new CommonDto();
+		int totalCount = 0;
+		totalCount = ruleDao.getCountOfPrevRuleVersion(bottom_level_id, search_word); 
+		
+		if (totalCount > 0) {
+			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
+		}
+		int limit = commonDto.getLimit();
+		int offset = commonDto.getOffset();
+		List<Rule> list = ruleDao.getPrevRuleVersionList(bottom_level_id, limit, offset, search_word);
 		String pagination = commonDto.getPagination();
 		
 		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
@@ -324,7 +361,7 @@ public class RuleServiceImpl implements RuleService {
 	 * @throws Exception 예외
 	 */
 	@Override
-	public Map<String, Object> updateRuleContents(Rule rule) {
+	public Map<String, Object> updateRuleContents(String presentVersion, Rule rule) {
 		boolean compile = false;
 		int result = ruleDao.updateRuleContents(rule);
 		Rule vo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
@@ -346,7 +383,9 @@ public class RuleServiceImpl implements RuleService {
 		/* 컴파일 결과값 DB에 등록 */
 		vo.setResult(obj.toString());
 		int updateResult = ruleDao.updateRuleCompileResult(vo);
-		updateResult += ruleDao.registerPrevBottomLevel(vo);
+		if(!presentVersion.equals(rule.getVersion())) {
+			updateResult += ruleDao.registerPrevBottomLevel(vo);
+		}
 		if(updateResult > 0) {
 			RuleLog ruleLog = new RuleLog();
 			ruleLog.setRule(vo);
@@ -420,7 +459,7 @@ public class RuleServiceImpl implements RuleService {
 				}
 				else if(rule.getRule_type().equals("sql")){
 					ResponseData responseData = new ResponseData();
-					runSQL.run(responseData, rule, TIME);
+					runSQL.run(responseData, "0", rule, TIME);
 					RuleLog ruleLogDetail = new RuleLog();
 					ruleLogDetail.setUsing_log_no(NO);
 					ruleLogDetail.setContent("룰 실행");

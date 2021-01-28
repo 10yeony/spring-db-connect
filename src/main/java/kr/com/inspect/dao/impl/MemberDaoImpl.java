@@ -270,23 +270,33 @@ public class MemberDaoImpl implements MemberDao{
 	 * @param limit SELECT할 row의 수
 	 * @param offset 몇 번째 row부터 가져올지를 결정
 	 * @param search_word 검색어
+	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
+	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 사용 로그 목록
 	 */
 	@Override
 	public List<UsingLog> getAllUsingLog(String member_id,
 										int limit, 
 										int offset,
-										String search_word){
+										String search_word,
+										String log_type,
+										Map<String, Object> searchMap){
 		List<UsingLog> list = new ArrayList<>();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("limit", limit);
-		map.put("offset", offset);
-		map.put("search_word", search_word);
+		searchMap.put("limit", limit);
+		searchMap.put("offset", offset);
+		searchMap.put("search_word", search_word);
 		if(member_id == "") {
-			list = sqlSession.selectList(usingLogNs+"getAllUsingLog", map);
+			switch(log_type) {
+				case "all" : 
+					list = sqlSession.selectList(usingLogNs+"getAllUsingLog", searchMap);
+					break;
+				default : 
+					list = sqlSession.selectList(usingLogNs+"getAllUsingLogByDetailSearch", searchMap);
+					break;
+			}
 		}else {
-			map.put("member_id", member_id);
-			list = sqlSession.selectList(usingLogNs+"getAllUsingLogByMemberId", map);
+			searchMap.put("member_id", member_id);
+			list = sqlSession.selectList(usingLogNs+"getAllUsingLogByMemberId", searchMap);
 		}
 		return list;
 	}
@@ -305,13 +315,23 @@ public class MemberDaoImpl implements MemberDao{
 	 * 사용 로그 총 개수를 가져옴
 	 * @param member_id 사용자 아이디
 	 * @param search_word 검색어
+	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
+	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 사용 로그 총 개수
 	 */
 	@Override
-	public int getAllCountOfUsingLog(String member_id, String search_word) {
+	public int getAllCountOfUsingLog(String member_id, String search_word, 
+			String log_type, Map<String, Object> searchMap) {
 		int count = 0;
 		if(member_id == "") {
-			count = sqlSession.selectOne(usingLogNs+"getAllCountOfUsingLog", search_word);
+			switch(log_type) {
+				case "all" : 
+					count = sqlSession.selectOne(usingLogNs+"getAllCountOfUsingLog", search_word);
+					break;
+				default : 
+					count = sqlSession.selectOne(usingLogNs+"getAllCountOfUsingLogByDetailSearch", searchMap);
+					break;
+			}
 		}else {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("member_id", member_id);
