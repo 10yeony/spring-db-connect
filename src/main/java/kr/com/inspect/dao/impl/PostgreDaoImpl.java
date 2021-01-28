@@ -1,9 +1,6 @@
 package kr.com.inspect.dao.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +42,9 @@ public class PostgreDaoImpl implements PostgreDao {
 				case "all": //전체
 					return sqlSession.selectOne(metadataNS+"getMetadataCnt");
 				case "korean_lecture": //한국어 강의 데이터
-					return sqlSession.selectOne(metadataNS+"getMetadataCntByType", "LH");
+					return sqlSession.selectOne(metadataNS+"getMetadataCntByType", "L");
 				case "meeting_audio": //회의 음성 데이터
-					return sqlSession.selectOne(metadataNS+"getMetadataCntByType", "CG");
+					return sqlSession.selectOne(metadataNS+"getMetadataCntByType", "C");
 				case "customer_reception": //고객 응대 데이터
 					return 0;
 				case "counsel_audio": //상담 음성 데이터
