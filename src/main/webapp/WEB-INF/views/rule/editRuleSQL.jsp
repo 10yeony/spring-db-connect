@@ -101,7 +101,7 @@
                         class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-2 text-gray-800">
                     	<b>룰 작성 - SQL</b>
-                    	<a href="${pageContext.request.contextPath}/rule/versionManager?bottom_level_id=${rule.bottom_level_id}" style="font-size:0.6em;">버전 관리</a>
+                    	<a href="${pageContext.request.contextPath}/rule/getRuleVersionList?bottom_level_id=${rule.bottom_level_id}" style="font-size:0.6em;">버전 관리</a>
                     </h1>
                 </div>
 					

@@ -82,12 +82,6 @@ public class RuleController {
 	public String customRulepage() {
 		return "rule/ruleCustom";
 	}
-	
-	@GetMapping("/versionManager")
-	public String versionManagerPage(int bottom_level_id) {
-		System.out.println(bottom_level_id);
-		return "rule/versionManager";
-	}
 
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함

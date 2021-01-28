@@ -44,7 +44,12 @@
 				<div>
 					<h1 class="h3 mb-0 text-gray-800"><b>버전 관리</b></h1><br>
 				</div>
-
+				
+				<div class="card shadow mb-4">
+					<div class="card-body"><br/>
+						<%@ include file="/WEB-INF/views/paging/template.jsp"%>
+					</div>
+				</div>
 			</div>
 			<!-- /.container-fluid -->
 		</div>

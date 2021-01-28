@@ -331,6 +331,17 @@ public class PagingController {
 	}
 	
 	/**
+	 * 해당되는 룰의 버전 관리 목록을 가져옴
+	 * @param bottom_level_id 룰 소분류 아이디
+	 * @return 해당되는 룰의 버전 관리 목록 페이지
+	 */
+	@GetMapping("/rule/getRuleVersionList")
+	public String getRuleVersionList(Model model, int bottom_level_id) {
+		model.addAttribute("requestUrl", "rule/getRuleVersionList");
+		return "rule/getRuleVersionList";
+	}
+	
+	/**
 	 * 룰의 대분류/중분류/소분류 아이디를 저장하고 해당되는 페이지로 이동함
 	 * @param model
 	 * @param top_level_id 룰 대분류 아이디
