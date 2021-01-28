@@ -174,6 +174,8 @@ public class RuleServiceImpl implements RuleService {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
+	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
+	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 룰 로그 테이블
 	 */
 	public ResponseData getRuleLog(int using_log_no,
@@ -181,18 +183,21 @@ public class RuleServiceImpl implements RuleService {
 									int current_page_no,
 									int count_per_page,
 									int count_per_list,
-									String search_word) {
+									String search_word,
+									String log_type,
+									Map<String, Object> searchMap) {
 		
 		CommonDto commonDto = new CommonDto();
 		int totalCount = 0;
-		totalCount = ruleDao.getAllCountOfRuleLog(using_log_no, search_word); 
+		totalCount = ruleDao.getAllCountOfRuleLog(using_log_no, search_word, log_type, searchMap); 
 		
 		if (totalCount > 0) {
 			commonDto = commonDto.setCommonDto(function_name, current_page_no, count_per_page, count_per_list, totalCount);
 		}
 		int limit = commonDto.getLimit();
 		int offset = commonDto.getOffset();
-		List<RuleLog> list = ruleDao.getAllRuleLog(using_log_no, limit, offset, search_word);
+		List<RuleLog> list = ruleDao.getAllRuleLog(using_log_no, limit, offset, search_word,
+				log_type, searchMap);
 		String pagination = commonDto.getPagination();
 		
 		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);

@@ -536,20 +536,29 @@ public class RuleDaoImpl implements RuleDao {
 	 * @param limit SELECT할 row의 수
 	 * @param offset 몇 번째 row부터 가져올지를 결정
 	 * @param search_word 검색어
+	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
+	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 룰 로그 목록
 	 */
 	@Override
-	public List<RuleLog> getAllRuleLog(int using_log_no, int limit, int offset, String search_word) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public List<RuleLog> getAllRuleLog(int using_log_no, int limit, int offset, String search_word,
+			String log_type, Map<String, Object> searchMap) {
 		List<RuleLog> list = new ArrayList<>();
-		map.put("limit", limit);
-		map.put("offset", offset);
-		map.put("search_word", search_word);
+		searchMap.put("limit", limit);
+		searchMap.put("offset", offset);
+		searchMap.put("search_word", search_word);
 		if(using_log_no > 0) {
-			map.put("using_log_no", using_log_no);
-			list = sqlSession.selectList(ruleLogNS+"getAllRuleLogByUsingLogNo", map);
+			searchMap.put("using_log_no", using_log_no);
+			list = sqlSession.selectList(ruleLogNS+"getAllRuleLogByUsingLogNo", searchMap);
 		}else {
-			list = sqlSession.selectList(ruleLogNS+"getAllRuleLog", map);
+			switch(log_type) {
+				case "all" :
+					list = sqlSession.selectList(ruleLogNS+"getAllRuleLog", searchMap);
+					break;
+				default :
+					list = sqlSession.selectList(ruleLogNS+"getAllRuleLogByDetailSearch", searchMap);
+					break;
+			}
 		}
 		return list;
 	}
@@ -558,18 +567,27 @@ public class RuleDaoImpl implements RuleDao {
 	 * 룰 로그의 총 개수를 가져옴
 	 * @param data RuleLog 테이블의 외래키인 using_log_no
 	 * @param search_word 검색어
+	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
+	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 룰 로그 총 개수
 	 */
 	@Override
-	public int getAllCountOfRuleLog(int using_log_no, String search_word) {
+	public int getAllCountOfRuleLog(int using_log_no, String search_word, 
+			String log_type, Map<String, Object> searchMap) {
 		int count = 0;
 		if(using_log_no > 0) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("using_log_no", using_log_no);
-			map.put("search_word", search_word);
-			count = sqlSession.selectOne(ruleLogNS+"getAllCountOfRuleLogByUsingLogNo", map);
+			searchMap.put("using_log_no", using_log_no);
+			searchMap.put("search_word", search_word);
+			count = sqlSession.selectOne(ruleLogNS+"getAllCountOfRuleLogByUsingLogNo", searchMap);
 		}else {
-			count = sqlSession.selectOne(ruleLogNS+"getAllCountOfRuleLog", search_word);
+			switch(log_type) {
+				case "all" : 
+					count = sqlSession.selectOne(ruleLogNS+"getAllCountOfRuleLog", search_word);
+					break;
+				default:
+					count = sqlSession.selectOne(ruleLogNS+"getAllCountOfRuleLogByDetailSearch", searchMap);
+					break;
+			}
 		}
 		return count;
 	}

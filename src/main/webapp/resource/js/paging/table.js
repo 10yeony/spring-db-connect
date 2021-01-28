@@ -12,13 +12,22 @@ $(function(){
 	var data_type = $('#show_data_type').val();
 	var count_per_list = $('#show_count_per_list').val();
 	var search_word = $('#show_search_word').val();
-	var approval = $('#show_approval').val();
-	
-	markKeyword(search_word);
+	var approval;
+	var log_type;
 	
 	/* 선택한 데이터 타입 세팅 */
-	$('#dataSelect').val(data_type);
-	$('#approvalSelect').val(approval);
+	if(requestUrl == 'getMemberListByAdmin'){
+		approval = $('#show_approval').val();
+		$('#approvalSelect').val(approval);
+	}
+	if(requestUrl == 'getUsingLogList' || requestUrl == 'getRuleLogList'){
+		log_type = $('#show_search_logType').val();
+		$('#logSelect').val(log_type);
+	}else{
+		$('#dataSelect').val(data_type);
+	}
+	
+	markKeyword(search_word);
 	
 	/* 한 페이지당 몇개씩 보는지 세팅 */
 	if(count_per_list==10){
@@ -52,6 +61,9 @@ $(function(){
 			link += "&approval=" + $('#show_approval').val();
 		}
 		location.href = link;
+	});
+	$('#logSelect').change(function(){
+		$('#show_search_logType').val($('#logSelect').val());
 	});
 	
 	/* 사용자 목록 - 승인여부 선택 */
@@ -109,6 +121,31 @@ function search(){
 	if(requestUrl == 'getMemberListByAdmin'){
 		link += "&approval=" + $('#show_approval').val();
 	}
+	else if(requestUrl == 'getUsingLogList' || requestUrl == 'getRuleLogList'){
+		let logType = $('#logSelect').val();
+		$('#show_search_memberId').val('');
+		$('#show_search_usingList').val('');
+		$('#show_search_ipAddr').val('');
+		$('#show_search_accessTime').val('');
+		if(logType == 'memberId'){
+			$('#show_search_memberId').val($('#inputSearchText').val());
+		}
+		if(logType == 'usingList'){
+			$('#show_search_usingList').val($('#inputSearchText').val());
+		}
+		if(logType == 'ipAddr'){
+			$('#show_search_ipAddr').val($('#inputSearchText').val());
+		}
+		if(logType == 'accessTime'){
+			$('#show_search_accessTime').val($('#inputSearchText').val());
+		}
+		let appendLink = "&log_type=" + $('#logSelect').val()
+						+ "&member_id=" + $('#show_search_memberId').val()
+						+ "&using_list=" + $('#show_search_usingList').val()
+						+ "&ip_addr=" + $('#show_search_ipAddr').val()
+						+ "&access_time=" + $('#show_search_accessTime').val();
+		link += appendLink;
+	}
 	location.href = link;
 }
 
@@ -125,6 +162,14 @@ function getTable(currentPageNo){
 	if(requestUrl == 'getMemberListByAdmin'){
 		link += "&approval=" + $('#show_approval').val();
 	}
+	else if(requestUrl == 'getUsingLogList' || requestUrl == 'getRuleLogList'){
+		let appendLink = "&log_type=" + $('#logSelect').val()
+						+ "&member_id=" + $('#show_search_memberId').val()
+						+ "&using_list=" + $('#show_search_usingList').val()
+						+ "&ip_addr=" + $('#show_search_ipAddr').val()
+						+ "&access_time=" + $('#show_search_accessTime').val();
+		link += appendLink;
+	}
 	location.href = link;
 }
 
@@ -137,6 +182,14 @@ function setListSize(size){
 				+ "&search_word=" + $('#show_search_word').val();
 	if(requestUrl == 'getMemberListByAdmin'){
 		link += "&approval=" + $('#show_approval').val();
+	}
+	else if(requestUrl == 'getUsingLogList' || requestUrl == 'getRuleLogList'){
+		let appendLink = "&log_type=" + $('#logSelect').val()
+						+ "&member_id=" + $('#show_search_memberId').val()
+						+ "&using_list=" + $('#show_search_usingList').val()
+						+ "&ip_addr=" + $('#show_search_ipAddr').val()
+						+ "&access_time=" + $('#show_search_accessTime').val();
+		link += appendLink;
 	}
 	location.href = link;
 }

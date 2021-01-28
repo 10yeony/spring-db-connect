@@ -10,6 +10,7 @@
 </head>
 
 <body>
+	<input type="hidden" id="show_approval" value="${approval}">
 	<select class="form-control" id="approvalSelect" style="margin-right:3px;">
 		<option value="">승인 여부</option>
 		<option value="true">가입 승인</option>

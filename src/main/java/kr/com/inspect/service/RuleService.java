@@ -68,6 +68,8 @@ public interface RuleService {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
+	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
+	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 룰 로그 테이블
 	 */
 	public ResponseData getRuleLog(int using_log_no,
@@ -75,7 +77,9 @@ public interface RuleService {
 									int current_page_no,
 									int count_per_page,
 									int count_per_list,
-									String search_word);
+									String search_word,
+									String log_type,
+									Map<String, Object> searchMap);
 	
 	/**
 	 * 사용 기록 번호로 디테일한 룰 로그 목록을 가져옴

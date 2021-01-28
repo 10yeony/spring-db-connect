@@ -2,6 +2,7 @@ package kr.com.inspect.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -140,6 +141,8 @@ public interface MemberService extends UserDetailsService {
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
 	 * @param search_word 검색어
+	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
+	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 사용 로그 테이블
 	 */
 	public ResponseData getUsingLog(String member_id,
@@ -147,7 +150,9 @@ public interface MemberService extends UserDetailsService {
 									int current_page_no,
 									int count_per_page,
 									int count_per_list,
-									String search_word);
+									String search_word,
+									String log_type,
+									Map<String, Object> searchMap);
 
 	/**
 	 * 관리자 권한으로 가입 승인
