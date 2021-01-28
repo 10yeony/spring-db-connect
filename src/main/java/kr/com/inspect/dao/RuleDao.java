@@ -315,4 +315,12 @@ public interface RuleDao {
 	 * @return 룰의 버전 관리 개수
 	 */
 	public int getCountOfPrevRuleVersion(int bottom_level_id, String search_word);
+	
+	/**
+	 * 룰의 버전별 변화(수정 전/수정 후)를 가져옴
+	 * @param bottom_level_id 룰 소분류 아이디
+	 * @param prev_bottom_level_id 룰 버전 관리 목록 아이디
+	 * @return 룰의 버전별 변화(수정 전/수정 후)
+	 */
+	public List<Rule> getRuleChange(int bottom_level_id, int prev_bottom_level_id);
 }

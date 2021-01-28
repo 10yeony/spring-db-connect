@@ -438,4 +438,26 @@
 		WHERE
 			bottom_level_id = #{id};
 	</delete>
+	
+	<!-- 룰 변화 비교 가져오기 -->
+	<select id="getRuleChange" parameterType="hashMap" resultType="kr.com.inspect.dto.Rule">
+		SELECT
+			*
+		FROM
+			(SELECT 
+				* 
+			FROM 
+				audio.prev_rule_bottom_level 
+			WHERE 
+				bottom_level_id = #{bottom_level_id} 
+				AND id <![CDATA[<=]]> #{prev_bottom_level_id} 
+			ORDER BY 
+				id DESC 
+			LIMIT 
+				2 
+			OFFSET 
+				0) temp
+		ORDER BY 
+			temp.id;
+	</select>
 </mapper>

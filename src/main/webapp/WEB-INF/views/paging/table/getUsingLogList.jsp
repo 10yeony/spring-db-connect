@@ -26,7 +26,7 @@
 			<c:forEach items="${result}" var="item" varStatus="status">
 				<tr>
 					<td>${item.row_num}</td>
-					<td><a href="getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
+					<td><a href="${pageContext.request.contextPath}/getMemberByAdmin?member_id=${item.member_id}">${item.member_id}</a></td>
 					<td>
 						<c:choose>
 							<c:when test="${fn:contains(item.content, '룰')}">
