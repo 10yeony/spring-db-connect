@@ -25,10 +25,10 @@
 				<tr>
 					<td>${item.row_num}</td>
 					<td>
-						<a href="">${item.date}</a>
+						<a href="${pageContext.request.contextPath}/rule/getRuleChange?bottom_level_id=${item.bottom_level_id}&prev_bottom_level_id=${item.prev_bottom_level_id}">${item.date}</a>
 					</td>
 					<td>
-						<a href="">${item.version}</a>
+						<a href="${pageContext.request.contextPath}/rule/getRuleChange?bottom_level_id=${item.bottom_level_id}&prev_bottom_level_id=${item.prev_bottom_level_id}">${item.version}</a>
 					</td>
 					<td>${item.creator}</td>
 				</tr>

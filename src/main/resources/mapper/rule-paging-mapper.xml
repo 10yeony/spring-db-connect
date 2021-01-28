@@ -633,7 +633,8 @@
 			temp.id AS prev_bottom_level_id,
 			temp.date,
 			temp.version,
-			temp.creator
+			temp.creator,
+			temp.bottom_level_id
 		FROM
 			(SELECT
 				*

@@ -22,7 +22,7 @@
 </head>
 
 <body id="page-top">
-
+<input name="ruleChangeSize" type="hidden" value="${size}">
 <!-- Page Wrapper -->
 <div id="wrapper">
 
@@ -42,14 +42,55 @@
 
 				<!-- Page Heading -->
 				<div>
-					<h1 class="h3 mb-0 text-gray-800"><b>룰 버전 관리</b></h1><br>
+					<h1 class="h3 mb-0 text-gray-800"><b>룰 버전 비교</b></h1><br>
 				</div>
 				
-				<div class="card shadow mb-4">
-					<div class="card-body"><br/>
-						<%@ include file="/WEB-INF/views/paging/template.jsp"%>
-					</div>
+				<div class="row">	
+					<c:forEach items="${list}" var="rule" varStatus="status">
+						<div class="col-xl-6 col-lg-6">
+							<div class="card shadow mb-4">
+								<!-- Card Header - Dropdown -->
+								<div
+										class="card-header">
+									<h5 class="m-0 font-weight-bold text-primary ruleChangeTitle"></h5>
+								</div>
+								<!-- Card Body -->
+								<div class="card-body">
+									<div align="center">
+										<table class="table table-bordered" width="100%">
+											<tr>
+												<th>최근 작성일</th>
+												<td>${rule.date}</td>
+											</tr>
+											<tr>
+												<th>대분류</th>
+												<td>${rule.top_level_name}</td>
+											</tr>
+											<tr>
+												<th>중분류</th>
+												<td>${rule.middle_level_name}</td>
+											</tr>
+											<tr>
+												<th>이름</th>
+												<td>${rule.bottom_level_name}</td>
+											</tr>
+											<tr>
+												<th>버전</th>
+												<td>${rule.version}</td>
+											</tr>
+											<tr>
+												<th>설명</th>
+												<td>${rule.description}</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
 				</div>
+				
+				<button class="btn btn-secondary" type="button" style="float:left;" onclick="window.history.back();">뒤로 가기</button>
 			</div>
 			<!-- /.container-fluid -->
 		</div>
@@ -79,6 +120,7 @@
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
 
+<script src="${pageContext.request.contextPath}/resource/js/rule/getRuleChange.js"></script>
 </body>
 
 </html>

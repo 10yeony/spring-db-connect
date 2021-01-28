@@ -367,4 +367,19 @@ public class RuleController {
 		int result = ruleService.deleteCustomLibrary(customLibrary);
 		return result;
 	}
+	
+	/**
+	 * 룰의 버전별 변화(수정 전/수정 후)를 가져옴
+	 * @model Model
+	 * @param bottom_level_id 룰 소분류 아이디
+	 * @param prev_bottom_level_id 룰 버전 관리 목록 아이디
+	 * @return 룰의 버전별 변화(수정 전/수정 후)
+	 */
+	@GetMapping("getRuleChange")
+	public String getRuleChange(Model model, int bottom_level_id, int prev_bottom_level_id) {
+		List<Rule> list = ruleService.getRuleChange(bottom_level_id, prev_bottom_level_id);
+		model.addAttribute("list", list);
+		model.addAttribute("size", list.size());
+		return "rule/getRuleChange";
+	}
 }

@@ -623,4 +623,18 @@ public class RuleDaoImpl implements RuleDao {
 		map.put("search_word", search_word);
 		return sqlSession.selectOne(rulePagingNS + "getCountOfPrevRuleVersion", map);
 	}
+	
+	/**
+	 * 룰의 버전별 변화(수정 전/수정 후)를 가져옴
+	 * @param bottom_level_id 룰 소분류 아이디
+	 * @param prev_bottom_level_id 룰 버전 관리 목록 아이디
+	 * @return 룰의 버전별 변화(수정 전/수정 후)
+	 */
+	@Override
+	public List<Rule> getRuleChange(int bottom_level_id, int prev_bottom_level_id){
+		Map<String, Object> map = new HashMap<>();
+		map.put("bottom_level_id", bottom_level_id);
+		map.put("prev_bottom_level_id", prev_bottom_level_id);
+		return sqlSession.selectList(ruleNS + "getRuleChange", map);
+	}
 }
