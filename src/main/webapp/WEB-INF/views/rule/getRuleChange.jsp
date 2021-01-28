@@ -12,6 +12,8 @@
 	<meta name="author" content="">
 
 	<title>SDTM</title>
+	<script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" charset="UTF-8"></script>
 
 	<!-- Custom fonts for this template-->
 	<link href="${pageContext.request.contextPath}/resource/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,6 +21,25 @@
 
 	<!-- Custom styles for this template-->
 	<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
+	
+	<script
+			src="${pageContext.request.contextPath}/resource/codemirror/codemirror.js"></script>
+	<link
+			rel="stylesheet" href="${pageContext.request.contextPath}/resource/codemirror/codemirror.css">
+	<c:forEach items="${list}" var="rule" varStatus="status">
+		<c:if test="${rule.rule_type == 'method'}">
+			<link
+					rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
+			<script
+					src="${pageContext.request.contextPath}/resource/codemirror/clike.js"></script>
+		</c:if>
+		<c:if test="${rule.rule_type == 'sql'}">
+			<link
+	            rel="stylesheet" href="https://codemirror.net/theme/duotone-light.css">
+		    <script
+		    	src="${pageContext.request.contextPath}/resource/codemirror/sql.js"></script>
+		</c:if>
+	</c:forEach>
 </head>
 
 <body id="page-top">
@@ -60,27 +81,27 @@
 										<table class="table table-bordered" width="100%">
 											<tr>
 												<th>최근 작성일</th>
-												<td>${rule.date}</td>
+												<td class="rule_date">${rule.date}</td>
 											</tr>
 											<tr>
 												<th>대분류</th>
-												<td>${rule.top_level_name}</td>
+												<td class="top_level_name">${rule.top_level_name}</td>
 											</tr>
 											<tr>
 												<th>중분류</th>
-												<td>${rule.middle_level_name}</td>
+												<td class="middle_level_name">${rule.middle_level_name}</td>
 											</tr>
 											<tr>
 												<th>이름</th>
-												<td>${rule.bottom_level_name}</td>
+												<td class="bottom_level_name">${rule.bottom_level_name}</td>
 											</tr>
 											<tr>
 												<th>버전</th>
-												<td>${rule.version}</td>
+												<td class="rule_version">${rule.version}</td>
 											</tr>
 											<tr>
 												<th>설명</th>
-												<td>${rule.description}</td>
+												<td class="rule_description">${rule.description}</td>
 											</tr>
 										</table>
 									</div>
@@ -111,7 +132,6 @@
 </a>
 
 <!-- Bootstrap core JavaScript-->
-<script src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resource/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
@@ -119,7 +139,6 @@
 
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
-
 <script src="${pageContext.request.contextPath}/resource/js/rule/getRuleChange.js"></script>
 </body>
 
