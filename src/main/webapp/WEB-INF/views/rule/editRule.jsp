@@ -113,6 +113,7 @@
 						class="d-sm-flex align-items-center justify-content-between mb-4">
 					<h1 class="h3 mb-2 text-gray-800" style="display: inline-block">
 						<b>룰 작성 - 메서드</b>
+						<a href="${pageContext.request.contextPath}/rule/versionManager?bottom_level_id=${rule.bottom_level_id}" style="font-size:0.6em;">버전 관리</a>
 					</h1>
 				</div>
 				

@@ -67,6 +67,27 @@ public class RuleController {
 	 */
 	@Autowired
 	private UsingLogUtil usingLogUtil;
+	
+	@GetMapping("/registerRule")
+	public String registerRulepage() {
+		return "rule/registerRule";
+	}
+
+	@GetMapping("/runRule")
+	public String runRulepage() {
+		return "rule/runRule";
+	}
+	
+	@GetMapping("/customRule")
+	public String customRulepage() {
+		return "rule/ruleCustom";
+	}
+	
+	@GetMapping("/versionManager")
+	public String versionManagerPage(int bottom_level_id) {
+		System.out.println(bottom_level_id);
+		return "rule/versionManager";
+	}
 
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함
@@ -240,21 +261,6 @@ public class RuleController {
 			return "rule/editRuleSQL";
 	}
 
-	@GetMapping("/registerRule")
-	public String registerRulepage() {
-		return "rule/registerRule";
-	}
-
-	@GetMapping("/runRule")
-	public String runRulepage() {
-		return "rule/runRule";
-	}
-	
-	@GetMapping("/customRule")
-	public String customRulepage() {
-		return "rule/ruleCustom";
-	}
-	
 	@PostMapping("/runRuleCompiler")
 	@ResponseBody
 	public void runRuleCompiler(HttpServletResponse response, 
