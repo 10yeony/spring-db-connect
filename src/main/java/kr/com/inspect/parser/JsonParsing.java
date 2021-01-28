@@ -70,7 +70,7 @@ public class JsonParsing {
 		metadata.setSampling(map.get("sampling").toString());
 		metadata.setTitle(map.get("title").toString());
 		metadata.setCategory(map.get("category").toString());
-		metadata.setAudio_type(map.get("title").toString().substring(0, 2));
+		metadata.setAudio_type(map.get("title").toString().substring(0, 1));
 		metadata.setDistributor(map.get("distributor").toString());
 		map = (Map) obj.get("setting");
 		metadata.setRelation(map.get("relation").toString());

@@ -96,19 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   		LEFT JOIN audio.program p 
 		ON
   			m.title = p.file_num
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(form) sentence_count
-				FROM audio.utterance
-				GROUP BY metadata_id) ut
-		ON
-			m.id = ut.metadata_id
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(standard) eojeol_total
-				FROM audio.eojeolList
-				GROUP BY metadata_id) eo
-		ON
-			m.id = eo.metadata_id
-		WHERE 
+		WHERE
 			p.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
@@ -124,20 +112,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   		LEFT JOIN audio.program p 
 		ON
   			m.title = p.file_num
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(form) sentence_count
-				FROM audio.utterance
-				GROUP BY metadata_id) ut
-		ON
-			m.id = ut.metadata_id
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(standard) eojeol_total
-				FROM audio.eojeolList
-				GROUP BY metadata_id) eo
-		ON
-			m.id = eo.metadata_id
-		WHERE 
-			audio_type = 'LH'
+		WHERE
+			audio_type = 'L'
 			AND (p.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
@@ -153,20 +129,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   		LEFT JOIN audio.program p 
 		ON
   			m.title = p.file_num
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(form) sentence_count
-				FROM audio.utterance
-				GROUP BY metadata_id) ut
-		ON
-			m.id = ut.metadata_id
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(standard) eojeol_total
-				FROM audio.eojeolList
-				GROUP BY metadata_id) eo
-		ON
-			m.id = eo.metadata_id
-		WHERE 
-			audio_type = 'CG'
+		WHERE
+			audio_type = 'C'
 			AND (p.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
@@ -236,52 +200,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	<select id="getMetadataAndProgramByPaging" parameterType="hashMap" 
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
-  		<include refid="getMetadataAndProgram" />
-  		ORDER BY 
-			metadata_id DESC
-		LIMIT 
-			#{limit} 
-		OFFSET 
-			#{offset};
-	</select>
-	<select id="searchMetadataAndProgramByPaging" parameterType="hashMap"
-		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
 		SELECT
-  			(ROW_NUMBER() OVER()) AS row_num,
-  			m.id metadata_id,
-  			m.creator creator,
-  			m.annotation_level annotation_level,
-  			m.year metadata_year,
-  			m.sampling sampling,
-  			m.title metadata_title,
-  			m.category category,
-  			m.audio_type audio_type,
-  			m.distributor distributor,
-  			m.relation relation,
-  			p.id program_id,
-  			p.file_num file_num,
-  			p.title program_title,
-  			p.subtitle subtitle,
-  			p.running_time running_time,
+			table1.row_num,
+			table1.id metadata_id,
+			table1.creator,
+			table1.annotation_level,
+			table1.year metadata_year,
+			table1.sampling,
+			table1.title metadata_title,
+			table1.category,
+			table1.audio_type,
+			table1.distributor,
+			table1.relation,
+			p.id program_id,
+			p.file_num file_num,
+			p.title program_title,
+			p.subtitle subtitle,
+			p.running_time running_time,
 			ut.sentence_count sentence_count,
-			eo.eojeol_total eojeol_total
+			table1.eojeol_total
+		FROM
+			(SELECT
+				(ROW_NUMBER() OVER()) AS row_num,
+				m.*,
+			count(e.standard) eojeol_total
   		FROM
-  			audio.metadata m
-  		LEFT JOIN audio.program p 
+  			audio.metadata m, audio.eojeollist e
+        WHERE
+        	m.id = e.metadata_id
+        group by
+        	m.id
+		ORDER BY
+			m.id DESC
+		LIMIT
+			#{limit}
+		OFFSET
+			#{offset}) table1
+		LEFT JOIN audio.program p
 		ON
-  			m.title = p.file_num
-		LEFT JOIN 
+  			table1.title = p.file_num
+		LEFT JOIN
 			(SELECT metadata_id, COUNT(form) sentence_count
 				FROM audio.utterance
 				GROUP BY metadata_id) ut
 		ON
-			m.id = ut.metadata_id
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(standard) eojeol_total
-				FROM audio.eojeolList
-				GROUP BY metadata_id) eo
-		ON
-			m.id = eo.metadata_id
+			table1.id = ut.metadata_id
+	</select>
+	<select id="searchMetadataAndProgramByPaging" parameterType="hashMap"
+		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
+		<include refid="getMetadataAndProgram" />
 		WHERE 
 			p.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
@@ -299,7 +266,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<sql id="getMetadataAndProgramInLecture">
 		<include refid="getMetadataAndProgram" />
 		WHERE 
-			audio_type = 'LH'
+			audio_type = 'L'
 		ORDER BY 
 			metadata_id
 	</sql>
@@ -309,53 +276,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	<select id="getMetadataAndProgramInLectureByPaging" parameterType="hashMap" 
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
-  		<include refid="getMetadataAndProgramInLecture" />
-  		DESC
-		LIMIT 
-			#{limit} 
-		OFFSET 
-			#{offset};
+		SELECT
+			table1.row_num,
+			table1.id metadata_id,
+			table1.creator,
+			table1.annotation_level,
+			table1.year metadata_year,
+			table1.sampling,
+			table1.title metadata_title,
+			table1.category,
+			table1.audio_type,
+			table1.distributor,
+			table1.relation,
+			p.id program_id,
+			p.file_num file_num,
+			p.title program_title,
+			p.subtitle subtitle,
+			p.running_time running_time,
+			ut.sentence_count sentence_count,
+			table1.eojeol_total
+		FROM
+			(SELECT
+				(ROW_NUMBER() OVER()) AS row_num,
+				m.*,
+				count(e.standard) eojeol_total
+			FROM
+				audio.metadata m, audio.eojeollist e
+			WHERE
+				m.id = e.metadata_id and m.audio_type = 'L'
+			group by
+				m.id
+			ORDER BY
+				m.id desc
+			LIMIT
+				#{limit}
+			OFFSET
+				#{offset}) table1
+		LEFT JOIN
+			audio.program p
+		ON
+			table1.title = p.file_num
+		LEFT JOIN
+			(SELECT metadata_id, COUNT(form) sentence_count
+			FROM audio.utterance
+			GROUP BY metadata_id) ut
+		ON
+			table1.id = ut.metadata_id
 	</select>
 	<select id="searchMetadataAndProgramInLectureByPaging" parameterType="hashMap" 
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
-		SELECT
-  			(ROW_NUMBER() OVER()) AS row_num,
-  			m.id metadata_id,
-  			m.creator creator,
-  			m.annotation_level annotation_level,
-  			m.year metadata_year,
-  			m.sampling sampling,
-  			m.title metadata_title,
-  			m.category category,
-  			m.audio_type audio_type,
-  			m.distributor distributor,
-  			m.relation relation,
-  			p.id program_id,
-  			p.file_num file_num,
-  			p.title program_title,
-  			p.subtitle subtitle,
-  			p.running_time running_time,
-			ut.sentence_count sentence_count,
-			eo.eojeol_total eojeol_total
-  		FROM
-  			audio.metadata m
-  		LEFT JOIN audio.program p 
-		ON
-  			m.title = p.file_num
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(form) sentence_count
-				FROM audio.utterance
-				GROUP BY metadata_id) ut
-		ON
-			m.id = ut.metadata_id
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(standard) eojeol_total
-				FROM audio.eojeolList
-				GROUP BY metadata_id) eo
-		ON
-			m.id = eo.metadata_id
+		<include refid="getMetadataAndProgram" />
 		WHERE 
-			m.audio_type = 'LH'
+			m.audio_type = 'L'
 			AND (p.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
@@ -372,7 +344,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<sql id="getMetadataAndProgramInMeeting">
 		<include refid="getMetadataAndProgram" />
 		WHERE 
-			audio_type = 'CG'
+			audio_type = 'C'
 		ORDER BY 
 			metadata_id
 	</sql>
@@ -382,53 +354,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	</select>
 	<select id="getMetadataAndProgramInMeetingByPaging" parameterType="hashMap" 
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
-  		<include refid="getMetadataAndProgramInMeeting" />
-  		DESC
-		LIMIT 
-			#{limit} 
-		OFFSET 
-			#{offset};
+		SELECT
+			table1.row_num,
+			table1.id metadata_id,
+			table1.creator,
+			table1.annotation_level,
+			table1.year metadata_year,
+			table1.sampling,
+			table1.title metadata_title,
+			table1.category,
+			table1.audio_type,
+			table1.distributor,
+			table1.relation,
+			p.id program_id,
+			p.file_num file_num,
+			p.title program_title,
+			p.subtitle subtitle,
+			p.running_time running_time,
+			ut.sentence_count sentence_count,
+			table1.eojeol_total
+		FROM
+			(SELECT
+				(ROW_NUMBER() OVER()) AS row_num,
+				m.*,
+				count(e.standard) eojeol_total
+			FROM
+				audio.metadata m, audio.eojeollist e
+			WHERE
+				m.id = e.metadata_id and m.audio_type = 'C'
+			group by
+				m.id
+			ORDER BY
+				m.id desc
+			LIMIT
+				#{limit}
+			OFFSET
+				#{offset}) table1
+		LEFT JOIN
+			audio.program p
+		ON
+			table1.title = p.file_num
+		LEFT JOIN
+			(SELECT metadata_id, COUNT(form) sentence_count
+			FROM audio.utterance
+			GROUP BY metadata_id) ut
+		ON
+			table1.id = ut.metadata_id
 	</select>
 	<select id="searchMetadataAndProgramInMeetingByPaging" parameterType="hashMap" 
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
-		SELECT
-  			(ROW_NUMBER() OVER()) AS row_num,
-  			m.id metadata_id,
-  			m.creator creator,
-  			m.annotation_level annotation_level,
-  			m.year metadata_year,
-  			m.sampling sampling,
-  			m.title metadata_title,
-  			m.category category,
-  			m.audio_type audio_type,
-  			m.distributor distributor,
-  			m.relation relation,
-  			p.id program_id,
-  			p.file_num file_num,
-  			p.title program_title,
-  			p.subtitle subtitle,
-  			p.running_time running_time,
-			ut.sentence_count sentence_count,
-			eo.eojeol_total eojeol_total
-  		FROM
-  			audio.metadata m
-  		LEFT JOIN audio.program p 
-		ON
-  			m.title = p.file_num
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(form) sentence_count
-				FROM audio.utterance
-				GROUP BY metadata_id) ut
-		ON
-			m.id = ut.metadata_id
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(standard) eojeol_total
-				FROM audio.eojeolList
-				GROUP BY metadata_id) eo
-		ON
-			m.id = eo.metadata_id
+		<include refid="getMetadataAndProgram" />
 		WHERE 
-			m.audio_type = 'CG'
+			m.audio_type = 'C'
 			AND (p.title LIKE '%'||#{search_word}||'%' 
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
@@ -443,42 +420,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- Metadata와 Program을 조인한 것을 id로 가져옴 -->
 	<select id="getMetadataAndProgramUsingId" resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram" parameterType="Integer">
-		SELECT
-			(ROW_NUMBER() OVER()) AS row_num,
-  			m.id metadata_id,
-  			m.creator creator,
-  			m.annotation_level annotation_level,
-  			m.year metadata_year,
-  			m.sampling sampling,
-  			m.title metadata_title,
-  			m.category category,
-  			m.audio_type audio_type,
-  			m.distributor distributor,
-  			m.relation relation,
-  			p.id program_id,
-  			p.file_num file_num,
-  			p.title program_title,
-  			p.subtitle subtitle,
-  			p.running_time running_time,
-			ut.sentence_count sentence_count,
-			eo.eojeol_total eojeol_total
-  		FROM
-  			audio.metadata m
-  		LEFT JOIN audio.program p 
-		ON
-  			m.title = p.file_num
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(form) sentence_count
-				FROM audio.utterance
-				GROUP BY metadata_id) ut
-		ON
-			m.id = ut.metadata_id
-		LEFT JOIN 
-			(SELECT metadata_id, COUNT(standard) eojeol_total
-				FROM audio.eojeolList
-				GROUP BY metadata_id) eo
-		ON
-			m.id = eo.metadata_id
+		<include refid="getMetadataAndProgram" />
 		WHERE 
 			m.id = #{metaId};
 	</select>
