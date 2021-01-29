@@ -299,6 +299,16 @@ public class RuleDaoImpl implements RuleDao {
 	public int registerPrevBottomLevel(Rule rule) {
 		return sqlSession.insert(ruleNS + "registerPrevBottomLevel", rule);
 	}
+	
+	/**
+	 * 이전 전사규칙을 업데이트함
+	 * @param rule 이전 전사규칙 업데이트를 위한 Rule 객체
+	 * @return 업데이트된 이전 전사규칙 DB row의 수
+	 */
+	@Override
+	public int updatePrevBottomLevel(Rule rule) {
+		return sqlSession.update(ruleNS + "updatePrevBottomLevel", rule);
+	}
 
 	/**
 	 * 대분류가 중복되지 않았는지 해당되는 row 개수를 가져옴

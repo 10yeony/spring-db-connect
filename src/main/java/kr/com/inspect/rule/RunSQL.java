@@ -233,6 +233,8 @@ public class RunSQL {
         Rule vo = ruleDao.getRuleBottomLevel(rule.getBottom_level_id());
         if(!(presentVersion.equals(vo.getVersion()) || presentVersion.equals("0"))) {
         	ruleDao.registerPrevBottomLevel(vo);
+        }else {
+        	ruleDao.updatePrevBottomLevel(vo);
         }
         
         if(TIME != null) {

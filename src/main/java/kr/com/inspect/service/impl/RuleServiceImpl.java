@@ -293,6 +293,7 @@ public class RuleServiceImpl implements RuleService {
 			case "bottom":
 				id = ruleDao.isExistBottomLevel(rule); // 등록 전 아이디(중복 확인)
 				if (id == 0) { // 존재하지 않는 경우에만 등록
+					rule.setVersion("1.0");
 					result = ruleDao.registerBottomLevel(rule);
 					id = ruleDao.isExistBottomLevel(rule); // 등록 후 아이디(auto increment된 아이디)
 					
@@ -396,6 +397,8 @@ public class RuleServiceImpl implements RuleService {
 		int updateResult = ruleDao.updateRuleCompileResult(vo);
 		if(!presentVersion.equals(rule.getVersion())) {
 			updateResult += ruleDao.registerPrevBottomLevel(vo);
+		}else {
+			updateResult += ruleDao.updatePrevBottomLevel(vo);
 		}
 		if(updateResult > 0) {
 			RuleLog ruleLog = new RuleLog();
