@@ -47,6 +47,8 @@
 				.codeOrange{ color: #fd8b19; }
 				.codeYellowGreen{ color: #8fc13e }
 				.codeRemoveMargin{ margin-left:-3px; margin-right:-3px; }
+				
+				.method_style{ background: black; }
 			</style>
 		</c:if>
 		<c:if test="${rule.rule_type == 'sql'}">
@@ -55,22 +57,13 @@
 		    <script
 		    	src="${pageContext.request.contextPath}/resource/codemirror/sql.js"></script>
 		    <style>
-		    	#code_area {
-		    		text-align: left;
-		    	}
+		    	#code_area { text-align: left; }
+		    	.sql_style{ background: #E4F5EB; }
 		    </style>
 		</c:if>
 	</c:forEach>
 	<style>
-		mark {
-			background: #F5ACB9;
-		}
-		.sql_style{
-			background: #E4F5EB;
-		}
-		.method_style{
-			background: black;
-		}
+		mark { background: #F5ACB9; }
 	</style>
 </head>
 
