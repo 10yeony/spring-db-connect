@@ -83,7 +83,7 @@
 		VALUES
 			(#{bottom_level_name}, #{description}, #{creator},
 			#{top_level_id}, #{middle_level_id}, #{rule_type},
-			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), '1.0');
+			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), #{version});
 	</insert>
 	
 	<!-- 이전 소분류 모음 -->
@@ -103,6 +103,24 @@
 			to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), #{version},
 			#{contents}, #{result}, #{imp_contents});
 	</insert>
+	<update id="updatePrevBottomLevel"
+		parameterType="kr.com.inspect.dto.Rule">
+		UPDATE
+			audio.prev_rule_bottom_level
+		SET
+			top_level_name = #{top_level_name}, 
+			middle_level_name = #{middle_level_name}, 
+			bottom_level_name = #{bottom_level_name}, 
+			description = #{description}, 
+			creator = #{creator}, 
+			date = to_char(now(), 'YYYY-MM-DD HH24:MI:SS'), 
+			contents = #{contents}, 
+			result = #{result}, 
+			imp_contents = #{imp_contents}
+		WHERE
+			bottom_level_id = #{bottom_level_id} AND
+			version = #{version}
+	</update>
 
 	<!-- 중복검사를 위한 대분류 존재 유무 확인 -->
 	<select id="isExistTopLevel"
