@@ -60,7 +60,7 @@ public class SQLController {
     public void runSQL(HttpServletResponse response, @RequestParam("query") String query) {
         ResponseData responseData = new ResponseData(); //ajax 응답 객체
 
-        // 앞뒤 공백 제거, 소문자 전환
+        // 앞뒤 공백 제거
         responseData = runSQL.run(responseData, query.trim());
 
         UsingLog usingLog = new UsingLog();
