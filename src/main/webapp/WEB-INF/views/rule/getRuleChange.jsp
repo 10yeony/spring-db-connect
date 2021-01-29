@@ -32,14 +32,46 @@
 					rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
 			<script
 					src="${pageContext.request.contextPath}/resource/codemirror/clike.js"></script>
+			<style>
+				#code_area{
+					background: #322931;
+					text-align: left;
+					padding: 10px;
+				}
+				.CodeMirror{
+					font-size: 1em;
+					font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+				}
+				.codeWhite{ color: white; }
+				.codeRed{ color: #dd464c; }
+				.codeOrange{ color: #fd8b19; }
+				.codeYellowGreen{ color: #8fc13e }
+				.codeRemoveMargin{ margin-left:-3px; margin-right:-3px; }
+			</style>
 		</c:if>
 		<c:if test="${rule.rule_type == 'sql'}">
 			<link
 	            rel="stylesheet" href="https://codemirror.net/theme/duotone-light.css">
 		    <script
 		    	src="${pageContext.request.contextPath}/resource/codemirror/sql.js"></script>
+		    <style>
+		    	#code_area {
+		    		text-align: left;
+		    	}
+		    </style>
 		</c:if>
 	</c:forEach>
+	<style>
+		mark {
+			background: #F5ACB9;
+		}
+		.sql_style{
+			background: #E4F5EB;
+		}
+		.method_style{
+			background: black;
+		}
+	</style>
 </head>
 
 <body id="page-top">
@@ -68,6 +100,7 @@
 				
 				<div class="row">	
 					<c:forEach items="${list}" var="rule" varStatus="status">
+						<input type="hidden" class="rule_type" value="${rule.rule_type}">
 						<div class="col-xl-6 col-lg-6">
 							<div class="card shadow mb-4">
 								<!-- Card Header - Dropdown -->
@@ -104,6 +137,129 @@
 												<td class="rule_description">${rule.description}</td>
 											</tr>
 										</table>
+										<c:if test="${rule.rule_type == 'sql'}">
+											<div id="code_area">
+												<textarea class="query" name="query" cols="170" rows="20"
+	                                  		style="height: 300px;">${rule.contents}</textarea>
+                                  	</div>
+										</c:if>
+										<c:if test="${rule.rule_type == 'method'}">
+											<div id="code_area" style="font-size: 1.2em; font-weight: bold;">
+												<div style="margin-left:0.23%;">
+													<span class="codeRed">package</span>
+													<span class="codeYellowGreen">kr</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">com</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">inspect</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">rule</span>
+													<span class="codeWhite codeRemoveMargin">;</span>
+												</div><br/>
+												<div style="margin-left: 0.23%;">
+													<span class="codeRed">import</span>
+													<span class="codeYellowGreen">kr</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">com</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">inspect</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">rule</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">Data</span>
+													<span class="codeWhite codeRemoveMargin">;</span>
+													<br/>
+													<span class="codeRed">import</span>
+													<span class="codeYellowGreen">kr</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">com</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">inspect</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">dto</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">Metadata</span>
+													<span class="codeWhite codeRemoveMargin">;</span>
+													<br/>
+													<span class="codeRed">import</span>
+													<span class="codeYellowGreen">kr</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">com</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">inspect</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">dto</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">Program</span>
+													<span class="codeWhite codeRemoveMargin">;</span>
+													<br/>
+													<span class="codeRed">import</span>
+													<span class="codeYellowGreen">kr</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">com</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">inspect</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">dto</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">Speaker</span>
+													<span class="codeWhite codeRemoveMargin">;</span>
+													<br>
+													<span class="codeRed">import</span>
+													<span class="codeYellowGreen">kr</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">com</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">inspect</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">dto</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">Utterance</span>
+													<span class="codeWhite codeRemoveMargin">;</span>
+													<br>
+													<span class="codeRed">import</span>
+													<span class="codeYellowGreen">kr</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">com</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">inspect</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">dto</span>
+													<span class="codeWhite codeRemoveMargin">.</span>
+													<span class="codeYellowGreen">EojeolList</span>
+													<span class="codeWhite codeRemoveMargin">;</span>
+												</div>
+												<div style="height: 100px;"><br/>
+													<textarea class="imp_contents" name="imp_contents" cols="170" rows="20"
+														style="height: 50px;">${rule.imp_contents}</textarea>
+												</div><br/><br/>
+												<div style="margin-left: 0.23%;">
+													<span class="codeRed">public class</span>
+													<span class="codeOrange"> ${rule.file_name}</span>
+													<span class="codeWhite">{</span>
+												</div>
+												<div style="margin-left: 3%;">
+													<span class="codeRed">public </span>
+													<span class="codeWhite">Object </span>
+													<span class="codeOrange">run</span>
+													<span class="codeWhite" style="margin-left:-5px;">()</span>
+													<span class="codeWhite">throws </span>
+													<span class="codeYellowGreen">Exception </span>
+													<span class="codeWhite">{</span>
+												</div>
+												<div style="margin-left: 5%; height: 300px;">
+													<textarea class="contents" name="contents" cols="170" rows="20"
+														style="resize: none;">${rule.contents}</textarea>
+												</div>
+				
+												<div style="margin-left: 3%;">
+													<span class="codeWhite">}</span>
+												</div>
+												<div style="margin-bottom: 5px;">
+													<span class="codeWhite">}</span>
+												</div>
+											</div>
+										</c:if>
 									</div>
 								</div>
 							</div>
