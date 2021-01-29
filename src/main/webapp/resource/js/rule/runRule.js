@@ -103,6 +103,8 @@ function appendRunRuleResultArea(list){
 				
 		var bottom_level_name = list[i].bottom_level_name;
 		
+		var description = list[i].description;
+		
 		var result = list[i].result;
 
 		var rule_type = list[i].rule_type;
@@ -121,6 +123,7 @@ function appendRunRuleResultArea(list){
 				'</span><br/>' +
 				'<b>중분류 : </b>' + middle_level_name + '<br/>' +
 				'<b>소분류 : </b>' + bottom_level_name + '<br/>'+
+				'<b>설명 : </b>' + description + '<br/>'+
 				'<b>타입 : </b>' + rule_type + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
 			'</div><br/><br/>';
 
