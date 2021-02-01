@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	<!-- eojeolList 테이블에 데이터를 입력함 -->
 	<insert id="insertIntoEojeolList" parameterType="kr.com.inspect.dto.EojeolList">
 		INSERT INTO audio.eojeolList
-				(id,
+				(
 				standard, 
 				eojeol, 
 				finish, 
@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				begin, 
 				utterance_id, 
 				metadata_id)
-			VALUES(#{id}, 
+			VALUES(
 				#{standard}, 
 				#{eojeol}, 
 				#{finish}, 

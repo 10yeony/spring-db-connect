@@ -195,9 +195,6 @@ public class JsonParsing {
 			for(int i=0; i<arr.size(); i++) {
 				Map element = (Map)arr.get(i);
 			    EojeolList eojeolList = new EojeolList();
-			    if(!ObjectUtils.isEmpty(element.get("id"))) {
-			    	eojeolList.setId(element.get("id").toString()); //primary key
-			    }
 			    if(!ObjectUtils.isEmpty(element.get("standard"))) {
 			    	eojeolList.setStandard(element.get("standard").toString());
 			    }

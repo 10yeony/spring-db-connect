@@ -9,9 +9,9 @@ package kr.com.inspect.dto;
 
 public class EojeolList {
 	/**
-	 * primary key, 어절을 구분하기 위한 uuid 형식의 아이디
+	 * primary key, auto increment
 	 */
-	private String id;
+	private int no;
 	/**
 	 * 표준어 어절
 	 */
@@ -46,10 +46,10 @@ public class EojeolList {
 	 */
 	public EojeolList() {}
 	
-	public EojeolList(String id, String standard, String eojeol, boolean isDialect, int begin, int finish,
+	public EojeolList(int no, String standard, String eojeol, boolean isDialect, int begin, int finish,
 			String utterance_id, int metadata_id) {
 		super();
-		this.id = id;
+		this.no = no;
 		this.standard = standard;
 		this.eojeol = eojeol;
 		this.isDialect = isDialect;
@@ -60,21 +60,21 @@ public class EojeolList {
 	}
 	
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public String getId() {
-		return id;
+	public int getNo() {
+		return no;
 	}
-	
+
 	/**
-	 * 
-	 * @param id
+	 *
+	 * @param no
 	 */
-	public void setId(String id) {
-		this.id = id;
+	public void setNo(int no) {
+		this.no = no;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -192,7 +192,7 @@ public class EojeolList {
 	 */
 	@Override
 	public String toString() {
-		return "EojeolList [id=" + id + ", standard=" + standard + ", eojeol=" + eojeol + ", isDialect=" + isDialect
+		return "EojeolList [no=" + no + ", standard=" + standard + ", eojeol=" + eojeol + ", isDialect=" + isDialect
 				+ ", begin=" + begin + ", finish=" + finish + ", utterance_id=" + utterance_id + ", metadata_id="
 				+ metadata_id + "]";
 	}

@@ -399,7 +399,7 @@ public class Data {
 		
 		while(rs.next()){
 			vo = new EojeolList();
-			vo.setId(rs.getString("id"));
+			vo.setNo(rs.getInt("no"));
 			vo.setStandard(rs.getString("standard"));
 			vo.setEojeol(rs.getString("eojeol"));
 			vo.setFinish(rs.getInt("finish"));
