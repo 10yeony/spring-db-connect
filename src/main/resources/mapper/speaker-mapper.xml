@@ -29,4 +29,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	  			#{education},
 	  			#{metadata_id});
 	</select>
+	<select id="getSpeakerByMetadataId" parameterType="int" resultType="kr.com.inspect.dto.Speaker">
+		SELECT 
+			* 
+		FROM 
+			audio.speaker
+		WHERE 
+			metadata_id=#{metadata_id}
+		ORDER BY id;
+	</select>
 </mapper>

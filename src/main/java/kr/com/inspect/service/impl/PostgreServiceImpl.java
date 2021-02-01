@@ -3,8 +3,10 @@ package kr.com.inspect.service.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,7 +19,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.elasticsearch.search.SearchHit;
@@ -42,6 +46,7 @@ import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.paging.CommonDto;
 import kr.com.inspect.paging.PagingResponse;
+import kr.com.inspect.parser.JsonMaker;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
@@ -228,6 +233,51 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	public List<EojeolList> getEojeolListUsingUtteranceId(String id){
 		return postgreDao.getEojeolListUsingUtteranceId(id);
+	}
+	
+	/**
+	 * metadata 아이디로 JSON 파일을 다운받음
+	 * @param response 응답 객체
+	 * @param metadata_id metadata id
+	 * @param jsonOutputPath JSON 파일을 생성할 경로
+	 */
+	@Override
+	public void downloadMetadataJSON(HttpServletResponse response, int metadata_id, String jsonOutputPath) {
+		/* JSON 파일로 쓸 데이터 */
+		Metadata metadata = postgreDao.getMetadataById(metadata_id);
+		List<Speaker> speakerList = postgreDao.getSpeakerByMetadataId(metadata_id);
+		List<Utterance> utteranceList = postgreDao.getUtteranceUsingMetadataId(metadata_id);
+		List<EojeolList> eojeolListList = postgreDao.getEojeolListByMetadataId(metadata_id);
+		
+		String fileName = metadata.getTitle() + ".json"; //json 파일명
+		
+		/* JSON 파일 내용 */
+		JsonMaker jsonMaker = new JsonMaker();
+		String jsonStr = jsonMaker.writeMetadataJson(metadata, speakerList, utteranceList, eojeolListList);
+		
+		try {
+			/* JSON 파일 생성 */
+			FileWriter fw = new FileWriter(jsonOutputPath + fileName);
+			fw.write(jsonStr);
+			fw.flush();
+			fw.close();
+			
+			/* JSON 파일 다운로드 */
+			File file = new File(jsonOutputPath + fileName);
+			if (file.exists() && file.isFile()) {
+				byte fileByte[] = FileUtils.readFileToByteArray(file);
+				response.setContentType("application/octet-stream");
+				response.setContentLength(fileByte.length);
+				response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(fileName,"UTF-8")+"\";");
+				response.setHeader("Content-Transfer-Encoding", "binary");
+				response.getOutputStream().write(fileByte);
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+				file.delete();
+			}
+		} catch (IOException e) {
+			//e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	
 	<!-- Metadata id로 Utterance를 가져옴(어절 개수 포함) -->
 	<select id="getUtteranceByMetadataId" parameterType="Integer" resultType="kr.com.inspect.dto.Utterance" resultMap="utteranceWithEojeolCount">
-		SELECT u.id, u.note, u.standard_form, u.form, u.speaker_no, u.start, u.finish, count(standard) eojeol_count
+		SELECT u.id, u.note, u.standard_form, u.dialect_form, u.form, u.speaker_no, u.start, u.finish, count(standard) eojeol_count
 			FROM audio.utterance u, audio.eojeollist e
 			WHERE u.metadata_id = #{value} and u.id = e.utterance_id
 			group by u.id

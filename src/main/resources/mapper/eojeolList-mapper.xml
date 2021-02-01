@@ -24,6 +24,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				#{metadata_id});
 	</insert>
 	
+	<!-- metadata_id 를 이용하여 eojeollist 데이터 가져오기 -->
+	<select id="getEojeolListByMetadataId" parameterType="int" resultType="kr.com.inspect.dto.EojeolList">
+		SELECT *
+		FROM
+			audio.eojeolList
+		WHERE
+			metadata_id = #{metadata_id}
+		ORDER BY no;
+	</select>
+	
 	<!-- utterance_id 를 이용하여 eojeollist 데이터 가져오기 -->
 	<select id="getEojeolListUsingUtteranceId" parameterType="string" resultType="kr.com.inspect.dto.EojeolList">
 		SELECT * 

@@ -35,6 +35,20 @@ public interface PostgreDao {
 	public Metadata getMetadataById(Integer id);
 	
 	/**
+	 * metadata id로 speaker 리스트를 가져옴
+	 * @param metadata_id metadata 테이블의 id 값
+	 * @return metadata id로 가져온 speaker 리스트
+	 */
+	public List<Speaker> getSpeakerByMetadataId(int metadata_id);
+	
+	/**
+	 * metadata id로 eojeolList 리스트를 가져옴
+	 * @param metadata_id metadata 테이블의 id 값
+	 * @return metadata id로 가져온 eojeolList 리스트
+	 */
+	public List<EojeolList> getEojeolListByMetadataId(int metadata_id);
+	
+	/**
 	 * metadataId로 해당되는 Utterance 테이블을 가져옴
 	 * @param metadataId Utterance의 metadataId
 	 * @return metadataId에 해당하는 Utterance 테이블 값을 리스트로 담아 리턴

@@ -2,6 +2,9 @@ package kr.com.inspect.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -19,8 +22,6 @@ import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * PostgreSQL 컨트롤러
@@ -43,6 +44,12 @@ public class PostgreController {
 	 * 엘라스틱 서치에서 가져온 정보
 	 */
 	private String index = "audiolist";
+	
+	/**
+	 * 다운받을 json 파일을 저장할 경로
+	 */
+	@Value("${output.json.directory}")
+	private String jsonOutputPath;
 	
 //	/**
 //	 * 업로드될 JSON 파일이 담기는 경로<br>
@@ -90,6 +97,18 @@ public class PostgreController {
 	public String insertPostgres() {
 		return "postgreSQL/insertPostgres";
 	}
+	
+	
+	/**
+	 * metadata 아이디로 JSON 파일을 다운받음
+	 * @param response 응답 객체
+	 * @param metadata_id metadata id
+	 */
+	@GetMapping("/downloadMetadataJSON")
+	@ResponseBody
+	public void downloadMetadataJSON(HttpServletResponse response, int metadata_id) {
+		postgreService.downloadMetadataJSON(response, metadata_id, jsonOutputPath);
+	}
 
 	/**
 	 * json 파일 jsonPath 에 업로드
@@ -101,7 +120,6 @@ public class PostgreController {
 	@ResponseBody
 	public String jsonUpload (@RequestParam("jsonFile") List<MultipartFile> multipartFile) throws Exception{
 		postgreService.insertJSONUpload(jsonPath, multipartFile);
-
 		return "true";
 	}
 

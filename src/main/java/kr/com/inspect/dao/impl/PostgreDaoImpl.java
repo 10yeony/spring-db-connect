@@ -1,6 +1,9 @@
 package kr.com.inspect.dao.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.JsonLog;
 import kr.com.inspect.dto.Metadata;
+import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
 
 /**
@@ -26,6 +30,7 @@ public class PostgreDaoImpl implements PostgreDao {
 	private SqlSession sqlSession;
 	
 	private final String metadataNS = "MetadataMapper.";
+	private final String speakerNS = "SpeakerMapper.";
 	private final String utteranceNS = "UtteranceMapper.";
 	private final String eojeolListNS = "EojeolListMapper.";
 	private final String jsonLogNS = "JsonLogMapper.";
@@ -87,6 +92,26 @@ public class PostgreDaoImpl implements PostgreDao {
 	@Override
 	public Metadata getMetadataById(Integer id){
 		return sqlSession.selectOne(metadataNS+"getMetadataById", id);
+	}
+	
+	/**
+	 * metadata의 id로 speaker 리스트를 가져옴
+	 * @param metadata_id metadata 테이블의 id 값
+	 * @return metadata의 id로 가져온 speaker 리스트
+	 */
+	@Override
+	public List<Speaker> getSpeakerByMetadataId(int metadata_id){
+		return sqlSession.selectList(speakerNS+"getSpeakerByMetadataId", metadata_id);
+	}
+	
+	/**
+	 * metadata id로 eojeolList 리스트를 가져옴
+	 * @param metadata_id metadata 테이블의 id 값
+	 * @return metadata id로 가져온 eojeolList 리스트
+	 */
+	@Override
+	public List<EojeolList> getEojeolListByMetadataId(int metadata_id){
+		return sqlSession.selectList(eojeolListNS+"getEojeolListByMetadataId", metadata_id);
 	}
 	
 	/**

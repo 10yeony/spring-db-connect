@@ -146,7 +146,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 
 	<!-- id를 이용해서 metadata 데이터 가져오기 -->
 	<select id="getMetadataById" parameterType="int" resultType="kr.com.inspect.dto.Metadata">
-		SELECT * 
+		SELECT 
+			* 
 		FROM 
 			audio.metadata
 		WHERE 

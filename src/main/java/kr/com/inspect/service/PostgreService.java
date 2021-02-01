@@ -10,6 +10,7 @@ import kr.com.inspect.dto.ResponseData;
 import kr.com.inspect.dto.Utterance;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * PostgreSQL Service Interface
@@ -24,6 +25,14 @@ public interface PostgreService {
 	 * @param index 엘라스틱 서치의 index 값
 	 */
 	public void insertElasticIndex(String index);
+	
+	/**
+	 * metadata 아이디로 JSON 파일을 다운받음
+	 * @param response 응답 객체
+	 * @param metadata_id metadata id
+	 * @param jsonOutputPath JSON 파일을 생성할 경로
+	 */
+	public void downloadMetadataJSON(HttpServletResponse response, int metadata_id, String jsonOutputPath);
 	
 	/**
 	 * Metadata 테이블을 모두 가지고 옴
