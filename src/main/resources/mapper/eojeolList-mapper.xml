@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 				#{utterance_id}, 
 				#{metadata_id});
 	</insert>
-	
+
 	<!-- utterance_id 를 이용하여 eojeollist 데이터 가져오기 -->
 	<select id="getEojeolListUsingUtteranceId" parameterType="string" resultType="kr.com.inspect.dto.EojeolList">
 		SELECT * 
@@ -35,4 +35,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			begin;
 	</select>
 
+	<delete id="deleteEojeolByUtteranceId" parameterType="String">
+		DELETE FROM
+			audio.eojeollist
+		WHERE
+			utterance_id = #{utterance_id};
+	</delete>
 </mapper>

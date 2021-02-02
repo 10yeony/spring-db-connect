@@ -23,15 +23,35 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- 로딩 이미지 -->
+    <style>
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            margin: -50px 0 0 -50px;
+        }
+    </style>
 </head>
 
 <body id="page-top">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
-
+    <input type="hidden" name="utteranceForm">
+    <input type="hidden" name="utteranceID">
     <!-- 사이드바 include-->
     <%@ include file="../include/sidebar.jsp"%>
+
+    <!-- 업로드시 로딩 화면 -->
+    <div id="loadingArea" class="w3-modal w3-animate-opacity">
+        <img class="loading" width="100px"
+             src="${pageContext.request.contextPath}/resource/img/loading.gif">
+    </div>
+
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -121,7 +141,11 @@
 	                                        <tr>
 	                                        	  <c:set var="count" value="${count+1}" />
 	                                            <td>${count}</td>
-	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a></td>
+	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a>&nbsp;&nbsp;
+                                                    <a onclick="clickEditBtn('${item.form}','${item.id}')" data-toggle="modal"
+                                                       data-target="#editUtteranceModal">
+                                                        <i class="fas fa-pen"></i></a>
+                                                </td>
 	                                            <td>
                                                     <fmt:formatNumber value="${item.start}" pattern=".00"/>&nbsp;&nbsp;
                                                     <div align="right">
@@ -148,6 +172,9 @@
         </div>
         <!-- End of Main Content -->
 
+        <!-- utterance 수정  -->
+        <%@ include file="../include/edit_utterance.jsp"%>
+
         <!-- footer include-->
         <%@ include file="../include/footer.jsp"%>
 
@@ -163,6 +190,22 @@
 </a>
 
 <script>
+function clickEditBtn(form, id){
+    $("input[type=hidden][name=utteranceForm]").val(form);
+    $('#editArea').empty();
+    $('#editArea').append(
+        '<input type="hidden" name="id" value="'+id+'">' +
+        '<br/><span>' +
+        '<b style="font-size:14px">기존 문장</b>' +
+        '</span><br/>'
+         +'<span>'+form+'</span>' +
+        '<br><br><span>' +
+        '<b style="font-size:14px">변경할 문장으로 입력해주세요.</b>' +
+        '</span><br/>' +
+        '<textarea id="edit_form" type="text" class="form-control" name="form" rows="5"' +
+        '>'+ form +'</textarea><br><br>');
+}
+
 function send(type, file, fileurl){
     var url = '${pageContext.request.contextPath}/'+fileurl;
 

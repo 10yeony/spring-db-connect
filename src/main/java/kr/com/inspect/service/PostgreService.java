@@ -152,4 +152,12 @@ public interface PostgreService {
 	 * @throws Exception 파일 업로드 예외처리
 	 */
 	public void uploadWav(List<MultipartFile> wavFile) throws Exception;
+
+	/**
+	 * utterance 수정
+	 * @param id 수정할 utterance 의 id
+	 * @param form 바꿀 문장
+	 * @return 수정 완료 여부
+	 */
+	public boolean editUtterance(String id, String form);
 }

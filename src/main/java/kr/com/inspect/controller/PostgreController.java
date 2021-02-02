@@ -7,12 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dto.EojeolList;
@@ -32,32 +27,32 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @PropertySource(value = "classpath:properties/directory.properties")
 public class PostgreController {
-	
+
 	/**
 	 * PostgreSQL 서비스 필드 선언
 	 */
 	@Autowired
 	private PostgreService postgreService;
-	
+
 	/**
 	 * 엘라스틱 서치에서 가져온 정보
 	 */
 	private String index = "audiolist";
-	
+
 //	/**
 //	 * 업로드될 JSON 파일이 담기는 경로<br>
 //	 * (곧바로 파싱 후 DB에 등록되고 삭제됨. 일반 사용자가 사용하는 경로.)
 //	 */
 //	@Value("${input.uploadJson.directory}")
 //	private String uploadJsonPath;
-	
+
 	/**
 	 * 업로드될 xlsx 파일이 담기는 경로<br>
 	 * (곧바로 파싱 후 DB에 등록되고 삭제됨. 일반 사용자가 사용하는 경로.)
 	 */
 	@Value("${input.uploadXlsx.directory}")
 	private String uploadXlsxPath;
-	
+
 	/**
 	 * 업로드될 JSON 파일이 담기는 경로<br>
 	 * (주기적으로 모니터링하여 일정한 시간에 파일이 있으면 파싱 후 DB에 등록하고 삭제함. <br>
@@ -65,7 +60,7 @@ public class PostgreController {
 	 */
 	@Value("${input.json.directory}")
 	private String jsonPath;
-	
+
 	/**
 	 * 업로드될 xlsx 파일이 담기는 경로(관리자가 사용하는 경로.)
 	 */
@@ -81,7 +76,7 @@ public class PostgreController {
 		postgreService.insertElasticIndex(index);
 		return "postgreSQL/insertElasticIndex";
 	}
-	
+
 	/**
 	 * 데이터 입력 페이지로 이동
 	 * @return 페이지 값 리턴
@@ -154,7 +149,7 @@ public class PostgreController {
 	}
 
 	/**
-	 * EojeolList 테이블 가져오기 
+	 * EojeolList 테이블 가져오기
 	 * @param model 속성부여
 	 * @param format 테이블 조인값
 	 * @return EojeoList 값 리턴
@@ -166,5 +161,19 @@ public class PostgreController {
 		model.addAttribute("metadata",postgreService.getMetadataAndProgramUsingId(eojeolLists.get(0).getMetadata_id()));
 		model.addAttribute("utterance",postgreService.getUtteranceUsingId(eojeolLists.get(0).getUtterance_id()));
 		return "postgreSQL/getEojeolList";
+	}
+
+	/**
+	 * utterance 수정
+	 * @param form 수정할 텍스트
+	 * @param id 수정할 utterance 의 id
+	 * @return 수정 성공여부
+	 */
+	@RequestMapping(value = "/editUtterance", method = RequestMethod.POST)
+	@ResponseBody
+	public String editUtterance(@RequestParam("form") String form, @RequestParam("id") String id){
+		postgreService.editUtterance(id, form);
+
+		return "true";
 	}
 }

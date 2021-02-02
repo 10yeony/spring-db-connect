@@ -5,15 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.com.inspect.dto.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.RuleDao;
-import kr.com.inspect.dto.ApiDesc;
-import kr.com.inspect.dto.CustomLibrary;
-import kr.com.inspect.dto.Rule;
-import kr.com.inspect.dto.RuleLog;
 
 /**
  * 전사규칙과 관련된 DAO 구현 클래스
@@ -49,6 +46,11 @@ public class RuleDaoImpl implements RuleDao {
 	 * Api Mapper 네임스페이스
 	 */
 	private final String apiNS = "ApiMapper.";
+
+	/**
+	 * UtteranceLog Mapper 네임스페이스
+	 */
+	private final String utteranceLogNS = "UtteranceLogMapper.";
 
 	/**
 	 * 전사규칙 대분류 드롭다운 목록을 리턴함
@@ -646,5 +648,15 @@ public class RuleDaoImpl implements RuleDao {
 		map.put("bottom_level_id", bottom_level_id);
 		map.put("prev_bottom_level_id", prev_bottom_level_id);
 		return sqlSession.selectList(ruleNS + "getRuleChange", map);
+	}
+
+	/**
+	 * 문장의 변경사항을 로그로 저장
+	 * @param utteranceLog 저장할 로그
+	 * @return 저장한 개수
+	 */
+	@Override
+	public int insertIntoUtteranceLog(UtteranceLog utteranceLog){
+		return sqlSession.insert(utteranceLogNS+"insertIntoUtteranceLog", utteranceLog);
 	}
 }

@@ -111,5 +111,31 @@ public interface PostgreDao {
 	 */
 	public Utterance getUtteranceUsingId(String id);
 
+	/**
+	 * 대쉬보드에 필요한 회원수, 전사데이터수, 문장수 가져옴
+	 * @return 회원수, 전사데이터수, 문장수
+	 */
 	public Map<String, Object> getDashboardCount();
+
+	/**
+	 * utterance 수정
+	 * @param id 수정할 utterance id
+	 * @param form 새로운 문장
+	 * @return update된 수
+	 */
+	public int updateUtteranceForm(String id, String form);
+
+	/**
+	 * utterance id로 어절 삭제
+	 * @param id
+	 * @return 삭제된 수
+	 */
+	public int deleteEojeolByUtteranceId(String id);
+
+	/**
+	 * eojeolList 등록
+	 * @param eojeolList 등록할 eojeollist
+	 * @return 등록된 수
+	 */
+	public int insertIntoEojeolList(EojeolList eojeolList);
 }

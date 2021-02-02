@@ -3,10 +3,7 @@ package kr.com.inspect.dao;
 import java.util.List;
 import java.util.Map;
 
-import kr.com.inspect.dto.ApiDesc;
-import kr.com.inspect.dto.CustomLibrary;
-import kr.com.inspect.dto.Rule;
-import kr.com.inspect.dto.RuleLog;
+import kr.com.inspect.dto.*;
 
 /**
  * 전사규칙과 관련된 DAO 인터페이스
@@ -330,4 +327,11 @@ public interface RuleDao {
 	 * @return 룰의 버전별 변화(수정 전/수정 후)
 	 */
 	public List<Rule> getRuleChange(int bottom_level_id, int prev_bottom_level_id);
+
+	/**
+	 * 문장의 변경사항을 로그로 저장
+	 * @param utteranceLog 저장할 로그
+	 * @return 저장한 개수
+	 */
+	public int insertIntoUtteranceLog(UtteranceLog utteranceLog);
 }

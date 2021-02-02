@@ -18,6 +18,7 @@ import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 
+import kr.com.inspect.dto.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.elasticsearch.search.SearchHit;
@@ -32,14 +33,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dao.ElasticDao;
 import kr.com.inspect.dao.PostgreDao;
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.JsonLog;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Program;
-import kr.com.inspect.dto.ResponseData;
-import kr.com.inspect.dto.Speaker;
-import kr.com.inspect.dto.UsingLog;
-import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.paging.CommonDto;
 import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.parser.JsonParsing;
@@ -783,5 +776,61 @@ public class PostgreServiceImpl implements PostgreService{
 			}
         }
 		executor.shutdownNow(); //Task 종료
+	}
+
+	/**
+	 * utterance 수정
+	 * @param id 수정할 utterance 의 id
+	 * @param form 바꿀 문장
+	 * @return 수정 완료 여부
+	 */
+	@Override
+	public boolean editUtterance(String id, String form){
+		Utterance utterance = postgreDao.getUtteranceUsingId(id);
+		String after = form;
+		String before = utterance.getForm();
+		String content = "전사데이터 문장 수정";
+
+		// using_log와 utterance_log에 등록
+		final int NO = usingLogUtil.insertUsingLog(content);
+		UtteranceLog utteranceLog = new UtteranceLog();
+		utteranceLog.setMetadata_id(utterance.getMetadata_id());
+		utteranceLog.setAfter(after);
+		utteranceLog.setBefore(before);
+		utteranceLog.setContent(content);
+		utteranceLog.setUsing_log_no(NO);
+		usingLogUtil.setUsingLog(utteranceLog);
+
+		// 문장 update
+		postgreDao.updateUtteranceForm(id, form);
+
+		// 어절리스트 삭제
+		postgreDao.deleteEojeolByUtteranceId(id);
+
+		// 새로운 문장에 맞는 어절리스트 삽입
+		String[] strList = form.split(" ");
+		List<EojeolList> eojeolLists = new ArrayList<>();
+		EojeolList eojeolList;
+		int idx = 0;
+
+		for(int i=0; i<strList.length; i++){
+			eojeolList = new EojeolList();
+			eojeolList.setBegin(idx);
+			idx += strList[i].length();
+			eojeolList.setFinish(idx);
+			eojeolList.setEojeol(strList[i]);
+			eojeolList.setMetadata_id(utterance.getMetadata_id());
+			eojeolList.setStandard(strList[i]);
+			eojeolList.setUtterance_id(utterance.getId());
+			eojeolLists.add(eojeolList);
+			idx++;
+		}
+
+
+		for(int i=0; i<eojeolLists.size(); i++){
+			postgreDao.insertIntoEojeolList(eojeolLists.get(i));
+		}
+
+		return true;
 	}
 }
