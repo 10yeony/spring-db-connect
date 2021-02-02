@@ -53,4 +53,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			FROM audio.utterance u
 			WHERE u.id = #{id};
 	</select>
+
+	<update id="updateUtteranceForm" parameterType="hashMap">
+		UPDATE
+			audio.utterance
+		SET
+			form = #{form}
+		WHERE
+			id = #{id};
+	</update>
 </mapper>

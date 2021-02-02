@@ -1,5 +1,6 @@
 package kr.com.inspect.util;
 
+import kr.com.inspect.dto.UtteranceLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -56,7 +57,11 @@ public class UsingLogUtil {
 				ruleLog.setUsing_log_no(getNoOfUsingLog(usingLog));
 			}
 			ruleDao.insertIntoRuleLog(ruleLog);
-		}else {
+		}
+		else if(usingLog instanceof UtteranceLog){
+			ruleDao.insertIntoUtteranceLog((UtteranceLog)usingLog);
+		}
+		else {
 			memberDao.insertIntoUsingLog(usingLog);
 		}
 	}
