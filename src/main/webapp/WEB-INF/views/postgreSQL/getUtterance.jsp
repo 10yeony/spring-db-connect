@@ -107,7 +107,7 @@
                         	  <button class="btn btn-danger shadow-sm btn-sm"
                         	  			style="width: 105pt; height: 40px; margin-bottom: 10px; float:right;" 
                         	  			onclick="location.href='${pageContext.request.contextPath}/downloadMetadataJSON?metadata_id=${metadata.id}'">
-                                 <i class="fas fa-paper-plane fa-sm text-white-50"></i>
+                                 <i class="fas fa-download fa-sm text-white-50"></i>
                                  &nbsp;&nbsp;JSON 다운로드
                             </button>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
