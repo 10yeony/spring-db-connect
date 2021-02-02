@@ -172,8 +172,8 @@ public class JsonParsing {
 		    }
 		    utterance.setMetadata_id(metadata_id); //foreign key
 		    
-		    JSONArray eojoelArr = (JSONArray)element.get("eojeolList");
-		    utterance.setEojoelList(setEojeolList(eojoelArr, utterance_id, metadata_id)); //EojeolList 목록 추가
+		    JSONArray eojeolArr = (JSONArray)element.get("eojeolList");
+		    utterance.setEojoelList(setEojeolList(eojeolArr, utterance_id, metadata_id)); //EojeolList 목록 추가
 		    utteranceList.add(utterance);
 		}
 		long afterTimeCheck = System.currentTimeMillis();

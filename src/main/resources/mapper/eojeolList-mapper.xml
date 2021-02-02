@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 			audio.eojeolList
 		WHERE
 			metadata_id = #{metadata_id}
-		ORDER BY no;
+		ORDER BY no, begin;
 	</select>
 	
 	<!-- utterance_id 를 이용하여 eojeollist 데이터 가져오기 -->

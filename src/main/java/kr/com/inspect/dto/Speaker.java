@@ -21,7 +21,7 @@ public class Speaker {
 	/**
 	 * 
 	 */
-	private int shortcut;
+	private Integer shortcut;
 	
 	/**
 	 * 직업
@@ -69,7 +69,7 @@ public class Speaker {
 	private int metadata_id;
 	
 	public Speaker() {}
-	public Speaker(int id, int no, int shortcut, String occupation, String sex, String name, String age,
+	public Speaker(int id, int no, Integer shortcut, String occupation, String sex, String name, String age,
 			String birthplace, String current_residence, String pricipal_residence, String education, int metadata_id) {
 		super();
 		this.id = id;
@@ -98,10 +98,10 @@ public class Speaker {
 	public void setNo(int no) {
 		this.no = no;
 	}
-	public int getShortcut() {
+	public Integer getShortcut() {
 		return shortcut;
 	}
-	public void setShortcut(int shortcut) {
+	public void setShortcut(Integer shortcut) {
 		this.shortcut = shortcut;
 	}
 	public String getOccupation() {

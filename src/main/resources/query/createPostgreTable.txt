@@ -41,7 +41,7 @@ CREATE TABLE audio.utterance (
 );
 
 CREATE TABLE audio.eojeolList (
-	id text PRIMARY KEY,
+	no serial PRIMARY KEY,
 	standard text,
 	eojeol text,
 	finish integer,

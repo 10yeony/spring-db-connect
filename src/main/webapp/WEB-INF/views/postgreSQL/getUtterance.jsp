@@ -65,8 +65,8 @@
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item dropdown no-arrow">
                                     <a class="nav-link dropdown-toggle btn btn-primary shadow-sm btn-sm " href="#" id="fileSend" style="width: 105pt"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                                            class="fas fa-paper-plane fa-sm text-white-50"></i>&nbsp;&nbsp;파일 전송</a>
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       <i class="fas fa-paper-plane fa-sm text-white-50"></i>&nbsp;&nbsp;파일 전송</a>
                                     <!-- Dropdown - User Information -->
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                          aria-labelledby="fileSend">
@@ -104,6 +104,12 @@
                 <div class="card sahadow mb-4">
                     <div class="card-body">
                         <div class="table-responsive">
+                        	  <button class="btn btn-danger shadow-sm btn-sm"
+                        	  			style="width: 105pt; height: 40px; margin-bottom: 10px; float:right;" 
+                        	  			onclick="location.href='${pageContext.request.contextPath}/downloadMetadataJSON?metadata_id=${metadata.id}'">
+                                 <i class="fas fa-paper-plane fa-sm text-white-50"></i>
+                                 &nbsp;&nbsp;JSON 다운로드
+                            </button>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
@@ -229,13 +235,6 @@ function pause(start){
 
 <!-- Custom scripts for all pages-->
 <script src="${pageContext.request.contextPath}/resource/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<script src="${pageContext.request.contextPath}/resource/vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-area-demo.js"></script>
-<script src="${pageContext.request.contextPath}/resource/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
