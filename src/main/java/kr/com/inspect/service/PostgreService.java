@@ -27,12 +27,15 @@ public interface PostgreService {
 	public void insertElasticIndex(String index);
 	
 	/**
-	 * metadata 아이디로 JSON 파일을 다운받음
+	 * metadata 아이디로 JSON 파일을 생성하여 다운로드하거나 메일을 전송함
 	 * @param response 응답 객체
+	 * @param type 요청의 종류(다운로드/메일)
+	 * @param email 이메일 주소
 	 * @param metadata_id metadata id
 	 * @param jsonOutputPath JSON 파일을 생성할 경로
 	 */
-	public void downloadMetadataJSON(HttpServletResponse response, int metadata_id, String jsonOutputPath);
+	public void makeMetadataJSON(HttpServletResponse response, 
+			String type, String email, int metadata_id, String jsonOutputPath);
 	
 	/**
 	 * Metadata 테이블을 모두 가지고 옴

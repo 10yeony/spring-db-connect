@@ -49,6 +49,7 @@ import kr.com.inspect.paging.PagingResponse;
 import kr.com.inspect.parser.JsonWriter;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
+import kr.com.inspect.sender.SendReport;
 import kr.com.inspect.service.PostgreService;
 import kr.com.inspect.util.ClientInfo;
 import kr.com.inspect.util.Singleton;
@@ -73,6 +74,12 @@ public class PostgreServiceImpl implements PostgreService{
 	 * Thread Safe하게 자원을 공유하기 위한 싱글톤 객체
 	 */
 	private Singleton singletone = Singleton.getInstance();
+	
+	/**
+	 * 메일과 sms 전송을 위한 SendReport 필드 선언
+	 */
+	@Autowired
+	private SendReport sendReport;
 	
 	/**
 	 * 엘라스틱 dao 필드 선언
@@ -236,13 +243,16 @@ public class PostgreServiceImpl implements PostgreService{
 	}
 	
 	/**
-	 * metadata 아이디로 JSON 파일을 다운받음
+	 * metadata 아이디로 JSON 파일을 생성하여 다운로드하거나 메일을 전송함
 	 * @param response 응답 객체
+	 * @param type 요청의 종류(다운로드/메일)
+	 * @param email 이메일 주소
 	 * @param metadata_id metadata id
 	 * @param jsonOutputPath JSON 파일을 생성할 경로
 	 */
 	@Override
-	public void downloadMetadataJSON(HttpServletResponse response, int metadata_id, String jsonOutputPath) {
+	public void makeMetadataJSON(HttpServletResponse response, 
+			String type, String email, int metadata_id, String jsonOutputPath) {
 		/* JSON 파일로 쓸 데이터 */
 		Metadata metadata = postgreDao.getMetadataById(metadata_id);
 		List<Speaker> speakerList = postgreDao.getSpeakerByMetadataId(metadata_id);
@@ -262,18 +272,31 @@ public class PostgreServiceImpl implements PostgreService{
 			fw.flush();
 			fw.close();
 			
-			/* JSON 파일 다운로드 */
+			/* JSON 파일 다운로드 또는 메일 전송 */
 			File file = new File(jsonOutputPath + fileName);
+			UsingLog usingLog = new UsingLog();
 			if (file.exists() && file.isFile()) {
-				byte fileByte[] = FileUtils.readFileToByteArray(file);
-				response.setContentType("application/octet-stream");
-				response.setContentLength(fileByte.length);
-				response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(fileName,"UTF-8")+"\";");
-				response.setHeader("Content-Transfer-Encoding", "binary");
-				response.getOutputStream().write(fileByte);
-				response.getOutputStream().flush();
-				response.getOutputStream().close();
-				file.delete();
+				if(type.equals("jsonDownload")) {
+					byte fileByte[] = FileUtils.readFileToByteArray(file);
+					response.setContentType("application/octet-stream");
+					response.setContentLength(fileByte.length);
+					response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(fileName,"UTF-8")+"\";");
+					response.setHeader("Content-Transfer-Encoding", "binary");
+					response.getOutputStream().write(fileByte);
+					response.getOutputStream().flush();
+					response.getOutputStream().close();
+					file.delete();
+					usingLog.setContent(fileName + " 다운로드");
+				}
+				else if(type.equals("jsonMail")) {
+					try {
+						sendReport.sendMail(file, fileName, email);
+						usingLog.setContent(fileName + " 메일전송");
+					} catch (Exception e) {
+						//e.printStackTrace();
+					}
+				}
+				usingLogUtil.setUsingLog(usingLog);
 			}
 		} catch (IOException e) {
 			//e.printStackTrace();

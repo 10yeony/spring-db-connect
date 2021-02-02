@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.com.inspect.dto.EojeolList;
+import kr.com.inspect.dto.Member;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
@@ -101,13 +102,17 @@ public class PostgreController {
 	
 	/**
 	 * metadata 아이디로 JSON 파일을 다운받음
+	 * @param request 요청 객체
 	 * @param response 응답 객체
-	 * @param metadata_id metadata id
+	 * @param file 요청의 종류(다운로드/메일)
+	 * @param metaId metadata id
 	 */
-	@GetMapping("/downloadMetadataJSON")
+	@GetMapping("/makeMetadataJSON")
 	@ResponseBody
-	public void downloadMetadataJSON(HttpServletResponse response, int metadata_id) {
-		postgreService.downloadMetadataJSON(response, metadata_id, jsonOutputPath);
+	public void makeMetadataJSON(HttpServletRequest request, HttpServletResponse response, String file, int metaId) {
+		Member member = (Member)request.getSession().getAttribute("member");
+		String email = member.getEmail();
+		postgreService.makeMetadataJSON(response, file, email, metaId, jsonOutputPath);
 	}
 
 	/**

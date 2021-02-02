@@ -54,17 +54,20 @@
                     	<span><b>creator :</b> ${metadata.creator}<br/></span>
                     </h5>
                     <div>
-                        <!-- 파일 다운로드 버튼 -->
+                        	<!-- 파일 다운로드 버튼 -->
                         <a href="${pageContext.request.contextPath}/utterance/docx/${metadata.id}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Word</a>
                         <a href="${pageContext.request.contextPath}/utterance/xlsx/${metadata.id}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Excel</a>
+                        <a href="${pageContext.request.contextPath}/makeMetadataJSON?file=jsonDownload&metaId=${metadata.id}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> JSON</a>
                         <div class="my-2"></div>
-                        <!-- 파일 전송 버튼 -->
+                        
+                        	<!-- 파일 전송 버튼 -->
                         <div>
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item dropdown no-arrow">
-                                    <a class="nav-link dropdown-toggle btn btn-primary shadow-sm btn-sm " href="#" id="fileSend" style="width: 105pt"
+                                    <a class="nav-link dropdown-toggle btn btn-primary shadow-sm btn-sm " href="#" id="fileSend" style="width: 160pt"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                        <i class="fas fa-paper-plane fa-sm text-white-50"></i>&nbsp;&nbsp;파일 전송</a>
                                     <!-- Dropdown - User Information -->
@@ -79,6 +82,9 @@
                                         </a>
                                         <a class="dropdown-item btn" onclick="send('mail', 'xlsx', 'utteranceMail');">
                                             <h6>- Excel</h6>
+                                        </a>
+                                        <a class="dropdown-item btn" onclick="send('mail', 'jsonMail', 'makeMetadataJSON');">
+                                            <h6>- JSON</h6>
                                         </a>
                                         <a class="dropdown-item text-center small text-gray-500">${member.email}로 발송됩니다.</a>
 <%--                                        <div class="dropdown-divider"></div>--%>
@@ -104,12 +110,6 @@
                 <div class="card sahadow mb-4">
                     <div class="card-body">
                         <div class="table-responsive">
-                        	  <button class="btn btn-danger shadow-sm btn-sm"
-                        	  			style="width: 105pt; height: 40px; margin-bottom: 10px; float:right;" 
-                        	  			onclick="location.href='${pageContext.request.contextPath}/downloadMetadataJSON?metadata_id=${metadata.id}'">
-                                 <i class="fas fa-download fa-sm text-white-50"></i>
-                                 &nbsp;&nbsp;JSON 다운로드
-                            </button>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
