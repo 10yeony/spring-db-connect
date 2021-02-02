@@ -24,6 +24,9 @@
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- w3 css -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <!-- 로딩 이미지 -->
     <style>
         .loading {
@@ -51,8 +54,6 @@
         <img class="loading" width="100px"
              src="${pageContext.request.contextPath}/resource/img/loading.gif">
     </div>
-
-
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
@@ -196,6 +197,13 @@
 </a>
 
 <script>
+// $(document).ajaxStart(function (){
+//     $('#loadingArea').show();
+// });
+// $(document).ajaxStop(function (){
+//     $('#loadingArea').hide();
+// });
+
 function clickEditBtn(form, id){
     $("input[type=hidden][name=utteranceForm]").val(form);
     $('#editArea').empty();

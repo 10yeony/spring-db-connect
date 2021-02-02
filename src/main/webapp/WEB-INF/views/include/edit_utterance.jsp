@@ -5,17 +5,18 @@
 <html lang="en">
 <head>
     <script src="${pageContext.request.contextPath}/resource/js/data/edit_utterance.js"></script>
+
 </head>
 <!-- Logout Modal-->
 <div class="modal fade" id="editUtteranceModal" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
+
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">전사데이터 수정 ${utteranceId}</h5>
-                <button class="close" type="button" data-dismiss="modal"
-                        aria-label="Close">
-                    <span aria-hidden="true">x</span>
+                <button type="button" data-dismiss="modal" style="outline: 0; border: 0;">
+                    <span aria-hidden="true">X</span>
                 </button>
             </div>
             <form id="editUtteranceForm" method="POST">
