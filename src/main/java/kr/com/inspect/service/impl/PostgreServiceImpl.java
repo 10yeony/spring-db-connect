@@ -46,7 +46,7 @@ import kr.com.inspect.dto.UsingLog;
 import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.paging.CommonDto;
 import kr.com.inspect.paging.PagingResponse;
-import kr.com.inspect.parser.JsonMaker;
+import kr.com.inspect.parser.JsonWriter;
 import kr.com.inspect.parser.JsonParsing;
 import kr.com.inspect.parser.XlsxParsing;
 import kr.com.inspect.service.PostgreService;
@@ -252,8 +252,8 @@ public class PostgreServiceImpl implements PostgreService{
 		String fileName = metadata.getTitle() + ".json"; //json 파일명
 		
 		/* JSON 파일 내용 */
-		JsonMaker jsonMaker = new JsonMaker();
-		String jsonStr = jsonMaker.writeMetadataJson(metadata, speakerList, utteranceList, eojeolListList);
+		JsonWriter jsonWriter = new JsonWriter();
+		String jsonStr = jsonWriter.writeMetadataJson(metadata, speakerList, utteranceList, eojeolListList);
 		
 		try {
 			/* JSON 파일 생성 */

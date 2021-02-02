@@ -5,12 +5,18 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import kr.com.inspect.dto.EojeolList;
 import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
 
-public class JsonMaker {
+public class JsonWriter {
 	public String writeMetadataJson(Metadata metadata, 
 			List<Speaker> speakerList, List<Utterance> utteranceList, List<EojeolList> eojeolListList) {
 		JSONObject obj = new JSONObject();
@@ -42,6 +48,10 @@ public class JsonMaker {
 		obj.put("speaker", "");
 		obj.put("setting", "");
 		obj.put("utterance", "");
-		return obj.toJSONString();
+		
+		ObjectWriter prettyPrinter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String prettyJson = gson.toJson(obj);
+		return prettyJson;
 	}
 }
