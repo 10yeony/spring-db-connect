@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import kr.com.inspect.dto.Metadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -393,7 +394,6 @@ public class PagingController {
 	
 	/**
 	 * 해당되는 룰의 버전 관리 목록을 가져옴
-	 * @param bottom_level_id 룰 소분류 아이디
 	 * @return 해당되는 룰의 버전 관리 목록 페이지
 	 */
 	@GetMapping("/rule/getRuleVersionList")
@@ -476,5 +476,46 @@ public class PagingController {
 				(Map<String, Object>) addCommonAttribute(true, null, "getJsonLog", responseData, 
 										count_per_page, count_per_list, search_word);
 		responseData.responseJSON(response, map);
+	}
+
+	/**
+	 * 문장 수정 이력관리를 페이징 처리
+	 * @param model
+	 * @param data 불러올 metadata id
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @return 문장 수정 이력관리 페이지
+	 */
+	@GetMapping("/getUtteranceLog")
+	public String getUtteranceLog(Model model,
+								String data,
+								int current_page_no,
+								int count_per_page,
+								int count_per_list,
+								String search_word){
+//		Metadata metadata = postgreService.getMetadataAndProgramUsingId(Integer.parseInt(data));
+
+		ResponseData responseData = postgreService.getUtteranceLog(
+				Integer.parseInt(data),
+				function_name,
+				current_page_no,
+				count_per_page,
+				count_per_list,
+				search_word);
+
+		addCommonAttribute(false, model, "getUtteranceLog", responseData,
+				count_per_page, count_per_list, search_word);
+
+		String value = "";
+		if(search_word != "") {
+			value = "검색 결과";
+		}else {
+			value = "전체";
+		}
+		model.addAttribute("data", data);
+		model.addAttribute("searchResult", value);
+		return "postgreSQL/utteranceLog";
 	}
 }

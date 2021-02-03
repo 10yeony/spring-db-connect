@@ -131,7 +131,8 @@
                 <div class="card sahadow mb-4">
                     <div class="card-body">
                         <b style="font-size:14px">문장을 누르면 어절 단위 페이지로 이동합니다.</b><br>
-                        <b style="font-size:14px">연필 아이콘을 클릭하면 문장을 수정할 수 있습니다.</b><br><br>
+                        <b style="font-size:14px">연필 아이콘을 클릭하면 문장을 수정할 수 있습니다.</b>&nbsp;&nbsp;&nbsp;
+                        <a href="${pageContext.request.contextPath}/getUtteranceLog?data=${metadata.id}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=" style="color: #006fdd; cursor: pointer; font-size:14px;">이력 관리</a><br><br>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -150,8 +151,9 @@
 	                                        <tr>
 	                                        	  <c:set var="count" value="${count+1}" />
 	                                            <td>${count}</td>
-	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.form}</a>&nbsp;&nbsp;
-                                                    <a onclick="clickEditBtn('${item.form}','${item.id}')" data-toggle="modal"
+	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}"
+                                                    style="color: #006fdd; cursor: pointer;">${item.form}</a>&nbsp;&nbsp;
+                                                    <a onclick="clickEditBtn('${item.form}','${item.id}')" data-toggle="modal" type="button"
                                                        data-target="#editUtteranceModal">
                                                         <i class="fas fa-pen"></i></a>
                                                 </td>
@@ -166,7 +168,8 @@
                                                     </a></div>
                                                 </td>
 	                                            <td><fmt:formatNumber value="${item.finish}" pattern=".00"/></td>
-	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}">${item.eojeol_count}개</a></td>
+	                                            <td><a href="${pageContext.request.contextPath}/getEojeolList/${item.id}"
+                                                    style="color: #006fdd; cursor: pointer;">${item.eojeol_count}개</a></td>
 	                                        </tr>
                                         </c:if>
                                     </c:forEach>

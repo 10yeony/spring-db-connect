@@ -35,6 +35,10 @@
 		<c:when test="${requestUrl == 'rule/getRuleVersionList'}">
 			<%@ include file="/WEB-INF/views/paging/table/getRuleVersionList.jsp"%>
 		</c:when>
+
+		<c:when test="${requestUrl == 'getUtteranceLog'}">
+			<%@ include file="/WEB-INF/views/paging/table/utteranceLog.jsp"%>
+		</c:when>
 		
 		<c:otherwise>
 			<div>

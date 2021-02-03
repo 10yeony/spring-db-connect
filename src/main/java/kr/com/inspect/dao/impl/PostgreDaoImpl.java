@@ -5,16 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.com.inspect.dto.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.PostgreDao;
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.JsonLog;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Speaker;
-import kr.com.inspect.dto.Utterance;
 
 /**
  * PostgreSQL DAO
@@ -34,7 +30,8 @@ public class PostgreDaoImpl implements PostgreDao {
 	private final String utteranceNS = "UtteranceMapper.";
 	private final String eojeolListNS = "EojeolListMapper.";
 	private final String jsonLogNS = "JsonLogMapper.";
-	
+	private final String utteranceLogNS = "UtteranceLogMapper.";
+
 	/**
 	 * Metadata 테이블의 총 row 수를 가지고 옴
 	 * @param data 데이터 타입 유형(전체/강의/회의/고객응대/상담)
@@ -302,5 +299,38 @@ public class PostgreDaoImpl implements PostgreDao {
 	 */
 	public int insertIntoEojeolList(EojeolList eojeolList){
 		return sqlSession.insert(eojeolListNS+"insertIntoEojeolList", eojeolList);
+	}
+
+	/**
+	 * 검색어와 metadata id를 가지고 총 수를 가져옴
+	 * @param metadata_id 가져올 metadata id
+	 * @param search_word 검색어
+	 * @return 조건에 맞는 데이터 수
+	 */
+	public int getUtteranceLogCnt(int metadata_id, String search_word){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("metadata_id", metadata_id);
+		map.put("search_word", search_word);
+		return sqlSession.selectOne(utteranceLogNS+"getUtteranceLogCnt", map);
+	}
+
+	/**
+	 * 검색어를 가지고 페이징 처리
+	 * @param metadata_id 해당되는 metadata id
+	 * @param limit SELECT할 row의 수
+	 * @param offset 몇 번째 row부터 가져올지를 결정
+	 * @param search_word 검색어
+	 * @return 해당되는 리스트
+	 */
+	public List<UtteranceLog> getUtteranceLog(int metadata_id,
+											  int limit,
+											  int offset,
+											  String search_word){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("limit", limit);
+		map.put("offset", offset);
+		map.put("metadata_id", metadata_id);
+		map.put("search_word", search_word);
+		return sqlSession.selectList(utteranceLogNS+"getUtteranceLog", map);
 	}
 }

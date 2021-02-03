@@ -172,4 +172,21 @@ public interface PostgreService {
 	 * @return 수정 완료 여부
 	 */
 	public boolean editUtterance(String id, String form);
+
+	/**
+	 * 문장 수정 이력관리 테이블을 페이징 처리
+	 * @param metadata_id 불러올 metadata id
+	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
+	 * @return 페이징 처리된 테이블
+	 */
+	public ResponseData getUtteranceLog(int metadata_id,
+										String function_name,
+										int current_page_no,
+										int count_per_page,
+										int count_per_list,
+										String search_word);
 }

@@ -23,4 +23,46 @@
 				#{metadata_id},
 				#{using_log_no});
 	</insert>
+
+	<!-- utteranceLog 테이블 가져오기 -->
+	<select id="getUtteranceLog" parameterType="hashMap" resultType="kr.com.inspect.dto.UtteranceLog">
+  		SELECT
+  			(ROW_NUMBER() OVER()) AS row_num,
+  			no,
+  			ip_addr,
+			time,
+			content,
+			after,
+			before,
+			member_id,
+			metadata_id,
+			using_log_no
+		FROM
+			(select * from audio.utterance_log order by no desc) utter
+		WHERE
+			metadata_id = #{metadata_id} and
+			(ip_addr LIKE '%'||#{search_word}||'%'
+			OR time LIKE '%'||#{search_word}||'%'
+			OR after LIKE '%'||#{search_word}||'%'
+			OR before LIKE '%'||#{search_word}||'%'
+			OR member_id LIKE '%'||#{search_word}||'%')
+		LIMIT
+			#{limit}
+		OFFSET
+			#{offset};
+	</select>
+
+	<select id="getUtteranceLogCnt" parameterType="hashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			audio.utterance_log
+		WHERE
+			metadata_id = #{metadata_id} and
+			(ip_addr LIKE '%'||#{search_word}||'%'
+			OR time LIKE '%'||#{search_word}||'%'
+			OR after LIKE '%'||#{search_word}||'%'
+			OR before LIKE '%'||#{search_word}||'%'
+			OR member_id LIKE '%'||#{search_word}||'%');
+	</select>
 </mapper>
