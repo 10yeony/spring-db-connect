@@ -36,8 +36,9 @@ import kr.com.inspect.util.UsingLogUtil;
 
 /**
  * 전사규칙에 관한 Controller
- * 
+ *
  * @author Yeonhee Kim
+ * @version 1.0
  *
  */
 @Controller
@@ -67,17 +68,29 @@ public class RuleController {
 	 */
 	@Autowired
 	private UsingLogUtil usingLogUtil;
-	
+
+	/**
+	 * registerRule 페이지로 이동
+	 * @return registerRule 페이지
+	 */
 	@GetMapping("/registerRule")
 	public String registerRulepage() {
 		return "rule/registerRule";
 	}
 
+	/**
+	 * runRule 페이지로 이동
+	 * @return runRule 페이지
+	 */
 	@GetMapping("/runRule")
 	public String runRulepage() {
 		return "rule/runRule";
 	}
-	
+
+	/**
+	 * ruleCustom 페이지로 이동
+	 * @return ruleCustom 페이지
+	 */
 	@GetMapping("/customRule")
 	public String customRulepage() {
 		return "rule/ruleCustom";

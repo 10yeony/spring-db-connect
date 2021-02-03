@@ -24,6 +24,13 @@ import kr.com.inspect.service.PostgreService;
 import kr.com.inspect.service.RuleService;
 import kr.com.inspect.util.ClientInfo;
 
+/**
+ * 페이징 처리 관련 컨트롤러
+ * @author Yeonhee Kim
+ * @author Wooyoung Lee
+ * @version 1.0
+ */
+
 @Controller
 public class PagingController {
 	

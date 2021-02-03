@@ -15,21 +15,48 @@ import kr.com.inspect.dao.PostgreDao;
 /**
  * PostgreSQL DAO
  * @author Yeonhee Kim
+ * @author Wooyoung Lee
  * @version 1.0
  *
  */
 
 @Repository
 public class PostgreDaoImpl implements PostgreDao {
-	
+
+	/**
+	 * DB 연결을 위한 SqlSession
+	 */
 	@Autowired
 	private SqlSession sqlSession;
-	
+
+	/**
+	 * Metadata Mapper 네임스페이스
+	 */
 	private final String metadataNS = "MetadataMapper.";
+
+	/**
+	 * Speaker Mapper 네임스페이스
+	 */
 	private final String speakerNS = "SpeakerMapper.";
+
+	/**
+	 * Utterance Mapper 네임스페이스
+	 */
 	private final String utteranceNS = "UtteranceMapper.";
+
+	/**
+	 * EojeolList Mapper 네임스페이스
+	 */
 	private final String eojeolListNS = "EojeolListMapper.";
+
+	/**
+	 * JsonLog Mapper 네임스페이스
+	 */
 	private final String jsonLogNS = "JsonLogMapper.";
+
+	/**
+	 * UtteranceLog Mapper 네임스페이스
+	 */
 	private final String utteranceLogNS = "UtteranceLogMapper.";
 
 	/**

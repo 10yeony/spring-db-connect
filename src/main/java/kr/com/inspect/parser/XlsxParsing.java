@@ -86,18 +86,6 @@ public class XlsxParsing {
 										timeString = "00"+timeString.substring(2,timeString.length());
 									program.setRunning_time(timeString);
 									break;
-								case 5: // 이름
-									if(curCell.getStringCellValue()==null)
-										program.setName("");
-									else
-										program.setName(curCell.getStringCellValue());
-									break;
-								case 6: // 성별
-									if(curCell.getStringCellValue()==null)
-										program.setSex("");
-									else
-										program.setSex(curCell.getStringCellValue());
-									break;
 								default:
 									break;
 							}

@@ -15,13 +15,28 @@ import kr.com.inspect.service.ChartService;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 대쉬보드의 차트 데이터 관련 컨트롤러
+ * @author Yeonhee Kim
+ * @author Wooyoung Lee
+ * @version 1.0
+ */
+
 @Controller
 @RequestMapping("chart")
 public class ChartController {
-	
+
+	/**
+	 * ChartService 필드 선언
+	 */
 	@Autowired
 	private ChartService chartService;
-	
+
+	/**
+	 *
+	 * @return
+	 * @throws InterruptedException
+	 */
 	@GetMapping("getCountListOnJsonLog")
 	@ResponseBody
 	public String getCountListOnJsonLog() throws InterruptedException {
@@ -29,6 +44,10 @@ public class ChartController {
 		return list.toString();
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@GetMapping("getRatioOnMetadataByType")
 	@ResponseBody
 	public Map<String, Double> getRatioOnMetadataByType() {

@@ -29,6 +29,10 @@ public class ScheduledConfig implements SchedulingConfigurer {
         return scheduler;
     }
 
+    /**
+     * scheduler의 스레드 수를 2로 설정
+     * @param taskRegistrar ScheduledTaskRegistrar
+     */
     @Override
     public void configureTasks (ScheduledTaskRegistrar taskRegistrar) {
         ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();

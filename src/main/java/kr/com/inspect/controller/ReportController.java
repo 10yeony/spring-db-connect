@@ -39,7 +39,7 @@ import kr.com.inspect.util.UsingLogUtil;
 
 /**
  * 리스트 형식 출력 컨트롤러
- * @author Woo Young
+ * @author Wooyoung Lee
  * @author Yeonhee Kim
  * @version 1.0
  *
@@ -98,18 +98,6 @@ public class ReportController {
 	private String xlsxPath;
 	
 	/**
-	 * hwp 파일이 산출물로 저장될 경로
-	 */
-	@Value("${report.hwp.directory}")
-	private String hwpPath;
-	
-	/**
-	 * pptx 파일이 산출물로 저장될 경로
-	 */
-	@Value("${report.pptx.directory}")
-	private String pptxPath;
-
-	/**
 	 * 사용자의 사용 로그 기록을 위한 UsingLogUtil 객체
 	 */
 	@Autowired
@@ -145,9 +133,6 @@ public class ReportController {
 		UsingLog usingLog = new UsingLog();
 		
 		switch(format) {
-			case ("hwp"): //한글 파일
-				// hwpReport.writeHwp(hwpPath, list);
-				break;
 			case ("docx"): //docx 파일
 				docxReport.writeDocxMetadata(response, docxPath, metadata, "download", title);
 				usingLog.setContent(title + ".docx 다운로드");
@@ -156,9 +141,6 @@ public class ReportController {
 			case ("xlsx"): //xlsx 파일
 				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "download", title);
 				usingLog.setContent(title + ".xlsx 다운로드");
-				break;
-			case ("pptx"): //pptx 파일 
-				// pptxReport.writePptx(pptxPath, list);
 				break;
 			default:
 				break;
@@ -235,7 +217,6 @@ public class ReportController {
 				usingLog.setContent(title + ".docx 메일전송");
 				break;
 			case ("xlsx"): //xlsx 파일, mail이라는 표시와 email정보를 함께 보냄
-				//System.out.println("xlsx파일 mail");
 				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "mail"+email, title);
 				usingLog.setContent(title + ".xlsx 메일전송");
 				break;
@@ -272,12 +253,10 @@ public class ReportController {
 
 		switch(request.getParameter("file")) {
 			case ("docx"): //docx 파일
-				//System.out.println("docx");
 				docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "mail"+email);
 				usingLog.setContent(meta.getTitle() + ".docx 메일전송");
 				break;
 			case ("xlsx"): //xlsx 파일
-				//System.out.println("xlsxl");
 				xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "mail"+email);
 				usingLog.setContent(meta.getTitle() + ".xlsx 메일전송");
 				break;
@@ -288,79 +267,6 @@ public class ReportController {
 		usingLogUtil.setUsingLog(usingLog);
 	}
 
-	/**
-	 * 한국어 강의 목록 파일 sms 전송
-	 * @param session 해당 유저의 세션
-	 * @param response 사용자에게 보내는 응답
-	 * @param format metadata index 값
-	 * @throws Exception 예외 처리
-	 */
-	@GetMapping("/metadataSMS/{format}/{data}")
-	public void sendMetadataSMS(HttpSession session,
-								 HttpServletResponse response,
-								 @PathVariable String format,
-								 @PathVariable String data) throws Exception {
-		
-		/* 데이터 타입에 맞는 문서 제목 부여 */
-		String title = getTitleByDataType(data);
-		
-		// 사용자의 phone 정보를 받아옴
-		Member member = (Member)session.getAttribute("member");
-		String phone = member.getPhone();
-		// 파일에 출력할 metadata table
-		metadata = postgreService.getMetadataAndProgram(data);
-
-		switch(format) {
-			case ("docx"): //docx 파일 , sms이라는 표시와 phone정보를 함께 보냄
-				//System.out.println(phone+"docx");
-				sendReport.sendSMS(null, null, phone);
-//				docxReport.writeDocxMetadata(response, docxPath, metadata, "sms"+phone, title);
-				break;
-			case ("xlsx"): //xlsx 파일, sms이라는 표시와 phone정보를 함께 보냄
-				//System.out.println(phone);
-//				xlsxReport.writeXlsxMetadata(response, xlsxPath, metadata, "sms"+phone, title);
-				break;
-			default:
-				break;
-		}
-	}
-
-	/**
-	 * 강의 문장 파일 sms 전송
-	 * @param session 해당 유저의 세션
-	 * @param request 사용자로부터 들어온 요청
-	 * @param response 사용자에게 보내는 응답
-	 * @throws Exception 예외처리
-	 */
-	@GetMapping("/utteranceSMS")
-	@ResponseBody
-	public void sendUtteranceSMS(HttpSession session,
-								  HttpServletRequest request,
-								  HttpServletResponse response) throws Exception {
-		// 사용자의 phone 정보를 받아옴
-		Member member = (Member)session.getAttribute("member");
-		String phone = member.getPhone();
-		int format = Integer.parseInt(request.getParameter("metaId"));
-		// 해당 utterance table의 metadata
-		meta = postgreService.getMetadataAndProgramUsingId(format);
-		// 파일에 출력할 utterance table
-		utterances = postgreService.getUtteranceUsingMetadataId(format);
-
-		switch(request.getParameter("file")) {
-			case ("docx"): //docx 파일
-				//System.out.println(phone + "docx");
-//				sendReport.sendSMS(null, null, phone);
-//				docxReport.writeDocxUtterance(response, docxPath, utterances, meta, "sms"+phone);
-				break;
-			case ("xlsx"): //xlsx 파일
-				//System.out.println(phone + "xlsxl");
-//				xlsxReport.writeXlsxUtterance(response, xlsxPath, utterances, meta, "sms"+phone);
-				break;
-			default:
-				break;
-		}
-	}
-	
 	/**
 	 * 데이터 타입을 입력하면 데이터 타입에 맞는 문서 제목을 리턴함
 	 * @param data 데이터 타입(전체/한국어 강의/회의 음성/고객 응대/상담 음성)

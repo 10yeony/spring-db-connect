@@ -108,18 +108,6 @@
                                             <h6>- JSON</h6>
                                         </a>
                                         <a class="dropdown-item text-center small text-gray-500">${member.email}로 발송됩니다.</a>
-<%--                                        <div class="dropdown-divider"></div>--%>
-<%--                                        <h5 class="dropdown-header" style="color: black;font-size: 1.5em">--%>
-<%--                                            <i class="fas fa-envelope"></i>&nbsp;&nbsp;SMS--%>
-<%--                                        </h5>--%>
-<%--                                        <div class="my-2"></div>--%>
-<%--                                        <a class="dropdown-item btn" onclick="send('sms', 'docx', 'utteranceSMS');">--%>
-<%--                                            <h6>- Word</h6>--%>
-<%--                                        </a>--%>
-<%--                                        <a class="dropdown-item btn" onclick="send('sms', 'xlsx', 'utteranceSMS');">--%>
-<%--                                            <h6>- Excel</h6>--%>
-<%--                                        </a>--%>
-<%--                                        <a class="dropdown-item text-center small text-gray-500">${member.phone}(으)로 발송됩니다.</a>--%>
                                     </div>
                                 </li>
                             </ul>
@@ -238,8 +226,6 @@ function send(type, file, fileurl){
         success:function (){
             if(type == 'mail')
                 alert("메일이 성공적으로 전송되었습니다.");
-            else if(type == 'sms')
-                alert("문자가 성공적으로 전송되었습니다.");
         },
         error: function (){
             alert("에러");
@@ -248,8 +234,6 @@ function send(type, file, fileurl){
 
     if(type == 'mail')
         alert("메일이 전송됩니다.");
-    else if(type == 'sms')
-        alert("문자가 전송됩니다.");
 }
 
 var audio = new Audio();

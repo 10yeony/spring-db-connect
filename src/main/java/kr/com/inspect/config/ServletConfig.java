@@ -120,7 +120,11 @@ public class ServletConfig implements WebMvcConfigurer {
 
 		return mailSender;
 	}
-	
+
+	/**
+	 *
+	 * @return
+	 */
 	@Bean
 	public PostgreService postgreService(){
 		PostgreServiceImpl postgreService = new PostgreServiceImpl();

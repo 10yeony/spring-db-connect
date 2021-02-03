@@ -18,6 +18,7 @@ import kr.com.inspect.util.ResponseDataStatus;
 /**
  * 로그인 실패시 처리
  * @author Yeonhee Kim
+ * @author Wooyoung Lee
  * @version 1.0, 2020.11.18 클래스 작성(Yeonhee Kim)
  *
  */

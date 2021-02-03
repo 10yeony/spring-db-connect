@@ -544,7 +544,7 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 룰 로그를 모두 가져옴
-	 * @param data RuleLog 테이블의 외래키인 using_log_no
+	 * @param using_log_no RuleLog 테이블의 외래키인 using_log_no
 	 * @param limit SELECT할 row의 수
 	 * @param offset 몇 번째 row부터 가져올지를 결정
 	 * @param search_word 검색어
@@ -577,9 +577,8 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 룰 로그의 총 개수를 가져옴
-	 * @param data RuleLog 테이블의 외래키인 using_log_no
+	 * @param using_log_no RuleLog 테이블의 외래키인 using_log_no
 	 * @param search_word 검색어
-	 * @param log_type 상세 검색 타입(사용자 아이디/사용 내역/IP 주소/접속 시간) 중 하나
 	 * @param searchMap 상세 검색어(사용자 아이디/사용 내역/IP 주소/접속 시간) 값을 담고 있는 Map
 	 * @return 룰 로그 총 개수
 	 */

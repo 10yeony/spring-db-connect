@@ -28,25 +28,15 @@ public class Program {
 	 * 방송시간
 	 */
 	private String running_time;
-	/**
-	 * 이름
-	 */
-	private String name;
-	/**
-	 * 성별
-	 */
-	private String sex;
-	
+
 	public Program() {}
-	public Program(int id, String file_num, String title, String subtitle, String running_time, String name, String sex) {
+	public Program(int id, String file_num, String title, String subtitle, String running_time) {
 		super();
 		this.id = id;
 		this.file_num = file_num;
 		this.title = title;
 		this.subtitle = subtitle;
 		this.running_time = running_time;
-		this.name = name;
-		this.sex = sex;
 	}
 	
 	public int getId() {
@@ -79,22 +69,10 @@ public class Program {
 	public void setRunning_time(String running_time) {
 		this.running_time = running_time;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name){
-		this.name = name;
-	}
-	public String getSex(){
-		return sex;
-	}
-	public void setSex(String sex){
-		this.sex = sex;
-	}
-	
+
 	@Override
 	public String toString() {
 		return "Program [id=" + id + ", file_num=" + file_num + ", title=" + title + ", subtitle=" + subtitle
-				+ ", name=" + name + ", sex=" + sex + ", running_time=" + running_time + "]";
+				+ ", running_time=" + running_time + "]";
 	}
 }

@@ -10,12 +10,25 @@ import org.springframework.stereotype.Repository;
 
 import kr.com.inspect.dao.ChartDao;
 
+/**
+ * 차트와 관련된 DAO 구현 클래스
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 @Repository
 public class ChartDaoImpl implements ChartDao {
-	
+
+	/**
+	 * DB 연결을 위한 SqlSession
+	 */
 	@Autowired
 	private SqlSession sqlSession;
-	
+
+	/**
+	 * JsonLog Mapper 네임스페이스
+	 */
 	private final String jsonLogNS = "JsonLogMapper.";
 
 	/**

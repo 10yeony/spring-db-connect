@@ -2,6 +2,13 @@ package kr.com.inspect.dao;
 
 import java.time.LocalTime;
 
+/**
+ * 차트와 관련된 DAO 인터페이스
+ * @author Yeonhee Kim
+ * @version 1.0
+ *
+ */
+
 public interface ChartDao {
 	/**
 	 * 특정 시간보다 빠른 jsonlog 개수 가져오기

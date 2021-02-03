@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * SQL 실행 관련 Controller
- * @author Wooyoung
+ * @author Wooyoung Lee
  * @version 1.0
  */
 @Controller

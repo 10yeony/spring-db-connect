@@ -19,6 +19,7 @@ import kr.com.inspect.service.PostgreService;
 /**
  * PostgreSQL 컨트롤러
  * @author Yeonhee Kim
+ * @author Wooyoung Lee
  * @version 1.0
  *
  */

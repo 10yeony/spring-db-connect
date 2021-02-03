@@ -8,6 +8,7 @@ import kr.com.inspect.dto.*;
 /**
  * PostgreSQL DAO Interface
  * @author Yeonhee Kim
+ * @author Wooyoung Lee
  * @version 1.0
  *
  */

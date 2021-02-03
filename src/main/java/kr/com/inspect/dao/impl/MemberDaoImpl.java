@@ -22,12 +22,26 @@ import kr.com.inspect.dto.UsingLog;
 
 @Repository
 public class MemberDaoImpl implements MemberDao{
-	
+
+	/**
+	 * DB 연결을 위한 SqlSession
+	 */
 	@Autowired
 	private SqlSession sqlSession;
-	
+
+	/**
+	 * Member Mapper 네임스페이스
+	 */
 	private final String memberNs = "MemberMapper.";
+
+	/**
+	 * Authority Mapper 네임스페이스
+	 */
 	private final String authorityNs = "AuthorityMapper.";
+
+	/**
+	 * UsingLog Mapper 네임스페이스
+	 */
 	private final String usingLogNs = "UsingLogMapper.";
 
 	/**

@@ -15,7 +15,22 @@ import kr.com.inspect.dto.Metadata;
 import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
 
+/**
+ *
+ * @author Yeonhee Kim
+ * @version 1.0
+ */
+
 public class JsonWriter {
+
+	/**
+	 *
+	 * @param metadata
+	 * @param speakerList
+	 * @param utteranceList
+	 * @param eojeolListList
+	 * @return
+	 */
 	public String writeMetadataJson(Metadata metadata, 
 			List<Speaker> speakerList, List<Utterance> utteranceList, List<EojeolList> eojeolListList) {
 		JSONObject obj = new JSONObject();
