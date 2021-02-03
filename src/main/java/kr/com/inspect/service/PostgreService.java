@@ -16,11 +16,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 public interface PostgreService {
-	/**
-	 * 엘라스틱 서치에서 받아온 인덱스를 PostgreSQL에 넣음(테스트)
-	 * @param index 엘라스틱 서치의 index 값
-	 */
-	public void insertElasticIndex(String index);
 	
 	/**
 	 * metadata 아이디로 JSON 파일을 생성하여 다운로드하거나 메일을 전송함

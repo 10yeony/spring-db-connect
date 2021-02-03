@@ -25,7 +25,6 @@ import org.apache.commons.io.FileUtils;
 import kr.com.inspect.dto.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.session.SqlSession;
-import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +34,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.com.inspect.dao.ElasticDao;
 import kr.com.inspect.dao.PostgreDao;
 import kr.com.inspect.paging.CommonDto;
 import kr.com.inspect.paging.PagingResponse;
@@ -75,12 +73,6 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	@Autowired
 	private SendReport sendReport;
-	
-	/**
-	 * 엘라스틱 dao 필드 선언
-	 */
-	@Autowired
-	private ElasticDao elasticDao;
 	
 	/**
 	 * PostgreSQL dao 필드 선언
@@ -149,29 +141,6 @@ public class PostgreServiceImpl implements PostgreService{
 	 */
 	@Value("${input.sound.directory}")
 	private String soundPath;
-	
-	/**
-	 * 엘라스틱 서치에서 받아온 인덱스를 PostgreSQL에 넣음(테스트)
-	 * @param index
-	 */
-	@Override
-	public void insertElasticIndex(String index) {
-		// 인덱스를 통해 엘라스틱서치에서 데이터를 받아옴
-		SearchHit[] searchHits = elasticDao.getIndex(index);
-
-		//테스트용 VO인 Sound를 엘라스틱서치에서 PostgreSQL로 넣음(사용시 수정 필요)
-//		for(SearchHit hit: searchHits) {
-//			Map<String, Object> map = hit.getSourceAsMap();
-//			Sound sound = new Sound();
-//			sound.setId(hit.getId());
-//			sound.setCategory((String)map.get("category"));
-//			sound.setTitle((String)map.get("title"));
-//			sound.setCompany((String)map.get("company"));
-//			sound.setContent((String)map.get("content"));
-//			
-//			postgreInsertMapper.insertTestValue(sound); //PostgreSQL INSERT 쿼리문 필요
-//		}
-	}
 	
 	/**
 	 * Metadata 테이블을 모두 가지고 옴

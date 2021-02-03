@@ -33,11 +33,6 @@ public class PostgreController {
 	 */
 	@Autowired
 	private PostgreService postgreService;
-
-	/**
-	 * 엘라스틱 서치에서 가져온 정보
-	 */
-	private String index = "audiolist";
 	
 	/**
 	 * 다운받을 json 파일을 저장할 경로
@@ -72,16 +67,6 @@ public class PostgreController {
 	 */
 	@Value("${input.xlsx.directory}")
 	private String xlsxPath;
-
-	/**
-	 * 엘라스틱서치 특정 인덱스를 PostgreSQL 특정 테이블에 넣기
-	 * @return 엘라스틱서치의 Index 값을 리턴
-	 */
-	@GetMapping("/insertElasticIndexIntoPostgre")
-	public String insertElasticIndexIntoPostgre() {
-		postgreService.insertElasticIndex(index);
-		return "postgreSQL/insertElasticIndex";
-	}
 
 	/**
 	 * 데이터 입력 페이지로 이동

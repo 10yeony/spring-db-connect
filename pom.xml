@@ -178,13 +178,9 @@
 		</dependency>
 
 		<dependency>
-
 			<groupId>org.codehaus.jackson</groupId>
-
 			<artifactId>jackson-mapper-asl</artifactId>
-
 			<version>1.9.13</version>
-
 		</dependency>
 
 		<!-- connection pool -->
@@ -218,30 +214,6 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.2.18</version>
-		</dependency>
-
-		<!-- Elasticsearch -->
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-			<version>7.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.elasticsearch.client</groupId>
-			<artifactId>elasticsearch-rest-high-level-client</artifactId>
-			<version>7.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.elasticsearch.plugin</groupId>
-			<artifactId>aggs-matrix-stats-client</artifactId>
-			<version>7.9.2</version>
-		</dependency>
-
-		<!-- MongoDB -->
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>3.12.7</version>
 		</dependency>
 
 		<!-- Apache POI -->
@@ -303,8 +275,6 @@
 			<artifactId>xchart</artifactId>
 			<version>3.8.0</version>
 		</dependency>
-
-
 	</dependencies>
 
 	<build>

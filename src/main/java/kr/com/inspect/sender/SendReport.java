@@ -1,8 +1,5 @@
 package kr.com.inspect.sender;
 
-import net.nurigo.java_sdk.api.Message;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -12,7 +9,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
-import java.util.HashMap;
 
 /**
  * 리스트를 메일로 전송하는 Class
@@ -47,16 +43,12 @@ public class SendReport {
         try{
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-            // 받는 사람
-            messageHelper.setTo(email);
-            // 보내는 사람
-            messageHelper.setFrom(mailUsername);
-            // 메일 제목 (생략 가능)
-            messageHelper.setSubject("메일 전송 테스트");
-            // 메일 본문
-            messageHelper.setText("메일 전송 테스트 입니다.");
+            messageHelper.setTo(email); // 받는 사람
+            messageHelper.setFrom(mailUsername); // 보내는 사람
+            messageHelper.setSubject("메일 전송 테스트"); // 메일 제목 (생략 가능)
+            messageHelper.setText("메일 전송 테스트 입니다."); // 메일 본문
 
-            // 파일 첨부
+            /* 파일 첨부 */
             FileSystemResource fsr = new FileSystemResource(file);
             messageHelper.addAttachment(filename, fsr);
 
