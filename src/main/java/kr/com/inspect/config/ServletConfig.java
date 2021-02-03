@@ -56,6 +56,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	/**
 	 * 정적 자원 관리
+	 * @param registry
 	 */
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resource/**")
@@ -66,6 +67,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	  
 	/**
 	 * 뷰 영역 Prefix, Suffix 설정
+	 * @param registry
 	 */
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 	    InternalResourceViewResolver bean = new InternalResourceViewResolver();

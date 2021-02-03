@@ -33,7 +33,9 @@ import kr.com.inspect.util.ClientInfo;
 
 @Controller
 public class PagingController {
-	
+	/**
+	 * ClientInfo 필드 선언
+	 */
 	@Autowired
 	ClientInfo clientInfo;
 	
@@ -67,13 +69,14 @@ public class PagingController {
 	private PagingResponse pagingResponse;
 	
 	/**
-	 * 프론트로 보낼 Model에 페이징 처리와 관련된 attribute를 추가함 
-	 * @param model Model 
+	 * 프론트로 보낼 Model에 페이징 처리와 관련된 attribute를 추가함
+	 * @param isAjax
+	 * @param model Model
 	 * @param requestUrl 요청 주소
 	 * @param responseData 응답 객체
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
 	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
-	 * @param search_word 검색어 
+	 * @param search_word 검색어
 	 * @return Model
 	 */
 	public Object addCommonAttribute(boolean isAjax,
@@ -115,7 +118,7 @@ public class PagingController {
 	 * @param access_time 접속 시간
 	 * @return
 	 */
-	public Model addLogAttribute(Model model, 
+	public Model addLogAttribute(Model model,
 								String log_type, 
 								String member_id,
 								String using_list,
@@ -401,6 +404,12 @@ public class PagingController {
 	
 	/**
 	 * 해당되는 룰의 버전 관리 목록을 가져옴
+	 * @param model Model
+	 * @param data RuleLog 테이블의 외래키인 using_log_no
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
 	 * @return 해당되는 룰의 버전 관리 목록 페이지
 	 */
 	@GetMapping("/rule/getRuleVersionList")
@@ -450,13 +459,18 @@ public class PagingController {
 		return "rule/ruleList";
 	}
 	
+
 	/**
 	 * 해당되는 전사규칙 리스트를 Ajax로 응답함
-	 * @param response        HttpServletResponse 객체
+	 * @param response HttpServletResponse 객체
+	 * @param rule_type 룰의 타입
 	 * @param top_level_id    전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
 	 * @param bottom_level_id 전사규칙 소분류 아이디
-	 * @throws IOException 입출력 예외
+	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
+	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
+	 * @param count_per_list 한 화면에 출력되는 게시글의 수를 저장할 변수
+	 * @param search_word 검색어
 	 */
 	@GetMapping("/rule/getRuleList")
 	@ResponseBody

@@ -50,6 +50,7 @@ public class MemberController {
 
 	/**
 	 * 회원가입
+	 * @param uploadImgFile
 	 * @param member 회원정보
 	 * @return 회원가입 후 성공/실패 메세지를 반환함
 	 */
@@ -110,8 +111,10 @@ public class MemberController {
 	/**
 	 * 회원정보를 수정함
 	 * @param session 해당유저의 세션
+	 * @param uploadImgFile
 	 * @param member 회원정보
-	 * @return ajax로 회원정보 수정 여부(true/false)를 반환 
+	 * @param changeToDefaultImg
+	 * @return ajax로 회원정보 수정 여부(true/false)를 반환
 	 */
 	@ResponseBody
 	@PostMapping("/updateMember")

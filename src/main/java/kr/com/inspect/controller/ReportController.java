@@ -1,12 +1,8 @@
 package kr.com.inspect.controller;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +27,6 @@ import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.report.DocxReport;
 import kr.com.inspect.report.PrevRuleResult;
 import kr.com.inspect.report.XlsxReport;
-import kr.com.inspect.sender.SendReport;
 import kr.com.inspect.service.PostgreService;
 import kr.com.inspect.service.RuleService;
 import kr.com.inspect.util.ClientInfo;
@@ -48,10 +43,7 @@ import kr.com.inspect.util.UsingLogUtil;
 @Controller
 @PropertySource(value = "classpath:properties/directory.properties")
 public class ReportController {
-	/* sms 전송확인을 위해 임시로 선언 */
-	@Autowired
-	SendReport sendReport;
-	
+
 	/**
 	 * PostgreSQL 서비스 필드 선언
 	 */
@@ -114,11 +106,12 @@ public class ReportController {
 	 */
 	@Autowired
 	private ClientInfo clientInfo;
-	
+
 	/**
 	 * 한국어 강의 목록 리스트 파일로 출력
 	 * @param response 사용자에게 보내는 응답
 	 * @param format 리스트 형식 값
+	 * @param data 데이터 타입(전체/한국어 강의/회의 음성/고객 응대/상담 음성)
 	 * @throws Exception 예외처리
 	 */
 	@GetMapping("/metadata/{format}/{data}")
@@ -192,6 +185,7 @@ public class ReportController {
 	 * @param session 해당 유저의 세션
 	 * @param response 사용자에게 보내는 응답
 	 * @param format metadata index 값
+	 * @param data 데이터 타입(전체/한국어 강의/회의 음성/고객 응대/상담 음성)
 	 * @throws Exception 예외 처리
 	 */
 	@GetMapping("/metadataMail/{format}/{data}")
@@ -304,12 +298,14 @@ public class ReportController {
 
 	/**
 	 * 룰 결과를 워드파일로 다운
+	 * @param session
 	 * @param response
-	 * @throws Exception
+	 * @param hiddenRule
+	 * @param time
 	 */
 	@GetMapping("/resultRuleDocx")
 	@ResponseBody
-	public void resultRuleWord(HttpSession session, HttpServletResponse response, int[] hiddenRule, String time) throws Exception {
+	public void resultRuleWord(HttpSession session, HttpServletResponse response, int[] hiddenRule, String time) {
 		// 사용자의 이메일 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String name = member.getName();

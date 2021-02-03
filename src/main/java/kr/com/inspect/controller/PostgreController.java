@@ -155,9 +155,9 @@ public class PostgreController {
 	/**
 	 * Utterance 테이블 가져오기
 	 * @param model 속성부여
-	 * @param format 테이블 조인값
+	 * @param format metadata id
 	 * @param request 사용자로부터 들어온 요청
-	 * @return Utterance 값 리턴
+	 * @return Utterance 페이지 리턴
 	 */
 	@GetMapping("/getUtteranceTable/{format}")
 	public String getUtteranceTable(Model model, @PathVariable Integer format, HttpServletRequest request){
@@ -198,6 +198,13 @@ public class PostgreController {
 		return "true";
 	}
 
+	/**
+	 * 사용기록 페이지에서 전사데이터 페이지로 이동
+	 * @param model 속성부여
+	 * @param data metadata id
+	 * @param request 사용자로부터 들어온 요청
+	 * @return Utterance 페이지 리턴
+	 */
 	@GetMapping("goUtterance")
 	public String goUtterance(Model model, int data, HttpServletRequest request){
 		UtteranceLog utteranceLog = postgreService.getUtteranceLogByUsingNo(data);

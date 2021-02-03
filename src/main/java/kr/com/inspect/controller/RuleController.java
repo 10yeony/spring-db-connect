@@ -98,7 +98,7 @@ public class RuleController {
 
 	/**
 	 * 대분류/중분류/소분류를 DB에 등록함
-	 * 
+	 * @param model Model
 	 * @param new_top_level_name    대분류 등록을 위한 대분류 이름
 	 * @param new_middle_level_name 중분류 등록을 위한 중분류 이름
 	 * @param rule                  소분류 등록을 위한 Rule 객체
@@ -159,7 +159,6 @@ public class RuleController {
 	 * @param response        HttpServletResponse 객체
 	 * @param top_level_id    전사규칙 대분류 아이디
 	 * @param middle_level_id 전사규칙 중분류 아이디
-	 * @throws IOException 입출력 예외
 	 */
 	@GetMapping("/getRuleCategory")
 	@ResponseBody
@@ -268,6 +267,14 @@ public class RuleController {
 			return "rule/editRuleSQL";
 	}
 
+	/**
+	 * rule을 실행
+	 * @param response HttpServletResponse 객체
+	 * @param top_level_id 대분류 아이디
+	 * @param middle_level_id 중분류 아이디
+	 * @param bottom_level_id 소분류 아이디
+	 * @throws Exception
+	 */
 	@PostMapping("/runRuleCompiler")
 	@ResponseBody
 	public void runRuleCompiler(HttpServletResponse response, 
@@ -293,9 +300,10 @@ public class RuleController {
 	
 	/**
 	 * Ajax 요청이 들어오면 작성한 Rule 코드를 컴파일하고 DB에 등록 후 사용자에게 결과를 보여줌
-	 * @param 현재 룰 버전(버전을 수정했는지 검사할 때 사용)
+	 * @param response HttpServletResponse 객체
+	 * @param presentVersion 현재 룰 버전(버전을 수정했는지 검사할 때 사용)
 	 * @param rule Rule 코드 작성을 위한 Rule 객체
-	 * @throws Exception
+	 * @throws Exception 예외처리
 	 */
 	@PostMapping("/saveRuleContents")
 	@ResponseBody
@@ -328,9 +336,7 @@ public class RuleController {
 	/**
 	 * Rule을 작성할 때 참고할 관련 API 문서를 ajax 응답 객체에 담아서 화면에 뿌림
 	 * @param response HttpServletResponse
-	 * @param class_id DB 상의 클래스 아이디 
-	 * @throws JsonProcessingException JSON 처리 예외
-	 * @throws IOException 입출력 예외
+	 * @param class_id DB 상의 클래스 아이디
 	 */
 	@GetMapping("/getApiDesc")
 	@ResponseBody
