@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 /**
  * 리스트를 메일로 전송하는 Class
- * @author Woo Young
+ * @author WooYoung Lee
  * @version 1.0
  *
  */
@@ -36,24 +36,6 @@ public class SendReport {
     @Value("${mail.username}") 
     private String mailUsername;
     
-    /**
-     * 발신 번호
-     */
-    @Value("${sms.sender}") 
-    private String smsSender;
-    
-    /**
-    * SMS API Key
-     */
-    @Value("${sms.api.key}") 
-    private String smsApiKey;
-    
-    /**
-    * SMS API 비밀번호
-     */
-    @Value("${sms.api.secret}") 
-    private String smsApiSecret;
-
     /**
      * 파일을 받아서 mail 전송하는 메소드
      * @param file 파일
@@ -83,37 +65,6 @@ public class SendReport {
             file.delete();
         }catch (Exception e){
             System.out.println(e);
-        }
-    }
-
-    /**
-     * 파일을 받아서 sms 전송하는 메소드
-     * @param file 파일
-     * @param filename 파일 이름
-     * @param phone 연락처 정보
-     * @throws Exception 예외 처리
-     */
-    public void sendSMS(File file, String filename, String phone) throws Exception{
-        /* sms 전송 관련 설정 api 키 입력 */
-        String api_key = smsApiKey;
-        String api_secret = smsApiSecret;
-
-        Message coolsms = new Message(api_key, api_secret);
-
-        HashMap<String, String> set = new HashMap<String, String>();
-
-        /* 문자 생성 */
-        set.put("to", phone); // 수신번호
-        set.put("from", smsSender); // 발신번호
-        set.put("text", "sms 전송 테스트 문자입니다."); // 문자내용
-        set.put("type", "sms"); // 문자 타입
-
-        try {
-            JSONObject obj = (JSONObject) coolsms.send(set);
-            System.out.println(obj.toString());
-        } catch (CoolsmsException e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getCode());
         }
     }
 }

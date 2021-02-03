@@ -27,7 +27,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * 텍스트를 자바 파일로 저장, 컴파일, 실행하는 클래스
- * @author Woo young
+ * @author Wooyoung Lee
  * @author Yeonhee Kim
  * @version 1.0
  */

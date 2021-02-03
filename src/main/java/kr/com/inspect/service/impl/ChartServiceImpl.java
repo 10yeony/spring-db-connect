@@ -17,7 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.com.inspect.service.ChartService;
-
+/**
+ * Chart Service
+ * @author Yeonhee Kim
+ * @author Wooyoung Lee
+ * @version 1.0
+ *
+ */
 @Service
 public class ChartServiceImpl implements ChartService {
 	

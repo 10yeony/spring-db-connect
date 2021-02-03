@@ -21,8 +21,7 @@ import java.util.*;
 
 /**
  * 스케쥴러 클래스
- * 
- * @author Woo Young
+ * @author WooYoung Lee
  * @version 1.0
  *
  */
@@ -116,7 +115,9 @@ public class Schedule {
 	}
 
 	/**
-	 * 매일 오전 9시에 회원을 검사
+	 * 매일 오전 9시에 회원을 검사하여
+	 * 마지막 로그인이 6개월 전이라면 회원탈퇴
+	 * 3개월 전이라면 계정 만료
 	 * @throws Exception 예외처리
 	 */
 	@Scheduled(cron = "0 0 9 * * *")

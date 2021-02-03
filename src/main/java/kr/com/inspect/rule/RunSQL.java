@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * SQL 실행
- * @author Wooyoung
+ * @author Wooyoung Lee
  * @author Yeonhee Kim
  * @version 1.0
  */

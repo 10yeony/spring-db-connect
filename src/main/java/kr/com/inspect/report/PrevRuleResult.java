@@ -21,6 +21,12 @@ import kr.com.inspect.util.CompressZip;
 import kr.com.inspect.util.FileManager;
 import kr.com.inspect.util.UnZip;
 
+/**
+ *
+ * @author Yeonhee Kim
+ * @version 1.0
+ */
+
 public class PrevRuleResult {
 	/**
 	 * 압축한 zip 파일을 보관하는 경로
@@ -162,6 +168,10 @@ public class PrevRuleResult {
 		return ruleList;
 	}
 
+	/**
+	 *
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		/* 룰 실행 결과 파일 쓰기 */
 		Rule rule = new Rule();
@@ -189,7 +199,11 @@ public class PrevRuleResult {
 		List<Rule> ruleList = prevRuleResult.unZip(TIME, bottom_level_id_arr);
 		System.out.println(ruleList);
 	}
-	
+
+	/**
+	 *
+	 * @return
+	 */
 	public String getTime() {
 		TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
