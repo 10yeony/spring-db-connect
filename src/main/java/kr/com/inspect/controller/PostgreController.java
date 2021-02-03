@@ -199,10 +199,8 @@ public class PostgreController {
 
 	@GetMapping("goUtterance")
 	public String goUtterance(Model model, int data, HttpServletRequest request){
-		System.out.println(data);
 		UtteranceLog utteranceLog = postgreService.getUtteranceLogByUsingNo(data);
 		int format = utteranceLog.getMetadata_id();
-		System.out.println(utteranceLog);
 		getUtteranceTable(model, utteranceLog.getMetadata_id(), request);
 		List<Utterance> utterances = postgreService.getUtteranceUsingMetadataId(format);
 		Metadata metadata = postgreService.getMetadataAndProgramUsingId(format);

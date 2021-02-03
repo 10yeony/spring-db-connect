@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		UPDATE
 			audio.utterance
 		SET
-			form = #{form}
+			(form, standard_form, dialect_form) = (#{form}, null, null)
 		WHERE
 			id = #{id};
 	</update>
