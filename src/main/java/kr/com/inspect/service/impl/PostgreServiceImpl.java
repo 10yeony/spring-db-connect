@@ -47,9 +47,11 @@ import kr.com.inspect.service.PostgreService;
 import kr.com.inspect.util.ClientInfo;
 import kr.com.inspect.util.Singleton;
 import kr.com.inspect.util.UsingLogUtil;
+
 /**
  * PostgreSQL Service
  * @author Yeonhee Kim
+ * @author Wooyoung Lee
  * @version 1.0
  *
  */

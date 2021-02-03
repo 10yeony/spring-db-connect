@@ -15,7 +15,7 @@ import java.util.zip.ZipInputStream;
 /**
  * zip 파일을 압축 해제하는 클래스
  * @author Yeonhee Kim
- *
+ * @version 1.0
  */
 public class UnZip {
 	/**

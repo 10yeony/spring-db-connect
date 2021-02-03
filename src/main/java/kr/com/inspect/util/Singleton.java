@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Thread-Safe하게 자원을 공유하기 위한 싱글톤 객체
  * @author Yeonhee Kim
- *
+ * @version 1.0
  */
 public class Singleton {
 	

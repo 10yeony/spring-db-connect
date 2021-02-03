@@ -11,7 +11,7 @@
 ///**
 // * 글로벌하게 Exception을 처리
 // * @author Yeonhee Kim
-// *
+// * @version 1.0
 // */
 //@ControllerAdvice
 //public class GlobalControllerAdvice {

@@ -11,7 +11,7 @@ import kr.com.inspect.dto.Rule;
 import kr.com.inspect.dto.RuleLog;
 
 /**
- * 전사규칙에 관한 Service 인터페이스
+ * 전사규칙에 관한 Service Interface
  * @author Yeonhee Kim
  * @version 1.0
  */
@@ -62,7 +62,7 @@ public interface RuleService {
 	
 	/**
 	 * 룰 로그 테이블을 페이징 처리하여 가져옴
-	 * @param data RuleLog 테이블의 외래키인 using_log_no
+	 * @param using_log_no RuleLog 테이블의 외래키인 using_log_no
 	 * @param function_name 페이지의 번호를 클릭했을 때 호출되는 자바스크립트 함수명 또는 게시글 조회를 요청하는 함수명을 저장할 변수
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수
@@ -124,16 +124,21 @@ public interface RuleService {
 	/**
 	 * 대분류/중분류/소분류 아이디로 해당되는 항목을 삭제함
 	 * @param level 해당되는 분류(대분류/중분류/소분류)
-	 * @param id 대분류/중분류/소분류 아이디
+	 * @param rule 대분류/중분류/소분류 아이디
 	 * @return DB에서 삭제한 row의 수
 	 */
 	public int deleteRule(String level, Rule rule);
-	
+
+	/**
+	 * bottom level id 로 룰 가져오기
+	 * @param bottom_level_id 가져올 데이터의 bottom_level_id
+	 * @return Rule
+	 */
 	public Rule getRuleBottomLevel(int bottom_level_id);
 	
 	/**
 	 * 사용자가 입력한 Rule 코드를 DB에 업데이트함
-	 * @param 현재 룰 버전(버전을 수정했는지 검사할 때 사용)
+	 * @param presentVersion 현재 룰 버전(버전을 수정했는지 검사할 때 사용)
 	 * @param rule 코드 업데이트를 위한 Rule 객체
 	 * @return 컴파일 성공 여부, DB 업데이트 여부, 실행 결과값 또는 예외 메세지
 	 * @throws Exception 예외

@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 
 import kr.com.inspect.dto.ResponseData;
 
+/**
+ *
+ * @author Yeonhee Kim
+ * @version 1.0
+ */
 @Component
 public class PagingResponse {
 	public ResponseData getResponseData(Object list, Object totalCount, Object pagination) {

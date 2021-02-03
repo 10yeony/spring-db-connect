@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 /**
  * 임시 비밀번호를 메일로 발송함
  * @author Yeonhee Kim
- *
+ * @version 1.0
  */
 @Service
 @PropertySource(value = "classpath:properties/sender.properties")

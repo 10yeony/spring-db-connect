@@ -361,6 +361,11 @@ public class RuleServiceImpl implements RuleService {
 		return result;
 	}
 
+	/**
+	 * bottom level id 로 룰 가져오기
+	 * @param bottom_level_id 가져올 데이터의 bottom_level_id
+	 * @return Rule
+	 */
 	@Override
 	public Rule getRuleBottomLevel(int bottom_level_id) {
 		return ruleDao.getRuleBottomLevel(bottom_level_id);

@@ -4,7 +4,7 @@ package kr.com.inspect.dto;
  * 사용자가 import하고자 등록한 커스텀 라이브러리
  * @author Myeongjun Hwang
  * @author Yeonhee Kim
- *
+ * @version 1.0
  */
 public class CustomLibrary {
 	

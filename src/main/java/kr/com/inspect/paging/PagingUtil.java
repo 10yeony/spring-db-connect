@@ -3,6 +3,7 @@ package kr.com.inspect.paging;
 /**
  * 페이지 네비게이션 정보 설정을 위한 클래스
  * @author Yeonhee Kim
+ * @version 1.0
  */
 public class PagingUtil {
 	

@@ -156,7 +156,7 @@ public interface MemberService extends UserDetailsService {
 
 	/**
 	 * 관리자 권한으로 가입 승인
-	 * @param member_id 회원 id
+	 * @param member 회원
 	 */
 	public void updateMemberApprovalUsingId(Member member);
 	

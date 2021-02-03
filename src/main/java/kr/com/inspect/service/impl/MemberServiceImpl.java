@@ -38,6 +38,7 @@ import kr.com.inspect.util.UsingLogUtil;
  * @version 1.0
  *
  */
+
 @Service("memberService")
 @PropertySource(value = "classpath:properties/directory.properties")
 public class MemberServiceImpl implements MemberService {	

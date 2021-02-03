@@ -6,7 +6,7 @@ import java.util.Map;
 import kr.com.inspect.dto.*;
 
 /**
- * 전사규칙과 관련된 DAO 인터페이스
+ * 전사규칙과 관련된 DAO Interface
  * @author Yeonhee Kim
  * @author Wooyoung Lee
  * @version 1.0

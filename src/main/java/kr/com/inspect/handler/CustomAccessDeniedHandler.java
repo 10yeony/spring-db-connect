@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 /**
  * 403 에러(접근 권한 없음) 발생시 처리
  * @author Yeonhee Kim
- *
+ * @version 1.0
  */
 @Component("customAccessDeniedHandler")
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {

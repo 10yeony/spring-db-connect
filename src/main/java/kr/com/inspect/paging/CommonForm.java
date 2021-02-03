@@ -3,7 +3,7 @@ package kr.com.inspect.paging;
 /**
  * 페이징 처리된 화면에 필요한 변수를 담고 있는 Form
  * @author Yeonhee Kim
- *
+ * @version 1.0
  */
 public class CommonForm {
 	

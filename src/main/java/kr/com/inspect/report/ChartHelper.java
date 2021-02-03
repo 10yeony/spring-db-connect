@@ -30,7 +30,7 @@ import kr.com.inspect.dto.Rule;
  * 워드 파일에 룰 결과 차트를 작성하는 데 도와주는 객체
  * @author Yeonhee Kim
  * @author Wooyoung Lee
- *
+ * @version 1.0
  */
 public class ChartHelper {
 	/**

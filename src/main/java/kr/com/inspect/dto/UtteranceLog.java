@@ -1,7 +1,7 @@
 package kr.com.inspect.dto;
 
 /**
- * Rule 관련 로그
+ * Utterance 수정 관련 로그
  * @author Wooyoung Lee
  * @version 1.0
  */

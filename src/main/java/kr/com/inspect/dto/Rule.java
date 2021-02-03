@@ -3,7 +3,7 @@ package kr.com.inspect.dto;
 /**
  * 전사규칙 클래스 (rule_top_level, rule_middle_level, rule_bottom_level 테이블)
  * @author Yeonhee Kim
- *
+ * @version 1.0
  */
 public class Rule {
 

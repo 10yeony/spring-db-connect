@@ -14,7 +14,6 @@ import kr.com.inspect.dao.RuleDao;
 
 /**
  * 전사규칙과 관련된 DAO 구현 클래스
- * 
  * @author Yeonhee Kim
  * @version 1.0
  */

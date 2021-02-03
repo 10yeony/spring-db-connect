@@ -2,7 +2,13 @@ package kr.com.inspect.service;
 
 import java.util.List;
 import java.util.Map;
-
+/**
+ * Chart Service interface
+ * @author Yeonhee Kim
+ * @author Wooyoung Lee
+ * @version 1.0
+ *
+ */
 public interface ChartService {
 	/**
 	 * 차트에 활용할 JsonLog 개수 목록을 가져옴

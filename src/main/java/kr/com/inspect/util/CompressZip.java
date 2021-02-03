@@ -9,7 +9,7 @@ import java.util.zip.ZipOutputStream;
 /**
  * zip 파일로 압축하는 클래스
  * @author Yeonhee Kim
- *
+ * @version 1.0
  */
 public class CompressZip { 
 	

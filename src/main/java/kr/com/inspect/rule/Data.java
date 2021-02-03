@@ -21,7 +21,7 @@ import org.apache.ibatis.io.Resources;
  * 사용자가 가져다 쓸 DB 접속 객체
  * @author Yeonhee Kim
  * @author Wooyoung Lee
- *
+ * @version 1.0
  */
 public class Data {
 	
