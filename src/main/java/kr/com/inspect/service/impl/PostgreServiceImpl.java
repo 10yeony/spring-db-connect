@@ -939,4 +939,13 @@ public class PostgreServiceImpl implements PostgreService{
 		ResponseData responseData = pagingResponse.getResponseData(list, totalCount, pagination);
 		return responseData;
 	}
+
+	/**
+	 * utteranceLog 데이터를 no로 가져옴
+	 * @param no 가져올 데이터의 no
+	 * @return utteranceLog
+	 */
+	public UtteranceLog getUtteranceLogByUsingNo(int no){
+		return postgreDao.getUtteranceLogByUsingNo(no);
+	}
 }

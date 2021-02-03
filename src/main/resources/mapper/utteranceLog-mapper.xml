@@ -65,4 +65,13 @@
 			OR before LIKE '%'||#{search_word}||'%'
 			OR member_id LIKE '%'||#{search_word}||'%');
 	</select>
+
+	<select id="getUtteranceLogByUsingNo" parameterType="int" resultType="kr.com.inspect.dto.UtteranceLog">
+		SELECT
+			*
+		FROM
+			audio.utterance_log
+		WHERE
+			using_log_no = #{no};
+	</select>
 </mapper>

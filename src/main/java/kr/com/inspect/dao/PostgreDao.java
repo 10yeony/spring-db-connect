@@ -173,4 +173,11 @@ public interface PostgreDao {
 										 int limit,
 										 int offset,
 										  String search_word);
+
+	/**
+	 * utteranceLog 데이터를 no로 가져옴
+	 * @param no 가져올 데이터의 no
+	 * @return utteranceLog
+	 */
+	public UtteranceLog getUtteranceLogByUsingNo(int no);
 }

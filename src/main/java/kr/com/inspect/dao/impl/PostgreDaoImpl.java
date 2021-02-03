@@ -333,4 +333,13 @@ public class PostgreDaoImpl implements PostgreDao {
 		map.put("search_word", search_word);
 		return sqlSession.selectList(utteranceLogNS+"getUtteranceLog", map);
 	}
+
+	/**
+	 * utteranceLog 데이터를 no로 가져옴
+	 * @param no 가져올 데이터의 no
+	 * @return utteranceLog
+	 */
+	public UtteranceLog getUtteranceLogByUsingNo(int no){
+		return sqlSession.selectOne(utteranceLogNS+"getUtteranceLogByUsingNo", no);
+	}
 }

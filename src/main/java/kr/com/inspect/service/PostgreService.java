@@ -2,12 +2,8 @@ package kr.com.inspect.service;
 
 import java.util.List;
 
+import kr.com.inspect.dto.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.ResponseData;
-import kr.com.inspect.dto.Utterance;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -189,4 +185,11 @@ public interface PostgreService {
 										int count_per_page,
 										int count_per_list,
 										String search_word);
+
+	/**
+	 * utteranceLog 데이터를 no로 가져옴
+	 * @param no 가져올 데이터의 no
+	 * @return utteranceLog
+	 */
+	public UtteranceLog getUtteranceLogByUsingNo(int no);
 }

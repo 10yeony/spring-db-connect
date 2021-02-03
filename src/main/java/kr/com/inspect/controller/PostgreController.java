@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.com.inspect.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -13,10 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.com.inspect.dto.EojeolList;
-import kr.com.inspect.dto.Member;
-import kr.com.inspect.dto.Metadata;
-import kr.com.inspect.dto.Utterance;
 import kr.com.inspect.service.PostgreService;
 
 /**
@@ -200,5 +197,20 @@ public class PostgreController {
 		return "true";
 	}
 
+	@GetMapping("goUtterance")
+	public String goUtterance(Model model, int data, HttpServletRequest request){
+		System.out.println(data);
+		UtteranceLog utteranceLog = postgreService.getUtteranceLogByUsingNo(data);
+		int format = utteranceLog.getMetadata_id();
+		System.out.println(utteranceLog);
+		getUtteranceTable(model, utteranceLog.getMetadata_id(), request);
+		List<Utterance> utterances = postgreService.getUtteranceUsingMetadataId(format);
+		Metadata metadata = postgreService.getMetadataAndProgramUsingId(format);
+		model.addAttribute("utterances",utterances);
+		model.addAttribute("metadata",metadata);
+		postgreService.wavFileCopy(metadata.getTitle(), request);
+		return "postgreSQL/getUtterance";
+
+	}
 
 }

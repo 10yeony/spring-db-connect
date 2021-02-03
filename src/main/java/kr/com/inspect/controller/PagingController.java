@@ -495,7 +495,7 @@ public class PagingController {
 								int count_per_page,
 								int count_per_list,
 								String search_word){
-//		Metadata metadata = postgreService.getMetadataAndProgramUsingId(Integer.parseInt(data));
+		Metadata metadata = postgreService.getMetadataAndProgramUsingId(Integer.parseInt(data));
 
 		ResponseData responseData = postgreService.getUtteranceLog(
 				Integer.parseInt(data),
@@ -516,6 +516,7 @@ public class PagingController {
 		}
 		model.addAttribute("data", data);
 		model.addAttribute("searchResult", value);
+		model.addAttribute("metadata", metadata);
 		return "postgreSQL/utteranceLog";
 	}
 }

@@ -56,7 +56,15 @@
 
                 <!-- Page Body -->
                 <div class="card shadow mb-4">
-                    <div class="card-body"><br/>
+                    <div class="card-body">
+                        <h5 class="h6 mb-2 text-gray-800">
+                            <c:if test="${metadata.program != null}">
+                                <span><b>${metadata.program.title} - ${metadata.program.subtitle}</b><br/></span>
+                                <span><b>running time :</b> ${metadata.program.running_time}<br/></span>
+                            </c:if>
+                            <span><b>creator :</b> ${metadata.creator}<br/></span>
+                        </h5>
+                        <hr>
                         <%@ include file="/WEB-INF/views/paging/template.jsp"%>
                     </div>
                 </div>

@@ -132,7 +132,8 @@
                     <div class="card-body">
                         <b style="font-size:14px">문장을 누르면 어절 단위 페이지로 이동합니다.</b><br>
                         <b style="font-size:14px">연필 아이콘을 클릭하면 문장을 수정할 수 있습니다.</b>&nbsp;&nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/getUtteranceLog?data=${metadata.id}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=" style="color: #006fdd; cursor: pointer; font-size:14px;">이력 관리</a><br><br>
+                        <a href="${pageContext.request.contextPath}/getUtteranceLog?data=${metadata.id}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=" style="color: #006fdd; cursor: pointer; font-size:14px;">
+                            수정한 문장 이력 관리</a><br><br>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>

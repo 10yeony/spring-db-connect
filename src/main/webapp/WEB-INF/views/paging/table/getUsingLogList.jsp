@@ -32,6 +32,9 @@
 							<c:when test="${fn:contains(item.content, '룰')}">
 								<a href="${pageContext.request.contextPath}/getRuleLogList?data=${item.no}&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">${item.content}</a>
 							</c:when>
+							<c:when test="${fn:contains(item.content, '전사데이터 문장 수정')}">
+								<a href="${pageContext.request.contextPath}/goUtterance?data=${item.no}">${item.content}</a>
+							</c:when>
 							<c:otherwise>
 								${item.content}
 							</c:otherwise>
