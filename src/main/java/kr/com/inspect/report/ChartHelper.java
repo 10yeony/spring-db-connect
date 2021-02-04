@@ -273,7 +273,12 @@ public class ChartHelper {
 		}
 		return doc;
 	}
-	
+
+	/**
+	 *
+	 * @param doc
+	 * @return
+	 */
 	public XWPFDocument drawBoxChart(XWPFDocument doc) {
 		String xAxisTitle = list.get(0).get(0);
 		for(int idx=0; idx<columnCount; idx++) {
@@ -307,7 +312,11 @@ public class ChartHelper {
 		}
 		return doc;
 	}
-	
+
+	/**
+	 *
+	 * @return
+	 */
 	public int getChartCount() {
 		double[][] tempArr = new double[columnCount][rowCount];
 		double[] avgArr = new double[columnCount];
@@ -341,7 +350,6 @@ public class ChartHelper {
 	
 	/**
 	 * 차트에 들어갈 x축, y축 데이터를 정리하여 담음
-	 * @param tableType 테이블 유형
 	 */
 	public void setXYData() {
 		this.map = new HashMap<String, Object>();
@@ -422,7 +430,7 @@ public class ChartHelper {
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		ChartHelper chartHelper = new ChartHelper();
 		Rule rule = new Rule();

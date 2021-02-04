@@ -16,6 +16,7 @@ import kr.com.inspect.dto.UsingLog;
 /**
  * 회원정보 DAO
  * @author Yeonhee Kim
+ * @author Wooyoung Lee
  * @version 1.0
  *
  */
@@ -368,6 +369,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * 로그인 할 때마다 마지막 로그인 시간을 업데이트
 	 * @param member_id 업데이트 할 계정 id
+	 * @param date 마지막 로그인 시간
 	 */
 	@Override
 	public void updateLoginTime(String member_id, String date){
@@ -389,6 +391,7 @@ public class MemberDaoImpl implements MemberDao{
 	/**
 	 * 관리자 권한으로 계정 활성화
 	 * @param member_id 활성화 할 member_id
+	 * @return 업데이트 된 row 수
 	 */
 	@Override
 	public int updateAccountActivation(String member_id){

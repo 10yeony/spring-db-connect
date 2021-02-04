@@ -19,6 +19,7 @@ import kr.com.inspect.dto.ResponseData;
 /**
  * 회원정보 Service Interface
  * @author Yeonhee Kim
+ * @author Wooyoung Lee
  * @version 1.0
  *
  */
@@ -102,7 +103,7 @@ public interface MemberService extends UserDetailsService {
 	 * 비밀번호를 잊어버린 회원에게 아이디와 이메일을 받고 임시 비밀번호를 메일로 발송 
 	 * @param member_id 회원 아이디
 	 * @param email 회원 이메일
-	 * @return 
+	 * @return 성공 여부
 	 */
 	public String sendPwdToEmail(String member_id, String email);
 	

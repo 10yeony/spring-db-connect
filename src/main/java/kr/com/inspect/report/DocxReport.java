@@ -316,6 +316,8 @@ public class DocxReport {
 	 * @param response 파일 다운을 위한 응답
 	 * @param ruleList 워드로 다운받을 rule
 	 * @param path 파일을 다운받기 위해 임시 저장할 경로
+	 * @param name 작성자
+	 * @param time 작성일
 	 */
 	public void resultRuleDocx(HttpServletResponse response, List<Rule> ruleList, String path, String name, String time){
 		File folder = new File(path);
@@ -550,7 +552,6 @@ public class DocxReport {
 	 * @param response HttpServletResponse
 	 * @param path 이전 룰 보고서 파일이 있는 폴더
 	 * @param time 파일명(이전에 다운받은 시간)
-	 * @throws UnsupportedEncodingException 지원되지 않는 인코딩 예외
 	 */
 	public void downloadPrevRuleReport(HttpServletResponse response, String path, String time) {
 		File folder = new File(path);
@@ -573,24 +574,5 @@ public class DocxReport {
 		} catch (IOException e) {
 			//e.printStackTrace();
 		}
-	}
-
-	public List<List<String>> parsing(String result){
-		List<List<String>> listList = new ArrayList<>();
-		List<String> list = new ArrayList<>();
-		List<String> stringList = new ArrayList<>();
-
-		stringList = Arrays.asList(result.substring(2,result.length()-2).split("}, \\{"));
-
-		for(String str : stringList){
-			list = Arrays.asList(str.split("="));
-		}
-
-
-		return listList;
-	}
-
-	public String is_Null(String str){
-		return (str == "") ? " " : str;
 	}
 }

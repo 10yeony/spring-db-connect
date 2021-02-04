@@ -26,7 +26,9 @@ import kr.com.inspect.service.ChartService;
  */
 @Service
 public class ChartServiceImpl implements ChartService {
-	
+	/**
+	 * chartDao dao 필드 선언
+	 */
 	@Autowired
 	private ChartDao chartDao;
 	

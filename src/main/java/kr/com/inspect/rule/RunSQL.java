@@ -32,7 +32,9 @@ public class RunSQL {
 
     /**
      * query를 받아 실행하는 메서드
+     * @param responseData 응답 객체
      * @param query 실행할 쿼리문
+     * @return 응답 객체
      */
     public ResponseData run(ResponseData responseData, String query) {
         if(query.length() < 6){
@@ -123,9 +125,11 @@ public class RunSQL {
 
     /**
      * query를 받아서 실행하여 rule_bottom_level에 저장하는 메서드
-     * @param responseData 응답
+     * @param responseData 응답 객체
+     * @param presentVersion 이전 버전
      * @param rule 입력할 rule
-     * @return
+     * @param TIME 시간
+     * @return 응답객체
      */
     public ResponseData run(ResponseData responseData, String presentVersion, Rule rule, String TIME) {
         int updateResult = ruleDao.updateRuleContents(rule);
