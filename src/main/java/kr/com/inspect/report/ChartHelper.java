@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -114,6 +115,12 @@ public class ChartHelper {
 		this.path = path;
 		this.title = rule.getBottom_level_name(); 
 		String ruleResult = rule.getResult().substring(2, rule.getResult().length()-2);
+		try {
+			byte utf8Bytes[] = ruleResult.getBytes("utf-8");
+			ruleResult = new String(utf8Bytes,"utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			//e1.printStackTrace();
+		}
 		String[] ruleResultArr = ruleResult.split("], \\[");
 		this.list = new ArrayList<>(); 
 		for(int i=0; i<ruleResultArr.length; i++) {
