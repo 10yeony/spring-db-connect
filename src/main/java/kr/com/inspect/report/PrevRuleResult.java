@@ -108,6 +108,7 @@ public class PrevRuleResult {
 	/**
 	 * zip 파일 압축을 해제하고 파일을 읽어서 룰 리스트를 반환함
 	 * @param zipFileName zip 파일 이름
+	 * @param bottom_level_id_arr 소분류 id 배열
 	 * @return 룰 리스트
 	 */
 	public List<Rule> unZip(String zipFileName, int[] bottom_level_id_arr) {

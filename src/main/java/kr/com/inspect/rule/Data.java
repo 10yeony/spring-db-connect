@@ -68,9 +68,9 @@ public class Data {
 	/**
 	 * DB 설정 정보를 넣고 DB 연결 객체를 반환함
 	 * @return Connection 객체
-	 * @throws Exception
+	 * @throws Exception 예외 처리
 	 */
-	public Connection getConnect() throws Exception{
+	public Connection getConnect() throws Exception {
 		Class.forName(driver);
 		Connection conn = DriverManager.getConnection(url, user, pass);
 		return conn;

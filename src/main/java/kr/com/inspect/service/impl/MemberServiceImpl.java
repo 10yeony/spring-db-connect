@@ -35,6 +35,7 @@ import kr.com.inspect.util.UsingLogUtil;
 /**
  * 회원 Service
  * @author Yeonhee Kim
+ * @author Wooyoung Lee
  * @version 1.0
  *
  */
@@ -99,7 +100,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	/**
-	 * 
+	 *
 	 * @param uploadImgFile 업로드한 이미지 파일
 	 * @param member 회원 정보
 	 * @param changeToDefaultImg 프로필 이미지를 기본 이미지로 바꾸는지 여부
@@ -174,7 +175,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * 아이디로 회원정보를 가져옴
 	 * @param member_id 회원 아이디
-	 * @return 회원 아이디 값 리턴
+	 * @return 회원 값 리턴
 	 */
 	@Override
 	public Member readMemberById(String member_id){
@@ -271,9 +272,10 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	/**
-	 * 비밀번호를 잊어버린 회원에게 아이디와 이메일을 받고 임시 비밀번호를 메일로 발송 
+	 * 비밀번호를 잊어버린 회원에게 아이디와 이메일을 받고 임시 비밀번호를 메일로 발송
 	 * @param member_id 회원 아이디
 	 * @param email 회원 이메일
+	 * @return 성공 여부
 	 */
 	@Override
 	public String sendPwdToEmail(String member_id, String email) {
@@ -310,7 +312,6 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * 회원 탈퇴 
 	 * @param member_id 회원 아이디
-	 * @return 삭제 값 리턴
 	 */
 	@Override
 	public void deleteMember(String member_id) {

@@ -20,9 +20,9 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
 	/**
 	 * 403 에러(접근 권한 없음) 발생시 에러 메세지를 띄우고 에러 페이지로 이동함
-	 * @param request
-	 * @param response
-	 * @param accessDeniedException
+	 * @param request 클라이언트의 요청
+	 * @param response 서버에서 보내는 응답
+	 * @param accessDeniedException 권한 없음 예외
 	 */
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,

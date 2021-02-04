@@ -135,7 +135,7 @@ public class JsonParsing {
 	 * Utterance 파싱
 	 * @param obj JSON 객체
 	 * @param metadata_id utterance 테이블의 metadata_id 값(FK)
-	 * @return
+	 * @return Utterance 테이블의 값을 리스트에 담아 변수 utteranceList로 리턴
 	 */
 	public List<Utterance> setUtterance(JSONObject obj, int metadata_id){
 		long beforeTimeCheck = System.currentTimeMillis();

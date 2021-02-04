@@ -101,7 +101,7 @@ public class SendMail {
 	}
 	
 	/**
-	 * 
+	 * 가입 승인을 알리는 이메일 전송
 	 * @param member 회원 가입한 멤버
 	 * @throws Exception
 	 */

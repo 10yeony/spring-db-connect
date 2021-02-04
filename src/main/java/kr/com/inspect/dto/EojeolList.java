@@ -8,6 +8,7 @@ package kr.com.inspect.dto;
  */
 
 public class EojeolList {
+
 	/**
 	 * primary key, auto increment
 	 */
@@ -59,137 +60,55 @@ public class EojeolList {
 		this.metadata_id = metadata_id;
 	}
 	
-	/**
-	 *
-	 * @return
-	 */
 	public int getNo() {
 		return no;
 	}
-
-	/**
-	 *
-	 * @param no
-	 */
 	public void setNo(int no) {
 		this.no = no;
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
 	public String getStandard() {
 		return standard;
 	}
-	
-	/**
-	 * 
-	 * @param standard
-	 */
 	public void setStandard(String standard) {
 		this.standard = standard;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public String getEojeol() {
 		return eojeol;
 	}
-	
-	/**
-	 * 
-	 * @param eojeol
-	 */
 	public void setEojeol(String eojeol) {
 		this.eojeol = eojeol;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public boolean isDialect() {
 		return isDialect;
 	}
-	
-	/**
-	 * 
-	 * @param isDialect
-	 */
 	public void setDialect(boolean isDialect) {
 		this.isDialect = isDialect;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public int getBegin() {
 		return begin;
 	}
-	
-	/**
-	 * 
-	 * @param begin
-	 */
 	public void setBegin(int begin) {
 		this.begin = begin;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public int getFinish() {
 		return finish;
 	}
-	
-	/**
-	 * 
-	 * @param finish
-	 */
 	public void setFinish(int finish) {
 		this.finish = finish;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public String getUtterance_id() {
 		return utterance_id;
 	}
-	
-	/**
-	 * 
-	 * @param utterance_id
-	 */
 	public void setUtterance_id(String utterance_id) {
 		this.utterance_id = utterance_id;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public int getMetadata_id() {
 		return metadata_id;
 	}
-	
-	/**
-	 * 
-	 * @param metadata_id
-	 */
 	public void setMetadata_id(int metadata_id) {
 		this.metadata_id = metadata_id;
 	}
 	
-	/**
-	 * 
-	 */
 	@Override
 	public String toString() {
 		return "EojeolList [no=" + no + ", standard=" + standard + ", eojeol=" + eojeol + ", isDialect=" + isDialect

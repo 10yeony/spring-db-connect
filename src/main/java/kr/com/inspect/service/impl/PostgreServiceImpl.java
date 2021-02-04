@@ -271,10 +271,9 @@ public class PostgreServiceImpl implements PostgreService{
 	 * JSON 파일들을 업로드해서 PostgreSQL에 넣음
 	 * @param path 파일 디렉토리
 	 * @param jsonFile json 파일
-	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
-	public void insertJSONUpload(String path, List<MultipartFile> jsonFile) throws Exception {
+	public void insertJSONUpload(String path, List<MultipartFile> jsonFile) {
 		UsingLog usingLog = new UsingLog();
 		usingLog.setContent("JSON 파일 업로드");
 		usingLogUtil.setUsingLog(usingLog);
@@ -301,11 +300,10 @@ public class PostgreServiceImpl implements PostgreService{
 	/**
 	 * 서버 디렉토리 안의 json 파일을 PostgreSQL에 넣음
 	 * @param path 파일 디렉토리
-	 * @exception Exception 예외 처리
 	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
-	public String insertJSONDir(String path) throws Exception {
+	public String insertJSONDir(String path) {
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
 		
@@ -532,11 +530,10 @@ public class PostgreServiceImpl implements PostgreService{
 	 * xlsx 파일들을 업로드해서 PostgreSQL에 넣음
 	 * @param path 파일 디렉토리
 	 * @param xlsxFile 엑셀 파일
-	 * @exception Exception 예외 처리
 	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
-	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile) throws Exception{
+	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile) {
 		UsingLog usingLog = new UsingLog();
 		usingLog.setContent("xlsx 파일 업로드");
 		usingLogUtil.setUsingLog(usingLog);
@@ -613,11 +610,10 @@ public class PostgreServiceImpl implements PostgreService{
 	/**
 	 * 서버 디렉토리 안의 xlsx 파일을 PostgreSQL에 넣음
 	 * @param path 파일 디렉토리
-	 * @exception Exception 예외 처리
 	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
 	@Override
-	public String insertXlsxDir(String path) throws Exception{
+	public String insertXlsxDir(String path) {
 		File dir = new File(path);
 		File[] fileList = dir.listFiles();
 		singletone.setNewData(0);
@@ -722,9 +718,9 @@ public class PostgreServiceImpl implements PostgreService{
 	}
 
 	/**
-	 * utterance id 로 해당되는 utterance 튜플을 가져옴
-	 * @param id utterance 튜플에 해당하는 utterance id 값
-	 * @return 튜플 리턴
+	 * utterance id 로 해당되는 utterance를 가져옴
+	 * @param id utterance에 해당하는 utterance id 값
+	 * @return utterance 리턴
 	 */
 	public Utterance getUtteranceUsingId(String id){
 		return postgreDao.getUtteranceUsingId(id);
@@ -783,9 +779,8 @@ public class PostgreServiceImpl implements PostgreService{
 	/**
 	 * wav 파일들을 저장 경로에 업로드
 	 * @param wavFile wav 파일
-	 * @throws Exception 파일 업로드 예외처리
 	 */
-	public void uploadWav(List<MultipartFile> wavFile) throws Exception {
+	public void uploadWav(List<MultipartFile> wavFile) {
 		UsingLog usingLog = new UsingLog();
 		usingLog.setContent("wav 파일 업로드");
 		usingLogUtil.setUsingLog(usingLog);
@@ -808,7 +803,12 @@ public class PostgreServiceImpl implements PostgreService{
 		}
 		closeThread(executor, futures);
 	}
-	
+
+	/**
+	 *
+	 * @param executor
+	 * @param futures
+	 */
 	public void closeThread(ExecutorService executor, List<Future<?>> futures) {
 		for (Future<?> future : futures) {
 			try {

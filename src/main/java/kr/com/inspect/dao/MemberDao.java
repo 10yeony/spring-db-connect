@@ -68,28 +68,28 @@ public interface MemberDao {
 	/**
 	 * 아이디로 회원정보를 읽음
 	 * @param member_id 회원 아이디
-	 * @return 회원 아이디 값을 리턴
+	 * @return 회원 아이디로 읽어온 회원 정보를 리턴
 	 */
 	public Member readMemberById(String member_id);
 
 	/**
 	 * 아이디 중복확인
 	 * @param member_id 회원 아이디
-	 * @return 회원 아이디 값을 리턴
+	 * @return 존재하는 row의 수
 	 */
 	public int idCheck(String member_id);
 	
 	/**
 	 * 이메일 중복확인
 	 * @param email 이메일 정보
-	 * @return 이메일 정보 값을 리턴
+	 * @return 존재하는 row의 수
 	 */
 	public int emailCheck(String email);
 	
 	/**
 	 * 연락처 중복확인
 	 * @param phone 연락처 정보
-	 * @return 연락처 정보 값을 리턴
+	 * @return 존재하는 row의 수
 	 */
 	public int phoneCheck(String phone);
 	
@@ -194,6 +194,7 @@ public interface MemberDao {
 	/**
 	 * 로그인 할 때마다 마지막 로그인 시간을 업데이트
 	 * @param member_id 업데이트 할 계정 id
+	 * @param date 마지막 로그인 시간
 	 */
 	public void updateLoginTime(String member_id, String date);
 
@@ -206,6 +207,7 @@ public interface MemberDao {
 	/**
 	 * 관리자 권한으로 계정 활성화
 	 * @param member_id 활성화 할 member_id
+	 * @return 업데이트 된 row 수
 	 */
 	public int updateAccountActivation(String member_id);
 }
