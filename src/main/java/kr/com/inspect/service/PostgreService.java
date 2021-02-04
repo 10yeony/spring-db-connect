@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * PostgreSQL Service Interface
  * @author Yeonhee Kim
+ * @author Wooyoung Lee
  * @version 1.0
  *
  */
@@ -42,57 +43,52 @@ public interface PostgreService {
 	/**
 	 * id로 해당되는 Metadata 테이블을 가져옴
 	 * @param id Metadata 테이블의 id 값
-	 * @return
+	 * @return id 값에 해당하는 metadata 테이블들의 값을 리턴
 	 */
 	public Metadata getMetadataById(Integer id);
 	
 	/**
 	 * metadataId로 해당되는 Utterance 테이블을 가져옴
 	 * @param metadataId Utterance 테이블의 metadataId 값
-	 * @return
+	 * @return metadataId 값에 해당하는 Utterance 테이블들의 값을 리스트에 담아 리턴
 	 */
 	public List<Utterance> getUtteranceUsingMetadataId(Integer metadataId);
 
 	/**
-	 * utterance id 로 해당되는 utterance 튜플을 가져옴
-	 * @param id
-	 * @return
+	 * utterance id 로 해당되는 utterance를 가져옴
+	 * @param id utterance에 해당하는 utterance id 값
+	 * @return utterance 리턴
 	 */
 	public Utterance getUtteranceUsingId(String id);
-	
+
 	/**
-	 * 특정 경로에 있는 JSON 파일들을 읽어서 PostgreSQL에 넣음
+	 * JSON 파일들을 업로드해서 PostgreSQL에 넣음
 	 * @param path 파일 디렉토리
-	 * @param file 파일
-	 * @return
-	 * @throws Exception 예외 처리
+	 * @param jsonFile json 파일
 	 */
-	public void insertJSONUpload(String path, List<MultipartFile> file) throws Exception;
+	public void insertJSONUpload(String path, List<MultipartFile> jsonFile) ;
 
 	/**
 	 * 서버 디렉토리 안의 json 파일을 PostgreSQL에 넣음
 	 * @param path 파일 디렉토리
-	 * @return
-	 * @throws Exception 예외 처리
+	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
-	public String insertJSONDir(String path) throws Exception;
-	
+	public String insertJSONDir(String path) ;
+
 	/**
-	 * 특정 경로에 있는 xlsx 파일들을 읽어서 PostgreSQL에 넣음
+	 * xlsx 파일들을 업로드해서 PostgreSQL에 넣음
 	 * @param path 파일 디렉토리
-	 * @param file 파일 
-	 * @return
-	 * @throws Exception 예외 처리
+	 * @param xlsxFile 엑셀 파일
+	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
-	public boolean insertXlsxUpload(String path, List<MultipartFile> file) throws Exception;
+	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile);
 
 	/**
 	 * 서버 디렉토리 안의 xlsx 파일을 PostgreSQL에 넣음
 	 * @param path 파일 디렉토리
-	 * @return
-	 * @throws Exception 예외 처리
+	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
 	 */
-	public String insertXlsxDir(String path) throws Exception;
+	public String insertXlsxDir(String path) ;
 
 	/**
 	 * Metadata 테이블과 Program 테이블을 조인해서 전체 테이블을 가져옴
@@ -120,15 +116,15 @@ public interface PostgreService {
 
 	/**
 	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴
-	 * @param metaId 
-	 * @return
+	 * @param metaId Metadata와 Program의 조인키
+	 * @return 조인값을 리턴
 	 */
 	public Metadata getMetadataAndProgramUsingId(Integer metaId);
 
 	/**
 	 * utterance_id 를 이용하여 eojeollist 데이터 가져오기
 	 * @param id eojeollist 테이블의 utterance_id 값
-	 * @return
+	 * @return utterance_id 값에 해당하는 eojeollist 테이블들의 값을 리스트에 담아 리턴
 	 */
 	public List<EojeolList> getEojeolListUsingUtteranceId(String id);
 
