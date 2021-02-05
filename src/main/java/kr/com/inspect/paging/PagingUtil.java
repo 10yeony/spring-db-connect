@@ -9,8 +9,8 @@ public class PagingUtil {
 	
 	/**
 	 * 페이지 네비게이션 정보 설정
-	 * @param commonForm
-	 * @return
+	 * @param commonForm 페이징 처리된 화면에 필요한 변수를 담고 있는 Form
+	 * @return 페이징 처리에 필요한 정보를 담아서 화면으로 보낼 DTO
 	 */
 	public static CommonDto setPageUtil(CommonForm commonForm) {
 		CommonDto commonDto = new CommonDto();

@@ -16,12 +16,11 @@ import kr.com.inspect.service.ChartService;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 대쉬보드의 차트 데이터 관련 컨트롤러
+ * 대시보드의 차트 데이터 관련 컨트롤러
  * @author Yeonhee Kim
  * @author Wooyoung Lee
  * @version 1.0
  */
-
 @Controller
 @RequestMapping("chart")
 public class ChartController {
@@ -33,9 +32,9 @@ public class ChartController {
 	private ChartService chartService;
 
 	/**
-	 *
-	 * @return
-	 * @throws InterruptedException
+	 * 대시보드에 쓰일 JsonLog 시간 그룹별 개수를 List에 넣어서 반환
+	 * @return JsonLog 시간 그룹별 개수
+	 * @throws InterruptedException 스레드 처리시 대기와 관련한 예외
 	 */
 	@GetMapping("getCountListOnJsonLog")
 	@ResponseBody
@@ -45,8 +44,8 @@ public class ChartController {
 	}
 
 	/**
-	 *
-	 * @return
+	 * 대시보드에 쓰일 metadata 타입(강의/회의/상담/고객응대) 비율을 Map에 넣어서 반환
+	 * @return metadata 타입(강의/회의/상담/고객응대) 비율
 	 */
 	@GetMapping("getRatioOnMetadataByType")
 	@ResponseBody
@@ -56,7 +55,7 @@ public class ChartController {
 	}
 
 	/**
-	 * 대쉬보드에 쓰일 데이터 개수 반환
+	 * 대시보드에 쓰일 데이터 개수 반환
 	 * @param response 웹으로 보낼 응답
 	 * @throws IOException 입출력 예외
 	 */

@@ -63,8 +63,8 @@ public class WebConfig  extends AbstractAnnotationConfigDispatcherServletInitial
 	
 	/**
 	 * 404 에러 페이지 처리를 위한 메소드
-	 * @param servletAppContext
-	 * @return DispatcherServlet
+	 * @param servletAppContext WebApplicationContext 객체
+	 * @return DispatcherServlet 객체
 	 */
 	@Override
 	protected DispatcherServlet createDispatcherServlet(WebApplicationContext servletAppContext) {

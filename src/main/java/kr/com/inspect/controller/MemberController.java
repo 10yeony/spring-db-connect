@@ -19,12 +19,11 @@ import kr.com.inspect.service.MemberService;
 import kr.com.inspect.util.ClientInfo;
 
 /**
- * 로그인 기능 관련 컨트롤러
+ * 사용자와 관련된 컨트롤러
  * @author Yeonhee Kim
  * @version 1.0
  *
  */
-
 @Controller
 public class MemberController {
 	/**
@@ -113,7 +112,7 @@ public class MemberController {
 	 * @param session 해당유저의 세션
 	 * @param uploadImgFile 업로드한 이미지 파일
 	 * @param member 회원정보
-	 * @param changeToDefaultImg
+	 * @param changeToDefaultImg 프로필 사진을 기본 이미지로 변경하는지 여부
 	 * @return ajax로 회원정보 수정 여부(true/false)를 반환
 	 */
 	@ResponseBody

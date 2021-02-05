@@ -282,9 +282,9 @@ public class ChartHelper {
 	}
 
 	/**
-	 *
-	 * @param doc
-	 * @return
+	 * 상자그림 그래프를 작성함
+	 * @param doc 워드 문서 객체
+	 * @return 상자그림 그래프가 추가된 워드 문서 객체
 	 */
 	public XWPFDocument drawBoxChart(XWPFDocument doc) {
 		String xAxisTitle = list.get(0).get(0);
@@ -435,24 +435,6 @@ public class ChartHelper {
 				this.map.put("xDataArr", xDataArr);
 				this.map.put("yDataList", yDataList);
 			}
-		}
-	}
-
-	public static void main(String[] args) {
-		ChartHelper chartHelper = new ChartHelper();
-		Rule rule = new Rule();
-		rule.setBottom_level_name("테스트 제목");
-		rule.setResult("[[전사자, 데이터1, 데이터2, 데이터3, 데이터4, 데이터5], [이민지(als3o@naver.com), 10%, 15%, 25%, 35%, 15%]]");
-		XWPFDocument doc = new XWPFDocument();
-		String path = "/home/namu/Documents/test/report/docx/";
-		doc = chartHelper.checkChartForm(doc, rule, path);
-		FileOutputStream fileOutputStream;
-		try {
-			fileOutputStream = new FileOutputStream("/home/namu/Documents/doc1.docx");
-			doc.write(fileOutputStream);
-			doc.close();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 }

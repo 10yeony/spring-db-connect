@@ -805,9 +805,9 @@ public class PostgreServiceImpl implements PostgreService{
 	}
 
 	/**
-	 *
-	 * @param executor
-	 * @param futures
+	 * 사용 중인 스레드를 종료시킴
+	 * @param executor ExecutorService 객체
+	 * @param futures Future 객체 리스트
 	 */
 	public void closeThread(ExecutorService executor, List<Future<?>> futures) {
 		for (Future<?> future : futures) {

@@ -16,20 +16,19 @@ import kr.com.inspect.dto.Speaker;
 import kr.com.inspect.dto.Utterance;
 
 /**
- *
+ * JSON 형태를 작성하는 객체
  * @author Yeonhee Kim
  * @version 1.0
  */
-
 public class JsonWriter {
 
 	/**
-	 *
-	 * @param metadata
-	 * @param speakerList
-	 * @param utteranceList
-	 * @param eojeolListList
-	 * @return
+	 * Metadata와 관련한 데이터를 받고 JSON 형태로 작성하여 반환함
+	 * @param metadata Metadata 객체
+	 * @param speakerList Metadata와 관련한 Speaker 리스트
+	 * @param utteranceList Metadata와 관련한 Utterance 리스트
+	 * @param eojeolListList Metadata와 관련한 EojeolList 리스트
+	 * @return Metadata와 관련한 데이터에서 추출한 JSON 형태 문자열
 	 */
 	public String writeMetadataJson(Metadata metadata, 
 			List<Speaker> speakerList, List<Utterance> utteranceList, List<EojeolList> eojeolListList) {

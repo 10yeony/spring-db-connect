@@ -21,16 +21,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import kr.com.inspect.service.PostgreService;
-import kr.com.inspect.service.impl.PostgreServiceImpl;
-
 /**
  * 각 Servlet에 관한 환경설정(xml 대체)
  * @author Yeonhee Kim, Woo Young
  * @version 1.0
  *
  */
-
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"kr.com.inspect"}, useDefaultFilters = false, includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class}))
@@ -55,8 +51,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	private String mailPassword;
 	
 	/**
-	 * 정적 자원 관리
-	 * @param registry
+	 * 정적 자원 관리와 관련한 메서드 
+	 * @param registry ResourceHandlerRegistry 객체
 	 */
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resource/**")
@@ -67,7 +63,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	  
 	/**
 	 * 뷰 영역 Prefix, Suffix 설정
-	 * @param registry
+	 * @param registry ViewResolverRegistry 객체
 	 */
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 	    InternalResourceViewResolver bean = new InternalResourceViewResolver();
@@ -88,7 +84,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	/**
 	 * 파일업로드 용량, 인코딩 처리 설정
-	 * @return CommonsMultipartResolver
+	 * @return CommonsMultipartResolver 객체
 	 */
 	@Bean(name = {"multipartResolver"})
 	public CommonsMultipartResolver multipartResolver() {
@@ -100,7 +96,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	/**
 	 * mail 전송 설정
-	 * @return JavaMailSender
+	 * @return JavaMailSender 객체
 	 */
 	@Bean
 	public JavaMailSender mailSender(){
@@ -119,17 +115,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		javaMailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
 		mailSender.setJavaMailProperties(javaMailProperties);
-
 		return mailSender;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	@Bean
-	public PostgreService postgreService(){
-		PostgreServiceImpl postgreService = new PostgreServiceImpl();
-		return postgreService;
 	}
 }

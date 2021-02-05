@@ -298,10 +298,10 @@ public class ReportController {
 
 	/**
 	 * 룰 결과를 워드파일로 다운
-	 * @param session
-	 * @param response
-	 * @param hiddenRule
-	 * @param time
+	 * @param session HttpSession 객체
+	 * @param response HttpServletResponse 객체
+	 * @param hiddenRule 룰 소분류 아이디를 담고 있는 배열
+	 * @param time 이전에 룰 보고서를 다운받았던 시간(서버 스토리지에 저장된 룰 보고서 파일명)
 	 */
 	@GetMapping("/resultRuleDocx")
 	@ResponseBody

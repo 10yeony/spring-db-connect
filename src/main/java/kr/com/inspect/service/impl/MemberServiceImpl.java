@@ -100,8 +100,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	/**
-	 *
-	 * @param uploadImgFile 업로드한 이미지 파일
+	 * 사용자의 프로필 이미지를 업로드하고 파일명이 세팅된 Member 객체를 반환함
+	 * @param uploadImgFile 업로드할 이미지 파일
 	 * @param member 회원 정보
 	 * @param changeToDefaultImg 프로필 이미지를 기본 이미지로 바꾸는지 여부
 	 * @return 이미지를 업로드되었을 때 파일명이 세팅된 Member 객체
