@@ -170,7 +170,7 @@ public class RuleController {
 
 	/**
 	 * 대분류/중분류/소분류 룰을 삭제함
-	 * @param model
+	 * @param model jsp에 넘겨줄 Model
 	 * @param level 대분류/중분류/소분류
 	 * @param rule 룰 아이디를 담고 있는 룰 객체
 	 * @return 삭제 후 이동할 url
@@ -250,7 +250,7 @@ public class RuleController {
 
 	/**
 	 * 룰을 작성하는 페이지로 이동함
-	 * @param model
+	 * @param model jsp에 넘겨줄 Model
 	 * @param bottom_level_id 소분류 아이디
 	 * @return 룰 작성 페이지(메서드/SQL) url
 	 */
@@ -270,7 +270,7 @@ public class RuleController {
 	 * @param top_level_id 대분류 아이디
 	 * @param middle_level_id 중분류 아이디
 	 * @param bottom_level_id 소분류 아이디
-	 * @throws Exception
+	 * @throws Exception 예외처리
 	 */
 	@PostMapping("/runRuleCompiler")
 	@ResponseBody
@@ -386,7 +386,7 @@ public class RuleController {
 	
 	/**
 	 * 룰의 버전별 변화(수정 전/수정 후)를 가져옴
-	 * @model Model
+	 * @param model model jsp에 넘겨줄 Model
 	 * @param bottom_level_id 룰 소분류 아이디
 	 * @param prev_bottom_level_id 룰 버전 관리 목록 아이디
 	 * @return 룰의 버전별 변화(수정 전/수정 후)

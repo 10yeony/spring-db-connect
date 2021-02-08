@@ -1,0 +1,17 @@
+kr.com.inspect
+kr.com.inspect.config
+kr.com.inspect.controller
+kr.com.inspect.controller.advice
+kr.com.inspect.dao
+kr.com.inspect.dao.impl
+kr.com.inspect.dto
+kr.com.inspect.handler
+kr.com.inspect.paging
+kr.com.inspect.parser
+kr.com.inspect.report
+kr.com.inspect.rule
+kr.com.inspect.scheduler
+kr.com.inspect.sender
+kr.com.inspect.service
+kr.com.inspect.service.impl
+kr.com.inspect.util

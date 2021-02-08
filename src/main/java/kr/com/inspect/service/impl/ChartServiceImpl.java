@@ -47,7 +47,6 @@ public class ChartServiceImpl implements ChartService {
 	/**
 	 * 차트에 활용할 JsonLog 개수 목록을 가져옴
 	 * @return 차트에 활용할 JsonLog 개수 목록
-	 * @throws InterruptedException 
 	 */
 	@Override
 	public List<Integer> getCountListOnJsonLog() {

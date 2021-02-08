@@ -238,7 +238,7 @@ public class PostgreDaoImpl implements PostgreDao {
 	
 	/**
 	 * metadata id로 Metadata 테이블과 Program 테이블을 조인해서 가져옴
-	 * @param metaId 
+	 * @param metaId 가져올 metadata id
 	 * @return 조인값을 리턴
 	 */
 	@Override
@@ -312,7 +312,7 @@ public class PostgreDaoImpl implements PostgreDao {
 
 	/**
 	 * utterance id로 어절 삭제
-	 * @param utterance_id
+	 * @param utterance_id 삭제할 utterance id
 	 * @return 삭제된 수
 	 */
 	public int deleteEojeolByUtteranceId(String utterance_id){

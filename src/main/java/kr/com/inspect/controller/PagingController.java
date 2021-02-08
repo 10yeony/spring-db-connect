@@ -68,7 +68,7 @@ public class PagingController {
 	
 	/**
 	 * 프론트로 보낼 Model에 페이징 처리와 관련된 attribute를 추가함
-	 * @param isAjax
+	 * @param isAjax ajax인지 아닌지 판단하는 변수
 	 * @param model Model
 	 * @param requestUrl 요청 주소
 	 * @param responseData 응답 객체
@@ -114,7 +114,7 @@ public class PagingController {
 	 * @param using_list 사용 내역
 	 * @param ip_addr IP 주소
 	 * @param access_time 접속 시간
-	 * @return
+	 * @return 속성들을 추가한 Model
 	 */
 	public Model addLogAttribute(Model model,
 								String log_type, 
@@ -131,7 +131,7 @@ public class PagingController {
 	}
 	
 	/**
-	 * Metadata & Program 조인해서 가져오기
+	 * Metadata, Program 조인해서 가져오기
 	 * @param model Model
 	 * @param data 데이터 타입 유형(전체/강의/회의/고객응대/상담)
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
@@ -440,7 +440,7 @@ public class PagingController {
 	
 	/**
 	 * 룰의 대분류/중분류/소분류 아이디를 저장하고 해당되는 페이지로 이동함
-	 * @param model
+	 * @param model jsp에 넘겨줄 Model
 	 * @param top_level_id 룰 대분류 아이디
 	 * @param middle_level_id 룰 중분류 아이디 
 	 * @param bottom_level_id 룰 소분류 아이디
@@ -499,7 +499,7 @@ public class PagingController {
 
 	/**
 	 * 문장 수정 이력관리를 페이징 처리
-	 * @param model
+	 * @param model jsp에 넘겨줄 Model
 	 * @param data 불러올 metadata id
 	 * @param current_page_no 현재 화면에 출력되고 있는 페이지 번호 또는 페이지의 번호를 클릭했을 때에 번호를 저장할 변수
 	 * @param count_per_page 한 화면에 출력되는 페이지의 수를 저장할 변수

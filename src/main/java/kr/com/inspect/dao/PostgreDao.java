@@ -142,7 +142,7 @@ public interface PostgreDao {
 
 	/**
 	 * utterance id로 어절 삭제
-	 * @param id
+	 * @param id 삭제할 utterance id
 	 * @return 삭제된 수
 	 */
 	public int deleteEojeolByUtteranceId(String id);

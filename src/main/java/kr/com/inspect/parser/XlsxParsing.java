@@ -25,7 +25,7 @@ import kr.com.inspect.dto.Program;
 public class XlsxParsing {
 	
 	/**
-	 * Excel 파일을 읽어서 List<Program>에 파싱
+	 * Excel 파일을 읽어서 프로그램 리스트로 파싱
 	 * @param fullPath 파일 디렉토리
 	 * @return 파싱값을 리스트에 담아 변수 list에 리턴
 	 */
