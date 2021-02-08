@@ -147,7 +147,7 @@ public class Member implements UserDetails {
 	
 	/**
 	 * MyBatis 관련 DB 상의 Id getter
-	 * @return
+	 * @return 사용자 아이디
 	 */
 	public String getMember_id() {
 		return member_id;
@@ -155,7 +155,7 @@ public class Member implements UserDetails {
 	
 	/**
 	 * MyBatis 관련 DB 상의 Id setter
-	 * @param member_id
+	 * @param member_id 사용자 아이디
 	 */
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
@@ -163,7 +163,7 @@ public class Member implements UserDetails {
 	
 	/**
 	 * MyBatis 관련 DB 상의 pwd getter
-	 * @return
+	 * @return 사용자 비밀번호
 	 */
 	public String getPwd() {
 		return pwd;
@@ -171,7 +171,7 @@ public class Member implements UserDetails {
 	
 	/**
 	 * MyBatis 관련 DB 상의 pwd setter
-	 * @param pwd
+	 * @param pwd 사용자 비밀번호
 	 */
 	public void setPwd(String pwd) {
 		this.pwd = pwd;

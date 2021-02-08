@@ -19,7 +19,7 @@ public class CompressZip {
 	 * @param outputPath 압축파일들이 있는 경로
 	 * @param outputFileName 압축파일명
 	 * @return 파일 압축 성공 여부
-	 * @throws Throwable
+	 * @throws Throwable 예외 처리
 	 */
 	public boolean compress(String path, String outputPath, String outputFileName) throws Throwable {
 		boolean isSucceeded = false; 

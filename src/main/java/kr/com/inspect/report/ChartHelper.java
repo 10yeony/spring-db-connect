@@ -321,7 +321,7 @@ public class ChartHelper {
 
 	/**
 	 *
-	 * @return
+	 * @return columnCount
 	 */
 	public int getChartCount() {
 		double[][] tempArr = new double[columnCount][rowCount];

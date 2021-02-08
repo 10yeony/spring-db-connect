@@ -54,7 +54,8 @@ public class SQLController {
 
     /**
      * query를 받아서 SQL을 실행
-     * @param response
+     * @param response 보낼 응답
+     * @param query 실행 시킬 쿼리문
      */
     @ResponseBody
     @RequestMapping(value = "/runSQL", method = RequestMethod.POST)
@@ -74,6 +75,7 @@ public class SQLController {
     /**
      * query를 받아서 sql 쿼리문을 실행하고 그 결과를 DB에 저장
      * @param response 사용자에게 전달할 응답
+     * @param presentVersion 현재 버전
      * @param rule query문이 담긴 Rule 객체
      */
     @ResponseBody

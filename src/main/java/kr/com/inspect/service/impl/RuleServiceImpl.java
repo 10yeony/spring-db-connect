@@ -375,7 +375,6 @@ public class RuleServiceImpl implements RuleService {
 	 * 사용자가 입력한 Rule 코드를 DB에 업데이트함
 	 * @param rule 코드 업데이트를 위한 Rule 객체
 	 * @return DB에 업데이트된 row의 수
-	 * @throws Exception 예외
 	 */
 	@Override
 	public Map<String, Object> updateRuleContents(String presentVersion, Rule rule) {
@@ -656,7 +655,7 @@ public class RuleServiceImpl implements RuleService {
 
 	/**
 	 * 사용자가 import하고자 하는 커스텀 라이브러리를 등록함
-	 * @param customLibrary
+	 * @param customLibrary 사용자가 업로드한 라이브러리
 	 * @return DB에 추가된 row의 수
 	 */
 	@Override
@@ -757,7 +756,7 @@ public class RuleServiceImpl implements RuleService {
 	/**
 	 * 스레드 작업이 종료될 때까지 기다리고 Task를 종료함
 	 * @param executor ExecutorService
-	 * @param futures List<Future<?>>
+	 * @param futures Future 리스트
 	 */
 	public void closeThread(ExecutorService executor, List<Future<?>> futures) {
 		for (Future<?> future : futures) {

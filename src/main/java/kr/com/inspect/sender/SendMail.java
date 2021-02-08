@@ -37,12 +37,12 @@ public class SendMail {
 	@Value("${mail.username2}")
 	private String mailUsername2;
     
-    /**
-     *  비밀번호 변경을 위한 인증번호 발송 메일을 보냄
-    * @param email 회원 이메일
-    * @throws Exception 예외
-     */
-    public void sendPwd(String email, String pwd) {
+	/**
+	 *  비밀번호 변경을 위한 인증번호 발송 메일을 보냄
+	 * @param email 회원 이메일
+	 * @param pwd 발송할 비밀번호
+	 */
+	public void sendPwd(String email, String pwd) {
     	try{
     		MimeMessage message = mailSender.createMimeMessage();
     		
@@ -103,7 +103,6 @@ public class SendMail {
 	/**
 	 * 가입 승인을 알리는 이메일 전송
 	 * @param member 회원 가입한 멤버
-	 * @throws Exception
 	 */
 	public void sendApprovalState(Member member) {
     	try{

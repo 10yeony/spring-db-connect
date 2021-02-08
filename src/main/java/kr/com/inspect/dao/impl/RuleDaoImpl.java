@@ -623,7 +623,7 @@ public class RuleDaoImpl implements RuleDao {
 
 	/**
 	 * 해당되는 룰의 버전 관리 개수를 가져옴
-	 * @param bottom_level_id
+	 * @param bottom_level_id 소분류 id
 	 * @param search_word 검색어
 	 * @return 룰의 버전 관리 개수
 	 */

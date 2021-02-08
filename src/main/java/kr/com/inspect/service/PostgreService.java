@@ -31,7 +31,7 @@ public interface PostgreService {
 	
 	/**
 	 * Metadata 테이블을 모두 가지고 옴
-	 * @return 
+	 * @return Metadata 테이블 리스트
 	 */
 	public List<Metadata> getMetadata();
 	
