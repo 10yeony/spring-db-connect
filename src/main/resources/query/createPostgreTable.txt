@@ -1,231 +1,359 @@
-# PostgreSQL 테이블 생성
+# PostgreSQL DB 테이블 생성 코드
 
-CREATE TABLE audio.metadata (
-    id SERIAL PRIMARY KEY,
-    creator text,
-    annotation_level text,
-    year text,
-    sampling text,
-    title text NOT NULL,
-    category text,
-    audio_type text,
-    distributor text,
-    relation text
-); 
+CREATE TABLE audio.metadata
+(
+    id integer NOT NULL DEFAULT nextval('audio.metadata_id_seq'::regclass),
+    creator text COLLATE pg_catalog."default",
+    annotation_level text COLLATE pg_catalog."default",
+    year text COLLATE pg_catalog."default",
+    sampling text COLLATE pg_catalog."default",
+    title text COLLATE pg_catalog."default" NOT NULL,
+    category text COLLATE pg_catalog."default",
+    audio_type text COLLATE pg_catalog."default",
+    distributor text COLLATE pg_catalog."default",
+    relation text COLLATE pg_catalog."default",
+    CONSTRAINT metadata_pkey PRIMARY KEY (id)
+)
 
-CREATE TABLE audio.speaker (
-	id SERIAL PRIMARY KEY,
-	no integer NOT NULL,
-	shortcut integer,
-	occupation text,
-	sex text,
-	name text,
-	age text,
-	birthplace text,
-	current_residence text,
-	pricipal_residence text,
-	education text,
-	metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
-);
+CREATE TABLE audio.utterance
+(
+    id text COLLATE pg_catalog."default" NOT NULL,
+    note text COLLATE pg_catalog."default",
+    form text COLLATE pg_catalog."default",
+    standard_form text COLLATE pg_catalog."default",
+    dialect_form text COLLATE pg_catalog."default",
+    speaker_no integer,
+    start numeric,
+    finish numeric,
+    metadata_id integer,
+    CONSTRAINT utterance_pkey PRIMARY KEY (id),
+    CONSTRAINT utterance_metadata_id_fkey FOREIGN KEY (metadata_id)
+        REFERENCES audio.metadata (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.utterance (
-	id text PRIMARY KEY,
-	note text,
-	form text,
-	standard_form text,
-	dialect_form text,
-	speaker_no integer,
-	start numeric,
-	finish numeric,
-	metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
-);
+CREATE TABLE audio.utterance_backup
+(
+    id text COLLATE pg_catalog."default" NOT NULL,
+    note text COLLATE pg_catalog."default",
+    form text COLLATE pg_catalog."default",
+    standard_form text COLLATE pg_catalog."default",
+    dialect_form text COLLATE pg_catalog."default",
+    speaker_no integer,
+    start numeric,
+    finish numeric,
+    metadata_id integer,
+    CONSTRAINT utterance_backup_pkey PRIMARY KEY (id),
+    CONSTRAINT utterance_backup_metadata_id_fkey FOREIGN KEY (metadata_id)
+        REFERENCES audio.metadata (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.eojeolList (
-	no serial PRIMARY KEY,
-	standard text,
-	eojeol text,
-	finish integer,
-	isDialect boolean,
-	begin integer,
-	utterance_id text REFERENCES audio.utterance ON DELETE CASCADE, 
-	metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
-);
+CREATE TABLE audio.eojeollist
+(
+    standard text COLLATE pg_catalog."default",
+    eojeol text COLLATE pg_catalog."default",
+    finish integer,
+    isdialect boolean,
+    begin integer,
+    utterance_id text COLLATE pg_catalog."default",
+    metadata_id integer,
+    no integer NOT NULL DEFAULT nextval('audio.eojeollist_no_seq'::regclass),
+    CONSTRAINT "eojoelList_no_pk" PRIMARY KEY (no),
+    CONSTRAINT eojeollist_metadata_id_fkey FOREIGN KEY (metadata_id)
+        REFERENCES audio.metadata (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT eojeollist_utterance_id_fkey FOREIGN KEY (utterance_id)
+        REFERENCES audio.utterance (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.jsonLog (
-    id SERIAL PRIMARY KEY,
-    title text,
-    start text,
-    finish text,
-    elapsed text,
-    metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
-);
+CREATE TABLE audio.speaker
+(
+    id integer NOT NULL DEFAULT nextval('audio.speaker_id_seq'::regclass),
+    no integer NOT NULL,
+    shortcut integer,
+    occupation text COLLATE pg_catalog."default",
+    sex text COLLATE pg_catalog."default",
+    name text COLLATE pg_catalog."default",
+    age text COLLATE pg_catalog."default",
+    birthplace text COLLATE pg_catalog."default",
+    current_residence text COLLATE pg_catalog."default",
+    principal_residence text COLLATE pg_catalog."default",
+    education text COLLATE pg_catalog."default",
+    metadata_id integer,
+    CONSTRAINT speaker_pkey PRIMARY KEY (id),
+    CONSTRAINT speaker_metadata_id_fkey FOREIGN KEY (metadata_id)
+        REFERENCES audio.metadata (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.program (
-	id integer PRIMARY KEY,
-	file_num text,
-	title text,
-	subtitle text,
-	running_time text
-);
+CREATE TABLE audio.program
+(
+    id integer NOT NULL,
+    file_num text COLLATE pg_catalog."default",
+    title text COLLATE pg_catalog."default",
+    subtitle text COLLATE pg_catalog."default",
+    running_time text COLLATE pg_catalog."default",
+    CONSTRAINT program_pkey PRIMARY KEY (id)
+)
 
-CREATE TABLE audio.member (
-	member_id text PRIMARY KEY,
-	pwd text NOT NULL,
-	name text,
-	phone text,
-	email text,
-	approval text,
-	isAccountNonExpired boolean,
-	isAccountNonLocked boolean,
-	isCredentialsNonExpired boolean,
-	isEnabled boolean,
-	join_date text,
-	login_time text,
-	organization text,
-	profile_img text
-);
+CREATE TABLE audio.jsonlog
+(
+    id integer NOT NULL DEFAULT nextval('audio.jsonlog_id_seq'::regclass),
+    title text COLLATE pg_catalog."default",
+    start text COLLATE pg_catalog."default",
+    finish text COLLATE pg_catalog."default",
+    elapsed text COLLATE pg_catalog."default",
+    metadata_id integer,
+    CONSTRAINT jsonlog_pkey PRIMARY KEY (id),
+    CONSTRAINT jsonlog_metadata_id_fkey FOREIGN KEY (metadata_id)
+        REFERENCES audio.metadata (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.authority (
-	username text REFERENCES audio.member ON DELETE CASCADE,
-	authority_name text
-);
+CREATE TABLE audio.member
+(
+    member_id text COLLATE pg_catalog."default" NOT NULL,
+    pwd text COLLATE pg_catalog."default" NOT NULL,
+    isaccountnonexpired boolean,
+    isaccountnonlocked boolean,
+    iscredentialsnonexpired boolean,
+    isenabled boolean,
+    phone text COLLATE pg_catalog."default",
+    email text COLLATE pg_catalog."default",
+    name text COLLATE pg_catalog."default",
+    approval text COLLATE pg_catalog."default",
+    join_date text COLLATE pg_catalog."default",
+    login_time text COLLATE pg_catalog."default",
+    organization text COLLATE pg_catalog."default",
+    profile_img text COLLATE pg_catalog."default",
+    CONSTRAINT member_pkey PRIMARY KEY (member_id)
+)
 
-CREATE TABLE persistent_logins (
-	username text NOT NULL,
-	series text PRIMARY KEY,
-	token text NOT NULL,
-	last_used timestamp NOT NULL
- );
- 
-CREATE TABLE audio.rule_top_level (
-	id SERIAL PRIMARY KEY,
-	name text
-);
- 
-CREATE TABLE audio.rule_middle_level (
-	id SERIAL PRIMARY KEY,
-	name text,
-	top_level_id integer REFERENCES audio.rule_top_level ON DELETE CASCADE
-);
- 
-CREATE TABLE audio.rule_bottom_level (
-	id SERIAL PRIMARY KEY,
-	name text,
-	description text,
-	file_name text,
-	creator text,
-	contents text,
-	result text,
-	imp_contents text,
-	rule_type text,
-	date text,
-	version text,
-	top_level_id integer REFERENCES audio.rule_top_level ON DELETE CASCADE,
-	middle_level_id integer REFERENCES audio.rule_middle_level ON DELETE CASCADE
-);
+CREATE TABLE audio.authority
+(
+    username text COLLATE pg_catalog."default",
+    authority_name text COLLATE pg_catalog."default",
+    CONSTRAINT authority_username_fkey FOREIGN KEY (username)
+        REFERENCES audio.member (member_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
 
-CREATE TABLE audio.prev_rule_bottom_level (
-	id SERIAL PRIMARY KEY,
-	top_level_name text,
-	middle_level_name text,
-	bottom_level_name text,
-	description text,
-	creator text,
-	contents text,
-	result text,
-	imp_contents text,
-	rule_type text,
-	date text,
-	version text,
-	bottom_level_id integer REFERENCES audio.rule_bottom_level ON DELETE CASCADE
-);
+CREATE TABLE public.persistent_logins
+(
+    username text COLLATE pg_catalog."default" NOT NULL,
+    series text COLLATE pg_catalog."default" NOT NULL,
+    token text COLLATE pg_catalog."default" NOT NULL,
+    last_used timestamp without time zone NOT NULL,
+    CONSTRAINT persistent_logins_pkey PRIMARY KEY (series)
+)
 
-CREATE TABLE audio.api_class (
-	id SERIAL PRIMARY KEY,
-	name text,
-	description text
-);
+CREATE TABLE audio.using_log
+(
+    no integer NOT NULL DEFAULT nextval('audio.using_log_no_seq'::regclass),
+    ip_addr text COLLATE pg_catalog."default",
+    "time" text COLLATE pg_catalog."default",
+    content text COLLATE pg_catalog."default",
+    member_id text COLLATE pg_catalog."default",
+    CONSTRAINT using_log_pkey PRIMARY KEY (no)
+)
 
-CREATE TABLE audio.api_class_field (
-	id SERIAL PRIMARY KEY,
-	field_type text,
-	name text,
-	description text,
-	api_class_id integer REFERENCES audio.api_class ON DELETE CASCADE
-);
+CREATE TABLE audio.utterance_log
+(
+    no integer NOT NULL DEFAULT nextval('audio.utterance_log_no_seq'::regclass),
+    ip_addr text COLLATE pg_catalog."default",
+    "time" text COLLATE pg_catalog."default",
+    content text COLLATE pg_catalog."default",
+    member_id text COLLATE pg_catalog."default",
+    after text COLLATE pg_catalog."default",
+    before text COLLATE pg_catalog."default",
+    using_log_no integer,
+    metadata_id integer,
+    CONSTRAINT utterance_log_pkey PRIMARY KEY (no),
+    CONSTRAINT utterance_log_metadata_id_fkey FOREIGN KEY (metadata_id)
+        REFERENCES audio.metadata (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT utterance_log_using_log_no_fkey FOREIGN KEY (using_log_no)
+        REFERENCES audio.using_log (no) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.api_class_constructor (
-	id SERIAL PRIMARY KEY,
-	parameter text,
-	description text,
-	api_class_id integer REFERENCES audio.api_class ON DELETE CASCADE
-);
+CREATE TABLE audio.rule_top_level
+(
+    id integer NOT NULL DEFAULT nextval('audio.rule_top_level_id_seq'::regclass),
+    name text COLLATE pg_catalog."default",
+    CONSTRAINT rule_top_level_pkey PRIMARY KEY (id)
+)
 
-CREATE TABLE audio.api_class_method (
-	id SERIAL PRIMARY KEY,
-	return_type text,
-	name text,
-	parameter text,
-	description text,
-	api_class_id integer REFERENCES audio.api_class ON DELETE CASCADE
-);
+CREATE TABLE audio.rule_middle_level
+(
+    id integer NOT NULL DEFAULT nextval('audio.rule_middle_level_id_seq'::regclass),
+    name text COLLATE pg_catalog."default",
+    top_level_id integer,
+    CONSTRAINT rule_middle_level_pkey PRIMARY KEY (id),
+    CONSTRAINT rule_middle_level_top_level_id_fkey FOREIGN KEY (top_level_id)
+        REFERENCES audio.rule_top_level (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.custom_library (
-	id SERIAL PRIMARY KEY,
-	creator text,
-	file_name text,
-	class_package text
-);
+CREATE TABLE audio.rule_bottom_level
+(
+    id integer NOT NULL DEFAULT nextval('audio.rule_bottom_level_id_seq'::regclass),
+    name text COLLATE pg_catalog."default",
+    description text COLLATE pg_catalog."default",
+    file_name text COLLATE pg_catalog."default",
+    creator text COLLATE pg_catalog."default",
+    contents text COLLATE pg_catalog."default",
+    result text COLLATE pg_catalog."default",
+    top_level_id integer,
+    middle_level_id integer,
+    imp_contents text COLLATE pg_catalog."default",
+    rule_type text COLLATE pg_catalog."default",
+    date text COLLATE pg_catalog."default",
+    version text COLLATE pg_catalog."default",
+    CONSTRAINT rule_bottom_level_pkey PRIMARY KEY (id),
+    CONSTRAINT rule_bottom_level_middle_level_id_fkey FOREIGN KEY (middle_level_id)
+        REFERENCES audio.rule_middle_level (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT rule_bottom_level_top_level_id_fkey FOREIGN KEY (top_level_id)
+        REFERENCES audio.rule_top_level (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.using_log (
-	no SERIAL PRIMARY KEY,
-	ip_addr text,
-	time text,
-	content text,
-	member_id text
-);
+CREATE TABLE audio.prev_rule_bottom_level
+(
+    id integer NOT NULL DEFAULT nextval('audio.prev_rule_bottom_level_id_seq'::regclass),
+    top_level_name text COLLATE pg_catalog."default",
+    middle_level_name text COLLATE pg_catalog."default",
+    bottom_level_name text COLLATE pg_catalog."default",
+    description text COLLATE pg_catalog."default",
+    creator text COLLATE pg_catalog."default",
+    contents text COLLATE pg_catalog."default",
+    result text COLLATE pg_catalog."default",
+    imp_contents text COLLATE pg_catalog."default",
+    rule_type text COLLATE pg_catalog."default",
+    date text COLLATE pg_catalog."default",
+    version text COLLATE pg_catalog."default",
+    bottom_level_id integer,
+    CONSTRAINT prev_rule_bottom_level_pkey PRIMARY KEY (id),
+    CONSTRAINT prev_rule_bottom_level_bottom_level_id_fkey FOREIGN KEY (bottom_level_id)
+        REFERENCES audio.rule_bottom_level (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.rule_log (
-	no SERIAL PRIMARY KEY,
-	ip_addr text,
-	time text,
-	content text,
-	top_level_id integer,
-	top_level_name text,
-	middle_level_id integer,
-	middle_level_name text,
-	bottom_level_id integer,
-	bottom_level_name text,
-	library_file_name text,
-	class_package text,
-	member_id text,
-	using_log_no integer REFERENCES audio.using_log ON DELETE CASCADE
-);
+CREATE TABLE audio.rule_log
+(
+    no integer NOT NULL DEFAULT nextval('audio.rule_log_no_seq'::regclass),
+    ip_addr text COLLATE pg_catalog."default",
+    "time" text COLLATE pg_catalog."default",
+    content text COLLATE pg_catalog."default",
+    top_level_id integer,
+    top_level_name text COLLATE pg_catalog."default",
+    middle_level_id integer,
+    middle_level_name text COLLATE pg_catalog."default",
+    bottom_level_id integer,
+    bottom_level_name text COLLATE pg_catalog."default",
+    library_file_name text COLLATE pg_catalog."default",
+    class_package text COLLATE pg_catalog."default",
+    member_id text COLLATE pg_catalog."default",
+    using_log_no integer,
+    CONSTRAINT rule_log_pkey PRIMARY KEY (no),
+    CONSTRAINT rule_log_using_log_no_fkey FOREIGN KEY (using_log_no)
+        REFERENCES audio.using_log (no) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
-CREATE TABLE audio.rule_log_detail (
-	no SERIAL PRIMARY KEY,
-	content text,
-	top_level_id integer,
-	top_level_name text,
-	middle_level_id integer,
-	middle_level_name text,
-	bottom_level_id integer,
-	bottom_level_name text,
-	using_log_no integer REFERENCES audio.using_log ON DELETE CASCADE
-);
+CREATE TABLE audio.rule_log_detail
+(
+    no integer NOT NULL DEFAULT nextval('audio.rule_log_detail_no_seq'::regclass),
+    content text COLLATE pg_catalog."default",
+    top_level_id integer,
+    top_level_name text COLLATE pg_catalog."default",
+    middle_level_id integer,
+    middle_level_name text COLLATE pg_catalog."default",
+    bottom_level_id integer,
+    bottom_level_name text COLLATE pg_catalog."default",
+    using_log_no integer,
+    CONSTRAINT rule_log_detail_pkey PRIMARY KEY (no),
+    CONSTRAINT rule_log_detail_using_log_no_fkey FOREIGN KEY (using_log_no)
+        REFERENCES audio.using_log (no) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
+CREATE TABLE audio.custom_library
+(
+    id integer NOT NULL DEFAULT nextval('audio.custom_rule_id_seq'::regclass),
+    creator text COLLATE pg_catalog."default",
+    file_name text COLLATE pg_catalog."default",
+    class_package text COLLATE pg_catalog."default",
+    CONSTRAINT custom_rule_pkey PRIMARY KEY (id)
+)
 
-CREATE TABLE audio.utterance_log(
-    no SERIAL PRIMARY KEY,
-    ip_addr text,
-    time text,
-    content text,
-    member_id text,
-    after text,
-    before text,
-    using_log_no integer REFERENCES audio.using_log ON DELETE CASCADE,
-    metadata_id integer REFERENCES audio.metadata ON DELETE CASCADE
-);
+CREATE TABLE audio.api_class
+(
+    id integer NOT NULL DEFAULT nextval('audio.api_class_id_seq'::regclass),
+    name text COLLATE pg_catalog."default",
+    description text COLLATE pg_catalog."default",
+    CONSTRAINT api_class_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE audio.api_class_constructor
+(
+    id integer NOT NULL DEFAULT nextval('audio.api_class_constructor_id_seq'::regclass),
+    parameter text COLLATE pg_catalog."default",
+    description text COLLATE pg_catalog."default",
+    api_class_id integer,
+    CONSTRAINT api_class_constructor_pkey PRIMARY KEY (id),
+    CONSTRAINT api_class_constructor_api_class_id_fkey FOREIGN KEY (api_class_id)
+        REFERENCES audio.api_class (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+
+CREATE TABLE audio.api_class_field
+(
+    id integer NOT NULL DEFAULT nextval('audio.api_class_field_id_seq'::regclass),
+    field_type text COLLATE pg_catalog."default",
+    name text COLLATE pg_catalog."default",
+    description text COLLATE pg_catalog."default",
+    api_class_id integer,
+    CONSTRAINT api_class_field_pkey PRIMARY KEY (id),
+    CONSTRAINT api_class_field_api_class_id_fkey FOREIGN KEY (api_class_id)
+        REFERENCES audio.api_class (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+
+CREATE TABLE audio.api_class_method
+(
+    id integer NOT NULL DEFAULT nextval('audio.api_class_method_id_seq'::regclass),
+    return_type text COLLATE pg_catalog."default",
+    name text COLLATE pg_catalog."default",
+    parameter text COLLATE pg_catalog."default",
+    description text COLLATE pg_catalog."default",
+    api_class_id integer,
+    CONSTRAINT api_class_method_pkey PRIMARY KEY (id),
+    CONSTRAINT api_class_method_api_class_id_fkey FOREIGN KEY (api_class_id)
+        REFERENCES audio.api_class (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
 
 auto_increment 값 초기화
 truncate table audio.metadata restart identity cascade;
