@@ -184,6 +184,10 @@ public class DocxReport {
 			else if(flag.subSequence(0,4).equals("mail")){
 				ms.sendMail(file, docxFileName, flag.substring(4,flag.length()));
 			}
+			
+			if(file.exists()) {
+				file.delete();
+			}
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
 		} catch (IOException e) {
@@ -292,6 +296,10 @@ public class DocxReport {
 			/* 사용자 mail로 파일 전송 */
 			else if(flag.subSequence(0,4).equals("mail")){
 				ms.sendMail(file, docxFileName, flag.substring(4,flag.length()));
+			}
+			
+			if(file.exists()) {
+				file.delete();
 			}
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();

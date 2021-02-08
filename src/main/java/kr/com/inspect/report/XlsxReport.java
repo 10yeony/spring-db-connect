@@ -159,6 +159,10 @@ public class XlsxReport {
 			else if(flag.substring(0,4).equals("mail")){
 				ms.sendMail(file, xlsxFileName, flag.substring(4,flag.length()));
 			}
+			
+			if(file.exists()) {
+				file.delete();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -263,6 +267,10 @@ public class XlsxReport {
 			/* 사용자 mail로 파일 전송 */
 			else if(flag.substring(0,4).equals("mail")){
 				ms.sendMail(file, xlsxFileName, flag.substring(4, flag.length()));
+			}
+			
+			if(file.exists()) {
+				file.delete();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
