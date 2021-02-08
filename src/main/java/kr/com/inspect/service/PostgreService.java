@@ -79,13 +79,6 @@ public interface PostgreService {
 	public boolean insertXlsxUpload(String path, List<MultipartFile> xlsxFile);
 
 	/**
-	 * 서버 디렉토리 안의 xlsx 파일을 PostgreSQL에 넣음
-	 * @param path 파일 디렉토리
-	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
-	 */
-	public String insertXlsxDir(String path) ;
-
-	/**
 	 * Metadata 테이블과 Program 테이블을 조인해서 전체 테이블을 가져옴
 	 * @param data 데이터 타입 유형(전체/강의/회의/고객응대/상담)
 	 * @return Metadata 테이블과 Program 테이블을 조인한 전체 테이블

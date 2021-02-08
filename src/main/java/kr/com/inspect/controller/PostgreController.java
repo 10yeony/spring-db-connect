@@ -63,12 +63,6 @@ public class PostgreController {
 	private String jsonPath;
 
 	/**
-	 * 업로드될 xlsx 파일이 담기는 경로(관리자가 사용하는 경로.)
-	 */
-	@Value("${input.xlsx.directory}")
-	private String xlsxPath;
-
-	/**
 	 * 데이터 입력 페이지로 이동
 	 * @return 페이지 값 리턴
 	 */

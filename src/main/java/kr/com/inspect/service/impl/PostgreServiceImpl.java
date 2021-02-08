@@ -606,49 +606,6 @@ public class PostgreServiceImpl implements PostgreService{
 			return false;
 		}
 	}
-
-	/**
-	 * 서버 디렉토리 안의 xlsx 파일을 PostgreSQL에 넣음
-	 * @param path 파일 디렉토리
-	 * @return DB의 데이터 여부를 확인하고 값을 리턴함
-	 */
-	@Override
-	public String insertXlsxDir(String path) {
-		File dir = new File(path);
-		File[] fileList = dir.listFiles();
-		singletone.setNewData(0);
-		
-		int threadCnt = 5;
-		ExecutorService executor = Executors.newFixedThreadPool(threadCnt);
-		List<Future<?>> futures = new ArrayList<>();
-
-		if(fileList.length == 0)
-			return "null";
-
-		for(File file : fileList){
-			futures.add(executor.submit(() -> {
-				/* 확장자가 xlsx인 파일을 읽는다 */
-				if(file.isFile() && FilenameUtils.getExtension(file.getName()).equals("xlsx")){
-					String fullPath = path + file.getName();
-					List<Program> list = xlsxParsing.setProgramList(fullPath);
-
-					for(Program p : list) {
-						if(sqlSession.selectOne(programNS+"getProgramByFileNum", p.getFile_num()) == null) {
-							singletone.setNewData(singletone.getNewData() + 1);
-							sqlSession.insert(programNS+"insertIntoProgram", p);
-						}
-					}
-				}
-			}));
-		}
-		closeThread(executor, futures);
-
-		if(singletone.getNewData() > 0) { //아직 등록되지 않은 데이터가 하나라도 있을 경우
-			return "true";
-		}else { //모두 중복된 데이터일 경우
-			return "false";
-		}
-	}
 	
 	/**
 	 * Metadata 테이블과 Program 테이블을 조인해서 전체 테이블을 가져옴
