@@ -320,8 +320,8 @@ public class ChartHelper {
 	}
 
 	/**
-	 *
-	 * @return
+	 * 그릴 차트의 개수를 반환함(데이터의 양이 지나치게 많을 경우 차트를 나눠서 그림)
+	 * @return 그릴 차트의 개수
 	 */
 	public int getChartCount() {
 		double[][] tempArr = new double[columnCount][rowCount];
@@ -348,8 +348,6 @@ public class ChartHelper {
 					return columnCount;
 				}
 			}
-		}else {
-			
 		}
 		return 1;
 	}
