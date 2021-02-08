@@ -19,13 +19,13 @@
 			src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 
 	<script
-			src="${pageContext.request.contextPath}/resource/codemirror/codemirror.js"></script>
+			src="${pageContext.request.contextPath}/resource/vendor/codemirror/codemirror.js"></script>
 	<link
-			rel="stylesheet" href="${pageContext.request.contextPath}/resource/codemirror/codemirror.css">
+			rel="stylesheet" href="${pageContext.request.contextPath}/resource/vendor/codemirror/codemirror.css">
 	<link
 			rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
 	<script
-			src="${pageContext.request.contextPath}/resource/codemirror/clike.js"></script>
+			src="${pageContext.request.contextPath}/resource/vendor/codemirror/clike.js"></script>
 
 	<!-- Custom fonts for this template-->
 	<link
@@ -49,7 +49,7 @@
 			padding: 10px;
 		}
 
-		.CodeMirror{
+		.{
 			font-size: 1em;
 			font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 		}

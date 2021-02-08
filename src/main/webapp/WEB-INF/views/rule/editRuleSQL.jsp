@@ -29,13 +29,13 @@
             href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
             rel="stylesheet">
     <script
-            src="${pageContext.request.contextPath}/resource/codemirror/codemirror.js"></script>
+            src="${pageContext.request.contextPath}/resource/vendor/codemirror/codemirror.js"></script>
     <link
-            rel="stylesheet" href="${pageContext.request.contextPath}/resource/codemirror/codemirror.css">
+            rel="stylesheet" href="${pageContext.request.contextPath}/resource/vendor/codemirror/codemirror.css">
     <link
             rel="stylesheet" href="https://codemirror.net/theme/duotone-light.css">
     <script
-            src="${pageContext.request.contextPath}/resource/codemirror/sql.js"></script>
+            src="${pageContext.request.contextPath}/resource/vendor/codemirror/sql.js"></script>
 
     <!-- w3 css -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">

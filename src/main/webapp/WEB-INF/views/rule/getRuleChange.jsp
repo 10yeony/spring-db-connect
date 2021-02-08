@@ -23,15 +23,15 @@
 	<link href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css" rel="stylesheet">
 	
 	<script
-			src="${pageContext.request.contextPath}/resource/codemirror/codemirror.js"></script>
+			src="${pageContext.request.contextPath}/resource/vendor/codemirror/codemirror.js"></script>
 	<link
-			rel="stylesheet" href="${pageContext.request.contextPath}/resource/codemirror/codemirror.css">
+			rel="stylesheet" href="${pageContext.request.contextPath}/resource/vendor/codemirror/codemirror.css">
 	<c:forEach items="${list}" var="rule" varStatus="status">
 		<c:if test="${rule.rule_type == 'method'}">
 			<link
 					rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
 			<script
-					src="${pageContext.request.contextPath}/resource/codemirror/clike.js"></script>
+					src="${pageContext.request.contextPath}/resource/vendor/codemirror/clike.js"></script>
 			<style>
 				#code_area{
 					background: #322931;
