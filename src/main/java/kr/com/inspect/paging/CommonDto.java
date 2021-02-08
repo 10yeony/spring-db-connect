@@ -1,5 +1,7 @@
 package kr.com.inspect.paging;
 
+import java.util.*;
+
 /**
  * 페이징 처리에 필요한 정보를 담아서 화면으로 보낼 DTO
  * @author Yeonhee Kim
