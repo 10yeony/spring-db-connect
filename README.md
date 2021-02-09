@@ -5,7 +5,7 @@
   
 [SDTM 매뉴얼](https://docs.google.com/document/d/1EF0ysPyC-t6nF3UxD-LlGf-ztwdlsFJXvLM8UCWFMew/edit?usp=sharing)
 
-![](../header.png)
+![](./screenshot.png)
 
 
 ## 기능 설명
