@@ -1,2 +1,3 @@
 # SDTM (smart-data-tracing-management)
-Spring Legacy Project Connected With Elasticsearch, MongoDB, PostgreSQL
+> AI 학습용 데이터 구축(2차) 사업 - 데이터 품질 관리 및 검증 플랫폼
+
