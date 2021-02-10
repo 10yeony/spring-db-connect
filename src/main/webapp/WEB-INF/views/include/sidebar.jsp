@@ -21,37 +21,37 @@
 
     <!-- Nav Item - Dashboard -->
     <sec:authorize access="hasRole('ROLE_VIEW')">
-    <li class="nav-item active">
-        <a class="nav-link" href="${pageContext.request.contextPath}/main">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>대시보드</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        메뉴
-    </div>
+	    <li class="nav-item active">
+	        <a class="nav-link" href="${pageContext.request.contextPath}/main">
+	            <i class="fas fa-fw fa-tachometer-alt"></i>
+	            <span>대시보드</span></a>
+	    </li>
 	
-    <!-- 데이터 관리 메뉴 -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#dataManage" aria-expanded="true" aria-controls="dataManage">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>데이터 관리</span>
-        </a>
-        <div id="dataManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">데이터 관리</h6>
-                <sec:authorize access="hasRole('ROLE_INPUT')">
-                	<a class="collapse-item" href="${pageContext.request.contextPath}/insertIntoPostgre">데이터 입력</a>
-                </sec:authorize>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getJsonLog?&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">JSON 파일 관리</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram?data=all&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">전사 데이터 목록</a>
-            </div>
-        </div>
-    </li>
+	    <!-- Divider -->
+	    <hr class="sidebar-divider">
+	
+	    <!-- Heading -->
+	    <div class="sidebar-heading">
+	        메뉴
+	    </div>
+		
+	    <!-- 데이터 관리 메뉴 -->
+	    <li class="nav-item">
+	        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#dataManage" aria-expanded="true" aria-controls="dataManage">
+	            <i class="fas fa-fw fa-folder"></i>
+	            <span>데이터 관리</span>
+	        </a>
+	        <div id="dataManage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+	            <div class="bg-white py-2 collapse-inner rounded">
+	                <h6 class="collapse-header">데이터 관리</h6>
+	                <sec:authorize access="hasRole('ROLE_INPUT')">
+	                	<a class="collapse-item" href="${pageContext.request.contextPath}/insertIntoPostgre">데이터 입력</a>
+	                </sec:authorize>
+	                <a class="collapse-item" href="${pageContext.request.contextPath}/getJsonLog?&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">JSON 파일 관리</a>
+	                <a class="collapse-item" href="${pageContext.request.contextPath}/getMetadataAndProgram?data=all&current_page_no=1&count_per_page=10&count_per_list=10&search_word=">전사 데이터 목록</a>
+	            </div>
+	        </div>
+	    </li>
     </sec:authorize>
     
 	<!-- 룰 관리 메뉴 -->
