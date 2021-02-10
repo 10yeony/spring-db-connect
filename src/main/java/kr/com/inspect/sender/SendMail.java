@@ -12,8 +12,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 /**
- * 임시 비밀번호를 메일로 발송함
+ * 사용자에게 필요한 정보를 메일로 발송함
  * @author Yeonhee Kim
+ * @author WooYoung Lee
  * @version 1.0
  */
 @Service

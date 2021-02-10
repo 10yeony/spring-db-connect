@@ -58,7 +58,7 @@ public class MemberController {
 	public String registerMember(MultipartFile[] uploadImgFile, Member member) {
 		String msg = "회원가입에 실패하였습니다.";
 		int result = memberService.registerMember(uploadImgFile, member);
-		if (result == 2) { //DB에 있는 회원테이블 정보와 비교시 회원정보가 없을 경우
+		if (result == 1) { //DB에 있는 회원테이블 정보와 비교시 회원정보가 없을 경우
 			msg = "회원가입 완료\n가입승인을 기다려주세요!";
 		}
 		return msg; //실패 메세지

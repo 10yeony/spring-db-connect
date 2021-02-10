@@ -165,10 +165,6 @@ public class MemberServiceImpl implements MemberService {
 			usingLog.setContent("회원가입");
 			usingLogUtil.setUsingLog(usingLog);
 		}
-		
-		/* 권한 추가 */
-		result += memberDao.registerAuthority(member.getMember_id(), "ROLE_VIEW");
-		
 		return result;
 	}
 	
@@ -487,6 +483,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateMemberApprovalUsingId(Member member){
 		int result = memberDao.updateMemberApprovalUsingId(member.getMember_id());
+		
+		/* 권한 추가 */
+		result += memberDao.registerAuthority(member.getMember_id(), "ROLE_VIEW");
 		if(result > 0) {
 			sendMail.sendApprovalState(member); //회원 메일 발송
 			UsingLog usingLog = new UsingLog();
