@@ -29,13 +29,13 @@
             href="${pageContext.request.contextPath}/resource/css/sb-admin-2.min.css"
             rel="stylesheet">
     <script
-            src="${pageContext.request.contextPath}/resource/codemirror/codemirror.js"></script>
+            src="${pageContext.request.contextPath}/resource/vendor/codemirror/codemirror.js"></script>
     <link
-            rel="stylesheet" href="${pageContext.request.contextPath}/resource/codemirror/codemirror.css">
+            rel="stylesheet" href="${pageContext.request.contextPath}/resource/vendor/codemirror/codemirror.css">
     <link
             rel="stylesheet" href="https://codemirror.net/theme/duotone-light.css">
     <script
-            src="${pageContext.request.contextPath}/resource/codemirror/sql.js"></script>
+            src="${pageContext.request.contextPath}/resource/vendor/codemirror/sql.js"></script>
 
     <!-- w3 css -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -65,7 +65,7 @@
     <!-- POST 방식 403 에러를 막기 위해 csrf 토큰 처리 -->
     <%@ include file="/WEB-INF/views/include/csrf-token.jsp"%>
 
-    <!-- 업로드시 로딩 화면 -->
+    <!-- 로딩 화면 -->
     <div id="loadingArea" class="w3-modal w3-animate-opacity">
         <img class="loading" width="100px"
              src="${pageContext.request.contextPath}/resource/img/loading.gif">
@@ -101,7 +101,7 @@
                             </button>
                         </div><br><br>
                         <textarea id="query" name="query" cols="170" rows="20"
-                                  style="height: 300px;">${rule.imp_contents}</textarea><br>
+                                  style="height: 300px;"></textarea><br>
                         <br><hr><br>
 
                         <div id="show_result_after_update">
