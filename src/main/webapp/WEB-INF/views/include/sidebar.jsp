@@ -20,6 +20,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
+    <sec:authorize access="hasRole('ROLE_VIEW')">
     <li class="nav-item active">
         <a class="nav-link" href="${pageContext.request.contextPath}/main">
             <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -51,6 +52,7 @@
             </div>
         </div>
     </li>
+    </sec:authorize>
     
 	<!-- 룰 관리 메뉴 -->
    <sec:authorize access="hasRole('ROLE_ADMIN')">

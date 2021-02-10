@@ -29,48 +29,57 @@
 <!-- Topbar Navbar -->
 <ul class="navbar-nav ml-auto">
 	<!-- Nav Item - User Information -->
-	<li class="nav-item dropdown no-arrow">
-		<a
-			class="nav-link dropdown-toggle" href="#" id="userDropdown"
-			role="button" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="false">
-		<span
-			class="mr-2 d-none d-lg-inline text-gray-600 small">
-			<span style="font-size:19px;"><b>${member.name}</b>(${member.member_id}) </span>
-			<span style="font-size:15px;">님, 환영합니다</span> 
-		</span>
-		<div>
-			<span class="uploadArea" style="width: 40px; height: 40px; padding-bottom: 40px;">
-				<img 
-					class="uploadImgPreview"
-					src=
-						<c:choose>
-							<c:when test="${member.profile_img != null}">
-								"${pageContext.request.contextPath}/user/${member.member_id}/profileImg/${member.profile_img}"
-							</c:when>
-							<c:otherwise>
-								"${pageContext.request.contextPath}/resource/img/user.png"
-							</c:otherwise>
-						</c:choose> 
-				>
-			</span>
-		</div>
-	</a> <!-- Dropdown - User Information -->
-		<div
-			class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-			aria-labelledby="userDropdown">
-			<a class="dropdown-item" href="#" data-toggle="modal"
-				data-target="#memberInfoModal"> 
-				<i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
-				정보 수정
+	<c:choose>
+		<c:when test="${member.member_id != null}">
+			<li class="nav-item dropdown no-arrow">
+				<a
+					class="nav-link dropdown-toggle" href="#" id="userDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">
+				<span
+					class="mr-2 d-none d-lg-inline text-gray-600 small">
+						<span style="font-size:19px;"><b>${member.name}</b>(${member.member_id}) </span>
+						<span style="font-size:15px;">님, 환영합니다</span> 
+				</span>
+				<div>
+					<span class="uploadArea" style="width: 40px; height: 40px; padding-bottom: 40px;">
+						<img 
+							class="uploadImgPreview"
+							src=
+								<c:choose>
+									<c:when test="${member.profile_img != null}">
+										"${pageContext.request.contextPath}/user/${member.member_id}/profileImg/${member.profile_img}"
+									</c:when>
+									<c:otherwise>
+										"${pageContext.request.contextPath}/resource/img/user.png"
+									</c:otherwise>
+								</c:choose> 
+						>
+					</span>
+				</div>
+			</a> <!-- Dropdown - User Information -->
+				<div
+					class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+					aria-labelledby="userDropdown">
+					<a class="dropdown-item" href="#" data-toggle="modal"
+						data-target="#memberInfoModal"> 
+						<i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
+						정보 수정
+					</a>
+					<a class="dropdown-item" href="#" data-toggle="modal"
+						data-target="#logoutModal">  
+						<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+						로그아웃
+					</a>
+				</div>
+			</li>
+		</c:when>
+		<c:otherwise>
+			<a class="dropdown-item" href="${pageContext.request.contextPath}/login" style="cursor:pointer;"> 
+				로그인
 			</a>
-			<a class="dropdown-item" href="#" data-toggle="modal"
-				data-target="#logoutModal">  
-				<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-				로그아웃
-			</a>
-		</div>
-	</li>
+		</c:otherwise>
+	</c:choose>
 </ul>
 </nav>
 <!-- End of Topbar -->
