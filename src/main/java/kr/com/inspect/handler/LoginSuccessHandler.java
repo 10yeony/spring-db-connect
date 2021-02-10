@@ -62,6 +62,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			responseData.setCode(ResponseDataCode.ERROR); //코드 에러
 			responseData.setStatus(ResponseDataStatus.ERROR); //상태 에러
 			responseData.setMessage("가입 승인이 완료되지 않았습니다.\n가입승인 대기중입니다."); //에러 메세지
+			request.getSession().invalidate();
 			responseData.responseJSON(response, responseData);
 		}
 		else {
