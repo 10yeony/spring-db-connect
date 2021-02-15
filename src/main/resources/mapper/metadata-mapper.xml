@@ -251,7 +251,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		resultType="kr.com.inspect.dto.Metadata" resultMap="metadataAndProgram">
 		<include refid="getMetadataAndProgram" />
 		WHERE 
-			p.title LIKE '%'||#{search_word}||'%'
+			m.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
 			OR p.file_num LIKE '%'||#{search_word}||'%'
@@ -329,7 +329,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		<include refid="getMetadataAndProgram" />
 		WHERE 
 			m.audio_type = 'L'
-			AND (p.title LIKE '%'||#{search_word}||'%'
+			AND (m.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
 			OR p.file_num LIKE '%'||#{search_word}||'%')
@@ -407,7 +407,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		<include refid="getMetadataAndProgram" />
 		WHERE 
 			m.audio_type = 'C'
-			AND (p.title LIKE '%'||#{search_word}||'%' 
+			AND (m.title LIKE '%'||#{search_word}||'%'
 			OR p.subtitle LIKE '%'||#{search_word}||'%'
 			OR m.creator LIKE '%'||#{search_word}||'%'
 			OR p.file_num LIKE '%'||#{search_word}||'%')
