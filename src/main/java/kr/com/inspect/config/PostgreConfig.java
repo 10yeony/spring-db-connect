@@ -84,7 +84,7 @@ public class PostgreConfig {
     }
 	
     /**
-     * SqlSession을 빈환함 
+     * SqlSession을 반환함 
      * @return SqlSession을 구현한 SqlSessionTemplate 반환
      * @throws Exception 예외처리
      */
