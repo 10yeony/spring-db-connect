@@ -246,7 +246,7 @@ function sound(start, finish){
     // 파일 유무 검사
     $.get('${pageContext.request.contextPath}/resource/sound/' + '${metadata.title}' + '.wav').done(function (){
     }).fail(function (){
-        alert("음성 파일을 업로드 해주세요.");
+        alert("음성 파일을 업로드 해주세요.\n음성파일을 업로드했다면 잠시만 기다려주세요.");
     })
 
     // Audio wav파일 경로 지정
