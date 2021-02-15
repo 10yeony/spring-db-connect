@@ -30,8 +30,8 @@
 * 사용자 관리 (가입승인, 계정 활성화, 회원 탈퇴)
 * SDTM의 사용 로그 조회
 
-## 시연 영상
-  
-  
+## 시연 영상  
+[![Video Label](https://img.youtube.com/vi/_LzA6-6Jl7Q/maxresdefault.jpg)](https://youtu.be/_LzA6-6Jl7Q?t=0s)  
+[시연 영상 보러가기](https://youtu.be/_LzA6-6Jl7Q?t=0s)
 
 
