@@ -30,7 +30,7 @@
   * SQL : 페이지에서 SQL 쿼리문을 받아 Statement를 이용해 쿼리문 실행
 * 룰 등록, 작성, 수정, 버전관리
 * 사용자 관리 (가입승인, 계정 활성화, 회원 탈퇴)
-* SDTM의 사용 로그 조회
+* SDTM의 사용 로그 및 룰 기록 조회
 
 ## 시연 영상  
 [![Video Label](https://img.youtube.com/vi/_LzA6-6Jl7Q/maxresdefault.jpg)](https://youtu.be/_LzA6-6Jl7Q?t=0s)  
