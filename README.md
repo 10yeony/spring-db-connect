@@ -4,14 +4,16 @@
 2020.10.05-2021.02.28
 
 크라우드 소싱에 의해 전사된 한국어 강의/회의 음성/고객 응대/상담 음성 데이터를 관리하며, ETRI 전사규칙 기반으로 룰을 만들어 데이터 정보를 확인하고 전사규칙 준수 여부를 점검합니다.  
-  
-[SDTM 매뉴얼](https://docs.google.com/document/d/1ksVea4oflY7Z-jLRN4XOmhsBPOirgaqCMPLB1r5eMv0/edit?usp=sharing)
 
 ![](./screenshot.png)
 
 
 ## URL
-[http://45.32.55.180:8080/](http://45.32.55.180:8080/)
+[http://45.32.55.180:8080/](http://45.32.55.180:8080/)  
+
+## 매뉴얼 및 API 문서  
+[SDTM 매뉴얼](https://docs.google.com/document/d/1ksVea4oflY7Z-jLRN4XOmhsBPOirgaqCMPLB1r5eMv0/edit?usp=sharing)  
+[Javadoc](https://devyeony.github.io/smart-data-tracing-management/docs/)
 
 ## 주요 기능
 
