@@ -37,7 +37,7 @@ public class RunSQL {
      * @return 응답 객체
      */
     public ResponseData run(ResponseData responseData, String query) {
-        if(query.length() < 6){
+        if(query.length() < 8){
             responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n쿼리문이 너무 짧습니다.");
             return responseData;
         }
@@ -47,6 +47,9 @@ public class RunSQL {
         }
         else if(query.substring(0,7).toLowerCase().equals("explain")){
             type = query.substring(0,7);
+        }
+        else if(query.substring(0,8).toLowerCase().equals("truncate")){
+            type = query.substring(0, 8);
         }
 
         List<Object> list = new ArrayList<>();
@@ -103,6 +106,12 @@ public class RunSQL {
                     responseData.setCode("delete");
                     responseData.setItem(result + "개의 데이터가 삭제되었습니다.");
                     break;
+                case "truncate":
+                case "TRUNCATE":
+                    result = statement.executeUpdate(query);
+                    responseData.setCode("truncate");
+                    responseData.setItem("데이터를 성공적으로 삭제했습니다.");
+                    break;
                 case "create" :
                 case "CREATE" :
                     statement.executeUpdate(query);
@@ -111,7 +120,7 @@ public class RunSQL {
                     break;
                 default:
                     responseData.setCode("error");
-                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\nselect, update, insert, delete, create, with, explain으로 시작하는 쿼리문을 입력해주세요.");
+                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n쿼리문을 다시 한번 확인해주세요.");
             }
             data.closeAll(resultSet, preparedStatement, con);
         }
@@ -135,7 +144,7 @@ public class RunSQL {
         int updateResult = ruleDao.updateRuleContents(rule);
 
         String query = rule.getContents().trim();
-        if(query.length() < 6){
+        if(query.length() < 7){
             responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n쿼리문이 너무 짧습니다.");
             responseData.setCode("error");
             return responseData;
@@ -218,7 +227,7 @@ public class RunSQL {
                     break;
                 default:
                     responseData.setCode("error");
-                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\nselect, update, insert, delete, create, with, explain으로 시작하는 쿼리문을 입력해주세요.");
+                    responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n쿼리문을 다시 한번 확인해주세요.");
             }
             data.closeAll(resultSet, preparedStatement, con);
         }
