@@ -22,7 +22,9 @@ $(function(){
 	}
 	if(requestUrl == 'getUsingLogList' || requestUrl == 'getRuleLogList'){
 		log_type = $('#show_search_logType').val();
-		$('#logSelect').val(log_type);
+		if(log_type != ''){
+			$('#logSelect').val(log_type);
+		}
 	}else{
 		$('#dataSelect').val(data_type);
 	}
