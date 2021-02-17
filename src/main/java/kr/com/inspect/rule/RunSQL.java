@@ -137,6 +137,7 @@ public class RunSQL {
         String query = rule.getContents().trim();
         if(query.length() < 6){
             responseData.setItem("잘못된 쿼리입니다. 다시 입력해주세요." + "\n\n쿼리문이 너무 짧습니다.");
+            responseData.setCode("error");
             return responseData;
         }
         String type = query.substring(0, 6);
