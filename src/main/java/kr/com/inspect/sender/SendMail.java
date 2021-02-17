@@ -31,12 +31,12 @@ public class SendMail {
      */
     @Value("${mail.username}") 
     private String mailUsername;
-
-	/**
-	 * 발신 이메일2
-	 */
-	@Value("${mail.username2}")
-	private String mailUsername2;
+    
+    /**
+     * 홈페이지 주소
+     */
+    @Value("${home.url}") 
+    private String homeUrl;
     
 	/**
 	 *  비밀번호 변경을 위한 인증번호 발송 메일을 보냄
@@ -57,7 +57,7 @@ public class SendMail {
     		msg += "<div style='font-size: 130%;'>";
     		msg += "<span style='color: red;'>로그인 후 비밀번호를 변경하세요.</span><br/>";
     		msg += "임시 비밀번호는 <strong>" + pwd + "</strong> 입니다.<br/><br/></div>";
-    		msg += "<img src='http://45.32.55.180:8080/resource/img/NAMU_Logo_PNG.png' width='300'><br/><br/><br/>";
+    		msg += "<img src='" + homeUrl + "resource/img/NAMU_Logo_PNG.png' width='300'><br/><br/><br/>";
     		message.setContent(msg,"text/html;charset=euc-kr"); // 메일 본문
     		    		
     		/* 메일 발송 */
@@ -75,9 +75,8 @@ public class SendMail {
 		try{
 			MimeMessage message = mailSender.createMimeMessage();
 
-			InternetAddress[] toAddr = new InternetAddress[2];
+			InternetAddress[] toAddr = new InternetAddress[1];
 			toAddr[0] = new InternetAddress (mailUsername);
-			toAddr[1] = new InternetAddress (mailUsername2);
 			message.addRecipients(RecipientType.TO, toAddr); // 받는 사람
 			message.setFrom(new InternetAddress(mailUsername)); // 보내는 사람
 			message.setSubject("SDTM 가입 승인 요청"); // 메일 제목 (생략 가능)
@@ -87,11 +86,11 @@ public class SendMail {
 			msg += "<h2><b>SDTM</b></h2>";
 			msg += "<h2><b>새로운 회원가입이 있습니다.</b></h2>";
 			msg += "<div style='font-size: 130%;'>";
-			msg += "<span>승인하러 가기 "+ "http://45.32.55.180:8080/getMemberByAdmin?member_id=" + member.getMember_id() + "</span><br/><br/>";
+			msg += "<span>승인하러 가기 " + homeUrl + "getMemberByAdmin?member_id=" + member.getMember_id() + "</span><br/><br/>";
 			msg += "<span>사용자 정보</span><br/>";
 			msg += "이름 : <strong>" + member.getName() + "</strong> <br/>";
 			msg += "ID : <strong>" + member.getMember_id() + "</strong> <br/><br/></div>";
-			msg += "<img src='http://45.32.55.180:8080/resource/img/NAMU_Logo_PNG.png' width='300'><br/><br/><br/>";
+			msg += "<img src='"+ homeUrl + "resource/img/NAMU_Logo_PNG.png' width='300'><br/><br/><br/>";
 			message.setContent(msg,"text/html;charset=euc-kr"); // 메일 본문
 
 			/* 메일 발송 */
@@ -118,11 +117,11 @@ public class SendMail {
 			msg += "<h2><b>SDTM</b></h2>";
 			msg += "<h2><b>가입이 승인되었습니다.</b></h2>";
 			msg += "<div style='font-size: 130%;'>";
-			msg += "<span>로그인 "+ "http://45.32.55.180:8080/login" + "</span><br/><br/>";
+			msg += "<span>로그인 "+ homeUrl + "login" + "</span><br/><br/>";
 			msg += "<span>사용자 정보</span><br/>";
 			msg += "이름 : <strong>" + member.getName() + "</strong> <br/>";
 			msg += "ID : <strong>" + member.getMember_id() + "</strong> <br/><br/></div>";
-			msg += "<img src='http://45.32.55.180:8080/resource/img/NAMU_Logo_PNG.png' width='300'><br/><br/><br/>";
+			msg += "<img src='"+ homeUrl +"resource/img/NAMU_Logo_PNG.png' width='300'><br/><br/><br/>";
 			message.setContent(msg,"text/html;charset=euc-kr"); // 메일 본문
     		    		
     		/* 메일 발송 */
