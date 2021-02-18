@@ -1,8 +1,7 @@
 package kr.com.inspect.controller;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -306,6 +305,8 @@ public class ReportController {
 	@GetMapping("/resultRuleDocx")
 	@ResponseBody
 	public void resultRuleWord(HttpSession session, HttpServletResponse response, int[] hiddenRule, String time) {
+		Arrays.sort(hiddenRule);
+
 		// 사용자의 이메일 정보를 받아옴
 		Member member = (Member)session.getAttribute("member");
 		String name = member.getName();
