@@ -12,7 +12,7 @@
 [https://sdtm.namutech.co.kr/](https://sdtm.namutech.co.kr/)  
 
 ## 매뉴얼 및 API 문서  
-[SDTM 매뉴얼](https://docs.google.com/document/d/1ksVea4oflY7Z-jLRN4XOmhsBPOirgaqCMPLB1r5eMv0/edit?usp=sharing)  
+[SDTM 매뉴얼](https://docs.google.com/document/d/16VVzlrllfjb7KbuxBibKLUCKckbejyID-tzL9-v_DC8/edit?usp=sharing)  
 [Javadoc](https://devyeony.github.io/smart-data-tracing-management/docs/)
 
 ## 주요 기능
