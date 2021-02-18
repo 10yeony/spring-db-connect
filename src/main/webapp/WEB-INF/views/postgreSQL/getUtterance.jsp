@@ -88,7 +88,7 @@
                         <div>
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item dropdown no-arrow">
-                                    <a class="nav-link dropdown-toggle btn btn-primary shadow-sm btn-sm " href="#" id="fileSend" style="width: 160pt"
+                                    <a class="nav-link dropdown-toggle btn btn-primary shadow-sm btn-sm " href="#" id="fileSend" style="width: 150pt"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                        <i class="fas fa-paper-plane fa-sm text-white-50"></i>&nbsp;&nbsp;파일 전송</a>
                                     <!-- Dropdown - User Information -->
