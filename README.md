@@ -9,7 +9,7 @@
 
 
 ## 사이트 접속
-[http://45.32.55.180:8080/](http://45.32.55.180:8080/)  
+[https://sdtm.namutech.co.kr/](https://sdtm.namutech.co.kr/)  
 
 ## 매뉴얼 및 API 문서  
 [SDTM 매뉴얼](https://docs.google.com/document/d/1ksVea4oflY7Z-jLRN4XOmhsBPOirgaqCMPLB1r5eMv0/edit?usp=sharing)  
