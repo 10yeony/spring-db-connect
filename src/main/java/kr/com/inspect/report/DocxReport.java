@@ -324,6 +324,8 @@ public class DocxReport {
 	 * @param time 작성일
 	 */
 	public void resultRuleDocx(HttpServletResponse response, List<Rule> ruleList, String path, String name, String time){
+		String filename = "", type1 = "", type2 = "";
+
 		File folder = new File(path);
 		if(!folder.exists()) {
 			folder.mkdir();
@@ -429,7 +431,183 @@ public class DocxReport {
 							tempParagraph.setAlignment(ParagraphAlignment.CENTER);
 							XWPFRun tempRun = tempParagraph.createRun();
 							tempRun.setFontSize(9);
-							tempRun.setText(strList.get(i));
+
+							if(rule.getBottom_level_name().contains("카테고리") && rule.getBottom_level_name().contains("한국어 강의") && i==0 && j!=0 ){
+								filename = "";
+								type1 = strList.get(i).substring(4,5);
+								type2 = strList.get(i).substring(5,7);
+								if(type1.equals("G")) {
+									if(type2.equals("01"))
+										filename = filename.concat("직업/자격증");
+									else if(type2.equals("02"))
+										filename = filename.concat("일반");
+								}
+								else{
+									if(type1.equals("E"))
+										filename = filename.concat("초등");
+									else if(type1.equals("M"))
+										filename = filename.concat("중등");
+									else if(type1.equals("H"))
+										filename = filename.concat("고등");
+
+									filename = filename.concat(type2);
+								}
+
+								type1 = strList.get(i).substring(1,4);
+
+								if(type1.equals("D01"))
+									filename = filename.concat(" 국어");
+								else if(type1.equals("D02"))
+									filename = filename.concat(" 수학");
+								else if(type1.equals("D03"))
+									filename = filename.concat(" 사회(교과과목)");
+								else if(type1.equals("D04"))
+									filename = filename.concat(" 과학(교과과목)");
+								else if(type1.equals("D05"))
+									filename = filename.concat(" 한국사");
+								else if(type1.equals("D06"))
+									filename = filename.concat(" 전문자격");
+								else if(type1.equals("D07"))
+									filename = filename.concat(" 금융");
+								else if(type1.equals("D08"))
+									filename = filename.concat(" 경영");
+								else if(type1.equals("D09"))
+									filename = filename.concat(" IT(직업/자격증)");
+								else if(type1.equals("D10"))
+									filename = filename.concat(" 기술");
+								else if(type1.equals("D11"))
+									filename = filename.concat(" 인문");
+								else if(type1.equals("D12"))
+									filename = filename.concat(" 철학");
+								else if(type1.equals("D13"))
+									filename = filename.concat(" 예술");
+								else if(type1.equals("D14"))
+									filename = filename.concat(" 사회(일반)");
+								else if(type1.equals("D15"))
+									filename = filename.concat(" IT(일반)");
+								else if(type1.equals("D16"))
+									filename = filename.concat(" 교양");
+								else if(type1.equals("D17"))
+									filename = filename.concat(" 문학");
+								else if(type1.equals("D18"))
+									filename = filename.concat(" 과학(일반)");
+								else if(type1.equals("D19"))
+									filename = filename.concat(" 교육");
+								else if(type1.equals("D99"))
+									filename = filename.concat(" 기타");
+
+
+								tempRun.setText(filename);
+							}
+							else if(rule.getBottom_level_name().contains("카테고리") && rule.getBottom_level_name().contains("고객 응대") && i==0 && j!=0 ){
+								filename = "";
+								type1 = strList.get(i).substring(1,4);
+								type2 = strList.get(i).substring(4,7);
+								if(type1.equals("D50"))
+									filename = filename.concat("구매");
+								else if(type1.equals("D51"))
+									filename = filename.concat("예약");
+								else if(type1.equals("D52"))
+									filename = filename.concat("생활");
+
+								if(type1.equals("J01"))
+									filename = filename.concat(" 카페");
+								else if(type1.equals("J02"))
+									filename = filename.concat(" 식당");
+								else if(type1.equals("J03"))
+									filename = filename.concat(" 의류");
+								else if(type1.equals("J04"))
+									filename = filename.concat(" 소매");
+								else if(type1.equals("J05"))
+									filename = filename.concat(" 숙박");
+								else if(type1.equals("J06"))
+									filename = filename.concat(" 학원");
+								else if(type1.equals("J07"))
+									filename = filename.concat(" 독서실");
+								else if(type1.equals("J08"))
+									filename = filename.concat(" 미용실");
+								else if(type1.equals("J09"))
+									filename = filename.concat(" 여행");
+								else if(type1.equals("J10"))
+									filename = filename.concat(" 민원");
+								else if(type1.equals("J11"))
+									filename = filename.concat(" 세탁소");
+								else if(type1.equals("J12"))
+									filename = filename.concat(" 옷수선");
+								else if(type1.equals("J13"))
+									filename = filename.concat(" 여가오락");
+								else if(type1.equals("J14"))
+									filename = filename.concat(" 위치정보");
+
+								tempRun.setText(filename);
+							}
+							else if(rule.getBottom_level_name().contains("유형별 성별 분포") && i==0 && j!=0 ){
+								filename = "";
+								type1 = strList.get(i);
+
+								if(type1.equals("L"))
+									filename = filename.concat("한국어 강의");
+								else if(type1.equals("C"))
+									filename = filename.concat("회의 음성");
+								else if(type1.equals("R"))
+									filename = filename.concat("고객 응대");
+								else if(type1.equals("T"))
+									filename = filename.concat("상담 음성");
+							}
+							else if(rule.getBottom_level_name().contains("성별") && !rule.getBottom_level_name().contains("한국어 강의 - 학생") && i==0 && j!=0 ){
+								filename = "";
+								type1 = strList.get(i);
+								if(type1.equals("G01"))
+									filename = filename.concat("직업/자격증");
+								else if(type1.equals("G02"))
+									filename = filename.concat("일반");
+								else if(type1.equals("D20"))
+									filename = filename.concat("교육");
+								else if(type1.equals("D21"))
+									filename = filename.concat("문화예술");
+								else if(type1.equals("D22"))
+									filename = filename.concat("가족");
+								else if(type1.equals("D23"))
+									filename = filename.concat("교양");
+								else if(type1.equals("D24"))
+									filename = filename.concat("금융");
+								else if(type1.equals("D25"))
+									filename = filename.concat("시사");
+								else if(type1.equals("D26"))
+									filename = filename.concat("IT");
+								else if(type1.equals("D27"))
+									filename = filename.concat("토크");
+								else if(type1.equals("D50"))
+									filename = filename.concat("구매");
+								else if(type1.equals("D51"))
+									filename = filename.concat("예약");
+								else if(type1.equals("D52"))
+									filename = filename.concat("생활");
+								else if(type1.equals("D60"))
+									filename = filename.concat("교육");
+								else if(type1.equals("D61"))
+									filename = filename.concat("금융");
+								else if(type1.equals("D62"))
+									filename = filename.concat("통신판매");
+
+								tempRun.setText(filename);
+							}
+							else if(rule.getBottom_level_name().contains("성별") && rule.getBottom_level_name().contains("한국어 강의 - 학생") && i==0 && j!=0 ){
+								filename = "";
+								type1 = strList.get(i);
+								if(type1.equals("E"))
+									filename = filename.concat("초등");
+								else if(type1.equals("M"))
+									filename = filename.concat("중등");
+								else if(type1.equals("H"))
+									filename = filename.concat("고등");
+
+								tempRun.setText(filename);
+							}
+							else{
+								tempRun.setText(strList.get(i));
+							}
+
 							table.getRow(j).getCell(i).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
 						}
 					}
