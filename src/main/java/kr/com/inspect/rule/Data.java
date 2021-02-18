@@ -290,7 +290,7 @@ public class Data {
 			vo.setAge(rs.getString("age"));
 			vo.setBirthplace(rs.getString("birthplace"));
 			vo.setCurrent_residence(rs.getString("current_residence"));
-			vo.setPricipal_residence(rs.getString("pricipal_residence"));
+			vo.setPrincipal_residence(rs.getString("principal_residence"));
 			vo.setEducation(rs.getString("education"));
 			vo.setMetadata_id(rs.getInt("metadata_id"));
 			list.add(vo);
@@ -359,7 +359,7 @@ public class Data {
 					speaker.setAge(rsSpeaker.getString("age"));
 					speaker.setBirthplace(rsSpeaker.getString("birthplace"));
 					speaker.setCurrent_residence(rsSpeaker.getString("current_residence"));
-					speaker.setPricipal_residence(rsSpeaker.getString("pricipal_residence"));
+					speaker.setPrincipal_residence(rsSpeaker.getString("principal_residence"));
 					speaker.setEducation(rsSpeaker.getString("education"));
 					speaker.setMetadata_id(rsSpeaker.getInt("metadata_id"));
 				}

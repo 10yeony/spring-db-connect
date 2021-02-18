@@ -117,8 +117,8 @@ public class JsonParsing {
 			if(!ObjectUtils.isEmpty(element.get("current_residence"))) {
 				speaker.setCurrent_residence(element.get("current_residence").toString());
 			}
-			if(!ObjectUtils.isEmpty(element.get("pricipal_residence"))) {
-				speaker.setPricipal_residence(element.get("pricipal_residence").toString());
+			if(!ObjectUtils.isEmpty(element.get("principal_residence"))) {
+				speaker.setPrincipal_residence(element.get("principal_residence").toString());
 			}
 			if(!ObjectUtils.isEmpty(element.get("education"))) {
 				speaker.setEducation(element.get("education").toString());

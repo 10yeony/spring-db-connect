@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	  			age, 
 	  			birthplace, 
 	  			current_residence, 
-	  			pricipal_residence, 
+	  			principal_residence,
 	  			education,
 	  			metadata_id)
 	  		VALUES(#{no}, 
@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 	  			#{age}, 
 	  			#{birthplace}, 
 	  			#{current_residence}, 
-	  			#{pricipal_residence}, 
+	  			#{principal_residence},
 	  			#{education},
 	  			#{metadata_id});
 	</select>

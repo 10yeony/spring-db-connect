@@ -56,7 +56,7 @@ public class Speaker {
 	/*
 	 * 주요 거주지
 	 */
-	private String pricipal_residence;
+	private String principal_residence;
 	
 	/*
 	 * 학력사항 
@@ -70,7 +70,7 @@ public class Speaker {
 	
 	public Speaker() {}
 	public Speaker(int id, int no, Integer shortcut, String occupation, String sex, String name, String age,
-			String birthplace, String current_residence, String pricipal_residence, String education, int metadata_id) {
+			String birthplace, String current_residence, String principal_residence, String education, int metadata_id) {
 		super();
 		this.id = id;
 		this.no = no;
@@ -81,7 +81,7 @@ public class Speaker {
 		this.age = age;
 		this.birthplace = birthplace;
 		this.current_residence = current_residence;
-		this.pricipal_residence = pricipal_residence;
+		this.principal_residence = principal_residence;
 		this.education = education;
 		this.metadata_id = metadata_id;
 	}
@@ -146,11 +146,11 @@ public class Speaker {
 	public void setCurrent_residence(String current_residence) {
 		this.current_residence = current_residence;
 	}
-	public String getPricipal_residence() {
-		return pricipal_residence;
+	public String getPrincipal_residence() {
+		return principal_residence;
 	}
-	public void setPricipal_residence(String pricipal_residence) {
-		this.pricipal_residence = pricipal_residence;
+	public void setPrincipal_residence(String principal_residence) {
+		this.principal_residence = principal_residence;
 	}
 	public String getEducation() {
 		return education;
@@ -163,7 +163,7 @@ public class Speaker {
 	public String toString() {
 		return "Speaker [id=" + id + ", no=" + no + ", shortcut=" + shortcut + ", occupation=" + occupation + ", sex="
 				+ sex + ", name=" + name + ", age=" + age + ", birthplace=" + birthplace + ", current_residence="
-				+ current_residence + ", pricipal_residence=" + pricipal_residence + ", education=" + education
+				+ current_residence + ", principal_residence=" + principal_residence + ", education=" + education
 				+ ", metadata_id=" + metadata_id + "]";
 	}
 }

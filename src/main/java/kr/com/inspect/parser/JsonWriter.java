@@ -70,7 +70,7 @@ public class JsonWriter {
 			obj_speaker.put("age", speaker.getAge());
 			obj_speaker.put("birthplace", speaker.getBirthplace());
 			obj_speaker.put("current_residence", speaker.getCurrent_residence());
-			obj_speaker.put("principal_residence", speaker.getPricipal_residence());
+			obj_speaker.put("principal_residence", speaker.getPrincipal_residence());
 			obj_speaker.put("education", speaker.getEducation());
 			obj_speaker_arr.add(obj_speaker);
 		}
