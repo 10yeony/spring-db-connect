@@ -216,6 +216,7 @@
 		<div class="form-group">
 			<span>
 				<b style="font-size:14px">조직 </b>
+				<span style="font-size:12px; color:red;">(필수)</span>
 			</span><br/>
 			<input type="text" class="form-control" name="organization"
 				   id="register_organization" placeholder="조직명을 입력하세요.">
