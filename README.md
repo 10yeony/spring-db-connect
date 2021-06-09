@@ -7,10 +7,6 @@
 
 ![](./screenshot.png)
 
-
-## 사이트 접속
-[http://45.32.55.180:8080/](http://45.32.55.180:8080/)  
-
 ## 매뉴얼 및 API 문서  
 [SDTM 매뉴얼](https://docs.google.com/document/d/16VVzlrllfjb7KbuxBibKLUCKckbejyID-tzL9-v_DC8/edit?usp=sharing)  
 [Javadoc](https://devyeony.github.io/smart-data-tracing-management/docs/)
